@@ -1,0 +1,452 @@
+"use client";
+
+import React, { useState, useEffect } from "react";
+import { AppProvider, useApp } from "@/context/AppContext";
+import { Navbar } from "@/components/Navbar";
+import { Footer } from "@/components/Footer";
+import { AdaptivePlacementTest } from "@/components/AdaptivePlacementTest";
+import { AiAssistantWorkspace } from "@/components/AiAssistantWorkspace";
+import { SuperAdminDashboard } from "@/components/SuperAdminDashboard";
+import { TeacherDashboard } from "@/components/TeacherDashboard";
+import { StudentDashboard } from "@/components/StudentDashboard";
+import { ParentDashboard } from "@/components/ParentDashboard";
+import { CourseDetailView } from "@/components/CourseDetailView";
+import { CommunityChat } from "@/components/CommunityChat";
+import { BlogView } from "@/components/BlogView";
+import { QuestionBankWorkspace } from "@/components/QuestionBankWorkspace";
+import { PdfLibraryWorkspace } from "@/components/PdfLibraryWorkspace";
+import { WhatsAppButton } from "@/components/WhatsAppButton";
+import { AuthScreen } from "@/components/AuthScreen";
+import { GamificationCenter } from "@/components/GamificationCenter";
+import { CalendarView } from "@/components/CalendarView";
+import { InfoPages } from "@/components/InfoPages";
+import { GlobalSearch } from "@/components/GlobalSearch";
+import { PwaManager } from "@/components/PwaManager";
+import { HomeworkWorkspace } from "@/components/HomeworkWorkspace";
+import { AttendanceWorkspace } from "@/components/AttendanceWorkspace";
+import { NotificationCenter } from "@/components/NotificationCenter";
+import { WeeklyReport } from "@/components/WeeklyReport";
+import { QuizPlayer } from "@/components/QuizPlayer";
+import {
+  GraduationCap,
+  Sparkles,
+  BookOpen,
+  ShieldCheck,
+  Award,
+  Flame,
+  ArrowRight,
+  Database,
+  CheckCircle,
+  ChevronRight,
+  Shuffle,
+  BrainCircuit,
+  Heart,
+} from "lucide-react";
+
+function MainAppContent() {
+  const { lang, user, authLoading } = useApp();
+  const [activeTab, setActiveTab] = useState<string>("home");
+  const [selectedCourseId, setSelectedCourseId] = useState<string | null>(null);
+  const [activeGeneratedExam, setActiveGeneratedExam] = useState<any>(null);
+  const [infoSection, setInfoSection] = useState<string>("about");
+  const [favorites, setFavorites] = useState<any[]>(() => {
+    if (typeof window === "undefined") return [];
+    try { return JSON.parse(localStorage.getItem("pa_favorites") || "[]"); } catch { return []; }
+  });
+
+  const toggleFavorite = (course: any) => {
+    const exists = favorites.find((f) => f.id === course.id);
+    const next = exists ? favorites.filter((f) => f.id !== course.id) : [...favorites, course];
+    setFavorites(next);
+    try { localStorage.setItem("pa_favorites", JSON.stringify(next)); } catch {}
+  };
+
+  // Read PWA shortcut tabs from URL (?tab=pdfs etc.)
+  useEffect(() => {
+    try {
+      const params = new URLSearchParams(window.location.search);
+      const tab = params.get("tab");
+      if (tab) setActiveTab(tab);
+    } catch {}
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const handleTabChange = (tab: string) => {
+    const infoTabs: Record<string, string> = { about: "about", faq: "faq", contact: "contact", privacy: "privacy", terms: "terms" };
+    if (infoTabs[tab]) {
+      setInfoSection(infoTabs[tab]);
+      setActiveTab("info");
+    } else {
+      setActiveTab(tab);
+    }
+    setSelectedCourseId(null);
+    setActiveGeneratedExam(null);
+  };
+
+  // ===== SECURITY GATE: Session restoring spinner =====
+  if (authLoading) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-slate-950 via-blue-950 to-indigo-950 flex flex-col items-center justify-center gap-4">
+        <div className="w-16 h-16 rounded-3xl bg-gradient-to-tr from-blue-600 to-indigo-600 flex items-center justify-center text-white shadow-2xl animate-pulse">
+          <GraduationCap className="w-9 h-9" />
+        </div>
+        <div className="w-10 h-10 border-4 border-blue-500/30 border-t-blue-500 rounded-full animate-spin" />
+        <p className="text-sm font-bold text-blue-200">
+          {lang === "ar" ? "جاري التحقق من جلستك الآمنة..." : "Verifying your secure session..."}
+        </p>
+      </div>
+    );
+  }
+
+  // ===== SECURITY GATE: Real login required to access the platform =====
+  if (!user) {
+    return <AuthScreen />;
+  }
+
+  // Home courses cards data
+  const stagesCourses = [
+    {
+      id: "crs_sec_3",
+      title: lang === "ar" ? "كورس الشهادة الثانوية العامة 2025/2026" : "Third Secondary Master Class 2025/2026",
+      grade: lang === "ar" ? "الصف الثالث الثانوي (البوكليت)" : "Third Secondary (Baccalaureate)",
+      desc: lang === "ar" ? "تغطية شاملة للقواعد، الكلمات المعقدة، قطع الفهم، والترجمة مع المستر" : "Comprehensive Thanawya Amma mastery: Grammar, Vocabulary, Translation & Novel Analysis.",
+      price: "350.00 EGP",
+      badge: "Thanawya Amma Core",
+      image: "https://images.unsplash.com/photo-1434030216411-0b793f4b4173?w=800&auto=format&fit=crop&q=80",
+    },
+    {
+      id: "crs_sec_2",
+      title: lang === "ar" ? "كورس الصف الثاني الثانوي المكثف" : "Second Secondary Intensive English Program",
+      grade: lang === "ar" ? "الصف الثاني الثانوي" : "Second Secondary",
+      desc: lang === "ar" ? "المباشر والغير مباشر، الحالات الشرطية، وتنمية مهارات التعبير" : "Direct/Indirect speech, conditionals, passive voice & essay structures.",
+      price: "280.00 EGP",
+      badge: "Secondary Core",
+      image: "https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=800&auto=format&fit=crop&q=80",
+    },
+    {
+      id: "crs_sec_1",
+      title: lang === "ar" ? "كورس تأسيس الصف الأول الثانوي" : "First Secondary Foundation & Grammar",
+      grade: lang === "ar" ? "الصف الأول الثانوي" : "First Secondary",
+      desc: lang === "ar" ? "الانتقال السلس من الإعدادي للثانوي وتأسيس قواعد الأزمنة" : "Smooth transition to secondary level with core tenses and vocab.",
+      price: "250.00 EGP",
+      badge: "Secondary Foundation",
+      image: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=800&auto=format&fit=crop&q=80",
+    },
+    {
+      id: "crs_prep_3",
+      title: lang === "ar" ? "كورس الشهادة الإعدادية (الدرجة النهائية)" : "Third Prep High Score Booster",
+      grade: lang === "ar" ? "الصف الثالث الإعدادي" : "Third Prep",
+      desc: lang === "ar" ? "حل المحادثات، قطع القراءة، وأسرار امتحانات المحافظات" : "Complete preparation for final prep exams, dialogues & structural drills.",
+      price: "200.00 EGP",
+      badge: "Preparatory Excellence",
+      image: "https://images.unsplash.com/photo-1509062522246-3755977927d7?w=800&auto=format&fit=crop&q=80",
+    },
+  ];
+
+  return (
+    <div className="min-h-screen flex flex-col bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 transition-colors">
+      
+      {/* NAVBAR */}
+      <Navbar activeTab={activeTab} setActiveTab={handleTabChange} />
+
+      {/* FLOATING WHATSAPP SUPPORT BUTTON */}
+      <WhatsAppButton />
+
+      {/* PWA: SERVICE WORKER + INSTALL PROMPT + OFFLINE STATUS */}
+      <PwaManager />
+
+      <main className="flex-1">
+        
+        {/* VIEW: ACTIVE GENERATED EXAM */}
+        {activeGeneratedExam ? (
+          <div className="max-w-4xl mx-auto px-4 py-8">
+            <button
+              onClick={() => setActiveGeneratedExam(null)}
+              className="mb-4 px-4 py-2 rounded-xl bg-slate-100 dark:bg-slate-800 text-xs font-bold text-slate-700 dark:text-slate-300"
+            >
+              ← {lang === "ar" ? "العودة لبنك الأسئلة" : "Back to Question Bank"}
+            </button>
+
+            <QuizPlayer
+              quizId={activeGeneratedExam.id}
+              title={activeGeneratedExam.title}
+              durationMinutes={activeGeneratedExam.durationMinutes}
+              questions={activeGeneratedExam.questionsData}
+              submissionTarget="smart_exam"
+            />
+          </div>
+        ) : selectedCourseId ? (
+          /* VIEW: COURSE DETAIL */
+          <CourseDetailView
+            courseId={selectedCourseId}
+            onBack={() => setSelectedCourseId(null)}
+          />
+        ) : activeTab === "home" ? (
+          
+          /* VIEW: HOME LANDING PAGE */
+          <div>
+            
+            {/* HERO SECTION */}
+            <section className="relative overflow-hidden pt-12 pb-20 lg:pt-20 lg:pb-28 bg-gradient-to-b from-blue-900/10 via-indigo-900/5 to-transparent">
+              <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+                <div className="text-center max-w-3xl mx-auto space-y-6">
+                  
+                  {/* BADGE */}
+                  <div className="inline-flex items-center gap-2 bg-blue-100 dark:bg-blue-900/50 border border-blue-200 dark:border-blue-700/60 px-4 py-1.5 rounded-full text-xs font-bold text-blue-700 dark:text-blue-300 shadow-sm animate-pulse">
+                    <Sparkles className="w-4 h-4 text-amber-500" />
+                    <span>{lang === "ar" ? "منصة المستر الرسمية للثانوية العامة والإعدادية" : "Official Platform of Mr. Habib El Rahman"}</span>
+                  </div>
+
+                  {/* HERO TITLE */}
+                  <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight text-slate-900 dark:text-white leading-tight">
+                    {lang === "ar" ? (
+                      <>
+                        تفوق في اللغة الإنجليزية مع <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-indigo-600 to-sky-500">مستر حبيب الرحمن</span>
+                      </>
+                    ) : (
+                      <>
+                        Master English with <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-indigo-600 to-sky-500">Mr. Habib El Rahman</span>
+                      </>
+                    )}
+                  </h1>
+
+                  {/* HERO SUBTITLE */}
+                  <p className="text-sm sm:text-base text-slate-600 dark:text-slate-300 leading-relaxed max-w-2xl mx-auto font-medium">
+                    {lang === "ar"
+                      ? "بنك أسئلة ذكي يحتوي على آلاف الأسئلة المفهرسة، مولد الامتحانات التلقائي بدون تكرار، ومساعد الذكاء الاصطناعي لتشخيص وتقوية مستواك."
+                      : "Intelligent Question Bank with thousands of items, anti-repetition smart exam generation, and DRM protected lecture streaming."}
+                  </p>
+
+                  {/* ACTION BUTTONS */}
+                  <div className="flex flex-wrap items-center justify-center gap-4 pt-4">
+                    <button
+                      onClick={() => setActiveTab("question_bank")}
+                      className="px-8 py-4 rounded-2xl bg-gradient-to-r from-blue-600 via-indigo-600 to-sky-500 hover:from-blue-700 hover:to-indigo-700 text-white font-extrabold text-sm shadow-xl shadow-blue-500/25 flex items-center gap-2 transition-all hover:scale-105"
+                    >
+                      <Database className="w-5 h-5 text-amber-300" />
+                      <span>{lang === "ar" ? "دخول بنك الأسئلة ومولد الامتحانات" : "Open Intelligent Question Bank"}</span>
+                    </button>
+
+                    <button
+                      onClick={() => setActiveTab("placement")}
+                      className="px-8 py-4 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-800 dark:text-slate-200 font-extrabold text-sm hover:bg-slate-50 dark:hover:bg-slate-800 shadow-md transition-all"
+                    >
+                      {lang === "ar" ? "اختبار تحديد المستوى" : "Placement Test"}
+                    </button>
+                  </div>
+
+                  {/* TRUST STATS ROW */}
+                  <div className="pt-10 grid grid-cols-2 sm:grid-cols-4 gap-4 max-w-3xl mx-auto text-slate-800 dark:text-slate-200 border-t border-slate-200/60 dark:border-slate-800/60 mt-8">
+                    <div>
+                      <div className="text-2xl font-black text-blue-600 dark:text-blue-400">100,000+</div>
+                      <div className="text-[11px] text-slate-500 font-bold">{lang === "ar" ? "سؤال ببنك الأسئلة" : "Bank Questions"}</div>
+                    </div>
+                    <div>
+                      <div className="text-2xl font-black text-blue-600 dark:text-blue-400">0%</div>
+                      <div className="text-[11px] text-slate-500 font-bold">{lang === "ar" ? "تكرار بالامتحانات" : "Duplicate Rate"}</div>
+                    </div>
+                    <div>
+                      <div className="text-2xl font-black text-blue-600 dark:text-blue-400">98.4%</div>
+                      <div className="text-[11px] text-slate-500 font-bold">{lang === "ar" ? "نسبة النجاح" : "Pass Percentage"}</div>
+                    </div>
+                    <div>
+                      <div className="text-2xl font-black text-blue-600 dark:text-blue-400">24/7</div>
+                      <div className="text-[11px] text-slate-500 font-bold">{lang === "ar" ? "مساعد الذكاء الاصطناعي" : "AI Assistance"}</div>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            </section>
+
+            {/* STAGES COURSES PREVIEW GRID */}
+            <section className="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+              <div className="flex flex-col sm:flex-row items-start sm:items-end justify-between mb-10 gap-4">
+                <div>
+                  <span className="text-xs font-bold text-blue-600 dark:text-blue-400 uppercase tracking-wider">
+                    {lang === "ar" ? "المناهج والكورسات المتاحة" : "Curriculum & Courses"}
+                  </span>
+                  <h2 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white mt-1">
+                    {lang === "ar" ? "كورسات المراحل الإعدادية والثانوية" : "Secondary & Preparatory Courses"}
+                  </h2>
+                </div>
+
+                <button
+                  onClick={() => setActiveTab("courses")}
+                  className="text-xs font-bold text-blue-600 dark:text-blue-400 flex items-center gap-1 hover:underline"
+                >
+                  <span>{lang === "ar" ? "عرض كل المناهج" : "View All Stages"}</span>
+                  <ChevronRight className="w-4 h-4 rtl:rotate-180" />
+                </button>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                {stagesCourses.map((c) => (
+                  <div
+                    key={c.id}
+                    onClick={() => setSelectedCourseId(c.id)}
+                    className="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 overflow-hidden shadow-xl hover:shadow-2xl transition-all cursor-pointer group flex flex-col justify-between"
+                  >
+                    <div>
+                      <div className="h-44 overflow-hidden relative">
+                        <img src={c.image} alt={c.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                        <span className="absolute top-3 left-3 rtl:right-3 rtl:left-auto text-[10px] font-bold uppercase px-2.5 py-1 rounded-full bg-blue-600 text-white shadow">
+                          {c.badge}
+                        </span>
+                        {/* FAVORITE HEART */}
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            toggleFavorite(c);
+                          }}
+                          className={`absolute top-2.5 right-2.5 rtl:left-2.5 rtl:right-auto p-2 rounded-xl backdrop-blur-md shadow-lg border transition-all hover:scale-110 ${
+                            favorites.find((f) => f.id === c.id)
+                              ? "bg-rose-500/90 border-rose-400 text-white"
+                              : "bg-white/70 dark:bg-slate-900/70 border-white/40 text-rose-500"
+                          }`}
+                          title={lang === "ar" ? "إضافة للمفضلة" : "Add to favorites"}
+                        >
+                          <Heart className={`w-4 h-4 ${favorites.find((f) => f.id === c.id) ? "fill-current" : ""}`} />
+                        </button>
+                      </div>
+
+                      <div className="p-5">
+                        <span className="text-[11px] font-bold text-slate-400">{c.grade}</span>
+                        <h3 className="font-extrabold text-sm text-slate-900 dark:text-white mt-1 group-hover:text-blue-600 transition-colors leading-snug">
+                          {c.title}
+                        </h3>
+                        <p className="text-xs text-slate-500 dark:text-slate-400 mt-2 line-clamp-2 leading-relaxed">{c.desc}</p>
+                      </div>
+                    </div>
+
+                    <div className="p-5 pt-0 flex items-center justify-between border-t border-slate-100 dark:border-slate-800/60 mt-4">
+                      <span className="text-sm font-black text-blue-600 dark:text-blue-400">{c.price}</span>
+                      <span className="text-xs font-bold text-slate-800 dark:text-slate-200 flex items-center gap-1 group-hover:translate-x-1 transition-transform">
+                        <span>{lang === "ar" ? "تصفح المنهج" : "Inspect"}</span>
+                        <ArrowRight className="w-3.5 h-3.5 rtl:rotate-180" />
+                      </span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </section>
+
+          </div>
+        ) : activeTab === "question_bank" ? (
+          
+          /* VIEW: QUESTION BANK WORKSPACE */
+          <QuestionBankWorkspace
+            onExamGenerated={(exam) => {
+              setActiveGeneratedExam(exam);
+            }}
+          />
+        ) : activeTab === "pdfs" ? (
+          
+          /* VIEW: PDF LIBRARY WORKSPACE */
+          <PdfLibraryWorkspace />
+        ) : activeTab === "courses" ? (
+          
+          /* VIEW: ALL COURSES FILTERABLE */
+          <div className="max-w-7xl mx-auto px-4 py-8">
+            <h1 className="text-2xl font-black text-slate-900 dark:text-white mb-6">
+              {lang === "ar" ? "جميع الكورسات والصفوف المتاحة" : "All Available Courses & Stages"}
+            </h1>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {stagesCourses.map((c) => (
+                <div
+                  key={c.id}
+                  onClick={() => setSelectedCourseId(c.id)}
+                  className="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 overflow-hidden shadow-xl p-6 cursor-pointer hover:border-blue-500 transition-all flex flex-col justify-between"
+                >
+                  <div>
+                    <span className="text-[10px] font-bold uppercase px-2.5 py-1 rounded-full bg-blue-100 dark:bg-blue-950 text-blue-700 dark:text-blue-300">
+                      {c.grade}
+                    </span>
+                    <h3 className="text-base font-extrabold text-slate-900 dark:text-white mt-3">{c.title}</h3>
+                    <p className="text-xs text-slate-500 dark:text-slate-400 mt-2 leading-relaxed">{c.desc}</p>
+                  </div>
+
+                  <div className="mt-6 pt-4 border-t border-slate-100 dark:border-slate-800 flex justify-between items-center text-xs font-extrabold text-blue-600 dark:text-blue-400">
+                    <span>{c.price}</span>
+                    <span>{lang === "ar" ? "تصفح الوحدات" : "Inspect Units"} →</span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        ) : activeTab === "placement" ? (
+          
+          /* VIEW: PLACEMENT TEST */
+          <AdaptivePlacementTest />
+        ) : activeTab === "ai_assistant" ? (
+          
+          /* VIEW: AI WORKSPACE */
+          <div className="p-4">
+            <AiAssistantWorkspace />
+          </div>
+        ) : activeTab === "dashboard" ? (
+          
+          /* VIEW: ROLE DASHBOARDS */
+          <div>
+            {user?.role === "admin" && <SuperAdminDashboard />}
+            {user?.role === "teacher" && <TeacherDashboard onOpenLibrary={() => setActiveTab("pdfs")} />}
+            {user?.role === "student" && <StudentDashboard onSelectCourse={(id) => setSelectedCourseId(id)} onOpenReport={() => setActiveTab("report")} />}
+            {user?.role === "parent" && <ParentDashboard onOpenReport={() => setActiveTab("report")} />}
+          </div>
+        ) : activeTab === "chat" ? (
+          
+          /* VIEW: COMMUNITY CHAT */
+          <CommunityChat />
+        ) : activeTab === "blog" ? (
+          
+          /* VIEW: BLOG */
+          <BlogView />
+        ) : activeTab === "notifications" ? (
+
+          /* VIEW: REAL NOTIFICATION CENTER */
+          <NotificationCenter />
+        ) : activeTab === "gamification" ? (
+
+          /* VIEW: GAMIFICATION CENTER */
+          <GamificationCenter />
+        ) : activeTab === "calendar" ? (
+
+          /* VIEW: CALENDAR & LIVE SESSIONS */
+          <CalendarView />
+        ) : activeTab === "info" ? (
+
+          /* VIEW: INFO PAGES (About/FAQ/Contact/Privacy/Terms) */
+          <InfoPages initialSection={infoSection} />
+        ) : activeTab === "search" ? (
+
+          /* VIEW: GLOBAL SEARCH */
+          <GlobalSearch onSelectCourse={(id) => setSelectedCourseId(id)} />
+        ) : activeTab === "homework" ? (
+
+          /* VIEW: HOMEWORK SYSTEM */
+          <HomeworkWorkspace />
+        ) : activeTab === "attendance" ? (
+
+          /* VIEW: ATTENDANCE SYSTEM */
+          <AttendanceWorkspace />
+        ) : activeTab === "report" ? (
+
+          /* VIEW: WEEKLY STUDENT REPORT */
+          <WeeklyReport />
+        ) : null}
+
+      </main>
+
+      {/* FOOTER */}
+      <Footer setActiveTab={handleTabChange} />
+    </div>
+  );
+}
+
+export default function Home() {
+  return (
+    <AppProvider>
+      <MainAppContent />
+    </AppProvider>
+  );
+}
