@@ -1,0 +1,42 @@
+# dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# next.js build output
+.next/
+out/
+build/
+dist/
+
+# production runtime storage (uploaded PDFs, homework files, VAPID keys)
+storage/
+
+# environment secrets — NEVER commit these
+.env
+.env.local
+.env*.local
+.env.production
+
+# logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+*.log
+
+# testing
+coverage/
+
+# vercel / deployment
+.vercel
+
+# typescript
+*.tsbuildinfo
+next-env.d.ts
+
+# editors & OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+*.swp

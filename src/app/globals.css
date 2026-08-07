@@ -1,0 +1,46 @@
+@import "tailwindcss";
+
+/* ============ PRINT STYLES (Exam Paper Printing) ============ */
+.print-only {
+  display: none !important;
+}
+
+@media print {
+  .no-print {
+    display: none !important;
+  }
+  .print-only {
+    display: block !important;
+  }
+  body {
+    background: #ffffff !important;
+    color: #000000 !important;
+  }
+  .print-page {
+    background: #ffffff !important;
+    color: #000000 !important;
+  }
+  .print-question {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+  @page {
+    margin: 16mm;
+  }
+}
+
+/* Dark mode scrollbars + polish */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgb(59 130 246 / 0.4);
+  border-radius: 999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgb(59 130 246 / 0.7);
+}

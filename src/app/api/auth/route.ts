@@ -1,0 +1,172 @@
+import { db } from "@/db";
+import { users } from "@/db/schema";
+import { eq } from "drizzle-orm";
+import { NextResponse } from "next/server";
+import { ensureDbSetup } from "@/db/migrate-and-seed";
+import {
+  hashPassword,
+  verifyPassword,
+  isLegacyPlaintext,
+  createSession,
+  destroySession,
+  extractToken,
+  getAuthContext,
+  checkLoginLock,
+  recordFailedLogin,
+  clearFailedLogins,
+} from "@/lib/security";
+
+// Demo persona credentials (real accounts in DB, verified & upgraded to hashed passwords)
+const DEMO_ACCOUNTS: Record<string, { email: string; password: string }> = {
+  admin: { email: "habib.admin@proacademy.com", password: "admin123password" },
+  teacher: { email: "sarah.teacher@proacademy.com", password: "teacher123password" },
+  student: { email: "omar.student@gmail.com", password: "student123password" },
+  parent: { email: "mahmoud.parent@gmail.com", password: "parent123password" },
+};
+
+function sanitizeUser(u: any) {
+  if (!u) return u;
+  const { password, ...rest } = u;
+  return rest;
+}
+
+async function performLogin(email: string, password: string, userAgent?: string) {
+  const lockMinutes = checkLoginLock(email);
+  if (lockMinutes > 0) {
+    return {
+      errorResponse: NextResponse.json(
+        { error: `Account temporarily locked due to repeated failed attempts. Try again in ${lockMinutes} minute(s).` },
+        { status: 429 }
+      ),
+    };
+  }
+
+  const foundUsers = await db.select().from(users).where(eq(users.email, email.trim().toLowerCase()));
+  if (foundUsers.length === 0) {
+    recordFailedLogin(email);
+    return {
+      errorResponse: NextResponse.json({ error: "No account found with this email address." }, { status: 400 }),
+    };
+  }
+
+  const user = foundUsers[0];
+  const valid = verifyPassword(password, user.password);
+  if (!valid) {
+    recordFailedLogin(email);
+    return {
+      errorResponse: NextResponse.json({ error: "Invalid password. Please try again." }, { status: 400 }),
+    };
+  }
+
+  // Upgrade legacy plaintext passwords to salted hashes transparently
+  if (isLegacyPlaintext(user.password)) {
+    await db.update(users).set({ password: hashPassword(password) }).where(eq(users.id, user.id));
+  }
+
+  clearFailedLogins(email);
+  const { token, expiresAt } = await createSession(user.id, user.role, userAgent);
+  return { user: sanitizeUser(user), token, expiresAt };
+}
+
+export async function GET(req: Request) {
+  await ensureDbSetup();
+  try {
+    const ctx = await getAuthContext(req);
+    if (!ctx) {
+      return NextResponse.json({ error: "Session expired or not logged in." }, { status: 401 });
+    }
+    return NextResponse.json({ success: true, user: sanitizeUser(ctx.user) });
+  } catch (error) {
+    console.error("Auth GET error:", error);
+    return NextResponse.json({ error: "Session check failed" }, { status: 500 });
+  }
+}
+
+export async function POST(req: Request) {
+  await ensureDbSetup();
+  try {
+    const body = await req.json();
+    const { action, email, password, name, role, stage, grade, phone, parentPhone } = body;
+    const userAgent = req.headers.get("user-agent") || "";
+
+    // ============ LOGIN ============
+    if (action === "login") {
+      if (!email || !password) {
+        return NextResponse.json({ error: "Email and password are required." }, { status: 400 });
+      }
+      const result = await performLogin(email, password, userAgent);
+      if (result.errorResponse) return result.errorResponse;
+      return NextResponse.json({ success: true, user: result.user, token: result.token, expiresAt: result.expiresAt });
+    }
+
+    // ============ DEMO PERSONA LOGIN (real sessions under the hood) ============
+    if (action === "switch-role") {
+      const demo = DEMO_ACCOUNTS[role];
+      if (!demo) {
+        return NextResponse.json({ error: "Unknown demo account." }, { status: 400 });
+      }
+      const result = await performLogin(demo.email, demo.password, userAgent);
+      if (result.errorResponse) return result.errorResponse;
+      return NextResponse.json({ success: true, user: result.user, token: result.token });
+    }
+
+    // ============ REGISTER ============
+    if (action === "register") {
+      if (!name || !email || !password) {
+        return NextResponse.json({ error: "Name, email and password are required." }, { status: 400 });
+      }
+
+      const normalizedEmail = email.trim().toLowerCase();
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(normalizedEmail)) {
+        return NextResponse.json({ error: "Please enter a valid email address." }, { status: 400 });
+      }
+      if (password.length < 8) {
+        return NextResponse.json({ error: "Password must be at least 8 characters long." }, { status: 400 });
+      }
+      if (!["student", "parent"].includes(role)) {
+        return NextResponse.json({ error: "You can only register as a Student or Parent account." }, { status: 400 });
+      }
+
+      const existing = await db.select().from(users).where(eq(users.email, normalizedEmail));
+      if (existing.length > 0) {
+        return NextResponse.json({ error: "This email is already registered. Please log in instead." }, { status: 400 });
+      }
+
+      const newUserId = `usr_${Date.now()}_${Math.random().toString(36).substring(2, 6)}`;
+      const newUser = {
+        id: newUserId,
+        name: name.trim(),
+        email: normalizedEmail,
+        password: hashPassword(password), // hashed with scrypt + random salt
+        role: role || "student",
+        stage: stage || "Secondary",
+        grade: grade || "Third Secondary (Baccalaureate)",
+        phone: phone || "",
+        parentPhone: parentPhone || "",
+        streak: 1,
+        points: 100,
+        level: "Intermediate",
+        preferredLang: "ar",
+      };
+
+      await db.insert(users).values(newUser);
+      const { token, expiresAt } = await createSession(newUserId, newUser.role, userAgent);
+
+      return NextResponse.json({ success: true, user: sanitizeUser(newUser), token, expiresAt });
+    }
+
+    // ============ LOGOUT ============
+    if (action === "logout") {
+      const token = extractToken(req);
+      if (token) {
+        await destroySession(token);
+      }
+      return NextResponse.json({ success: true });
+    }
+
+    return NextResponse.json({ error: "Invalid action" }, { status: 400 });
+  } catch (error) {
+    console.error("Auth API Error:", error);
+    return NextResponse.json({ error: "Authentication failed" }, { status: 500 });
+  }
+}

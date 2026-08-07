@@ -1,0 +1,173 @@
+import { db } from "@/db";
+import { pdfDocuments } from "@/db/schema";
+import { eq } from "drizzle-orm";
+import { NextResponse } from "next/server";
+import { ensureDbSetup } from "@/db/migrate-and-seed";
+import { requireRoles } from "@/lib/security";
+import fs from "fs";
+import path from "path";
+
+const MAX_SIZE_BYTES = 50 * 1024 * 1024; // 50MB
+
+export async function GET(req: Request) {
+  await ensureDbSetup();
+  const { searchParams } = new URL(req.url);
+  const search = searchParams.get("search")?.toLowerCase();
+  const stage = searchParams.get("stage");
+  const grade = searchParams.get("grade");
+  const topic = searchParams.get("topic");
+  const courseId = searchParams.get("courseId");
+
+  try {
+    let docs = await db.select().from(pdfDocuments);
+
+    if (search) {
+      docs = docs.filter(
+        (d) =>
+          d.title.toLowerCase().includes(search) ||
+          (d.description || "").toLowerCase().includes(search) ||
+          (d.topic || "").toLowerCase().includes(search)
+      );
+    }
+    if (stage) docs = docs.filter((d) => d.stage === stage);
+    if (grade) docs = docs.filter((d) => d.grade === grade);
+    if (topic) docs = docs.filter((d) => d.topic === topic);
+    if (courseId) docs = docs.filter((d) => d.courseId === courseId);
+
+    const stats = {
+      total: docs.length,
+      totalViews: docs.reduce((s, d) => s + (d.views || 0), 0),
+      totalDownloads: docs.reduce((s, d) => s + (d.downloads || 0), 0),
+    };
+
+    return NextResponse.json({ documents: docs, stats });
+  } catch (error) {
+    console.error("PDFs GET error:", error);
+    return NextResponse.json({ error: "Failed to fetch PDF library" }, { status: 500 });
+  }
+}
+
+export async function POST(req: Request) {
+  await ensureDbSetup();
+  // Uploads, deletions and metadata edits are restricted to teachers & admins
+  const { denied } = await requireRoles(req, ["admin", "teacher"]);
+  if (denied) return denied;
+  const contentType = req.headers.get("content-type") || "";
+
+  // -------- MULTIPART: FILE UPLOAD --------
+  if (contentType.includes("multipart/form-data")) {
+    try {
+      const form = await req.formData();
+      const file = form.get("file") as File | null;
+
+      if (!file) {
+        return NextResponse.json({ error: "No PDF file provided." }, { status: 400 });
+      }
+
+      const isPdf =
+        file.type === "application/pdf" || file.name.toLowerCase().endsWith(".pdf");
+      if (!isPdf) {
+        return NextResponse.json({ error: "Only PDF files are allowed." }, { status: 400 });
+      }
+
+      if (file.size > MAX_SIZE_BYTES) {
+        return NextResponse.json({ error: "File too large. Maximum size is 50MB." }, { status: 400 });
+      }
+
+      const title = String(form.get("title") || file.name.replace(/\.pdf$/i, ""));
+      const description = String(form.get("description") || "");
+      const uploaderId = String(form.get("uploaderId") || "usr_admin_1");
+      const uploaderName = String(form.get("uploaderName") || "Mr. Habib El Rahman");
+      const stage = String(form.get("stage") || "Secondary");
+      const grade = String(form.get("grade") || "Third Secondary (Baccalaureate)");
+      const unit = String(form.get("unit") || "Unit 1");
+      const topic = String(form.get("topic") || "General Notes");
+      const courseId = String(form.get("courseId") || "");
+      const allowDownload = String(form.get("allowDownload") || "false") === "true";
+      const watermarkEnabled = String(form.get("watermarkEnabled") || "true") === "true";
+
+      const id = `pdf_${Date.now()}_${Math.random().toString(36).substring(2, 6)}`;
+      const safeName = file.name.replace(/[^a-zA-Z0-9._-]/g, "_");
+
+      // Persist file to disk
+      const dir = path.join(process.cwd(), "storage", "pdfs");
+      await fs.promises.mkdir(dir, { recursive: true });
+      const destPath = path.join(dir, `${id}.pdf`);
+      const buffer = Buffer.from(await file.arrayBuffer());
+      await fs.promises.writeFile(destPath, buffer);
+
+      const newDoc = {
+        id,
+        title,
+        description,
+        uploaderId,
+        uploaderName,
+        stage,
+        grade,
+        unit,
+        topic,
+        courseId: courseId || null,
+        fileName: safeName,
+        storagePath: destPath,
+        externalUrl: null,
+        fileSizeKb: Math.round(file.size / 1024),
+        pageCount: 1,
+        views: 0,
+        downloads: 0,
+        isProtected: true,
+        watermarkEnabled,
+        allowDownload,
+      };
+
+      await db.insert(pdfDocuments).values(newDoc);
+
+      return NextResponse.json({ success: true, document: newDoc });
+    } catch (error) {
+      console.error("PDF upload error:", error);
+      return NextResponse.json({ error: "PDF upload failed" }, { status: 500 });
+    }
+  }
+
+  // -------- JSON ACTIONS --------
+  try {
+    const body = await req.json();
+    const { action } = body;
+
+    if (action === "delete") {
+      const { documentId } = body;
+      const found = await db.select().from(pdfDocuments).where(eq(pdfDocuments.id, documentId));
+      if (found.length > 0 && found[0].storagePath) {
+        try {
+          await fs.promises.unlink(found[0].storagePath);
+        } catch {
+          // file may already be missing; ignore
+        }
+      }
+      await db.delete(pdfDocuments).where(eq(pdfDocuments.id, documentId));
+      return NextResponse.json({ success: true });
+    }
+
+    if (action === "update_meta") {
+      const { documentId,meta } = body;
+      await db
+        .update(pdfDocuments)
+        .set({
+          title: meta.title,
+          description: meta.description || null,
+          unit: meta.unit || "Unit 1",
+          topic: meta.topic || "General Notes",
+          stage: meta.stage || "Secondary",
+          grade: meta.grade || "Third Secondary (Baccalaureate)",
+          allowDownload: !!meta.allowDownload,
+          watermarkEnabled: meta.watermarkEnabled !== false,
+        })
+        .where(eq(pdfDocuments.id, documentId));
+      return NextResponse.json({ success: true });
+    }
+
+    return NextResponse.json({ error: "Invalid action" }, { status: 400 });
+  } catch (error) {
+    console.error("PDFs POST error:", error);
+    return NextResponse.json({ error: "Operation failed" }, { status: 500 });
+  }
+}
