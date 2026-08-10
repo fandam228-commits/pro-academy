@@ -2,10 +2,16 @@ import { db } from "@/db";
 import { liveChat } from "@/db/schema";
 import { NextResponse } from "next/server";
 import { ensureDbSetup } from "@/db/migrate-and-seed";
+import { getAuthContext } from "@/lib/security";
 
-export async function GET() {
+export async function GET(req: Request) {
   await ensureDbSetup();
   try {
+    const ctx = await getAuthContext(req);
+    if (!ctx) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
     const messages = await db.select().from(liveChat);
     return NextResponse.json({ messages });
   } catch (error) {
@@ -17,13 +23,22 @@ export async function GET() {
 export async function POST(req: Request) {
   await ensureDbSetup();
   try {
-    const { senderId, senderName, senderRole, message, channel } = await req.json();
+    const ctx = await getAuthContext(req);
+    if (!ctx) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
+    const { message, channel } = await req.json();
+
+    if (!message || !message.trim()) {
+      return NextResponse.json({ error: "Message cannot be empty" }, { status: 400 });
+    }
 
     const newMessage = {
       id: `chat_${Date.now()}`,
-      senderId: senderId || "usr_student_1",
-      senderName: senderName || "Student",
-      senderRole: senderRole || "student",
+      senderId: ctx.user.id,
+      senderName: ctx.user.name,
+      senderRole: ctx.user.role,
       message: message.trim(),
       channel: channel || "general",
     };
