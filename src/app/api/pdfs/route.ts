@@ -4,9 +4,9 @@ import { eq } from "drizzle-orm";
 import { NextResponse } from "next/server";
 import { ensureDbSetup } from "@/db/migrate-and-seed";
 import { requireRoles } from "@/lib/security";
-import { put, del } from "@vercel/blob";
 
-const MAX_SIZE_BYTES = 50 * 1024 * 1024; // 50MB
+// Vercel serverless body limit is ~4.5MB — keep uploads under that.
+const MAX_SIZE_BYTES = 4 * 1024 * 1024; // 4MB
 
 export async function GET(req: Request) {
   await ensureDbSetup();
@@ -18,7 +18,9 @@ export async function GET(req: Request) {
   const courseId = searchParams.get("courseId");
 
   try {
-    let docs = await db.select().from(pdfDocuments);
+    // Never return the heavy base64 payload in the list endpoint
+    const all = await db.select().from(pdfDocuments);
+    let docs = all.map(({ fileData, ...rest }) => rest);
 
     if (search) {
       docs = docs.filter(
@@ -50,9 +52,10 @@ export async function POST(req: Request) {
   await ensureDbSetup();
   const { denied } = await requireRoles(req, ["admin", "teacher"]);
   if (denied) return denied;
+
   const contentType = req.headers.get("content-type") || "";
 
-  // -------- MULTIPART: FILE UPLOAD TO VERCEL BLOB --------
+  // -------- MULTIPART: FILE UPLOAD (stored in Postgres as base64) --------
   if (contentType.includes("multipart/form-data")) {
     try {
       const form = await req.formData();
@@ -62,14 +65,19 @@ export async function POST(req: Request) {
         return NextResponse.json({ error: "No PDF file provided." }, { status: 400 });
       }
 
-      const isPdf =
-        file.type === "application/pdf" || file.name.toLowerCase().endsWith(".pdf");
+      const isPdf = file.type === "application/pdf" || file.name.toLowerCase().endsWith(".pdf");
       if (!isPdf) {
         return NextResponse.json({ error: "Only PDF files are allowed." }, { status: 400 });
       }
 
       if (file.size > MAX_SIZE_BYTES) {
-        return NextResponse.json({ error: "File too large. Maximum size is 50MB." }, { status: 400 });
+        return NextResponse.json(
+          {
+            error:
+              "الملف كبير جداً. الحد الأقصى على السيرفر 4 ميجابايت. صغّر الملف أو ارفعه على Google Drive وضع الرابط.",
+          },
+          { status: 400 }
+        );
       }
 
       const title = String(form.get("title") || file.name.replace(/\.pdf$/i, ""));
@@ -87,11 +95,9 @@ export async function POST(req: Request) {
       const id = `pdf_${Date.now()}_${Math.random().toString(36).substring(2, 6)}`;
       const safeName = file.name.replace(/[^a-zA-Z0-9._-]/g, "_");
 
-      // Upload to Vercel Blob (cloud storage — persistent)
-      const blob = await put(`pdfs/${id}_${safeName}`, file, {
-        access: "public",
-        addRandomSuffix: false,
-      });
+      // Store file content in the database (works on Vercel serverless)
+      const buffer = Buffer.from(await file.arrayBuffer());
+      const base64 = buffer.toString("base64");
 
       const newDoc = {
         id,
@@ -105,8 +111,9 @@ export async function POST(req: Request) {
         topic,
         courseId: courseId || null,
         fileName: safeName,
-        storagePath: null, // no local path on Vercel
-        externalUrl: blob.url, // Vercel Blob URL (persistent)
+        storagePath: null,
+        fileData: base64,
+        externalUrl: null,
         fileSizeKb: Math.round(file.size / 1024),
         pageCount: 1,
         views: 0,
@@ -118,17 +125,15 @@ export async function POST(req: Request) {
 
       await db.insert(pdfDocuments).values(newDoc);
 
-      return NextResponse.json({ success: true, document: newDoc });
+      // Don't return the heavy base64 blob to the client
+      const { fileData: _omit, ...publicDoc } = newDoc;
+      return NextResponse.json({ success: true, document: publicDoc });
     } catch (error) {
       console.error("PDF upload error:", error);
-      const msg = String(error);
-      if (msg.includes("BLOB")) {
-        return NextResponse.json(
-          { error: "File storage not configured. Add BLOB_READ_WRITE_TOKEN in Vercel Environment Variables." },
-          { status: 500 }
-        );
-      }
-      return NextResponse.json({ error: "PDF upload failed: " + msg.slice(0, 200) }, { status: 500 });
+      return NextResponse.json(
+        { error: "PDF upload failed. Try a smaller file (under 4MB)." },
+        { status: 500 }
+      );
     }
   }
 
@@ -139,12 +144,6 @@ export async function POST(req: Request) {
 
     if (action === "delete") {
       const { documentId } = body;
-      const found = await db.select().from(pdfDocuments).where(eq(pdfDocuments.id, documentId));
-      if (found.length > 0 && found[0].externalUrl) {
-        try {
-          await del(found[0].externalUrl);
-        } catch {}
-      }
       await db.delete(pdfDocuments).where(eq(pdfDocuments.id, documentId));
       return NextResponse.json({ success: true });
     }
@@ -165,6 +164,40 @@ export async function POST(req: Request) {
         })
         .where(eq(pdfDocuments.id, documentId));
       return NextResponse.json({ success: true });
+    }
+
+    // Allow linking an external PDF URL (Google Drive / any public link)
+    if (action === "add_external") {
+      const { title, description, externalUrl, stage, grade, unit, topic, allowDownload } = body;
+      if (!title || !externalUrl) {
+        return NextResponse.json({ error: "Title and external URL are required." }, { status: 400 });
+      }
+      const id = `pdf_ext_${Date.now()}`;
+      const newDoc = {
+        id,
+        title,
+        description: description || "",
+        uploaderId: "usr_admin_1",
+        uploaderName: "Mr. Habib El Rahman",
+        stage: stage || "Secondary",
+        grade: grade || "Third Secondary (Baccalaureate)",
+        unit: unit || "Unit 1",
+        topic: topic || "General Notes",
+        courseId: null,
+        fileName: `${title}.pdf`,
+        storagePath: null,
+        fileData: null,
+        externalUrl,
+        fileSizeKb: 0,
+        pageCount: 1,
+        views: 0,
+        downloads: 0,
+        isProtected: true,
+        watermarkEnabled: true,
+        allowDownload: !!allowDownload,
+      };
+      await db.insert(pdfDocuments).values(newDoc);
+      return NextResponse.json({ success: true, document: newDoc });
     }
 
     return NextResponse.json({ error: "Invalid action" }, { status: 400 });

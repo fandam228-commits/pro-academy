@@ -21,7 +21,39 @@ export async function GET(
 
     const doc = docs[0];
 
-    // Update view/download counter
+    // External linked documents → redirect
+    if (doc.externalUrl) {
+      if (isDownload && doc.allowDownload) {
+        await db
+          .update(pdfDocuments)
+          .set({ downloads: (doc.downloads || 0) + 1 })
+          .where(eq(pdfDocuments.id, id));
+      } else {
+        await db
+          .update(pdfDocuments)
+          .set({ views: (doc.views || 0) + 1 })
+          .where(eq(pdfDocuments.id, id));
+      }
+      return NextResponse.redirect(doc.externalUrl);
+    }
+
+    // Preferred: base64 content stored in Postgres (works on Vercel)
+    let fileBuffer: Buffer | null = null;
+    if (doc.fileData) {
+      fileBuffer = Buffer.from(doc.fileData, "base64");
+    } else if (doc.storagePath) {
+      // Legacy local-disk fallback (local dev only)
+      try {
+        fileBuffer = await fs.promises.readFile(doc.storagePath);
+      } catch {
+        return NextResponse.json({ error: "Stored file is missing on server" }, { status: 404 });
+      }
+    }
+
+    if (!fileBuffer) {
+      return NextResponse.json({ error: "No file attached to this document" }, { status: 404 });
+    }
+
     if (isDownload && doc.allowDownload) {
       await db
         .update(pdfDocuments)

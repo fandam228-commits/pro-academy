@@ -297,6 +297,7 @@ export async function ensureDbSetup() {
         course_id TEXT,
         file_name TEXT NOT NULL,
         storage_path TEXT,
+        file_data TEXT,
         external_url TEXT,
         file_size_kb INTEGER DEFAULT 0,
         page_count INTEGER DEFAULT 1,
@@ -307,6 +308,9 @@ export async function ensureDbSetup() {
         allow_download BOOLEAN DEFAULT false,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
       );
+
+      -- Add column for existing deployments that already created the table
+      ALTER TABLE pdf_documents ADD COLUMN IF NOT EXISTS file_data TEXT;
 
       CREATE INDEX IF NOT EXISTS idx_pdf_grade ON pdf_documents(grade);
       CREATE INDEX IF NOT EXISTS idx_pdf_stage ON pdf_documents(stage);

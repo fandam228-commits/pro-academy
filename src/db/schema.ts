@@ -321,7 +321,8 @@ export const pdfDocuments = pgTable(
     topic: text("topic").default("Grammar Notes"),
     courseId: text("course_id"),
     fileName: text("file_name").notNull(),
-    storagePath: text("storage_path"), // local disk path for uploaded files
+    storagePath: text("storage_path"), // legacy local disk path (not used on Vercel)
+    fileData: text("file_data"), // base64 PDF content (works on serverless)
     externalUrl: text("external_url"), // fallback demo / linked URL
     fileSizeKb: integer("file_size_kb").default(0),
     pageCount: integer("page_count").default(1),
