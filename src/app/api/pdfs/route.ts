@@ -4,8 +4,7 @@ import { eq } from "drizzle-orm";
 import { NextResponse } from "next/server";
 import { ensureDbSetup } from "@/db/migrate-and-seed";
 import { requireRoles } from "@/lib/security";
-import fs from "fs";
-import path from "path";
+import { put, del } from "@vercel/blob";
 
 const MAX_SIZE_BYTES = 50 * 1024 * 1024; // 50MB
 
@@ -49,12 +48,11 @@ export async function GET(req: Request) {
 
 export async function POST(req: Request) {
   await ensureDbSetup();
-  // Uploads, deletions and metadata edits are restricted to teachers & admins
   const { denied } = await requireRoles(req, ["admin", "teacher"]);
   if (denied) return denied;
   const contentType = req.headers.get("content-type") || "";
 
-  // -------- MULTIPART: FILE UPLOAD --------
+  // -------- MULTIPART: FILE UPLOAD TO VERCEL BLOB --------
   if (contentType.includes("multipart/form-data")) {
     try {
       const form = await req.formData();
@@ -89,12 +87,11 @@ export async function POST(req: Request) {
       const id = `pdf_${Date.now()}_${Math.random().toString(36).substring(2, 6)}`;
       const safeName = file.name.replace(/[^a-zA-Z0-9._-]/g, "_");
 
-      // Persist file to disk
-      const dir = path.join(process.cwd(), "storage", "pdfs");
-      await fs.promises.mkdir(dir, { recursive: true });
-      const destPath = path.join(dir, `${id}.pdf`);
-      const buffer = Buffer.from(await file.arrayBuffer());
-      await fs.promises.writeFile(destPath, buffer);
+      // Upload to Vercel Blob (cloud storage — persistent)
+      const blob = await put(`pdfs/${id}_${safeName}`, file, {
+        access: "public",
+        addRandomSuffix: false,
+      });
 
       const newDoc = {
         id,
@@ -108,8 +105,8 @@ export async function POST(req: Request) {
         topic,
         courseId: courseId || null,
         fileName: safeName,
-        storagePath: destPath,
-        externalUrl: null,
+        storagePath: null, // no local path on Vercel
+        externalUrl: blob.url, // Vercel Blob URL (persistent)
         fileSizeKb: Math.round(file.size / 1024),
         pageCount: 1,
         views: 0,
@@ -124,7 +121,14 @@ export async function POST(req: Request) {
       return NextResponse.json({ success: true, document: newDoc });
     } catch (error) {
       console.error("PDF upload error:", error);
-      return NextResponse.json({ error: "PDF upload failed" }, { status: 500 });
+      const msg = String(error);
+      if (msg.includes("BLOB")) {
+        return NextResponse.json(
+          { error: "File storage not configured. Add BLOB_READ_WRITE_TOKEN in Vercel Environment Variables." },
+          { status: 500 }
+        );
+      }
+      return NextResponse.json({ error: "PDF upload failed: " + msg.slice(0, 200) }, { status: 500 });
     }
   }
 
@@ -136,19 +140,17 @@ export async function POST(req: Request) {
     if (action === "delete") {
       const { documentId } = body;
       const found = await db.select().from(pdfDocuments).where(eq(pdfDocuments.id, documentId));
-      if (found.length > 0 && found[0].storagePath) {
+      if (found.length > 0 && found[0].externalUrl) {
         try {
-          await fs.promises.unlink(found[0].storagePath);
-        } catch {
-          // file may already be missing; ignore
-        }
+          await del(found[0].externalUrl);
+        } catch {}
       }
       await db.delete(pdfDocuments).where(eq(pdfDocuments.id, documentId));
       return NextResponse.json({ success: true });
     }
 
     if (action === "update_meta") {
-      const { documentId,meta } = body;
+      const { documentId, meta } = body;
       await db
         .update(pdfDocuments)
         .set({
