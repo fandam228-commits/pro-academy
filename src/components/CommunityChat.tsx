@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { useApp } from "@/context/AppContext";
+import { authHeaders } from "@/lib/client-auth";
 import { MessageSquare, Send, User, ShieldCheck, Sparkles } from "lucide-react";
 
 export const CommunityChat: React.FC = () => {
@@ -11,7 +12,7 @@ export const CommunityChat: React.FC = () => {
 
   const fetchMessages = async () => {
     try {
-      const res = await fetch("/api/chat");
+      const res = await fetch("/api/chat", { headers: { ...authHeaders() } });
       const json = await res.json();
       setMessages(json.messages || []);
     } catch (e) {
@@ -28,11 +29,8 @@ export const CommunityChat: React.FC = () => {
     try {
       await fetch("/api/chat", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", ...authHeaders() },
         body: JSON.stringify({
-          senderId: user?.id || "usr_student_1",
-          senderName: user?.name || "Student",
-          senderRole: user?.role || "student",
           message: inputText,
         }),
       });

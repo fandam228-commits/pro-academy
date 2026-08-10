@@ -1,6 +1,7 @@
 import { db } from "@/db";
-import { users } from "@/db/schema";
+import { users, affiliates, notifications } from "@/db/schema";
 import { eq } from "drizzle-orm";
+import { sql } from "drizzle-orm";
 import { NextResponse } from "next/server";
 import { ensureDbSetup } from "@/db/migrate-and-seed";
 import {
@@ -150,6 +151,48 @@ export async function POST(req: Request) {
       };
 
       await db.insert(users).values(newUser);
+
+      // Handle referral code if provided
+      const referralCode = body.referralCode?.trim();
+      if (referralCode) {
+        const affRows = await db.select().from(affiliates).where(eq(affiliates.code, referralCode));
+        if (affRows.length > 0) {
+          const aff = affRows[0];
+          // Credit referrer: +50 EGP earnings + increment count
+          await db
+            .update(affiliates)
+            .set({
+              totalReferrals: (aff.totalReferrals || 0) + 1,
+              earnings: String(parseFloat(aff.earnings || "0") + 50),
+            })
+            .where(eq(affiliates.id, aff.id));
+
+          // Grant the new user bonus 25 points
+          await db
+            .update(users)
+            .set({ points: 125 })
+            .where(eq(users.id, newUserId));
+
+          // Notify referrer
+          await db.insert(notifications).values({
+            id: `notif_ref_${Date.now()}`,
+            userId: aff.userId,
+            title: "🎁 إحالة ناجحة!",
+            message: `${name} انضم باستخدام كودك! حصلت على 50 جنيه رصيد مكافأة.`,
+            type: "payment",
+          });
+
+          // Notify new user
+          await db.insert(notifications).values({
+            id: `notif_ref_w_${Date.now()}`,
+            userId: newUserId,
+            title: "🎉 مرحباً بك! حصلت على مكافأة إحالة",
+            message: "تم منحك 25 نقطة إضافية لأنك انضممت بكود دعوة صديق!",
+            type: "info",
+          });
+        }
+      }
+
       const { token, expiresAt } = await createSession(newUserId, newUser.role, userAgent);
 
       return NextResponse.json({ success: true, user: sanitizeUser(newUser), token, expiresAt });

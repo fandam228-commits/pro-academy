@@ -3,7 +3,6 @@ import { pdfDocuments } from "@/db/schema";
 import { eq } from "drizzle-orm";
 import { NextResponse } from "next/server";
 import { ensureDbSetup } from "@/db/migrate-and-seed";
-import fs from "fs";
 
 export async function GET(
   req: Request,
@@ -67,13 +66,13 @@ export async function GET(
         .where(eq(pdfDocuments.id, id));
     }
 
-    const headers: Record<string, string> = {
-      "Content-Type": "application/pdf",
-      "Cache-Control": "private, max-age=0, must-revalidate",
-      "Content-Disposition": `${isDownload ? "attachment" : "inline"}; filename="${doc.fileName}"`,
-    };
+    // Redirect to Vercel Blob URL or external URL
+    const fileUrl = doc.externalUrl;
+    if (!fileUrl) {
+      return NextResponse.json({ error: "No file URL" }, { status: 404 });
+    }
 
-    return new Response(new Uint8Array(fileBuffer), { status: 200, headers });
+    return NextResponse.redirect(fileUrl);
   } catch (error) {
     console.error("PDF stream error:", error);
     return NextResponse.json({ error: "Failed to stream PDF" }, { status: 500 });

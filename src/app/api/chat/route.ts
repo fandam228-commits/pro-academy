@@ -6,12 +6,11 @@ import { getAuthContext } from "@/lib/security";
 
 export async function GET(req: Request) {
   await ensureDbSetup();
+  const ctx = await getAuthContext(req);
+  if (!ctx) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
   try {
-    const ctx = await getAuthContext(req);
-    if (!ctx) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    }
-
     const messages = await db.select().from(liveChat);
     return NextResponse.json({ messages });
   } catch (error) {
@@ -22,16 +21,19 @@ export async function GET(req: Request) {
 
 export async function POST(req: Request) {
   await ensureDbSetup();
+  const ctx = await getAuthContext(req);
+  if (!ctx) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
   try {
-    const ctx = await getAuthContext(req);
-    if (!ctx) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    }
-
     const { message, channel } = await req.json();
 
+    // Prevent user impersonation: always use authenticated user identity
     if (!message || !message.trim()) {
-      return NextResponse.json({ error: "Message cannot be empty" }, { status: 400 });
+      return NextResponse.json({ error: "Message is required" }, { status: 400 });
+    }
+    if (message.trim().length > 2000) {
+      return NextResponse.json({ error: "Message too long" }, { status: 400 });
     }
 
     const newMessage = {

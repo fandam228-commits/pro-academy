@@ -5,8 +5,7 @@ import { NextResponse } from "next/server";
 import { ensureDbSetup } from "@/db/migrate-and-seed";
 import { requireRoles, getAuthContext } from "@/lib/security";
 import { notifyUser } from "@/lib/push";
-import fs from "fs";
-import path from "path";
+import { put } from "@vercel/blob";
 
 const MAX_SIZE_BYTES = 20 * 1024 * 1024; // 20MB
 
@@ -106,14 +105,15 @@ export async function POST(req: Request) {
         if (file.size > MAX_SIZE_BYTES) {
           return NextResponse.json({ error: "File exceeds 20MB limit." }, { status: 400 });
         }
-        const dir = path.join(process.cwd(), "storage", "homework");
-        await fs.promises.mkdir(dir, { recursive: true });
         const subId = `hws_${Date.now()}_${Math.random().toString(36).substring(2, 6)}`;
         const safeName = file.name.replace(/[^a-zA-Z0-9._-]/g, "_");
-        const dest = path.join(dir, `${subId}_${safeName}`);
-        await fs.promises.writeFile(dest, Buffer.from(await file.arrayBuffer()));
+        // Upload to Vercel Blob (cloud storage)
+        const blob = await put(`homework/${subId}_${safeName}`, file, {
+          access: "public",
+          addRandomSuffix: false,
+        });
         fileName = file.name;
-        storagePath = dest;
+        storagePath = blob.url; // store Blob URL instead of local path
       }
 
       if (existing.length > 0) {

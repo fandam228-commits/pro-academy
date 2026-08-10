@@ -25,6 +25,7 @@ import { PwaManager } from "@/components/PwaManager";
 import { HomeworkWorkspace } from "@/components/HomeworkWorkspace";
 import { AttendanceWorkspace } from "@/components/AttendanceWorkspace";
 import { NotificationCenter } from "@/components/NotificationCenter";
+import { WeeklyReport } from "@/components/WeeklyReport";
 import { AnalyticsReports } from "@/components/AnalyticsReports";
 import { DownloadAppPage } from "@/components/DownloadAppPage";
 import { QuizPlayer } from "@/components/QuizPlayer";
@@ -400,8 +401,8 @@ function MainAppContent() {
           <div>
             {user?.role === "admin" && <SuperAdminDashboard />}
             {user?.role === "teacher" && <TeacherDashboard onOpenLibrary={() => setActiveTab("pdfs")} />}
-            {user?.role === "student" && <StudentDashboard onSelectCourse={(id) => setSelectedCourseId(id)} />}
-            {user?.role === "parent" && <ParentDashboard onOpenReport={() => setActiveTab("analytics")} />}
+            {user?.role === "student" && <StudentDashboard onSelectCourse={(id) => setSelectedCourseId(id)} onOpenReport={() => setActiveTab("report")} />}
+            {user?.role === "parent" && <ParentDashboard onOpenReport={() => setActiveTab("report")} />}
           </div>
         ) : activeTab === "chat" ? (
           
@@ -439,6 +440,10 @@ function MainAppContent() {
 
           /* VIEW: ATTENDANCE SYSTEM */
           <AttendanceWorkspace />
+        ) : activeTab === "report" ? (
+
+          /* VIEW: WEEKLY STUDENT REPORT */
+          <WeeklyReport />
         ) : activeTab === "analytics" ? (
 
           /* VIEW: ANALYTICS & REPORTS */

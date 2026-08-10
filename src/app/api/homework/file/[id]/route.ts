@@ -4,7 +4,6 @@ import { eq } from "drizzle-orm";
 import { NextResponse } from "next/server";
 import { ensureDbSetup } from "@/db/migrate-and-seed";
 import { getAuthContext } from "@/lib/security";
-import fs from "fs";
 
 export async function GET(req: Request, { params }: { params: Promise<{ id: string }> }) {
   await ensureDbSetup();
@@ -31,25 +30,8 @@ export async function GET(req: Request, { params }: { params: Promise<{ id: stri
       return NextResponse.json({ error: "No file attached to this submission" }, { status: 404 });
     }
 
-    let buffer: Buffer;
-    try {
-      buffer = await fs.promises.readFile(sub.storagePath);
-    } catch {
-      return NextResponse.json({ error: "File missing on server" }, { status: 404 });
-    }
-
-    const ext = (sub.fileName || "").split(".").pop()?.toLowerCase() || "";
-    const mime =
-      ext === "pdf" ? "application/pdf" : ext === "png" || ext === "jpg" || ext === "jpeg" ? `image/${ext === "jpg" ? "jpeg" : ext}` : "application/octet-stream";
-
-    return new Response(new Uint8Array(buffer), {
-      status: 200,
-      headers: {
-        "Content-Type": mime,
-        "Content-Disposition": `inline; filename="${sub.fileName || "answer"}"`,
-        "Cache-Control": "private, max-age=0",
-      },
-    });
+    // storagePath is now a Vercel Blob URL — redirect to it
+    return NextResponse.redirect(sub.storagePath);
   } catch (error) {
     console.error("Homework file error:", error);
     return NextResponse.json({ error: "Failed to stream file" }, { status: 500 });

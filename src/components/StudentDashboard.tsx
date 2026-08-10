@@ -15,9 +15,10 @@ import {
   BrainCircuit,
   ShieldCheck,
   Calendar,
+  BarChart2,
 } from "lucide-react";
 
-export const StudentDashboard: React.FC<{ onSelectCourse?: (courseId: string) => void }> = ({ onSelectCourse }) => {
+export const StudentDashboard: React.FC<{ onSelectCourse?: (courseId: string) => void; onOpenReport?: () => void }> = ({ onSelectCourse, onOpenReport }) => {
   const { user, lang } = useApp();
   const [plannerTasks, setPlannerTasks] = useState<any[]>([]);
   const [newTask, setNewTask] = useState("");
@@ -229,6 +230,25 @@ export const StudentDashboard: React.FC<{ onSelectCourse?: (courseId: string) =>
         {/* RIGHT COLUMN: POMODORO TIMER & LEADERBOARD BADGES */}
         <div className="space-y-6">
           
+          {/* WEEKLY REPORT BUTTON */}
+          {onOpenReport && (
+            <div className="bg-gradient-to-br from-indigo-600 to-blue-700 rounded-3xl p-5 text-white shadow-xl">
+              <h2 className="text-sm font-extrabold mb-2 flex items-center gap-2">
+                <BarChart2 className="w-4 h-4 text-amber-300" />
+                {lang === "ar" ? "تقريرك الأسبوعي" : "Your Weekly Report"}
+              </h2>
+              <p className="text-[11px] text-blue-100 mb-3">
+                {lang === "ar" ? "ملخص أدائك: حضور، واجبات، درجات، ونصائح المستر." : "Performance summary: attendance, homework, grades & tips."}
+              </p>
+              <button
+                onClick={onOpenReport}
+                className="w-full py-2.5 rounded-xl bg-white/20 hover:bg-white/30 font-extrabold text-xs border border-white/30 transition-all"
+              >
+                {lang === "ar" ? "عرض التقرير" : "View Report"}
+              </button>
+            </div>
+          )}
+
           {/* POMODORO FOCUS TIMER */}
           <div className="bg-white dark:bg-slate-900 p-6 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-xl text-center">
             <h2 className="text-sm font-extrabold text-slate-900 dark:text-white mb-2 flex items-center justify-center gap-1.5">
