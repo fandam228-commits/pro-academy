@@ -22,7 +22,7 @@ export async function GET(
 
     const doc = docs[0];
 
-    // External demo documents → redirect
+    // External linked documents → redirect
     if (doc.externalUrl) {
       if (isDownload && doc.allowDownload) {
         await db
@@ -38,15 +38,21 @@ export async function GET(
       return NextResponse.redirect(doc.externalUrl);
     }
 
-    if (!doc.storagePath) {
-      return NextResponse.json({ error: "No file attached to this document" }, { status: 404 });
+    // Preferred: base64 content stored in Postgres (works on Vercel)
+    let fileBuffer: Buffer | null = null;
+    if (doc.fileData) {
+      fileBuffer = Buffer.from(doc.fileData, "base64");
+    } else if (doc.storagePath) {
+      // Legacy local-disk fallback (local dev only)
+      try {
+        fileBuffer = await fs.promises.readFile(doc.storagePath);
+      } catch {
+        return NextResponse.json({ error: "Stored file is missing on server" }, { status: 404 });
+      }
     }
 
-    let fileBuffer: Buffer;
-    try {
-      fileBuffer = await fs.promises.readFile(doc.storagePath);
-    } catch {
-      return NextResponse.json({ error: "Stored file is missing on server" }, { status: 404 });
+    if (!fileBuffer) {
+      return NextResponse.json({ error: "No file attached to this document" }, { status: 404 });
     }
 
     if (isDownload && doc.allowDownload) {

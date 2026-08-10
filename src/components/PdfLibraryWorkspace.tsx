@@ -136,6 +136,17 @@ export const PdfLibraryWorkspace: React.FC = () => {
       setUploadMsg({ type: "error", text: lang === "ar" ? "اختر ملف PDF أولاً" : "Please select a PDF file" });
       return;
     }
+    // Client-side size guard (Vercel limit ~4.5MB)
+    if (upFile.size > 4 * 1024 * 1024) {
+      setUploadMsg({
+        type: "error",
+        text:
+          lang === "ar"
+            ? `الملف حجمه ${(upFile.size / (1024 * 1024)).toFixed(1)} ميجا. صغّره لأقل من 4 ميجا ثم أعد المحاولة.`
+            : `File is ${(upFile.size / (1024 * 1024)).toFixed(1)}MB. Compress it under 4MB and try again.`,
+      });
+      return;
+    }
     setUploading(true);
     setUploadMsg(null);
     try {
@@ -176,7 +187,15 @@ export const PdfLibraryWorkspace: React.FC = () => {
         setUploadMsg({ type: "error", text: json.error || "Upload failed" });
       }
     } catch (e) {
-      setUploadMsg({ type: "error", text: "Network error during upload" });
+      const errMsg =
+        e instanceof Error ? e.message : String(e);
+      setUploadMsg({
+        type: "error",
+        text:
+          lang === "ar"
+            ? `فشل الرفع: ${errMsg || "تأكد أن حجم الملف أقل من 4 ميجابايت وأنك مسجّل كمعلم/أدمن"}`
+            : `Upload failed: ${errMsg || "Keep file under 4MB and login as teacher/admin"}`,
+      });
     } finally {
       setUploading(false);
     }
@@ -425,7 +444,7 @@ export const PdfLibraryWorkspace: React.FC = () => {
                 {upFile ? upFile.name : lang === "ar" ? "اضغط لاختيار ملف PDF من جهازك" : "Click to select a PDF file"}
               </p>
               <p className="text-[10px] text-slate-400 mt-1">
-                {lang === "ar" ? "الحد الأقصى: 50 ميجابايت" : "Maximum size: 50MB"}
+                {lang === "ar" ? "الحد الأقصى: 4 ميجابايت (قيود السيرفر)" : "Maximum size: 4MB (server limit)"}
               </p>
             </label>
 
