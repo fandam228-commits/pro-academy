@@ -26,6 +26,8 @@ import { HomeworkWorkspace } from "@/components/HomeworkWorkspace";
 import { AttendanceWorkspace } from "@/components/AttendanceWorkspace";
 import { NotificationCenter } from "@/components/NotificationCenter";
 import { WeeklyReport } from "@/components/WeeklyReport";
+import { AnalyticsReports } from "@/components/AnalyticsReports";
+import { DownloadAppPage } from "@/components/DownloadAppPage";
 import { QuizPlayer } from "@/components/QuizPlayer";
 import {
   GraduationCap,
@@ -41,6 +43,7 @@ import {
   Shuffle,
   BrainCircuit,
   Heart,
+  Smartphone,
 } from "lucide-react";
 
 function MainAppContent() {
@@ -228,6 +231,14 @@ function MainAppContent() {
                     </button>
 
                     <button
+                      onClick={() => setActiveTab("download")}
+                      className="px-8 py-4 rounded-2xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 text-white font-extrabold text-sm shadow-xl shadow-emerald-500/25 flex items-center gap-2 transition-all hover:scale-105"
+                    >
+                      <Smartphone className="w-5 h-5" />
+                      <span>{lang === "ar" ? "📱 نزّل التطبيق على موبايلك" : "📱 Install Mobile App"}</span>
+                    </button>
+
+                    <button
                       onClick={() => setActiveTab("placement")}
                       className="px-8 py-4 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-800 dark:text-slate-200 font-extrabold text-sm hover:bg-slate-50 dark:hover:bg-slate-800 shadow-md transition-all"
                     >
@@ -403,7 +414,7 @@ function MainAppContent() {
           <BlogView />
         ) : activeTab === "notifications" ? (
 
-          /* VIEW: REAL NOTIFICATION CENTER */
+          /* VIEW: NOTIFICATION CENTER (real + push) */
           <NotificationCenter />
         ) : activeTab === "gamification" ? (
 
@@ -433,6 +444,14 @@ function MainAppContent() {
 
           /* VIEW: WEEKLY STUDENT REPORT */
           <WeeklyReport />
+        ) : activeTab === "analytics" ? (
+
+          /* VIEW: ANALYTICS & REPORTS */
+          <AnalyticsReports />
+        ) : activeTab === "download" ? (
+
+          /* VIEW: DOWNLOAD / INSTALL APP */
+          <DownloadAppPage />
         ) : null}
 
       </main>

@@ -98,6 +98,12 @@ export const Footer: React.FC<{ setActiveTab?: (tab: string) => void }> = ({ set
             </h4>
             <ul className="space-y-2 text-xs text-slate-400">
               <li>
+                <button onClick={() => setActiveTab && setActiveTab("download")} className="text-emerald-400 hover:text-emerald-300 font-bold transition-colors flex items-center gap-1.5">
+                  <MessageCircle className="w-3.5 h-3.5" />
+                  {lang === "ar" ? "📱 تحميل تطبيق الموبايل" : "📱 Install Mobile App"}
+                </button>
+              </li>
+              <li>
                 <button onClick={() => setActiveTab && setActiveTab("pdfs")} className="hover:text-blue-400 transition-colors">
                   {lang === "ar" ? "مكتبة ملفات PDF المحمية" : "Protected PDF Library"}
                 </button>

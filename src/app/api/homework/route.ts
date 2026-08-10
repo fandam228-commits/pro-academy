@@ -4,6 +4,7 @@ import { eq, and } from "drizzle-orm";
 import { NextResponse } from "next/server";
 import { ensureDbSetup } from "@/db/migrate-and-seed";
 import { requireRoles, getAuthContext } from "@/lib/security";
+import { notifyUser } from "@/lib/push";
 import fs from "fs";
 import path from "path";
 
@@ -138,14 +139,14 @@ export async function POST(req: Request) {
       };
       await db.insert(homeworkSubmissions).values(sub);
 
-      // Notify teacher
-      await db.insert(notifications).values({
-        id: `notif_${Date.now()}`,
-        userId: hw[0].teacherId,
-        title: "📥 تسليم واجب جديد",
-        message: `${ctx.user.name} سلّم واجب: ${hw[0].title}`,
-        type: "info",
-      });
+      // Notify teacher (in-app + device push)
+      await notifyUser(
+        hw[0].teacherId,
+        "📥 تسليم واجب جديد",
+        `${ctx.user.name} سلّم واجب: ${hw[0].title}`,
+        "info",
+        "/?tab=homework"
+      );
 
       return NextResponse.json({ success: true, submission: sub });
     } catch (error) {
@@ -187,13 +188,13 @@ export async function POST(req: Request) {
       const students = await db.select().from(users).where(eq(users.role, "student"));
       for (const st of students) {
         if (st.grade === newHw.grade) {
-          await db.insert(notifications).values({
-            id: `notif_${Date.now()}_${st.id}`,
-            userId: st.id,
-            title: "📝 واجب جديد من المدرس",
-            message: `واجب "${newHw.title}" — موعد التسليم: ${newHw.dueDate}`,
-            type: "quiz",
-          });
+          await notifyUser(
+            st.id,
+            "📝 واجب جديد من المدرس",
+            `واجب "${newHw.title}" — موعد التسليم: ${newHw.dueDate}`,
+            "quiz",
+            "/?tab=homework"
+          );
         }
       }
 
@@ -226,13 +227,13 @@ export async function POST(req: Request) {
         .where(eq(users.id, subs[0].studentId))
         .catch(() => null);
 
-      await db.insert(notifications).values({
-        id: `notif_${Date.now()}`,
-        userId: subs[0].studentId,
-        title: "✅ تم تصحيح واجبك",
-        message: `درجتك في "${hw[0]?.title || "الواجب"}": ${safeScore}/${maxPts}${feedback ? ` — ملاحظة المدرس: ${feedback}` : ""}`,
-        type: "quiz",
-      });
+      await notifyUser(
+        subs[0].studentId,
+        "✅ تم تصحيح واجبك",
+        `درجتك في "${hw[0]?.title || "الواجب"}": ${safeScore}/${maxPts}${feedback ? ` — ملاحظة المدرس: ${feedback}` : ""}`,
+        "quiz",
+        "/?tab=homework"
+      );
 
       return NextResponse.json({ success: true });
     }

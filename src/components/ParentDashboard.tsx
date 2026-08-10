@@ -4,7 +4,8 @@ import React, { useState, useEffect } from "react";
 import { useApp } from "@/context/AppContext";
 import { buildWhatsAppLink } from "@/config/platform";
 import { authHeaders } from "@/lib/client-auth";
-import { Users, CheckCircle, BarChart3, Clock, MessageSquare, Phone, ShieldCheck, Award, FileBarChart } from "lucide-react";
+import { Users, CheckCircle, BarChart3, Clock, MessageSquare, Phone, ShieldCheck, Award } from "lucide-react";
+// BarChart3 powers the new "Full Performance Report" action
 
 export const ParentDashboard: React.FC<{ onOpenReport?: () => void }> = ({ onOpenReport }) => {
   const { lang, user } = useApp();
@@ -44,7 +45,7 @@ export const ParentDashboard: React.FC<{ onOpenReport?: () => void }> = ({ onOpe
   return (
     <div className="max-w-5xl mx-auto px-4 py-8 space-y-8">
       {/* HEADER CARD */}
-      <div className="bg-white dark:bg-slate-900 p-6 sm:p-8 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-xl flex flex-col sm:flex-row items-center justify-between gap-6">
+      <div className="bg-white dark:bg-slate-900 p-6 sm:p-8 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-xl flex flex-col sm:flex-row items-center justify-between gap-4 flex-wrap">
         <div className="flex items-center gap-4">
           <div className="w-16 h-16 rounded-2xl bg-amber-500 text-white flex items-center justify-center font-black text-2xl shadow-lg shadow-amber-500/25">
             <Users className="w-8 h-8" />
@@ -62,6 +63,17 @@ export const ParentDashboard: React.FC<{ onOpenReport?: () => void }> = ({ onOpe
           </div>
         </div>
 
+        {/* ACTIONS */}
+        {onOpenReport && (
+          <button
+            onClick={onOpenReport}
+            className="px-6 py-3 rounded-2xl bg-violet-600 hover:bg-violet-500 text-white font-extrabold text-xs shadow-lg shadow-violet-500/25 flex items-center gap-2 transition-all"
+          >
+            <BarChart3 className="w-4 h-4" />
+            <span>{lang === "ar" ? "تقرير الأداء التفصيلي" : "Full Performance Report"}</span>
+          </button>
+        )}
+
         {/* DIRECT WHATSAPP ACTION */}
         <a
           href={buildWhatsAppLink(
@@ -74,16 +86,6 @@ export const ParentDashboard: React.FC<{ onOpenReport?: () => void }> = ({ onOpe
           <Phone className="w-4 h-4" />
           <span>{lang === "ar" ? "تواصل مباشر مع مستر حبيب (واتساب)" : "Direct WhatsApp to Instructor"}</span>
         </a>
-
-        {onOpenReport && (
-          <button
-            onClick={onOpenReport}
-            className="px-6 py-3 rounded-2xl bg-indigo-600 hover:bg-indigo-500 text-white font-extrabold text-xs shadow-lg shadow-indigo-500/25 flex items-center gap-2 transition-all"
-          >
-            <BarChart3 className="w-4 h-4" />
-            <span>{lang === "ar" ? "التقرير الأسبوعي الشامل" : "Full Weekly Report"}</span>
-          </button>
-        )}
       </div>
 
       {/* METRICS GRID */}

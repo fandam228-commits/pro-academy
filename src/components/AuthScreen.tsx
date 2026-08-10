@@ -20,7 +20,6 @@ import {
   Loader2,
   KeyRound,
   CheckCircle2,
-  Gift,
 } from "lucide-react";
 
 export const AuthScreen: React.FC = () => {
@@ -42,17 +41,7 @@ export const AuthScreen: React.FC = () => {
   const [regGrade, setRegGrade] = useState("Third Secondary (Baccalaureate)");
   const [regPhone, setRegPhone] = useState("");
   const [regParentPhone, setRegParentPhone] = useState("");
-  const [regReferralCode, setRegReferralCode] = useState("");
   const [localError, setLocalError] = useState("");
-
-  // Auto-read referral from URL
-  React.useEffect(() => {
-    try {
-      const params = new URLSearchParams(window.location.search);
-      const ref = params.get("ref");
-      if (ref) { setRegReferralCode(ref); setMode("register"); }
-    } catch {}
-  }, []);
 
   const passwordStrength = (p: string): { score: number; label: string; color: string } => {
     let score = 0;
@@ -98,8 +87,7 @@ export const AuthScreen: React.FC = () => {
       grade: regGrade,
       phone: regPhone,
       parentPhone: regParentPhone,
-      referralCode: regReferralCode,
-    } as any);
+    });
   };
 
   const demoAccounts: { role: Role; label: string; icon: any; gradient: string }[] = [
@@ -449,21 +437,6 @@ export const AuthScreen: React.FC = () => {
                   </>
                 )}
               </button>
-
-              {/* REFERRAL CODE FIELD */}
-              <div className="pt-2 border-t border-slate-800/60">
-                <label className="text-[11px] font-bold text-slate-400 flex items-center gap-1.5 mb-1.5">
-                  <Gift className="w-3.5 h-3.5 text-amber-400" />
-                  {lang === "ar" ? "كود دعوة صديق (اختياري — خصم 25 نقطة مكافأة)" : "Referral code (optional — 25 points bonus)"}
-                </label>
-                <input
-                  type="text"
-                  value={regReferralCode}
-                  onChange={(e) => setRegReferralCode(e.target.value.toUpperCase())}
-                  placeholder="OMAR2025"
-                  className="w-full px-3 py-3 rounded-2xl bg-slate-800/80 border border-amber-500/30 text-xs font-mono font-bold text-center text-amber-300 placeholder:text-slate-600 focus:outline-none focus:border-amber-400 tracking-wider"
-                />
-              </div>
 
               <p className="text-[10px] text-slate-500 flex items-center gap-1.5 justify-center">
                 <CheckCircle2 className="w-3 h-3 text-emerald-500" />

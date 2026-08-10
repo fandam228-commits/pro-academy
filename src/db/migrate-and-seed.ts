@@ -375,6 +375,18 @@ export async function ensureDbSetup() {
 
       CREATE INDEX IF NOT EXISTS idx_att_student ON attendance_records(student_id);
       CREATE INDEX IF NOT EXISTS idx_att_date ON attendance_records(session_date);
+
+      CREATE TABLE IF NOT EXISTS push_subscriptions (
+        id TEXT PRIMARY KEY,
+        user_id TEXT NOT NULL,
+        endpoint TEXT NOT NULL UNIQUE,
+        p256dh TEXT NOT NULL,
+        auth TEXT NOT NULL,
+        user_agent TEXT,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
+      );
+
+      CREATE INDEX IF NOT EXISTS idx_push_user ON push_subscriptions(user_id);
     `);
 
     // Run seed data

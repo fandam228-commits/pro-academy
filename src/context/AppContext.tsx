@@ -30,7 +30,6 @@ interface RegisterPayload {
   grade?: string;
   phone?: string;
   parentPhone?: string;
-  referralCode?: string;
 }
 
 interface AppContextType {
@@ -49,6 +48,7 @@ interface AppContextType {
   toggleTheme: () => void;
   toggleLang: () => void;
   notificationsCount: number;
+  refreshNotifications: () => Promise<void>;
   t: (key: string) => string;
 }
 
@@ -65,7 +65,20 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const [authError, setAuthError] = useState<string | null>(null);
   const [lang, setLang] = useState<Language>("ar");
   const [theme, setTheme] = useState<"light" | "dark">("light");
-  const [notificationsCount] = useState<number>(3);
+  const [notificationsCount, setNotificationsCount] = useState<number>(0);
+
+  // Live unread notification badge (polls quietly while logged in)
+  const refreshNotifications = async () => {
+    const stored = getStoredToken();
+    if (!stored) return;
+    try {
+      const res = await fetch("/api/notifications", { headers: { Authorization: `Bearer ${stored}` } });
+      if (res.ok) {
+        const json = await res.json();
+        setNotificationsCount(json.unreadCount || 0);
+      }
+    } catch {}
+  };
 
   // Restore session on first load
   useEffect(() => {
@@ -94,6 +107,18 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       }
     })();
   }, []);
+
+  // Poll unread notifications while a user session is active
+  useEffect(() => {
+    if (!user) {
+      setNotificationsCount(0);
+      return;
+    }
+    refreshNotifications();
+    const interval = setInterval(refreshNotifications, 45000);
+    return () => clearInterval(interval);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user?.id]);
 
   useEffect(() => {
     if (typeof document !== "undefined") {
@@ -222,6 +247,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         toggleTheme,
         toggleLang,
         notificationsCount,
+        refreshNotifications,
         t,
       }}
     >

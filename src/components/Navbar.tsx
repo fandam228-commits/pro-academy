@@ -28,6 +28,8 @@ import {
   Search,
   NotebookPen,
   ClipboardCheck,
+  BarChart3,
+  Smartphone,
 } from "lucide-react";
 
 export const Navbar: React.FC<{ activeTab?: string; setActiveTab?: (tab: string) => void }> = ({
@@ -195,6 +197,13 @@ export const Navbar: React.FC<{ activeTab?: string; setActiveTab?: (tab: string)
               >
                 <CalendarDays className="w-4 h-4" />
               </button>
+              <button
+                onClick={() => setActiveTab && setActiveTab("analytics")}
+                className={`p-2 rounded-xl transition-all ${activeTab === "analytics" ? "bg-white dark:bg-slate-900 text-violet-600 shadow-sm" : "text-slate-500 hover:text-slate-800 dark:hover:text-slate-200"}`}
+                title={lang === "ar" ? "التقارير والتحليلات" : "Analytics & Reports"}
+              >
+                <BarChart3 className="w-4 h-4" />
+              </button>
             </div>
 
             {/* STREAK & POINTS */}
@@ -262,6 +271,20 @@ export const Navbar: React.FC<{ activeTab?: string; setActiveTab?: (tab: string)
               )}
             </div>
 
+            {/* DOWNLOAD APP CTA */}
+            <button
+              onClick={() => setActiveTab && setActiveTab("download")}
+              className={`hidden sm:flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-extrabold shadow-lg transition-all ${
+                activeTab === "download"
+                  ? "bg-emerald-700 text-white"
+                  : "bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 text-white shadow-emerald-500/25"
+              }`}
+              title={lang === "ar" ? "تحميل التطبيق على الموبايل" : "Install mobile app"}
+            >
+              <Smartphone className="w-4 h-4" />
+              <span className="hidden lg:inline">{lang === "ar" ? "تحميل التطبيق" : "Get App"}</span>
+            </button>
+
             {/* LANGUAGE TOGGLE */}
             <button
               onClick={toggleLang}
@@ -287,7 +310,9 @@ export const Navbar: React.FC<{ activeTab?: string; setActiveTab?: (tab: string)
             >
               <Bell className="w-4 h-4" />
               {notificationsCount > 0 && (
-                <span className="absolute top-1 right-1 w-2 h-2 rounded-full bg-red-500 ring-2 ring-white dark:ring-slate-900" />
+                <span className="absolute -top-1 -right-1 rtl:-left-1 rtl:right-auto min-w-[18px] h-[18px] px-1 rounded-full bg-red-500 text-white text-[9px] font-black flex items-center justify-center ring-2 ring-white dark:ring-slate-900 animate-pulse">
+                  {notificationsCount > 9 ? "9+" : notificationsCount}
+                </span>
               )}
             </button>
 
@@ -325,6 +350,16 @@ export const Navbar: React.FC<{ activeTab?: string; setActiveTab?: (tab: string)
         <div className="md:hidden border-t border-slate-200 dark:border-slate-800 bg-white/95 dark:bg-slate-900/95 backdrop-blur-lg px-4 pt-3 pb-6 space-y-2">
           <button
             onClick={() => {
+              setActiveTab && setActiveTab("download");
+              setMobileMenuOpen(false);
+            }}
+            className="w-full px-4 py-3 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 text-white font-extrabold text-sm flex items-center justify-center gap-2 shadow-lg"
+          >
+            <Smartphone className="w-4 h-4" />
+            <span>{lang === "ar" ? "📱 تحميل التطبيق على تليفونك" : "📱 Install Mobile App"}</span>
+          </button>
+          <button
+            onClick={() => {
               setActiveTab && setActiveTab("home");
               setMobileMenuOpen(false);
             }}
@@ -351,6 +386,16 @@ export const Navbar: React.FC<{ activeTab?: string; setActiveTab?: (tab: string)
           >
             <ClipboardCheck className="w-4 h-4 text-teal-500" />
             <span>{lang === "ar" ? "الحضور والغياب" : "Attendance"}</span>
+          </button>
+          <button
+            onClick={() => {
+              setActiveTab && setActiveTab("analytics");
+              setMobileMenuOpen(false);
+            }}
+            className="w-full text-start px-4 py-2.5 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 font-medium text-slate-800 dark:text-slate-200 flex items-center gap-2"
+          >
+            <BarChart3 className="w-4 h-4 text-violet-500" />
+            <span>{lang === "ar" ? "التقارير والتحليلات" : "Analytics & Reports"}</span>
           </button>
           <button
             onClick={() => {
