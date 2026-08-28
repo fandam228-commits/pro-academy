@@ -1,6 +1,7 @@
 import { db } from "@/db";
 import { pdfDocuments } from "@/db/schema";
 import { eq } from "drizzle-orm";
+import fs from "fs";
 import { NextResponse } from "next/server";
 import { ensureDbSetup } from "@/db/migrate-and-seed";
 
@@ -66,13 +67,14 @@ export async function GET(
         .where(eq(pdfDocuments.id, id));
     }
 
-    // Redirect to Vercel Blob URL or external URL
-    const fileUrl = doc.externalUrl;
-    if (!fileUrl) {
-      return NextResponse.json({ error: "No file URL" }, { status: 404 });
-    }
-
-    return NextResponse.redirect(fileUrl);
+    const disposition = isDownload && doc.allowDownload ? "attachment" : "inline";
+    return new NextResponse(new Uint8Array(fileBuffer), {
+      headers: {
+        "Content-Type": "application/pdf",
+        "Content-Disposition": `${disposition}; filename="${doc.fileName}"`,
+        "Content-Length": String(fileBuffer.length),
+      },
+    });
   } catch (error) {
     console.error("PDF stream error:", error);
     return NextResponse.json({ error: "Failed to stream PDF" }, { status: 500 });
