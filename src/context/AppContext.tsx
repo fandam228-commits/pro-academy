@@ -1,8 +1,6 @@
 "use client";
 
 import React, { createContext, useContext, useState, useEffect } from "react";
-import { clearStoredToken } from "@/lib/client-auth";
-
 export type Role = "admin" | "teacher" | "student" | "parent";
 export type Language = "en" | "ar";
 
@@ -87,10 +85,8 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
           setUser(data.user);
           setToken(null);
         } else {
-          clearStoredToken();
         }
       } catch {
-        clearStoredToken();
       } finally {
         setAuthLoading(false);
       }
@@ -186,7 +182,6 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     } catch {}
     setUser(null);
     setToken(null);
-    clearStoredToken();
   };
 
   const t = (key: string): string => translations[key]?.[lang] ?? key;
