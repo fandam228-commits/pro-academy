@@ -212,6 +212,12 @@ export async function POST(req: Request) {
       }
 
       const hw = await db.select().from(homework).where(eq(homework.id, subs[0].homeworkId));
+      if (hw.length === 0) {
+        return NextResponse.json({ error: "Homework not found" }, { status: 404 });
+      }
+      if (ctx.user.role === "teacher" && hw[0].teacherId !== ctx.user.id) {
+        return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+      }
       const maxPts = hw[0]?.totalPoints || 50;
       const safeScore = Math.max(0, Math.min(parseInt(score) || 0, maxPts));
 
@@ -241,6 +247,10 @@ export async function POST(req: Request) {
     if (action === "delete") {
       const { denied } = await requireRoles(req, ["admin", "teacher"]);
       if (denied) return denied;
+      if (ctx.user.role === "teacher") {
+        const own = await db.select({ id: homework.id }).from(homework).where(and(eq(homework.id, body.homeworkId), eq(homework.teacherId, ctx.user.id)));
+        if (own.length === 0) return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+      }
       await db.delete(homework).where(eq(homework.id, body.homeworkId));
       return NextResponse.json({ success: true });
     }
