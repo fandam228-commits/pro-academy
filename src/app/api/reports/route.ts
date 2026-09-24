@@ -34,15 +34,21 @@ export async function GET(req: Request) {
     // Parent: find linked student
     if (ctx.user.role === "parent") {
       const links = await db.select().from(parentLinks).where(eq(parentLinks.parentId, ctx.user.id));
-      studentId = links[0]?.studentId || studentId || "usr_student_1";
+      studentId = links[0]?.studentId || null;
     } else if (ctx.user.role === "student") {
       studentId = ctx.user.id;
     }
 
+    if (ctx.user.role !== "admin" && ctx.user.role !== "teacher" && ctx.user.role !== "parent" && ctx.user.role !== "student") return NextResponse.json({ error: "Forbidden" }, { status: 403 });
     if (!studentId) {
       return NextResponse.json({ error: "No student specified" }, { status: 400 });
     }
 
+    if (ctx.user.role === "parent") {
+      const links = await db.select().from(parentLinks).where(eq(parentLinks.parentId, ctx.user.id));
+      if (!links.some((l) => l.studentId === studentId)) return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+    }
+    if (ctx.user.role === "student" && studentId !== ctx.user.id) return NextResponse.json({ error: "Forbidden" }, { status: 403 });
     const stList = await db.select().from(users).where(eq(users.id, studentId));
     if (stList.length === 0) return NextResponse.json({ error: "Student not found" }, { status: 404 });
     const student = stList[0];
