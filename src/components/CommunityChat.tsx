@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { useApp } from "@/context/AppContext";
+import { authHeaders } from "@/lib/client-auth";
 import { MessageSquare, Send, User, ShieldCheck, Sparkles } from "lucide-react";
 
 export const CommunityChat: React.FC = () => {
