@@ -44,6 +44,7 @@ export const StudentDashboard: React.FC<{ onSelectCourse?: (courseId: string) =>
   }, [user?.role]);
 
   const weakestRules = mastery.slice().sort((a, b) => Number(a.masteryPercent) - Number(b.masteryPercent)).slice(0, 4);
+  const recommendedRule = weakestRules[0];
 
   // Fetch Planner Tasks
   const fetchPlanner = async () => {
@@ -281,9 +282,19 @@ export const StudentDashboard: React.FC<{ onSelectCourse?: (courseId: string) =>
             ) : <div className="space-y-3">{weakestRules.map((r) => <div key={r.id} className="rounded-2xl border border-slate-200 dark:border-slate-800 p-3">
               <div className="flex items-center justify-between gap-3"><div className="min-w-0"><div className="text-xs font-black text-slate-900 dark:text-white truncate">{r.grammarTopic}</div><div className="text-[9px] text-slate-400">{r.grade} • {r.unit}</div></div><div className="text-xs font-black text-blue-600">{r.masteryPercent}%</div></div>
               <div className="mt-2 h-2 rounded-full bg-slate-100 dark:bg-slate-800 overflow-hidden"><div className="h-full rounded-full bg-blue-600" style={{width: `${Math.min(100, Math.max(0, Number(r.masteryPercent)))}%`}} /></div>
-              <div className="mt-2 flex items-center gap-1 text-[9px] font-bold text-slate-500"><AlertCircle className="w-3 h-3" />{r.status}</div>
+              <div className="mt-2 flex items-center justify-between gap-2"><div className="flex items-center gap-1 text-[9px] font-bold text-slate-500"><AlertCircle className="w-3 h-3" />{r.status}</div><a href={`/?tab=grammar&grade=${encodeURIComponent(r.grade)}&curriculum=${encodeURIComponent(r.curriculum)}&term=${encodeURIComponent(r.term)}&unit=${encodeURIComponent(r.unit)}&grammarTopic=${encodeURIComponent(r.grammarTopic)}`} className="rounded-lg bg-blue-600 px-2.5 py-1.5 text-[9px] font-black text-white">راجع القاعدة</a></div>
             </div>)}</div>}
           </div>
+          {recommendedRule && Number(recommendedRule.masteryPercent) < 90 && (
+            <div className="bg-gradient-to-br from-amber-500 to-orange-600 rounded-3xl p-5 text-white shadow-xl">
+              <div className="flex items-center gap-2 text-sm font-black"><BrainCircuit className="w-4 h-4" />مراجعة مقترحة الآن</div>
+              <div className="mt-3 text-base font-black">{recommendedRule.grammarTopic}</div>
+              <div className="mt-1 text-[10px] text-amber-50">{recommendedRule.grade} • {recommendedRule.unit} • إتقان {recommendedRule.masteryPercent}%</div>
+              <p className="mt-3 text-[10px] leading-5 text-amber-50">ابدأ بفيديو الشرح، وبعده حل 5 أسئلة من نفس القاعدة. المنصة هتسجل النتيجة تلقائيًا.</p>
+              <a href={`/?tab=grammar&grade=${encodeURIComponent(recommendedRule.grade)}&curriculum=${encodeURIComponent(recommendedRule.curriculum)}&term=${encodeURIComponent(recommendedRule.term)}&unit=${encodeURIComponent(recommendedRule.unit)}&grammarTopic=${encodeURIComponent(recommendedRule.grammarTopic)}`} className="mt-3 inline-flex w-full items-center justify-center rounded-xl bg-white px-4 py-2.5 text-xs font-black text-orange-700">ابدأ المراجعة →</a>
+            </div>
+          )}
+
           {/* POMODORO FOCUS TIMER */}
           <div className="bg-white dark:bg-slate-900 p-6 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-xl text-center">
             <h2 className="text-sm font-extrabold text-slate-900 dark:text-white mb-2 flex items-center justify-center gap-1.5">
