@@ -40,7 +40,6 @@ interface AppContextType {
   login: (email: string, password: string) => Promise<boolean>;
   register: (payload: RegisterPayload) => Promise<boolean>;
   logout: () => Promise<void>;
-  switchRole: (role: Role) => Promise<void>;
   clearAuthError: () => void;
   lang: Language;
   setLang: (lang: Language) => void;
@@ -189,31 +188,6 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     }
   };
 
-  // Demo persona login (real login under the hood → issues a real session)
-  const switchRole = async (role: Role): Promise<void> => {
-    setAuthError(null);
-    setAuthLoading(true);
-    try {
-      const res = await fetch("/api/auth", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ action: "switch-role", role }),
-      });
-      const data = await res.json();
-      if (data.success && data.user && data.token) {
-        setUser(data.user);
-        setToken(data.token);
-        setStoredToken(data.token);
-      } else {
-        setAuthError(data.error || "Demo login failed");
-      }
-    } catch {
-      setAuthError("Network error. Please try again.");
-    } finally {
-      setAuthLoading(false);
-    }
-  };
-
   const logout = async (): Promise<void> => {
     try {
       await fetch("/api/auth", {
@@ -239,7 +213,6 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         login,
         register,
         logout,
-        switchRole,
         clearAuthError,
         lang,
         setLang,
