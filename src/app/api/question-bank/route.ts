@@ -399,7 +399,27 @@ export async function POST(req: Request) {
       });
     }
 
-    // 5. SUBMIT GENERATED SMART EXAM
+    // 5. SUBMIT QUICK GRAMMAR PRACTICE
+    if (action === "submit_practice") {
+      const answers = body.answers || {};
+      const questionIds = Array.isArray(body.questionIds) ? body.questionIds.map(String) : [];
+      if (!questionIds.length) return NextResponse.json({ error: "No practice questions supplied" }, { status: 400 });
+      const rows = await db.select().from(questionBank).where(inArray(questionBank.id, questionIds));
+      const byId = new Map(rows.map((q) => [q.id, q]));
+      let score = 0;
+      const feedback: Record<string, any> = {};
+      for (const id of questionIds) {
+        const q = byId.get(id);
+        if (!q) continue;
+        const studentAnswer = String(answers[id] || "").trim();
+        const isCorrect = studentAnswer.toLowerCase() === String(q.correctAnswer || "").trim().toLowerCase();
+        if (isCorrect) score++;
+        feedback[id] = { isCorrect, correctAnswer: q.correctAnswer, explanation: q.explanation };
+      }
+      return NextResponse.json({ success: true, score, total: questionIds.length, feedback });
+    }
+
+    // 6. SUBMIT GENERATED SMART EXAM
     if (action === "submit_exam") {
       const { examId, studentId, userAnswers } = body;
       if (ctx.user.role !== "admin" && ctx.user.role !== "teacher" && studentId !== ctx.user.id) return NextResponse.json({ error: "Forbidden" }, { status: 403 });
