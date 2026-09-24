@@ -28,6 +28,7 @@ import { NotificationCenter } from "@/components/NotificationCenter";
 import { WeeklyReport } from "@/components/WeeklyReport";
 import { AnalyticsReports } from "@/components/AnalyticsReports";
 import { DownloadAppPage } from "@/components/DownloadAppPage";
+import { GrammarLibrary } from "@/components/GrammarLibrary";
 import { QuizPlayer } from "@/components/QuizPlayer";
 import {
   GraduationCap,
@@ -355,6 +356,10 @@ function MainAppContent() {
           
           /* VIEW: PDF LIBRARY WORKSPACE */
           <PdfLibraryWorkspace />
+        ) : activeTab === "grammar" ? (
+          
+          /* VIEW: GRAMMAR VIDEO LIBRARY */
+          <GrammarLibrary />
         ) : activeTab === "courses" ? (
           
           /* VIEW: ALL COURSES FILTERABLE */
