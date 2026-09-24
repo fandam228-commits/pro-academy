@@ -2,7 +2,6 @@
 
 import React, { useState, useEffect } from "react";
 import { useApp } from "@/context/AppContext";
-import { authHeaders } from "@/lib/client-auth";
 import {
   Bell,
   BellRing,
@@ -48,7 +47,7 @@ export const NotificationCenter: React.FC = () => {
   const load = async () => {
     setLoading(true);
     try {
-      const res = await fetch("/api/notifications", { headers: { ...authHeaders() } });
+      const res = await fetch("/api/notifications");
       const json = await res.json();
       setItems(json.notifications || []);
       setUnread(json.unreadCount || 0);
