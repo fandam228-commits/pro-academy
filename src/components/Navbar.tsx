@@ -131,6 +131,13 @@ export const Navbar: React.FC<{ activeTab?: string; setActiveTab?: (tab: string)
               <FileText className="w-4 h-4 text-sky-500" />
               <span>{lang === "ar" ? "مكتبة PDF" : "PDF Library"}</span>
             </button>
+            <button
+              onClick={() => setActiveTab && setActiveTab("grammar")}
+              className={"px-3.5 py-2 rounded-xl transition-all flex items-center gap-1.5 " + (activeTab === "grammar" ? "bg-blue-50 dark:bg-slate-800 text-blue-600 dark:text-blue-400 font-semibold" : "hover:bg-slate-100 dark:hover:bg-slate-800")}
+            >
+              <BookOpen className="w-4 h-4 text-violet-500" />
+              <span>{lang === "ar" ? "شرح القواعد" : "Grammar Library"}</span>
+            </button>
 
             <button
               onClick={() => setActiveTab && setActiveTab("placement")}
@@ -416,6 +423,16 @@ export const Navbar: React.FC<{ activeTab?: string; setActiveTab?: (tab: string)
           >
             <FileText className="w-4 h-4 text-sky-500" />
             <span>{lang === "ar" ? "مكتبة ملفات PDF" : "PDF Library"}</span>
+          </button>
+          <button
+            onClick={() => {
+              setActiveTab && setActiveTab("grammar");
+              setMobileMenuOpen(false);
+            }}
+            className="w-full text-start px-4 py-2.5 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 font-medium text-slate-800 dark:text-slate-200 flex items-center gap-2"
+          >
+            <BookOpen className="w-4 h-4 text-violet-500" />
+            <span>{lang === "ar" ? "شرح القواعد" : "Grammar Library"}</span>
           </button>
           <button
             onClick={() => {
