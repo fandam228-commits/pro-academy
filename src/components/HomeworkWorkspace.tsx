@@ -2,7 +2,6 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import { useApp } from "@/context/AppContext";
-import { authHeaders } from "@/lib/client-auth";
 import {
   NotebookPen,
   Plus,
@@ -54,7 +53,7 @@ export const HomeworkWorkspace: React.FC = () => {
   const fetchList = async () => {
     setLoading(true);
     try {
-      const res = await fetch("/api/homework", { headers: { ...authHeaders() } });
+      const res = await fetch("/api/homework");
       const json = await res.json();
       setList(json.homeworkList || []);
     } catch {}
@@ -68,7 +67,7 @@ export const HomeworkWorkspace: React.FC = () => {
   const openDetail = async (hw: any) => {
     setDetail(null);
     try {
-      const res = await fetch(`/api/homework?homeworkId=${hw.id}`, { headers: { ...authHeaders() } });
+      const res = await fetch(`/api/homework?homeworkId=${hw.id}`);
       const json = await res.json();
       setDetail(json);
     } catch {}
