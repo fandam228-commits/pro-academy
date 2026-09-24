@@ -1,11 +1,9 @@
 import { db } from "@/db";
-import { pdfDocuments } from "@/db/schema";
-import { eq } from "drizzle-orm";
+import { pdfDocuments, enrollments } from "@/db/schema";
+import { eq, and } from "drizzle-orm";
 import { NextResponse } from "next/server";
 import { ensureDbSetup } from "@/db/migrate-and-seed";
 import { requireRoles, getAuthContext } from "@/lib/security";
-import { enrollments } from "@/db/schema";
-import { and } from "drizzle-orm";
 
 // Vercel serverless body limit is ~4.5MB — keep uploads under that.
 const MAX_SIZE_BYTES = 4 * 1024 * 1024; // 4MB
