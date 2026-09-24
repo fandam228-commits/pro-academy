@@ -18,6 +18,9 @@ export async function GET(req: Request) {
   const unit = searchParams.get("unit");
   const questionType = searchParams.get("questionType");
   const difficulty = searchParams.get("difficulty");
+  const source = searchParams.get("source");
+  const lesson = searchParams.get("lesson");
+  const section = searchParams.get("section");
   const grammarTopic = searchParams.get("grammarTopic");
   const topic = searchParams.get("topic");
   const search = searchParams.get("search");
@@ -49,6 +52,15 @@ export async function GET(req: Request) {
     }
     if (difficulty) {
       allQuestions = allQuestions.filter((q) => q.difficulty.toLowerCase() === difficulty.toLowerCase());
+    }
+    if (source) {
+      allQuestions = allQuestions.filter((q) => (q.source || "").toLowerCase() === source.toLowerCase());
+    }
+    if (lesson) {
+      allQuestions = allQuestions.filter((q) => (q.lesson || "").toLowerCase() === lesson.toLowerCase());
+    }
+    if (section) {
+      allQuestions = allQuestions.filter((q) => (q.section || "").toLowerCase() === section.toLowerCase());
     }
     if (grammarTopic) {
       allQuestions = allQuestions.filter((q) => q.grammarTopic?.toLowerCase() === grammarTopic.toLowerCase());
@@ -143,6 +155,7 @@ export async function POST(req: Request) {
         tags: qData.tags || [],
         unit: qData.unit || "Unit 1",
         lesson: qData.lesson || "Lesson 1",
+        section: qData.section || null,
         difficulty: qData.difficulty || "Medium",
         skill: qData.skill || "Grammar & Context",
         wordType: qData.wordType || null,
@@ -176,7 +189,7 @@ export async function POST(req: Request) {
 
       const q = body.question || {};
       const patch: any = {};
-      const fields = ["domainCategory","questionText","questionType","stage","grade","curriculum","term","unit","lesson","difficulty","skill","wordType","topic","bloomLevel","grammarTopic","passageText","audioUrl","options","correctAnswer","explanation","points","source","tags"];
+      const fields = ["domainCategory","questionText","questionType","stage","grade","curriculum","term","unit","lesson","section","difficulty","skill","wordType","topic","bloomLevel","grammarTopic","passageText","audioUrl","options","correctAnswer","explanation","points","source","tags"];
       for (const field of fields) if (q[field] !== undefined) patch[field] = q[field];
       if (!patch.questionText || !patch.correctAnswer) {
         return NextResponse.json({ error: "Question text and correct answer are required." }, { status: 400 });
@@ -216,6 +229,7 @@ export async function POST(req: Request) {
           tags: item.tags || [],
           unit: item.unit || "Unit 1",
           lesson: item.lesson || "Lesson 1",
+          section: item.section || null,
           difficulty: item.difficulty || "Medium",
           skill: item.skill || "Language Proficiency",
           wordType: item.wordType || null,
@@ -284,7 +298,8 @@ export async function POST(req: Request) {
           source: body.source || "AI Generated",
           tags: body.tags || [],
           unit: "Unit 1",
-          lesson: "Lesson 1",
+          lesson: body.lesson || "Lesson 1",
+          section: body.section || null,
           difficulty: difficulty || "Medium",
           skill: domain === "Grammar" ? "Grammar & Structure" : "Vocabulary & Context",
           wordType: domain === "Vocabulary" ? "Adjective" : null,
@@ -311,8 +326,9 @@ export async function POST(req: Request) {
 
     // 4. SMART EXAM GENERATOR
     if (action === "generate_smart_exam") {
-      const { studentId, stage, grade, curriculum, term, unit, domainCategory, questionType, difficulty, questionCount, easyPercent, mediumPercent, hardPercent, grammarRatio } = body;
+      const { studentId, stage, grade, curriculum, term, unit, domainCategory, questionType, difficulty, source, lesson, section, questionCount, easyPercent, mediumPercent, hardPercent, grammarRatio } = body;
 
+      if (!grade) return NextResponse.json({ error: "grade is required for exact exam scope" }, { status: 400 });
       if (ctx.user.role === "student" && studentId && studentId !== ctx.user.id) return NextResponse.json({ error: "Forbidden" }, { status: 403 });
       const effectiveStudentId = ctx.user.role === "student" ? ctx.user.id : studentId;
       const totalNum = Math.min(parseInt(questionCount) || 15, 100);
@@ -328,8 +344,11 @@ export async function POST(req: Request) {
       if (domainCategory) candidates = candidates.filter((q) => q.domainCategory === domainCategory);
       if (questionType) candidates = candidates.filter((q) => q.questionType === questionType);
       if (difficulty) candidates = candidates.filter((q) => q.difficulty === difficulty);
+      if (source) candidates = candidates.filter((q) => (q.source || "") === source);
+      if (lesson) candidates = candidates.filter((q) => (q.lesson || "") === lesson);
+      if (section) candidates = candidates.filter((q) => (q.section || "") === section);
       if (candidates.length === 0) {
-        candidates = await db.select().from(questionBank);
+        return NextResponse.json({ error: "No questions found for the exact selected curriculum scope. Nothing was mixed from another bank." }, { status: 404 });
       }
 
       // Shuffle candidate list
@@ -378,7 +397,7 @@ export async function POST(req: Request) {
         title: `Smart Exam: ${grade} (${totalNum} Questions)`,
         stage: stage || "Secondary",
         grade: grade || "Third Secondary (Baccalaureate)",
-        config: { questionCount: totalNum, easyPercent, mediumPercent, hardPercent, grammarRatio },
+        config: { questionCount: totalNum, easyPercent, mediumPercent, hardPercent, grammarRatio, stage, grade, curriculum, term, unit, domainCategory, questionType, difficulty, source, lesson, section },
         questionIds: Array.from(usedIds),
         questionsData: selected,
         totalPoints: selected.reduce((sum, q) => sum + (q.points || 10), 0),
