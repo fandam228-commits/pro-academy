@@ -23,6 +23,11 @@ export async function GET(req: Request) {
       }
 
       const qList = await db.select().from(questions).where(eq(questions.quizId, quizId));
+      // Never expose answer keys to students; grading remains server-side.
+      const safeQuestionList =
+        ctx.user.role === "admin" || ctx.user.role === "teacher"
+          ? qList
+          : qList.map(({ correctAnswer, ...q }) => q);
       
       let lastSubmission = null;
       if (studentId && studentId !== ctx.user.id && ctx.user.role !== "admin" && ctx.user.role !== "teacher") return NextResponse.json({ error: "Forbidden" }, { status: 403 });
@@ -38,7 +43,7 @@ export async function GET(req: Request) {
 
       return NextResponse.json({
         quiz: qz[0],
-        questions: qList,
+        questions: safeQuestionList,
         lastSubmission,
       });
     }
@@ -108,6 +113,22 @@ export async function POST(req: Request) {
       const qzList = await db.select().from(quizzes).where(eq(quizzes.id, quizId));
       
       const qz = qzList[0];
+      if (!qz) return NextResponse.json({ error: "Quiz not found" }, { status: 404 });
+
+      // Prevent students from farming points/streaks by submitting the same quiz repeatedly.
+      if (ctx.user.role === "student") {
+        const existing = await db
+          .select()
+          .from(quizSubmissions)
+          .where(and(eq(quizSubmissions.quizId, quizId), eq(quizSubmissions.studentId, ctx.user.id)));
+        if (existing.length > 0) {
+          return NextResponse.json(
+            { error: "Quiz already submitted", submission: existing[existing.length - 1] },
+            { status: 409 }
+          );
+        }
+      }
+
       let earnedScore = 0;
       let totalPossible = 0;
       const detailedFeedback: Record<string, any> = {};
