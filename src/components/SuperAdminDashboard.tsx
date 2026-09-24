@@ -2,7 +2,6 @@
 
 import React, { useState, useEffect } from "react";
 import { useApp } from "@/context/AppContext";
-import { authHeaders } from "@/lib/client-auth";
 import {
   Users,
   GraduationCap,
@@ -46,7 +45,7 @@ export const SuperAdminDashboard: React.FC = () => {
   const fetchAdminData = async () => {
     setLoading(true);
     try {
-      const res = await fetch("/api/admin", { headers: { ...authHeaders() } });
+      const res = await fetch("/api/admin");
       const json = await res.json();
       setData(json);
     } catch (e) {
