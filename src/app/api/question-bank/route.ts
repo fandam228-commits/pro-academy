@@ -11,12 +11,17 @@ export async function GET(req: Request) {
   if (!ctx) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   const { searchParams } = new URL(req.url);
   const domainCategory = searchParams.get("domainCategory"); // 'Vocabulary', 'Grammar'
+  const stage = searchParams.get("stage");
   const grade = searchParams.get("grade");
+  const curriculum = searchParams.get("curriculum");
+  const term = searchParams.get("term");
+  const unit = searchParams.get("unit");
+  const questionType = searchParams.get("questionType");
   const difficulty = searchParams.get("difficulty");
   const grammarTopic = searchParams.get("grammarTopic");
   const topic = searchParams.get("topic");
   const search = searchParams.get("search");
-  const limit = parseInt(searchParams.get("limit") || "100");
+  const limit = Math.min(Math.max(parseInt(searchParams.get("limit") || "100"), 1), 500);
 
   try {
     let allQuestions = await db.select().from(questionBank).limit(limit);
@@ -24,8 +29,23 @@ export async function GET(req: Request) {
     if (domainCategory) {
       allQuestions = allQuestions.filter((q) => q.domainCategory.toLowerCase() === domainCategory.toLowerCase());
     }
+    if (stage) {
+      allQuestions = allQuestions.filter((q) => q.stage.toLowerCase() === stage.toLowerCase());
+    }
     if (grade) {
       allQuestions = allQuestions.filter((q) => q.grade.toLowerCase() === grade.toLowerCase());
+    }
+    if (curriculum) {
+      allQuestions = allQuestions.filter((q) => (q.curriculum || "").toLowerCase() === curriculum.toLowerCase());
+    }
+    if (term) {
+      allQuestions = allQuestions.filter((q) => (q.term || "").toLowerCase() === term.toLowerCase());
+    }
+    if (unit) {
+      allQuestions = allQuestions.filter((q) => (q.unit || "").toLowerCase() === unit.toLowerCase());
+    }
+    if (questionType) {
+      allQuestions = allQuestions.filter((q) => q.questionType.toLowerCase() === questionType.toLowerCase());
     }
     if (difficulty) {
       allQuestions = allQuestions.filter((q) => q.difficulty.toLowerCase() === difficulty.toLowerCase());
@@ -78,6 +98,8 @@ function isDuplicateQuestion(newText: string, existingQuestions: { questionText:
 export async function POST(req: Request) {
   await ensureDbSetup();
   try {
+    const ctx = await getAuthContext(req);
+    if (!ctx) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     const body = await req.json();
     const { action } = body;
 
@@ -115,6 +137,10 @@ export async function POST(req: Request) {
         questionType: qData.questionType || "mcq",
         stage: qData.stage || "Secondary",
         grade: qData.grade || "Third Secondary (Baccalaureate)",
+        curriculum: qData.curriculum || "Ministry",
+        term: qData.term || "First",
+        source: qData.source || null,
+        tags: qData.tags || [],
         unit: qData.unit || "Unit 1",
         lesson: qData.lesson || "Lesson 1",
         difficulty: qData.difficulty || "Medium",
@@ -131,6 +157,33 @@ export async function POST(req: Request) {
 
       await db.insert(questionBank).values(newQ);
       return NextResponse.json({ success: true, question: newQ });
+    }
+
+    // 2. UPDATE / DELETE QUESTIONS
+    if (action === "update_question" || action === "delete_question") {
+      const { denied } = await requireRoles(req, ["admin", "teacher"]);
+      if (denied) return denied;
+      const id = String(body.id || "");
+      if (!id) return NextResponse.json({ error: "Question id is required" }, { status: 400 });
+
+      const existingRows = await db.select().from(questionBank).where(eq(questionBank.id, id));
+      if (existingRows.length === 0) return NextResponse.json({ error: "Question not found" }, { status: 404 });
+
+      if (action === "delete_question") {
+        await db.delete(questionBank).where(eq(questionBank.id, id));
+        return NextResponse.json({ success: true, deletedId: id });
+      }
+
+      const q = body.question || {};
+      const patch: any = {};
+      const fields = ["domainCategory","questionText","questionType","stage","grade","curriculum","term","unit","lesson","difficulty","skill","wordType","topic","bloomLevel","grammarTopic","passageText","audioUrl","options","correctAnswer","explanation","points","source","tags"];
+      for (const field of fields) if (q[field] !== undefined) patch[field] = q[field];
+      if (!patch.questionText || !patch.correctAnswer) {
+        return NextResponse.json({ error: "Question text and correct answer are required." }, { status: 400 });
+      }
+      await db.update(questionBank).set(patch).where(eq(questionBank.id, id));
+      const updated = await db.select().from(questionBank).where(eq(questionBank.id, id));
+      return NextResponse.json({ success: true, question: updated[0] });
     }
 
     // 2. BULK IMPORT (CSV / EXCEL / WORD PARSER SIMULATION)
@@ -157,6 +210,10 @@ export async function POST(req: Request) {
           questionType: item.questionType || "mcq",
           stage: item.stage || "Secondary",
           grade: item.grade || "Third Secondary (Baccalaureate)",
+          curriculum: item.curriculum || "Ministry",
+          term: item.term || "First",
+          source: item.source || null,
+          tags: item.tags || [],
           unit: item.unit || "Unit 1",
           lesson: item.lesson || "Lesson 1",
           difficulty: item.difficulty || "Medium",
@@ -222,6 +279,10 @@ export async function POST(req: Request) {
           questionType: "mcq",
           stage: stage || "Secondary",
           grade: grade || "Third Secondary (Baccalaureate)",
+          curriculum: body.curriculum || "Ministry",
+          term: body.term || "First",
+          source: body.source || "AI Generated",
+          tags: body.tags || [],
           unit: "Unit 1",
           lesson: "Lesson 1",
           difficulty: difficulty || "Medium",
@@ -250,7 +311,7 @@ export async function POST(req: Request) {
 
     // 4. SMART EXAM GENERATOR
     if (action === "generate_smart_exam") {
-      const { studentId, stage, grade, questionCount, easyPercent, mediumPercent, hardPercent, grammarRatio } = body;
+      const { studentId, stage, grade, curriculum, term, unit, domainCategory, questionType, difficulty, questionCount, easyPercent, mediumPercent, hardPercent, grammarRatio } = body;
 
       if (ctx.user.role === "student" && studentId && studentId !== ctx.user.id) return NextResponse.json({ error: "Forbidden" }, { status: 403 });
       const effectiveStudentId = ctx.user.role === "student" ? ctx.user.id : studentId;
@@ -260,40 +321,53 @@ export async function POST(req: Request) {
 
       // Query candidate pool from Question Bank
       let candidates = await db.select().from(questionBank).where(eq(questionBank.grade, grade));
+      if (stage) candidates = candidates.filter((q) => q.stage === stage);
+      if (curriculum) candidates = candidates.filter((q) => (q.curriculum || "Ministry") === curriculum);
+      if (term) candidates = candidates.filter((q) => (q.term || "First") === term);
+      if (unit) candidates = candidates.filter((q) => (q.unit || "") === unit);
+      if (domainCategory) candidates = candidates.filter((q) => q.domainCategory === domainCategory);
+      if (questionType) candidates = candidates.filter((q) => q.questionType === questionType);
+      if (difficulty) candidates = candidates.filter((q) => q.difficulty === difficulty);
       if (candidates.length === 0) {
         candidates = await db.select().from(questionBank);
       }
 
       // Shuffle candidate list
+      const targetByDifficulty = {
+        Easy: Math.round(totalNum * ((parseInt(easyPercent) || 0) / 100)),
+        Medium: Math.round(totalNum * ((parseInt(mediumPercent) || 0) / 100)),
+        Hard: Math.round(totalNum * ((parseInt(hardPercent) || 0) / 100)),
+      };
+      const byDomain = (domain: string) => candidates.filter((q) => q.domainCategory === domain).sort(() => Math.random() - 0.5);
+      const byDifficulty = (d: string) => candidates.filter((q) => q.difficulty === d).sort(() => Math.random() - 0.5);
       const shuffled = [...candidates].sort(() => Math.random() - 0.5);
 
       // Filter and select non-repeating questions
       const selected: any[] = [];
       const usedIds = new Set<string>();
 
+      const pushQuestion = async (q: any) => {
+        if (selected.length >= totalNum || usedIds.has(q.id)) return;
+        let randomizedOptions = q.options;
+        if (Array.isArray(q.options)) randomizedOptions = [...q.options].sort(() => Math.random() - 0.5);
+        selected.push({ ...q, options: randomizedOptions });
+        usedIds.add(q.id);
+        await db.update(questionBank).set({ timesUsed: (q.timesUsed || 0) + 1, lastUsedAt: new Date() }).where(eq(questionBank.id, q.id));
+      };
+
+      for (const difficultyName of ["Easy","Medium","Hard"]) {
+        const pool = byDifficulty(difficultyName);
+        for (const q of pool.slice(0, targetByDifficulty[difficultyName as keyof typeof targetByDifficulty])) await pushQuestion(q);
+      }
+
+      const targetGrammar = Math.min(numGrammar, selected.length < totalNum ? numGrammar : 0);
+      for (const q of byDomain("Grammar").slice(0, targetGrammar)) await pushQuestion(q);
+      for (const q of byDomain("Vocabulary").slice(0, totalNum - selected.filter((x) => x.domainCategory === "Grammar").length)) await pushQuestion(q);
+
       for (const q of shuffled) {
         if (selected.length >= totalNum) break;
         if (!usedIds.has(q.id)) {
-          // Shuffle question options so choices are randomized every exam
-          let randomizedOptions = q.options;
-          if (Array.isArray(q.options)) {
-            randomizedOptions = [...q.options].sort(() => Math.random() - 0.5);
-          }
-
-          selected.push({
-            ...q,
-            options: randomizedOptions,
-          });
-          usedIds.add(q.id);
-
-          // Update usage statistics in DB
-          await db
-            .update(questionBank)
-            .set({
-              timesUsed: (q.timesUsed || 0) + 1,
-              lastUsedAt: new Date(),
-            })
-            .where(eq(questionBank.id, q.id));
+          await pushQuestion(q);
         }
       }
 
