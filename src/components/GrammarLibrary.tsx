@@ -37,6 +37,21 @@ export const GrammarLibrary:React.FC=()=>{
   const [unit,setUnit]=useState("All");
   const [filter,setFilter]=useState("all");
   const [selectedId,setSelectedId]=useState(grammarVideos[0]?.id||"");
+  const [requestedTopic,setRequestedTopic]=useState("");
+
+  useEffect(()=>{
+    const params=new URLSearchParams(window.location.search);
+    const qGrade=params.get("grade");
+    const qCurriculum=params.get("curriculum");
+    const qTerm=params.get("term");
+    const qUnit=params.get("unit");
+    const qTopic=params.get("grammarTopic");
+    if(qGrade)setGrade(qGrade);
+    if(qCurriculum)setCurriculum(qCurriculum);
+    if(qTerm)setTerm(qTerm);
+    if(qUnit)setUnit(qUnit);
+    if(qTopic)setRequestedTopic(qTopic);
+  },[]);
 
   const tracksForGrade=useMemo(()=>currentCurriculumTracks.filter(t=>t.stage===stage&&t.grade===grade&&t.term===term),[stage,grade,term]);
   const curriculumOptions=useMemo(()=>Array.from(new Set(tracksForGrade.map(t=>t.curriculum))),[tracksForGrade]);
@@ -51,10 +66,16 @@ export const GrammarLibrary:React.FC=()=>{
   },[stage,grade,curriculum,term,unit,filter]);
 
   const selected=useMemo(()=>{
+    if(requestedTopic){
+      const byTopic=scopedVideos.find(v=>v.mappedScopes?.some(s=>
+        s.stage===stage && s.grade===grade && s.curriculum===curriculum && s.term===term && s.unit===unit && s.grammarTopic===requestedTopic
+      ));
+      if(byTopic)return byTopic;
+    }
     const inScope=scopedVideos.find(v=>v.id===selectedId);
     if(inScope)return inScope;
     return scopedVideos[0]||null;
-  },[scopedVideos,selectedId]);
+  },[scopedVideos,selectedId,requestedTopic,stage,grade,curriculum,term,unit]);
 
   const selectedScope=useMemo(()=>{
     if(!selected)return null;
