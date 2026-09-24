@@ -2,7 +2,6 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import { useApp } from "@/context/AppContext";
-import { authHeaders } from "@/lib/client-auth";
 import {
   FileText,
   Upload,
@@ -165,7 +164,7 @@ export const PdfLibraryWorkspace: React.FC = () => {
 
       const res = await fetch("/api/pdfs", {
         method: "POST",
-        headers: { ...authHeaders() },
+        ,
         body: form,
       });
       const json = await res.json();
@@ -205,7 +204,7 @@ export const PdfLibraryWorkspace: React.FC = () => {
     try {
       await fetch("/api/pdfs", {
         method: "POST",
-        headers: { "Content-Type": "application/json", ...authHeaders() },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ action: "delete", documentId: doc.id }),
       });
       fetchDocs();
