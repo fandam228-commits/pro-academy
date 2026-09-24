@@ -17,14 +17,6 @@ import {
   clearFailedLogins,
 } from "@/lib/security";
 
-// Demo persona credentials (real accounts in DB, verified & upgraded to hashed passwords)
-const DEMO_ACCOUNTS: Record<string, { email: string; password: string }> = {
-  admin: { email: "habib.admin@proacademy.com", password: "admin123password" },
-  teacher: { email: "sarah.teacher@proacademy.com", password: "teacher123password" },
-  student: { email: "omar.student@gmail.com", password: "student123password" },
-  parent: { email: "mahmoud.parent@gmail.com", password: "parent123password" },
-};
-
 function sanitizeUser(u: any) {
   if (!u) return u;
   const { password, ...rest } = u;
@@ -98,17 +90,6 @@ export async function POST(req: Request) {
       const result = await performLogin(email, password, userAgent);
       if (result.errorResponse) return result.errorResponse;
       return NextResponse.json({ success: true, user: result.user, token: result.token, expiresAt: result.expiresAt });
-    }
-
-    // ============ DEMO PERSONA LOGIN (real sessions under the hood) ============
-    if (action === "switch-role") {
-      const demo = DEMO_ACCOUNTS[role];
-      if (!demo) {
-        return NextResponse.json({ error: "Unknown demo account." }, { status: 400 });
-      }
-      const result = await performLogin(demo.email, demo.password, userAgent);
-      if (result.errorResponse) return result.errorResponse;
-      return NextResponse.json({ success: true, user: result.user, token: result.token });
     }
 
     // ============ REGISTER ============
