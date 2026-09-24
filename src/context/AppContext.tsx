@@ -1,7 +1,7 @@
 "use client";
 
 import React, { createContext, useContext, useState, useEffect } from "react";
-import { getStoredToken, setStoredToken, clearStoredToken } from "@/lib/client-auth";
+import { clearStoredToken } from "@/lib/client-auth";
 
 export type Role = "admin" | "teacher" | "student" | "parent";
 export type Language = "en" | "ar";
@@ -68,10 +68,8 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
   // Live unread notification badge (polls quietly while logged in)
   const refreshNotifications = async () => {
-    const stored = getStoredToken();
-    if (!stored) return;
     try {
-      const res = await fetch("/api/notifications", { headers: { Authorization: `Bearer ${stored}` } });
+      const res = await fetch("/api/notifications");
       if (res.ok) {
         const json = await res.json();
         setNotificationsCount(json.unreadCount || 0);
@@ -79,23 +77,15 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     } catch {}
   };
 
-  // Restore session on first load
+  // Restore session from the HttpOnly cookie; JavaScript never reads the session token.
   useEffect(() => {
-    const stored = getStoredToken();
-    if (!stored) {
-      setAuthLoading(false);
-      return;
-    }
     (async () => {
       try {
-        const res = await fetch("/api/auth", {
-          method: "GET",
-          headers: { Authorization: `Bearer ${stored}` },
-        });
+        const res = await fetch("/api/auth", { method: "GET" });
         const data = await res.json();
         if (res.ok && data.user) {
           setUser(data.user);
-          setToken(stored);
+          setToken(null);
         } else {
           clearStoredToken();
         }
@@ -146,10 +136,9 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         body: JSON.stringify({ action: "login", email, password }),
       });
       const data = await res.json();
-      if (data.success && data.user && data.token) {
+      if (data.success && data.user) {
         setUser(data.user);
-        setToken(data.token);
-        setStoredToken(data.token);
+        setToken(null);
         return true;
       }
       setAuthError(data.error || "Login failed");
@@ -172,10 +161,9 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         body: JSON.stringify({ action: "register", ...payload }),
       });
       const data = await res.json();
-      if (data.success && data.user && data.token) {
+      if (data.success && data.user) {
         setUser(data.user);
-        setToken(data.token);
-        setStoredToken(data.token);
+        setToken(null);
         return true;
       }
       setAuthError(data.error || "Registration failed");
@@ -192,7 +180,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     try {
       await fetch("/api/auth", {
         method: "POST",
-        headers: { "Content-Type": "application/json", Authorization: `Bearer ${token || ""}` },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ action: "logout" }),
       });
     } catch {}
