@@ -25,6 +25,25 @@ export const StudentDashboard: React.FC<{ onSelectCourse?: (courseId: string) =>
   const [pomoMinutes, setPomoMinutes] = useState(25);
   const [pomoSeconds, setPomoSeconds] = useState(0);
   const [isPomoRunning, setIsPomoRunning] = useState(false);
+  const [mastery, setMastery] = useState<any[]>([]);
+  const [masteryLoading, setMasteryLoading] = useState(true);
+
+  useEffect(() => {
+    const loadMastery = async () => {
+      try {
+        const res = await fetch("/api/grammar/mastery");
+        const json = await res.json();
+        setMastery(json.mastery || []);
+      } catch {
+        setMastery([]);
+      } finally {
+        setMasteryLoading(false);
+      }
+    };
+    if (user?.role === "student") loadMastery();
+  }, [user?.role]);
+
+  const weakestRules = mastery.slice().sort((a, b) => Number(a.masteryPercent) - Number(b.masteryPercent)).slice(0, 4);
 
   // Fetch Planner Tasks
   const fetchPlanner = async () => {
@@ -249,6 +268,22 @@ export const StudentDashboard: React.FC<{ onSelectCourse?: (courseId: string) =>
             </div>
           )}
 
+
+          {/* GRAMMAR MASTERY */}
+          <div className="bg-white dark:bg-slate-900 p-6 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-xl">
+            <h2 className="text-sm font-extrabold text-slate-900 dark:text-white mb-1 flex items-center gap-2">
+              <Target className="w-4 h-4 text-blue-600" />
+              {lang === "ar" ? "إتقان القواعد" : "Grammar Mastery"}
+            </h2>
+            <p className="text-[10px] text-slate-500 mb-4">{lang === "ar" ? "أضعف القواعد تظهر أولًا عشان تعرف تراجع إيه." : "Your weakest rules appear first."}</p>
+            {masteryLoading ? <div className="text-xs text-slate-500 py-4">جاري تحميل مستوى الإتقان...</div> : weakestRules.length === 0 ? (
+              <div className="rounded-2xl bg-blue-50 dark:bg-blue-950/30 p-4 text-xs font-bold text-blue-800 dark:text-blue-200">ابدأ تدريب القواعد، وهنا هنظهر مستوى إتقانك تلقائيًا.</div>
+            ) : <div className="space-y-3">{weakestRules.map((r) => <div key={r.id} className="rounded-2xl border border-slate-200 dark:border-slate-800 p-3">
+              <div className="flex items-center justify-between gap-3"><div className="min-w-0"><div className="text-xs font-black text-slate-900 dark:text-white truncate">{r.grammarTopic}</div><div className="text-[9px] text-slate-400">{r.grade} • {r.unit}</div></div><div className="text-xs font-black text-blue-600">{r.masteryPercent}%</div></div>
+              <div className="mt-2 h-2 rounded-full bg-slate-100 dark:bg-slate-800 overflow-hidden"><div className="h-full rounded-full bg-blue-600" style={{width: `${Math.min(100, Math.max(0, Number(r.masteryPercent)))}%`}} /></div>
+              <div className="mt-2 flex items-center gap-1 text-[9px] font-bold text-slate-500"><AlertCircle className="w-3 h-3" />{r.status}</div>
+            </div>)}</div>}
+          </div>
           {/* POMODORO FOCUS TIMER */}
           <div className="bg-white dark:bg-slate-900 p-6 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-xl text-center">
             <h2 className="text-sm font-extrabold text-slate-900 dark:text-white mb-2 flex items-center justify-center gap-1.5">
