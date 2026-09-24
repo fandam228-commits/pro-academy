@@ -93,6 +93,10 @@ export async function ensureDbSetup() {
         question_type TEXT NOT NULL,
         stage TEXT NOT NULL,
         grade TEXT NOT NULL,
+        curriculum TEXT DEFAULT 'Ministry',
+        term TEXT DEFAULT 'First',
+        source TEXT,
+        tags JSONB DEFAULT '[]'::jsonb,
         unit TEXT DEFAULT 'Unit 1',
         lesson TEXT DEFAULT 'Lesson 1',
         difficulty TEXT NOT NULL DEFAULT 'Medium',
@@ -117,7 +121,14 @@ export async function ensureDbSetup() {
       );
 
       CREATE INDEX IF NOT EXISTS idx_qb_domain ON question_bank(domain_category);
+      ALTER TABLE question_bank ADD COLUMN IF NOT EXISTS curriculum TEXT DEFAULT 'Ministry';
+      ALTER TABLE question_bank ADD COLUMN IF NOT EXISTS term TEXT DEFAULT 'First';
+      ALTER TABLE question_bank ADD COLUMN IF NOT EXISTS source TEXT;
+      ALTER TABLE question_bank ADD COLUMN IF NOT EXISTS tags JSONB DEFAULT '[]'::jsonb;
+
       CREATE INDEX IF NOT EXISTS idx_qb_grade ON question_bank(grade);
+      CREATE INDEX IF NOT EXISTS idx_qb_curriculum ON question_bank(curriculum);
+      CREATE INDEX IF NOT EXISTS idx_qb_term ON question_bank(term);
       CREATE INDEX IF NOT EXISTS idx_qb_difficulty ON question_bank(difficulty);
       CREATE INDEX IF NOT EXISTS idx_qb_topic ON question_bank(topic);
       CREATE INDEX IF NOT EXISTS idx_qb_grammar ON question_bank(grammar_topic);
