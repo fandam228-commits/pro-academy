@@ -267,7 +267,15 @@ export const QuestionBankWorkspace: React.FC<{ onExamGenerated?: (exam: any) => 
           correctAnswer: corr,
           domainCategory: qText.toLowerCase().includes("had") ? "Grammar" : "Vocabulary",
           grammarTopic: "Tense",
-          difficulty: "Medium",
+          difficulty: difficultyFilter === "All" ? "Medium" : difficultyFilter,
+          stage: stageFilter === "All" ? "Secondary" : stageFilter,
+          grade: gradeFilter === "All" ? "Third Secondary (Baccalaureate)" : gradeFilter,
+          curriculum: curriculumFilter === "All" ? "Ministry" : curriculumFilter,
+          term: termFilter === "All" ? "First" : termFilter,
+          unit: unitFilter === "All" ? "Unit 1" : unitFilter,
+          source: sourceFilter === "All" ? "External Source" : sourceFilter,
+          lesson: lessonFilter === "All" ? "Lesson 1" : lessonFilter,
+          section: sectionFilter === "All" ? null : sectionFilter,
         });
       }
     }
