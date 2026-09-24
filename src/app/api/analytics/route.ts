@@ -11,7 +11,7 @@ import {
   enrollments,
   parentLinks,
 } from "@/db/schema";
-import { eq } from "drizzle-orm";
+import { eq, and } from "drizzle-orm";
 import { NextResponse } from "next/server";
 import { ensureDbSetup } from "@/db/migrate-and-seed";
 import { getAuthContext } from "@/lib/security";
@@ -226,8 +226,11 @@ export async function GET(req: Request) {
       let studentId = requestedStudent;
       if (!studentId) {
         const links = await db.select().from(parentLinks).where(eq(parentLinks.parentId, ctx.user.id));
-        studentId = links[0]?.studentId || "usr_student_1";
+        studentId = links[0]?.studentId || null;
       }
+      if (!studentId) return NextResponse.json({ error: "No linked student" }, { status: 404 });
+      const links = await db.select().from(parentLinks).where(and(eq(parentLinks.parentId, ctx.user.id), eq(parentLinks.studentId, studentId)));
+      if (!links.length) return NextResponse.json({ error: "Forbidden" }, { status: 403 });
       const report = await buildStudentReport(studentId);
       return NextResponse.json({ scope: "parent", ...report });
     }
