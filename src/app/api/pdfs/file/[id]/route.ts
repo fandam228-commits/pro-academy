@@ -1,9 +1,10 @@
 import { db } from "@/db";
-import { pdfDocuments } from "@/db/schema";
-import { eq } from "drizzle-orm";
+import { pdfDocuments, enrollments } from "@/db/schema";
+import { eq, and } from "drizzle-orm";
 import fs from "fs";
 import { NextResponse } from "next/server";
 import { ensureDbSetup } from "@/db/migrate-and-seed";
+import { requireRoles } from "@/lib/security";
 
 export async function GET(
   req: Request,
@@ -11,6 +12,9 @@ export async function GET(
 ) {
   await ensureDbSetup();
   try {
+    const { user, denied } = await requireRoles(req, ["admin", "teacher", "student"]);
+    if (denied) return denied;
+
     const { id } = await params;
     const { searchParams } = new URL(req.url);
     const isDownload = searchParams.get("download") === "1";
@@ -22,28 +26,34 @@ export async function GET(
 
     const doc = docs[0];
 
-    // External linked documents → redirect
+    if (user!.role === "student" && doc.isProtected && doc.courseId) {
+      const access = await db
+        .select({ id: enrollments.id })
+        .from(enrollments)
+        .where(and(eq(enrollments.studentId, user!.id), eq(enrollments.courseId, doc.courseId), eq(enrollments.status, "active")));
+
+      if (access.length === 0) {
+        return NextResponse.json({ error: "You are not enrolled in this course." }, { status: 403 });
+      }
+    }
+
+    if (isDownload && !doc.allowDownload && user!.role !== "admin") {
+      return NextResponse.json({ error: "Downloads are disabled for this document." }, { status: 403 });
+    }
+
     if (doc.externalUrl) {
       if (isDownload && doc.allowDownload) {
-        await db
-          .update(pdfDocuments)
-          .set({ downloads: (doc.downloads || 0) + 1 })
-          .where(eq(pdfDocuments.id, id));
+        await db.update(pdfDocuments).set({ downloads: (doc.downloads || 0) + 1 }).where(eq(pdfDocuments.id, id));
       } else {
-        await db
-          .update(pdfDocuments)
-          .set({ views: (doc.views || 0) + 1 })
-          .where(eq(pdfDocuments.id, id));
+        await db.update(pdfDocuments).set({ views: (doc.views || 0) + 1 }).where(eq(pdfDocuments.id, id));
       }
       return NextResponse.redirect(doc.externalUrl);
     }
 
-    // Preferred: base64 content stored in Postgres (works on Vercel)
     let fileBuffer: Buffer | null = null;
     if (doc.fileData) {
       fileBuffer = Buffer.from(doc.fileData, "base64");
     } else if (doc.storagePath) {
-      // Legacy local-disk fallback (local dev only)
       try {
         fileBuffer = await fs.promises.readFile(doc.storagePath);
       } catch {
@@ -56,23 +66,19 @@ export async function GET(
     }
 
     if (isDownload && doc.allowDownload) {
-      await db
-        .update(pdfDocuments)
-        .set({ downloads: (doc.downloads || 0) + 1 })
-        .where(eq(pdfDocuments.id, id));
+      await db.update(pdfDocuments).set({ downloads: (doc.downloads || 0) + 1 }).where(eq(pdfDocuments.id, id));
     } else {
-      await db
-        .update(pdfDocuments)
-        .set({ views: (doc.views || 0) + 1 })
-        .where(eq(pdfDocuments.id, id));
+      await db.update(pdfDocuments).set({ views: (doc.views || 0) + 1 }).where(eq(pdfDocuments.id, id));
     }
 
     const disposition = isDownload && doc.allowDownload ? "attachment" : "inline";
     return new NextResponse(new Uint8Array(fileBuffer), {
       headers: {
         "Content-Type": "application/pdf",
-        "Content-Disposition": `${disposition}; filename="${doc.fileName}"`,
+        "Content-Disposition": `${disposition}; filename="${doc.fileName.replace(/[\\\r\n"]/g, "_")}"`,
         "Content-Length": String(fileBuffer.length),
+        "Cache-Control": "private, no-store, max-age=0",
+        "X-Content-Type-Options": "nosniff",
       },
     });
   } catch (error) {
