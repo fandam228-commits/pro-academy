@@ -3,13 +3,17 @@ import { pdfDocuments } from "@/db/schema";
 import { eq } from "drizzle-orm";
 import { NextResponse } from "next/server";
 import { ensureDbSetup } from "@/db/migrate-and-seed";
-import { requireRoles } from "@/lib/security";
+import { requireRoles, getAuthContext } from "@/lib/security";
+import { enrollments } from "@/db/schema";
+import { and } from "drizzle-orm";
 
 // Vercel serverless body limit is ~4.5MB — keep uploads under that.
 const MAX_SIZE_BYTES = 4 * 1024 * 1024; // 4MB
 
 export async function GET(req: Request) {
   await ensureDbSetup();
+  const ctx = await getAuthContext(req);
+  if (!ctx) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   const { searchParams } = new URL(req.url);
   const search = searchParams.get("search")?.toLowerCase();
   const stage = searchParams.get("stage");
@@ -21,6 +25,11 @@ export async function GET(req: Request) {
     // Never return the heavy base64 payload in the list endpoint
     const all = await db.select().from(pdfDocuments);
     let docs = all.map(({ fileData, ...rest }) => rest);
+    if (ctx.user.role === "student") {
+      const active = await db.select({ courseId: enrollments.courseId }).from(enrollments).where(and(eq(enrollments.studentId, ctx.user.id), eq(enrollments.status, "active")));
+      const allowed = new Set(active.map((e) => e.courseId));
+      docs = docs.filter((d) => !d.courseId || allowed.has(d.courseId));
+    }
 
     if (search) {
       docs = docs.filter(
