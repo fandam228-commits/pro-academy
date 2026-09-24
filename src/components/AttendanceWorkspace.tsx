@@ -2,7 +2,6 @@
 
 import React, { useState, useEffect } from "react";
 import { useApp } from "@/context/AppContext";
-import { authHeaders } from "@/lib/client-auth";
 import {
   ClipboardCheck,
   UserCheck,
@@ -59,7 +58,7 @@ export const AttendanceWorkspace: React.FC = () => {
     setLoading(true);
     try {
       const url = isStaff ? `/api/attendance?date=${date}` : "/api/attendance";
-      const res = await fetch(url, { headers: { ...authHeaders() } });
+      const res = await fetch(url);
       const json = await res.json();
       if (isStaff) {
         setRoster(json.roster || []);
