@@ -27,53 +27,33 @@ export async function GET(req: Request) {
   const limit = Math.min(Math.max(parseInt(searchParams.get("limit") || "100"), 1), 500);
 
   try {
-    let allQuestions = await db.select().from(questionBank).limit(limit);
-
-    if (domainCategory) {
-      allQuestions = allQuestions.filter((q) => q.domainCategory.toLowerCase() === domainCategory.toLowerCase());
-    }
-    if (stage) {
-      allQuestions = allQuestions.filter((q) => q.stage.toLowerCase() === stage.toLowerCase());
-    }
-    if (grade) {
-      allQuestions = allQuestions.filter((q) => q.grade.toLowerCase() === grade.toLowerCase());
-    }
-    if (curriculum) {
-      allQuestions = allQuestions.filter((q) => (q.curriculum || "").toLowerCase() === curriculum.toLowerCase());
-    }
-    if (term) {
-      allQuestions = allQuestions.filter((q) => (q.term || "").toLowerCase() === term.toLowerCase());
-    }
-    if (unit) {
-      allQuestions = allQuestions.filter((q) => (q.unit || "").toLowerCase() === unit.toLowerCase());
-    }
-    if (questionType) {
-      allQuestions = allQuestions.filter((q) => q.questionType.toLowerCase() === questionType.toLowerCase());
-    }
-    if (difficulty) {
-      allQuestions = allQuestions.filter((q) => q.difficulty.toLowerCase() === difficulty.toLowerCase());
-    }
-    if (source) {
-      allQuestions = allQuestions.filter((q) => (q.source || "").toLowerCase() === source.toLowerCase());
-    }
-    if (lesson) {
-      allQuestions = allQuestions.filter((q) => (q.lesson || "").toLowerCase() === lesson.toLowerCase());
-    }
-    if (section) {
-      allQuestions = allQuestions.filter((q) => (q.section || "").toLowerCase() === section.toLowerCase());
-    }
-    if (grammarTopic) {
-      allQuestions = allQuestions.filter((q) => q.grammarTopic?.toLowerCase() === grammarTopic.toLowerCase());
-    }
-    if (topic) {
-      allQuestions = allQuestions.filter((q) => q.topic.toLowerCase() === topic.toLowerCase());
-    }
+    // Apply the complete scope in the database query before LIMIT.
+    // This prevents a deep-linked grammar rule from being missed because unrelated
+    // questions happened to occupy the first N rows.
+    const conditions: any[] = [];
+    if (domainCategory) conditions.push(eq(questionBank.domainCategory, domainCategory));
+    if (stage) conditions.push(eq(questionBank.stage, stage));
+    if (grade) conditions.push(eq(questionBank.grade, grade));
+    if (curriculum) conditions.push(eq(questionBank.curriculum, curriculum));
+    if (term) conditions.push(eq(questionBank.term, term));
+    if (unit) conditions.push(eq(questionBank.unit, unit));
+    if (questionType) conditions.push(eq(questionBank.questionType, questionType));
+    if (difficulty) conditions.push(eq(questionBank.difficulty, difficulty));
+    if (source) conditions.push(eq(questionBank.source, source));
+    if (lesson) conditions.push(eq(questionBank.lesson, lesson));
+    if (section) conditions.push(eq(questionBank.section, section));
+    if (grammarTopic) conditions.push(eq(questionBank.grammarTopic, grammarTopic));
+    if (topic) conditions.push(eq(questionBank.topic, topic));
     if (search) {
-      const s = search.toLowerCase();
-      allQuestions = allQuestions.filter(
-        (q) => q.questionText.toLowerCase().includes(s) || q.topic.toLowerCase().includes(s)
-      );
+      const pattern = `%${search}%`;
+      conditions.push(sql`(${questionBank.questionText} ILIKE ${pattern} OR ${questionBank.topic} ILIKE ${pattern})`);
     }
+
+    const allQuestions = await db
+      .select()
+      .from(questionBank)
+      .where(conditions.length ? and(...conditions) : undefined)
+      .limit(limit);
 
     // Analytics summary
     const totalCount = allQuestions.length;
