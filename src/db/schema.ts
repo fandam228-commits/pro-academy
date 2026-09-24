@@ -102,6 +102,7 @@ export const questionBank = pgTable(
     tags: jsonb("tags").default([]),
     unit: text("unit").default("Unit 1"),
     lesson: text("lesson").default("Lesson 1"),
+    section: text("section"),
     difficulty: text("difficulty").notNull().default("Medium"), // 'Easy', 'Medium', 'Hard'
     skill: text("skill").default("Grammar & Context"), // 'Reading', 'Writing', 'Listening', 'Vocabulary', 'Grammar'
     wordType: text("word_type"), // 'Noun', 'Verb', 'Adjective', 'Adverb', 'Idiom', 'Phrasal Verb'
@@ -131,6 +132,7 @@ export const questionBank = pgTable(
     index("idx_qb_term").on(table.term),
     index("idx_qb_difficulty").on(table.difficulty),
     index("idx_qb_topic").on(table.topic),
+    index("idx_qb_scope").on(table.stage, table.grade, table.curriculum, table.term, table.unit),
     index("idx_qb_grammar").on(table.grammarTopic),
   ]
 );
