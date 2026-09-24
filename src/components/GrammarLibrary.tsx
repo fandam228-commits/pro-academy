@@ -128,7 +128,21 @@ export const GrammarLibrary:React.FC=()=>{
       const res=await fetch("/api/question-bank",{method:"POST",headers:{"Content-Type":"application/json"},
         body:JSON.stringify({action:"submit_practice",questionIds:practiceQuestions.map(q=>q.id),answers:practiceAnswers})});
       const json=await res.json();
-      if(json.success){setPracticeResult({score:json.score,total:json.total});setPracticeSubmitted(true);}
+      if(json.success){
+        setPracticeResult({score:json.score,total:json.total});
+        setPracticeSubmitted(true);
+        if(selectedScope){
+          await fetch("/api/grammar/mastery",{
+            method:"POST",
+            headers:{"Content-Type":"application/json"},
+            body:JSON.stringify({
+              stage,grade,curriculum,term,unit,
+              grammarTopic:selectedScope.grammarTopic,
+              score:json.score,total:json.total
+            })
+          });
+        }
+      }
     }catch{}
   };
 
