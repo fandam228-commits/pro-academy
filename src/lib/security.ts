@@ -68,12 +68,25 @@ export async function destroySession(token: string) {
   } catch {}
 }
 
+const SESSION_COOKIE = "pa_session";
+
 export function extractToken(req: Request): string | null {
   const header = req.headers.get("authorization") || "";
   if (header.toLowerCase().startsWith("bearer ")) {
     return header.slice(7).trim();
   }
-  return null;
+  const cookieHeader = req.headers.get("cookie") || "";
+  const match = cookieHeader.match(new RegExp(`(?:^|;\\s*)${SESSION_COOKIE}=([^;]+)`));
+  return match ? decodeURIComponent(match[1]) : null;
+}
+
+export function sessionCookie(token: string, expiresAt: Date): string {
+  const secure = process.env.NODE_ENV === "production" ? "; Secure" : "";
+  return `${SESSION_COOKIE}=${encodeURIComponent(token)}; Path=/; HttpOnly; SameSite=Lax; Max-Age=${Math.max(0, Math.floor((expiresAt.getTime() - Date.now()) / 1000))}${secure}`;
+}
+
+export function clearSessionCookie(): string {
+  return `${SESSION_COOKIE}=; Path=/; HttpOnly; SameSite=Lax; Max-Age=0`;
 }
 
 export interface AuthContext {
