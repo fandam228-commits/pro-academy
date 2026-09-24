@@ -13,6 +13,9 @@ export const GrammarMiniExam:React.FC<Props>=({stage,grade,curriculum,term,unit,
   const [answers,setAnswers]=useState<Record<string,string>>({});
   const [result,setResult]=useState<any>(null);
   const [loading,setLoading]=useState(false);
+  const totalQuestions = exam?.questionsData?.length || 10;
+  const answeredCount = Object.keys(answers).length;
+  const allAnswered = !!exam && answeredCount === totalQuestions;
 
   const generate=async()=>{
     setLoading(true);setResult(null);setAnswers({});
@@ -29,7 +32,7 @@ export const GrammarMiniExam:React.FC<Props>=({stage,grade,curriculum,term,unit,
   };
 
   const submit=async()=>{
-    if(!exam)return;
+    if(!exam || !allAnswered || !user?.id)return;
     setLoading(true);
     try{
       const res=await fetch("/api/question-bank",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({
@@ -39,7 +42,7 @@ export const GrammarMiniExam:React.FC<Props>=({stage,grade,curriculum,term,unit,
       if(json.success){
         setResult(json);
         await fetch("/api/grammar/mastery",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({
-          stage,grade,curriculum,term,unit,grammarTopic,score:Math.round(json.percentage/10),total:10
+          stage,grade,curriculum,term,unit,grammarTopic,score:Number(json.score ?? 0),total:Number(json.totalPoints ?? totalQuestions)
         })});
       }else setResult({error:json.error||"تعذر تصحيح الامتحان."});
     }catch{setResult({error:"حدث خطأ أثناء التصحيح."});}
@@ -51,12 +54,13 @@ export const GrammarMiniExam:React.FC<Props>=({stage,grade,curriculum,term,unit,
       <div><h3 className="text-base font-black text-slate-900 dark:text-white">🏆 Mini Exam — 10 Questions</h3><p className="mt-1 text-xs font-bold text-slate-500 dark:text-slate-400">امتحان من نفس القاعدة فقط: {grammarTopic}</p></div>
       {!exam&&<button onClick={generate} disabled={loading} className="rounded-xl bg-violet-600 px-5 py-3 text-xs font-black text-white disabled:opacity-50">{loading?"جاري الإنشاء...":"ابدأ الامتحان"}</button>}
     </div>
-    {exam&& !result?.percentage && <div className="mt-5 space-y-4">
+    {exam && result?.percentage === undefined && !result?.error && <div className="mt-5 space-y-4">
       {exam.questionsData.map((q:any,i:number)=><div key={q.id} className="rounded-2xl bg-white p-4 shadow-sm dark:bg-slate-900">
         <div className="text-sm font-black text-slate-900 dark:text-white">{i+1}. {q.questionText}</div>
         <div className="mt-3 grid gap-2 sm:grid-cols-2">{(q.options||[]).map((opt:string)=><button key={opt} onClick={()=>setAnswers(a=>({...a,[q.id]:opt}))} className={`rounded-xl border px-3 py-2 text-left text-xs font-bold ${answers[q.id]===opt?"border-violet-500 bg-violet-50 dark:bg-violet-950/40":"border-slate-200 dark:border-slate-700"}`}>{opt}</button>)}</div>
       </div>)}
-      <button onClick={submit} disabled={loading} className="w-full rounded-xl bg-violet-600 px-5 py-3 text-xs font-black text-white disabled:opacity-50">{loading?"جاري التصحيح...":"تصحيح الـMini Exam"}</button>
+      <div className="flex items-center justify-between gap-3 rounded-xl bg-violet-100 px-3 py-2 text-xs font-black text-violet-800 dark:bg-violet-950/40 dark:text-violet-200"><span>تمت الإجابة: {answeredCount} / {totalQuestions}</span><span>{allAnswered ? "جاهز للتصحيح ✅" : `جاوب على ${totalQuestions - answeredCount} سؤال قبل التصحيح`}</span></div>
+      <button onClick={submit} disabled={loading || !allAnswered || !user?.id} className="w-full rounded-xl bg-violet-600 px-5 py-3 text-xs font-black text-white disabled:opacity-50">{loading?"جاري التصحيح...":!allAnswered?"أكمل الإجابة على كل الأسئلة":"تصحيح الـMini Exam"}</button>
     </div>}
     {result?.percentage!==undefined&&<div className="mt-5 rounded-2xl bg-white p-5 text-center shadow-sm dark:bg-slate-900">
       <div className="text-3xl font-black text-violet-600">{result.percentage}%</div>
