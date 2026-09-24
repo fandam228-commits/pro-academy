@@ -466,9 +466,10 @@ export const QuestionBankWorkspace: React.FC<{ onExamGenerated?: (exam: any) => 
             <select value={lessonFilter} onChange={(e) => setLessonFilter(e.target.value)} className="w-full p-2.5 rounded-2xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs text-slate-900 dark:text-white">
               <option value="All">كل الدروس</option>{Array.from({length:8},(_,i)=><option key={i}>Lesson {i+1}</option>)}<option>All My Sons</option>
             </select>
-            <input value={grammarTopicFilter} onChange={(e) => setGrammarTopicFilter(e.target.value)} placeholder="قاعدة محددة..." className="w-full p-2.5 rounded-2xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs text-slate-900 dark:text-white">
+            <select value={sectionFilter} onChange={(e) => setSectionFilter(e.target.value)} className="w-full p-2.5 rounded-2xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs text-slate-900 dark:text-white">
               <option value="All">كل الأقسام</option><option>Grammar</option><option>Vocabulary</option><option>Reading</option><option>Writing</option><option>Literature</option><option>Story</option>
             </select>
+            <input value={grammarTopicFilter} onChange={(e) => setGrammarTopicFilter(e.target.value)} placeholder="قاعدة محددة..." className="w-full p-2.5 rounded-2xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs text-slate-900 dark:text-white" />
           </div>
 
           {/* QUESTIONS LIST */}
