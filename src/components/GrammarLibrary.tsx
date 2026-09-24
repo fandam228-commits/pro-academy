@@ -1,7 +1,9 @@
 "use client";
 import React,{useEffect,useMemo,useRef,useState} from "react";
 import {BookOpen,CheckCircle2,ChevronRight,ExternalLink,Filter,GraduationCap,PlayCircle,Sparkles,Target,Youtube} from "lucide-react";
-import {GRAMMAR_PLAYLIST_ID,GRAMMAR_PLAYLIST_URL,grammarVideos,type GrammarVideo} from "@/data/grammar-videos";
+import {GRAMMAR_PLAYLIST_ID,GRAMMAR_PLAYLIST_URL,grammarVideos,getMappedGrammarVideos,type GrammarVideo} from "@/data/grammar-videos";
+import {currentCurriculumTracks,getCurriculumTrack} from "@/data/current-curriculum";
+
 declare global { interface Window { YT?: any; onYouTubeIframeAPIReady?:()=>void; } }
 
 function YouTubeGrammarPlayer({video}:{video:GrammarVideo}){
@@ -11,29 +13,75 @@ function YouTubeGrammarPlayer({video}:{video:GrammarVideo}){
       if(playerRef.current){try{playerRef.current.destroy()}catch{}}
       playerRef.current=new window.YT.Player(containerRef.current,{width:"100%",height:"100%",playerVars:{listType:"playlist",list:GRAMMAR_PLAYLIST_ID,index:video.playlistIndex,rel:0,playsinline:1,enablejsapi:1,origin:window.location.origin},events:{onReady:()=>setReady(true)}});
     };
-    if(window.YT?.Player) create(); else {window.onYouTubeIframeAPIReady=create;if(!document.querySelector('script[src="https://www.youtube.com/iframe_api"]')){const s=document.createElement("script");s.src="https://www.youtube.com/iframe_api";s.async=true;document.head.appendChild(s)}}
+    if(window.YT?.Player) create(); else {
+      window.onYouTubeIframeAPIReady=create;
+      if(!document.querySelector('script[src="https://www.youtube.com/iframe_api"]')){
+        const s=document.createElement("script");s.src="https://www.youtube.com/iframe_api";s.async=true;document.head.appendChild(s);
+      }
+    }
     return()=>{cancelled=true;if(playerRef.current){try{playerRef.current.destroy()}catch{}playerRef.current=null}};
   },[]);
   useEffect(()=>{if(!ready||!playerRef.current?.loadPlaylist)return;try{playerRef.current.loadPlaylist({listType:"playlist",list:GRAMMAR_PLAYLIST_ID,index:video.playlistIndex,startSeconds:0})}catch{}},[ready,video.playlistIndex]);
   return <div className="relative aspect-video w-full overflow-hidden rounded-2xl bg-slate-950"><div ref={containerRef} className="absolute inset-0 h-full w-full"/>{!ready&&<div className="absolute inset-0 flex items-center justify-center bg-slate-950 text-white"><div className="text-center"><Youtube className="mx-auto mb-3 h-10 w-10 text-red-500"/><p className="text-sm font-bold">جاري تحميل فيديو الشرح...</p></div></div>}</div>;
 }
-const filters=[["all","كل القواعد"],["tenses","Tenses"],["structures","Structures"],["connectors","Linking & Connectors"]];
+
+const filters=[["all","كل الفيديوهات"],["tenses","Tenses"],["structures","Structures"],["connectors","Linking & Connectors"]];
+
 function filterKey(v:GrammarVideo){if(["present-continuous"].includes(v.id))return"tenses";if(["relative-clauses","question-formation","question-tags","passive-voice","negation"].includes(v.id))return"structures";if(["linkers","conditionals","direct-indirect"].includes(v.id))return"connectors";return"all";}
 
 export const GrammarLibrary:React.FC=()=>{
-  const[selectedId,setSelectedId]=useState(grammarVideos[0]?.id||"");const[filter,setFilter]=useState("all");
-  const selected=grammarVideos.find(v=>v.id===selectedId)||grammarVideos[0];
-  const visible=useMemo(()=>grammarVideos.filter(v=>filter==="all"||filterKey(v)===filter),[filter]);
-  if(!selected)return null;
+  const [stage,setStage]=useState("Secondary");
+  const [grade,setGrade]=useState("First Secondary");
+  const [curriculum,setCurriculum]=useState("Ministry");
+  const [term,setTerm]=useState("First");
+  const [unit,setUnit]=useState("All");
+  const [filter,setFilter]=useState("all");
+  const [selectedId,setSelectedId]=useState(grammarVideos[0]?.id||"");
+
+  const tracksForGrade=useMemo(()=>currentCurriculumTracks.filter(t=>t.stage===stage&&t.grade===grade&&t.term===term),[stage,grade,term]);
+  const curriculumOptions=useMemo(()=>Array.from(new Set(tracksForGrade.map(t=>t.curriculum))),[tracksForGrade]);
+  useEffect(()=>{if(!curriculumOptions.includes(curriculum))setCurriculum(curriculumOptions[0]||"Ministry")},[curriculumOptions,curriculum]);
+  const track=getCurriculumTrack(stage,grade,curriculum,term);
+  const unitOptions=track?.units||[];
+  useEffect(()=>{if(unit!=="All"&&!unitOptions.some(u=>`Unit ${u.unit}`===unit))setUnit("All")},[unit,unitOptions]);
+
+  const scopedVideos=useMemo(()=>{
+    if(unit==="All") return grammarVideos.filter(v=>filter==="all"||filterKey(v)===filter);
+    return getMappedGrammarVideos(stage,grade,curriculum,term,unit).filter(v=>filter==="all"||filterKey(v)===filter);
+  },[stage,grade,curriculum,term,unit,filter]);
+
+  const selected=useMemo(()=>{
+    const inScope=scopedVideos.find(v=>v.id===selectedId);
+    if(inScope)return inScope;
+    return scopedVideos[0]||null;
+  },[scopedVideos,selectedId]);
+
+  const currentUnit=unit!=="All" ? unitOptions.find(u=>`Unit ${u.unit}`===unit) : null;
+
   return <section className="min-h-screen bg-slate-50 dark:bg-slate-950 px-4 py-8 sm:px-6 lg:px-8"><div className="mx-auto max-w-7xl">
-    <div className="mb-8 overflow-hidden rounded-[2rem] bg-gradient-to-br from-slate-950 via-blue-950 to-indigo-950 p-6 text-white shadow-2xl sm:p-8"><div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between"><div><div className="mb-3 inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-3 py-1 text-xs font-bold text-blue-100"><Sparkles className="h-4 w-4 text-amber-300"/>Professional Academy • Grammar Library</div><h1 className="text-3xl font-black sm:text-4xl">📚 مكتبة شرح القواعد</h1><p className="mt-3 max-w-3xl text-sm leading-7 text-blue-100 sm:text-base">كل قاعدة في مكان واحد: فيديو الشرح + أهم النقاط + التدريب + الوصول لبنك الأسئلة.</p></div><a href={GRAMMAR_PLAYLIST_URL} target="_blank" rel="noreferrer" className="inline-flex shrink-0 items-center justify-center gap-2 rounded-2xl bg-white px-5 py-3 text-sm font-black text-slate-900 shadow-lg"><ExternalLink className="h-4 w-4"/>فتح الـPlaylist</a></div></div>
-    <div className="mb-6 flex flex-wrap items-center gap-2"><div className="mr-2 inline-flex items-center gap-2 text-sm font-black text-slate-700 dark:text-slate-200"><Filter className="h-4 w-4 text-blue-600"/>تصنيف القواعد</div>{filters.map(([key,label])=><button key={key} onClick={()=>setFilter(key)} className={filter===key?"rounded-xl bg-blue-600 px-4 py-2 text-xs font-black text-white shadow-lg":"rounded-xl border border-slate-200 bg-white px-4 py-2 text-xs font-bold text-slate-600 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-300"}>{label}</button>)}</div>
-    <div className="grid gap-6 lg:grid-cols-[0.95fr_1.65fr]"><aside className="space-y-3">{visible.map(v=><button key={v.id} onClick={()=>setSelectedId(v.id)} className={selectedId===v.id?"w-full rounded-2xl border-2 border-blue-500 bg-blue-50 p-4 text-right shadow-lg dark:bg-blue-950/30":"w-full rounded-2xl border border-slate-200 bg-white p-4 text-right shadow-sm dark:border-slate-800 dark:bg-slate-900"}><div className="flex items-start gap-3"><div className={selectedId===v.id?"mt-0.5 rounded-xl bg-blue-600 p-2 text-white":"mt-0.5 rounded-xl bg-slate-100 p-2 text-blue-600 dark:bg-slate-800"}><PlayCircle className="h-5 w-5"/></div><div className="min-w-0 flex-1"><div className="text-sm font-black text-slate-900 dark:text-white">{v.titleAr}</div><div className="mt-1 text-[11px] font-bold text-slate-400">{v.titleEn}</div><div className="mt-2 flex gap-1.5"><span className="rounded-lg bg-slate-100 px-2 py-1 text-[9px] font-black text-slate-500 dark:bg-slate-800 dark:text-slate-300">{v.duration||"Grammar Video"}</span><span className="rounded-lg bg-emerald-50 px-2 py-1 text-[9px] font-black text-emerald-700">YouTube</span></div></div><ChevronRight className="mt-1 h-4 w-4 text-slate-400 rtl:rotate-180"/></div></button>)}</aside>
-    <main className="overflow-hidden rounded-[2rem] border border-slate-200 bg-white shadow-xl dark:border-slate-800 dark:bg-slate-900"><YouTubeGrammarPlayer video={selected}/><div className="p-5 sm:p-7"><div className="flex flex-wrap items-start justify-between gap-4"><div><div className="mb-2 inline-flex items-center gap-2 rounded-full bg-blue-50 px-3 py-1 text-[10px] font-black text-blue-700"><BookOpen className="h-3.5 w-3.5"/>Grammar Explanation</div><h2 className="text-2xl font-black text-slate-900 dark:text-white">{selected.titleAr}</h2><p className="mt-1 text-sm font-bold text-slate-400">{selected.titleEn}</p></div><div className="rounded-2xl bg-amber-50 px-4 py-3 text-center"><div className="text-[10px] font-black text-amber-700">Professional</div><div className="text-xs font-black text-slate-700">Mr. Habib El Rahman</div></div></div><p className="mt-5 text-sm leading-7 text-slate-600 dark:text-slate-300">{selected.descriptionAr}</p>
-      <div className="mt-6 grid gap-3 sm:grid-cols-3"><div className="rounded-2xl bg-slate-50 p-4 dark:bg-slate-800/60"><GraduationCap className="mb-2 h-5 w-5 text-blue-600"/><div className="text-[10px] font-black text-slate-400">المحتوى</div><div className="mt-1 text-xs font-black text-slate-800 dark:text-white">Grammar Video</div></div><div className="rounded-2xl bg-slate-50 p-4 dark:bg-slate-800/60"><Target className="mb-2 h-5 w-5 text-emerald-600"/><div className="text-[10px] font-black text-slate-400">الهدف</div><div className="mt-1 text-xs font-black text-slate-800 dark:text-white">فهم القاعدة في السياق</div></div><div className="rounded-2xl bg-slate-50 p-4 dark:bg-slate-800/60"><CheckCircle2 className="mb-2 h-5 w-5 text-amber-600"/><div className="text-[10px] font-black text-slate-400">التالي</div><div className="mt-1 text-xs font-black text-slate-800 dark:text-white">Practice & Question Bank</div></div></div>
-      <div className="mt-6 rounded-2xl border border-slate-200 p-5 dark:border-slate-800"><h3 className="text-sm font-black text-slate-900 dark:text-white">🔑 أهم النقاط</h3><ul className="mt-3 grid gap-2 sm:grid-cols-2">{selected.keyPoints.map(p=><li key={p} className="flex items-center gap-2 text-xs font-bold text-slate-600 dark:text-slate-300"><CheckCircle2 className="h-4 w-4 text-emerald-500"/>{p}</li>)}</ul></div>
-      <div className="mt-6 flex flex-col gap-3 sm:flex-row"><button onClick={()=>{window.location.href="/?tab=question_bank"}} className="inline-flex flex-1 items-center justify-center gap-2 rounded-2xl bg-blue-600 px-5 py-3 text-sm font-black text-white shadow-lg hover:bg-blue-700"><Target className="h-4 w-4"/>تدريب وأسئلة بنك الأسئلة</button><a href={GRAMMAR_PLAYLIST_URL} target="_blank" rel="noreferrer" className="inline-flex items-center justify-center gap-2 rounded-2xl border border-slate-200 px-5 py-3 text-sm font-black text-slate-700 dark:border-slate-700 dark:text-slate-200"><ExternalLink className="h-4 w-4"/>YouTube Playlist</a></div>
-    </div></main></div>
-    <div className="mt-5 rounded-xl bg-blue-50 px-4 py-3 text-[11px] font-bold leading-6 text-blue-800 dark:bg-blue-950/30 dark:text-blue-200">🎬 الفيديو يفتح داخل المنصة باستخدام YouTube IFrame Player API، والاختيار مربوط بترتيب الفيديو داخل الـPlaylist. لاحقًا نقدر نربط كل فيديو بـUnlisted مستقل بدون تغيير واجهة الطالب.</div>
+    <div className="mb-8 overflow-hidden rounded-[2rem] bg-gradient-to-br from-slate-950 via-blue-950 to-indigo-950 p-6 text-white shadow-2xl sm:p-8">
+      <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between"><div><div className="mb-3 inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-3 py-1 text-xs font-bold text-blue-100"><Sparkles className="h-4 w-4 text-amber-300"/>Professional Academy • 2026/2027</div><h1 className="text-3xl font-black sm:text-4xl">📚 مكتبة شرح القواعد</h1><p className="mt-3 max-w-3xl text-sm leading-7 text-blue-100 sm:text-base">الترتيب الآن مبني على الصف والمنهج والترم والوحدة. مفيش خلط بين بنك أو منهج وآخر.</p></div><a href={GRAMMAR_PLAYLIST_URL} target="_blank" rel="noreferrer" className="inline-flex shrink-0 items-center justify-center gap-2 rounded-2xl bg-white px-5 py-3 text-sm font-black text-slate-900 shadow-lg"><ExternalLink className="h-4 w-4"/>فتح الـPlaylist</a></div>
+    </div>
+
+    <div className="mb-6 rounded-3xl border border-slate-200 bg-white p-4 shadow-sm dark:border-slate-800 dark:bg-slate-900">
+      <div className="mb-3 flex items-center gap-2 text-sm font-black text-slate-800 dark:text-white"><Filter className="h-4 w-4 text-blue-600"/>تحديد المنهج الحالي</div>
+      <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
+        <select value={grade} onChange={e=>{setGrade(e.target.value);setUnit("All")}} className="rounded-xl border border-slate-200 bg-slate-50 p-3 text-xs font-bold dark:border-slate-700 dark:bg-slate-800 dark:text-white"><option>First Secondary</option><option>Second Secondary</option><option>Third Secondary</option><option>Third Prep</option></select>
+        <select value={curriculum} onChange={e=>{setCurriculum(e.target.value);setUnit("All")}} className="rounded-xl border border-slate-200 bg-slate-50 p-3 text-xs font-bold dark:border-slate-700 dark:bg-slate-800 dark:text-white">{curriculumOptions.map(c=><option key={c}>{c}</option>)}</select>
+        <select value={term} onChange={e=>{setTerm(e.target.value);setUnit("All")}} className="rounded-xl border border-slate-200 bg-slate-50 p-3 text-xs font-bold dark:border-slate-700 dark:bg-slate-800 dark:text-white"><option>First</option><option>Second</option></select>
+        <select value={unit} onChange={e=>setUnit(e.target.value)} className="rounded-xl border border-slate-200 bg-slate-50 p-3 text-xs font-bold dark:border-slate-700 dark:bg-slate-800 dark:text-white"><option value="All">كل الوحدات</option>{unitOptions.map(u=><option key={u.id} value={`Unit ${u.unit}`}>Unit {u.unit} — {u.title}</option>)}</select>
+        <div className="rounded-xl bg-blue-50 p-3 text-[11px] font-black text-blue-800 dark:bg-blue-950/30 dark:text-blue-200">{currentUnit?.grammar||currentUnit?.concept||"اختر وحدة لعرض تفاصيلها"}</div>
+      </div>
+      {track&&<div className="mt-3 flex flex-wrap gap-2">{track.units.map(u=><button key={u.id} onClick={()=>setUnit(`Unit ${u.unit}`)} className={unit===`Unit ${u.unit}`?"rounded-lg bg-blue-600 px-3 py-1.5 text-[10px] font-black text-white":"rounded-lg bg-slate-100 px-3 py-1.5 text-[10px] font-bold text-slate-600 dark:bg-slate-800 dark:text-slate-300"}>U{u.unit}</button>)}</div>}
+    </div>
+
+    <div className="mb-5 flex flex-wrap items-center gap-2">{filters.map(([key,label])=><button key={key} onClick={()=>setFilter(key)} className={filter===key?"rounded-xl bg-blue-600 px-4 py-2 text-xs font-black text-white shadow-lg":"rounded-xl border border-slate-200 bg-white px-4 py-2 text-xs font-bold text-slate-600 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-300"}>{label}</button>)}</div>
+
+    {unit!=="All"&&scopedVideos.length===0 ? <div className="rounded-3xl border border-dashed border-amber-300 bg-amber-50 p-8 text-center dark:border-amber-800 dark:bg-amber-950/20"><div className="text-3xl">🎥</div><h2 className="mt-3 text-lg font-black text-slate-900 dark:text-white">الوحدة موجودة في المنهج، لكن فيديو القاعدة لم يُربط بها بعد</h2><p className="mt-2 text-sm font-bold text-slate-600 dark:text-slate-300">وده مقصود عشان ما نعرضش للطالب فيديو من وحدة أو منهج تاني بالغلط.</p><button onClick={()=>setUnit("All")} className="mt-5 rounded-xl bg-slate-900 px-5 py-3 text-xs font-black text-white">عرض مكتبة الفيديوهات</button></div> :
+    <div className="grid gap-6 lg:grid-cols-[0.95fr_1.65fr]">
+      <aside className="space-y-3">{scopedVideos.map(v=><button key={v.id} onClick={()=>setSelectedId(v.id)} className={selected?.id===v.id?"w-full rounded-2xl border-2 border-blue-500 bg-blue-50 p-4 text-right shadow-lg dark:bg-blue-950/30":"w-full rounded-2xl border border-slate-200 bg-white p-4 text-right shadow-sm dark:border-slate-800 dark:bg-slate-900"}><div className="flex items-start gap-3"><div className={selected?.id===v.id?"mt-0.5 rounded-xl bg-blue-600 p-2 text-white":"mt-0.5 rounded-xl bg-slate-100 p-2 text-blue-600 dark:bg-slate-800"}><PlayCircle className="h-5 w-5"/></div><div className="min-w-0 flex-1"><div className="text-sm font-black text-slate-900 dark:text-white">{v.titleAr}</div><div className="mt-1 text-[11px] font-bold text-slate-400">{v.titleEn}</div><div className="mt-2 flex gap-1.5"><span className="rounded-lg bg-slate-100 px-2 py-1 text-[9px] font-black text-slate-500 dark:bg-slate-800 dark:text-slate-300">{v.duration||"Grammar Video"}</span><span className="rounded-lg bg-emerald-50 px-2 py-1 text-[9px] font-black text-emerald-700">YouTube</span></div></div><ChevronRight className="mt-1 h-4 w-4 text-slate-400 rtl:rotate-180"/></div></button>)}</aside>
+      <main className="overflow-hidden rounded-[2rem] border border-slate-200 bg-white shadow-xl dark:border-slate-800 dark:bg-slate-900">{selected?<><YouTubeGrammarPlayer video={selected}/><div className="p-5 sm:p-7"><div className="flex flex-wrap items-start justify-between gap-4"><div><div className="mb-2 inline-flex items-center gap-2 rounded-full bg-blue-50 px-3 py-1 text-[10px] font-black text-blue-700"><BookOpen className="h-3.5 w-3.5"/>Grammar Explanation</div><h2 className="text-2xl font-black text-slate-900 dark:text-white">{selected.titleAr}</h2><p className="mt-1 text-sm font-bold text-slate-400">{selected.titleEn}</p></div><div className="rounded-2xl bg-amber-50 px-4 py-3 text-center"><div className="text-[10px] font-black text-amber-700">Professional</div><div className="text-xs font-black text-slate-700">Mr. Habib El Rahman</div></div></div><p className="mt-5 text-sm leading-7 text-slate-600 dark:text-slate-300">{selected.descriptionAr}</p><div className="mt-6 grid gap-3 sm:grid-cols-3"><div className="rounded-2xl bg-slate-50 p-4 dark:bg-slate-800/60"><GraduationCap className="mb-2 h-5 w-5 text-blue-600"/><div className="text-[10px] font-black text-slate-400">المنهج</div><div className="mt-1 text-xs font-black text-slate-800 dark:text-white">{grade} • {curriculum}</div></div><div className="rounded-2xl bg-slate-50 p-4 dark:bg-slate-800/60"><Target className="mb-2 h-5 w-5 text-emerald-600"/><div className="text-[10px] font-black text-slate-400">الوحدة</div><div className="mt-1 text-xs font-black text-slate-800 dark:text-white">{unit}</div></div><div className="rounded-2xl bg-slate-50 p-4 dark:bg-slate-800/60"><CheckCircle2 className="mb-2 h-5 w-5 text-amber-600"/><div className="text-[10px] font-black text-slate-400">التالي</div><div className="mt-1 text-xs font-black text-slate-800 dark:text-white">Practice & Question Bank</div></div></div><div className="mt-6 rounded-2xl border border-slate-200 p-5 dark:border-slate-800"><h3 className="text-sm font-black text-slate-900 dark:text-white">🔑 أهم النقاط</h3><ul className="mt-3 grid gap-2 sm:grid-cols-2">{selected.keyPoints.map(p=><li key={p} className="flex items-center gap-2 text-xs font-bold text-slate-600 dark:text-slate-300"><CheckCircle2 className="h-4 w-4 text-emerald-500"/>{p}</li>)}</ul></div><div className="mt-6 flex flex-col gap-3 sm:flex-row"><button onClick={()=>{window.location.href="/?tab=question_bank"}} className="inline-flex flex-1 items-center justify-center gap-2 rounded-2xl bg-blue-600 px-5 py-3 text-sm font-black text-white shadow-lg hover:bg-blue-700"><Target className="h-4 w-4"/>تدريب وأسئلة بنك الأسئلة</button><a href={GRAMMAR_PLAYLIST_URL} target="_blank" rel="noreferrer" className="inline-flex items-center justify-center gap-2 rounded-2xl border border-slate-200 px-5 py-3 text-sm font-black text-slate-700 dark:border-slate-700 dark:text-slate-200"><ExternalLink className="h-4 w-4"/>YouTube Playlist</a></div></div></>:<div className="p-10 text-center font-black text-slate-500">لا يوجد فيديو مربوط بهذا النطاق بعد.</div>}</main>
+    </div>}
+    <div className="mt-5 rounded-xl bg-blue-50 px-4 py-3 text-[11px] font-bold leading-6 text-blue-800 dark:bg-blue-950/30 dark:text-blue-200">📌 مصدر ترتيب الوحدات والقواعد الحالية تم تثبيته داخل المنصة كـCurriculum Map، والفيديوهات لا تظهر داخل وحدة إلا لو كانت مربوطة بها صراحة.</div>
   </div></section>;
 };
