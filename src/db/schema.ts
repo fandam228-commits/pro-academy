@@ -96,6 +96,10 @@ export const questionBank = pgTable(
     questionType: text("question_type").notNull(), // 'mcq', 'fill_blank', 'correction', 'rewrite', 'matching', 'ordering', 'comprehension', 'listening'
     stage: text("stage").notNull(), // 'Preparatory', 'Secondary'
     grade: text("grade").notNull(), // 'First Prep', 'Second Prep', 'Third Prep', 'First Secondary', 'Second Secondary', 'Third Secondary (Baccalaureate)'
+    curriculum: text("curriculum").default("Ministry"),
+    term: text("term").default("First"),
+    source: text("source"),
+    tags: jsonb("tags").default([]),
     unit: text("unit").default("Unit 1"),
     lesson: text("lesson").default("Lesson 1"),
     difficulty: text("difficulty").notNull().default("Medium"), // 'Easy', 'Medium', 'Hard'
@@ -123,6 +127,8 @@ export const questionBank = pgTable(
   (table) => [
     index("idx_qb_domain").on(table.domainCategory),
     index("idx_qb_grade").on(table.grade),
+    index("idx_qb_curriculum").on(table.curriculum),
+    index("idx_qb_term").on(table.term),
     index("idx_qb_difficulty").on(table.difficulty),
     index("idx_qb_topic").on(table.topic),
     index("idx_qb_grammar").on(table.grammarTopic),
