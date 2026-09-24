@@ -99,6 +99,7 @@ export async function ensureDbSetup() {
         tags JSONB DEFAULT '[]'::jsonb,
         unit TEXT DEFAULT 'Unit 1',
         lesson TEXT DEFAULT 'Lesson 1',
+        section TEXT,
         difficulty TEXT NOT NULL DEFAULT 'Medium',
         skill TEXT DEFAULT 'Grammar & Context',
         word_type TEXT,
@@ -125,6 +126,7 @@ export async function ensureDbSetup() {
       ALTER TABLE question_bank ADD COLUMN IF NOT EXISTS term TEXT DEFAULT 'First';
       ALTER TABLE question_bank ADD COLUMN IF NOT EXISTS source TEXT;
       ALTER TABLE question_bank ADD COLUMN IF NOT EXISTS tags JSONB DEFAULT '[]'::jsonb;
+      ALTER TABLE question_bank ADD COLUMN IF NOT EXISTS section TEXT;
 
       CREATE INDEX IF NOT EXISTS idx_qb_grade ON question_bank(grade);
       CREATE INDEX IF NOT EXISTS idx_qb_curriculum ON question_bank(curriculum);
@@ -132,6 +134,7 @@ export async function ensureDbSetup() {
       CREATE INDEX IF NOT EXISTS idx_qb_difficulty ON question_bank(difficulty);
       CREATE INDEX IF NOT EXISTS idx_qb_topic ON question_bank(topic);
       CREATE INDEX IF NOT EXISTS idx_qb_grammar ON question_bank(grammar_topic);
+      CREATE INDEX IF NOT EXISTS idx_qb_scope ON question_bank(stage, grade, curriculum, term, unit);
 
       CREATE TABLE IF NOT EXISTS generated_exams (
         id TEXT PRIMARY KEY,
