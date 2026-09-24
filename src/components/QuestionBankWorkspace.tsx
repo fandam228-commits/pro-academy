@@ -2,7 +2,6 @@
 
 import React, { useState, useEffect } from "react";
 import { useApp } from "@/context/AppContext";
-import { authHeaders } from "@/lib/client-auth";
 import {
   Database,
   Search,
@@ -104,7 +103,7 @@ export const QuestionBankWorkspace: React.FC<{ onExamGenerated?: (exam: any) => 
     try {
       const res = await fetch("/api/question-bank", {
         method: "POST",
-        headers: { "Content-Type": "application/json", ...authHeaders() },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           action: "ai_generate_questions",
           domain: aiDomain,
@@ -132,7 +131,7 @@ export const QuestionBankWorkspace: React.FC<{ onExamGenerated?: (exam: any) => 
     try {
       const res = await fetch("/api/question-bank", {
         method: "POST",
-        headers: { "Content-Type": "application/json", ...authHeaders() },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           action: "generate_smart_exam",
           studentId: user?.id || "usr_student_1",
@@ -170,7 +169,7 @@ export const QuestionBankWorkspace: React.FC<{ onExamGenerated?: (exam: any) => 
     try {
       const res = await fetch("/api/question-bank", {
         method: "POST",
-        headers: { "Content-Type": "application/json", ...authHeaders() },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           action: "add_question",
           question: {
@@ -227,7 +226,7 @@ export const QuestionBankWorkspace: React.FC<{ onExamGenerated?: (exam: any) => 
     try {
       const res = await fetch("/api/question-bank", {
         method: "POST",
-        headers: { "Content-Type": "application/json", ...authHeaders() },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ action: "import_questions", items: parsedItems }),
       });
       const json = await res.json();
