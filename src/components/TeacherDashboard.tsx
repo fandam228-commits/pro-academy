@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { useApp } from "@/context/AppContext";
+import { authHeaders } from "@/lib/client-auth";
 import { GraduationCap, Plus, Video, FileText, CheckCircle2, BookOpen, Users, BarChart2, Sparkles, HelpCircle } from "lucide-react";
 
 export const TeacherDashboard: React.FC<{ onOpenLibrary?: () => void }> = ({ onOpenLibrary }) => {
