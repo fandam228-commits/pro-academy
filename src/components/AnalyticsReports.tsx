@@ -2,7 +2,6 @@
 
 import React, { useState, useEffect } from "react";
 import { useApp } from "@/context/AppContext";
-import { authHeaders } from "@/lib/client-auth";
 import { buildWhatsAppLink } from "@/config/platform";
 import {
   BarChart3,
@@ -108,7 +107,7 @@ export const AnalyticsReports: React.FC = () => {
     setLoading(true);
     try {
       const url = studentId ? `/api/analytics?studentId=${studentId}` : "/api/analytics";
-      const res = await fetch(url, { headers: { ...authHeaders() } });
+      const res = await fetch(url, {  });
       setData(await res.json());
     } catch {}
     setLoading(false);
