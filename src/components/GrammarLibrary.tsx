@@ -3,6 +3,7 @@ import React,{useEffect,useMemo,useRef,useState} from "react";
 import {BookOpen,CheckCircle2,ChevronRight,ExternalLink,Filter,GraduationCap,PlayCircle,Sparkles,Target,Youtube} from "lucide-react";
 import {GRAMMAR_PLAYLIST_ID,GRAMMAR_PLAYLIST_URL,grammarVideos,getMappedGrammarVideos,type GrammarVideo} from "@/data/grammar-videos";
 import {currentCurriculumTracks,getCurriculumTrack} from "@/data/current-curriculum";
+import {GrammarMiniExam} from "@/components/GrammarMiniExam";
 
 declare global { interface Window { YT?: any; onYouTubeIframeAPIReady?:()=>void; } }
 
@@ -185,6 +186,7 @@ practiceQuestions.length===0?<div className="py-5 text-center text-xs font-bold 
 {practiceSubmitted&&<span className="text-sm font-black text-slate-700 dark:text-slate-200">النتيجة: {practiceResult?.score ?? 0} / {practiceResult?.total ?? practiceQuestions.length}</span>}
 </div></div>}
 </div>
+{selectedScope&&<GrammarMiniExam stage={stage} grade={grade} curriculum={curriculum} term={term} unit={unit} grammarTopic={selectedScope.grammarTopic}/>}
 <div className="mt-6 flex flex-col gap-3 sm:flex-row"><a href={practiceUrl} className="inline-flex flex-1 items-center justify-center gap-2 rounded-2xl bg-blue-600 px-5 py-3 text-sm font-black text-white shadow-lg hover:bg-blue-700"><Target className="h-4 w-4"/>تدريب وأسئلة بنك الأسئلة</a><a href={GRAMMAR_PLAYLIST_URL} target="_blank" rel="noreferrer" className="inline-flex items-center justify-center gap-2 rounded-2xl border border-slate-200 px-5 py-3 text-sm font-black text-slate-700 dark:border-slate-700 dark:text-slate-200"><ExternalLink className="h-4 w-4"/>YouTube Playlist</a></div></div></>:<div className="p-10 text-center font-black text-slate-500">لا يوجد فيديو مربوط بهذا النطاق بعد.</div>}</main>
     </div>}
     <div className="mt-5 rounded-xl bg-blue-50 px-4 py-3 text-[11px] font-bold leading-6 text-blue-800 dark:bg-blue-950/30 dark:text-blue-200">📌 مصدر ترتيب الوحدات والقواعد الحالية تم تثبيته داخل المنصة كـCurriculum Map، والفيديوهات لا تظهر داخل وحدة إلا لو كانت مربوطة بها صراحة.</div>
