@@ -1,6 +1,6 @@
 import { db } from "@/db";
 import { courses, units, lessons, enrollments } from "@/db/schema";
-import { eq, and } from "drizzle-orm";
+import { eq, and, inArray } from "drizzle-orm";
 import { NextResponse } from "next/server";
 import { ensureDbSetup } from "@/db/migrate-and-seed";
 import { requireRoles, getAuthContext } from "@/lib/security";
@@ -173,9 +173,15 @@ export async function POST(req: Request) {
       const completed = Array.isArray(enr.completedLessonIds) ? [...(enr.completedLessonIds as string[])] : [];
       if (!completed.includes(body.lessonId)) completed.push(body.lessonId);
 
-      const totalLessonsRows = await db.select({ id: lessons.id })
-        .innerJoin(units, eq(units.id, lessons.unitId))
+      const courseUnitRows = await db.select({ id: units.id })
+        .from(units)
         .where(eq(units.courseId, courseId));
+      const courseUnitIds = courseUnitRows.map((u) => u.id);
+      const totalLessonsRows = courseUnitIds.length
+        ? await db.select({ id: lessons.id })
+            .from(lessons)
+            .where(inArray(lessons.unitId, courseUnitIds))
+        : [];
       const progress = totalLessonsRows.length ? Math.round((completed.length / totalLessonsRows.length) * 100) : 0;
 
       await db.update(enrollments).set({ completedLessonIds: completed, progress: Math.min(100, progress) }).where(eq(enrollments.id, enr.id));
