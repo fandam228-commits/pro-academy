@@ -313,9 +313,15 @@ export async function POST(req: Request) {
 
       await db.insert(generatedExams).values(examObj);
 
+      // Keep the answer key server-side; students receive only the playable exam.
+      const safeExam = {
+        ...examObj,
+        questionsData: selected.map(({ correctAnswer, ...q }) => q),
+      };
+
       return NextResponse.json({
         success: true,
-        exam: examObj,
+        exam: safeExam,
       });
     }
 
@@ -330,6 +336,25 @@ export async function POST(req: Request) {
       }
 
       const exam = examsList[0];
+      if (
+        ctx.user.role === "student" &&
+        (exam.studentId !== ctx.user.id || studentId !== ctx.user.id)
+      ) {
+        return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+      }
+
+      // One attempt per generated exam prevents repeated point/streak farming.
+      const existingAttempts = await db
+        .select()
+        .from(examAttempts)
+        .where(and(eq(examAttempts.examId, examId), eq(examAttempts.studentId, studentId)));
+      if (existingAttempts.length > 0) {
+        return NextResponse.json(
+          { error: "Exam already submitted", attempt: existingAttempts[existingAttempts.length - 1] },
+          { status: 409 }
+        );
+      }
+
       const questions = (exam.questionsData as any[]) || [];
 
       let earned = 0;
