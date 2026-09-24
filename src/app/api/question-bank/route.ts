@@ -7,6 +7,8 @@ import { requireRoles, getAuthContext } from "@/lib/security";
 
 export async function GET(req: Request) {
   await ensureDbSetup();
+  const ctx = await getAuthContext(req);
+  if (!ctx) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   const { searchParams } = new URL(req.url);
   const domainCategory = searchParams.get("domainCategory"); // 'Vocabulary', 'Grammar'
   const grade = searchParams.get("grade");
@@ -46,8 +48,9 @@ export async function GET(req: Request) {
     const vocabCount = allQuestions.filter((q) => q.domainCategory === "Vocabulary").length;
     const grammarCount = allQuestions.filter((q) => q.domainCategory === "Grammar").length;
 
+    const safeQuestions = (ctx.user.role === "admin" || ctx.user.role === "teacher") ? allQuestions : allQuestions.map(({ correctAnswer, ...q }) => q);
     return NextResponse.json({
-      questions: allQuestions,
+      questions: safeQuestions,
       stats: {
         total: totalCount,
         vocabularyCount: vocabCount,
@@ -249,7 +252,9 @@ export async function POST(req: Request) {
     if (action === "generate_smart_exam") {
       const { studentId, stage, grade, questionCount, easyPercent, mediumPercent, hardPercent, grammarRatio } = body;
 
-      const totalNum = parseInt(questionCount) || 15;
+      if (ctx.user.role === "student" && studentId && studentId !== ctx.user.id) return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+      const effectiveStudentId = ctx.user.role === "student" ? ctx.user.id : studentId;
+      const totalNum = Math.min(parseInt(questionCount) || 15, 100);
       const numGrammar = Math.round(totalNum * ((parseInt(grammarRatio) || 50) / 100));
       const numVocab = totalNum - numGrammar;
 
@@ -295,7 +300,7 @@ export async function POST(req: Request) {
       const examId = `exam_${Date.now()}`;
       const examObj = {
         id: examId,
-        studentId: studentId || "usr_student_1",
+        studentId: effectiveStudentId || ctx.user.id,
         title: `Smart Exam: ${grade} (${totalNum} Questions)`,
         stage: stage || "Secondary",
         grade: grade || "Third Secondary (Baccalaureate)",
@@ -317,6 +322,7 @@ export async function POST(req: Request) {
     // 5. SUBMIT GENERATED SMART EXAM
     if (action === "submit_exam") {
       const { examId, studentId, userAnswers } = body;
+      if (ctx.user.role !== "admin" && ctx.user.role !== "teacher" && studentId !== ctx.user.id) return NextResponse.json({ error: "Forbidden" }, { status: 403 });
       const examsList = await db.select().from(generatedExams).where(eq(generatedExams.id, examId));
 
       if (examsList.length === 0) {
