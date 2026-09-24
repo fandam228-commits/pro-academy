@@ -12,6 +12,8 @@ import {
   destroySession,
   extractToken,
   getAuthContext,
+  sessionCookie,
+  clearSessionCookie,
   checkLoginLock,
   recordFailedLogin,
   clearFailedLogins,
@@ -89,7 +91,9 @@ export async function POST(req: Request) {
       }
       const result = await performLogin(email, password, userAgent);
       if (result.errorResponse) return result.errorResponse;
-      return NextResponse.json({ success: true, user: result.user, token: result.token, expiresAt: result.expiresAt });
+      const response = NextResponse.json({ success: true, user: result.user, expiresAt: result.expiresAt });
+      response.headers.set("Set-Cookie", sessionCookie(result.token, result.expiresAt));
+      return response;
     }
 
     // ============ REGISTER ============
@@ -176,7 +180,9 @@ export async function POST(req: Request) {
 
       const { token, expiresAt } = await createSession(newUserId, newUser.role, userAgent);
 
-      return NextResponse.json({ success: true, user: sanitizeUser(newUser), token, expiresAt });
+      const response = NextResponse.json({ success: true, user: sanitizeUser(newUser), expiresAt });
+      response.headers.set("Set-Cookie", sessionCookie(token, expiresAt));
+      return response;
     }
 
     // ============ LOGOUT ============
@@ -185,7 +191,9 @@ export async function POST(req: Request) {
       if (token) {
         await destroySession(token);
       }
-      return NextResponse.json({ success: true });
+      const response = NextResponse.json({ success: true });
+      response.headers.set("Set-Cookie", clearSessionCookie());
+      return response;
     }
 
     return NextResponse.json({ error: "Invalid action" }, { status: 400 });
