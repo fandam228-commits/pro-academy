@@ -3,9 +3,12 @@ import { quizzes, questions, quizSubmissions, users } from "@/db/schema";
 import { eq, and } from "drizzle-orm";
 import { NextResponse } from "next/server";
 import { ensureDbSetup } from "@/db/migrate-and-seed";
+import { getAuthContext, requireRoles } from "@/lib/security";
 
 export async function GET(req: Request) {
   await ensureDbSetup();
+  const ctx = await getAuthContext(req);
+  if (!ctx) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   const { searchParams } = new URL(req.url);
   const quizId = searchParams.get("id");
   const courseId = searchParams.get("courseId");
@@ -22,6 +25,7 @@ export async function GET(req: Request) {
       const qList = await db.select().from(questions).where(eq(questions.quizId, quizId));
       
       let lastSubmission = null;
+      if (studentId && studentId !== ctx.user.id && ctx.user.role !== "admin" && ctx.user.role !== "teacher") return NextResponse.json({ error: "Forbidden" }, { status: 403 });
       if (studentId) {
         const subs = await db
           .select()
@@ -56,11 +60,14 @@ export async function GET(req: Request) {
 
 export async function POST(req: Request) {
   await ensureDbSetup();
+  const ctx = await getAuthContext(req);
+  if (!ctx) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   try {
     const body = await req.json();
     const { action, quizData, questionData, submissionData } = body;
 
     if (action === "create_quiz") {
+      const { denied } = await requireRoles(req, ["admin", "teacher"]); if (denied) return denied;
       const id = `qz_${Date.now()}`;
       const newQuiz = {
         id,
@@ -95,7 +102,8 @@ export async function POST(req: Request) {
     }
 
     if (action === "submit") {
-      const { quizId, studentId, userAnswers } = submissionData; // userAnswers: { [qId]: answerString }
+      const { quizId, studentId, userAnswers } = submissionData;
+      if (ctx.user.role !== "admin" && ctx.user.role !== "teacher" && studentId !== ctx.user.id) return NextResponse.json({ error: "Forbidden" }, { status: 403 }); // userAnswers: { [qId]: answerString }
       const qList = await db.select().from(questions).where(eq(questions.quizId, quizId));
       const qzList = await db.select().from(quizzes).where(eq(quizzes.id, quizId));
       
