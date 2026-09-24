@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import { useApp } from "@/context/AppContext";
+import { authHeaders } from "@/lib/client-auth";
 import {
   NotebookPen,
   Plus,
