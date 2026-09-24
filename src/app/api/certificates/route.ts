@@ -1,11 +1,14 @@
 import { db } from "@/db";
-import { certificates, enrollments, courses, users } from "@/db/schema";
+import { certificates, enrollments, courses, users, parentLinks } from "@/db/schema";
 import { eq, and } from "drizzle-orm";
 import { NextResponse } from "next/server";
 import { ensureDbSetup } from "@/db/migrate-and-seed";
+import { getAuthContext, requireRoles } from "@/lib/security";
 
 export async function GET(req: Request) {
   await ensureDbSetup();
+  const ctx = await getAuthContext(req);
+  if (!ctx) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   const { searchParams } = new URL(req.url);
   const code = searchParams.get("code");
   const studentId = searchParams.get("studentId");
@@ -20,10 +23,17 @@ export async function GET(req: Request) {
     }
 
     if (studentId) {
+      if (ctx.user.role === "student" && studentId !== ctx.user.id) return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+      if (ctx.user.role === "parent") {
+        const links = await db.select().from(parentLinks).where(and(eq(parentLinks.parentId, ctx.user.id), eq(parentLinks.studentId, studentId)));
+        if (!links.length) return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+      }
+      if (!["student","parent","teacher","admin"].includes(ctx.user.role)) return NextResponse.json({ error: "Forbidden" }, { status: 403 });
       const studentCerts = await db.select().from(certificates).where(eq(certificates.studentId, studentId));
       return NextResponse.json({ certificates: studentCerts });
     }
 
+    if (ctx.user.role !== "admin" && ctx.user.role !== "teacher") return NextResponse.json({ error: "Forbidden" }, { status: 403 });
     const allCerts = await db.select().from(certificates);
     return NextResponse.json({ certificates: allCerts });
   } catch (error) {
@@ -34,6 +44,8 @@ export async function GET(req: Request) {
 
 export async function POST(req: Request) {
   await ensureDbSetup();
+  const { denied } = await requireRoles(req, ["admin", "teacher"]);
+  if (denied) return denied;
   try {
     const { studentId, courseId } = await req.json();
 
