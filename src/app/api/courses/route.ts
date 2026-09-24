@@ -62,7 +62,7 @@ export async function GET(req: Request) {
     let allCourses = await db.select().from(courses);
     if (stage) allCourses = allCourses.filter((c) => c.stage.toLowerCase() === stage.toLowerCase());
     if (grade) allCourses = allCourses.filter((c) => c.grade.toLowerCase() === grade.toLowerCase());
-    return NextResponse.json({ courses: allCourses.filter((c) => c.isPublished)]);
+    return NextResponse.json({ courses: allCourses.filter((c) => c.isPublished) });
   } catch (error) {
     console.error("Courses GET error:", error);
     return NextResponse.json({ error: "Failed to fetch courses" }, { status: 500 });
