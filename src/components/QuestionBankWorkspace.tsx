@@ -41,6 +41,9 @@ export const QuestionBankWorkspace: React.FC<{ onExamGenerated?: (exam: any) => 
   const [typeFilter, setTypeFilter] = useState<string>("All");
   const [domainFilter, setDomainFilter] = useState<string>("All");
   const [difficultyFilter, setDifficultyFilter] = useState<string>("All");
+  const [sourceFilter, setSourceFilter] = useState<string>("All");
+  const [lessonFilter, setLessonFilter] = useState<string>("All");
+  const [sectionFilter, setSectionFilter] = useState<string>("All");
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [activeTab, setActiveTab] = useState<"bank" | "smart_generator" | "ai_generator" | "importer">("bank");
 
@@ -55,7 +58,11 @@ export const QuestionBankWorkspace: React.FC<{ onExamGenerated?: (exam: any) => 
   const [aiResultMsg, setAiResultMsg] = useState("");
 
   // Smart Exam Generator state
+  const [examStage, setExamStage] = useState("Secondary");
   const [examGrade, setAiExamGrade] = useState("Third Secondary (Baccalaureate)");
+  const [examCurriculum, setExamCurriculum] = useState("Baccalaureate");
+  const [examTerm, setExamTerm] = useState("First");
+  const [examUnit, setExamUnit] = useState("All");
   const [examCount, setExamCount] = useState(15);
   const [easyPercent, setEasyPercent] = useState(30);
   const [mediumPercent, setMediumPercent] = useState(50);
@@ -85,6 +92,9 @@ export const QuestionBankWorkspace: React.FC<{ onExamGenerated?: (exam: any) => 
   const [newTerm, setNewTerm] = useState("First");
   const [newUnit, setNewUnit] = useState("Unit 1");
   const [newQuestionType, setNewQuestionType] = useState("mcq");
+  const [newSource, setNewSource] = useState("Ministry Book");
+  const [newLesson, setNewLesson] = useState("Lesson 1");
+  const [newSection, setNewSection] = useState("");
 
   const fetchQuestions = async () => {
     setLoading(true);
@@ -98,6 +108,9 @@ export const QuestionBankWorkspace: React.FC<{ onExamGenerated?: (exam: any) => 
       if (typeFilter !== "All") url.searchParams.set("questionType", typeFilter);
       if (domainFilter !== "All") url.searchParams.set("domainCategory", domainFilter);
       if (difficultyFilter !== "All") url.searchParams.set("difficulty", difficultyFilter);
+      if (sourceFilter !== "All") url.searchParams.set("source", sourceFilter);
+      if (lessonFilter !== "All") url.searchParams.set("lesson", lessonFilter);
+      if (sectionFilter !== "All") url.searchParams.set("section", sectionFilter);
       url.searchParams.set("limit", "200");
       if (searchQuery) url.searchParams.set("search", searchQuery);
 
@@ -114,7 +127,7 @@ export const QuestionBankWorkspace: React.FC<{ onExamGenerated?: (exam: any) => 
 
   useEffect(() => {
     fetchQuestions();
-  }, [stageFilter, gradeFilter, curriculumFilter, termFilter, unitFilter, typeFilter, domainFilter, difficultyFilter, searchQuery]);
+  }, [stageFilter, gradeFilter, curriculumFilter, termFilter, unitFilter, typeFilter, domainFilter, difficultyFilter, sourceFilter, lessonFilter, sectionFilter, searchQuery]);
 
   const handleAiGenerate = async () => {
     setAiLoading(true);
@@ -131,6 +144,11 @@ export const QuestionBankWorkspace: React.FC<{ onExamGenerated?: (exam: any) => 
           topic: aiTopic,
           difficulty: aiDifficulty,
           count: aiCount,
+          stage: stageFilter === "All" ? "Secondary" : stageFilter,
+          grade: gradeFilter === "All" ? aiGrade : gradeFilter,
+          curriculum: curriculumFilter === "All" ? "Ministry" : curriculumFilter,
+          term: termFilter === "All" ? "First" : termFilter,
+          source: sourceFilter === "All" ? "AI Generated" : sourceFilter,
         }),
       });
       const json = await res.json();
@@ -154,8 +172,11 @@ export const QuestionBankWorkspace: React.FC<{ onExamGenerated?: (exam: any) => 
         body: JSON.stringify({
           action: "generate_smart_exam",
           studentId: user?.id || "usr_student_1",
-          stage: "Secondary",
+          stage: examStage,
           grade: examGrade,
+          curriculum: examCurriculum,
+          term: examTerm,
+          unit: examUnit === "All" ? undefined : examUnit,
           questionCount: examCount,
           easyPercent,
           mediumPercent,
@@ -200,6 +221,9 @@ export const QuestionBankWorkspace: React.FC<{ onExamGenerated?: (exam: any) => 
             term: newTerm,
             unit: newUnit,
             questionType: newQuestionType,
+            source: newSource,
+            lesson: newLesson,
+            section: newSection || null,
             difficulty: newDifficulty,
             grammarTopic: newDomain === "Grammar" ? newGrammarTopic : null,
             topic: newDomain === "Grammar" ? newGrammarTopic : "Vocabulary Core",
@@ -356,6 +380,17 @@ export const QuestionBankWorkspace: React.FC<{ onExamGenerated?: (exam: any) => 
       {/* TAB 1: QUESTION BANK BROWSER & FILTER */}
       {activeTab === "bank" && (
         <div className="space-y-6">
+          <div className="bg-gradient-to-r from-emerald-50 to-blue-50 dark:from-emerald-950/30 dark:to-blue-950/30 p-4 rounded-3xl border border-emerald-200 dark:border-emerald-900">
+            <div className="flex items-center gap-2 mb-2">
+              <Layers className="w-4 h-4 text-emerald-600" />
+              <strong className="text-sm text-slate-900 dark:text-white">التقسيم الأكاديمي المستقل</strong>
+            </div>
+            <p className="text-[11px] text-slate-600 dark:text-slate-300">
+              إعدادي: Connect و Connect Plus منفصلان تمامًا • أولى ثانوي: Ministry و M High منفصلان •
+              All My Sons يُصنّف داخل M High / Literature • تانية وثالثة ثانوي: Baccalaureate/Thanaweya Amma مع تحديد المصدر.
+            </p>
+          </div>
+
           {/* SEARCH & FILTERS BAR */}
           <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-3 bg-white dark:bg-slate-900 p-4 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-md">
             <div className="relative sm:col-span-2 lg:col-span-2">
@@ -376,7 +411,10 @@ export const QuestionBankWorkspace: React.FC<{ onExamGenerated?: (exam: any) => 
               <option value="All">الصف كله</option><option>First Prep</option><option>Second Prep</option><option>Third Prep</option><option>First Secondary</option><option>Second Secondary</option><option>Third Secondary (Baccalaureate)</option>
             </select>
             <select value={curriculumFilter} onChange={(e) => setCurriculumFilter(e.target.value)} className="w-full p-2.5 rounded-2xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs text-slate-900 dark:text-white">
-              <option value="All">المنهج كله</option><option>Ministry</option><option>Upstream</option><option>Aim High</option><option>Baccalaureate</option><option>Other</option>
+              <option value="All">كل المناهج</option>
+              <option>Connect</option><option>Connect Plus</option>
+              <option>Ministry</option><option>M High</option>
+              <option>Baccalaureate</option><option>Thanaweya Amma</option>
             </select>
             <select value={termFilter} onChange={(e) => setTermFilter(e.target.value)} className="w-full p-2.5 rounded-2xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs text-slate-900 dark:text-white">
               <option value="All">الترم كله</option><option>First</option><option>Second</option>
@@ -392,6 +430,15 @@ export const QuestionBankWorkspace: React.FC<{ onExamGenerated?: (exam: any) => 
             </select>
             <select value={difficultyFilter} onChange={(e) => setDifficultyFilter(e.target.value)} className="w-full p-2.5 rounded-2xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs text-slate-900 dark:text-white">
               <option value="All">كل الصعوبة</option><option value="Easy">Easy</option><option value="Medium">Medium</option><option value="Hard">Hard</option><option value="Tricky">Tricky</option>
+            </select>
+            <select value={sourceFilter} onChange={(e) => setSourceFilter(e.target.value)} className="w-full p-2.5 rounded-2xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs text-slate-900 dark:text-white">
+              <option value="All">كل المصادر</option><option>Ministry Book</option><option>External Source</option><option>Teacher Created</option><option>Revision</option><option>AI Generated</option>
+            </select>
+            <select value={lessonFilter} onChange={(e) => setLessonFilter(e.target.value)} className="w-full p-2.5 rounded-2xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs text-slate-900 dark:text-white">
+              <option value="All">كل الدروس</option>{Array.from({length:8},(_,i)=><option key={i}>Lesson {i+1}</option>)}<option>All My Sons</option>
+            </select>
+            <select value={sectionFilter} onChange={(e) => setSectionFilter(e.target.value)} className="w-full p-2.5 rounded-2xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs text-slate-900 dark:text-white">
+              <option value="All">كل الأقسام</option><option>Grammar</option><option>Vocabulary</option><option>Reading</option><option>Writing</option><option>Literature</option><option>Story</option>
             </select>
           </div>
 
@@ -413,7 +460,7 @@ export const QuestionBankWorkspace: React.FC<{ onExamGenerated?: (exam: any) => 
                         {q.domainCategory}
                       </span>
                       <span className="font-bold text-slate-500">{q.grade}</span>
-                      <span className="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-500">{q.curriculum || "Ministry"} · {q.term || "First"} · {q.unit || "Unit 1"}</span>
+                      <span className="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-500">{q.curriculum || "Ministry"} · {q.term || "First"} · {q.unit || "Unit 1"} · {q.source || "Ministry Book"}{q.lesson ? ` · ${q.lesson}` : ""}{q.section ? ` · ${q.section}` : ""}</span>
                       {q.grammarTopic && <span className="font-mono text-purple-600 dark:text-purple-400 bg-purple-50 dark:bg-purple-950 px-2 py-0.5 rounded">{q.grammarTopic}</span>}
                     </div>
 
@@ -491,18 +538,12 @@ export const QuestionBankWorkspace: React.FC<{ onExamGenerated?: (exam: any) => 
           </div>
 
           <div className="space-y-4 text-xs font-bold text-slate-700 dark:text-slate-300">
-            <div>
-              <label className="block mb-1">Target Grade</label>
-              <select
-                value={examGrade}
-                onChange={(e) => setAiExamGrade(e.target.value)}
-                className="w-full p-3 rounded-2xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white"
-              >
-                <option value="Third Secondary (Baccalaureate)">Third Secondary (Baccalaureate)</option>
-                <option value="Second Secondary">Second Secondary</option>
-                <option value="First Secondary">First Secondary</option>
-                <option value="Third Prep">Third Prep</option>
-              </select>
+            <div className="grid grid-cols-2 gap-3">
+              <div><label className="block mb-1">Stage</label><select value={examStage} onChange={e=>setExamStage(e.target.value)} className="w-full p-3 rounded-2xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white"><option>Preparatory</option><option>Secondary</option></select></div>
+              <div><label className="block mb-1">Grade</label><select value={examGrade} onChange={e=>setAiExamGrade(e.target.value)} className="w-full p-3 rounded-2xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white"><option>Third Prep</option><option>First Secondary</option><option>Second Secondary</option><option>Third Secondary (Baccalaureate)</option></select></div>
+              <div><label className="block mb-1">Curriculum</label><select value={examCurriculum} onChange={e=>setExamCurriculum(e.target.value)} className="w-full p-3 rounded-2xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white"><option>Connect</option><option>Connect Plus</option><option>Ministry</option><option>M High</option><option>Baccalaureate</option><option>Thanaweya Amma</option></select></div>
+              <div><label className="block mb-1">Term</label><select value={examTerm} onChange={e=>setExamTerm(e.target.value)} className="w-full p-3 rounded-2xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white"><option>First</option><option>Second</option></select></div>
+              <div><label className="block mb-1">Unit</label><select value={examUnit} onChange={e=>setExamUnit(e.target.value)} className="w-full p-3 rounded-2xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white col-span-2"><option>All</option>{Array.from({length:12},(_,i)=><option key={i}>Unit {i+1}</option>)}<option>All My Sons</option></select></div>
             </div>
 
             <div className="grid grid-cols-2 gap-4">
@@ -686,9 +727,12 @@ export const QuestionBankWorkspace: React.FC<{ onExamGenerated?: (exam: any) => 
             <div className="grid grid-cols-2 gap-2">
               <select value={newStage} onChange={e=>setNewStage(e.target.value)} className="p-2.5 rounded-xl bg-slate-50 border border-slate-200 text-xs"><option>Preparatory</option><option>Secondary</option></select>
               <select value={newGrade} onChange={e=>setNewGrade(e.target.value)} className="p-2.5 rounded-xl bg-slate-50 border border-slate-200 text-xs"><option>First Prep</option><option>Second Prep</option><option>Third Prep</option><option>First Secondary</option><option>Second Secondary</option><option>Third Secondary (Baccalaureate)</option></select>
-              <select value={newCurriculum} onChange={e=>setNewCurriculum(e.target.value)} className="p-2.5 rounded-xl bg-slate-50 border border-slate-200 text-xs"><option>Ministry</option><option>Upstream</option><option>Aim High</option><option>Baccalaureate</option><option>Other</option></select>
+              <select value={newCurriculum} onChange={e=>setNewCurriculum(e.target.value)} className="p-2.5 rounded-xl bg-slate-50 border border-slate-200 text-xs"><option>Connect</option><option>Connect Plus</option><option>Ministry</option><option>M High</option><option>Baccalaureate</option><option>Thanaweya Amma</option></select>
               <select value={newTerm} onChange={e=>setNewTerm(e.target.value)} className="p-2.5 rounded-xl bg-slate-50 border border-slate-200 text-xs"><option>First</option><option>Second</option></select>
               <select value={newUnit} onChange={e=>setNewUnit(e.target.value)} className="p-2.5 rounded-xl bg-slate-50 border border-slate-200 text-xs"><option>Unit 1</option><option>Unit 2</option><option>Unit 3</option><option>Unit 4</option><option>Unit 5</option><option>Unit 6</option><option>Unit 7</option><option>Unit 8</option><option>Unit 9</option><option>Unit 10</option><option>Unit 11</option><option>Unit 12</option></select>
+              <select value={newSource} onChange={e=>setNewSource(e.target.value)} className="p-2.5 rounded-xl bg-slate-50 border border-slate-200 text-xs"><option>Ministry Book</option><option>External Source</option><option>Teacher Created</option><option>Revision</option></select>
+              <input value={newLesson} onChange={e=>setNewLesson(e.target.value)} placeholder="Lesson / All My Sons" className="p-2.5 rounded-xl bg-slate-50 border border-slate-200 text-xs" />
+              <input value={newSection} onChange={e=>setNewSection(e.target.value)} placeholder="Section: Grammar / Literature / Story..." className="p-2.5 rounded-xl bg-slate-50 border border-slate-200 text-xs" />
               <select value={newQuestionType} onChange={e=>setNewQuestionType(e.target.value)} className="p-2.5 rounded-xl bg-slate-50 border border-slate-200 text-xs"><option value="mcq">MCQ</option><option value="fill_blank">Complete</option><option value="correction">Correct</option><option value="rewrite">Rewrite</option><option value="comprehension">Reading</option><option value="writing">Writing</option></select>
             </div>
 
