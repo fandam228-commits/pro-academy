@@ -3,7 +3,6 @@
 import React, { useState, useEffect } from "react";
 import { useApp } from "@/context/AppContext";
 import { buildWhatsAppLink } from "@/config/platform";
-import { authHeaders } from "@/lib/client-auth";
 import { Users, CheckCircle, BarChart3, Clock, MessageSquare, Phone, ShieldCheck, Award } from "lucide-react";
 // BarChart3 powers the new "Full Performance Report" action
 
@@ -20,7 +19,7 @@ export const ParentDashboard: React.FC<{ onOpenReport?: () => void }> = ({ onOpe
       const json = await res.json();
       setData(json);
       // Fetch REAL attendance for the linked student
-      const attRes = await fetch(`/api/attendance?studentId=${json?.student?.id || ""}`, { headers: { ...authHeaders() } });
+      const attRes = await fetch(`/api/attendance?studentId=${json?.student?.id || ""}`);
       if (attRes.ok) {
         const attJson = await attRes.json();
         if (attJson.rate !== undefined) setAttendance({ rate: attJson.rate, total: attJson.total, records: attJson.records || [] });
