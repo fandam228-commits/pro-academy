@@ -524,6 +524,7 @@ export async function POST(req: Request) {
         success: true,
         attempt: newAttempt,
         score: earned,
+        totalPoints,
         percentage,
         passed,
         feedback,
