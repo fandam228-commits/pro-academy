@@ -2,7 +2,6 @@
 
 import React, { useState, useEffect } from "react";
 import { useApp } from "@/context/AppContext";
-import { authHeaders } from "@/lib/client-auth";
 import {
   BarChart3,
   ClipboardCheck,
@@ -30,7 +29,7 @@ export const WeeklyReport: React.FC = () => {
   useEffect(() => {
     (async () => {
       try {
-        const res = await fetch(`/api/reports?studentId=${user?.id || ""}`, { headers: { ...authHeaders() } });
+        const res = await fetch(`/api/reports?studentId=${user?.id || ""}`);
         const json = await res.json();
         if (json.report) setReport(json.report);
       } catch {}
