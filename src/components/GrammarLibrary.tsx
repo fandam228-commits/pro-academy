@@ -30,8 +30,8 @@ const filters=[["all","كل الفيديوهات"],["tenses","Tenses"],["structu
 function filterKey(v:GrammarVideo){if(["present-continuous"].includes(v.id))return"tenses";if(["relative-clauses","question-formation","question-tags","passive-voice","negation"].includes(v.id))return"structures";if(["linkers","conditionals","direct-indirect"].includes(v.id))return"connectors";return"all";}
 
 export const GrammarLibrary:React.FC=()=>{
-  const [stage,setStage]=useState("Secondary");
   const [grade,setGrade]=useState("First Secondary");
+  const stage=grade.includes("Prep") ? "Preparatory" : "Secondary";
   const [curriculum,setCurriculum]=useState("Ministry");
   const [term,setTerm]=useState("First");
   const [unit,setUnit]=useState("All");
