@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { useApp } from "@/context/AppContext";
+import { authHeaders } from "@/lib/client-auth";
 import {
   Bell,
   BellRing,
