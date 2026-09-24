@@ -44,6 +44,7 @@ export const QuestionBankWorkspace: React.FC<{ onExamGenerated?: (exam: any) => 
   const [sourceFilter, setSourceFilter] = useState<string>("All");
   const [lessonFilter, setLessonFilter] = useState<string>("All");
   const [sectionFilter, setSectionFilter] = useState<string>("All");
+  const [grammarTopicFilter, setGrammarTopicFilter] = useState<string>("");
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [activeTab, setActiveTab] = useState<"bank" | "smart_generator" | "ai_generator" | "importer">("bank");
 
@@ -96,6 +97,25 @@ export const QuestionBankWorkspace: React.FC<{ onExamGenerated?: (exam: any) => 
   const [newLesson, setNewLesson] = useState("Lesson 1");
   const [newSection, setNewSection] = useState("");
 
+  // Deep-link support: Grammar Library can open this workspace with an exact academic scope.
+  useEffect(() => {
+    try {
+      const params = new URLSearchParams(window.location.search);
+      if (params.get("stage")) setStageFilter(params.get("stage")!);
+      if (params.get("grade")) setGradeFilter(params.get("grade")!);
+      if (params.get("curriculum")) setCurriculumFilter(params.get("curriculum")!);
+      if (params.get("term")) setTermFilter(params.get("term")!);
+      if (params.get("unit")) setUnitFilter(params.get("unit")!);
+      if (params.get("domainCategory")) setDomainFilter(params.get("domainCategory")!);
+      if (params.get("questionType")) setTypeFilter(params.get("questionType")!);
+      if (params.get("difficulty")) setDifficultyFilter(params.get("difficulty")!);
+      if (params.get("source")) setSourceFilter(params.get("source")!);
+      if (params.get("lesson")) setLessonFilter(params.get("lesson")!);
+      if (params.get("section")) setSectionFilter(params.get("section")!);
+      if (params.get("grammarTopic")) setGrammarTopicFilter(params.get("grammarTopic")!);
+    } catch {}
+  }, []);
+
   const fetchQuestions = async () => {
     setLoading(true);
     try {
@@ -111,6 +131,7 @@ export const QuestionBankWorkspace: React.FC<{ onExamGenerated?: (exam: any) => 
       if (sourceFilter !== "All") url.searchParams.set("source", sourceFilter);
       if (lessonFilter !== "All") url.searchParams.set("lesson", lessonFilter);
       if (sectionFilter !== "All") url.searchParams.set("section", sectionFilter);
+      if (grammarTopicFilter) url.searchParams.set("grammarTopic", grammarTopicFilter);
       url.searchParams.set("limit", "200");
       if (searchQuery) url.searchParams.set("search", searchQuery);
 
@@ -127,7 +148,7 @@ export const QuestionBankWorkspace: React.FC<{ onExamGenerated?: (exam: any) => 
 
   useEffect(() => {
     fetchQuestions();
-  }, [stageFilter, gradeFilter, curriculumFilter, termFilter, unitFilter, typeFilter, domainFilter, difficultyFilter, sourceFilter, lessonFilter, sectionFilter, searchQuery]);
+  }, [stageFilter, gradeFilter, curriculumFilter, termFilter, unitFilter, typeFilter, domainFilter, difficultyFilter, sourceFilter, lessonFilter, sectionFilter, grammarTopicFilter, searchQuery]);
 
   const handleAiGenerate = async () => {
     setAiLoading(true);
@@ -445,7 +466,7 @@ export const QuestionBankWorkspace: React.FC<{ onExamGenerated?: (exam: any) => 
             <select value={lessonFilter} onChange={(e) => setLessonFilter(e.target.value)} className="w-full p-2.5 rounded-2xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs text-slate-900 dark:text-white">
               <option value="All">كل الدروس</option>{Array.from({length:8},(_,i)=><option key={i}>Lesson {i+1}</option>)}<option>All My Sons</option>
             </select>
-            <select value={sectionFilter} onChange={(e) => setSectionFilter(e.target.value)} className="w-full p-2.5 rounded-2xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs text-slate-900 dark:text-white">
+            <input value={grammarTopicFilter} onChange={(e) => setGrammarTopicFilter(e.target.value)} placeholder="قاعدة محددة..." className="w-full p-2.5 rounded-2xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs text-slate-900 dark:text-white">
               <option value="All">كل الأقسام</option><option>Grammar</option><option>Vocabulary</option><option>Reading</option><option>Writing</option><option>Literature</option><option>Story</option>
             </select>
           </div>
