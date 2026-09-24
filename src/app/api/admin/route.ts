@@ -29,20 +29,9 @@ export async function GET(req: Request) {
       totalCourses: allCourses.length,
       totalRevenue,
       totalSubmissions: allSubmissions.length,
-      activeToday: Math.floor(students.length * 0.85) + 12,
-      deviceStats: [
-        { device: "Mobile App (Android/iOS)", percentage: 68 },
-        { device: "Desktop Web", percentage: 25 },
-        { device: "Tablet", percentage: 7 },
-      ],
-      monthlyRevenue: [
-        { month: "Oct", revenue: 12500 },
-        { month: "Nov", revenue: 18400 },
-        { month: "Dec", revenue: 22100 },
-        { month: "Jan", revenue: 28900 },
-        { month: "Feb", revenue: 34200 },
-        { month: "Mar", revenue: 41800 },
-      ],
+      activeToday: null,
+      deviceStats: [],
+      monthlyRevenue: [],
     };
 
     return NextResponse.json({
