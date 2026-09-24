@@ -1,6 +1,6 @@
 "use client";
 import React,{useEffect,useMemo,useRef,useState} from "react";
-import {BookOpen,CheckCircle2,ChevronRight,ExternalLink,Filter,GraduationCap,PlayCircle,Sparkles,Target,Youtube} from "lucide-react";
+import {BookOpen,CheckCircle2,ChevronRight,ExternalLink,Filter,GraduationCap,PlayCircle,Sparkles,Target} from "lucide-react";
 import {GRAMMAR_PLAYLIST_ID,GRAMMAR_PLAYLIST_URL,grammarVideos,getMappedGrammarVideos,type GrammarVideo} from "@/data/grammar-videos";
 import {currentCurriculumTracks,getCurriculumTrack} from "@/data/current-curriculum";
 import {GrammarMiniExam} from "@/components/GrammarMiniExam";
@@ -23,7 +23,7 @@ function YouTubeGrammarPlayer({video}:{video:GrammarVideo}){
     return()=>{cancelled=true;if(playerRef.current){try{playerRef.current.destroy()}catch{}playerRef.current=null}};
   },[]);
   useEffect(()=>{if(!ready||!playerRef.current?.loadPlaylist)return;try{playerRef.current.loadPlaylist({listType:"playlist",list:GRAMMAR_PLAYLIST_ID,index:video.playlistIndex,startSeconds:0})}catch{}},[ready,video.playlistIndex]);
-  return <div className="relative aspect-video w-full overflow-hidden rounded-2xl bg-slate-950"><div ref={containerRef} className="absolute inset-0 h-full w-full"/>{!ready&&<div className="absolute inset-0 flex items-center justify-center bg-slate-950 text-white"><div className="text-center"><Youtube className="mx-auto mb-3 h-10 w-10 text-red-500"/><p className="text-sm font-bold">جاري تحميل فيديو الشرح...</p></div></div>}</div>;
+  return <div className="relative aspect-video w-full overflow-hidden rounded-2xl bg-slate-950"><div ref={containerRef} className="absolute inset-0 h-full w-full"/>{!ready&&<div className="absolute inset-0 flex items-center justify-center bg-slate-950 text-white"><div className="text-center"><PlayCircle className="mx-auto mb-3 h-10 w-10 text-red-500"/><p className="text-sm font-bold">جاري تحميل فيديو الشرح...</p></div></div>}</div>;
 }
 
 const filters=[["all","كل الفيديوهات"],["tenses","Tenses"],["structures","Structures"],["connectors","Linking & Connectors"]];
