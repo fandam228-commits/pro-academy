@@ -23,7 +23,7 @@ import {
 } from "lucide-react";
 
 export const AuthScreen: React.FC = () => {
-  const { lang, login, register, switchRole, authLoading, authError, clearAuthError } = useApp();
+  const { lang, login, register, authLoading, authError, clearAuthError } = useApp();
   const [mode, setMode] = useState<"login" | "register">("login");
   const [showPassword, setShowPassword] = useState(false);
 
@@ -89,13 +89,6 @@ export const AuthScreen: React.FC = () => {
       parentPhone: regParentPhone,
     });
   };
-
-  const demoAccounts: { role: Role; label: string; icon: any; gradient: string }[] = [
-    { role: "admin", label: lang === "ar" ? "المشرف العام" : "Super Admin", icon: ShieldCheck, gradient: "from-purple-600 to-indigo-600" },
-    { role: "teacher", label: lang === "ar" ? "المعلم (مستر حبيب)" : "Teacher (Mr. Habib)", icon: GraduationCap, gradient: "from-blue-600 to-sky-500" },
-    { role: "student", label: lang === "ar" ? "طالب (عمر محمود)" : "Student (Omar)", icon: BookOpen, gradient: "from-emerald-600 to-teal-500" },
-    { role: "parent", label: lang === "ar" ? "ولي الأمر" : "Parent", icon: Users, gradient: "from-amber-600 to-orange-500" },
-  ];
 
   const strength = passwordStrength(regPassword);
   const displayError = localError || authError;
@@ -261,29 +254,7 @@ export const AuthScreen: React.FC = () => {
                 )}
               </button>
 
-              {/* DEMO ACCOUNTS */}
-              <div className="pt-4 border-t border-slate-800">
-                <p className="text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-3 flex items-center gap-1.5">
-                  <Sparkles className="w-3.5 h-3.5 text-amber-400" />
-                  <span>{lang === "ar" ? "حسابات تجريبية للمعاينة السريعة (دخول بجلسة حقيقية)" : "Quick demo accounts (real sessions)"}</span>
-                </p>
-                <div className="grid grid-cols-2 gap-2">
-                  {demoAccounts.map((d) => {
-                    const Icon = d.icon;
-                    return (
-                      <button
-                        key={d.role}
-                        onClick={() => switchRole(d.role)}
-                        disabled={authLoading}
-                        className={`p-3 rounded-2xl bg-gradient-to-br ${d.gradient} text-white text-xs font-extrabold flex items-center gap-2 shadow-lg hover:scale-[1.03] transition-all disabled:opacity-60`}
-                      >
-                        <Icon className="w-4 h-4 shrink-0" />
-                        <span>{d.label}</span>
-                      </button>
-                    );
-                  })}
-                </div>
-              </div>
+
             </div>
           ) : (
             /* ============= REGISTER FORM ============= */
