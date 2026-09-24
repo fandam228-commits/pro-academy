@@ -85,7 +85,7 @@ export const GrammarLibrary:React.FC=()=>{
     let cancelled=false;
     const loadPractice=async()=>{
       if(!selectedScope){setPracticeQuestions([]);return;}
-      setPracticeLoading(true); setPracticeSubmitted(false); setPracticeAnswers({});
+      setPracticeLoading(true); setPracticeSubmitted(false); setPracticeAnswers({}); setPracticeResult(null);
       try{
         const params=new URLSearchParams({
           stage,grade,curriculum,term,unit,
@@ -101,10 +101,15 @@ export const GrammarLibrary:React.FC=()=>{
     return()=>{cancelled=true};
   },[selectedScope,stage,grade,curriculum,term,unit]);
 
-  const practiceScore=practiceQuestions.reduce((score,q)=>{
-    const answer=practiceAnswers[q.id]?.trim().toLowerCase();
-    return score+(practiceSubmitted && answer && q.correctAnswer ? (answer===String(q.correctAnswer).trim().toLowerCase()?1:0):0);
-  },0);
+  const [practiceResult,setPracticeResult]=useState<{score:number,total:number}|null>(null);
+  const submitPractice=async()=>{
+    try{
+      const res=await fetch("/api/question-bank",{method:"POST",headers:{"Content-Type":"application/json"},
+        body:JSON.stringify({action:"submit_practice",questionIds:practiceQuestions.map(q=>q.id),answers:practiceAnswers})});
+      const json=await res.json();
+      if(json.success){setPracticeResult({score:json.score,total:json.total});setPracticeSubmitted(true);}
+    }catch{}
+  };
 
   const currentUnit=unit!=="All" ? unitOptions.find(u=>`Unit ${u.unit}`===unit) : null;
 
@@ -138,11 +143,11 @@ practiceQuestions.length===0?<div className="py-5 text-center text-xs font-bold 
 <div className="mt-4 space-y-4">{practiceQuestions.map((q,i)=><div key={q.id} className="rounded-2xl bg-white p-4 shadow-sm dark:bg-slate-900">
 <div className="text-sm font-black text-slate-900 dark:text-white">{i+1}. {q.questionText}</div>
 <div className="mt-3 grid gap-2 sm:grid-cols-2">{(q.options||[]).map((opt:string)=><button key={opt} onClick={()=>!practiceSubmitted&&setPracticeAnswers(prev=>({...prev,[q.id]:opt}))} className={`rounded-xl border px-3 py-2 text-left text-xs font-bold transition ${practiceAnswers[q.id]===opt?"border-blue-500 bg-blue-50 dark:bg-blue-950/40":"border-slate-200 dark:border-slate-700"}`}>{opt}</button>)}</div>
-{practiceSubmitted&&<div className={`mt-3 text-xs font-black ${practiceAnswers[q.id]?.trim().toLowerCase()===String(q.correctAnswer||"").trim().toLowerCase()?"text-emerald-600":"text-rose-600"}`}>{practiceAnswers[q.id]?.trim().toLowerCase()===String(q.correctAnswer||"").trim().toLowerCase()?"✅ إجابة صحيحة":"❌ راجع الإجابة"}</div>}
+{practiceSubmitted&&<div className="mt-3 text-xs font-black text-blue-600">تم التصحيح على الخادم — راجع نتيجتك بالأعلى.</div>}
 </div>)}
 <div className="flex flex-wrap items-center gap-3 pt-2">
-<button onClick={()=>setPracticeSubmitted(true)} disabled={practiceSubmitted} className="rounded-xl bg-blue-600 px-5 py-3 text-xs font-black text-white disabled:opacity-50">تصحيح التدريب</button>
-{practiceSubmitted&&<span className="text-sm font-black text-slate-700 dark:text-slate-200">النتيجة: {practiceScore} / {practiceQuestions.length}</span>}
+<button onClick={submitPractice} disabled={practiceSubmitted} className="rounded-xl bg-blue-600 px-5 py-3 text-xs font-black text-white disabled:opacity-50">تصحيح التدريب</button>
+{practiceSubmitted&&<span className="text-sm font-black text-slate-700 dark:text-slate-200">النتيجة: {practiceResult?.score ?? 0} / {practiceResult?.total ?? practiceQuestions.length}</span>}
 </div></div>}
 </div>
 <div className="mt-6 flex flex-col gap-3 sm:flex-row"><a href={practiceUrl} className="inline-flex flex-1 items-center justify-center gap-2 rounded-2xl bg-blue-600 px-5 py-3 text-sm font-black text-white shadow-lg hover:bg-blue-700"><Target className="h-4 w-4"/>تدريب وأسئلة بنك الأسئلة</a><a href={GRAMMAR_PLAYLIST_URL} target="_blank" rel="noreferrer" className="inline-flex items-center justify-center gap-2 rounded-2xl border border-slate-200 px-5 py-3 text-sm font-black text-slate-700 dark:border-slate-700 dark:text-slate-200"><ExternalLink className="h-4 w-4"/>YouTube Playlist</a></div></div></>:<div className="p-10 text-center font-black text-slate-500">لا يوجد فيديو مربوط بهذا النطاق بعد.</div>}</main>
