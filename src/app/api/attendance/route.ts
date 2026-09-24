@@ -61,8 +61,11 @@ export async function GET(req: Request) {
       let studentId = searchParams.get("studentId");
       if (!studentId) {
         const links = await db.select().from(parentLinks).where(eq(parentLinks.parentId, ctx.user.id));
-        studentId = links[0]?.studentId || searchParams.get("fallbackStudent") || "usr_student_1";
+        studentId = links[0]?.studentId || null;
       }
+      if (!studentId) return NextResponse.json({ error: "No linked student" }, { status: 404 });
+      const links = await db.select().from(parentLinks).where(and(eq(parentLinks.parentId, ctx.user.id), eq(parentLinks.studentId, studentId)));
+      if (!links.length) return NextResponse.json({ error: "Forbidden" }, { status: 403 });
       const records = await db.select().from(attendanceRecords).where(eq(attendanceRecords.studentId, studentId));
       const sorted = records.sort((a, b) => (a.sessionDate < b.sessionDate ? 1 : -1));
       return NextResponse.json({ role: "parent", studentId, records: sorted, rate: computeRate(records), total: records.length });
