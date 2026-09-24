@@ -8,7 +8,6 @@ import { getAuthContext, requireRoles } from "@/lib/security";
 export async function GET(req: Request) {
   await ensureDbSetup();
   const ctx = await getAuthContext(req);
-  if (!ctx) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   const { searchParams } = new URL(req.url);
   const code = searchParams.get("code");
   const studentId = searchParams.get("studentId");
@@ -19,8 +18,11 @@ export async function GET(req: Request) {
       if (certs.length === 0) {
         return NextResponse.json({ valid: false, message: "Certificate code not found or invalid." });
       }
-      return NextResponse.json({ valid: true, certificate: certs[0] });
+      const cert = certs[0];
+      return NextResponse.json({ valid: true, certificate: { certificateCode: cert.certificateCode, studentName: cert.studentName, courseTitle: cert.courseTitle, grade: cert.grade, qrCodeData: cert.qrCodeData } });
     }
+
+    if (!ctx) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
     if (studentId) {
       if (ctx.user.role === "student" && studentId !== ctx.user.id) return NextResponse.json({ error: "Forbidden" }, { status: 403 });
