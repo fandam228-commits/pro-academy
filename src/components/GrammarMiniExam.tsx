@@ -1,12 +1,14 @@
 "use client";
 
 import React,{useState} from "react";
+import {useApp} from "@/context/AppContext";
 
 type Props={
   stage:string; grade:string; curriculum:string; term:string; unit:string; grammarTopic:string;
 };
 
 export const GrammarMiniExam:React.FC<Props>=({stage,grade,curriculum,term,unit,grammarTopic})=>{
+  const {user}=useApp();
   const [exam,setExam]=useState<any>(null);
   const [answers,setAnswers]=useState<Record<string,string>>({});
   const [result,setResult]=useState<any>(null);
@@ -31,13 +33,13 @@ export const GrammarMiniExam:React.FC<Props>=({stage,grade,curriculum,term,unit,
     setLoading(true);
     try{
       const res=await fetch("/api/question-bank",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({
-        action:"submit_exam",examId:exam.id,studentId:undefined,userAnswers:answers
+        action:"submit_exam",examId:exam.id,studentId:user?.id,userAnswers:answers
       })});
       const json=await res.json();
       if(json.success){
         setResult(json);
         await fetch("/api/grammar/mastery",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({
-          stage,grade,curriculum,term,unit,grammarTopic,score:Math.round(json.percentage*exam.totalPoints/100/10),total:10
+          stage,grade,curriculum,term,unit,grammarTopic,score:Math.round(json.percentage/10),total:10
         })});
       }else setResult({error:json.error||"تعذر تصحيح الامتحان."});
     }catch{setResult({error:"حدث خطأ أثناء التصحيح."});}
