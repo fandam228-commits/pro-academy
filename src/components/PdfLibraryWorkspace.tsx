@@ -164,7 +164,6 @@ export const PdfLibraryWorkspace: React.FC = () => {
 
       const res = await fetch("/api/pdfs", {
         method: "POST",
-        ,
         body: form,
       });
       const json = await res.json();
