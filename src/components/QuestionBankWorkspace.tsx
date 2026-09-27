@@ -160,7 +160,6 @@ export const QuestionBankWorkspace: React.FC<{ onExamGenerated?: (exam: any) => 
         body: JSON.stringify({
           action: "ai_generate_questions",
           domain: aiDomain,
-          grade: aiGrade,
           grammarTopic: aiGrammarTopic,
           topic: aiTopic,
           difficulty: aiDifficulty,
