@@ -16,6 +16,7 @@ import {
   ShieldCheck,
   Calendar,
   BarChart2,
+  Target,
 } from "lucide-react";
 
 export const StudentDashboard: React.FC<{ onSelectCourse?: (courseId: string) => void; onOpenReport?: () => void }> = ({ onSelectCourse, onOpenReport }) => {
