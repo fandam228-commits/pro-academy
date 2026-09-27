@@ -190,83 +190,62 @@ function MainAppContent() {
           /* VIEW: HOME LANDING PAGE */
           <div>
             
-            {/* HERO SECTION */}
-            <section className="relative overflow-hidden pt-12 pb-20 lg:pt-20 lg:pb-28 bg-gradient-to-b from-blue-900/10 via-indigo-900/5 to-transparent">
-              <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-                <div className="text-center max-w-3xl mx-auto space-y-6">
-                  
-                  {/* BADGE */}
-                  <div className="inline-flex items-center gap-2 bg-blue-100 dark:bg-blue-900/50 border border-blue-200 dark:border-blue-700/60 px-4 py-1.5 rounded-full text-xs font-bold text-blue-700 dark:text-blue-300 shadow-sm animate-pulse">
-                    <Sparkles className="w-4 h-4 text-amber-500" />
+            {/* HERO SECTION — Mr. Habib El Rahman */}
+            <section className="relative isolate overflow-hidden bg-gradient-to-br from-slate-950 via-blue-950 to-indigo-950 text-white">
+              <div className="pointer-events-none absolute inset-0 opacity-30" aria-hidden="true">
+                <div className="absolute -top-32 -right-24 h-96 w-96 rounded-full bg-blue-500 blur-3xl" />
+                <div className="absolute -bottom-40 -left-20 h-96 w-96 rounded-full bg-violet-600 blur-3xl" />
+              </div>
+              <div className="relative mx-auto grid max-w-7xl items-center gap-10 px-4 py-12 sm:px-6 sm:py-16 lg:grid-cols-[1.05fr_.95fr] lg:gap-14 lg:px-8 lg:py-20">
+                <div className="order-2 space-y-6 text-center lg:order-1 lg:text-right">
+                  <div className="inline-flex items-center gap-2 rounded-full border border-blue-300/25 bg-white/10 px-4 py-2 text-xs font-bold text-blue-100 shadow-lg backdrop-blur">
+                    <Sparkles className="h-4 w-4 text-amber-300" />
                     <span>{lang === "ar" ? "منصة المستر الرسمية للثانوية العامة والإعدادية" : "Official Platform of Mr. Habib El Rahman"}</span>
                   </div>
-
-                  {/* HERO TITLE */}
-                  <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight text-slate-900 dark:text-white leading-tight">
-                    {lang === "ar" ? (
-                      <>
-                        تفوق في اللغة الإنجليزية مع <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-indigo-600 to-sky-500">مستر حبيب الرحمن</span>
-                      </>
-                    ) : (
-                      <>
-                        Master English with <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-indigo-600 to-sky-500">Mr. Habib El Rahman</span>
-                      </>
-                    )}
+                  <h1 className="text-3xl font-black leading-tight tracking-tight sm:text-5xl lg:text-6xl">
+                    {lang === "ar" ? <>اتعلم الإنجليزي مع <span className="bg-gradient-to-r from-sky-300 via-blue-300 to-violet-300 bg-clip-text text-transparent">مستر حبيب الرحمن</span></> : <>Master English with <span className="bg-gradient-to-r from-sky-300 via-blue-300 to-violet-300 bg-clip-text text-transparent">Mr. Habib El Rahman</span></>}
                   </h1>
-
-                  {/* HERO SUBTITLE */}
-                  <p className="text-sm sm:text-base text-slate-600 dark:text-slate-300 leading-relaxed max-w-2xl mx-auto font-medium">
-                    {lang === "ar"
-                      ? "بنك أسئلة ذكي يحتوي على آلاف الأسئلة المفهرسة، مولد الامتحانات التلقائي بدون تكرار، ومساعد الذكاء الاصطناعي لتشخيص وتقوية مستواك."
-                      : "Intelligent Question Bank with thousands of items, anti-repetition smart exam generation, and DRM protected lecture streaming."}
+                  <p className="mx-auto max-w-2xl text-sm font-medium leading-8 text-blue-100/85 sm:text-base lg:mx-0">
+                    {lang === "ar" ? "شرح ومراجعة وتدريب ذكي على منهجك، مع بنك أسئلة مصنف حسب الصف والوحدة، وامتحانات تفاعلية تتابع تقدمك خطوة بخطوة." : "Curriculum-aligned lessons, a carefully classified question bank, interactive exams, and progress tracking to help you improve step by step."}
                   </p>
-
-                  {/* ACTION BUTTONS */}
-                  <div className="flex flex-wrap items-center justify-center gap-4 pt-4">
-                    <button
-                      onClick={() => setActiveTab("question_bank")}
-                      className="px-8 py-4 rounded-2xl bg-gradient-to-r from-blue-600 via-indigo-600 to-sky-500 hover:from-blue-700 hover:to-indigo-700 text-white font-extrabold text-sm shadow-xl shadow-blue-500/25 flex items-center gap-2 transition-all hover:scale-105"
-                    >
-                      <Database className="w-5 h-5 text-amber-300" />
-                      <span>{lang === "ar" ? "دخول بنك الأسئلة ومولد الامتحانات" : "Open Intelligent Question Bank"}</span>
+                  <div className="flex flex-wrap items-center justify-center gap-3 pt-2 lg:justify-start">
+                    <button onClick={() => setActiveTab("question_bank")} className="flex items-center gap-2 rounded-2xl bg-gradient-to-r from-blue-500 to-violet-600 px-6 py-4 text-sm font-extrabold text-white shadow-xl shadow-blue-950/40 transition hover:-translate-y-0.5 hover:brightness-110">
+                      <Database className="h-5 w-5 text-amber-300" />
+                      <span>{lang === "ar" ? "ابدأ التدريب والامتحانات" : "Start Practicing"}</span>
                     </button>
-
-                    <button
-                      onClick={() => setActiveTab("download")}
-                      className="px-8 py-4 rounded-2xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 text-white font-extrabold text-sm shadow-xl shadow-emerald-500/25 flex items-center gap-2 transition-all hover:scale-105"
-                    >
-                      <Smartphone className="w-5 h-5" />
-                      <span>{lang === "ar" ? "📱 نزّل التطبيق على موبايلك" : "📱 Install Mobile App"}</span>
+                    <button onClick={() => setActiveTab("courses")} className="rounded-2xl border border-white/20 bg-white/10 px-6 py-4 text-sm font-extrabold text-white backdrop-blur transition hover:bg-white/15">
+                      {lang === "ar" ? "تصفح الكورسات" : "Explore Courses"}
                     </button>
-
-                    <button
-                      onClick={() => setActiveTab("placement")}
-                      className="px-8 py-4 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-800 dark:text-slate-200 font-extrabold text-sm hover:bg-slate-50 dark:hover:bg-slate-800 shadow-md transition-all"
-                    >
+                    <button onClick={() => setActiveTab("placement")} className="rounded-2xl border border-white/15 px-6 py-4 text-sm font-bold text-blue-100 transition hover:bg-white/10">
                       {lang === "ar" ? "اختبار تحديد المستوى" : "Placement Test"}
                     </button>
                   </div>
-
-                  {/* TRUST STATS ROW */}
-                  <div className="pt-10 grid grid-cols-2 sm:grid-cols-4 gap-4 max-w-3xl mx-auto text-slate-800 dark:text-slate-200 border-t border-slate-200/60 dark:border-slate-800/60 mt-8">
-                    <div>
-                      <div className="text-2xl font-black text-blue-600 dark:text-blue-400">100,000+</div>
-                      <div className="text-[11px] text-slate-500 font-bold">{lang === "ar" ? "سؤال ببنك الأسئلة" : "Bank Questions"}</div>
+                  <div className="flex flex-wrap justify-center gap-x-5 gap-y-2 border-t border-white/10 pt-5 text-xs font-semibold text-blue-100/75 lg:justify-start">
+                    <span className="flex items-center gap-2"><CheckCircle className="h-4 w-4 text-emerald-300" />{lang === "ar" ? "تدريب حسب منهجك" : "Curriculum-aligned practice"}</span>
+                    <span className="flex items-center gap-2"><BrainCircuit className="h-4 w-4 text-violet-300" />{lang === "ar" ? "امتحانات ذكية" : "Smart exams"}</span>
+                    <span className="flex items-center gap-2"><Award className="h-4 w-4 text-amber-300" />{lang === "ar" ? "تابع تقدمك" : "Track your progress"}</span>
+                  </div>
+                </div>
+                <div className="order-1 mx-auto w-full max-w-md lg:order-2">
+                  <div className="relative mx-auto aspect-[4/5] max-h-[620px] overflow-hidden rounded-[2rem] border border-white/15 bg-gradient-to-br from-blue-500/20 via-indigo-500/10 to-violet-500/20 p-2 shadow-2xl shadow-black/40">
+                    <div className="absolute inset-2 overflow-hidden rounded-[1.55rem] bg-slate-900">
+                      <img
+                        src="/habib-hero.jpg"
+                        alt="Mr. Habib El Rahman"
+                        className="h-full w-full object-cover object-center"
+                        onError={(e) => { e.currentTarget.style.opacity = "0"; }}
+                      />
+                      <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent" />
+                      <div className="absolute inset-x-5 bottom-5 rounded-2xl border border-white/15 bg-slate-950/65 p-4 text-right shadow-xl backdrop-blur-md">
+                        <p className="text-xs font-semibold tracking-wide text-sky-200">PROFESSIONAL ACADEMY</p>
+                        <p className="mt-1 text-xl font-black text-white sm:text-2xl">{lang === "ar" ? "مستر حبيب الرحمن" : "Mr. Habib El Rahman"}</p>
+                        <p className="mt-1 text-xs font-medium text-blue-100/80">Limitless Innovation</p>
+                      </div>
                     </div>
-                    <div>
-                      <div className="text-2xl font-black text-blue-600 dark:text-blue-400">0%</div>
-                      <div className="text-[11px] text-slate-500 font-bold">{lang === "ar" ? "تكرار بالامتحانات" : "Duplicate Rate"}</div>
-                    </div>
-                    <div>
-                      <div className="text-2xl font-black text-blue-600 dark:text-blue-400">98.4%</div>
-                      <div className="text-[11px] text-slate-500 font-bold">{lang === "ar" ? "نسبة النجاح" : "Pass Percentage"}</div>
-                    </div>
-                    <div>
-                      <div className="text-2xl font-black text-blue-600 dark:text-blue-400">24/7</div>
-                      <div className="text-[11px] text-slate-500 font-bold">{lang === "ar" ? "مساعد الذكاء الاصطناعي" : "AI Assistance"}</div>
+                    <div className="absolute -left-2 top-8 rounded-2xl border border-white/15 bg-slate-900/80 px-4 py-3 shadow-xl backdrop-blur">
+                      <div className="flex items-center gap-2 text-xs font-extrabold text-white"><GraduationCap className="h-5 w-5 text-sky-300" />Professional Academy</div>
                     </div>
                   </div>
-
                 </div>
               </div>
             </section>
