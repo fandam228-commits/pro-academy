@@ -2,14 +2,12 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
-import { useApp, Role } from "@/context/AppContext";
+import { useApp } from "@/context/AppContext";
 import {
   GraduationCap,
   Sparkles,
   ShieldCheck,
   BookOpen,
-  UserCheck,
-  Users,
   Moon,
   Sun,
   Globe,
@@ -18,7 +16,6 @@ import {
   Bell,
   Menu,
   X,
-  ChevronDown,
   BrainCircuit,
   Database,
   FileText,
@@ -36,18 +33,9 @@ export const Navbar: React.FC<{ activeTab?: string; setActiveTab?: (tab: string)
   activeTab,
   setActiveTab,
 }) => {
-  const { user, lang, toggleLang, theme, toggleTheme, switchRole, notificationsCount, logout } = useApp();
+  const { user, lang, toggleLang, theme, toggleTheme, notificationsCount, logout } = useApp();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [roleMenuOpen, setRoleMenuOpen] = useState(false);
 
-  const rolesList: { role: Role; labelEn: string; labelAr: string; icon: any; color: string }[] = [
-    { role: "admin", labelEn: "Super Admin", labelAr: "المشرف العام (أدمن)", icon: ShieldCheck, color: "text-purple-600 dark:text-purple-400" },
-    { role: "teacher", labelEn: "Teacher", labelAr: "المعلم (Mr. Habib)", icon: GraduationCap, color: "text-blue-600 dark:text-blue-400" },
-    { role: "student", labelEn: "Student", labelAr: "طالب (عمر محمود)", icon: BookOpen, color: "text-emerald-600 dark:text-emerald-400" },
-    { role: "parent", labelEn: "Parent", labelAr: "ولي الأمر (أبو عمر)", icon: Users, color: "text-amber-600 dark:text-amber-400" },
-  ];
-
-  const currentRoleInfo = rolesList.find((r) => r.role === user?.role) || rolesList[2];
 
   return (
     <header className="sticky top-0 z-50 backdrop-blur-xl bg-white/80 dark:bg-slate-900/80 border-b border-slate-200/80 dark:border-slate-800 transition-colors">
@@ -227,57 +215,6 @@ export const Navbar: React.FC<{ activeTab?: string; setActiveTab?: (tab: string)
                 </div>
               </div>
             )}
-
-            {/* ROLE SWITCHER DROPDOWN */}
-            <div className="relative">
-              <button
-                onClick={() => setRoleMenuOpen(!roleMenuOpen)}
-                className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-xs font-semibold text-slate-800 dark:text-slate-200 border border-slate-200/80 dark:border-slate-700 transition-all"
-                title="Switch Role Demo"
-              >
-                <currentRoleInfo.icon className={`w-4 h-4 ${currentRoleInfo.color}`} />
-                <span className="hidden sm:inline">
-                  {lang === "ar" ? currentRoleInfo.labelAr : currentRoleInfo.labelEn}
-                </span>
-                <ChevronDown className="w-3.5 h-3.5 text-slate-400" />
-              </button>
-
-              {roleMenuOpen && (
-                <div className="absolute right-0 rtl:left-0 rtl:right-auto mt-2 w-64 rounded-2xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-2xl py-2 z-50 animate-in fade-in zoom-in-95">
-                  <div className="px-3 py-2 border-b border-slate-100 dark:border-slate-700/60">
-                    <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider">
-                      {lang === "ar" ? "تبديل الصلاحية (معاينة)" : "Switch Role Context"}
-                    </p>
-                  </div>
-                  {rolesList.map((r) => {
-                    const Icon = r.icon;
-                    const isSelected = user?.role === r.role;
-                    return (
-                      <button
-                        key={r.role}
-                        onClick={() => {
-                          switchRole(r.role);
-                          setRoleMenuOpen(false);
-                          if (setActiveTab) setActiveTab("dashboard");
-                        }}
-                        className={`w-full flex items-center justify-between px-3.5 py-2.5 text-xs font-medium transition-colors ${
-                          isSelected
-                            ? "bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 font-semibold"
-                            : "text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700/50"
-                        }`}
-                      >
-                        <div className="flex items-center gap-2.5">
-                          <Icon className={`w-4 h-4 ${r.color}`} />
-                          <span>{lang === "ar" ? r.labelAr : r.labelEn}</span>
-                        </div>
-                        {isSelected && <span className="w-2 h-2 rounded-full bg-blue-600 dark:bg-blue-400" />}
-                      </button>
-                    );
-                  })}
-                </div>
-              )}
-            </div>
-
             {/* DOWNLOAD APP CTA */}
             <button
               onClick={() => setActiveTab && setActiveTab("download")}
