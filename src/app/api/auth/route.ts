@@ -25,7 +25,9 @@ function sanitizeUser(u: any) {
   return rest;
 }
 
-async function performLogin(loginId: string, password: string, userAgent?: string) {\n  // Admin username alias: habibadmin -> the seeded admin account. Other users continue to use email.\n  const email = loginId.trim().toLowerCase() === "habibadmin" ? "habib.admin@proacademy.com" : loginId;
+async function performLogin(loginId: string, password: string, userAgent?: string) {
+  // Admin username alias: habibadmin -> the seeded admin account. Other users continue to use email.
+  const email = loginId.trim().toLowerCase() === "habibadmin" ? "habib.admin@proacademy.com" : loginId;
   const lockMinutes = checkLoginLock(email);
   if (lockMinutes > 0) {
     return {
@@ -86,10 +88,11 @@ export async function POST(req: Request) {
 
     // ============ LOGIN ============
     if (action === "login") {
-      if (!email || !password) {
-        return NextResponse.json({ error: "Email and password are required." }, { status: 400 });
+      const loginId = username || email;
+      if (!loginId || !password) {
+        return NextResponse.json({ error: "Username/email and password are required." }, { status: 400 });
       }
-      const result = await performLogin(email, password, userAgent);
+      const result = await performLogin(loginId, password, userAgent);
       if (result.errorResponse) return result.errorResponse;
       const response = NextResponse.json({ success: true, user: result.user, expiresAt: result.expiresAt });
       response.headers.set("Set-Cookie", sessionCookie(result.token, result.expiresAt));
