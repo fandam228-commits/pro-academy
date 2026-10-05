@@ -25,7 +25,7 @@ function sanitizeUser(u: any) {
   return rest;
 }
 
-async function performLogin(email: string, password: string, userAgent?: string) {
+async function performLogin(loginId: string, password: string, userAgent?: string) {\n  // Admin username alias: habibadmin -> the seeded admin account. Other users continue to use email.\n  const email = loginId.trim().toLowerCase() === "habibadmin" ? "habib.admin@proacademy.com" : loginId;
   const lockMinutes = checkLoginLock(email);
   if (lockMinutes > 0) {
     return {
@@ -81,7 +81,7 @@ export async function POST(req: Request) {
   await ensureDbSetup();
   try {
     const body = await req.json();
-    const { action, email, password, name, role, stage, grade, phone, parentPhone } = body;
+    const { action, email, username, password, name, role, stage, grade, phone, parentPhone } = body;
     const userAgent = req.headers.get("user-agent") || "";
 
     // ============ LOGIN ============
