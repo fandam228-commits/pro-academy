@@ -129,7 +129,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       const res = await fetch("/api/auth", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ action: "login", username: email, password }),
+        body: JSON.stringify({ action: "login", email, username: email, password }),
       });
       const data = await res.json();
       if (data.success && data.user) {
