@@ -197,7 +197,7 @@ export const AuthScreen: React.FC = () => {
             <div className="space-y-4">
               <div>
                 <label className="text-[11px] font-bold text-slate-400 block mb-1.5">
-                  {lang === "ar" ? "البريد الإلكتروني" : "Email Address"}
+                  {lang === "ar" ? "اسم المستخدم أو البريد الإلكتروني" : "Username or Email"}
                 </label>
                 <div className="relative">
                   <Mail className="w-4 h-4 absolute left-3 rtl:right-3 rtl:left-auto top-3.5 text-slate-500" />
@@ -206,7 +206,7 @@ export const AuthScreen: React.FC = () => {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     onKeyDown={(e) => e.key === "Enter" && handleLogin()}
-                    placeholder="omar.student@gmail.com"
+                    placeholder="habibadmin أو email@example.com"
                     className="w-full pl-10 rtl:pr-10 rtl:pl-3 pr-3 py-3 rounded-2xl bg-slate-800/80 border border-slate-700 text-xs font-medium text-white placeholder:text-slate-500 focus:outline-none focus:border-blue-500"
                   />
                 </div>
