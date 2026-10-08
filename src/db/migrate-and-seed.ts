@@ -11,6 +11,7 @@ export async function ensureDbSetup() {
         id TEXT PRIMARY KEY,
         name TEXT NOT NULL,
         email TEXT NOT NULL UNIQUE,
+        username TEXT UNIQUE,
         password TEXT NOT NULL,
         role TEXT NOT NULL DEFAULT 'student',
         avatar TEXT,
@@ -121,6 +122,9 @@ export async function ensureDbSetup() {
         last_used_at TIMESTAMP,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
       );
+
+      ALTER TABLE users ADD COLUMN IF NOT EXISTS username TEXT;
+      CREATE UNIQUE INDEX IF NOT EXISTS idx_users_username ON users(username) WHERE username IS NOT NULL;
 
       CREATE INDEX IF NOT EXISTS idx_qb_domain ON question_bank(domain_category);
       ALTER TABLE question_bank ADD COLUMN IF NOT EXISTS curriculum TEXT DEFAULT 'Ministry';
