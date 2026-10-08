@@ -66,7 +66,7 @@ export const StudentDashboard: React.FC<{ onSelectCourse?: (courseId: string) =>
           grade: "First Secondary",
           curriculum: "Ministry",
           term: "First",
-          unit: quickReviewUnit === "Units 1 + 2" ? undefined : quickReviewUnit,
+          unit: quickReviewUnit === "Units 1 + 2" ? "Unit 1,Unit 2" : quickReviewUnit,
           questionCount: quickReviewCount,
           easyPercent: 30,
           mediumPercent: 50,
