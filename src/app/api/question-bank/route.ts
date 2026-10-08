@@ -346,7 +346,10 @@ export async function POST(req: Request) {
       if (stage) candidates = candidates.filter((q) => q.stage === stage);
       if (curriculum) candidates = candidates.filter((q) => (q.curriculum || "Ministry") === curriculum);
       if (term) candidates = candidates.filter((q) => (q.term || "First") === term);
-      if (unit) {\n        const requestedUnits = String(unit).split(",").map((u) => u.trim()).filter(Boolean);\n        candidates = candidates.filter((q) => requestedUnits.includes(q.unit || ""));\n      }
+      if (unit) {
+        const requestedUnits = String(unit).split(",").map((u) => u.trim()).filter(Boolean);
+        candidates = candidates.filter((q) => requestedUnits.includes(q.unit || ""));
+      }
       if (domainCategory) candidates = candidates.filter((q) => q.domainCategory === domainCategory);
       if (questionType) candidates = candidates.filter((q) => q.questionType === questionType);
       if (difficulty) candidates = candidates.filter((q) => q.difficulty === difficulty);
