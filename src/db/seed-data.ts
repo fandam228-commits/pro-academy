@@ -39,6 +39,7 @@ export async function seedDatabase() {
         id: "usr_admin_1",
         name: "Mr. Habib El Rahman",
         email: "habib.admin@proacademy.com",
+        username: "habibadmin",
         password: hashPassword("admin123password"),
         role: "admin",
         avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80",
