@@ -448,7 +448,7 @@ export const QuestionBankWorkspace: React.FC<{ onExamGenerated?: (exam: any) => 
               <option value="All">الترم كله</option><option>First</option><option>Second</option>
             </select>
             <select value={unitFilter} onChange={(e) => setUnitFilter(e.target.value)} className="w-full p-2.5 rounded-2xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs text-slate-900 dark:text-white">
-              <option value="All">كل الوحدات</option>{Array.from({length:12},(_,i)=><option key={i}>Unit {i+1}</option>)}
+              <option value="All">كل الوحدات</option><option value="Units 1-2">مراجعة الوحدتين 1-2</option>{Array.from({length:12},(_,i)=><option key={i}>Unit {i+1}</option>)}
             </select>
             <select value={typeFilter} onChange={(e) => setTypeFilter(e.target.value)} className="w-full p-2.5 rounded-2xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs text-slate-900 dark:text-white">
               <option value="All">كل أنواع السؤال</option><option value="mcq">MCQ</option><option value="fill_blank">Complete</option><option value="correction">Correct</option><option value="rewrite">Rewrite</option><option value="comprehension">Reading</option><option value="writing">Writing</option>
