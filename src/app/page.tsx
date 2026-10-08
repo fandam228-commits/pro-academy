@@ -177,6 +177,7 @@ function MainAppContent() {
               durationMinutes={activeGeneratedExam.durationMinutes}
               questions={activeGeneratedExam.questionsData}
               submissionTarget="smart_exam"
+              onExit={() => setActiveGeneratedExam(null)}
             />
           </div>
         ) : selectedCourseId ? (
