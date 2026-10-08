@@ -50,7 +50,7 @@ export async function GET(req: Request) {
     // This prevents a deep-linked grammar rule from being missed because unrelated
     // questions happened to occupy the first N rows.
     const conditions: any[] = [];
-    if (domainCategory) conditions.push(eq(questionBank.domainCategory, domainCategory));
+    if (domainCategory) {\n      const requestedDomains = domainCategory.split(",").map((d) => d.trim()).filter(Boolean);\n      conditions.push(requestedDomains.length > 1 ? inArray(questionBank.domainCategory, requestedDomains) : eq(questionBank.domainCategory, requestedDomains[0] || domainCategory));\n    }
     if (stage) conditions.push(eq(questionBank.stage, stage));
     if (grade) conditions.push(eq(questionBank.grade, grade));
     if (curriculum) conditions.push(eq(questionBank.curriculum, curriculum));
