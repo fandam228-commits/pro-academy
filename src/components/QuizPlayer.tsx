@@ -14,6 +14,7 @@ interface Question {
   correctAnswer: string;
   explanation?: string;
   points?: number;
+  domainCategory?: string;
 }
 
 interface QuizPlayerProps {
@@ -23,6 +24,7 @@ interface QuizPlayerProps {
   questions: Question[];
   onComplete?: (submission: any) => void;
   submissionTarget?: "quiz" | "smart_exam";
+  onExit?: () => void;
 }
 
 export const QuizPlayer: React.FC<QuizPlayerProps> = ({
@@ -32,6 +34,7 @@ export const QuizPlayer: React.FC<QuizPlayerProps> = ({
   questions,
   onComplete,
   submissionTarget = "quiz",
+  onExit,
 }) => {
   const { user, lang } = useApp();
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -356,6 +359,54 @@ export const QuizPlayer: React.FC<QuizPlayerProps> = ({
                 <span className="text-xl font-black text-blue-600 dark:text-blue-400">{result?.percentage}%</span>
               </div>
             </div>
+
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 mt-4 max-w-2xl mx-auto">
+              {(() => {
+                const details = result?.details || {};
+                const total = questions.length || 1;
+                const correct = questions.filter((q) => details[q.id]?.isCorrect).length;
+                const answered = questions.filter((q) => String(details[q.id]?.studentAnswer || "").trim()).length;
+                const wrong = Math.max(0, answered - correct);
+                return (
+                  <>
+                    <div className="rounded-xl bg-emerald-50 dark:bg-emerald-950/30 border border-emerald-100 dark:border-emerald-900 p-3"><div className="text-lg font-black text-emerald-600">{correct}</div><div className="text-[9px] font-bold text-slate-500">{lang === "ar" ? "صحيح" : "Correct"}</div></div>
+                    <div className="rounded-xl bg-red-50 dark:bg-red-950/30 border border-red-100 dark:border-red-900 p-3"><div className="text-lg font-black text-red-600">{wrong}</div><div className="text-[9px] font-bold text-slate-500">{lang === "ar" ? "خطأ" : "Wrong"}</div></div>
+                    <div className="rounded-xl bg-amber-50 dark:bg-amber-950/30 border border-amber-100 dark:border-amber-900 p-3"><div className="text-lg font-black text-amber-600">{total - answered}</div><div className="text-[9px] font-bold text-slate-500">{lang === "ar" ? "بدون إجابة" : "Unanswered"}</div></div>
+                    <div className="rounded-xl bg-blue-50 dark:bg-blue-950/30 border border-blue-100 dark:border-blue-900 p-3"><div className="text-lg font-black text-blue-600">{total}</div><div className="text-[9px] font-bold text-slate-500">{lang === "ar" ? "إجمالي" : "Total"}</div></div>
+                  </>
+                );
+              })()}
+            </div>
+
+            {(() => {
+              const details = result?.details || {};
+              const groups = ["Vocabulary", "Grammar", "Translation", "Reading", "Writing"];
+              const stats = groups.map((group) => {
+                const groupQs = questions.filter((q) => q.domainCategory === group);
+                const correct = groupQs.filter((q) => details[q.id]?.isCorrect).length;
+                return { group, total: groupQs.length, correct, percent: groupQs.length ? Math.round((correct / groupQs.length) * 100) : 0 };
+              }).filter((x) => x.total > 0);
+              if (!stats.length) return null;
+              return (
+                <div className="mt-5 max-w-2xl mx-auto text-start">
+                  <h4 className="text-sm font-black text-slate-900 dark:text-white mb-3">{lang === "ar" ? "تحليل مستواك 📊" : "Performance Analysis 📊"}</h4>
+                  <div className="space-y-2">
+                    {stats.map((stat) => (
+                      <div key={stat.group} className="rounded-xl border border-slate-200 dark:border-slate-800 p-3 bg-white/70 dark:bg-slate-900/50">
+                        <div className="flex items-center justify-between text-[10px] font-black"><span>{stat.group}</span><span className="text-blue-600">{stat.percent}% ({stat.correct}/{stat.total})</span></div>
+                        <div className="mt-2 h-2 rounded-full bg-slate-100 dark:bg-slate-800 overflow-hidden"><div className="h-full rounded-full bg-blue-600" style={{width: stat.percent + "%"}} /></div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              );
+            })()}
+
+            {onExit && (
+              <button onClick={onExit} className="mt-5 px-6 py-3 rounded-xl bg-slate-900 dark:bg-white text-white dark:text-slate-900 text-xs font-black">
+                {lang === "ar" ? "العودة للوحة الطالب" : "Back to Student Dashboard"}
+              </button>
+            )}
 
             <p className="mt-4 text-xs font-medium text-slate-600 dark:text-slate-300 max-w-xl mx-auto bg-blue-50 dark:bg-blue-950/40 p-4 rounded-2xl border border-blue-100 dark:border-blue-900/40">
               {result?.summaryText}
