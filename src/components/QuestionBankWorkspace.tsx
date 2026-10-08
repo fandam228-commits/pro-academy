@@ -132,7 +132,7 @@ export const QuestionBankWorkspace: React.FC<{ onExamGenerated?: (exam: any) => 
       if (lessonFilter !== "All") url.searchParams.set("lesson", lessonFilter);
       if (sectionFilter !== "All") url.searchParams.set("section", sectionFilter);
       if (grammarTopicFilter) url.searchParams.set("grammarTopic", grammarTopicFilter);
-      url.searchParams.set("limit", "200");
+      url.searchParams.set("limit", "500");
       if (searchQuery) url.searchParams.set("search", searchQuery);
 
       const res = await fetch(url.toString());
