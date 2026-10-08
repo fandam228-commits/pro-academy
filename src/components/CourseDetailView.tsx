@@ -138,6 +138,29 @@ export const CourseDetailView: React.FC<CourseDetailProps> = ({ courseId, onBack
         </div>
       </div>
 
+      {/* BACCALAUREATE MODEL A 2027 QUESTION BANK */}
+      {courseId === "crs_sec_3" && (
+        <button
+          onClick={() => {
+            window.location.href = "/?tab=question_bank&stage=Secondary&grade=Second%20Secondary&curriculum=Baccalaureate&term=First&domainCategory=Vocabulary%2CGrammar&unit=Unit%201&source=Giants%20Exam%20%E2%80%94%20Second%20Secondary%20Model%20A%202027";
+          }}
+          className="w-full rounded-3xl bg-gradient-to-r from-emerald-500 via-teal-500 to-blue-600 p-[1px] shadow-xl hover:-translate-y-0.5 transition-all"
+        >
+          <div className="rounded-[23px] bg-white dark:bg-slate-950 px-5 py-4 flex flex-col sm:flex-row items-center justify-between gap-3">
+            <div className="flex items-center gap-3 text-start">
+              <div className="w-11 h-11 rounded-2xl bg-emerald-100 dark:bg-emerald-950/40 flex items-center justify-center">
+                <Database className="w-5 h-5 text-emerald-600" />
+              </div>
+              <div>
+                <div className="font-black text-sm text-slate-900 dark:text-white">بنك البكالوريا — نموذج A 2027</div>
+                <div className="text-[11px] font-bold text-slate-500 dark:text-slate-400 mt-1">Unit 1 • Vocabulary + Grammar • 113 سؤالًا</div>
+              </div>
+            </div>
+            <span className="px-4 py-2 rounded-xl bg-emerald-600 text-white text-[11px] font-black">فتح البنك</span>
+          </div>
+        </button>
+      )}
+
       {/* FIRST SECONDARY VOCABULARY + GRAMMAR QUESTION BANK */}
       {courseId === "crs_sec_1" && (
         <button
