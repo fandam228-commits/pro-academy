@@ -17,9 +17,9 @@ export async function seedFirstPrepOctober2027() {
   try {
     const raw = JSON.parse(brotliDecompressSync(Buffer.from(DATA, "base64")).toString("utf8")) as SeedItem[];
     const ids = raw.map((x) => `qb_first_prep_october_2027_u${x.u}_${String(x.n).padStart(3,"0")}_${x.type}`);
-    const existing = await db.select({ id: questionBank.id }).from(questionBank).where(inArray(questionBank.id, ids));
+    const excludedRewrite = new Set(["The teacher sometimes uses mind maps.","Can the boy run fast?","Salma can't play basketball.","Are you able to study English alone?"]);\n    const sourceItems = raw.filter((x) => !(x.type === "rewrite" && excludedRewrite.has(x.q)));\n    const sourceIds = sourceItems.map((x) => `qb_first_prep_october_2027_u${x.u}_${String(x.n).padStart(3,"0")}_${x.type}`);\n    const existing = await db.select({ id: questionBank.id }).from(questionBank).where(inArray(questionBank.id, sourceIds));
     const existingIds = new Set(existing.map((x) => x.id));
-    const rows = raw.filter((x) => !existingIds.has(`qb_first_prep_october_2027_u${x.u}_${String(x.n).padStart(3,"0")}_${x.type}`)).map((x) => ({
+    const rows = sourceItems.filter((x) => !existingIds.has(`qb_first_prep_october_2027_u${x.u}_${String(x.n).padStart(3,"0")}_${x.type}`)).map((x) => ({
       id: `qb_first_prep_october_2027_u${x.u}_${String(x.n).padStart(3,"0")}_${x.type}`,
       domainCategory: x.domain,
       questionText: x.type === "rewrite" ? `${x.q} (${x.a})` : x.q,
