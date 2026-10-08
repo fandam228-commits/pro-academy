@@ -161,29 +161,6 @@ export const CourseDetailView: React.FC<CourseDetailProps> = ({ courseId, onBack
         </button>
       )}
 
-      {/* FIRST PREP OCTOBER 2027 QUESTION BANK */}
-      {courseId === "crs_prep_3" && (
-        <button
-          onClick={() => {
-            window.location.href = "/?tab=question_bank&stage=Preparatory&grade=First%20Prep&curriculum=Ministry&term=First&source=October%20Revision%20%E2%80%94%20Dr.%20Mohamed%20Shawky%20Elnaggar%202027";
-          }}
-          className="w-full rounded-3xl bg-gradient-to-r from-cyan-500 via-blue-500 to-indigo-600 p-[1px] shadow-xl hover:-translate-y-0.5 transition-all"
-        >
-          <div className="rounded-[23px] bg-white dark:bg-slate-950 px-5 py-4 flex flex-col sm:flex-row items-center justify-between gap-3">
-            <div className="flex items-center gap-3 text-start">
-              <div className="w-11 h-11 rounded-2xl bg-cyan-100 dark:bg-cyan-950/40 flex items-center justify-center">
-                <Database className="w-5 h-5 text-cyan-600" />
-              </div>
-              <div>
-                <div className="font-black text-sm text-slate-900 dark:text-white">مراجعة أكتوبر — أولى إعدادي 2027</div>
-                <div className="text-[11px] font-bold text-slate-500 dark:text-slate-400 mt-1">Unit 1 • Unit 2 • Unit 3 • Vocabulary + Grammar</div>
-              </div>
-            </div>
-            <span className="px-4 py-2 rounded-xl bg-blue-600 text-white text-[11px] font-black">فتح بنك الأسئلة</span>
-          </div>
-        </button>
-      )}
-
       {/* FIRST SECONDARY VOCABULARY + GRAMMAR QUESTION BANK */}
       {courseId === "crs_sec_1" && (
         <button
