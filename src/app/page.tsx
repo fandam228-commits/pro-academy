@@ -385,7 +385,7 @@ function MainAppContent() {
           <div>
             {user?.role === "admin" && <SuperAdminDashboard />}
             {user?.role === "teacher" && <TeacherDashboard onOpenLibrary={() => setActiveTab("pdfs")} />}
-            {user?.role === "student" && <StudentDashboard onSelectCourse={(id) => setSelectedCourseId(id)} onOpenReport={() => setActiveTab("report")} />}
+            {user?.role === "student" && <StudentDashboard onSelectCourse={(id) => setSelectedCourseId(id)} onOpenReport={() => setActiveTab("report")} onStartExam={(exam) => setActiveGeneratedExam(exam)} />}
             {user?.role === "parent" && <ParentDashboard onOpenReport={() => setActiveTab("report")} />}
           </div>
         ) : activeTab === "chat" ? (
