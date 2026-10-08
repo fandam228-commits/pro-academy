@@ -325,7 +325,7 @@ export async function POST(req: Request) {
 
     // 4. SMART EXAM GENERATOR
     if (action === "generate_smart_exam") {
-      const { studentId, stage, grade, curriculum, term, unit, domainCategory, questionType, difficulty, source, lesson, section, grammarTopic, topic, questionCount, easyPercent, mediumPercent, hardPercent, grammarRatio } = body;
+      const { studentId, stage, grade, curriculum, term, unit, domainCategory, questionType, difficulty, source, lesson, section, grammarTopic, questionCount, easyPercent, mediumPercent, hardPercent, grammarRatio } = body;
 
       if (!grade) return NextResponse.json({ error: "grade is required for exact exam scope" }, { status: 400 });
       if (ctx.user.role === "student" && studentId && studentId !== ctx.user.id) return NextResponse.json({ error: "Forbidden" }, { status: 403 });
@@ -339,7 +339,7 @@ export async function POST(req: Request) {
       if (stage) candidates = candidates.filter((q) => q.stage === stage);
       if (curriculum) candidates = candidates.filter((q) => (q.curriculum || "Ministry") === curriculum);
       if (term) candidates = candidates.filter((q) => (q.term || "First") === term);
-      if (unit) candidates = candidates.filter((q) => (q.unit || "") === unit);
+      if (unit) {\n        const requestedUnits = String(unit).split(",").map((u) => u.trim()).filter(Boolean);\n        candidates = candidates.filter((q) => requestedUnits.includes(q.unit || ""));\n      }
       if (domainCategory) candidates = candidates.filter((q) => q.domainCategory === domainCategory);
       if (questionType) candidates = candidates.filter((q) => q.questionType === questionType);
       if (difficulty) candidates = candidates.filter((q) => q.difficulty === difficulty);
@@ -398,7 +398,7 @@ export async function POST(req: Request) {
         title: `Smart Exam: ${grade} (${totalNum} Questions)`,
         stage: stage || "Secondary",
         grade: grade || "Third Secondary (Baccalaureate)",
-        config: { questionCount: totalNum, easyPercent, mediumPercent, hardPercent, grammarRatio, stage, grade, curriculum, term, unit, domainCategory, questionType, difficulty, source, lesson, section, grammarTopic, topic },
+        config: { questionCount: totalNum, easyPercent, mediumPercent, hardPercent, grammarRatio, stage, grade, curriculum, term, unit, domainCategory, questionType, difficulty, source, lesson, section, grammarTopic },
         questionIds: Array.from(usedIds),
         questionsData: selected,
         totalPoints: selected.reduce((sum, q) => sum + (q.points || 10), 0),
