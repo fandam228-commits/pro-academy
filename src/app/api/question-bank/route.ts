@@ -5,6 +5,25 @@ import { NextResponse } from "next/server";
 import { ensureDbSetup } from "@/db/migrate-and-seed";
 import { requireRoles, getAuthContext } from "@/lib/security";
 
+function normalizedAnswerSet(value: unknown): string[] {
+  try {
+    const parsed = typeof value === "string" ? JSON.parse(value) : value;
+    if (!Array.isArray(parsed)) return [];
+    return parsed.map((x) => String(x).trim().toLowerCase()).sort();
+  } catch {
+    return [];
+  }
+}
+
+function answersMatch(question: any, studentAnswer: string): boolean {
+  if (question.questionType === "multi_select") {
+    const expected = normalizedAnswerSet(question.correctAnswer);
+    const actual = normalizedAnswerSet(studentAnswer);
+    return expected.length > 0 && expected.length === actual.length && expected.every((x, i) => x === actual[i]);
+  }
+  return studentAnswer.trim().toLowerCase() === String(question.correctAnswer || "").trim().toLowerCase();
+}
+
 export async function GET(req: Request) {
   await ensureDbSetup();
   const ctx = await getAuthContext(req);
@@ -458,8 +477,8 @@ export async function POST(req: Request) {
       for (const q of questions) {
         const p = q.points || 10;
         totalPoints += p;
-        const studentAns = (userAnswers[q.id] || "").trim();
-        const isCorrect = studentAns.toLowerCase() === q.correctAnswer.trim().toLowerCase();
+        const studentAns = String(userAnswers[q.id] || "").trim();
+        const isCorrect = answersMatch(q, studentAns);
 
         if (isCorrect) {
           earned += p;
