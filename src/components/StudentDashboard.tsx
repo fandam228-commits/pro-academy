@@ -72,7 +72,7 @@ export const StudentDashboard: React.FC<{ onSelectCourse?: (courseId: string) =>
   const weakestRules = mastery.slice().sort((a, b) => Number(a.masteryPercent) - Number(b.masteryPercent)).slice(0, 4);
   const recommendedRule = weakestRules[0];
 
-  const startQuickReview = async () => {
+  const startQuickReview = async (targetTopic?: string) => {
     setQuickReviewLoading(true);
     setQuickReviewError("");
     try {
@@ -92,6 +92,7 @@ export const StudentDashboard: React.FC<{ onSelectCourse?: (courseId: string) =>
           mediumPercent: 50,
           hardPercent: 20,
           grammarRatio: 50,
+          topic: targetTopic,
         }),
       });
       const json = await res.json();
@@ -377,7 +378,7 @@ export const StudentDashboard: React.FC<{ onSelectCourse?: (courseId: string) =>
                   ))}
                 </div>
                 <button
-                  onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+                  onClick={() => startQuickReview(performance.weakPoints[0]?.topic)}
                   className="mt-4 w-full py-2.5 rounded-xl bg-amber-500 hover:bg-amber-600 text-white text-[10px] font-black flex items-center justify-center gap-2"
                 >
                   <RotateCcw className="w-3.5 h-3.5" />
