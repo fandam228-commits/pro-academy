@@ -18,6 +18,9 @@ import {
   BarChart2,
   Target,
   AlertCircle,
+  TrendingDown,
+  History,
+  RotateCcw,
 } from "lucide-react";
 
 export const StudentDashboard: React.FC<{ onSelectCourse?: (courseId: string) => void; onOpenReport?: () => void; onStartExam?: (exam: any) => void }> = ({ onSelectCourse, onOpenReport, onStartExam }) => {
@@ -33,6 +36,23 @@ export const StudentDashboard: React.FC<{ onSelectCourse?: (courseId: string) =>
   const [quickReviewCount, setQuickReviewCount] = useState(20);
   const [quickReviewLoading, setQuickReviewLoading] = useState(false);
   const [quickReviewError, setQuickReviewError] = useState("");
+  const [performance, setPerformance] = useState<any>(null);
+  const [performanceLoading, setPerformanceLoading] = useState(true);
+
+  useEffect(() => {
+    const loadPerformance = async () => {
+      try {
+        const res = await fetch(`/api/student-performance?studentId=${encodeURIComponent(user?.id || "")}`);
+        const json = await res.json();
+        if (json.success) setPerformance(json);
+      } catch {
+        setPerformance(null);
+      } finally {
+        setPerformanceLoading(false);
+      }
+    };
+    if (user?.role === "student") loadPerformance();
+  }, [user?.id, user?.role]);
 
   useEffect(() => {
     const loadMastery = async () => {
@@ -299,6 +319,72 @@ export const StudentDashboard: React.FC<{ onSelectCourse?: (courseId: string) =>
                 <span>✓ {lang === "ar" ? "حفظ النتيجة" : "Result saved"}</span>
               </div>
             </div>
+          </div>
+
+          {/* PERFORMANCE HISTORY */}
+          <div className="bg-white dark:bg-slate-900 p-6 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-xl">
+            <div className="flex items-center justify-between gap-3 mb-4">
+              <div>
+                <h2 className="text-base font-extrabold text-slate-900 dark:text-white flex items-center gap-2">
+                  <History className="w-5 h-5 text-blue-600" />
+                  {lang === "ar" ? "سجل الاختبارات والنتائج" : "Test History & Results"}
+                </h2>
+                <p className="text-[10px] text-slate-500 mt-1">{lang === "ar" ? "المنصة بتحلل نتائجك وتحدد لك إيه اللي محتاج مراجعة." : "Your results are analyzed to recommend what to review next."}</p>
+              </div>
+              {performance?.totalExams > 0 && (
+                <div className="text-center rounded-xl bg-blue-50 dark:bg-blue-950/30 px-3 py-2">
+                  <div className="text-lg font-black text-blue-600">{performance.average}%</div>
+                  <div className="text-[9px] font-bold text-slate-500">{lang === "ar" ? "متوسطك" : "Average"}</div>
+                </div>
+              )}
+            </div>
+
+            {performanceLoading ? (
+              <div className="py-6 text-center text-xs text-slate-500">جاري تحميل نتائجك...</div>
+            ) : !performance?.history?.length ? (
+              <div className="rounded-2xl bg-slate-50 dark:bg-slate-800 p-5 text-center text-xs font-bold text-slate-500">
+                لسه مفيش اختبارات مسجلة. ابدأ المراجعة الذكية فوق 🎯
+              </div>
+            ) : (
+              <div className="space-y-2">
+                {performance.history.slice(0, 5).map((item: any) => (
+                  <div key={item.id} className="p-3 rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50/70 dark:bg-slate-800/60 flex items-center justify-between gap-3">
+                    <div className="min-w-0">
+                      <div className="text-xs font-black text-slate-900 dark:text-white truncate">{item.title}</div>
+                      <div className="text-[9px] text-slate-400 mt-1">{item.grade} • {new Date(item.submittedAt).toLocaleDateString("ar-EG")}</div>
+                    </div>
+                    <div className="text-end shrink-0">
+                      <div className={`text-base font-black ${item.percentage >= 90 ? "text-emerald-600" : item.percentage >= 60 ? "text-blue-600" : "text-red-600"}`}>{item.percentage}%</div>
+                      <div className="text-[9px] font-bold text-slate-400">{item.score} pts • {item.passed ? "ناجح" : "يحتاج مراجعة"}</div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+
+            {performance?.weakPoints?.length > 0 && (
+              <div className="mt-5 rounded-2xl border border-amber-200 dark:border-amber-900/50 bg-amber-50/70 dark:bg-amber-950/20 p-4">
+                <div className="flex items-center gap-2 text-sm font-black text-amber-800 dark:text-amber-200">
+                  <TrendingDown className="w-4 h-4" />
+                  {lang === "ar" ? "نقاط محتاجة مراجعة" : "Weak Points"}
+                </div>
+                <div className="mt-3 space-y-2">
+                  {performance.weakPoints.slice(0, 4).map((item: any) => (
+                    <div key={item.topic} className="flex items-center justify-between gap-3 text-[10px] font-bold">
+                      <span className="text-slate-700 dark:text-slate-300 truncate">{item.topic}</span>
+                      <span className={`shrink-0 ${item.percentage < 60 ? "text-red-600" : "text-amber-700"}`}>{item.percentage}%</span>
+                    </div>
+                  ))}
+                </div>
+                <button
+                  onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+                  className="mt-4 w-full py-2.5 rounded-xl bg-amber-500 hover:bg-amber-600 text-white text-[10px] font-black flex items-center justify-center gap-2"
+                >
+                  <RotateCcw className="w-3.5 h-3.5" />
+                  ابدأ مراجعة جديدة
+                </button>
+              </div>
+            )}
           </div>
 
           {/* STUDY PLANNER TODO LIST */}
