@@ -1,6 +1,7 @@
 import { db, pool } from "./index";
 import { sql } from "drizzle-orm";
 import { seedDatabase } from "./seed-data";
+import { seedFirstSecondaryUnits12Review } from "./seed-unit12-review";
 
 export async function ensureDbSetup() {
   try {
@@ -407,7 +408,10 @@ export async function ensureDbSetup() {
       CREATE INDEX IF NOT EXISTS idx_push_user ON push_subscriptions(user_id);
     `);
 
-    // Run seed data
+    // Seed new question-bank datasets independently of the legacy user seed guard.
+    await seedFirstSecondaryUnits12Review();
+
+    // Run legacy seed data
     await seedDatabase();
   } catch (error) {
     console.error("Migration / Seed error:", error);
