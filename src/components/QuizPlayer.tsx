@@ -59,6 +59,20 @@ export const QuizPlayer: React.FC<QuizPlayerProps> = ({
   const currentQ = questions[currentIndex];
 
   const handleOptionSelect = (ans: string) => {
+    if (currentQ.type === "multi_select") {
+      let selected: string[] = [];
+      try {
+        selected = JSON.parse(userAnswers[currentQ.id] || "[]");
+        if (!Array.isArray(selected)) selected = [];
+      } catch {
+        selected = [];
+      }
+      const next = selected.includes(ans)
+        ? selected.filter((x) => x !== ans)
+        : [...selected, ans];
+      setUserAnswers({ ...userAnswers, [currentQ.id]: JSON.stringify(next) });
+      return;
+    }
     setUserAnswers({ ...userAnswers, [currentQ.id]: ans });
   };
 
@@ -130,6 +144,16 @@ export const QuizPlayer: React.FC<QuizPlayerProps> = ({
     const mins = Math.floor(sec / 60);
     const secs = sec % 60;
     return `${mins}:${secs < 10 ? "0" : ""}${secs}`;
+  };
+
+  const formatAnswer = (value: string, type?: string) => {
+    if (type === "multi_select") {
+      try {
+        const parsed = JSON.parse(value || "[]");
+        if (Array.isArray(parsed)) return parsed.join(" + ");
+      } catch {}
+    }
+    return value;
   };
 
   if (questions.length === 0) {
@@ -222,25 +246,40 @@ export const QuizPlayer: React.FC<QuizPlayerProps> = ({
 
           {/* ANSWER INPUTS BASED ON QUESTION TYPE */}
           <div className="space-y-3 mb-8">
-            {/* MCQ & TRUE/FALSE */}
-            {(currentQ.type === "mcq" || currentQ.type === "true_false" || currentQ.type === "listening") && currentQ.options && (
-              currentQ.options.map((opt, i) => {
-                const isSelected = userAnswers[currentQ.id] === opt;
-                return (
-                  <button
-                    key={i}
-                    onClick={() => handleOptionSelect(opt)}
-                    className={`w-full text-start p-4 rounded-2xl font-medium text-sm border transition-all flex items-center justify-between ${
-                      isSelected
-                        ? "bg-blue-50 dark:bg-blue-950/60 border-blue-600 text-blue-700 dark:text-blue-300 font-bold"
-                        : "bg-slate-50 dark:bg-slate-800/60 border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:bg-slate-100"
-                    }`}
-                  >
-                    <span>{opt}</span>
-                    <div className={`w-4 h-4 rounded-full border ${isSelected ? "bg-blue-600 border-blue-600" : "border-slate-400"}`} />
-                  </button>
-                );
-              })
+            {/* MCQ / TRUE-FALSE / LISTENING / MULTI-SELECT */}
+            {(currentQ.type === "mcq" || currentQ.type === "true_false" || currentQ.type === "listening" || currentQ.type === "multi_select") && currentQ.options && (
+              <>
+                {currentQ.type === "multi_select" && (
+                  <p className="text-xs font-bold text-amber-700 dark:text-amber-300 bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-800 rounded-xl px-3 py-2">
+                    {lang === "ar" ? "اختر إجابتين صحيحتين" : "Choose TWO correct answers"}
+                  </p>
+                )}
+                {currentQ.options.map((opt, i) => {
+                  let isSelected = false;
+                  if (currentQ.type === "multi_select") {
+                    try {
+                      const selected = JSON.parse(userAnswers[currentQ.id] || "[]");
+                      isSelected = Array.isArray(selected) && selected.includes(opt);
+                    } catch {}
+                  } else {
+                    isSelected = userAnswers[currentQ.id] === opt;
+                  }
+                  return (
+                    <button
+                      key={i}
+                      onClick={() => handleOptionSelect(opt)}
+                      className={`w-full text-start p-4 rounded-2xl font-medium text-sm border transition-all flex items-center justify-between ${
+                        isSelected
+                          ? "bg-blue-50 dark:bg-blue-950/60 border-blue-600 text-blue-700 dark:text-blue-300 font-bold"
+                          : "bg-slate-50 dark:bg-slate-800/60 border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:bg-slate-100"
+                      }`}
+                    >
+                      <span>{opt}</span>
+                      <div className={`w-4 h-4 ${currentQ.type === "multi_select" ? "rounded-md" : "rounded-full"} border ${isSelected ? "bg-blue-600 border-blue-600" : "border-slate-400"}`} />
+                    </button>
+                  );
+                })}
+              </>
             )}
 
             {/* FILL BLANKS / CORRECTION / WRITING */}
@@ -358,13 +397,13 @@ export const QuizPlayer: React.FC<QuizPlayerProps> = ({
                     <p>
                       <strong>{lang === "ar" ? "إجابتك:" : "Your Answer:"}</strong>{" "}
                       <span className={isCorrect ? "text-emerald-600 dark:text-emerald-400 font-bold" : "text-red-600 dark:text-red-400 font-bold"}>
-                        {detail?.studentAnswer || "(No answer)"}
+                        {formatAnswer(detail?.studentAnswer || "", q.type) || "(No answer)"}
                       </span>
                     </p>
                     {!isCorrect && (
                       <p>
                         <strong>{lang === "ar" ? "الإجابة الصحيحة:" : "Correct Answer:"}</strong>{" "}
-                        <span className="text-emerald-600 dark:text-emerald-400 font-bold">{q.correctAnswer}</span>
+                        <span className="text-emerald-600 dark:text-emerald-400 font-bold">{formatAnswer(q.correctAnswer, q.type)}</span>
                       </p>
                     )}
                     {q.explanation && (
