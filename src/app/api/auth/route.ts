@@ -27,8 +27,9 @@ function sanitizeUser(u: any) {
 
 async function performLogin(loginId: string, password: string, userAgent?: string) {
   // Admin username alias: habibadmin -> the seeded admin account. Other users continue to use email.
-  const email = loginId.trim().toLowerCase() === "habibadmin" ? "habib.admin@proacademy.com" : loginId;
-  const lockMinutes = checkLoginLock(email);
+  const normalizedLogin = loginId.trim().toLowerCase();
+  const lockKey = normalizedLogin === "habibadmin" ? "habibadmin" : normalizedLogin;
+  const lockMinutes = checkLoginLock(lockKey);
   if (lockMinutes > 0) {
     return {
       errorResponse: NextResponse.json(
@@ -38,18 +39,24 @@ async function performLogin(loginId: string, password: string, userAgent?: strin
     };
   }
 
-  const foundUsers = await db.select().from(users).where(eq(users.email, email.trim().toLowerCase()));
+  let foundUsers = await db.select().from(users).where(eq(users.email, normalizedLogin));
   if (foundUsers.length === 0) {
-    recordFailedLogin(email);
+    foundUsers = await db.select().from(users).where(eq(users.username, normalizedLogin));
+  }
+  if (foundUsers.length === 0 && normalizedLogin === "habibadmin") {
+    foundUsers = await db.select().from(users).where(eq(users.email, "habib.admin@proacademy.com"));
+  }
+  if (foundUsers.length === 0) {
+    recordFailedLogin(lockKey);
     return {
-      errorResponse: NextResponse.json({ error: "No account found with this email address." }, { status: 400 }),
+      errorResponse: NextResponse.json({ error: "No account found with this username or email." }, { status: 400 }),
     };
   }
 
   const user = foundUsers[0];
   const valid = verifyPassword(password, user.password);
   if (!valid) {
-    recordFailedLogin(email);
+    recordFailedLogin(lockKey);
     return {
       errorResponse: NextResponse.json({ error: "Invalid password. Please try again." }, { status: 400 }),
     };
@@ -60,7 +67,7 @@ async function performLogin(loginId: string, password: string, userAgent?: strin
     await db.update(users).set({ password: hashPassword(password) }).where(eq(users.id, user.id));
   }
 
-  clearFailedLogins(email);
+  clearFailedLogins(lockKey);
   const { token, expiresAt } = await createSession(user.id, user.role, userAgent);
   return { user: sanitizeUser(user), token, expiresAt };
 }
