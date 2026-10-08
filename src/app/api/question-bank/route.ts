@@ -332,7 +332,7 @@ export async function POST(req: Request) {
 
     // 4. SMART EXAM GENERATOR
     if (action === "generate_smart_exam") {
-      const { studentId, stage, grade, curriculum, term, unit, domainCategory, questionType, difficulty, source, lesson, section, grammarTopic, questionCount, easyPercent, mediumPercent, hardPercent, grammarRatio } = body;
+      const { studentId, stage, grade, curriculum, term, unit, domainCategory, questionType, difficulty, source, lesson, section, grammarTopic, topic, questionCount, easyPercent, mediumPercent, hardPercent, grammarRatio } = body;
 
       if (!grade) return NextResponse.json({ error: "grade is required for exact exam scope" }, { status: 400 });
       if (ctx.user.role === "student" && studentId && studentId !== ctx.user.id) return NextResponse.json({ error: "Forbidden" }, { status: 403 });
