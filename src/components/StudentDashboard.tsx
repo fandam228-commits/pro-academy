@@ -20,7 +20,7 @@ import {
   AlertCircle,
 } from "lucide-react";
 
-export const StudentDashboard: React.FC<{ onSelectCourse?: (courseId: string) => void; onOpenReport?: () => void }> = ({ onSelectCourse, onOpenReport }) => {
+export const StudentDashboard: React.FC<{ onSelectCourse?: (courseId: string) => void; onOpenReport?: () => void; onStartExam?: (exam: any) => void }> = ({ onSelectCourse, onOpenReport, onStartExam }) => {
   const { user, lang } = useApp();
   const [plannerTasks, setPlannerTasks] = useState<any[]>([]);
   const [newTask, setNewTask] = useState("");
@@ -29,6 +29,10 @@ export const StudentDashboard: React.FC<{ onSelectCourse?: (courseId: string) =>
   const [isPomoRunning, setIsPomoRunning] = useState(false);
   const [mastery, setMastery] = useState<any[]>([]);
   const [masteryLoading, setMasteryLoading] = useState(true);
+  const [quickReviewUnit, setQuickReviewUnit] = useState("Units 1 + 2");
+  const [quickReviewCount, setQuickReviewCount] = useState(20);
+  const [quickReviewLoading, setQuickReviewLoading] = useState(false);
+  const [quickReviewError, setQuickReviewError] = useState("");
 
   useEffect(() => {
     const loadMastery = async () => {
@@ -47,6 +51,41 @@ export const StudentDashboard: React.FC<{ onSelectCourse?: (courseId: string) =>
 
   const weakestRules = mastery.slice().sort((a, b) => Number(a.masteryPercent) - Number(b.masteryPercent)).slice(0, 4);
   const recommendedRule = weakestRules[0];
+
+  const startQuickReview = async () => {
+    setQuickReviewLoading(true);
+    setQuickReviewError("");
+    try {
+      const res = await fetch("/api/question-bank", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          action: "generate_smart_exam",
+          studentId: user?.id,
+          stage: "Secondary",
+          grade: "First Secondary",
+          curriculum: "Ministry",
+          term: "First",
+          unit: quickReviewUnit === "Units 1 + 2" ? undefined : quickReviewUnit,
+          questionCount: quickReviewCount,
+          easyPercent: 30,
+          mediumPercent: 50,
+          hardPercent: 20,
+          grammarRatio: 50,
+        }),
+      });
+      const json = await res.json();
+      if (!res.ok || !json.success || !json.exam) {
+        setQuickReviewError(json.error || (lang === "ar" ? "لم نتمكن من تجهيز المراجعة الآن." : "Could not prepare the review right now."));
+        return;
+      }
+      onStartExam?.(json.exam);
+    } catch {
+      setQuickReviewError(lang === "ar" ? "حدث خطأ في الاتصال. حاول مرة أخرى." : "Connection error. Please try again.");
+    } finally {
+      setQuickReviewLoading(false);
+    }
+  };
 
   // Fetch Planner Tasks
   const fetchPlanner = async () => {
@@ -197,6 +236,68 @@ export const StudentDashboard: React.FC<{ onSelectCourse?: (courseId: string) =>
                 <Play className="w-4 h-4 fill-current" />
                 <span>{lang === "ar" ? "متابعة المحاضرة" : "Resume Lecture"}</span>
               </button>
+            </div>
+          </div>
+
+          {/* SMART QUICK REVIEW */}
+          <div className="relative overflow-hidden bg-gradient-to-br from-violet-700 via-indigo-700 to-blue-700 rounded-3xl p-6 text-white shadow-2xl">
+            <div className="absolute -top-10 -left-10 w-32 h-32 rounded-full bg-white/10 blur-2xl" />
+            <div className="relative z-10">
+              <div className="flex items-center justify-between gap-3">
+                <div>
+                  <span className="inline-flex items-center gap-1.5 text-[10px] font-black uppercase tracking-wider bg-white/15 border border-white/15 px-2.5 py-1 rounded-full">
+                    <Sparkles className="w-3 h-3 text-amber-300" />
+                    {lang === "ar" ? "مراجعة ذكية" : "Smart Review"}
+                  </span>
+                  <h2 className="text-xl font-black mt-3">{lang === "ar" ? "اختبر نفسك الآن 🎯" : "Test Yourself Now 🎯"}</h2>
+                  <p className="text-[11px] text-blue-100 mt-1 leading-5">
+                    {lang === "ar" ? "امتحان تفاعلي من بنك الأسئلة، والنتيجة والتحليل يظهروا فورًا بعد التسليم." : "An interactive bank exam with instant scoring and feedback."}
+                  </p>
+                </div>
+                <div className="hidden sm:flex w-12 h-12 rounded-2xl bg-white/15 items-center justify-center border border-white/15">
+                  <BrainCircuit className="w-6 h-6 text-amber-300" />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-[1fr_auto_auto] gap-2 mt-5">
+                <select
+                  value={quickReviewUnit}
+                  onChange={(e) => setQuickReviewUnit(e.target.value)}
+                  className="p-3 rounded-xl bg-white/10 border border-white/20 text-xs font-bold text-white outline-none"
+                >
+                  <option value="Units 1 + 2" className="text-slate-900">{lang === "ar" ? "أولى ثانوي — الوحدة 1 + 2" : "First Secondary — Units 1 + 2"}</option>
+                  <option value="Unit 1" className="text-slate-900">{lang === "ar" ? "أولى ثانوي — Unit 1" : "First Secondary — Unit 1"}</option>
+                  <option value="Unit 2" className="text-slate-900">{lang === "ar" ? "أولى ثانوي — Unit 2" : "First Secondary — Unit 2"}</option>
+                </select>
+                <select
+                  value={quickReviewCount}
+                  onChange={(e) => setQuickReviewCount(Number(e.target.value))}
+                  className="p-3 rounded-xl bg-white/10 border border-white/20 text-xs font-bold text-white outline-none"
+                >
+                  <option value={10} className="text-slate-900">10 {lang === "ar" ? "سؤال" : "questions"}</option>
+                  <option value={20} className="text-slate-900">20 {lang === "ar" ? "سؤال" : "questions"}</option>
+                  <option value={30} className="text-slate-900">30 {lang === "ar" ? "سؤال" : "questions"}</option>
+                </select>
+                <button
+                  onClick={startQuickReview}
+                  disabled={quickReviewLoading}
+                  className="px-5 py-3 rounded-xl bg-white text-indigo-700 hover:bg-blue-50 font-black text-xs shadow-lg disabled:opacity-60 transition-all"
+                >
+                  {quickReviewLoading ? (lang === "ar" ? "جاري التجهيز..." : "Preparing...") : (lang === "ar" ? "ابدأ الآن ▶" : "Start Now ▶")}
+                </button>
+              </div>
+
+              {quickReviewError && (
+                <div className="mt-3 rounded-xl bg-red-500/20 border border-red-200/20 px-3 py-2 text-[10px] font-bold text-red-100">
+                  {quickReviewError}
+                </div>
+              )}
+
+              <div className="mt-3 flex flex-wrap gap-3 text-[9px] font-bold text-blue-100/80">
+                <span>✓ {lang === "ar" ? "تصحيح تلقائي" : "Auto grading"}</span>
+                <span>✓ {lang === "ar" ? "تحليل الأخطاء" : "Error analysis"}</span>
+                <span>✓ {lang === "ar" ? "حفظ النتيجة" : "Result saved"}</span>
+              </div>
             </div>
           </div>
 
