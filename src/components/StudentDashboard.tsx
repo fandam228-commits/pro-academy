@@ -300,7 +300,7 @@ export const StudentDashboard: React.FC<{ onSelectCourse?: (courseId: string) =>
                   <option value={30} className="text-slate-900">30 {lang === "ar" ? "سؤال" : "questions"}</option>
                 </select>
                 <button
-                  onClick={startQuickReview}
+                  onClick={() => startQuickReview()}
                   disabled={quickReviewLoading}
                   className="px-5 py-3 rounded-xl bg-white text-indigo-700 hover:bg-blue-50 font-black text-xs shadow-lg disabled:opacity-60 transition-all"
                 >
