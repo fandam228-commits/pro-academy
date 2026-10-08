@@ -18,6 +18,7 @@ import {
   ArrowLeft,
   Clock,
   ShieldAlert,
+  Database,
 } from "lucide-react";
 
 interface CourseDetailProps {
