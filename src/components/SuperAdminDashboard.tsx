@@ -37,6 +37,11 @@ export const SuperAdminDashboard: React.FC = () => {
   const [newUserName, setNewUserName] = useState("");
   const [newUserEmail, setNewUserEmail] = useState("");
   const [newUserRole, setNewUserRole] = useState("student");
+  const [newUserPhone, setNewUserPhone] = useState("");
+  const [newParentPhone, setNewParentPhone] = useState("");
+  const [newUserStage, setNewUserStage] = useState("Secondary");
+  const [newUserGrade, setNewUserGrade] = useState("Third Secondary (Baccalaureate)");
+  const [createUserMessage, setCreateUserMessage] = useState("");
 
   // Announcement State
   const [annTitle, setAnnTitle] = useState("");
@@ -88,11 +93,27 @@ export const SuperAdminDashboard: React.FC = () => {
         headers: { "Content-Type": "application/json", ...authHeaders() },
         body: JSON.stringify({
           action: "create_user",
-          userData: { name: newUserName, email: newUserEmail, role: newUserRole },
+          userData: {
+            name: newUserName.trim(),
+            email: newUserEmail.trim(),
+            role: newUserRole,
+            phone: newUserPhone.trim(),
+            parentPhone: newParentPhone.trim(),
+            stage: newUserStage,
+            grade: newUserGrade,
+          },
         }),
       });
+      const result = await res.json();
+      if (!res.ok || !result.success) {
+        setCreateUserMessage(result.error || (lang === "ar" ? "تعذر إنشاء الحساب" : "Could not create account"));
+        return;
+      }
+      setCreateUserMessage(lang === "ar" ? "تم إنشاء الحساب بنجاح" : "Account created successfully");
       setNewUserName("");
       setNewUserEmail("");
+      setNewUserPhone("");
+      setNewParentPhone("");
       fetchAdminData();
     } catch (e) {
       console.error(e);
@@ -320,32 +341,31 @@ export const SuperAdminDashboard: React.FC = () => {
             <h3 className="font-extrabold text-sm text-slate-900 dark:text-white mb-4">
               {lang === "ar" ? "إضافة حساب معلم أو طالب جديد" : "Create New User Account"}
             </h3>
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-              <input
-                type="text"
-                placeholder={lang === "ar" ? "الاسم الكامل..." : "Full Name..."}
-                value={newUserName}
-                onChange={(e) => setNewUserName(e.target.value)}
-                className="p-3 rounded-2xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs font-medium text-slate-900 dark:text-white"
-              />
-              <input
-                type="email"
-                placeholder={lang === "ar" ? "البريد الإلكتروني..." : "Email Address..."}
-                value={newUserEmail}
-                onChange={(e) => setNewUserEmail(e.target.value)}
-                className="p-3 rounded-2xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs font-medium text-slate-900 dark:text-white"
-              />
-              <select
-                value={newUserRole}
-                onChange={(e) => setNewUserRole(e.target.value)}
-                className="p-3 rounded-2xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs font-medium text-slate-900 dark:text-white"
-              >
-                <option value="student">Student (طالب)</option>
-                <option value="teacher">Teacher (معلم)</option>
-                <option value="parent">Parent (ولي أمر)</option>
-                <option value="admin">Super Admin (أدمن)</option>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+              <input type="text" required placeholder={lang === "ar" ? "اسم الطالب بالكامل..." : "Student full name..."} value={newUserName} onChange={(e) => setNewUserName(e.target.value)} className="p-3 rounded-2xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs font-medium text-slate-900 dark:text-white" />
+              <input type="email" required placeholder={lang === "ar" ? "البريد الإلكتروني..." : "Email address..."} value={newUserEmail} onChange={(e) => setNewUserEmail(e.target.value)} className="p-3 rounded-2xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs font-medium text-slate-900 dark:text-white" />
+              <input type="tel" placeholder={lang === "ar" ? "رقم موبايل الطالب..." : "Student phone..."} value={newUserPhone} onChange={(e) => setNewUserPhone(e.target.value)} className="p-3 rounded-2xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs font-medium text-slate-900 dark:text-white" />
+              <input type="tel" placeholder={lang === "ar" ? "رقم ولي الأمر..." : "Parent phone..."} value={newParentPhone} onChange={(e) => setNewParentPhone(e.target.value)} className="p-3 rounded-2xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs font-medium text-slate-900 dark:text-white" />
+              <select value={newUserStage} onChange={(e) => setNewUserStage(e.target.value)} className="p-3 rounded-2xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs font-medium text-slate-900 dark:text-white">
+                <option value="Preparatory">إعدادي / Preparatory</option>
+                <option value="Secondary">ثانوي / Secondary</option>
+              </select>
+              <select value={newUserGrade} onChange={(e) => setNewUserGrade(e.target.value)} className="p-3 rounded-2xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs font-medium text-slate-900 dark:text-white">
+                <option value="First Prep">أولى إعدادي</option>
+                <option value="Second Prep">تانية إعدادي</option>
+                <option value="Third Prep">تالتة إعدادي</option>
+                <option value="First Secondary">أولى ثانوي</option>
+                <option value="Second Secondary">تانية ثانوي</option>
+                <option value="Third Secondary (Baccalaureate)">تالتة ثانوي / بكالوريا</option>
+              </select>
+              <select value={newUserRole} onChange={(e) => setNewUserRole(e.target.value)} className="p-3 rounded-2xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs font-medium text-slate-900 dark:text-white">
+                <option value="student">طالب / Student</option>
+                <option value="teacher">مدرس / Teacher</option>
+                <option value="parent">ولي أمر / Parent</option>
+                <option value="admin">مشرف / Admin</option>
               </select>
             </div>
+            {createUserMessage && <p role="status" className="mt-3 text-xs font-bold text-purple-600">{createUserMessage}</p>}
             <button
               onClick={handleCreateUser}
               className="mt-3 px-6 py-2.5 bg-purple-600 hover:bg-purple-500 text-white rounded-xl text-xs font-bold shadow-md transition-all flex items-center gap-1.5"
