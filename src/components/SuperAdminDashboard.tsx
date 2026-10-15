@@ -117,6 +117,7 @@ export const SuperAdminDashboard: React.FC = () => {
       fetchAdminData();
     } catch (e) {
       console.error(e);
+      setCreateUserMessage(lang === "ar" ? "حصل خطأ أثناء إنشاء الحساب. راجع الاتصال وحاول مرة أخرى." : "An error occurred while creating the account. Check your connection and try again.");
     }
   };
 
