@@ -56,17 +56,34 @@ export async function POST(req: Request) {
 
     // 1. Add / Edit / Delete Users
     if (action === "create_user") {
-      const newId = `usr_${Date.now()}`;
+      const name = typeof userData?.name === "string" ? userData.name.trim() : "";
+      const email = typeof userData?.email === "string" ? userData.email.trim().toLowerCase() : "";
+      const allowedRoles = ["student", "teacher", "parent", "admin"];
+      const role = allowedRoles.includes(userData?.role) ? userData.role : "student";
+
+      if (!name || !email) {
+        return NextResponse.json({ success: false, error: "الاسم والبريد الإلكتروني مطلوبان" }, { status: 400 });
+      }
+      if (!/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(email)) {
+        return NextResponse.json({ success: false, error: "البريد الإلكتروني غير صحيح" }, { status: 400 });
+      }
+
+      const existingUser = await db.select({ id: users.id }).from(users).where(eq(users.email, email)).limit(1);
+      if (existingUser.length > 0) {
+        return NextResponse.json({ success: false, error: "البريد الإلكتروني مسجل بالفعل. استخدم بريدًا آخر." }, { status: 409 });
+      }
+
+      const newId = `usr_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`;
       const newUser = {
         id: newId,
-        name: userData.name,
-        email: userData.email,
+        name,
+        email,
         password: hashPassword(userData.password || "12345678"),
-        role: userData.role || "student",
-        stage: userData.stage || "Secondary",
-        grade: userData.grade || "Third Secondary (Baccalaureate)",
-        phone: userData.phone || "",
-        parentPhone: userData.parentPhone || "",
+        role,
+        stage: typeof userData?.stage === "string" ? userData.stage : "Secondary",
+        grade: typeof userData?.grade === "string" ? userData.grade : "Third Secondary (Baccalaureate)",
+        phone: typeof userData?.phone === "string" ? userData.phone.trim() : "",
+        parentPhone: typeof userData?.parentPhone === "string" ? userData.parentPhone.trim() : "",
         streak: 1,
         points: 100,
         level: "Intermediate",
