@@ -270,11 +270,16 @@ export const Navbar: React.FC<{ activeTab?: string; setActiveTab?: (tab: string)
               </div>
             )}
             <button
-              onClick={logout}
-              className="p-2 rounded-xl bg-red-50 dark:bg-red-950/60 hover:bg-red-100 dark:hover:bg-red-900/60 text-red-600 dark:text-red-400 border border-red-200 dark:border-red-900/60 transition-all"
+              onClick={async () => {
+                setMobileMenuOpen(false);
+                await logout();
+              }}
+              className="inline-flex shrink-0 items-center justify-center gap-2 px-3 py-2 rounded-xl bg-red-50 dark:bg-red-950/60 hover:bg-red-100 dark:hover:bg-red-900/60 text-red-700 dark:text-red-300 border border-red-200 dark:border-red-900/60 transition-all font-bold text-xs whitespace-nowrap"
               title={lang === "ar" ? "تسجيل الخروج" : "Log Out"}
+              aria-label={lang === "ar" ? "تسجيل الخروج" : "Log Out"}
             >
               <LogOut className="w-4 h-4" />
+              <span>{lang === "ar" ? "خروج" : "Log out"}</span>
             </button>
 
             {/* MOBILE MENU TRIGGER */}
@@ -292,6 +297,23 @@ export const Navbar: React.FC<{ activeTab?: string; setActiveTab?: (tab: string)
       {/* MOBILE MENU DROPDOWN */}
       {mobileMenuOpen && (
         <div className="md:hidden border-t border-slate-200 dark:border-slate-800 bg-white/95 dark:bg-slate-900/95 backdrop-blur-lg px-4 pt-3 pb-6 space-y-2">
+          <div className="flex items-center justify-between gap-3 rounded-xl border border-slate-200 dark:border-slate-700 px-3 py-3 mb-3">
+            <div className="min-w-0">
+              <p className="font-extrabold text-sm text-slate-900 dark:text-white truncate">{user?.name || (lang === "ar" ? "المستخدم" : "User")}</p>
+              <p className="text-xs text-slate-500 dark:text-slate-400">{user?.role || ""}</p>
+            </div>
+            <button
+              onClick={async () => {
+                setMobileMenuOpen(false);
+                await logout();
+              }}
+              className="inline-flex shrink-0 items-center justify-center gap-2 px-3 py-2 rounded-xl bg-red-50 dark:bg-red-950/60 hover:bg-red-100 dark:hover:bg-red-900/60 text-red-700 dark:text-red-300 border border-red-200 dark:border-red-900/60 transition-all font-bold text-xs"
+              aria-label={lang === "ar" ? "تسجيل الخروج" : "Log Out"}
+            >
+              <LogOut className="w-4 h-4" />
+              <span>{lang === "ar" ? "تسجيل الخروج" : "Log out"}</span>
+            </button>
+          </div>
           <button
             onClick={() => {
               setActiveTab && setActiveTab("download");
