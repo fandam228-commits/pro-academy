@@ -251,6 +251,25 @@ export const parentLinks = pgTable("parent_links", {
   relationship: text("relationship").default("Guardian"),
 });
 
+// CENTER GROUPS TABLE
+export const centerGroups = pgTable(
+  "center_groups",
+  {
+    id: text("id").primaryKey(),
+    name: text("name").notNull(),
+    stage: text("stage").notNull().default("Secondary"),
+    grade: text("grade").notNull().default("Third Secondary (Baccalaureate)"),
+    teacherId: text("teacher_id"),
+    teacherName: text("teacher_name"),
+    schedule: text("schedule"),
+    room: text("room"),
+    monthlyFee: decimal("monthly_fee", { precision: 10, scale: 2 }).default("0.00").notNull(),
+    isActive: boolean("is_active").default(true).notNull(),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+  },
+  (table) => [index("idx_center_groups_grade").on(table.grade), index("idx_center_groups_active").on(table.isActive)]
+);
+
 // ATTENDANCE TABLE
 export const attendance = pgTable("attendance", {
   id: text("id").primaryKey(),
