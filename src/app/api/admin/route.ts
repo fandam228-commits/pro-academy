@@ -64,7 +64,7 @@ export async function POST(req: Request) {
       if (!name || !email) {
         return NextResponse.json({ success: false, error: "الاسم والبريد الإلكتروني مطلوبان" }, { status: 400 });
       }
-      if (!/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(email)) {
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
         return NextResponse.json({ success: false, error: "البريد الإلكتروني غير صحيح" }, { status: 400 });
       }
 
