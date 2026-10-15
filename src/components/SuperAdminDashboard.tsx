@@ -25,7 +25,7 @@ export const SuperAdminDashboard: React.FC = () => {
   const { lang } = useApp();
   const [data, setData] = useState<any>(null);
   const [loading, setLoading] = useState(true);
-  const [activeTab, setActiveTab] = useState<"analytics" | "users" | "codes" | "announcements" | "backup">("analytics");
+  const [activeTab, setActiveTab] = useState<"analytics" | "users" | "groups" | "codes" | "announcements" | "backup">("analytics");
 
   // Code Generator Form State
   const [codeCourseId, setCodeCourseId] = useState("crs_sec_3");
@@ -42,6 +42,64 @@ export const SuperAdminDashboard: React.FC = () => {
   const [newUserStage, setNewUserStage] = useState("Secondary");
   const [newUserGrade, setNewUserGrade] = useState("Third Secondary (Baccalaureate)");
   const [createUserMessage, setCreateUserMessage] = useState("");
+
+  // Center group management state
+  const [groupName, setGroupName] = useState("");
+  const [groupStage, setGroupStage] = useState("Secondary");
+  const [groupGrade, setGroupGrade] = useState("Third Secondary (Baccalaureate)");
+  const [groupTeacherId, setGroupTeacherId] = useState("");
+  const [groupSchedule, setGroupSchedule] = useState("");
+  const [groupRoom, setGroupRoom] = useState("");
+  const [groupMonthlyFee, setGroupMonthlyFee] = useState("0");
+  const [groupMessage, setGroupMessage] = useState("");
+  const [groups, setGroups] = useState<any[]>([]);
+  const [groupTeachers, setGroupTeachers] = useState<any[]>([]);
+  const [groupsLoading, setGroupsLoading] = useState(false);
+
+  const fetchGroups = async () => {
+    setGroupsLoading(true);
+    try {
+      const res = await fetch("/api/groups", { headers: authHeaders() });
+      const json = await res.json();
+      if (!res.ok || !json.success) {
+        setGroupMessage(json.error || (lang === "ar" ? "تعذر تحميل المجموعات" : "Could not load groups"));
+        return;
+      }
+      setGroups(json.groups || []);
+      setGroupTeachers(json.teachers || []);
+    } catch {
+      setGroupMessage(lang === "ar" ? "خطأ في الاتصال أثناء تحميل المجموعات" : "Network error loading groups");
+    } finally {
+      setGroupsLoading(false);
+    }
+  };
+
+  const handleCreateGroup = async () => {
+    if (!groupName.trim()) {
+      setGroupMessage(lang === "ar" ? "اكتب اسم المجموعة أولًا" : "Enter a group name first");
+      return;
+    }
+    try {
+      const res = await fetch("/api/groups", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", ...authHeaders() },
+        body: JSON.stringify({ name: groupName, stage: groupStage, grade: groupGrade, teacherId: groupTeacherId || null, schedule: groupSchedule, room: groupRoom, monthlyFee: Number(groupMonthlyFee) }),
+      });
+      const json = await res.json();
+      if (!res.ok || !json.success) {
+        setGroupMessage(json.error || (lang === "ar" ? "تعذر إنشاء المجموعة" : "Could not create group"));
+        return;
+      }
+      setGroupMessage(lang === "ar" ? "تم إنشاء المجموعة بنجاح" : "Group created successfully");
+      setGroupName("");
+      setGroupSchedule("");
+      setGroupRoom("");
+      setGroupMonthlyFee("0");
+      await fetchGroups();
+    } catch {
+      setGroupMessage(lang === "ar" ? "خطأ في الاتصال أثناء إنشاء المجموعة" : "Network error creating group");
+    }
+  };
 
   // Announcement State
   const [annTitle, setAnnTitle] = useState("");
@@ -214,6 +272,12 @@ export const SuperAdminDashboard: React.FC = () => {
             {lang === "ar" ? "الإحصائيات" : "Analytics"}
           </button>
           <button
+            onClick={() => { setActiveTab("groups"); fetchGroups(); }}
+            className={`px-3.5 py-2 rounded-xl transition-all ${activeTab === "groups" ? "bg-white dark:bg-slate-900 text-purple-600 dark:text-purple-400 shadow-sm" : "text-slate-600 dark:text-slate-400"}`}
+          >
+            {lang === "ar" ? "المجموعات" : "Groups"}
+          </button>
+          <button
             onClick={() => setActiveTab("users")}
             className={`px-3.5 py-2 rounded-xl transition-all ${
               activeTab === "users" ? "bg-white dark:bg-slate-900 text-purple-600 dark:text-purple-400 shadow-sm" : "text-slate-600 dark:text-slate-400"
@@ -331,6 +395,35 @@ export const SuperAdminDashboard: React.FC = () => {
                 ))}
               </div>
             </div>
+          </div>
+        </div>
+      )}
+
+      {/* CENTER GROUPS MANAGEMENT */}
+      {activeTab === "groups" && (
+        <div className="space-y-6">
+          <div className="bg-white dark:bg-slate-900 p-6 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-lg">
+            <h3 className="font-extrabold text-sm text-slate-900 dark:text-white mb-4">{lang === "ar" ? "إنشاء مجموعة جديدة" : "Create a Center Group"}</h3>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+              <input value={groupName} onChange={(e) => setGroupName(e.target.value)} placeholder={lang === "ar" ? "اسم المجموعة" : "Group name"} className="p-3 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-sm" />
+              <select value={groupStage} onChange={(e) => setGroupStage(e.target.value)} className="p-3 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-sm">
+                <option value="Preparatory">Preparatory / إعدادي</option><option value="Secondary">Secondary / ثانوي</option>
+              </select>
+              <input value={groupGrade} onChange={(e) => setGroupGrade(e.target.value)} placeholder={lang === "ar" ? "الصف الدراسي" : "Grade"} className="p-3 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-sm" />
+              <select value={groupTeacherId} onChange={(e) => setGroupTeacherId(e.target.value)} className="p-3 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-sm">
+                <option value="">{lang === "ar" ? "اختر المدرس (اختياري)" : "Select teacher (optional)"}</option>
+                {groupTeachers.map((t) => <option key={t.id} value={t.id}>{t.name}</option>)}
+              </select>
+              <input value={groupSchedule} onChange={(e) => setGroupSchedule(e.target.value)} placeholder={lang === "ar" ? "مواعيد المجموعة" : "Schedule"} className="p-3 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-sm" />
+              <input value={groupRoom} onChange={(e) => setGroupRoom(e.target.value)} placeholder={lang === "ar" ? "القاعة" : "Room"} className="p-3 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-sm" />
+              <input type="number" min="0" step="0.01" value={groupMonthlyFee} onChange={(e) => setGroupMonthlyFee(e.target.value)} placeholder={lang === "ar" ? "الاشتراك الشهري بالجنيه" : "Monthly fee (EGP)"} className="p-3 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-sm" />
+              <button onClick={handleCreateGroup} className="px-5 py-3 bg-purple-600 hover:bg-purple-700 text-white rounded-xl text-sm font-bold">{lang === "ar" ? "حفظ المجموعة" : "Save Group"}</button>
+            </div>
+            {groupMessage && <p className="mt-3 text-sm font-bold text-blue-600">{groupMessage}</p>}
+          </div>
+          <div className="bg-white dark:bg-slate-900 p-6 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-lg">
+            <div className="flex items-center justify-between mb-4"><h3 className="font-extrabold text-sm">{lang === "ar" ? "المجموعات المسجلة" : "Registered Groups"}</h3><button onClick={fetchGroups} className="text-xs font-bold text-purple-600">{lang === "ar" ? "تحديث" : "Refresh"}</button></div>
+            {groupsLoading ? <p className="text-sm text-slate-500">{lang === "ar" ? "جاري التحميل..." : "Loading..."}</p> : groups.length === 0 ? <p className="text-sm text-slate-500">{lang === "ar" ? "لا توجد مجموعات مسجلة حتى الآن." : "No groups registered yet."}</p> : <div className="overflow-x-auto"><table className="w-full text-sm text-start"><thead><tr className="border-b text-slate-500"><th className="p-2 text-start">Name</th><th className="p-2 text-start">Grade</th><th className="p-2 text-start">Teacher</th><th className="p-2 text-start">Schedule</th><th className="p-2 text-end">Monthly fee</th></tr></thead><tbody>{groups.map((g) => <tr key={g.id} className="border-b border-slate-100 dark:border-slate-800"><td className="p-2 font-bold">{g.name}</td><td className="p-2">{g.grade}</td><td className="p-2">{g.teacherName || "-"}</td><td className="p-2">{g.schedule || "-"}</td><td className="p-2 text-end">{g.monthlyFee} EGP</td></tr>)}</tbody></table></div>}
           </div>
         </div>
       )}
