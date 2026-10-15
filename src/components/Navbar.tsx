@@ -464,6 +464,23 @@ export const Navbar: React.FC<{ activeTab?: string; setActiveTab?: (tab: string)
           </button>
         </div>
       )}
+
+      {/* ALWAYS-VISIBLE LOGOUT ACTION: kept outside the crowded navigation row */}
+      {user && (
+        <button
+          type="button"
+          onClick={async () => {
+            setMobileMenuOpen(false);
+            await logout();
+          }}
+          className="fixed bottom-5 left-5 z-[100] inline-flex items-center gap-2 rounded-full bg-red-600 px-4 py-3 text-sm font-extrabold text-white shadow-xl shadow-red-600/30 hover:bg-red-700 focus:outline-none focus:ring-4 focus:ring-red-300"
+          title={lang === "ar" ? "تسجيل الخروج" : "Log out"}
+          aria-label={lang === "ar" ? "تسجيل الخروج" : "Log out"}
+        >
+          <LogOut className="h-5 w-5" />
+          <span>{lang === "ar" ? "تسجيل الخروج" : "Log out"}</span>
+        </button>
+      )}
     </header>
   );
 };
