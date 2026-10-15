@@ -246,6 +246,23 @@ export async function ensureDbSetup() {
         relationship TEXT DEFAULT 'Guardian'
       );
 
+      CREATE TABLE IF NOT EXISTS center_groups (
+        id TEXT PRIMARY KEY,
+        name TEXT NOT NULL,
+        stage TEXT NOT NULL DEFAULT 'Secondary',
+        grade TEXT NOT NULL DEFAULT 'Third Secondary (Baccalaureate)',
+        teacher_id TEXT,
+        teacher_name TEXT,
+        schedule TEXT,
+        room TEXT,
+        monthly_fee NUMERIC(10, 2) NOT NULL DEFAULT 0.00,
+        is_active BOOLEAN NOT NULL DEFAULT true,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
+      );
+
+      CREATE INDEX IF NOT EXISTS idx_center_groups_grade ON center_groups(grade);
+      CREATE INDEX IF NOT EXISTS idx_center_groups_active ON center_groups(is_active);
+
       CREATE TABLE IF NOT EXISTS attendance (
         id TEXT PRIMARY KEY,
         student_id TEXT NOT NULL,
