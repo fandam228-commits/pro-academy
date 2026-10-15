@@ -90,7 +90,12 @@ export async function POST(req: Request) {
   await ensureDbSetup();
   try {
     const body = await req.json();
-    const { action, email, username, password, name, role, stage, grade, phone, parentPhone } = body;
+    const { email, username, password, name, role, stage, grade, phone, parentPhone } = body;
+    const rawAction = typeof body?.action === "string" ? body.action.trim().toLowerCase() : "";
+    // Accept common sign-in aliases and older clients that send credentials without an action.
+    const action = ["login", "signin", "sign_in", "sign-in", "authenticate"].includes(rawAction)
+      ? "login"
+      : rawAction || ((!rawAction && (email || username) && password) ? "login" : "");
     const userAgent = req.headers.get("user-agent") || "";
 
     // ============ LOGIN ============
