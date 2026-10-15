@@ -88,7 +88,7 @@ export const SuperAdminDashboard: React.FC = () => {
   const handleCreateUser = async () => {
     if (!newUserName || !newUserEmail) return;
     try {
-      await fetch("/api/admin", {
+      const res = await fetch("/api/admin", {
         method: "POST",
         headers: { "Content-Type": "application/json", ...authHeaders() },
         body: JSON.stringify({
