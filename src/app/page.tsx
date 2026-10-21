@@ -52,6 +52,7 @@ function MainAppContent() {
   const { lang, user, authLoading } = useApp();
   const [activeTab, setActiveTab] = useState<string>("home");
   const [showAuthScreen, setShowAuthScreen] = useState(false);
+  const [authMode, setAuthMode] = useState<"login" | "register">("login");
   const [selectedCourseId, setSelectedCourseId] = useState<string | null>(null);
   const [activeGeneratedExam, setActiveGeneratedExam] = useState<any>(null);
   const [infoSection, setInfoSection] = useState<string>("about");
@@ -107,8 +108,8 @@ function MainAppContent() {
   // ===== SECURITY GATE: Real login required to access the platform =====
   if (!user) {
     return showAuthScreen
-      ? <AuthScreen onBack={() => setShowAuthScreen(false)} />
-      : <PublicLanding lang={lang} onLogin={() => setShowAuthScreen(true)} onRegister={() => setShowAuthScreen(true)} />;
+      ? <AuthScreen initialMode={authMode} onBack={() => setShowAuthScreen(false)} />
+      : <PublicLanding lang={lang} onLogin={() => { setAuthMode("login"); setShowAuthScreen(true); }} onRegister={() => { setAuthMode("register"); setShowAuthScreen(true); }} />;
   }
 
   // Home courses cards data
