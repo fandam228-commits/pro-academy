@@ -22,7 +22,7 @@ import {
   CheckCircle2,
 } from "lucide-react";
 
-export const AuthScreen: React.FC = () => {
+export const AuthScreen: React.FC<{ onBack?: () => void }> = ({ onBack }) => {
   const { lang, login, register, authLoading, authError, clearAuthError } = useApp();
   const [mode, setMode] = useState<"login" | "register">("login");
   const [showPassword, setShowPassword] = useState(false);
@@ -95,6 +95,7 @@ export const AuthScreen: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-950 via-blue-950 to-indigo-950 flex items-center justify-center p-4 relative overflow-hidden">
+      {onBack && <button type="button" onClick={onBack} className="absolute top-4 left-4 z-20 rounded-xl border border-white/20 bg-white/10 px-4 py-2 text-sm font-bold text-white backdrop-blur hover:bg-white/20">{lang === "ar" ? "العودة للواجهة الرئيسية" : "Back to home"}</button>}
       {/* DECORATIVE GLOW CIRCLES */}
       <div className="absolute top-[-10%] left-[-10%] w-96 h-96 bg-blue-600/25 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute bottom-[-10%] right-[-10%] w-96 h-96 bg-indigo-600/25 rounded-full blur-3xl pointer-events-none" />
