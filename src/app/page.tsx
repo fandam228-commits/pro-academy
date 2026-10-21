@@ -17,6 +17,7 @@ import { QuestionBankWorkspace } from "@/components/QuestionBankWorkspace";
 import { PdfLibraryWorkspace } from "@/components/PdfLibraryWorkspace";
 import { WhatsAppButton } from "@/components/WhatsAppButton";
 import { AuthScreen } from "@/components/AuthScreen";
+import { PublicLanding } from "@/components/PublicLanding";
 import { GamificationCenter } from "@/components/GamificationCenter";
 import { CalendarView } from "@/components/CalendarView";
 import { InfoPages } from "@/components/InfoPages";
@@ -50,6 +51,7 @@ import {
 function MainAppContent() {
   const { lang, user, authLoading } = useApp();
   const [activeTab, setActiveTab] = useState<string>("home");
+  const [showAuthScreen, setShowAuthScreen] = useState(false);
   const [selectedCourseId, setSelectedCourseId] = useState<string | null>(null);
   const [activeGeneratedExam, setActiveGeneratedExam] = useState<any>(null);
   const [infoSection, setInfoSection] = useState<string>("about");
@@ -104,7 +106,9 @@ function MainAppContent() {
 
   // ===== SECURITY GATE: Real login required to access the platform =====
   if (!user) {
-    return <AuthScreen />;
+    return showAuthScreen
+      ? <AuthScreen onBack={() => setShowAuthScreen(false)} />
+      : <PublicLanding lang={lang} onLogin={() => setShowAuthScreen(true)} onRegister={() => setShowAuthScreen(true)} />;
   }
 
   // Home courses cards data
