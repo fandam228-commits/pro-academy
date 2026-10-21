@@ -22,9 +22,9 @@ import {
   CheckCircle2,
 } from "lucide-react";
 
-export const AuthScreen: React.FC<{ onBack?: () => void }> = ({ onBack }) => {
+export const AuthScreen: React.FC<{ onBack?: () => void; initialMode?: "login" | "register" }> = ({ onBack, initialMode = "login" }) => {
   const { lang, login, register, authLoading, authError, clearAuthError } = useApp();
-  const [mode, setMode] = useState<"login" | "register">("login");
+  const [mode, setMode] = useState<"login" | "register">(initialMode);
   const [showPassword, setShowPassword] = useState(false);
 
   // Login state
