@@ -393,7 +393,7 @@ export const QuestionBankWorkspace: React.FC<{ onExamGenerated?: (exam: any) => 
             }`}
           >
             <Upload className="w-4 h-4 text-emerald-500" />
-            <span>{lang === "ar" ? "استيراد CSV / Excel" : "Bulk Import"}</span>
+            <span>{lang === "ar" ? "استيراد أسئلة PDF" : "PDF Question Import"}</span>
           </button>
         </div>
 
