@@ -53,6 +53,22 @@ export async function GET(
     let fileBuffer: Buffer | null = null;
     if (doc.fileData) {
       fileBuffer = Buffer.from(doc.fileData, "base64");
+    } else if (doc.storagePath?.startsWith("https://")) {
+      // Blob URLs stay in the database and are fetched only after this route's
+      // authentication, enrollment, and download-permission checks.
+      try {
+        const blobUrl = new URL(doc.storagePath);
+        if (!blobUrl.hostname.endsWith(".blob.vercel-storage.com")) {
+          return NextResponse.json({ error: "Unsupported remote storage location" }, { status: 500 });
+        }
+        const blobResponse = await fetch(blobUrl.toString(), { cache: "no-store" });
+        if (!blobResponse.ok) {
+          return NextResponse.json({ error: "Stored PDF is missing from Blob storage" }, { status: 404 });
+        }
+        fileBuffer = Buffer.from(await blobResponse.arrayBuffer());
+      } catch {
+        return NextResponse.json({ error: "Unable to retrieve PDF from Blob storage" }, { status: 502 });
+      }
     } else if (doc.storagePath) {
       try {
         fileBuffer = await fs.promises.readFile(doc.storagePath);
