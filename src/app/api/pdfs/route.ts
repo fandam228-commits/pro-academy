@@ -5,8 +5,9 @@ import { NextResponse } from "next/server";
 import { ensureDbSetup } from "@/db/migrate-and-seed";
 import { requireRoles, getAuthContext } from "@/lib/security";
 
-// Vercel serverless body limit is ~4.5MB — keep uploads under that.
-const MAX_SIZE_BYTES = 4 * 1024 * 1024; // 4MB
+// Direct-to-Blob uploads handle large files; this limit remains for legacy multipart uploads.
+const MAX_SIZE_BYTES = 4 * 1024 * 1024; // 4MB legacy fallback
+const MAX_BLOB_SIZE_BYTES = 100 * 1024 * 1024; // 100MB
 
 export async function GET(req: Request) {
   await ensureDbSetup();
@@ -22,7 +23,7 @@ export async function GET(req: Request) {
   try {
     // Never return the heavy base64 payload in the list endpoint
     const all = await db.select().from(pdfDocuments);
-    let docs = all.map(({ fileData, ...rest }) => rest);
+    let docs = all.map(({ fileData, ...rest }) => ({ ...rest, storagePath: rest.storagePath?.startsWith("https://") ? null : rest.storagePath }));
     if (ctx.user.role === "student") {
       const active = await db.select({ courseId: enrollments.courseId }).from(enrollments).where(and(eq(enrollments.studentId, ctx.user.id), eq(enrollments.status, "active")));
       const allowed = new Set(active.map((e) => e.courseId));
@@ -171,6 +172,50 @@ export async function POST(req: Request) {
         })
         .where(eq(pdfDocuments.id, documentId));
       return NextResponse.json({ success: true });
+    }
+
+    // Register a PDF uploaded directly from the browser to Vercel Blob.
+    // The Blob URL is kept server-side in storagePath and is never returned by the library list API.
+    if (action === "add_blob") {
+      const { title, description, blobUrl, fileName, fileSize, stage, grade, unit, topic, courseId, allowDownload } = body;
+      if (!title || !blobUrl || !fileName || !Number.isFinite(Number(fileSize))) {
+        return NextResponse.json({ error: "Title, uploaded PDF URL, file name, and size are required." }, { status: 400 });
+      }
+      let parsedUrl: URL;
+      try { parsedUrl = new URL(blobUrl); } catch { return NextResponse.json({ error: "Invalid uploaded file URL." }, { status: 400 }); }
+      if (parsedUrl.protocol !== "https:" || !parsedUrl.hostname.endsWith(".blob.vercel-storage.com")) {
+        return NextResponse.json({ error: "Only files uploaded to the configured Vercel Blob store are allowed." }, { status: 400 });
+      }
+      if (Number(fileSize) <= 0 || Number(fileSize) > MAX_BLOB_SIZE_BYTES) {
+        return NextResponse.json({ error: "PDF must be 100MB or smaller." }, { status: 400 });
+      }
+      const id = `pdf_blob_${Date.now()}_${Math.random().toString(36).substring(2, 6)}`;
+      const newDoc = {
+        id,
+        title: String(title),
+        description: String(description || ""),
+        uploaderId: "usr_admin_1",
+        uploaderName: "Mr. Habib El Rahman",
+        stage: String(stage || "Secondary"),
+        grade: String(grade || "Third Secondary (Baccalaureate)"),
+        unit: String(unit || "General"),
+        topic: String(topic || "Exam Papers"),
+        courseId: String(courseId || "") || null,
+        fileName: String(fileName).replace(/[^a-zA-Z0-9._-]/g, "_"),
+        storagePath: parsedUrl.toString(),
+        fileData: null,
+        externalUrl: null,
+        fileSizeKb: Math.round(Number(fileSize) / 1024),
+        pageCount: 1,
+        views: 0,
+        downloads: 0,
+        isProtected: true,
+        watermarkEnabled: true,
+        allowDownload: !!allowDownload,
+      };
+      await db.insert(pdfDocuments).values(newDoc);
+      const { storagePath: _omitStorageUrl, ...publicDoc } = newDoc;
+      return NextResponse.json({ success: true, document: publicDoc });
     }
 
     // Allow linking an external PDF URL (Google Drive / any public link)
