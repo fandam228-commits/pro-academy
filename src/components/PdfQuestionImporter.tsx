@@ -107,8 +107,15 @@ export function PdfQuestionImporter({ lang = "ar", onImported }: { lang?: string
         const page = await pdf.getPage(p);
         const text = await page.getTextContent();
         const items = text.items as Array<{ str: string; transform?: number[] }>;
-        // Keep text items in PDF reading order; a manual review is required before import.
-        pages.push(items.map((item) => item.str).join(" "));
+        // Rebuild approximate visual lines from PDF coordinates to preserve question and option boundaries.
+        const rows = new Map<number, string[]>();
+        for (const item of items) {
+          const y = Math.round(item.transform?.[5] ?? 0);
+          const row = rows.get(y) || [];
+          row.push(item.str);
+          rows.set(y, row);
+        }
+        pages.push(Array.from(rows.entries()).sort((a, b) => b[0] - a[0]).map(([, row]) => row.join(" ").trim()).filter(Boolean).join("\n"));
       }
       const extracted = pages.map((p, i) => `\n${i + 1}. ${p}`).join("\n");
       setRawText(extracted.trim());
