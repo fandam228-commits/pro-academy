@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import { PdfQuestionImporter } from "@/components/PdfQuestionImporter";
 import { useApp } from "@/context/AppContext";
 import {
   Database,
@@ -706,37 +707,8 @@ export const QuestionBankWorkspace: React.FC<{ onExamGenerated?: (exam: any) => 
       )}
 
       {/* TAB 4: BULK IMPORTER */}
-      {activeTab === "importer" && (
-        <div className="bg-white dark:bg-slate-900 p-8 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-2xl max-w-3xl mx-auto space-y-4">
-          <h2 className="text-lg font-black text-slate-900 dark:text-white">
-            {lang === "ar" ? "استيراد أسئلة من CSV / Excel / Word" : "Bulk Questions Importer"}
-          </h2>
-          <p className="text-xs text-slate-500 dark:text-slate-400">
-            Paste line-separated items in format: <code className="font-mono bg-slate-100 dark:bg-slate-800 px-1 py-0.5 rounded">Question Text | Option1,Option2,Option3,Option4 | CorrectAnswer</code>
-          </p>
+      {activeTab === "importer" && <PdfQuestionImporter lang={lang} onImported={fetchQuestions} />}
 
-          <textarea
-            rows={8}
-            value={importRawText}
-            onChange={(e) => setImportRawText(e.target.value)}
-            placeholder="Hardly had he arrived | had he,did he,he had,has he | had he"
-            className="w-full p-4 rounded-2xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs font-mono text-slate-900 dark:text-white focus:outline-none"
-          />
-
-          <button
-            onClick={handleImportText}
-            className="w-full py-3.5 rounded-2xl bg-emerald-600 hover:bg-emerald-500 text-white font-extrabold text-xs shadow-lg shadow-emerald-500/25 transition-all"
-          >
-            {lang === "ar" ? "معالجة واستيراد الأسئلة" : "Process & Import Questions"}
-          </button>
-
-          {importStatus && (
-            <div className="p-4 bg-blue-50 dark:bg-blue-950 text-blue-900 dark:text-blue-200 rounded-2xl text-xs font-bold border border-blue-200">
-              {importStatus.message}
-            </div>
-          )}
-        </div>
-      )}
 
       {/* ADD QUESTION MANUAL MODAL */}
       {showAddModal && (
