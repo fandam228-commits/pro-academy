@@ -156,7 +156,7 @@ function MainAppContent() {
       badge: course.category || (lang === "ar" ? "كورس" : "Course"),
       image: course.thumbnail || "/icons/icon-512.png",
     };
-  });;
+  });
 
   return (
     <div className="min-h-screen flex flex-col bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 transition-colors">
