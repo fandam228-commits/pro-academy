@@ -518,7 +518,8 @@ export const QuestionBankWorkspace: React.FC<{ onExamGenerated?: (exam: any) => 
                   {Array.isArray(q.options) && q.options.length > 0 && (
                     <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 pt-1">
                       {q.options.map((opt: string, i: number) => {
-                        const isCorrect = opt.trim().toLowerCase() === q.correctAnswer.trim().toLowerCase();
+                        const correctAnswer = typeof q.correctAnswer === "string" ? q.correctAnswer.trim().toLowerCase() : "";
+                        const isCorrect = correctAnswer.length > 0 && typeof opt === "string" && opt.trim().toLowerCase() === correctAnswer;
                         return (
                           <div
                             key={i}
