@@ -121,8 +121,12 @@ export const ParentDashboard: React.FC<{ onOpenReport?: () => void }> = ({ onOpe
 
         <div className="bg-white dark:bg-slate-900 p-6 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-lg text-center">
           <span className="text-xs font-bold text-slate-400 block mb-1 uppercase">{lang === "ar" ? "التتابع والمواظبة" : "Study Streak"}</span>
-          <div className="text-3xl font-black text-amber-500">{student?.streak == null ? "—" : String(student.streak)}</div>
-          <p className="text-[10px] text-amber-600 font-bold mt-1">Active Daily Learner</p>
+          <div className="text-3xl font-black text-amber-500">{student?.streak == null ? "—" : String(student.streak) + (lang === "ar" ? " يوم" : " days")}</div>
+          <p className="text-[10px] text-amber-600 font-bold mt-1">
+            {student?.streak == null
+              ? lang === "ar" ? "لا توجد بيانات مواظبة بعد" : "No streak data yet"
+              : lang === "ar" ? "التتابع الحالي" : "Current study streak"}
+          </p>
         </div>
       </div>
 
