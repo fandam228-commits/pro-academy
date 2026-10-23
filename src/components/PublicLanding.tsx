@@ -3,19 +3,20 @@
 import React from "react";
 import { ArrowLeft, ArrowRight, BookOpen, Brain, CheckCircle2, GraduationCap, Sparkles, Target, ClipboardCheck, ShieldCheck } from "lucide-react";
 
-type Props = { lang: string; onLogin: () => void; onRegister: () => void };
+type Props = { lang: string; onToggleLang: () => void; onLogin: () => void; onRegister: () => void };
 
-export const PublicLanding: React.FC<Props> = ({ lang, onLogin, onRegister }) => {
+export const PublicLanding: React.FC<Props> = ({ lang, onToggleLang, onLogin, onRegister }) => {
   const ar = lang === "ar";
   return (
     <div dir={ar ? "rtl" : "ltr"} lang={ar ? "ar" : "en"} className="min-h-screen overflow-hidden bg-slate-950 text-white antialiased selection:bg-sky-300 selection:text-slate-950">
       <header className="relative z-10 border-b border-white/10 bg-slate-950/80 backdrop-blur-xl">
-        <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-4 sm:px-6 lg:px-8">
+        <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-4 px-4 py-4 sm:px-6 lg:px-8">
           <div className="flex items-center gap-3">
             <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-sky-400 to-violet-600 shadow-lg shadow-blue-950/50"><GraduationCap className="h-7 w-7 text-white" /></div>
             <div><p className="text-base font-black tracking-tight sm:text-lg">Professional Academy</p><p className="text-xs font-semibold text-sky-200">{ar ? "مستر حبيب الرحمن" : "Mr. Habib El Rahman"}</p></div>
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex flex-wrap items-center gap-2">
+            <button type="button" onClick={onToggleLang} aria-label={ar ? "Switch to English" : "التبديل إلى العربية"} className="rounded-xl border border-white/20 px-3 py-2 text-xs font-bold text-sky-100 transition hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-300">{ar ? "English" : "العربية"}</button>
             <button onClick={onLogin} className="rounded-xl px-3 py-2 text-sm font-bold text-slate-200 transition hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-300 sm:px-4">{ar ? "تسجيل الدخول" : "Log in"}</button>
             <button onClick={onRegister} className="rounded-xl bg-gradient-to-r from-sky-500 to-violet-600 px-4 py-2.5 text-sm font-extrabold shadow-lg shadow-blue-950/40 transition hover:-translate-y-0.5 hover:brightness-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-200 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950 sm:px-5">{ar ? "إنشاء حساب" : "Create account"}</button>
           </div>
