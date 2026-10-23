@@ -38,12 +38,12 @@ export const PublicLanding: React.FC<Props> = ({ lang, onToggleLang, onLogin, on
               </div>
               <div className="flex flex-wrap justify-center gap-x-5 gap-y-2 pt-2 text-xs font-semibold text-blue-100/75 lg:justify-start"><span className="inline-flex items-center gap-2"><CheckCircle2 className="h-4 w-4 text-emerald-300" />{ar ? "تسجيل سهل" : "Easy sign-up"}</span><span className="inline-flex items-center gap-2"><CheckCircle2 className="h-4 w-4 text-emerald-300" />{ar ? "تدريب تفاعلي" : "Interactive practice"}</span><span className="inline-flex items-center gap-2"><CheckCircle2 className="h-4 w-4 text-emerald-300" />{ar ? "واجهة مناسبة للموبايل" : "Mobile-friendly"}</span></div>
             </div>
-            <div className="relative mx-auto w-full max-w-xl">
+            <div className="relative mx-auto w-full max-w-md">
               <div className="absolute -inset-4 rounded-[2rem] bg-gradient-to-tr from-sky-500/30 to-violet-500/30 blur-2xl" />
               <div className="relative overflow-hidden rounded-[2rem] border border-white/15 bg-white/10 p-3 shadow-2xl backdrop-blur">
-                <img src="https://images.unsplash.com/photo-1523580494863-6f3031224c94?auto=format&fit=crop&w=1200&q=85" alt={ar ? "طلاب يتعلمون في بيئة تعليمية حديثة" : "Students learning in a modern educational setting"} className="h-[300px] w-full rounded-[1.5rem] object-cover sm:h-[380px]" />
+                <img src="/images/mr-habib-el-rahman.jpg" alt={ar ? "الأستاذ حبيب الرحمن، مدرس اللغة الإنجليزية" : "Mr. Habib El Rahman, English teacher"} className="h-[420px] w-full rounded-[1.5rem] object-cover object-[center_25%] sm:h-[520px]" />
                 <div className="absolute bottom-6 left-6 right-6 rounded-2xl border border-white/20 bg-slate-950/80 p-4 shadow-xl backdrop-blur-xl sm:bottom-8 sm:left-8 sm:right-8">
-                  <div className="flex items-center gap-3"><div className="flex h-11 w-11 items-center justify-center rounded-xl bg-sky-400/20 text-sky-200"><BookOpen className="h-6 w-6" /></div><div><p className="font-extrabold">{ar ? "تعلّم على خطوتك" : "Learn at your pace"}</p><p className="mt-1 text-xs text-blue-100/75">{ar ? "تدريب ومراجعة منظمين في مكان واحد" : "Structured practice and revision in one place"}</p></div></div>
+                  <div className="flex items-center gap-3"><div className="flex h-11 w-11 items-center justify-center rounded-xl bg-sky-400/20 text-sky-200"><BookOpen className="h-6 w-6" /></div><div><p className="font-extrabold">{ar ? "مستر حبيب الرحمن" : "Mr. Habib El Rahman"}</p><p className="mt-1 text-xs text-blue-100/75">{ar ? "مدرّس اللغة الإنجليزية" : "Your English teacher at Professional Academy"}</p></div></div>
                 </div>
               </div>
               <div className="absolute -right-2 -top-4 flex items-center gap-2 rounded-2xl border border-white/15 bg-slate-900/90 px-4 py-3 shadow-xl sm:-right-5"><Sparkles className="h-5 w-5 text-amber-300" /><span className="text-xs font-extrabold">{ar ? "خطوتك الجاية تبدأ هنا" : "Your next step starts here"}</span></div>
