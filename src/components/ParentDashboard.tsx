@@ -22,7 +22,11 @@ export const ParentDashboard: React.FC<{ onOpenReport?: () => void }> = ({ onOpe
       const attRes = await fetch(`/api/attendance?studentId=${json?.student?.id || ""}`);
       if (attRes.ok) {
         const attJson = await attRes.json();
-        if (attJson.rate !== undefined) setAttendance({ rate: attJson.rate, total: attJson.total, records: attJson.records || [] });
+        if (attJson.total > 0 && attJson.rate != null) {
+          setAttendance({ rate: attJson.rate, total: attJson.total, records: attJson.records || [] });
+        } else {
+          setAttendance(null);
+        }
       }
     } catch (e) {
       console.error(e);
