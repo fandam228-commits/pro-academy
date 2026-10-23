@@ -50,6 +50,10 @@ import {
 
 function MainAppContent() {
   const { lang, toggleLang, user, authLoading } = useApp();
+  const [availableCourses, setAvailableCourses] = useState<any[]>([]);
+  const [coursesLoading, setCoursesLoading] = useState(true);
+  const [coursesError, setCoursesError] = useState(false);
+  const userId = user?.id;
   const [activeTab, setActiveTab] = useState<string>("home");
   const [showAuthScreen, setShowAuthScreen] = useState(false);
   const [authMode, setAuthMode] = useState<"login" | "register">("login");
@@ -77,6 +81,34 @@ function MainAppContent() {
     } catch {}
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    if (!userId) return;
+    let active = true;
+
+    setCoursesLoading(true);
+    setCoursesError(false);
+    fetch("/api/courses")
+      .then(async (response) => {
+        if (!response.ok) throw new Error("Course request failed");
+        const data = await response.json();
+        if (!Array.isArray(data?.courses)) throw new Error("Invalid course response");
+        if (active) setAvailableCourses(data.courses);
+      })
+      .catch(() => {
+        if (active) {
+          setAvailableCourses([]);
+          setCoursesError(true);
+        }
+      })
+      .finally(() => {
+        if (active) setCoursesLoading(false);
+      });
+
+    return () => {
+      active = false;
+    };
+  }, [userId]);
 
   const handleTabChange = (tab: string) => {
     const infoTabs: Record<string, string> = { about: "about", faq: "faq", contact: "contact", privacy: "privacy", terms: "terms" };
@@ -112,45 +144,19 @@ function MainAppContent() {
       : <PublicLanding lang={lang} onToggleLang={toggleLang} onLogin={() => { setAuthMode("login"); setShowAuthScreen(true); }} onRegister={() => { setAuthMode("register"); setShowAuthScreen(true); }} />;
   }
 
-  // Home courses cards data
-  const stagesCourses = [
-    {
-      id: "crs_sec_3",
-      title: lang === "ar" ? "كورس الشهادة الثانوية العامة 2025/2026" : "Third Secondary Master Class 2025/2026",
-      grade: lang === "ar" ? "الصف الثالث الثانوي (البوكليت)" : "Third Secondary (Baccalaureate)",
-      desc: lang === "ar" ? "تغطية شاملة للقواعد، الكلمات المعقدة، قطع الفهم، والترجمة مع المستر" : "Comprehensive Thanawya Amma mastery: Grammar, Vocabulary, Translation & Novel Analysis.",
-      price: "350.00 EGP",
-      badge: "Thanawya Amma Core",
-      image: "https://images.unsplash.com/photo-1434030216411-0b793f4b4173?w=800&auto=format&fit=crop&q=80",
-    },
-    {
-      id: "crs_sec_2",
-      title: lang === "ar" ? "كورس الصف الثاني الثانوي المكثف" : "Second Secondary Intensive English Program",
-      grade: lang === "ar" ? "الصف الثاني الثانوي" : "Second Secondary",
-      desc: lang === "ar" ? "المباشر والغير مباشر، الحالات الشرطية، وتنمية مهارات التعبير" : "Direct/Indirect speech, conditionals, passive voice & essay structures.",
-      price: "280.00 EGP",
-      badge: "Secondary Core",
-      image: "https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=800&auto=format&fit=crop&q=80",
-    },
-    {
-      id: "crs_sec_1",
-      title: lang === "ar" ? "كورس تأسيس الصف الأول الثانوي" : "First Secondary Foundation & Grammar",
-      grade: lang === "ar" ? "الصف الأول الثانوي" : "First Secondary",
-      desc: lang === "ar" ? "الانتقال السلس من الإعدادي للثانوي وتأسيس قواعد الأزمنة" : "Smooth transition to secondary level with core tenses and vocab.",
-      price: "250.00 EGP",
-      badge: "Secondary Foundation",
-      image: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=800&auto=format&fit=crop&q=80",
-    },
-    {
-      id: "crs_prep_3",
-      title: lang === "ar" ? "كورس الشهادة الإعدادية (الدرجة النهائية)" : "Third Prep High Score Booster",
-      grade: lang === "ar" ? "الصف الثالث الإعدادي" : "Third Prep",
-      desc: lang === "ar" ? "حل المحادثات، قطع القراءة، وأسرار امتحانات المحافظات" : "Complete preparation for final prep exams, dialogues & structural drills.",
-      price: "200.00 EGP",
-      badge: "Preparatory Excellence",
-      image: "https://images.unsplash.com/photo-1509062522246-3755977927d7?w=800&auto=format&fit=crop&q=80",
-    },
-  ];
+  // Render only published courses returned by the API.
+  const stagesCourses = availableCourses.map((course) => {
+    const numericPrice = Number(course.price);
+    return {
+      id: course.id,
+      title: course.title,
+      grade: course.grade,
+      desc: course.description || "",
+      price: Number.isFinite(numericPrice) ? `${numericPrice.toFixed(2)} EGP` : String(course.price || ""),
+      badge: course.category || (lang === "ar" ? "كورس" : "Course"),
+      image: course.thumbnail || "/icons/icon-512.png",
+    };
+  });;
 
   return (
     <div className="min-h-screen flex flex-col bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 transition-colors">
@@ -278,7 +284,19 @@ function MainAppContent() {
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                {stagesCourses.map((c) => (
+                {coursesLoading ? (
+                  <div role="status" className="col-span-full rounded-3xl border border-slate-200 dark:border-slate-800 bg-white/70 dark:bg-slate-900/70 p-8 text-center text-sm text-slate-500">
+                    {lang === "ar" ? "جاري تحميل الكورسات..." : "Loading courses..."}
+                  </div>
+                ) : coursesError ? (
+                  <div role="alert" className="col-span-full rounded-3xl border border-rose-200 dark:border-rose-900 bg-rose-50 dark:bg-rose-950/30 p-8 text-center text-sm text-rose-700 dark:text-rose-300">
+                    {lang === "ar" ? "تعذر تحميل الكورسات الآن. حاول مرة أخرى لاحقًا." : "Courses could not be loaded right now. Please try again later."}
+                  </div>
+                ) : stagesCourses.length === 0 ? (
+                  <div className="col-span-full rounded-3xl border border-dashed border-slate-300 dark:border-slate-700 bg-white/70 dark:bg-slate-900/70 p-8 text-center text-sm leading-7 text-slate-600 dark:text-slate-300">
+                    {lang === "ar" ? "لا توجد كورسات منشورة حاليًا. سيظهر المحتوى هنا بعد إضافته." : "No published courses are available yet. Course content will appear here when it is added."}
+                  </div>
+                ) : stagesCourses.map((c) => (
                   <div
                     key={c.id}
                     onClick={() => setSelectedCourseId(c.id)}
