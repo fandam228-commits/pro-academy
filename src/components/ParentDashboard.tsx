@@ -22,7 +22,11 @@ export const ParentDashboard: React.FC<{ onOpenReport?: () => void }> = ({ onOpe
       const attRes = await fetch(`/api/attendance?studentId=${json?.student?.id || ""}`);
       if (attRes.ok) {
         const attJson = await attRes.json();
-        if (attJson.rate !== undefined) setAttendance({ rate: attJson.rate, total: attJson.total, records: attJson.records || [] });
+        if (attJson.total > 0 && attJson.rate != null) {
+          setAttendance({ rate: attJson.rate, total: attJson.total, records: attJson.records || [] });
+        } else {
+          setAttendance(null);
+        }
       }
     } catch (e) {
       console.error(e);
@@ -91,28 +95,38 @@ export const ParentDashboard: React.FC<{ onOpenReport?: () => void }> = ({ onOpe
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
         <div className="bg-white dark:bg-slate-900 p-6 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-lg text-center">
           <span className="text-xs font-bold text-slate-400 block mb-1 uppercase">{lang === "ar" ? "متوسط درجات الامتحانات" : "Average Exam Score"}</span>
-          <div className="text-3xl font-black text-blue-600 dark:text-blue-400">{averageScore}%</div>
-          <p className="text-[10px] text-emerald-600 font-bold mt-1">Grade: Excellent</p>
+          <div className="text-3xl font-black text-blue-600 dark:text-blue-400">{averageScore == null ? "—" : String(averageScore) + "%"}</div>
+          <p className="text-[10px] text-slate-500 font-bold mt-1">
+            {averageScore == null
+              ? lang === "ar" ? "لا توجد نتائج مسجلة بعد" : "No exam results yet"
+              : lang === "ar" ? "بناءً على " + (submissions?.length || 0) + " نتيجة مسجلة" : "Based on " + (submissions?.length || 0) + " recorded results"}
+          </p>
         </div>
 
         <div className="bg-white dark:bg-slate-900 p-6 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-lg text-center">
           <span className="text-xs font-bold text-slate-400 block mb-1 uppercase">{lang === "ar" ? "نسبة الحضور والانضباط الحقيقية" : "Real Attendance Rate"}</span>
           <div className="text-3xl font-black text-emerald-600 dark:text-emerald-400">
-            {attendance ? `${attendance.rate}%` : attendanceRate}
+            {attendance ? `${attendance.rate}%` : attendanceRate == null ? "—" : String(attendanceRate) + "%"}
           </div>
           <p className="text-[10px] text-slate-400 mt-1">
             {attendance
               ? lang === "ar"
                 ? `${attendance.total} حصة مسجلة — بيانات مباشرة من رصد المعلم`
                 : `${attendance.total} sessions logged — live from teacher marks`
-              : "Live & Recorded Lectures"}
+              : attendanceRate == null
+                ? lang === "ar" ? "لا توجد بيانات حضور مسجلة بعد" : "No attendance records yet"
+                : lang === "ar" ? "بيانات حضور مسجلة" : "Recorded attendance data"}
           </p>
         </div>
 
         <div className="bg-white dark:bg-slate-900 p-6 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-lg text-center">
           <span className="text-xs font-bold text-slate-400 block mb-1 uppercase">{lang === "ar" ? "التتابع والمواظبة" : "Study Streak"}</span>
-          <div className="text-3xl font-black text-amber-500">{student?.streak || 12} Days</div>
-          <p className="text-[10px] text-amber-600 font-bold mt-1">Active Daily Learner</p>
+          <div className="text-3xl font-black text-amber-500">{student?.streak == null ? "—" : String(student.streak) + (lang === "ar" ? " يوم" : " days")}</div>
+          <p className="text-[10px] text-amber-600 font-bold mt-1">
+            {student?.streak == null
+              ? lang === "ar" ? "لا توجد بيانات مواظبة بعد" : "No streak data yet"
+              : lang === "ar" ? "التتابع الحالي" : "Current study streak"}
+          </p>
         </div>
       </div>
 

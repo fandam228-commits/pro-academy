@@ -1,9 +1,55 @@
 import { db } from "@/db";
-import { quizzes, questions, quizSubmissions, users } from "@/db/schema";
-import { eq, and } from "drizzle-orm";
+import { quizzes, questions, quizSubmissions, users, courses, enrollments, lessons, units } from "@/db/schema";
+import { eq, and, inArray } from "drizzle-orm";
 import { NextResponse } from "next/server";
 import { ensureDbSetup } from "@/db/migrate-and-seed";
 import { getAuthContext, requireRoles } from "@/lib/security";
+
+type QuizCourseLink = { courseId: string | null; lessonId: string | null };
+
+async function getStudentQuizAccess(studentId: string, quizList: QuizCourseLink[]) {
+  const courseIds = [...new Set(quizList.map((quiz) => quiz.courseId).filter((id): id is string => Boolean(id)))];
+  const enrolledCourseIds = new Set<string>();
+  const freeLessonCourseIds = new Map<string, string>();
+
+  if (courseIds.length === 0) {
+    return { enrolledCourseIds, freeLessonCourseIds };
+  }
+
+  const [activeEnrollments, freeLessons] = await Promise.all([
+    db
+      .select({ courseId: courses.id })
+      .from(enrollments)
+      .innerJoin(courses, eq(enrollments.courseId, courses.id))
+      .where(and(
+        eq(enrollments.studentId, studentId),
+        eq(enrollments.status, "active"),
+        eq(courses.isPublished, true),
+        inArray(courses.id, courseIds)
+      )),
+    db
+      .select({ lessonId: lessons.id, courseId: courses.id })
+      .from(lessons)
+      .innerJoin(units, eq(lessons.unitId, units.id))
+      .innerJoin(courses, eq(units.courseId, courses.id))
+      .where(and(
+        eq(lessons.isFree, true),
+        eq(courses.isPublished, true),
+        inArray(courses.id, courseIds)
+      )),
+  ]);
+
+  for (const row of activeEnrollments) enrolledCourseIds.add(row.courseId);
+  for (const row of freeLessons) freeLessonCourseIds.set(row.lessonId, row.courseId);
+
+  return { enrolledCourseIds, freeLessonCourseIds };
+}
+
+function canStudentAccessQuiz(quiz: QuizCourseLink, access: Awaited<ReturnType<typeof getStudentQuizAccess>>) {
+  if (!quiz.courseId) return true;
+  if (access.enrolledCourseIds.has(quiz.courseId)) return true;
+  return Boolean(quiz.lessonId && access.freeLessonCourseIds.get(quiz.lessonId) === quiz.courseId);
+}
 
 export async function GET(req: Request) {
   await ensureDbSetup();
@@ -20,6 +66,13 @@ export async function GET(req: Request) {
       const qz = await db.select().from(quizzes).where(eq(quizzes.id, quizId));
       if (qz.length === 0) {
         return NextResponse.json({ error: "Quiz not found" }, { status: 404 });
+      }
+
+      if (ctx.user.role === "student") {
+        const access = await getStudentQuizAccess(ctx.user.id, qz);
+        if (!canStudentAccessQuiz(qz[0], access)) {
+          return NextResponse.json({ error: "You are not enrolled in this course." }, { status: 403 });
+        }
       }
 
       const qList = await db.select().from(questions).where(eq(questions.quizId, quizId));
@@ -54,6 +107,11 @@ export async function GET(req: Request) {
     }
     if (type) {
       allQuizzes = allQuizzes.filter((q) => q.type === type);
+    }
+
+    if (ctx.user.role === "student") {
+      const access = await getStudentQuizAccess(ctx.user.id, allQuizzes);
+      allQuizzes = allQuizzes.filter((quiz) => canStudentAccessQuiz(quiz, access));
     }
 
     return NextResponse.json({ quizzes: allQuizzes });
@@ -114,6 +172,12 @@ export async function POST(req: Request) {
       
       const qz = qzList[0];
       if (!qz) return NextResponse.json({ error: "Quiz not found" }, { status: 404 });
+      if (ctx.user.role === "student") {
+        const access = await getStudentQuizAccess(ctx.user.id, [qz]);
+        if (!canStudentAccessQuiz(qz, access)) {
+          return NextResponse.json({ error: "You are not enrolled in this course." }, { status: 403 });
+        }
+      }
 
       // Prevent students from farming points/streaks by submitting the same quiz repeatedly.
       if (ctx.user.role === "student") {
