@@ -242,10 +242,9 @@ function MainAppContent() {
                   <div className="relative mx-auto aspect-[4/5] max-h-[620px] overflow-hidden rounded-[2rem] border border-white/15 bg-gradient-to-br from-blue-500/20 via-indigo-500/10 to-violet-500/20 p-2 shadow-2xl shadow-black/40">
                     <div className="absolute inset-2 overflow-hidden rounded-[1.55rem] bg-slate-900">
                       <img
-                        src="/habib-hero.jpg"
-                        alt="Mr. Habib El Rahman"
-                        className="h-full w-full object-cover object-center"
-                        onError={(e) => { e.currentTarget.style.opacity = "0"; }}
+                        src="/images/mr-habib-el-rahman.jpg"
+                        alt={lang === "ar" ? "الأستاذ حبيب الرحمن، مدرس اللغة الإنجليزية" : "Mr. Habib El Rahman, English teacher"}
+                        className="h-full w-full object-cover object-[center_25%]"
                       />
                       <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent" />
                       <div className="absolute inset-x-5 bottom-5 rounded-2xl border border-white/15 bg-slate-950/65 p-4 text-right shadow-xl backdrop-blur-md">
