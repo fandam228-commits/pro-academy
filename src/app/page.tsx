@@ -49,7 +49,7 @@ import {
 } from "lucide-react";
 
 function MainAppContent() {
-  const { lang, user, authLoading } = useApp();
+  const { lang, toggleLang, user, authLoading } = useApp();
   const [activeTab, setActiveTab] = useState<string>("home");
   const [showAuthScreen, setShowAuthScreen] = useState(false);
   const [authMode, setAuthMode] = useState<"login" | "register">("login");
@@ -109,7 +109,7 @@ function MainAppContent() {
   if (!user) {
     return showAuthScreen
       ? <AuthScreen initialMode={authMode} onBack={() => setShowAuthScreen(false)} />
-      : <PublicLanding lang={lang} onLogin={() => { setAuthMode("login"); setShowAuthScreen(true); }} onRegister={() => { setAuthMode("register"); setShowAuthScreen(true); }} />;
+      : <PublicLanding lang={lang} onToggleLang={toggleLang} onLogin={() => { setAuthMode("login"); setShowAuthScreen(true); }} onRegister={() => { setAuthMode("register"); setShowAuthScreen(true); }} />;
   }
 
   // Home courses cards data
