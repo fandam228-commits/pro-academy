@@ -27,7 +27,7 @@ export async function GET(req: Request) {
       const safeQuestionList =
         ctx.user.role === "admin" || ctx.user.role === "teacher"
           ? qList
-          : qList.map(({ correctAnswer, ...q }) => q);
+          : qList.map(({ correctAnswer, explanation, ...q }) => q);
       
       let lastSubmission = null;
       if (studentId && studentId !== ctx.user.id && ctx.user.role !== "admin" && ctx.user.role !== "teacher") return NextResponse.json({ error: "Forbidden" }, { status: 403 });
@@ -37,7 +37,7 @@ export async function GET(req: Request) {
           .from(quizSubmissions)
           .where(and(eq(quizSubmissions.quizId, quizId), eq(quizSubmissions.studentId, studentId)));
         if (subs.length > 0) {
-          lastSubmission = subs[subs.length - 1];
+          lastSubmission = subs.sort((a, b) => (b.submittedAt?.getTime() || 0) - (a.submittedAt?.getTime() || 0))[0];
         }
       }
 
@@ -115,18 +115,14 @@ export async function POST(req: Request) {
       const qz = qzList[0];
       if (!qz) return NextResponse.json({ error: "Quiz not found" }, { status: 404 });
 
-      // Prevent students from farming points/streaks by submitting the same quiz repeatedly.
+      // Keep retake attempts, but award points and streak credit only once per quiz.
+      let awardFirstAttempt = true;
       if (ctx.user.role === "student") {
         const existing = await db
           .select()
           .from(quizSubmissions)
           .where(and(eq(quizSubmissions.quizId, quizId), eq(quizSubmissions.studentId, ctx.user.id)));
-        if (existing.length > 0) {
-          return NextResponse.json(
-            { error: "Quiz already submitted", submission: existing[existing.length - 1] },
-            { status: 409 }
-          );
-        }
+        awardFirstAttempt = existing.length === 0;
       }
 
       let earnedScore = 0;
@@ -175,8 +171,8 @@ export async function POST(req: Request) {
 
       await db.insert(quizSubmissions).values(newSubmission);
 
-      // Award points to student
-      const stUsers = await db.select().from(users).where(eq(users.id, studentId));
+      // Retakes update assessment history without allowing repeat reward farming.
+      const stUsers = awardFirstAttempt ? await db.select().from(users).where(eq(users.id, studentId)) : [];
       if (stUsers.length > 0) {
         const u = stUsers[0];
         await db
@@ -202,3 +198,4 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "Submission failed" }, { status: 500 });
   }
 }
+

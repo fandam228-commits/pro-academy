@@ -1,22 +1,17 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useApp } from "@/context/AppContext";
-import { VideoPlayer } from "@/components/VideoPlayer";
-import { PdfViewer } from "@/components/PdfViewer";
 import { QuizPlayer } from "@/components/QuizPlayer";
 import { PaymentModal } from "@/components/PaymentModal";
+import { UnitLearningExperience, type LearningLesson, type LearningQuiz, type LearningUnit } from "@/components/UnitLearningExperience";
+import { authHeaders } from "@/lib/client-auth";
 import {
   BookOpen,
-  Play,
   FileText,
-  Lock,
-  Unlock,
   CheckCircle2,
   Award,
-  Sparkles,
   ArrowLeft,
-  Clock,
   ShieldAlert,
   Database,
 } from "lucide-react";
@@ -30,47 +25,115 @@ export const CourseDetailView: React.FC<CourseDetailProps> = ({ courseId, onBack
   const { lang, user } = useApp();
   const [data, setData] = useState<any>(null);
   const [loading, setLoading] = useState(true);
-  const [selectedLesson, setSelectedLesson] = useState<any>(null);
+  const [loadError, setLoadError] = useState<string | null>(null);
+  const [selectedLesson, setSelectedLesson] = useState<LearningLesson | null>(null);
   const [showPdf, setShowPdf] = useState(false);
   const [showQuiz, setShowQuiz] = useState(false);
-  const [activeQuizId, setActiveQuizId] = useState<string | null>(null);
+  const [activeQuiz, setActiveQuiz] = useState<LearningQuiz | null>(null);
+  const [quizQuestions, setQuizQuestions] = useState<any[]>([]);
+  const [quizLoading, setQuizLoading] = useState(false);
+  const [quizError, setQuizError] = useState<string | null>(null);
+  const [quizzes, setQuizzes] = useState<LearningQuiz[]>([]);
+  const [completedLessonIds, setCompletedLessonIds] = useState<string[]>([]);
+  const [completingLessonId, setCompletingLessonId] = useState<string | null>(null);
+  const [completeError, setCompleteError] = useState<string | null>(null);
   const [showPaymentModal, setShowPaymentModal] = useState(false);
   const [attachedPdfs, setAttachedPdfs] = useState<any[]>([]);
 
-  const fetchDetails = async () => {
-    setLoading(true);
+  const fetchDetails = useCallback(async () => {
     try {
-      const res = await fetch(`/api/courses?id=${courseId}&studentId=${user?.id || "usr_student_1"}`);
+      const res = await fetch(`/api/courses?id=${encodeURIComponent(courseId)}`);
       const json = await res.json();
+      if (!res.ok || json.error) throw new Error(json.error || "Failed to load course.");
+      setLoadError(null);
       setData(json);
+      const completed = Array.isArray(json.enrollment?.completedLessonIds) ? json.enrollment.completedLessonIds : [];
+      setCompletedLessonIds(completed);
 
-      // Auto-select first lesson
-      if (json.units && json.units.length > 0 && json.units[0].lessons.length > 0) {
-        setSelectedLesson(json.units[0].lessons[0]);
-      }
+      const unitRows: LearningUnit[] = Array.isArray(json.units) ? json.units : [];
+      const lessons = unitRows.flatMap((unit) => Array.isArray(unit.lessons) ? unit.lessons : []);
+      const canView = (lesson: LearningLesson) => Boolean(lesson.isFree || json.isEnrolled || user?.role === "admin" || user?.role === "teacher");
+      setSelectedLesson((current) => lessons.find((lesson) => lesson.id === current?.id) || lessons.find(canView) || lessons[0] || null);
 
-      // Fetch PDF documents linked to this course
-      try {
-        const pdfRes = await fetch(`/api/pdfs?courseId=${courseId}`);
+      const pdfRes = await fetch(`/api/pdfs?courseId=${encodeURIComponent(courseId)}`);
+      if (pdfRes.ok) {
         const pdfJson = await pdfRes.json();
-        setAttachedPdfs(pdfJson.documents || []);
-      } catch {}
+        setAttachedPdfs(Array.isArray(pdfJson.documents) ? pdfJson.documents : []);
+      }
+      if (user && ["student", "teacher", "admin"].includes(user.role)) {
+        const quizRes = await fetch(`/api/quizzes?courseId=${encodeURIComponent(courseId)}`);
+        if (quizRes.ok) {
+          const quizJson = await quizRes.json();
+          setQuizzes(Array.isArray(quizJson.quizzes) ? quizJson.quizzes : []);
+        } else {
+          setQuizzes([]);
+        }
+      } else {
+        setQuizzes([]);
+      }
     } catch (e) {
       console.error(e);
+      setLoadError(e instanceof Error ? e.message : (lang === "ar" ? "تعذر تحميل محتوى الكورس." : "Could not load course content."));
     } finally {
       setLoading(false);
     }
-  };
+  }, [courseId, user, lang]);
 
   useEffect(() => {
-    fetchDetails();
-  }, [courseId]);
+    // This starts an async request; all state updates happen after fetchDetails awaits network I/O.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    void fetchDetails();
+  }, [fetchDetails]);
+
+  const handleCompleteLesson = async (lesson: LearningLesson) => {
+    if (!user || user.role !== "student") return;
+    setCompletingLessonId(lesson.id);
+    setCompleteError(null);
+    try {
+      const res = await fetch("/api/courses", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", ...authHeaders() },
+        body: JSON.stringify({ action: "complete_lesson", courseId, lessonId: lesson.id }),
+      });
+      const json = await res.json();
+      if (!res.ok || !json.success) throw new Error(json.error || "Could not save lesson completion.");
+      setCompletedLessonIds((current) => current.includes(lesson.id) ? current : [...current, lesson.id]);
+      setData((current: any) => current ? { ...current, enrollment: { ...current.enrollment, progress: json.progress } } : current);
+    } catch (error) {
+      setCompleteError(error instanceof Error ? error.message : (lang === "ar" ? "تعذر حفظ التقدم." : "Could not save progress."));
+    } finally {
+      setCompletingLessonId(null);
+    }
+  };
+
+  const handleOpenQuiz = async (quiz: LearningQuiz) => {
+    setActiveQuiz(quiz);
+    setQuizLoading(true);
+    setQuizError(null);
+    setShowQuiz(true);
+    try {
+      const res = await fetch(`/api/quizzes?id=${encodeURIComponent(quiz.id)}&studentId=${encodeURIComponent(user?.id || "")}`);
+      const json = await res.json();
+      if (!res.ok || !Array.isArray(json.questions)) throw new Error(json.error || "Failed to load assessment.");
+      setQuizQuestions(json.questions);
+    } catch (error) {
+      setQuizError(error instanceof Error ? error.message : (lang === "ar" ? "تعذر تحميل الاختبار." : "Could not load assessment."));
+      setQuizQuestions([]);
+    } finally {
+      setQuizLoading(false);
+    }
+  };
 
   if (loading) {
     return <div className="py-20 text-center text-slate-500 font-medium">Loading course contents...</div>;
   }
 
-  const { course, units: unitsList, isEnrolled } = data || {};
+  if (loadError || !data?.course) {
+    return <div className="mx-auto max-w-3xl px-4 py-20 text-center" role="alert"><p className="font-bold text-rose-700 dark:text-rose-300">{loadError || (lang === "ar" ? "الكورس غير متاح." : "Course unavailable.")}</p><button type="button" onClick={() => { setLoading(true); setLoadError(null); void fetchDetails(); }} className="mt-4 rounded-xl bg-blue-700 px-5 py-3 text-sm font-bold text-white">{lang === "ar" ? "إعادة المحاولة" : "Try again"}</button></div>;
+  }
+
+  const { course, units: unitsList, isEnrolled } = data;
+  const isPrivileged = user?.role === "admin" || user?.role === "teacher";
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-8 space-y-8">
@@ -85,7 +148,7 @@ export const CourseDetailView: React.FC<CourseDetailProps> = ({ courseId, onBack
           <span>{lang === "ar" ? "العودة للكورسات" : "Back to Courses"}</span>
         </button>
 
-        {!isEnrolled && (
+        {!isEnrolled && !isPrivileged && (
           <button
             onClick={() => setShowPaymentModal(true)}
             className="px-6 py-2.5 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 text-white font-extrabold text-xs shadow-lg shadow-blue-500/25 transition-all"
@@ -121,7 +184,7 @@ export const CourseDetailView: React.FC<CourseDetailProps> = ({ courseId, onBack
             <span className="text-xs text-slate-300 block mb-1">{lang === "ar" ? "سعر الاشتراك الرسمي" : "Course Price"}</span>
             <div className="text-3xl font-black text-amber-300">{course?.price} EGP</div>
             
-            {isEnrolled ? (
+            {isEnrolled || isPrivileged ? (
               <div className="mt-4 p-3 bg-emerald-500/20 text-emerald-300 border border-emerald-400/30 rounded-2xl text-xs font-bold flex items-center justify-center gap-2">
                 <CheckCircle2 className="w-4 h-4" />
                 <span>{lang === "ar" ? "الكورس مفعل بحسابك" : "Course Unlocked"}</span>
@@ -185,98 +248,32 @@ export const CourseDetailView: React.FC<CourseDetailProps> = ({ courseId, onBack
       )}
 
       {/* WORKSPACE: VIDEO PLAYER & CURRICULUM ACCORDION */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        
-        {/* LEFT COLUMN: ACTIVE VIDEO PLAYER OR PDF READER */}
-        <div className="lg:col-span-2 space-y-6">
-          {selectedLesson ? (
-            <div>
-              {!showPdf ? (
-                <VideoPlayer
-                  videoUrl={selectedLesson.videoUrl}
-                  title={selectedLesson.title}
-                  lessonId={selectedLesson.id}
-                />
-              ) : (
-                <PdfViewer pdfUrl={selectedLesson.pdfUrl || ""} title={`${selectedLesson.title} - Notes`} />
-              )}
+      {showQuiz && activeQuiz ? (
+        <section className="space-y-4">
+          <button type="button" onClick={() => setShowQuiz(false)} className="rounded-xl bg-slate-100 px-4 py-2 text-xs font-bold text-slate-700 dark:bg-slate-800 dark:text-slate-200">{lang === "ar" ? "العودة إلى الوحدة" : "Back to unit"}</button>
+          {quizLoading ? <div className="py-16 text-center text-slate-500">{lang === "ar" ? "جارٍ تحميل الاختبار..." : "Loading assessment..."}</div> : quizError ? <div role="alert" className="rounded-2xl border border-rose-200 bg-rose-50 p-5 text-sm text-rose-800 dark:border-rose-900 dark:bg-rose-950/30 dark:text-rose-200">{quizError}</div> : <QuizPlayer quizId={activeQuiz.id} title={activeQuiz.title} durationMinutes={activeQuiz.durationMinutes || 30} questions={quizQuestions} onExit={() => setShowQuiz(false)} />}
+        </section>
+      ) : (
+        <UnitLearningExperience
+          units={(unitsList || []) as LearningUnit[]}
+          selectedLesson={selectedLesson}
+          completedLessonIds={completedLessonIds}
+          isEnrolled={Boolean(isEnrolled)}
+          isPrivileged={isPrivileged}
+          lang={lang}
+          showPdf={showPdf}
+          onSelectLesson={(lesson) => { setSelectedLesson(lesson); setShowPdf(false); setCompleteError(null); }}
+          onTogglePdf={setShowPdf}
+          onCompleteLesson={handleCompleteLesson}
+          completingLessonId={completingLessonId}
+          completeError={completeError}
+          quizzes={quizzes}
+          onOpenQuiz={handleOpenQuiz}
+        />
+      )}
 
-              {/* TOGGLE VIDEO / PDF */}
-              <div className="mt-4 flex gap-3">
-                <button
-                  onClick={() => setShowPdf(false)}
-                  className={`px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-2 ${
-                    !showPdf ? "bg-blue-600 text-white shadow-md" : "bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300"
-                  }`}
-                >
-                  <Play className="w-4 h-4" />
-                  <span>{lang === "ar" ? "مشاهدة الفيديو" : "Watch Lecture Video"}</span>
-                </button>
-
-                <button
-                  onClick={() => setShowPdf(true)}
-                  className={`px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-2 ${
-                    showPdf ? "bg-blue-600 text-white shadow-md" : "bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300"
-                  }`}
-                >
-                  <FileText className="w-4 h-4" />
-                  <span>{lang === "ar" ? "عرض شيت PDF المرفق" : "View PDF Material"}</span>
-                </button>
-              </div>
-            </div>
-          ) : (
-            <div className="p-12 text-center text-slate-500">
-              {lang === "ar" ? "اختر درساً من القائمة لبدء التعلم" : "Select a lesson from curriculum to begin watching."}
-            </div>
-          )}
-        </div>
-
-        {/* RIGHT COLUMN: UNITS & LESSONS LIST */}
+      {!showQuiz && (
         <div className="space-y-4">
-          <h3 className="font-extrabold text-sm text-slate-900 dark:text-white uppercase tracking-wider">
-            {lang === "ar" ? "محتويات ومنهج الكورس:" : "Course Curriculum Units:"}
-          </h3>
-
-          <div className="space-y-4">
-            {unitsList?.map((u: any) => (
-              <div key={u.id} className="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 p-4 shadow-md">
-                <h4 className="font-extrabold text-xs text-slate-900 dark:text-white mb-3 text-blue-600 dark:text-blue-400">
-                  {u.title}
-                </h4>
-
-                <div className="space-y-2">
-                  {u.lessons?.map((lsn: any) => {
-                    const isSelected = selectedLesson?.id === lsn.id;
-                    const canAccess = lsn.isFree || isEnrolled;
-
-                    return (
-                      <button
-                        key={lsn.id}
-                        disabled={!canAccess}
-                        onClick={() => {
-                          setSelectedLesson(lsn);
-                          setShowPdf(false);
-                        }}
-                        className={`w-full text-start p-3 rounded-2xl transition-all border flex items-center justify-between text-xs font-medium ${
-                          isSelected
-                            ? "bg-blue-50 dark:bg-blue-950/60 border-blue-600 text-blue-700 dark:text-blue-300 font-bold"
-                            : canAccess
-                            ? "bg-slate-50 dark:bg-slate-800/60 border-slate-200 dark:border-slate-700 text-slate-800 dark:text-slate-200 hover:bg-slate-100"
-                            : "bg-slate-100/50 dark:bg-slate-900/50 border-slate-200/50 dark:border-slate-800 text-slate-400 opacity-60 cursor-not-allowed"
-                        }`}
-                      >
-                        <div className="flex items-center gap-2.5">
-                          {canAccess ? <Play className="w-3.5 h-3.5 text-blue-600 shrink-0" /> : <Lock className="w-3.5 h-3.5 text-slate-400 shrink-0" />}
-                          <span>{lsn.title}</span>
-                        </div>
-                        <span className="text-[10px] font-mono text-slate-400">{lsn.duration}</span>
-                      </button>
-                    );
-                  })}
-                </div>
-              </div>
-            ))}
-          </div>
 
           {/* ============ LINKED PDF ATTACHMENTS ============ */}
           {attachedPdfs.length > 0 && (
@@ -305,7 +302,7 @@ export const CourseDetailView: React.FC<CourseDetailProps> = ({ courseId, onBack
             </div>
           )}
         </div>
-      </div>
+      )}
 
       {/* PAYMENT MODAL TRIGGER */}
       {showPaymentModal && (
@@ -323,3 +320,4 @@ export const CourseDetailView: React.FC<CourseDetailProps> = ({ courseId, onBack
     </div>
   );
 };
+

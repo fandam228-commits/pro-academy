@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useApp } from "@/context/AppContext";
 import { authHeaders } from "@/lib/client-auth";
 import { Clock, CheckCircle2, XCircle, Volume2, HelpCircle, ArrowRight, ArrowLeft, Send, Sparkles, Award, Printer } from "lucide-react";
@@ -11,7 +11,8 @@ interface Question {
   questionText: string;
   audioUrl?: string;
   options?: string[];
-  correctAnswer: string;
+  // Students receive answer keys only in the server-graded submission feedback.
+  correctAnswer?: string;
   explanation?: string;
   points?: number;
   domainCategory?: string;
@@ -44,22 +45,15 @@ export const QuizPlayer: React.FC<QuizPlayerProps> = ({
   const [result, setResult] = useState<any>(null);
   const [loading, setLoading] = useState(false);
 
-  // Timer Countdown
-  useEffect(() => {
-    if (isSubmitted || timeLeft <= 0) return;
-    const interval = setInterval(() => {
-      setTimeLeft((prev) => {
-        if (prev <= 1) {
-          handleSubmit();
-          return 0;
-        }
-        return prev - 1;
-      });
-    }, 1000);
-    return () => clearInterval(interval);
-  }, [timeLeft, isSubmitted]);
-
   const currentQ = questions[currentIndex];
+
+  const handleRetake = () => {
+    setCurrentIndex(0);
+    setUserAnswers({});
+    setTimeLeft(durationMinutes * 60);
+    setResult(null);
+    setIsSubmitted(false);
+  };
 
   const handleOptionSelect = (ans: string) => {
     if (currentQ.type === "multi_select") {
@@ -79,7 +73,7 @@ export const QuizPlayer: React.FC<QuizPlayerProps> = ({
     setUserAnswers({ ...userAnswers, [currentQ.id]: ans });
   };
 
-  const handleSubmit = async () => {
+  const handleSubmit = useCallback(async () => {
     if (isSubmitted || loading) return;
     setLoading(true);
 
@@ -141,7 +135,22 @@ export const QuizPlayer: React.FC<QuizPlayerProps> = ({
     } finally {
       setLoading(false);
     }
-  };
+  }, [isSubmitted, loading, submissionTarget, quizId, user, userAnswers, lang, onComplete]);
+
+  // Timer Countdown
+  useEffect(() => {
+    if (isSubmitted || timeLeft <= 0) return;
+    const interval = setInterval(() => {
+      setTimeLeft((prev) => {
+        if (prev <= 1) {
+          void handleSubmit();
+          return 0;
+        }
+        return prev - 1;
+      });
+    }, 1000);
+    return () => clearInterval(interval);
+  }, [timeLeft, isSubmitted, handleSubmit]);
 
   const formatTimer = (sec: number) => {
     const mins = Math.floor(sec / 60);
@@ -161,8 +170,9 @@ export const QuizPlayer: React.FC<QuizPlayerProps> = ({
 
   if (questions.length === 0) {
     return (
-      <div className="p-8 text-center text-slate-500 font-medium">
-        {lang === "ar" ? "لا توجد أسئلة متاحة في هذا الاختبار حالياً." : "No questions available in this test right now."}
+      <div className="space-y-4 p-8 text-center text-slate-500 font-medium">
+        <p>{lang === "ar" ? "لا توجد أسئلة متاحة في هذا الاختبار حالياً." : "No questions available in this test right now."}</p>
+        {onExit && <button type="button" onClick={onExit} className="min-h-11 rounded-xl bg-slate-900 px-5 py-2 text-xs font-black text-white dark:bg-white dark:text-slate-900">{lang === "ar" ? "العودة إلى الدرس" : "Back to lesson"}</button>}
       </div>
     );
   }
@@ -402,11 +412,18 @@ export const QuizPlayer: React.FC<QuizPlayerProps> = ({
               );
             })()}
 
-            {onExit && (
-              <button onClick={onExit} className="mt-5 px-6 py-3 rounded-xl bg-slate-900 dark:bg-white text-white dark:text-slate-900 text-xs font-black">
-                {lang === "ar" ? "العودة للوحة الطالب" : "Back to Student Dashboard"}
-              </button>
-            )}
+            <div className="mt-5 flex flex-wrap justify-center gap-3">
+              {submissionTarget === "quiz" && (
+                <button type="button" onClick={handleRetake} className="px-6 py-3 rounded-xl bg-blue-700 text-white text-xs font-black transition hover:bg-blue-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500">
+                  {lang === "ar" ? "إعادة الاختبار" : "Retake quiz"}
+                </button>
+              )}
+              {onExit && (
+                <button type="button" onClick={onExit} className="px-6 py-3 rounded-xl bg-slate-900 text-white text-xs font-black dark:bg-white dark:text-slate-900">
+                  {lang === "ar" ? "العودة إلى الدرس" : "Back to lesson"}
+                </button>
+              )}
+            </div>
 
             <p className="mt-4 text-xs font-medium text-slate-600 dark:text-slate-300 max-w-xl mx-auto bg-blue-50 dark:bg-blue-950/40 p-4 rounded-2xl border border-blue-100 dark:border-blue-900/40">
               {result?.summaryText}
@@ -454,12 +471,12 @@ export const QuizPlayer: React.FC<QuizPlayerProps> = ({
                     {!isCorrect && (
                       <p>
                         <strong>{lang === "ar" ? "الإجابة الصحيحة:" : "Correct Answer:"}</strong>{" "}
-                        <span className="text-emerald-600 dark:text-emerald-400 font-bold">{formatAnswer(q.correctAnswer, q.type)}</span>
+                        <span className="text-emerald-600 dark:text-emerald-400 font-bold">{formatAnswer(detail?.correctAnswer || q.correctAnswer || "", q.type)}</span>
                       </p>
                     )}
-                    {q.explanation && (
+                    {(detail?.explanation || q.explanation) && (
                       <p className="mt-2 text-[11px] text-slate-500 dark:text-slate-400 bg-white/60 dark:bg-slate-900/60 p-2 rounded-lg border border-slate-200/50 dark:border-slate-800">
-                        💡 <strong>{lang === "ar" ? "الشرح والتوضيح:" : "Explanation:"}</strong> {q.explanation}
+                        💡 <strong>{lang === "ar" ? "الشرح والتوضيح:" : "Explanation:"}</strong> {detail?.explanation || q.explanation}
                       </p>
                     )}
                   </div>
@@ -524,3 +541,4 @@ export const QuizPlayer: React.FC<QuizPlayerProps> = ({
     </div>
   );
 };
+
