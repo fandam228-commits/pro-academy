@@ -54,12 +54,20 @@ export async function GET(req: Request) {
     const j = Math.floor(Math.random() * (i + 1));
     [questions[i], questions[j]] = [questions[j], questions[i]];
   }
+  const randomizedQuestions = questions.map((question) => {
+    const options = [...question.options];
+    for (let i = options.length - 1; i > 0; i -= 1) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [options[i], options[j]] = [options[j], options[i]];
+    }
+    return { ...question, options };
+  });
 
   return NextResponse.json({
     version: "cefr-placement-v1",
     estimatedMinutes: 30,
-    questionCount: questions.length,
-    questions: questions.map(({ id, skill, prompt, options, passage }) => ({ id, skill, prompt, options, passage })),
+    questionCount: randomizedQuestions.length,
+    questions: randomizedQuestions.map(({ id, skill, prompt, options, passage }) => ({ id, skill, prompt, options, passage })),
   }, { headers: { "Cache-Control": "no-store" } });
 }
 
