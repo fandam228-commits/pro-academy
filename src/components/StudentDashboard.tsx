@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { useApp } from "@/context/AppContext";
+import { VocabularyReviewWorkspace } from "@/components/VocabularyReviewWorkspace";
 import {
   Flame,
   Award,
@@ -439,6 +440,7 @@ export const StudentDashboard: React.FC<{ onSelectCourse?: (courseId: string) =>
 
         {/* RIGHT COLUMN: POMODORO TIMER & LEADERBOARD BADGES */}
         <div className="space-y-6">
+          <VocabularyReviewWorkspace />
           
           {/* WEEKLY REPORT BUTTON */}
           {onOpenReport && (
