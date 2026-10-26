@@ -226,25 +226,46 @@ export const CourseDetailView: React.FC<CourseDetailProps> = ({ courseId, onBack
 
       {/* FIRST SECONDARY VOCABULARY + GRAMMAR QUESTION BANK */}
       {courseId === "crs_sec_1" && (
-        <button
-          onClick={() => {
-            window.location.href = "/?tab=question_bank&stage=Secondary&grade=First%20Secondary&curriculum=Ministry&term=First&domainCategory=Vocabulary%2CGrammar&unit=Units%201-2";
-          }}
-          className="w-full rounded-3xl bg-gradient-to-r from-amber-500 via-orange-500 to-blue-600 p-[1px] shadow-xl hover:-translate-y-0.5 transition-all"
-        >
-          <div className="rounded-[23px] bg-white dark:bg-slate-950 px-5 py-4 flex flex-col sm:flex-row items-center justify-between gap-3">
-            <div className="flex items-center gap-3 text-start">
-              <div className="w-11 h-11 rounded-2xl bg-amber-100 dark:bg-amber-950/40 flex items-center justify-center">
-                <Database className="w-5 h-5 text-amber-600" />
+        <div className="space-y-3">
+          <button
+            onClick={() => {
+              window.location.href = "/?tab=question_bank&stage=Secondary&grade=First%20Secondary&curriculum=Ministry&term=First&domainCategory=Vocabulary%2CGrammar&unit=Units%201-2";
+            }}
+            className="w-full rounded-3xl bg-gradient-to-r from-amber-500 via-orange-500 to-blue-600 p-[1px] shadow-xl hover:-translate-y-0.5 transition-all"
+          >
+            <div className="rounded-[23px] bg-white dark:bg-slate-950 px-5 py-4 flex flex-col sm:flex-row items-center justify-between gap-3">
+              <div className="flex items-center gap-3 text-start">
+                <div className="w-11 h-11 rounded-2xl bg-amber-100 dark:bg-amber-950/40 flex items-center justify-center">
+                  <Database className="w-5 h-5 text-amber-600" />
+                </div>
+                <div>
+                  <div className="font-black text-sm text-slate-900 dark:text-white">بنك أسئلة أولى ثانوي — كلمات + Grammar</div>
+                  <div className="text-[11px] font-bold text-slate-500 dark:text-slate-400 mt-1">وحدتا 1 و2 • كل أسئلة الكلمات والجرامر الموجودة في بنك أولى ثانوي</div>
+                </div>
               </div>
-              <div>
-                <div className="font-black text-sm text-slate-900 dark:text-white">بنك أسئلة أولى ثانوي — كلمات + Grammar</div>
-                <div className="text-[11px] font-bold text-slate-500 dark:text-slate-400 mt-1">وحدتا 1 و2 • كل أسئلة الكلمات والجرامر الموجودة في بنك أولى ثانوي</div>
-              </div>
+              <span className="px-4 py-2 rounded-xl bg-slate-900 text-white text-xs font-black">فتح بنك الأسئلة →</span>
             </div>
-            <span className="px-4 py-2 rounded-xl bg-slate-900 text-white text-xs font-black">فتح بنك الأسئلة →</span>
-          </div>
-        </button>
+          </button>
+          <button
+            onClick={() => {
+              window.location.href = "/?tab=question_bank&stage=Secondary&grade=First%20Secondary&curriculum=Ministry&term=First&domainCategory=Reading%2CTranslation&unit=Term%201%20Review&lesson=Administrative%20Exams%202025";
+            }}
+            className="w-full rounded-3xl bg-gradient-to-r from-violet-600 via-blue-600 to-cyan-500 p-[1px] shadow-xl hover:-translate-y-0.5 transition-all"
+          >
+            <div className="rounded-[23px] bg-white dark:bg-slate-950 px-5 py-4 flex flex-col sm:flex-row items-center justify-between gap-3">
+              <div className="flex items-center gap-3 text-start">
+                <div className="w-11 h-11 rounded-2xl bg-violet-100 dark:bg-violet-950/40 flex items-center justify-center">
+                  <Database className="w-5 h-5 text-violet-600" />
+                </div>
+                <div>
+                  <div className="font-black text-sm text-slate-900 dark:text-white">مراجعة الترم الأول — قطع فهم وترجمة</div>
+                  <div className="text-[11px] font-bold text-slate-500 dark:text-slate-400 mt-1">341 سؤال اختيار من متعدد من امتحانات الإدارات 2025</div>
+                </div>
+              </div>
+              <span className="px-4 py-2 rounded-xl bg-slate-900 text-white text-xs font-black">افتح المراجعة →</span>
+            </div>
+          </button>
+        </div>
       )}
 
       {/* WORKSPACE: VIDEO PLAYER & CURRICULUM ACCORDION */}
@@ -320,4 +341,3 @@ export const CourseDetailView: React.FC<CourseDetailProps> = ({ courseId, onBack
     </div>
   );
 };
-

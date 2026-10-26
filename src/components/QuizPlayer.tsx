@@ -9,6 +9,7 @@ interface Question {
   id: string;
   type: string; // 'mcq', 'true_false', 'fill_blanks', 'correction', 'writing', 'listening'
   questionText: string;
+  passageText?: string;
   audioUrl?: string;
   options?: string[];
   // Students receive answer keys only in the server-graded submission feedback.
@@ -249,6 +250,16 @@ export const QuizPlayer: React.FC<QuizPlayerProps> = ({
 
           {/* QUESTION TEXT */}
           <div className="mb-6">
+            {currentQ.passageText && (
+              <section className="mb-5 rounded-2xl border border-indigo-200 bg-indigo-50/80 p-4 dark:border-indigo-900 dark:bg-indigo-950/30" aria-label={lang === "ar" ? "قطعة الفهم" : "Reading passage"}>
+                <h3 className="mb-2 text-xs font-black uppercase tracking-wide text-indigo-700 dark:text-indigo-300">
+                  {lang === "ar" ? "قطعة الفهم" : "Reading passage"}
+                </h3>
+                <p dir="auto" className="whitespace-pre-line text-sm font-medium leading-7 text-slate-800 dark:text-slate-100">
+                  {currentQ.passageText}
+                </p>
+              </section>
+            )}
             <span className="text-xs font-semibold px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 mb-2 inline-block">
               {lang === "ar" ? `السؤال ${currentIndex + 1} من ${questions.length}` : `Question ${currentIndex + 1} of ${questions.length}`} ({currentQ.type.toUpperCase()})
             </span>
@@ -541,4 +552,3 @@ export const QuizPlayer: React.FC<QuizPlayerProps> = ({
     </div>
   );
 };
-

@@ -4,6 +4,7 @@ import { eq, and, sql, ilike, inArray, notInArray } from "drizzle-orm";
 import { NextResponse } from "next/server";
 import { ensureDbSetup } from "@/db/migrate-and-seed";
 import { requireRoles, getAuthContext } from "@/lib/security";
+import { getFirstSecondaryAdminExamQuestions } from "@/db/first-secondary-admin-exams";
 
 function normalizedAnswerSet(value: unknown): string[] {
   try {
@@ -75,11 +76,37 @@ export async function GET(req: Request) {
       conditions.push(sql`(${questionBank.questionText} ILIKE ${pattern} OR ${questionBank.topic} ILIKE ${pattern})`);
     }
 
-    const allQuestions = await db
+    const databaseQuestions = await db
       .select()
       .from(questionBank)
       .where(conditions.length ? and(...conditions) : undefined)
       .limit(limit);
+
+    // Keep the imported exam questions in the application bundle instead of seeding
+    // the shared Preview/Production database with user-provided source material.
+    const requestedDomains = domainCategory?.split(",").map((d) => d.trim()).filter(Boolean) || [];
+    const importedQuestions = getFirstSecondaryAdminExamQuestions().filter((q) => {
+      if (domainCategory && !requestedDomains.includes(q.domainCategory)) return false;
+      if (stage && q.stage !== stage) return false;
+      if (grade && q.grade !== grade) return false;
+      if (curriculum && q.curriculum !== curriculum) return false;
+      if (term && q.term !== term) return false;
+      if (unit && q.unit !== unit) return false;
+      if (questionType && q.questionType !== questionType) return false;
+      if (difficulty && q.difficulty !== difficulty) return false;
+      if (source && q.source !== source) return false;
+      if (lesson && q.lesson !== lesson) return false;
+      if (section && q.section !== section) return false;
+      if (topic && q.topic !== topic) return false;
+      if (search) {
+        const normalizedSearch = search.toLocaleLowerCase();
+        if (!q.questionText.toLocaleLowerCase().includes(normalizedSearch) && !q.topic.toLocaleLowerCase().includes(normalizedSearch)) return false;
+      }
+      return true;
+    });
+    const questionById = new Map<string, any>();
+    for (const question of [...databaseQuestions, ...importedQuestions]) questionById.set(question.id, question);
+    const allQuestions = [...questionById.values()].slice(0, limit);
 
     // Analytics summary
     const totalCount = allQuestions.length;
@@ -93,6 +120,8 @@ export async function GET(req: Request) {
         total: totalCount,
         vocabularyCount: vocabCount,
         grammarCount: grammarCount,
+        readingCount: allQuestions.filter((q) => q.domainCategory === "Reading").length,
+        translationCount: allQuestions.filter((q) => q.domainCategory === "Translation").length,
       },
     });
   } catch (error) {
@@ -342,7 +371,11 @@ export async function POST(req: Request) {
       const numVocab = totalNum - numGrammar;
 
       // Query candidate pool from Question Bank
-      let candidates = await db.select().from(questionBank).where(eq(questionBank.grade, grade));
+      let candidates: any[] = await db.select().from(questionBank).where(eq(questionBank.grade, grade));
+      candidates = [
+        ...candidates,
+        ...getFirstSecondaryAdminExamQuestions().filter((q) => q.grade === grade && !candidates.some((existing) => existing.id === q.id)),
+      ];
       if (stage) candidates = candidates.filter((q) => q.stage === stage);
       if (curriculum) candidates = candidates.filter((q) => (q.curriculum || "Ministry") === curriculum);
       if (term) candidates = candidates.filter((q) => (q.term || "First") === term);
@@ -382,7 +415,9 @@ export async function POST(req: Request) {
         if (Array.isArray(q.options)) randomizedOptions = [...q.options].sort(() => Math.random() - 0.5);
         selected.push({ ...q, options: randomizedOptions });
         usedIds.add(q.id);
-        await db.update(questionBank).set({ timesUsed: (q.timesUsed || 0) + 1, lastUsedAt: new Date() }).where(eq(questionBank.id, q.id));
+        if (!String(q.id).startsWith("qb_1sec_admin_")) {
+          await db.update(questionBank).set({ timesUsed: (q.timesUsed || 0) + 1, lastUsedAt: new Date() }).where(eq(questionBank.id, q.id));
+        }
       };
 
       for (const difficultyName of ["Easy","Medium","Hard"]) {
@@ -435,7 +470,10 @@ export async function POST(req: Request) {
       const questionIds = Array.isArray(body.questionIds) ? body.questionIds.map(String) : [];
       if (!questionIds.length) return NextResponse.json({ error: "No practice questions supplied" }, { status: 400 });
       const rows = await db.select().from(questionBank).where(inArray(questionBank.id, questionIds));
-      const byId = new Map(rows.map((q) => [q.id, q]));
+      const byId = new Map<string, any>(rows.map((q) => [q.id, q]));
+      for (const question of getFirstSecondaryAdminExamQuestions()) {
+        if (questionIds.includes(question.id) && !byId.has(question.id)) byId.set(question.id, question);
+      }
       let score = 0;
       const feedback: Record<string, any> = {};
       for (const id of questionIds) {

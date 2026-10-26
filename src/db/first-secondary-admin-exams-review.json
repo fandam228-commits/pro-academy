@@ -1,0 +1,53 @@
+{
+  "source": "امتحانات الادارات 1 ث ترم اول 2025.docx",
+  "answerKeyNote": "The source document does not include an official answer key. Correct answers were selected by reviewing the passages and translation choices and should be teacher-validated before graded use.",
+  "includedQuestions": 341,
+  "readingQuestions": 271,
+  "translationQuestions": 70,
+  "excludedTranslations": [
+    {
+      "number": 8,
+      "reason": "No option accurately translates 'memorizing and rote learning'."
+    },
+    {
+      "number": 17,
+      "reason": "No option accurately translates Naqada's location and the past tense in the source."
+    },
+    {
+      "number": 24,
+      "reason": "No option preserves the meaning of 'athletic person' and 'resist diseases'."
+    },
+    {
+      "number": 25,
+      "reason": "The choices translate 'pay visits' as paying money; none gives a clear, natural translation."
+    },
+    {
+      "number": 38,
+      "reason": "No option is grammatically correct for 'safe games that develop'."
+    },
+    {
+      "number": 40,
+      "reason": "Two choices are valid translations, so the single-answer item is ambiguous."
+    },
+    {
+      "number": 65,
+      "reason": "No option accurately translates 'backbone of progress' and 'development progress'."
+    },
+    {
+      "number": 70,
+      "reason": "Every option changes the source conjunction or contains a grammatical error."
+    }
+  ],
+  "excludedReadingQuestions": [
+    {
+      "passage": 24,
+      "question": 20,
+      "reason": "No answer choice is supported clearly by the passage."
+    },
+    {
+      "passage": 34,
+      "question": 20,
+      "reason": "No answer choice is supported clearly by the passage."
+    }
+  ]
+}

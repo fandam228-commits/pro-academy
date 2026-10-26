@@ -448,25 +448,25 @@ export const QuestionBankWorkspace: React.FC<{ onExamGenerated?: (exam: any) => 
               <option value="All">الترم كله</option><option>First</option><option>Second</option>
             </select>
             <select value={unitFilter} onChange={(e) => setUnitFilter(e.target.value)} className="w-full p-2.5 rounded-2xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs text-slate-900 dark:text-white">
-              <option value="All">كل الوحدات</option><option value="Units 1-2">مراجعة الوحدتين 1-2</option>{Array.from({length:12},(_,i)=><option key={i}>Unit {i+1}</option>)}
+              <option value="All">كل الوحدات</option><option value="Term 1 Review">مراجعة الترم الأول — امتحانات الإدارات 2025</option><option value="Units 1-2">مراجعة الوحدتين 1-2</option>{Array.from({length:12},(_,i)=><option key={i}>Unit {i+1}</option>)}
             </select>
             <select value={typeFilter} onChange={(e) => setTypeFilter(e.target.value)} className="w-full p-2.5 rounded-2xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs text-slate-900 dark:text-white">
               <option value="All">كل أنواع السؤال</option><option value="mcq">MCQ</option><option value="fill_blank">Complete</option><option value="correction">Correct</option><option value="rewrite">Rewrite</option><option value="comprehension">Reading</option><option value="writing">Writing</option>
             </select>
             <select value={domainFilter} onChange={(e) => setDomainFilter(e.target.value)} className="w-full p-2.5 rounded-2xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs text-slate-900 dark:text-white">
-              <option value="All">كل الأقسام</option><option value="Grammar">Grammar</option><option value="Vocabulary">Vocabulary</option><option value="Reading">Reading</option><option value="Writing">Writing</option>
+              <option value="All">كل الأقسام</option><option value="Grammar">Grammar</option><option value="Vocabulary">Vocabulary</option><option value="Reading">Reading</option><option value="Translation">Translation</option><option value="Writing">Writing</option>
             </select>
             <select value={difficultyFilter} onChange={(e) => setDifficultyFilter(e.target.value)} className="w-full p-2.5 rounded-2xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs text-slate-900 dark:text-white">
               <option value="All">كل الصعوبة</option><option value="Easy">Easy</option><option value="Medium">Medium</option><option value="Hard">Hard</option><option value="Tricky">Tricky</option>
             </select>
             <select value={sourceFilter} onChange={(e) => setSourceFilter(e.target.value)} className="w-full p-2.5 rounded-2xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs text-slate-900 dark:text-white">
-              <option value="All">كل المصادر</option><option>Ministry Book</option><option>External Source</option><option>Teacher Created</option><option>Revision</option><option>AI Generated</option>
+              <option value="All">كل المصادر</option><option>امتحانات الادارات 1 ث ترم اول 2025.docx</option><option>Ministry Book</option><option>External Source</option><option>Teacher Created</option><option>Revision</option><option>AI Generated</option>
             </select>
             <select value={lessonFilter} onChange={(e) => setLessonFilter(e.target.value)} className="w-full p-2.5 rounded-2xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs text-slate-900 dark:text-white">
-              <option value="All">كل الدروس</option>{Array.from({length:8},(_,i)=><option key={i}>Lesson {i+1}</option>)}<option>All My Sons</option>
+              <option value="All">كل الدروس</option><option>Administrative Exams 2025</option>{Array.from({length:8},(_,i)=><option key={i}>Lesson {i+1}</option>)}<option>All My Sons</option>
             </select>
             <select value={sectionFilter} onChange={(e) => setSectionFilter(e.target.value)} className="w-full p-2.5 rounded-2xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs text-slate-900 dark:text-white">
-              <option value="All">كل الأقسام</option><option>Grammar</option><option>Vocabulary</option><option>Reading</option><option>Writing</option><option>Literature</option><option>Story</option>
+              <option value="All">كل الأقسام</option><option>Grammar</option><option>Vocabulary</option><option>Reading</option><option>Reading Comprehension</option><option>Translation</option><option>Writing</option><option>Literature</option><option>Story</option>
             </select>
             <input value={grammarTopicFilter} onChange={(e) => setGrammarTopicFilter(e.target.value)} placeholder="قاعدة محددة..." className="w-full p-2.5 rounded-2xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs text-slate-900 dark:text-white" />
           </div>
@@ -497,7 +497,7 @@ export const QuestionBankWorkspace: React.FC<{ onExamGenerated?: (exam: any) => 
                       <span>Difficulty: <strong className="text-slate-700 dark:text-slate-300">{q.difficulty}</strong></span>
                       <span>Used: <strong className="text-blue-600">{q.timesUsed || 0}x</strong></span>
                     </div>
-                    {(user?.role === "admin" || user?.role === "teacher") && (
+                    {(user?.role === "admin" || user?.role === "teacher") && !String(q.id).startsWith("qb_1sec_admin_") && (
                       <div className="flex gap-2">
                         <button onClick={() => {
                           const next = window.prompt("Edit question text:", q.questionText);
@@ -509,6 +509,13 @@ export const QuestionBankWorkspace: React.FC<{ onExamGenerated?: (exam: any) => 
                       </div>
                     )}
                   </div>
+
+                  {q.passageText && (
+                    <details className="rounded-2xl border border-indigo-200 bg-indigo-50/70 p-3 dark:border-indigo-900 dark:bg-indigo-950/30">
+                      <summary className="cursor-pointer text-xs font-black text-indigo-700 dark:text-indigo-300">عرض قطعة الفهم</summary>
+                      <p dir="auto" className="mt-3 whitespace-pre-line text-sm leading-7 text-slate-800 dark:text-slate-100">{q.passageText}</p>
+                    </details>
+                  )}
 
                   <p className="font-bold text-sm text-slate-900 dark:text-slate-100 leading-relaxed">
                     {idx + 1}. {q.questionText}
