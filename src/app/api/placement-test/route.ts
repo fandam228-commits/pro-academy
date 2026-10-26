@@ -37,6 +37,18 @@ export async function GET(req: Request) {
   const student = await getStudent(req);
   if (student.error) return student.error;
 
+  if (new URL(req.url).searchParams.get("history") === "1") {
+    await ensurePlacementAssessmentTable();
+    const history = await db.execute(sql`
+      SELECT overall_level AS level, score, total_items AS total, completed_at AS "completedAt"
+      FROM placement_assessments
+      WHERE student_id = ${student.user.id}
+      ORDER BY completed_at DESC
+      LIMIT 6
+    `);
+    return NextResponse.json({ history: history.rows }, { headers: { "Cache-Control": "no-store" } });
+  }
+
   const questions = [...PLACEMENT_QUESTION_BANK];
   for (let i = questions.length - 1; i > 0; i -= 1) {
     const j = Math.floor(Math.random() * (i + 1));
@@ -75,17 +87,25 @@ export async function POST(req: Request) {
       functional: { correct: 0, total: 0 },
       reading: { correct: 0, total: 0 },
     };
+    const normalizedAnswers: Record<string, string> = {};
 
     for (const question of PLACEMENT_QUESTION_BANK) {
-      const selectedIndex = Number(answers[question.id]);
-      if (!Number.isInteger(selectedIndex) || selectedIndex < 0 || selectedIndex >= question.options.length) {
+      const submittedAnswer = answers[question.id];
+      const legacyIndex = typeof submittedAnswer === "number" ? submittedAnswer : Number.NaN;
+      const selectedAnswer = typeof submittedAnswer === "string" && question.options.includes(submittedAnswer)
+        ? submittedAnswer
+        : Number.isInteger(legacyIndex) && legacyIndex >= 0 && legacyIndex < question.options.length
+          ? question.options[legacyIndex]
+          : null;
+      if (!selectedAnswer) {
         return NextResponse.json({ error: "One or more answers are invalid." }, { status: 400 });
       }
+      normalizedAnswers[question.id] = selectedAnswer;
 
       const band = bandResults[CEFR_LEVELS.indexOf(question.level)];
       band.total += 1;
       skillTotals[question.skill].total += 1;
-      if (selectedIndex === question.correctIndex) {
+      if (selectedAnswer === question.options[question.correctIndex]) {
         band.correct += 1;
         skillTotals[question.skill].correct += 1;
       }
@@ -106,7 +126,7 @@ export async function POST(req: Request) {
 
     const level = CEFR_LEVELS[levelIndex] as CefrLevel;
     const score = PLACEMENT_QUESTION_BANK.reduce(
-      (sum, question) => sum + (Number(answers[question.id]) === question.correctIndex ? 1 : 0),
+      (sum, question) => sum + (normalizedAnswers[question.id] === question.options[question.correctIndex] ? 1 : 0),
       0
     );
     const skillResults = Object.entries(skillTotals).map(([skill, result]) => ({
@@ -130,13 +150,13 @@ export async function POST(req: Request) {
       foundationSupport,
       note: "This is an in-platform placement estimate, not an official CEFR certificate. It assesses language knowledge, reading and functional English; it does not directly assess speaking or writing.",
       missedQuestions: PLACEMENT_QUESTION_BANK.flatMap((question) => {
-        const selectedIndex = Number(answers[question.id]);
-        return selectedIndex === question.correctIndex ? [] : [{
+        const selectedAnswer = normalizedAnswers[question.id];
+        return selectedAnswer === question.options[question.correctIndex] ? [] : [{
           id: question.id,
           level: question.level,
           skill: question.skill,
           prompt: question.prompt,
-          selectedAnswer: question.options[selectedIndex],
+          selectedAnswer,
           correctAnswer: question.options[question.correctIndex],
           explanation: question.explanation,
         }];
