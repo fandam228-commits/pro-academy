@@ -55,6 +55,13 @@ interface PlacementResult {
   }>;
 }
 
+interface PlacementHistoryItem {
+  level: string;
+  score: number;
+  total: number;
+  completedAt: string;
+}
+
 async function requestQuestionSet(): Promise<PlacementQuestionSet> {
   const response = await fetch("/api/placement-test", { cache: "no-store" });
   const data = await response.json();
@@ -76,6 +83,8 @@ export const AdaptivePlacementTest: React.FC<{ onComplete?: (level: string) => v
   const [currentIndex, setCurrentIndex] = useState(0);
   const [stage, setStage] = useState<PlacementStage>("intro");
   const [result, setResult] = useState<PlacementResult | null>(null);
+  const [history, setHistory] = useState<PlacementHistoryItem[]>([]);
+  const [historyLoading, setHistoryLoading] = useState(false);
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState("");
@@ -96,10 +105,32 @@ export const AdaptivePlacementTest: React.FC<{ onComplete?: (level: string) => v
     return () => { active = false; };
   }, [user?.id, user?.role]);
 
+  useEffect(() => {
+    if (stage !== "result") return;
+    let active = true;
+    fetch("/api/placement-test?history=1", { cache: "no-store" })
+      .then(async (response) => {
+        const data = await response.json();
+        if (!response.ok) throw new Error(data.error || "Could not load assessment history.");
+        if (active) setHistory(Array.isArray(data.history) ? data.history : []);
+      })
+      .catch(() => {
+        if (active) setHistory([]);
+      })
+      .finally(() => {
+        if (active) setHistoryLoading(false);
+      });
+    return () => { active = false; };
+  }, [stage]);
+
   const questions = questionSet?.questions || [];
   const current = questions[currentIndex];
   const answeredCount = Object.keys(answers).length;
   const missingCount = Math.max(0, questions.length - answeredCount);
+  const levelOrder = ["A1", "A2", "B1", "B2", "C1", "C2"];
+  const previousLevelChange = history.length > 1
+    ? levelOrder.indexOf(history[0].level) - levelOrder.indexOf(history[1].level)
+    : 0;
 
   const handleSubmit = async () => {
     if (!questionSet || submitting) return;
@@ -117,11 +148,16 @@ export const AdaptivePlacementTest: React.FC<{ onComplete?: (level: string) => v
       const response = await fetch("/api/placement-test", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ answers }),
+        body: JSON.stringify({
+          answers: Object.fromEntries(
+            questions.map((question) => [question.id, question.options[answers[question.id]]])
+          ),
+        }),
       });
       const data = await response.json();
       if (!response.ok || !data.success) throw new Error(data.error || "Could not score your assessment.");
       setResult(data.result as PlacementResult);
+      setHistoryLoading(true);
       setStage("result");
       onComplete?.(data.result.level);
     } catch (submitError) {
@@ -140,6 +176,7 @@ export const AdaptivePlacementTest: React.FC<{ onComplete?: (level: string) => v
       setAnswers({});
       setCurrentIndex(0);
       setResult(null);
+      setHistory([]);
       setStage("intro");
     } catch (requestError) {
       setError(requestError instanceof Error ? requestError.message : "Could not restart the test.");
@@ -320,6 +357,31 @@ export const AdaptivePlacementTest: React.FC<{ onComplete?: (level: string) => v
             </div>
           </div>
 
+          <section className="rounded-3xl border border-slate-200 bg-white p-5 shadow-lg dark:border-slate-800 dark:bg-slate-900 sm:p-6">
+            <div className="flex flex-wrap items-center justify-between gap-2">
+              <div>
+                <h2 className="text-sm font-black text-slate-900 dark:text-white">{ar ? "تقدمك عبر المحاولات" : "Progress across attempts"}</h2>
+                <p className="mt-1 text-[10px] text-slate-500 dark:text-slate-400">{ar ? "سجل آخر 6 محاولات محفوظة في حسابك." : "Your six most recent attempts saved to your account."}</p>
+              </div>
+              {history.length > 1 && <span className={`rounded-full px-3 py-1.5 text-[10px] font-black ${previousLevelChange > 0 ? "bg-emerald-100 text-emerald-800 dark:bg-emerald-950/40 dark:text-emerald-200" : previousLevelChange < 0 ? "bg-amber-100 text-amber-800 dark:bg-amber-950/40 dark:text-amber-200" : "bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-200"}`}>{previousLevelChange > 0 ? (ar ? `تحسن ${previousLevelChange} مستوى` : `Up ${previousLevelChange} level${previousLevelChange > 1 ? "s" : ""}`) : previousLevelChange < 0 ? (ar ? `فرق ${Math.abs(previousLevelChange)} مستوى` : `Down ${Math.abs(previousLevelChange)} level${previousLevelChange < -1 ? "s" : ""}`) : (ar ? "ثبات المستوى" : "Level maintained")}</span>}
+            </div>
+            {historyLoading ? (
+              <div className="mt-4 text-xs font-bold text-slate-500">{ar ? "بنحمّل سجل المحاولات..." : "Loading your attempts..."}</div>
+            ) : history.length > 0 ? (
+              <div className="mt-4 grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
+                {history.slice(0, 6).map((attempt, index) => (
+                  <article key={`${attempt.completedAt}-${index}`} className={`rounded-2xl border p-3 ${index === 0 ? "border-blue-200 bg-blue-50/70 dark:border-blue-900/50 dark:bg-blue-950/25" : "border-slate-200 bg-slate-50/70 dark:border-slate-700 dark:bg-slate-800/50"}`}>
+                    <div className="flex items-center justify-between gap-2"><span className="text-lg font-black text-blue-700 dark:text-blue-300">{attempt.level}</span><span className="text-[10px] font-black text-slate-600 dark:text-slate-300">{attempt.score}/{attempt.total}</span></div>
+                    <div className="mt-1 text-[9px] text-slate-500 dark:text-slate-400">{index === 0 ? (ar ? "أحدث محاولة" : "Latest attempt") : new Date(attempt.completedAt).toLocaleDateString(ar ? "ar-EG" : "en-GB")}</div>
+                    <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-slate-200 dark:bg-slate-700"><div className="h-full rounded-full bg-blue-600" style={{ width: `${Math.round((attempt.score / Math.max(1, attempt.total)) * 100)}%` }} /></div>
+                  </article>
+                ))}
+              </div>
+            ) : (
+              <p className="mt-4 text-xs text-slate-500 dark:text-slate-400">{ar ? "أول نتيجة اتحفظت؛ المحاولات القادمة هتظهر هنا." : "Your first result is saved. Future attempts will appear here."}</p>
+            )}
+          </section>
+
           {result.missedQuestions.length > 0 && (
             <details className="rounded-3xl border border-slate-200 bg-white p-5 shadow-lg dark:border-slate-800 dark:bg-slate-900">
               <summary className="cursor-pointer list-none text-sm font-black text-slate-900 marker:hidden dark:text-white">{ar ? `راجع الأسئلة التي تحتاج تدريبًا (${result.missedQuestions.length})` : `Review questions to practise (${result.missedQuestions.length})`}</summary>
@@ -338,7 +400,7 @@ export const AdaptivePlacementTest: React.FC<{ onComplete?: (level: string) => v
           )}
 
           <div className="flex justify-center">
-            <button type="button" onClick={retake} className="inline-flex min-h-11 items-center gap-2 rounded-xl border border-slate-300 bg-white px-5 py-2.5 text-xs font-black text-slate-700 transition hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200 dark:hover:bg-slate-800"><RefreshCw className="h-4 w-4" />{ar ? "أعد الاختبار بنموذج مختلف" : "Retake with a new question order"}</button>
+            <button type="button" onClick={retake} className="inline-flex min-h-11 items-center gap-2 rounded-xl border border-slate-300 bg-white px-5 py-2.5 text-xs font-black text-slate-700 transition hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200 dark:hover:bg-slate-800"><RefreshCw className="h-4 w-4" />{ar ? "أعد الاختبار بترتيب وإجابات عشوائية" : "Retake with randomized questions and choices"}</button>
           </div>
         </section>
       )}
