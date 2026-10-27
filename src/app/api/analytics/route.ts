@@ -16,7 +16,7 @@ import { eq, and } from "drizzle-orm";
 import { NextResponse } from "next/server";
 import { ensureDbSetup } from "@/db/migrate-and-seed";
 import { getAuthContext } from "@/lib/security";
-import { canAccessStudentAnalytics } from "@/lib/analytics-authorization";
+import { canAccessStudentAnalytics } from "@/lib/analytics-authorization.mjs";
 
 function attendanceRate(records: any[]) {
   if (records.length === 0) return 100;
