@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { attendanceRate, calculatePerformanceIndex } from "./analytics-metrics.mjs";
+import { attendanceRate, calculatePerformanceIndex, homeworkCompletion } from "./analytics-metrics.mjs";
 
 test("attendance with no records is unreported, not 100 percent", () => {
   assert.equal(attendanceRate([]), null);
@@ -31,4 +31,16 @@ test("performance index includes attendance when it is reported", () => {
     calculatePerformanceIndex({ avgScore: 80, hwAvg: 70, attRate: 50, hwCompletion: 60 }),
     69
   );
+});
+
+test("homework completion ignores unrelated assignments and duplicate submissions", () => {
+  assert.equal(homeworkCompletion(["hw-1", "hw-2"], [
+    { homeworkId: "hw-1" },
+    { homeworkId: "hw-1" },
+    { homeworkId: "hw-outside-grade" },
+  ]), 50);
+});
+
+test("homework completion is zero when no assignments are relevant", () => {
+  assert.equal(homeworkCompletion([], [{ homeworkId: "hw-1" }]), 0);
 });
