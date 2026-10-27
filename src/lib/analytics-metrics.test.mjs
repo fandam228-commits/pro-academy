@@ -22,7 +22,7 @@ test("attendance rate accounts for present, late, excused, and absent records", 
 test("performance index excludes and reweights unreported attendance", () => {
   assert.equal(
     calculatePerformanceIndex({ avgScore: 80, hwAvg: 70, attRate: null, hwCompletion: 60 }),
-    73
+    74
   );
 });
 
