@@ -182,9 +182,12 @@ function buildClassAnalyticsResponse(reports: Awaited<ReturnType<typeof buildStu
   const classAvg = classRows.length
     ? Math.round(classRows.reduce((sum, row) => sum + row.avgScore, 0) / classRows.length)
     : 0;
-  const classAtt = classRows.length
-    ? Math.round(classRows.reduce((sum, row) => sum + row.attRate, 0) / classRows.length)
-    : 0;
+  const reportedAttendance = classRows
+    .map((row) => row.attRate)
+    .filter((rate): rate is number => rate !== null);
+  const classAtt = reportedAttendance.length
+    ? Math.round(reportedAttendance.reduce((sum, rate) => sum + rate, 0) / reportedAttendance.length)
+    : null;
 
   return NextResponse.json({
     scope: "class",
@@ -280,9 +283,12 @@ export async function GET(req: Request) {
       const classAvg = classRows.length
         ? Math.round(classRows.reduce((s, r) => s + r.avgScore, 0) / classRows.length)
         : 0;
-      const classAtt = classRows.length
-        ? Math.round(classRows.reduce((s, r) => s + r.attRate, 0) / classRows.length)
-        : 0;
+      const reportedAttendance = classRows
+        .map((row) => row.attRate)
+        .filter((rate): rate is number => rate !== null);
+      const classAtt = reportedAttendance.length
+        ? Math.round(reportedAttendance.reduce((sum, rate) => sum + rate, 0) / reportedAttendance.length)
+        : null;
 
       return NextResponse.json({
         scope: "class",
