@@ -1,9 +1,10 @@
 import { db } from "@/db";
-import { examAttempts, generatedExams } from "@/db/schema";
+import { examAttempts, generatedExams, users, parentLinks, enrollments, courses } from "@/db/schema";
 import { eq, desc } from "drizzle-orm";
 import { NextResponse } from "next/server";
 import { ensureDbSetup } from "@/db/migrate-and-seed";
 import { getAuthContext } from "@/lib/security";
+import { resolveStudentDataAccess } from "@/lib/student-data-access.mjs";
 
 export async function GET(req: Request) {
   await ensureDbSetup();
@@ -12,13 +13,59 @@ export async function GET(req: Request) {
 
   const { searchParams } = new URL(req.url);
   const requestedStudentId = searchParams.get("studentId");
-  if (ctx.user.role === "student" && requestedStudentId && requestedStudentId !== ctx.user.id) {
-    return NextResponse.json({ error: "Forbidden" }, { status: 403 });
-  }
-  const studentId = ctx.user.role === "student" ? ctx.user.id : requestedStudentId;
-  if (!studentId) return NextResponse.json({ error: "studentId is required" }, { status: 400 });
+  const role = ctx.user.role as string;
 
   try {
+    if (!["admin", "teacher", "parent", "student"].includes(role)) {
+      return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+    }
+
+    let linkedParentStudentIds: string[] = [];
+    let teacherStudentIds: string[] = [];
+
+    if (role === "parent") {
+      const links = await db
+        .select({ studentId: parentLinks.studentId })
+        .from(parentLinks)
+        .where(eq(parentLinks.parentId, ctx.user.id));
+      linkedParentStudentIds = links.map((link) => link.studentId);
+    }
+
+    if (role === "teacher") {
+      const teacherEnrollments = await db
+        .select({ studentId: enrollments.studentId })
+        .from(enrollments)
+        .innerJoin(courses, eq(enrollments.courseId, courses.id))
+        .where(eq(courses.teacherId, ctx.user.id));
+      teacherStudentIds = [...new Set(teacherEnrollments.map((row) => row.studentId))];
+    }
+
+    const access = resolveStudentDataAccess({
+      role,
+      requesterId: ctx.user.id,
+      requestedStudentId,
+      linkedParentStudentIds,
+      teacherStudentIds,
+    });
+
+    if (!access.allowed) {
+      if (access.reason === "no_linked_student") {
+        return NextResponse.json({ error: "No linked student" }, { status: 404 });
+      }
+      if (access.reason === "student_required") {
+        return NextResponse.json({ error: "studentId is required" }, { status: 400 });
+      }
+      return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+    }
+
+    const studentId = access.studentId;
+    if (!studentId) return NextResponse.json({ error: "studentId is required" }, { status: 400 });
+
+    const studentRows = await db.select({ id: users.id }).from(users).where(eq(users.id, studentId));
+    if (studentRows.length === 0) {
+      return NextResponse.json({ error: "Student not found" }, { status: 404 });
+    }
+
     const attempts = await db.select().from(examAttempts)
       .where(eq(examAttempts.studentId, studentId))
       .orderBy(desc(examAttempts.submittedAt))
