@@ -1,9 +1,14 @@
 import { db } from "@/db";
-import { attendanceRecords, users, parentLinks } from "@/db/schema";
-import { eq, and } from "drizzle-orm";
+import { attendanceRecords, users, parentLinks, enrollments, courses } from "@/db/schema";
+import { eq, and, inArray } from "drizzle-orm";
 import { NextResponse } from "next/server";
 import { ensureDbSetup } from "@/db/migrate-and-seed";
 import { requireRoles, getAuthContext } from "@/lib/security";
+import {
+  canManageAttendanceStudent,
+  canSelfCheckIn,
+  isValidAttendanceStatus,
+} from "@/lib/attendance-authorization.mjs";
 
 function computeRate(records: any[]) {
   if (records.length === 0) return 100;
@@ -13,6 +18,15 @@ function computeRate(records: any[]) {
   // present=1, late=0.7, excused=0.85, absent=0
   const score = (present + late * 0.7 + excused * 0.85) / records.length;
   return Math.round(score * 100);
+}
+
+async function getTeacherStudentIds(teacherId: string) {
+  const teacherEnrollments = await db
+    .select({ studentId: enrollments.studentId })
+    .from(enrollments)
+    .innerJoin(courses, eq(enrollments.courseId, courses.id))
+    .where(eq(courses.teacherId, teacherId));
+  return [...new Set(teacherEnrollments.map((row) => row.studentId))];
 }
 
 export async function GET(req: Request) {
@@ -27,13 +41,24 @@ export async function GET(req: Request) {
   const role = ctx.user.role as string;
 
   try {
-    // ============ TEACHER / ADMIN: full roster + stats ============
-    if (role === "teacher" || role === "admin") {
-      const allStudents = await db.select().from(users).where(eq(users.role, "student"));
-      const allRecords = await db.select().from(attendanceRecords);
+    if (!["admin", "teacher", "parent", "student"].includes(role)) {
+      return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+    }
 
-      // Per-student summary
-      const roster = allStudents.map((st) => {
+    // ============ TEACHER / ADMIN: scoped roster + stats ============
+    if (role === "teacher" || role === "admin") {
+      const teacherStudentIds = role === "teacher" ? await getTeacherStudentIds(ctx.user.id) : [];
+      const allStudents = await db.select().from(users).where(eq(users.role, "student"));
+      const rosterStudents = allStudents.filter((student) =>
+        canManageAttendanceStudent({ role, studentId: student.id, teacherStudentIds })
+      );
+      const rosterStudentIds = rosterStudents.map((student) => student.id);
+      const allRecords = rosterStudentIds.length
+        ? await db.select().from(attendanceRecords).where(inArray(attendanceRecords.studentId, rosterStudentIds))
+        : [];
+
+      // Per-student summary. Teachers only receive rows for their own enrolled students.
+      const roster = rosterStudents.map((st) => {
         const recs = allRecords.filter((r) => r.studentId === st.id);
         const todayRec = date ? recs.find((r) => r.sessionDate === date) : null;
         return {
@@ -51,7 +76,9 @@ export async function GET(req: Request) {
       });
 
       const sessionTitles = [...new Set(allRecords.map((r) => r.sessionTitle))];
-      const recentDates = [...new Set(allRecords.map((r) => r.sessionDate))].sort((a, b) => (a < b ? 1 : -1)).slice(0, 20);
+      const recentDates = [...new Set(allRecords.map((r) => r.sessionDate))]
+        .sort((a, b) => (a < b ? 1 : -1))
+        .slice(0, 20);
 
       return NextResponse.json({ roster, sessionTitles, recentDates, role });
     }
@@ -101,24 +128,59 @@ export async function POST(req: Request) {
     const body = await req.json();
     const { action } = body;
 
-    // ============ TEACHER: BULK MARK ROSTER FOR A SESSION ============
+    // ============ TEACHER / ADMIN: BULK MARK ROSTER FOR A SESSION ============
     if (action === "bulk_mark") {
-      const { denied } = await requireRoles(req, ["teacher", "admin"]);
+      const { user, denied } = await requireRoles(req, ["teacher", "admin"]);
       if (denied) return denied;
 
       const { sessionTitle, sessionDate, marks } = body;
       if (!sessionTitle || !sessionDate || !Array.isArray(marks)) {
         return NextResponse.json({ error: "sessionTitle, sessionDate & marks are required" }, { status: 400 });
       }
+      if (!marks.every((mark: any) => mark && typeof mark.studentId === "string" && mark.studentId.trim())) {
+        return NextResponse.json({ error: "Every attendance mark must include a studentId." }, { status: 400 });
+      }
 
+      const normalizedMarks = marks.map((mark: any) => ({
+        ...mark,
+        studentId: mark.studentId.trim(),
+        status: mark.status || "present",
+      }));
+      if (!normalizedMarks.every((mark: any) => isValidAttendanceStatus(mark.status))) {
+        return NextResponse.json({ error: "Invalid attendance status." }, { status: 400 });
+      }
+
+      const targetIds = [...new Set(normalizedMarks.map((mark: any) => mark.studentId))];
+      const targetStudents = targetIds.length
+        ? await db
+            .select({ id: users.id, name: users.name, grade: users.grade, role: users.role })
+            .from(users)
+            .where(inArray(users.id, targetIds))
+        : [];
+      if (targetStudents.length !== targetIds.length || targetStudents.some((student) => student.role !== "student")) {
+        return NextResponse.json({ error: "One or more attendance targets are not students." }, { status: 400 });
+      }
+
+      const teacherStudentIds = user!.role === "teacher" ? await getTeacherStudentIds(user!.id) : [];
+      if (
+        targetIds.some(
+          (studentId) =>
+            !canManageAttendanceStudent({ role: user!.role, studentId, teacherStudentIds })
+        )
+      ) {
+        return NextResponse.json({ error: "You may only mark attendance for students in your courses." }, { status: 403 });
+      }
+
+      const studentsById = new Map(targetStudents.map((student) => [student.id, student]));
       let saved = 0;
-      for (const m of marks) {
+      for (const mark of normalizedMarks) {
+        const student = studentsById.get(mark.studentId)!;
         const existing = await db
           .select()
           .from(attendanceRecords)
           .where(
             and(
-              eq(attendanceRecords.studentId, m.studentId),
+              eq(attendanceRecords.studentId, mark.studentId),
               eq(attendanceRecords.sessionTitle, sessionTitle),
               eq(attendanceRecords.sessionDate, sessionDate)
             )
@@ -127,17 +189,17 @@ export async function POST(req: Request) {
         if (existing.length > 0) {
           await db
             .update(attendanceRecords)
-            .set({ status: m.status, markedBy: ctx.user.id })
+            .set({ status: mark.status, markedBy: ctx.user.id })
             .where(eq(attendanceRecords.id, existing[0].id));
         } else {
           await db.insert(attendanceRecords).values({
-            id: `att_${Date.now()}_${m.studentId}_${Math.random().toString(36).substring(2, 5)}`,
-            studentId: m.studentId,
-            studentName: m.studentName || "Student",
+            id: `att_${Date.now()}_${mark.studentId}_${Math.random().toString(36).substring(2, 5)}`,
+            studentId: mark.studentId,
+            studentName: student.name || "Student",
             sessionTitle,
             sessionDate,
-            status: m.status || "present",
-            grade: m.grade || "",
+            status: mark.status,
+            grade: student.grade || "",
             markedBy: ctx.user.id,
           });
         }
@@ -149,6 +211,10 @@ export async function POST(req: Request) {
 
     // ============ STUDENT: SELF CHECK-IN (today's live session) ============
     if (action === "check_in") {
+      if (!canSelfCheckIn(ctx.user.role)) {
+        return NextResponse.json({ error: "Only student accounts can check in." }, { status: 403 });
+      }
+
       const today = new Date().toISOString().split("T")[0];
       const title = body.sessionTitle || "حصة مباشرة مع مستر حبيب";
 
