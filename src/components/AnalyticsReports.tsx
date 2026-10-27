@@ -146,7 +146,7 @@ export const AnalyticsReports: React.FC = () => {
           {[
             { label: lang === "ar" ? "عدد الطلاب" : "Students", value: k.totalStudents, icon: Users, color: "text-blue-600" },
             { label: lang === "ar" ? "متوسط الفصل" : "Class Average", value: `${k.classAvg}%`, icon: Award, color: "text-emerald-600" },
-            { label: lang === "ar" ? "متوسط الحضور" : "Avg Attendance", value: `${k.classAtt}%`, icon: ClipboardCheck, color: "text-teal-600" },
+            { label: lang === "ar" ? "متوسط الحضور" : "Avg Attendance", value: k.classAtt == null ? (lang === "ar" ? "غير مسجل" : "Not recorded") : `${k.classAtt}%`, icon: ClipboardCheck, color: "text-teal-600" },
             { label: lang === "ar" ? "طلاب متعثرون" : "At Risk", value: k.atRiskCount, icon: AlertTriangle, color: "text-red-500" },
           ].map((s, i) => {
             const Icon = s.icon;
@@ -210,7 +210,7 @@ export const AnalyticsReports: React.FC = () => {
                     </span>
                   </td>
                   <td className="py-3 text-center font-bold text-slate-700 dark:text-slate-300">{s.avgScore}%</td>
-                  <td className="py-3 text-center font-bold text-slate-700 dark:text-slate-300">{s.attRate}%</td>
+                  <td className="py-3 text-center font-bold text-slate-700 dark:text-slate-300">{s.attRate == null ? "—" : `${s.attRate}%`}</td>
                   <td className="py-3 text-center font-bold text-slate-700 dark:text-slate-300">{s.hwCompletion}%</td>
                   <td className="py-3 text-[10px] text-red-500 font-bold">{s.weakestTopic || "-"}</td>
                   <td className="py-3 text-end">
@@ -236,7 +236,7 @@ export const AnalyticsReports: React.FC = () => {
     `📊 تقرير أداء ${s?.name || ""} — منصة مستر حبيب الرحمن\n` +
       `• مؤشر الأداء: ${k?.performanceIndex}%\n` +
       `• متوسط الدرجات: ${k?.avgScore}%\n` +
-      `• الحضور: ${k?.attRate}%\n` +
+      `• الحضور: ${k?.attRate == null ? "غير مسجل" : `${k.attRate}%`}\n` +
       `• إنجاز الواجبات: ${k?.hwCompletion}%\n` +
       `${data?.weaknesses?.length ? `• يحتاج مراجعة: ${data.weaknesses.map((w: any) => w.topic).join("، ")}` : ""}`
   );
@@ -271,7 +271,7 @@ export const AnalyticsReports: React.FC = () => {
       <div className="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-xl p-6 grid grid-cols-2 lg:grid-cols-4 gap-4 text-slate-400">
         <Gauge2 value={k?.performanceIndex || 0} label={lang === "ar" ? "مؤشر الأداء الشامل" : "Performance Index"} color="#6366f1" />
         <Gauge2 value={k?.avgScore || 0} label={lang === "ar" ? "متوسط الاختبارات" : "Exam Average"} color="#2563eb" />
-        <Gauge2 value={k?.attRate || 0} label={lang === "ar" ? "نسبة الحضور" : "Attendance"} color="#10b981" />
+        {k?.attRate == null ? <div className="flex flex-col items-center justify-center min-h-[140px]"><ClipboardCheck className="w-8 h-8 text-slate-300 mb-3" /><p className="text-sm font-bold text-slate-500">{lang === "ar" ? "لا توجد بيانات حضور" : "No attendance data"}</p><p className="text-[10px] text-slate-400">{lang === "ar" ? "لم يتم تسجيل الحضور بعد" : "Attendance has not been recorded"}</p></div> : <Gauge2 value={k.attRate} label={lang === "ar" ? "نسبة الحضور" : "Attendance"} color="#10b981" />}
         <Gauge2 value={k?.hwCompletion || 0} label={lang === "ar" ? "إنجاز الواجبات" : "HW Completion"} color="#f59e0b" />
       </div>
 

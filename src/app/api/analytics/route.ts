@@ -9,20 +9,15 @@ import {
   attendanceRecords,
   questionBank,
   enrollments,
+  courses,
   parentLinks,
 } from "@/db/schema";
-import { eq, and } from "drizzle-orm";
+import { eq } from "drizzle-orm";
 import { NextResponse } from "next/server";
 import { ensureDbSetup } from "@/db/migrate-and-seed";
 import { getAuthContext } from "@/lib/security";
-
-function attendanceRate(records: any[]) {
-  if (records.length === 0) return 100;
-  const present = records.filter((r) => r.status === "present").length;
-  const late = records.filter((r) => r.status === "late").length;
-  const excused = records.filter((r) => r.status === "excused").length;
-  return Math.round(((present + late * 0.7 + excused * 0.85) / records.length) * 100);
-}
+import { canAccessStudentAnalytics } from "@/lib/analytics-authorization.mjs";
+import { attendanceRate, calculatePerformanceIndex, homeworkCompletion } from "@/lib/analytics-metrics.mjs";
 
 /** Builds a full learning profile for one student. */
 async function buildStudentReport(studentId: string) {
@@ -91,19 +86,24 @@ async function buildStudentReport(studentId: string) {
   const allScores = [...attempts.map((a) => a.percentage), ...quizSubs.map((q) => q.percentage)];
   const avgScore = allScores.length ? Math.round(allScores.reduce((s, v) => s + v, 0) / allScores.length) : 0;
 
-  const gradedHw = hwSubs.filter((h) => h.status === "graded");
+  const enrolledCourseIds = new Set(myEnrollments.map((enrollment) => enrollment.courseId));
+  const relevantHw = allHw.filter(
+    (h) => (!student?.grade || h.grade === student.grade) && (!h.courseId || enrolledCourseIds.has(h.courseId))
+  );
+  const relevantHomeworkIds = new Set(relevantHw.map((h) => h.id));
+  const relevantHwSubs = hwSubs.filter((submission) => relevantHomeworkIds.has(submission.homeworkId));
+  const gradedHw = relevantHwSubs.filter((h) => h.status === "graded");
   const hwAvg = gradedHw.length
     ? Math.round(
         (gradedHw.reduce((sum, h) => {
-          const parent = allHw.find((x) => x.id === h.homeworkId);
+          const parent = relevantHw.find((x) => x.id === h.homeworkId);
           return sum + ((h.score || 0) / (parent?.totalPoints || 50)) * 100;
         }, 0) /
           gradedHw.length)
       )
     : 0;
 
-  const relevantHw = allHw.filter((h) => !student?.grade || h.grade === student.grade);
-  const hwCompletion = relevantHw.length ? Math.round((hwSubs.length / relevantHw.length) * 100) : 0;
+  const hwCompletion = homeworkCompletion(relevantHw.map((h) => h.id), relevantHwSubs);
 
   const attRate = attendanceRate(attendance);
 
@@ -115,7 +115,7 @@ async function buildStudentReport(studentId: string) {
   const trend = Math.round(recentAvg - olderAvg);
 
   // Overall performance index (weighted)
-  const performanceIndex = Math.round(avgScore * 0.45 + hwAvg * 0.2 + attRate * 0.2 + Math.min(hwCompletion, 100) * 0.15);
+  const performanceIndex = calculatePerformanceIndex({ avgScore, hwAvg, attRate, hwCompletion });
 
   // ---------- AI-STYLE RECOMMENDATIONS ----------
   const recommendations: string[] = [];
@@ -124,7 +124,7 @@ async function buildStudentReport(studentId: string) {
       `ركّز على مراجعة: ${weaknesses.map((w) => w.topic).join("، ")} — ولّد امتحاناً مخصصاً من بنك الأسئلة على هذه المواضيع.`
     );
   }
-  if (attRate < 85) recommendations.push("نسبة الحضور أقل من المستهدف — الانتظام في الحصص المباشرة يرفع الدرجات بنسبة ملحوظة.");
+  if (attRate !== null && attRate < 85) recommendations.push("نسبة الحضور أقل من المستهدف — الانتظام في الحصص المباشرة يرفع الدرجات بنسبة ملحوظة.");
   if (hwCompletion < 80) recommendations.push("هناك واجبات لم تُسلَّم — إنجاز الواجبات يثبت القواعد في الذاكرة طويلة المدى.");
   if (trend < 0) recommendations.push("الأداء في آخر اختبارات أقل من السابق — راجع الشروحات المرفقة مع كل سؤال خاطئ.");
   if (trend > 5) recommendations.push("أداؤك في تحسّن مستمر 📈 — حافظ على نفس معدل المذاكرة اليومي!");
@@ -153,6 +153,61 @@ async function buildStudentReport(studentId: string) {
   };
 }
 
+function buildClassAnalyticsResponse(reports: Awaited<ReturnType<typeof buildStudentReport>>[]) {
+  const classRows = reports
+    .map((r) => ({
+      id: r.student?.id,
+      name: r.student?.name,
+      grade: r.student?.grade,
+      avgScore: r.kpis.avgScore,
+      attRate: r.kpis.attRate,
+      hwCompletion: r.kpis.hwCompletion,
+      performanceIndex: r.kpis.performanceIndex,
+      trend: r.kpis.trend,
+      weakestTopic: r.weaknesses[0]?.topic || null,
+    }))
+    .sort((a, b) => b.performanceIndex - a.performanceIndex);
+
+  const topicAgg: Record<string, { correct: number; total: number }> = {};
+  for (const report of reports) {
+    for (const topic of report.topicMastery) {
+      if (!topicAgg[topic.topic]) topicAgg[topic.topic] = { correct: 0, total: 0 };
+      topicAgg[topic.topic].correct += topic.correct;
+      topicAgg[topic.topic].total += topic.total;
+    }
+  }
+  const classTopics = Object.entries(topicAgg)
+    .map(([topic, stats]) => ({
+      topic,
+      mastery: Math.round((stats.correct / (stats.total || 1)) * 100),
+      total: stats.total,
+    }))
+    .sort((a, b) => a.mastery - b.mastery);
+
+  const classAvg = classRows.length
+    ? Math.round(classRows.reduce((sum, row) => sum + row.avgScore, 0) / classRows.length)
+    : 0;
+  const reportedAttendance = classRows
+    .map((row) => row.attRate)
+    .filter((rate): rate is number => rate !== null);
+  const classAtt = reportedAttendance.length
+    ? Math.round(reportedAttendance.reduce((sum, rate) => sum + rate, 0) / reportedAttendance.length)
+    : null;
+
+  return NextResponse.json({
+    scope: "class",
+    classKpis: {
+      totalStudents: classRows.length,
+      classAvg,
+      classAtt,
+      atRiskCount: classRows.filter((row) => row.performanceIndex < 60).length,
+      topPerformer: classRows[0]?.name || "-",
+    },
+    students: classRows,
+    classTopics,
+  });
+}
+
 export async function GET(req: Request) {
   await ensureDbSetup();
   const ctx = await getAuthContext(req);
@@ -163,15 +218,45 @@ export async function GET(req: Request) {
   const role = ctx.user.role as string;
 
   try {
-    // ---------- TEACHER / ADMIN: class-wide analytics ----------
-    if (role === "teacher" || role === "admin") {
+    // ---------- ADMIN: unrestricted analytics ----------
+    if (role === "admin") {
       if (requestedStudent) {
         const report = await buildStudentReport(requestedStudent);
+        if (!report.student) return NextResponse.json({ error: "Student not found" }, { status: 404 });
         return NextResponse.json({ scope: "student", ...report });
       }
 
       const students = await db.select().from(users).where(eq(users.role, "student"));
       const reports = await Promise.all(students.map((s) => buildStudentReport(s.id)));
+
+      return buildClassAnalyticsResponse(reports);
+    }
+
+    // ---------- TEACHER: only students enrolled in courses owned by this teacher ----------
+    if (role === "teacher") {
+      const teacherEnrollments = await db
+        .select({ studentId: enrollments.studentId })
+        .from(enrollments)
+        .innerJoin(courses, eq(enrollments.courseId, courses.id))
+        .where(eq(courses.teacherId, ctx.user.id));
+      const teacherStudentIds = [...new Set(teacherEnrollments.map((row) => row.studentId))];
+
+      if (requestedStudent) {
+        const allowed = canAccessStudentAnalytics({
+          role,
+          requesterId: ctx.user.id,
+          studentId: requestedStudent,
+          teacherStudentIds,
+        });
+        if (!allowed) return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+        const report = await buildStudentReport(requestedStudent);
+        if (!report.student || report.student.id === undefined) return NextResponse.json({ error: "Student not found" }, { status: 404 });
+        return NextResponse.json({ scope: "student", ...report });
+      }
+
+      const students = await db.select().from(users).where(eq(users.role, "student"));
+      const visibleStudents = students.filter((student) => teacherStudentIds.includes(student.id));
+      const reports = await Promise.all(visibleStudents.map((s) => buildStudentReport(s.id)));
 
       const classRows = reports
         .map((r) => ({
@@ -203,9 +288,12 @@ export async function GET(req: Request) {
       const classAvg = classRows.length
         ? Math.round(classRows.reduce((s, r) => s + r.avgScore, 0) / classRows.length)
         : 0;
-      const classAtt = classRows.length
-        ? Math.round(classRows.reduce((s, r) => s + r.attRate, 0) / classRows.length)
-        : 0;
+      const reportedAttendance = classRows
+        .map((row) => row.attRate)
+        .filter((rate): rate is number => rate !== null);
+      const classAtt = reportedAttendance.length
+        ? Math.round(reportedAttendance.reduce((sum, rate) => sum + rate, 0) / reportedAttendance.length)
+        : null;
 
       return NextResponse.json({
         scope: "class",
@@ -229,13 +317,23 @@ export async function GET(req: Request) {
         studentId = links[0]?.studentId || null;
       }
       if (!studentId) return NextResponse.json({ error: "No linked student" }, { status: 404 });
-      const links = await db.select().from(parentLinks).where(and(eq(parentLinks.parentId, ctx.user.id), eq(parentLinks.studentId, studentId)));
-      if (!links.length) return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+      const links = await db.select().from(parentLinks).where(eq(parentLinks.parentId, ctx.user.id));
+      const allowed = canAccessStudentAnalytics({
+        role,
+        requesterId: ctx.user.id,
+        studentId,
+        linkedParentStudentIds: links.map((link) => link.studentId),
+      });
+      if (!allowed) return NextResponse.json({ error: "Forbidden" }, { status: 403 });
       const report = await buildStudentReport(studentId);
+      if (!report.student) return NextResponse.json({ error: "Student not found" }, { status: 404 });
       return NextResponse.json({ scope: "parent", ...report });
     }
 
-    // ---------- STUDENT: own report ----------
+    // ---------- STUDENT: own report only ----------
+    if (!canAccessStudentAnalytics({ role, requesterId: ctx.user.id, studentId: requestedStudent || ctx.user.id })) {
+      return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+    }
     const report = await buildStudentReport(ctx.user.id);
     return NextResponse.json({ scope: "student", ...report });
   } catch (error) {
