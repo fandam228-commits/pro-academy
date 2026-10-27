@@ -236,7 +236,7 @@ export const AnalyticsReports: React.FC = () => {
     `📊 تقرير أداء ${s?.name || ""} — منصة مستر حبيب الرحمن\n` +
       `• مؤشر الأداء: ${k?.performanceIndex}%\n` +
       `• متوسط الدرجات: ${k?.avgScore}%\n` +
-      `• الحضور: ${k?.attRate}%\n` +
+      `• الحضور: ${k?.attRate == null ? "غير مسجل" : `${k.attRate}%`}\n` +
       `• إنجاز الواجبات: ${k?.hwCompletion}%\n` +
       `${data?.weaknesses?.length ? `• يحتاج مراجعة: ${data.weaknesses.map((w: any) => w.topic).join("، ")}` : ""}`
   );
