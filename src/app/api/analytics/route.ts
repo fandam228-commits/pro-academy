@@ -17,14 +17,7 @@ import { NextResponse } from "next/server";
 import { ensureDbSetup } from "@/db/migrate-and-seed";
 import { getAuthContext } from "@/lib/security";
 import { canAccessStudentAnalytics } from "@/lib/analytics-authorization.mjs";
-
-function attendanceRate(records: any[]) {
-  if (records.length === 0) return 100;
-  const present = records.filter((r) => r.status === "present").length;
-  const late = records.filter((r) => r.status === "late").length;
-  const excused = records.filter((r) => r.status === "excused").length;
-  return Math.round(((present + late * 0.7 + excused * 0.85) / records.length) * 100);
-}
+import { attendanceRate, calculatePerformanceIndex } from "@/lib/analytics-metrics.mjs";
 
 /** Builds a full learning profile for one student. */
 async function buildStudentReport(studentId: string) {
@@ -117,7 +110,7 @@ async function buildStudentReport(studentId: string) {
   const trend = Math.round(recentAvg - olderAvg);
 
   // Overall performance index (weighted)
-  const performanceIndex = Math.round(avgScore * 0.45 + hwAvg * 0.2 + attRate * 0.2 + Math.min(hwCompletion, 100) * 0.15);
+  const performanceIndex = calculatePerformanceIndex({ avgScore, hwAvg, attRate, hwCompletion });
 
   // ---------- AI-STYLE RECOMMENDATIONS ----------
   const recommendations: string[] = [];
@@ -126,7 +119,7 @@ async function buildStudentReport(studentId: string) {
       `ركّز على مراجعة: ${weaknesses.map((w) => w.topic).join("، ")} — ولّد امتحاناً مخصصاً من بنك الأسئلة على هذه المواضيع.`
     );
   }
-  if (attRate < 85) recommendations.push("نسبة الحضور أقل من المستهدف — الانتظام في الحصص المباشرة يرفع الدرجات بنسبة ملحوظة.");
+  if (attRate !== null && attRate < 85) recommendations.push("نسبة الحضور أقل من المستهدف — الانتظام في الحصص المباشرة يرفع الدرجات بنسبة ملحوظة.");
   if (hwCompletion < 80) recommendations.push("هناك واجبات لم تُسلَّم — إنجاز الواجبات يثبت القواعد في الذاكرة طويلة المدى.");
   if (trend < 0) recommendations.push("الأداء في آخر اختبارات أقل من السابق — راجع الشروحات المرفقة مع كل سؤال خاطئ.");
   if (trend > 5) recommendations.push("أداؤك في تحسّن مستمر 📈 — حافظ على نفس معدل المذاكرة اليومي!");
