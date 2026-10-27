@@ -26,3 +26,15 @@ export function calculatePerformanceIndex({ avgScore, hwAvg, attRate, hwCompleti
   const availableWeight = components.reduce((sum, item) => sum + item.weight, 0);
   return Math.round(components.reduce((sum, item) => sum + item.value * item.weight, 0) / availableWeight);
 }
+
+/** Completion is based on distinct relevant homework assignments submitted at least once. */
+export function homeworkCompletion(relevantHomeworkIds, submissions) {
+  if (!Array.isArray(relevantHomeworkIds) || relevantHomeworkIds.length === 0) return 0;
+  const relevantIds = new Set(relevantHomeworkIds);
+  const submittedIds = new Set(
+    (Array.isArray(submissions) ? submissions : [])
+      .filter((submission) => relevantIds.has(submission.homeworkId))
+      .map((submission) => submission.homeworkId)
+  );
+  return Math.round((submittedIds.size / relevantIds.size) * 100);
+}
