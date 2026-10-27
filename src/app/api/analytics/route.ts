@@ -17,7 +17,7 @@ import { NextResponse } from "next/server";
 import { ensureDbSetup } from "@/db/migrate-and-seed";
 import { getAuthContext } from "@/lib/security";
 import { canAccessStudentAnalytics } from "@/lib/analytics-authorization.mjs";
-import { attendanceRate, calculatePerformanceIndex } from "@/lib/analytics-metrics.mjs";
+import { attendanceRate, calculatePerformanceIndex, homeworkCompletion } from "@/lib/analytics-metrics.mjs";
 
 /** Builds a full learning profile for one student. */
 async function buildStudentReport(studentId: string) {
@@ -86,19 +86,24 @@ async function buildStudentReport(studentId: string) {
   const allScores = [...attempts.map((a) => a.percentage), ...quizSubs.map((q) => q.percentage)];
   const avgScore = allScores.length ? Math.round(allScores.reduce((s, v) => s + v, 0) / allScores.length) : 0;
 
-  const gradedHw = hwSubs.filter((h) => h.status === "graded");
+  const enrolledCourseIds = new Set(myEnrollments.map((enrollment) => enrollment.courseId));
+  const relevantHw = allHw.filter(
+    (h) => (!student?.grade || h.grade === student.grade) && (!h.courseId || enrolledCourseIds.has(h.courseId))
+  );
+  const relevantHomeworkIds = new Set(relevantHw.map((h) => h.id));
+  const relevantHwSubs = hwSubs.filter((submission) => relevantHomeworkIds.has(submission.homeworkId));
+  const gradedHw = relevantHwSubs.filter((h) => h.status === "graded");
   const hwAvg = gradedHw.length
     ? Math.round(
         (gradedHw.reduce((sum, h) => {
-          const parent = allHw.find((x) => x.id === h.homeworkId);
+          const parent = relevantHw.find((x) => x.id === h.homeworkId);
           return sum + ((h.score || 0) / (parent?.totalPoints || 50)) * 100;
         }, 0) /
           gradedHw.length)
       )
     : 0;
 
-  const relevantHw = allHw.filter((h) => !student?.grade || h.grade === student.grade);
-  const hwCompletion = relevantHw.length ? Math.round((hwSubs.length / relevantHw.length) * 100) : 0;
+  const hwCompletion = homeworkCompletion(relevantHw.map((h) => h.id), relevantHwSubs);
 
   const attRate = attendanceRate(attendance);
 
