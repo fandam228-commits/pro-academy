@@ -61,8 +61,8 @@ export async function GET(req: Request) {
     const studentId = access.studentId;
     if (!studentId) return NextResponse.json({ error: "studentId is required" }, { status: 400 });
 
-    const studentRows = await db.select({ id: users.id }).from(users).where(eq(users.id, studentId));
-    if (studentRows.length === 0) {
+    const studentRows = await db.select({ id: users.id, role: users.role }).from(users).where(eq(users.id, studentId));
+    if (studentRows.length === 0 || studentRows[0].role !== "student") {
       return NextResponse.json({ error: "Student not found" }, { status: 404 });
     }
 
