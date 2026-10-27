@@ -13,11 +13,16 @@ export async function POST(request: Request) {
     const jsonResponse = await handleUpload({
       body,
       request,
-      onBeforeGenerateToken: async (_pathname) => ({
-        allowedContentTypes: ["application/pdf"],
-        maximumSizeInBytes: 100 * 1024 * 1024,
-        addRandomSuffix: true,
-      }),
+      onBeforeGenerateToken: async (pathname) => {
+        if (!pathname.toLowerCase().endsWith(".pdf")) {
+          throw new Error("Only PDF files are allowed.");
+        }
+        return {
+          allowedContentTypes: ["application/pdf"],
+          maximumSizeInBytes: 100 * 1024 * 1024,
+          addRandomSuffix: true,
+        };
+      },
       onUploadCompleted: async () => {
         // Metadata is registered separately through the authenticated /api/pdfs endpoint.
       },

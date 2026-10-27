@@ -1,13 +1,62 @@
 import { db } from "@/db";
-import { pdfDocuments, enrollments } from "@/db/schema";
+import { pdfDocuments, enrollments, courses } from "@/db/schema";
 import { eq, and } from "drizzle-orm";
 import { NextResponse } from "next/server";
 import { ensureDbSetup } from "@/db/migrate-and-seed";
 import { requireRoles, getAuthContext } from "@/lib/security";
+import {
+  canAssignPdfToCourse,
+  canManagePdfDocument,
+  isPrivateVercelBlobUrl,
+} from "@/lib/pdf-authorization.mjs";
 
 // Direct-to-Blob uploads handle large files; this limit remains for legacy multipart uploads.
 const MAX_SIZE_BYTES = 4 * 1024 * 1024; // 4MB legacy fallback
 const MAX_BLOB_SIZE_BYTES = 100 * 1024 * 1024; // 100MB
+
+async function getCourseTeacherId(courseId: string): Promise<string | null> {
+  const rows = await db
+    .select({ teacherId: courses.teacherId })
+    .from(courses)
+    .where(eq(courses.id, courseId));
+  return rows[0]?.teacherId ?? null;
+}
+
+async function authorizeCourseAssignment(
+  actor: { id: string; role: string },
+  courseId: string,
+): Promise<NextResponse | null> {
+  const rows = await db
+    .select({ teacherId: courses.teacherId })
+    .from(courses)
+    .where(eq(courses.id, courseId));
+  if (rows.length === 0) {
+    return NextResponse.json({ error: "Course not found" }, { status: 404 });
+  }
+  if (!canAssignPdfToCourse({
+    role: actor.role,
+    requesterId: actor.id,
+    courseId,
+    courseTeacherId: rows[0].teacherId,
+  })) {
+    return NextResponse.json({ error: "You can only attach PDFs to courses you own." }, { status: 403 });
+  }
+  return null;
+}
+
+async function canActorManageDocument(
+  actor: { id: string; role: string },
+  doc: { uploaderId: string; courseId: string | null },
+): Promise<boolean> {
+  const courseTeacherId = doc.courseId ? await getCourseTeacherId(doc.courseId) : null;
+  return canManagePdfDocument({
+    role: actor.role,
+    requesterId: actor.id,
+    uploaderId: doc.uploaderId,
+    courseId: doc.courseId,
+    courseTeacherId,
+  });
+}
 
 export async function GET(req: Request) {
   await ensureDbSetup();
@@ -58,8 +107,9 @@ export async function GET(req: Request) {
 
 export async function POST(req: Request) {
   await ensureDbSetup();
-  const { denied } = await requireRoles(req, ["admin", "teacher"]);
+  const { user, denied } = await requireRoles(req, ["admin", "teacher"]);
   if (denied) return denied;
+  const actor = user!;
 
   const contentType = req.headers.get("content-type") || "";
 
@@ -90,13 +140,15 @@ export async function POST(req: Request) {
 
       const title = String(form.get("title") || file.name.replace(/\.pdf$/i, ""));
       const description = String(form.get("description") || "");
-      const uploaderId = String(form.get("uploaderId") || "usr_admin_1");
-      const uploaderName = String(form.get("uploaderName") || "Mr. Habib El Rahman");
       const stage = String(form.get("stage") || "Secondary");
       const grade = String(form.get("grade") || "Third Secondary (Baccalaureate)");
       const unit = String(form.get("unit") || "Unit 1");
       const topic = String(form.get("topic") || "General Notes");
       const courseId = String(form.get("courseId") || "");
+      if (courseId) {
+        const courseDenied = await authorizeCourseAssignment(actor, courseId);
+        if (courseDenied) return courseDenied;
+      }
       const allowDownload = String(form.get("allowDownload") || "false") === "true";
       const watermarkEnabled = String(form.get("watermarkEnabled") || "true") === "true";
 
@@ -111,8 +163,8 @@ export async function POST(req: Request) {
         id,
         title,
         description,
-        uploaderId,
-        uploaderName,
+        uploaderId: actor.id,
+        uploaderName: actor.name,
         stage,
         grade,
         unit,
@@ -151,13 +203,30 @@ export async function POST(req: Request) {
     const { action } = body;
 
     if (action === "delete") {
-      const { documentId } = body;
+      const documentId = typeof body.documentId === "string" ? body.documentId : "";
+      if (!documentId) return NextResponse.json({ error: "Document ID is required." }, { status: 400 });
+      const docs = await db.select().from(pdfDocuments).where(eq(pdfDocuments.id, documentId));
+      const doc = docs[0];
+      if (!doc) return NextResponse.json({ error: "Document not found" }, { status: 404 });
+      if (!(await canActorManageDocument(actor, doc))) {
+        return NextResponse.json({ error: "You cannot manage this document." }, { status: 403 });
+      }
       await db.delete(pdfDocuments).where(eq(pdfDocuments.id, documentId));
       return NextResponse.json({ success: true });
     }
 
     if (action === "update_meta") {
-      const { documentId, meta } = body;
+      const documentId = typeof body.documentId === "string" ? body.documentId : "";
+      const meta = body.meta;
+      if (!documentId || !meta || typeof meta !== "object") {
+        return NextResponse.json({ error: "Document ID and metadata are required." }, { status: 400 });
+      }
+      const docs = await db.select().from(pdfDocuments).where(eq(pdfDocuments.id, documentId));
+      const doc = docs[0];
+      if (!doc) return NextResponse.json({ error: "Document not found" }, { status: 404 });
+      if (!(await canActorManageDocument(actor, doc))) {
+        return NextResponse.json({ error: "You cannot manage this document." }, { status: 403 });
+      }
       await db
         .update(pdfDocuments)
         .set({
@@ -178,14 +247,21 @@ export async function POST(req: Request) {
     // The Blob URL is kept server-side in storagePath and is never returned by the library list API.
     if (action === "add_blob") {
       const { title, description, blobUrl, fileName, fileSize, stage, grade, unit, topic, courseId, allowDownload } = body;
-      if (!title || !blobUrl || !fileName || !Number.isFinite(Number(fileSize))) {
-        return NextResponse.json({ error: "Title, uploaded PDF URL, file name, and size are required." }, { status: 400 });
+      if (!title || !blobUrl || !fileName || !String(fileName).toLowerCase().endsWith(".pdf") || !Number.isFinite(Number(fileSize))) {
+        return NextResponse.json({ error: "Title, private Blob URL, PDF file name, and size are required." }, { status: 400 });
       }
-      let parsedUrl: URL;
-      try { parsedUrl = new URL(blobUrl); } catch { return NextResponse.json({ error: "Invalid uploaded file URL." }, { status: 400 }); }
-      if (parsedUrl.protocol !== "https:" || !parsedUrl.hostname.endsWith(".blob.vercel-storage.com")) {
-        return NextResponse.json({ error: "Only files uploaded to the configured Vercel Blob store are allowed." }, { status: 400 });
+      if (!isPrivateVercelBlobUrl(blobUrl)) {
+        return NextResponse.json(
+          { error: "Protected PDFs must be uploaded to a private Vercel Blob store." },
+          { status: 400 },
+        );
       }
+      const normalizedCourseId = String(courseId || "");
+      if (normalizedCourseId) {
+        const courseDenied = await authorizeCourseAssignment(actor, normalizedCourseId);
+        if (courseDenied) return courseDenied;
+      }
+      const parsedUrl = new URL(blobUrl);
       if (Number(fileSize) <= 0 || Number(fileSize) > MAX_BLOB_SIZE_BYTES) {
         return NextResponse.json({ error: "PDF must be 100MB or smaller." }, { status: 400 });
       }
@@ -194,13 +270,13 @@ export async function POST(req: Request) {
         id,
         title: String(title),
         description: String(description || ""),
-        uploaderId: "usr_admin_1",
-        uploaderName: "Mr. Habib El Rahman",
+        uploaderId: actor.id,
+        uploaderName: actor.name,
         stage: String(stage || "Secondary"),
         grade: String(grade || "Third Secondary (Baccalaureate)"),
         unit: String(unit || "General"),
         topic: String(topic || "Exam Papers"),
-        courseId: String(courseId || "") || null,
+        courseId: normalizedCourseId || null,
         fileName: String(fileName).replace(/[^a-zA-Z0-9._-]/g, "_"),
         storagePath: parsedUrl.toString(),
         fileData: null,
@@ -224,13 +300,22 @@ export async function POST(req: Request) {
       if (!title || !externalUrl) {
         return NextResponse.json({ error: "Title and external URL are required." }, { status: 400 });
       }
+      let parsedExternalUrl: URL;
+      try {
+        parsedExternalUrl = new URL(externalUrl);
+      } catch {
+        return NextResponse.json({ error: "Invalid external URL." }, { status: 400 });
+      }
+      if (!["https:", "http:"].includes(parsedExternalUrl.protocol)) {
+        return NextResponse.json({ error: "External URLs must use HTTP or HTTPS." }, { status: 400 });
+      }
       const id = `pdf_ext_${Date.now()}`;
       const newDoc = {
         id,
         title,
         description: description || "",
-        uploaderId: "usr_admin_1",
-        uploaderName: "Mr. Habib El Rahman",
+        uploaderId: actor.id,
+        uploaderName: actor.name,
         stage: stage || "Secondary",
         grade: grade || "Third Secondary (Baccalaureate)",
         unit: unit || "Unit 1",
@@ -244,7 +329,7 @@ export async function POST(req: Request) {
         pageCount: 1,
         views: 0,
         downloads: 0,
-        isProtected: true,
+        isProtected: false,
         watermarkEnabled: true,
         allowDownload: !!allowDownload,
       };

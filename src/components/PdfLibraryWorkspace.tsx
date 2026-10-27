@@ -153,7 +153,7 @@ export const PdfLibraryWorkspace: React.FC = () => {
     try {
       const title = upTitle || upFile.name.replace(/\\.pdf$/i, "");
       const blob = await upload(upFile.name, upFile, {
-        access: "public",
+        access: "private",
         handleUploadUrl: "/api/pdfs/blob-upload",
         contentType: "application/pdf",
       });
