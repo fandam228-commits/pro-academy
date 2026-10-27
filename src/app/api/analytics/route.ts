@@ -155,6 +155,58 @@ async function buildStudentReport(studentId: string) {
   };
 }
 
+function buildClassAnalyticsResponse(reports: Awaited<ReturnType<typeof buildStudentReport>>[]) {
+  const classRows = reports
+    .map((r) => ({
+      id: r.student?.id,
+      name: r.student?.name,
+      grade: r.student?.grade,
+      avgScore: r.kpis.avgScore,
+      attRate: r.kpis.attRate,
+      hwCompletion: r.kpis.hwCompletion,
+      performanceIndex: r.kpis.performanceIndex,
+      trend: r.kpis.trend,
+      weakestTopic: r.weaknesses[0]?.topic || null,
+    }))
+    .sort((a, b) => b.performanceIndex - a.performanceIndex);
+
+  const topicAgg: Record<string, { correct: number; total: number }> = {};
+  for (const report of reports) {
+    for (const topic of report.topicMastery) {
+      if (!topicAgg[topic.topic]) topicAgg[topic.topic] = { correct: 0, total: 0 };
+      topicAgg[topic.topic].correct += topic.correct;
+      topicAgg[topic.topic].total += topic.total;
+    }
+  }
+  const classTopics = Object.entries(topicAgg)
+    .map(([topic, stats]) => ({
+      topic,
+      mastery: Math.round((stats.correct / (stats.total || 1)) * 100),
+      total: stats.total,
+    }))
+    .sort((a, b) => a.mastery - b.mastery);
+
+  const classAvg = classRows.length
+    ? Math.round(classRows.reduce((sum, row) => sum + row.avgScore, 0) / classRows.length)
+    : 0;
+  const classAtt = classRows.length
+    ? Math.round(classRows.reduce((sum, row) => sum + row.attRate, 0) / classRows.length)
+    : 0;
+
+  return NextResponse.json({
+    scope: "class",
+    classKpis: {
+      totalStudents: classRows.length,
+      classAvg,
+      classAtt,
+      atRiskCount: classRows.filter((row) => row.performanceIndex < 60).length,
+      topPerformer: classRows[0]?.name || "-",
+    },
+    students: classRows,
+    classTopics,
+  });
+}
+
 export async function GET(req: Request) {
   await ensureDbSetup();
   const ctx = await getAuthContext(req);
