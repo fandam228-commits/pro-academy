@@ -45,8 +45,35 @@ export const QuizPlayer: React.FC<QuizPlayerProps> = ({
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [result, setResult] = useState<any>(null);
   const [loading, setLoading] = useState(false);
+  const [mistakePracticeStarted, setMistakePracticeStarted] = useState(false);
+  const [mistakePracticeFinished, setMistakePracticeFinished] = useState(false);
+  const [mistakePracticeIndex, setMistakePracticeIndex] = useState(0);
+  const [mistakePracticeAnswers, setMistakePracticeAnswers] = useState<Record<string, string>>({});
+  const [mistakePracticeChecked, setMistakePracticeChecked] = useState(false);
+  const [mistakePracticeCorrect, setMistakePracticeCorrect] = useState(0);
 
   const currentQ = questions[currentIndex];
+  const missedChoiceQuestions: Question[] = result?.details
+    ? questions.filter((question) => {
+        const detail = result.details[question.id];
+        return Boolean(
+          detail &&
+          !detail.isCorrect &&
+          question.type !== "multi_select" &&
+          Array.isArray(question.options) &&
+          question.options.length > 0 &&
+          detail.correctAnswer
+        );
+      })
+    : [];
+  const currentMistakeQuestion = missedChoiceQuestions[mistakePracticeIndex];
+  const currentMistakeDetail = currentMistakeQuestion ? result?.details?.[currentMistakeQuestion.id] : null;
+  const currentMistakeAnswer = String(currentMistakeDetail?.correctAnswer || "");
+  const currentMistakeSelection = currentMistakeQuestion ? mistakePracticeAnswers[currentMistakeQuestion.id] || "" : "";
+  const currentMistakeIsCorrect = Boolean(
+    currentMistakeSelection &&
+    currentMistakeSelection.trim().toLocaleLowerCase() === currentMistakeAnswer.trim().toLocaleLowerCase()
+  );
 
   const handleRetake = () => {
     setCurrentIndex(0);
@@ -54,6 +81,37 @@ export const QuizPlayer: React.FC<QuizPlayerProps> = ({
     setTimeLeft(durationMinutes * 60);
     setResult(null);
     setIsSubmitted(false);
+    setMistakePracticeStarted(false);
+    setMistakePracticeFinished(false);
+    setMistakePracticeIndex(0);
+    setMistakePracticeAnswers({});
+    setMistakePracticeChecked(false);
+    setMistakePracticeCorrect(0);
+  };
+
+  const startMistakePractice = () => {
+    setMistakePracticeIndex(0);
+    setMistakePracticeAnswers({});
+    setMistakePracticeChecked(false);
+    setMistakePracticeCorrect(0);
+    setMistakePracticeFinished(false);
+    setMistakePracticeStarted(true);
+  };
+
+  const checkMistakePracticeAnswer = () => {
+    if (!currentMistakeQuestion || !currentMistakeSelection || mistakePracticeChecked) return;
+    if (currentMistakeIsCorrect) setMistakePracticeCorrect((count) => count + 1);
+    setMistakePracticeChecked(true);
+  };
+
+  const nextMistakePracticeQuestion = () => {
+    if (!mistakePracticeChecked) return;
+    if (mistakePracticeIndex + 1 >= missedChoiceQuestions.length) {
+      setMistakePracticeFinished(true);
+      return;
+    }
+    setMistakePracticeIndex((index) => index + 1);
+    setMistakePracticeChecked(false);
   };
 
   const handleOptionSelect = (ans: string) => {
@@ -441,6 +499,113 @@ export const QuizPlayer: React.FC<QuizPlayerProps> = ({
             </p>
           </div>
 
+          {missedChoiceQuestions.length > 0 && (
+            <section className="mb-8 rounded-3xl border border-violet-200 bg-violet-50/70 p-5 dark:border-violet-900/60 dark:bg-violet-950/20" aria-live="polite">
+              <div className="flex flex-wrap items-center justify-between gap-3">
+                <div>
+                  <h4 className="text-sm font-black text-slate-900 dark:text-white">
+                    {lang === "ar" ? "تدريب الأخطاء" : "Mistake practice"}
+                    <span className="ms-2 rounded-full bg-violet-100 px-2 py-0.5 text-[10px] text-violet-800 dark:bg-violet-900/60 dark:text-violet-200">
+                      {missedChoiceQuestions.length} {lang === "ar" ? "سؤال" : "questions"}
+                    </span>
+                  </h4>
+                  <p className="mt-1 text-[11px] leading-5 text-slate-600 dark:text-slate-300">
+                    {lang === "ar"
+                      ? "أعد حل أسئلة الاختيار التي أخطأت فيها أو تركتها، سؤالًا واحدًا كل مرة. لن تتغير نتيجة الاختبار الأصلية."
+                      : "Retry only the choice questions you missed or skipped, one at a time. Your original score stays unchanged."}
+                  </p>
+                </div>
+                {!mistakePracticeStarted && (
+                  <button type="button" onClick={startMistakePractice} className="rounded-xl bg-violet-700 px-4 py-2.5 text-xs font-black text-white transition hover:bg-violet-600">
+                    {mistakePracticeFinished
+                      ? (lang === "ar" ? "تدرب مرة أخرى" : "Practice again")
+                      : (lang === "ar" ? "ابدأ التدريب" : "Start practice")}
+                  </button>
+                )}
+              </div>
+
+              {mistakePracticeStarted && !mistakePracticeFinished && currentMistakeQuestion && (
+                <div className="mt-4 rounded-2xl border border-violet-200 bg-white p-4 dark:border-violet-900/50 dark:bg-slate-900">
+                  <div className="mb-3 flex items-center justify-between gap-2 text-[10px] font-black text-violet-700 dark:text-violet-300">
+                    <span>{lang === "ar" ? "تدريب الأخطاء" : "Mistake practice"}</span>
+                    <span>{mistakePracticeIndex + 1} / {missedChoiceQuestions.length}</span>
+                  </div>
+                  {currentMistakeQuestion.passageText && (
+                    <details className="mb-3 rounded-xl border border-indigo-200 bg-indigo-50/70 p-3 dark:border-indigo-900 dark:bg-indigo-950/30">
+                      <summary className="cursor-pointer text-[11px] font-black text-indigo-700 dark:text-indigo-300">{lang === "ar" ? "عرض قطعة الفهم" : "Show reading passage"}</summary>
+                      <p dir="auto" className="mt-2 whitespace-pre-line text-xs leading-6 text-slate-700 dark:text-slate-200">{currentMistakeQuestion.passageText}</p>
+                    </details>
+                  )}
+                  <p dir="auto" className="text-sm font-extrabold leading-7 text-slate-900 dark:text-white">{currentMistakeQuestion.questionText}</p>
+
+                  <div className="mt-3 grid gap-2 sm:grid-cols-2">
+                    {(currentMistakeQuestion.options || []).map((option, optionIndex) => {
+                      const isSelected = currentMistakeSelection === option;
+                      const isCorrectOption = option.trim().toLocaleLowerCase() === currentMistakeAnswer.trim().toLocaleLowerCase();
+                      let optionStyle = "border-slate-200 bg-slate-50 text-slate-700 hover:bg-slate-100 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200";
+                      if (!mistakePracticeChecked && isSelected) optionStyle = "border-blue-500 bg-blue-50 text-blue-800 dark:border-blue-500 dark:bg-blue-950/50 dark:text-blue-200";
+                      if (mistakePracticeChecked && isCorrectOption) optionStyle = "border-emerald-500 bg-emerald-50 text-emerald-800 dark:border-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-200";
+                      else if (mistakePracticeChecked && isSelected) optionStyle = "border-rose-400 bg-rose-50 text-rose-800 dark:border-rose-800 dark:bg-rose-950/40 dark:text-rose-200";
+                      return (
+                        <button
+                          key={`${currentMistakeQuestion.id}-${optionIndex}`}
+                          type="button"
+                          disabled={mistakePracticeChecked}
+                          onClick={() => setMistakePracticeAnswers((answers) => ({ ...answers, [currentMistakeQuestion.id]: option }))}
+                          className={`rounded-xl border p-3 text-start text-xs font-semibold transition disabled:cursor-default ${optionStyle}`}
+                          dir="auto"
+                        >
+                          {option}
+                        </button>
+                      );
+                    })}
+                  </div>
+
+                  {mistakePracticeChecked && (
+                    <div className={`mt-3 rounded-xl border p-3 ${currentMistakeIsCorrect ? "border-emerald-200 bg-emerald-50 text-emerald-800 dark:border-emerald-900 dark:bg-emerald-950/30 dark:text-emerald-200" : "border-amber-200 bg-amber-50 text-amber-900 dark:border-amber-900 dark:bg-amber-950/30 dark:text-amber-200"}`}>
+                      <p className="text-xs font-black">
+                        {currentMistakeIsCorrect
+                          ? (lang === "ar" ? "إجابة صحيحة — أحسنت!" : "Correct — well done!")
+                          : (lang === "ar" ? `الإجابة الصحيحة: ${currentMistakeAnswer}` : `Correct answer: ${currentMistakeAnswer}`)}
+                      </p>
+                      {(currentMistakeDetail?.explanation || currentMistakeQuestion.explanation) && (
+                        <p className="mt-1 text-[11px] leading-5">{currentMistakeDetail?.explanation || currentMistakeQuestion.explanation}</p>
+                      )}
+                    </div>
+                  )}
+
+                  <div className="mt-4 flex flex-wrap justify-between gap-2">
+                    <button type="button" onClick={() => setMistakePracticeStarted(false)} className="rounded-xl border border-slate-200 px-4 py-2 text-[11px] font-bold text-slate-600 dark:border-slate-700 dark:text-slate-300">
+                      {lang === "ar" ? "العودة للنتيجة" : "Back to results"}
+                    </button>
+                    {mistakePracticeChecked ? (
+                      <button type="button" onClick={nextMistakePracticeQuestion} className="rounded-xl bg-violet-700 px-4 py-2 text-[11px] font-black text-white hover:bg-violet-600">
+                        {mistakePracticeIndex + 1 >= missedChoiceQuestions.length
+                          ? (lang === "ar" ? "إنهاء التدريب" : "Finish practice")
+                          : (lang === "ar" ? "السؤال التالي" : "Next question")}
+                      </button>
+                    ) : (
+                      <button type="button" onClick={checkMistakePracticeAnswer} disabled={!currentMistakeSelection} className="rounded-xl bg-violet-700 px-4 py-2 text-[11px] font-black text-white hover:bg-violet-600 disabled:cursor-not-allowed disabled:opacity-50">
+                        {lang === "ar" ? "تحقق من الإجابة" : "Check answer"}
+                      </button>
+                    )}
+                  </div>
+                </div>
+              )}
+
+              {mistakePracticeFinished && (
+                <div className="mt-4 rounded-2xl border border-emerald-200 bg-white p-4 text-center dark:border-emerald-900/60 dark:bg-slate-900">
+                  <p className="text-sm font-black text-emerald-700 dark:text-emerald-300">
+                    {lang === "ar" ? `أكملت التدريب: ${mistakePracticeCorrect} من ${missedChoiceQuestions.length} إجابات صحيحة` : `Practice complete: ${mistakePracticeCorrect} of ${missedChoiceQuestions.length} correct`}
+                  </p>
+                  <button type="button" onClick={startMistakePractice} className="mt-3 rounded-xl bg-violet-700 px-4 py-2 text-[11px] font-black text-white hover:bg-violet-600">
+                    {lang === "ar" ? "تدرب مرة أخرى" : "Practice again"}
+                  </button>
+                </div>
+              )}
+            </section>
+          )}
+
           {/* DETAILED EXPLANATION FOR EACH QUESTION */}
           <h4 className="font-extrabold text-base text-slate-900 dark:text-white mb-4">
             {lang === "ar" ? "مراجعة جميع الأسئلة والشروحات:" : "Question Breakdown & Explanations:"}
@@ -552,3 +717,4 @@ export const QuizPlayer: React.FC<QuizPlayerProps> = ({
     </div>
   );
 };
+
