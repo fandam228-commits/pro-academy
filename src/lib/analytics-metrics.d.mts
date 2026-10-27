@@ -12,3 +12,9 @@ export interface PerformanceIndexInput {
 }
 
 export function calculatePerformanceIndex(input: PerformanceIndexInput): number;
+
+export interface HomeworkSubmissionRef {
+  homeworkId: string;
+}
+
+export function homeworkCompletion(relevantHomeworkIds: string[], submissions: HomeworkSubmissionRef[]): number;
