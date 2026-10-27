@@ -12,7 +12,7 @@ import {
   courses,
   parentLinks,
 } from "@/db/schema";
-import { eq, and } from "drizzle-orm";
+import { eq } from "drizzle-orm";
 import { NextResponse } from "next/server";
 import { ensureDbSetup } from "@/db/migrate-and-seed";
 import { getAuthContext } from "@/lib/security";
