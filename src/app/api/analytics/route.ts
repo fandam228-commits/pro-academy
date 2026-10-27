@@ -322,6 +322,7 @@ export async function GET(req: Request) {
       });
       if (!allowed) return NextResponse.json({ error: "Forbidden" }, { status: 403 });
       const report = await buildStudentReport(studentId);
+      if (!report.student) return NextResponse.json({ error: "Student not found" }, { status: 404 });
       return NextResponse.json({ scope: "parent", ...report });
     }
 
