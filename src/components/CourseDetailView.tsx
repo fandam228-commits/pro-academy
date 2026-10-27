@@ -268,6 +268,29 @@ export const CourseDetailView: React.FC<CourseDetailProps> = ({ courseId, onBack
         </div>
       )}
 
+      {/* THIRD PREP PROFESSIONAL IN ENGLISH 2027 QUESTION BANK */}
+      {courseId === "crs_prep_3" && (
+        <button
+          onClick={() => {
+            window.location.href = "/?tab=question_bank&stage=Preparatory&grade=Third%20Prep&curriculum=Professional%20in%20English%202027&term=First";
+          }}
+          className="w-full rounded-3xl bg-gradient-to-r from-cyan-500 via-blue-600 to-violet-600 p-[1px] shadow-xl hover:-translate-y-0.5 transition-all"
+        >
+          <div className="rounded-[23px] bg-white dark:bg-slate-950 px-5 py-4 flex flex-col sm:flex-row items-center justify-between gap-3">
+            <div className="flex items-center gap-3 text-start">
+              <div className="w-11 h-11 rounded-2xl bg-cyan-100 dark:bg-cyan-950/40 flex items-center justify-center">
+                <Database className="w-5 h-5 text-cyan-700 dark:text-cyan-300" />
+              </div>
+              <div>
+                <div className="font-black text-sm text-slate-900 dark:text-white">بنك أسئلة ثالثة إعدادي — Professional in English 2027</div>
+                <div className="mt-1 text-[11px] font-bold text-slate-500 dark:text-slate-400">Unit 1 & Unit 3 • 149 مفردات وقواعد + 4 قطع فهم (13 سؤالًا) + 3 محادثات (15 فراغًا)</div>
+              </div>
+            </div>
+            <span className="rounded-xl bg-blue-700 px-4 py-2 text-[11px] font-black text-white">فتح بنك الأسئلة ←</span>
+          </div>
+        </button>
+      )}
+
       {/* WORKSPACE: VIDEO PLAYER & CURRICULUM ACCORDION */}
       {showQuiz && activeQuiz ? (
         <section className="space-y-4">

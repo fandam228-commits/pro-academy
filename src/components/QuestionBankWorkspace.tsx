@@ -26,10 +26,48 @@ import {
   Settings,
 } from "lucide-react";
 
-export const QuestionBankWorkspace: React.FC<{ onExamGenerated?: (exam: any) => void }> = ({ onExamGenerated }) => {
+type QuestionBankWorkspaceProps = { onExamGenerated?: (exam: any) => void };
+
+type StoredPracticeProgress = {
+  answers: Record<string, string>;
+  status: Record<string, "correct" | "incorrect">;
+};
+
+const getPracticeProgressKey = (userId?: string) =>
+  userId ? "professional-academy:question-bank-practice:v1:" + userId : null;
+
+const loadPracticeProgress = (userId?: string): StoredPracticeProgress => {
+  const key = getPracticeProgressKey(userId);
+  if (!key || typeof window === "undefined") return { answers: {}, status: {} };
+
+  try {
+    const saved = JSON.parse(window.localStorage.getItem(key) || "null");
+    if (!saved || typeof saved !== "object" || Array.isArray(saved)) return { answers: {}, status: {} };
+
+    const answers: Record<string, string> = {};
+    for (const [questionId, answer] of Object.entries(saved.answers || {})) {
+      if (typeof answer === "string") answers[questionId] = answer;
+    }
+
+    const status: StoredPracticeProgress["status"] = {};
+    for (const [questionId, result] of Object.entries(saved.status || {})) {
+      if (result === "correct" || result === "incorrect") status[questionId] = result;
+    }
+
+    return { answers, status };
+  } catch {
+    return { answers: {}, status: {} };
+  }
+};
+
+export const QuestionBankWorkspace: React.FC<QuestionBankWorkspaceProps> = (props) => {
+  const { user } = useApp();
+  return <QuestionBankWorkspaceContent key={user?.id || "anonymous"} {...props} />;
+};
+
+const QuestionBankWorkspaceContent: React.FC<QuestionBankWorkspaceProps> = ({ onExamGenerated }) => {
   const { lang, user } = useApp();
   const [questions, setQuestions] = useState<any[]>([]);
-  const [stats, setStats] = useState<any>({ total: 0, vocabularyCount: 0, grammarCount: 0 });
   const [loading, setLoading] = useState(true);
 
   // Filter state
@@ -45,6 +83,7 @@ export const QuestionBankWorkspace: React.FC<{ onExamGenerated?: (exam: any) => 
   const [lessonFilter, setLessonFilter] = useState<string>("All");
   const [sectionFilter, setSectionFilter] = useState<string>("All");
   const [grammarTopicFilter, setGrammarTopicFilter] = useState<string>("");
+  const [topicFilter, setTopicFilter] = useState<string>("All");
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [activeTab, setActiveTab] = useState<"bank" | "smart_generator" | "ai_generator" | "importer">("bank");
 
@@ -96,16 +135,107 @@ export const QuestionBankWorkspace: React.FC<{ onExamGenerated?: (exam: any) => 
   const [newSource, setNewSource] = useState("Ministry Book");
   const [newLesson, setNewLesson] = useState("Lesson 1");
   const [newSection, setNewSection] = useState("");
+  const [practiceAnswers, setPracticeAnswers] = useState<Record<string, string>>(() => loadPracticeProgress(user?.id).answers);
+  const [practiceStatus, setPracticeStatus] = useState<Record<string, "correct" | "incorrect">>(() => loadPracticeProgress(user?.id).status);
+  const [practiceView, setPracticeView] = useState<"all" | "incorrect" | "unanswered">("all");
+  const [practiceOptionSeed, setPracticeOptionSeed] = useState(0);
+  const canManageQuestionBank = user?.role === "admin" || user?.role === "teacher";
+  const normalizePracticeAnswer = (answer: string) => answer.normalize("NFKC").toLowerCase().replace(/[’‘]/g, "'").replace(/\s+/g, " ").replace(/[?.!,;:]+$/, "").trim();
+  const getPracticeOptions = (question: any): string[] => {
+    const options = Array.isArray(question.options) ? [...question.options] : [];
+    let seed = 2166136261;
+    for (const character of String(question.id) + ":" + String(practiceOptionSeed)) {
+      seed = Math.imul(seed ^ character.charCodeAt(0), 16777619);
+    }
+    for (let index = options.length - 1; index > 0; index -= 1) {
+      seed = (Math.imul(seed, 1664525) + 1013904223) >>> 0;
+      const swapIndex = seed % (index + 1);
+      [options[index], options[swapIndex]] = [options[swapIndex], options[index]];
+    }
+    return options;
+  };
+  const checkPracticeAnswer = (question: any, answer: string) => {
+    const acceptedAnswers = [question.correctAnswer, ...(Array.isArray(question.acceptedAnswers) ? question.acceptedAnswers : [])];
+    const normalizedAnswer = normalizePracticeAnswer(answer);
+    const isCorrect = normalizedAnswer.length > 0 && acceptedAnswers.some((accepted: string) => normalizePracticeAnswer(String(accepted)) === normalizedAnswer);
+    const questionId = String(question.id);
+    setPracticeAnswers((current) => ({ ...current, [questionId]: answer }));
+    setPracticeStatus((current) => ({ ...current, [questionId]: isCorrect ? "correct" : "incorrect" }));
+  };
+  const retryPracticeQuestion = (questionId: string) => {
+    setPracticeAnswers((current) => ({ ...current, [questionId]: "" }));
+    setPracticeStatus((current) => {
+      const next = { ...current };
+      delete next[questionId];
+      return next;
+    });
+  };
+
+  const topicOptions = Array.from(new Set(questions.map((question) => String(question.topic || "").trim()).filter(Boolean))).sort((a, b) => a.localeCompare(b));
+  const activeTopicFilter = topicOptions.includes(topicFilter) ? topicFilter : "All";
+  const visibleQuestions = activeTopicFilter === "All" ? questions : questions.filter((question) => question.topic === activeTopicFilter);
+  const practiceCounts = {
+    correct: visibleQuestions.filter((question) => practiceStatus[String(question.id)] === "correct").length,
+    incorrect: visibleQuestions.filter((question) => practiceStatus[String(question.id)] === "incorrect").length,
+    unanswered: visibleQuestions.filter((question) => !practiceStatus[String(question.id)]).length,
+  };
+  const practiceQuestions = !canManageQuestionBank && practiceView === "incorrect"
+    ? visibleQuestions.filter((question) => practiceStatus[String(question.id)] === "incorrect")
+    : !canManageQuestionBank && practiceView === "unanswered"
+      ? visibleQuestions.filter((question) => !practiceStatus[String(question.id)])
+      : visibleQuestions;
+  const visibleStats = {
+    total: visibleQuestions.length,
+    grammarCount: visibleQuestions.filter((question) => question.domainCategory === "Grammar").length,
+    vocabularyCount: visibleQuestions.filter((question) => question.domainCategory === "Vocabulary").length,
+  };
+
+  useEffect(() => {
+    const key = getPracticeProgressKey(user?.id);
+    if (!key || typeof window === "undefined") return;
+    try {
+      window.localStorage.setItem(key, JSON.stringify({ answers: practiceAnswers, status: practiceStatus }));
+    } catch {
+      // Practice still works if browser storage is unavailable.
+    }
+  }, [practiceAnswers, practiceStatus, user?.id]);
+
+  const resetVisiblePracticeRound = () => {
+    const visibleQuestionIds = new Set(visibleQuestions.map((question) => String(question.id)));
+    setPracticeAnswers((current) => Object.fromEntries(
+      Object.entries(current).filter(([questionId]) => !visibleQuestionIds.has(questionId)),
+    ) as Record<string, string>);
+    setPracticeStatus((current) => Object.fromEntries(
+      Object.entries(current).filter(([questionId]) => !visibleQuestionIds.has(questionId)),
+    ) as Record<string, "correct" | "incorrect">);
+    setPracticeView("all");
+    setPracticeOptionSeed(Math.random() || Number.EPSILON);
+  };
 
   // Deep-link support: Grammar Library can open this workspace with an exact academic scope.
   useEffect(() => {
     try {
       const params = new URLSearchParams(window.location.search);
-      if (params.get("stage")) setStageFilter(params.get("stage")!);
-      if (params.get("grade")) setGradeFilter(params.get("grade")!);
-      if (params.get("curriculum")) setCurriculumFilter(params.get("curriculum")!);
-      if (params.get("term")) setTermFilter(params.get("term")!);
-      if (params.get("unit")) setUnitFilter(params.get("unit")!);
+      if (params.get("stage")) {
+        setStageFilter(params.get("stage")!);
+        setExamStage(params.get("stage")!);
+      }
+      if (params.get("grade")) {
+        setGradeFilter(params.get("grade")!);
+        setAiExamGrade(params.get("grade")!);
+      }
+      if (params.get("curriculum")) {
+        setCurriculumFilter(params.get("curriculum")!);
+        setExamCurriculum(params.get("curriculum")!);
+      }
+      if (params.get("term")) {
+        setTermFilter(params.get("term")!);
+        setExamTerm(params.get("term")!);
+      }
+      if (params.get("unit")) {
+        setUnitFilter(params.get("unit")!);
+        setExamUnit(params.get("unit")!);
+      }
       if (params.get("domainCategory")) setDomainFilter(params.get("domainCategory")!);
       if (params.get("questionType")) setTypeFilter(params.get("questionType")!);
       if (params.get("difficulty")) setDifficultyFilter(params.get("difficulty")!);
@@ -138,7 +268,7 @@ export const QuestionBankWorkspace: React.FC<{ onExamGenerated?: (exam: any) => 
       const res = await fetch(url.toString());
       const json = await res.json();
       setQuestions(json.questions || []);
-      setStats(json.stats || { total: 0, vocabularyCount: 0, grammarCount: 0 });
+      setPracticeOptionSeed(practiceOptionSeed || (Math.random() || Number.EPSILON));
     } catch (e) {
       console.error(e);
     } finally {
@@ -336,17 +466,17 @@ export const QuestionBankWorkspace: React.FC<{ onExamGenerated?: (exam: any) => 
         {/* STATS BADGES */}
         <div className="flex gap-3 bg-white/10 backdrop-blur-md p-4 rounded-2xl border border-white/20 shrink-0">
           <div className="text-center px-3">
-            <span className="text-2xl font-black text-amber-300">{stats.total}</span>
+            <span className="text-2xl font-black text-amber-300">{visibleStats.total}</span>
             <span className="text-[10px] block opacity-80 uppercase">{lang === "ar" ? "إجمالي الأسئلة" : "Total Items"}</span>
           </div>
           <div className="w-px h-10 bg-white/20" />
           <div className="text-center px-3">
-            <span className="text-2xl font-black text-blue-300">{stats.grammarCount}</span>
+            <span className="text-2xl font-black text-blue-300">{visibleStats.grammarCount}</span>
             <span className="text-[10px] block opacity-80 uppercase">{lang === "ar" ? "بنك القواعد" : "Grammar"}</span>
           </div>
           <div className="w-px h-10 bg-white/20" />
           <div className="text-center px-3">
-            <span className="text-2xl font-black text-emerald-300">{stats.vocabularyCount}</span>
+            <span className="text-2xl font-black text-emerald-300">{visibleStats.vocabularyCount}</span>
             <span className="text-[10px] block opacity-80 uppercase">{lang === "ar" ? "بنك الكلمات" : "Vocabulary"}</span>
           </div>
         </div>
@@ -441,7 +571,7 @@ export const QuestionBankWorkspace: React.FC<{ onExamGenerated?: (exam: any) => 
             <select value={curriculumFilter} onChange={(e) => setCurriculumFilter(e.target.value)} className="w-full p-2.5 rounded-2xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs text-slate-900 dark:text-white">
               <option value="All">كل المناهج</option>
               <option>Connect</option><option>Connect Plus</option>
-              <option>Ministry</option><option>M High</option>
+              <option>Ministry</option><option>M High</option><option>Professional in English 2027</option>
               <option>Baccalaureate</option><option>Thanaweya Amma</option>
             </select>
             <select value={termFilter} onChange={(e) => setTermFilter(e.target.value)} className="w-full p-2.5 rounded-2xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs text-slate-900 dark:text-white">
@@ -451,10 +581,14 @@ export const QuestionBankWorkspace: React.FC<{ onExamGenerated?: (exam: any) => 
               <option value="All">كل الوحدات</option><option value="Term 1 Review">مراجعة الترم الأول — امتحانات الإدارات 2025</option><option value="Units 1-2">مراجعة الوحدتين 1-2</option>{Array.from({length:12},(_,i)=><option key={i}>Unit {i+1}</option>)}
             </select>
             <select value={typeFilter} onChange={(e) => setTypeFilter(e.target.value)} className="w-full p-2.5 rounded-2xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs text-slate-900 dark:text-white">
-              <option value="All">كل أنواع السؤال</option><option value="mcq">MCQ</option><option value="fill_blank">Complete</option><option value="correction">Correct</option><option value="rewrite">Rewrite</option><option value="comprehension">Reading</option><option value="writing">Writing</option>
+              <option value="All">كل أنواع السؤال</option><option value="mcq">MCQ</option><option value="fill_blank">Complete</option><option value="fill_blanks">Dialogue / Fill in</option><option value="correction">Correct</option><option value="rewrite">Rewrite</option><option value="comprehension">Reading</option><option value="writing">Writing</option>
             </select>
             <select value={domainFilter} onChange={(e) => setDomainFilter(e.target.value)} className="w-full p-2.5 rounded-2xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs text-slate-900 dark:text-white">
-              <option value="All">كل الأقسام</option><option value="Grammar">Grammar</option><option value="Vocabulary">Vocabulary</option><option value="Reading">Reading</option><option value="Translation">Translation</option><option value="Writing">Writing</option>
+              <option value="All">كل الأقسام</option><option value="Grammar">Grammar</option><option value="Vocabulary">Vocabulary</option><option value="Reading">Reading</option><option value="Conversation">Conversation</option><option value="Translation">Translation</option><option value="Writing">Writing</option>
+            </select>
+            <select aria-label={lang === "ar" ? "فلترة حسب الموضوع" : "Filter by topic"} value={activeTopicFilter} onChange={(e) => setTopicFilter(e.target.value)} className="w-full p-2.5 rounded-2xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs text-slate-900 dark:text-white">
+              <option value="All">{lang === "ar" ? "كل الموضوعات" : "All topics"}</option>
+              {topicOptions.map((topic) => <option key={topic} value={topic}>{topic}</option>)}
             </select>
             <select value={difficultyFilter} onChange={(e) => setDifficultyFilter(e.target.value)} className="w-full p-2.5 rounded-2xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs text-slate-900 dark:text-white">
               <option value="All">كل الصعوبة</option><option value="Easy">Easy</option><option value="Medium">Medium</option><option value="Hard">Hard</option><option value="Tricky">Tricky</option>
@@ -471,14 +605,57 @@ export const QuestionBankWorkspace: React.FC<{ onExamGenerated?: (exam: any) => 
             <input value={grammarTopicFilter} onChange={(e) => setGrammarTopicFilter(e.target.value)} placeholder="قاعدة محددة..." className="w-full p-2.5 rounded-2xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs text-slate-900 dark:text-white" />
           </div>
 
+          {!canManageQuestionBank && (
+            <section className="mb-4 flex flex-col gap-3 rounded-2xl border border-sky-100 bg-sky-50/70 p-3 dark:border-sky-900/70 dark:bg-sky-950/20 sm:flex-row sm:items-center sm:justify-between" aria-label={lang === "ar" ? "تقدم التدريب" : "Practice progress"}>
+              <p className="text-xs font-black text-slate-700 dark:text-slate-200">
+                {lang === "ar" ? "على هذا الجهاز — صحيحة:" : "Saved on this device — correct:"} {practiceCounts.correct}
+                <span className="mx-2 text-slate-400">·</span>
+                {lang === "ar" ? "تحتاج مراجعة:" : "To review:"} {practiceCounts.incorrect}
+              </p>
+              <div role="group" aria-label={lang === "ar" ? "فلترة وإعادة التدريب" : "Filter and restart practice"} className="flex flex-wrap gap-2">
+                <button
+                  type="button"
+                  onClick={() => setPracticeView("all")}
+                  aria-pressed={practiceView === "all"}
+                  className={"rounded-xl px-3 py-2 text-xs font-black transition-colors " + (practiceView === "all" ? "bg-sky-600 text-white" : "bg-white text-slate-700 hover:bg-sky-100 dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-700")}
+                >
+                  {lang === "ar" ? "كل الأسئلة" : "All questions"} ({visibleQuestions.length})
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setPracticeView("incorrect")}
+                  aria-pressed={practiceView === "incorrect"}
+                  className={"rounded-xl px-3 py-2 text-xs font-black transition-colors " + (practiceView === "incorrect" ? "bg-rose-600 text-white" : "bg-white text-slate-700 hover:bg-rose-100 dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-700")}
+                >
+                  {lang === "ar" ? "راجع أخطاءك" : "Review mistakes"} ({practiceCounts.incorrect})
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setPracticeView("unanswered")}
+                  aria-pressed={practiceView === "unanswered"}
+                  className={"rounded-xl px-3 py-2 text-xs font-black transition-colors " + (practiceView === "unanswered" ? "bg-amber-500 text-white" : "bg-white text-slate-700 hover:bg-amber-50 dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-700")}
+                >
+                  {lang === "ar" ? "غير مجاب" : "Unanswered"} ({practiceCounts.unanswered})
+                </button>
+                <button
+                  type="button"
+                  onClick={resetVisiblePracticeRound}
+                  className="rounded-xl bg-white px-3 py-2 text-xs font-black text-slate-700 transition-colors hover:bg-slate-100 dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-700"
+                >
+                  {lang === "ar" ? "جولة جديدة" : "New round"}
+                </button>
+              </div>
+            </section>
+          )}
+
           {/* QUESTIONS LIST */}
           <div className="space-y-4">
             {loading ? (
               <div className="py-12 text-center text-slate-500 font-medium">Loading indexed items...</div>
-            ) : questions.length === 0 ? (
-              <div className="py-12 text-center text-slate-500 font-medium">No matching questions found in bank.</div>
+            ) : practiceQuestions.length === 0 ? (
+              <div className="py-12 text-center text-slate-500 font-medium">{practiceView === "incorrect" ? (lang === "ar" ? "لا توجد إجابات خاطئة حتى الآن في هذه المجموعة." : "No incorrect answers in this question set yet.") : practiceView === "unanswered" ? (lang === "ar" ? "أجبت عن كل الأسئلة في هذه المجموعة." : "You have answered every question in this set.") : "No matching questions found in bank."}</div>
             ) : (
-              questions.map((q, idx) => (
+              practiceQuestions.map((q, idx) => (
                 <div
                   key={q.id}
                   className="bg-white dark:bg-slate-900 p-5 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-lg space-y-3"
@@ -490,6 +667,7 @@ export const QuestionBankWorkspace: React.FC<{ onExamGenerated?: (exam: any) => 
                       </span>
                       <span className="font-bold text-slate-500">{q.grade}</span>
                       <span className="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-500">{q.curriculum || "Ministry"} · {q.term || "First"} · {q.unit || "Unit 1"} · {q.source || "Ministry Book"}{q.lesson ? ` · ${q.lesson}` : ""}{q.section ? ` · ${q.section}` : ""}</span>
+                      {q.topic && <span dir="auto" className="px-2 py-0.5 rounded-full bg-violet-50 dark:bg-violet-950/50 text-violet-700 dark:text-violet-300 font-bold">{q.topic}</span>}
                       {q.grammarTopic && <span className="font-mono text-purple-600 dark:text-purple-400 bg-purple-50 dark:bg-purple-950 px-2 py-0.5 rounded">{q.grammarTopic}</span>}
                     </div>
 
@@ -521,28 +699,105 @@ export const QuestionBankWorkspace: React.FC<{ onExamGenerated?: (exam: any) => 
                     {idx + 1}. {q.questionText}
                   </p>
 
-                  {/* OPTIONS LIST */}
+                  {!canManageQuestionBank && (
+                    <p className="text-[11px] font-bold text-sky-700 dark:text-sky-300">
+                      {Array.isArray(q.options) && q.options.length > 0
+                        ? (lang === "ar" ? "اختر إجابتك؛ يمكنك المحاولة مرة أخرى إذا أخطأت." : "Choose an answer. You can retry if it is incorrect.")
+                        : (lang === "ar" ? "اكتب إجابتك ثم اضغط تحقق؛ تُقبل الإجابات البديلة المسجلة." : "Enter your answer and check it. Saved alternatives are accepted.")}
+                    </p>
+                  )}
+
                   {Array.isArray(q.options) && q.options.length > 0 && (
                     <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 pt-1">
-                      {q.options.map((opt: string, i: number) => {
-                        const isCorrect = opt.trim().toLowerCase() === q.correctAnswer.trim().toLowerCase();
-                        return (
-                          <div
-                            key={i}
-                            className={`p-2 rounded-xl text-xs font-medium border ${
-                              isCorrect
+                      {(canManageQuestionBank ? q.options : getPracticeOptions(q)).map((opt: string, i: number) => {
+                        const isCorrect = opt.trim().toLowerCase() === String(q.correctAnswer).trim().toLowerCase();
+                        if (canManageQuestionBank) {
+                          return (
+                            <div
+                              key={i}
+                              className={"p-2 rounded-xl text-xs font-medium border " + (isCorrect
                                 ? "bg-emerald-50 dark:bg-emerald-950/60 border-emerald-500 text-emerald-700 dark:text-emerald-300 font-bold"
-                                : "bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300"
-                            }`}
+                                : "bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300")}
+                            >
+                              {opt} {isCorrect && "✓"}
+                            </div>
+                          );
+                        }
+
+                        const questionId = String(q.id);
+                        const status = practiceStatus[questionId];
+                        const selectedAnswer = practiceAnswers[questionId];
+                        const isSelected = selectedAnswer === opt;
+                        const isRevealedCorrect = status === "correct" && isCorrect;
+                        const isSelectedWrong = status === "incorrect" && isSelected;
+                        return (
+                          <button
+                            key={i}
+                            type="button"
+                            onClick={() => status !== "correct" && checkPracticeAnswer(q, opt)}
+                            aria-pressed={isSelected}
+                            className={"p-2 rounded-xl text-xs font-medium border text-start transition-colors " + (isRevealedCorrect
+                              ? "bg-emerald-50 dark:bg-emerald-950/60 border-emerald-500 text-emerald-700 dark:text-emerald-300 font-bold"
+                              : isSelectedWrong
+                                ? "bg-rose-50 dark:bg-rose-950/40 border-rose-400 text-rose-700 dark:text-rose-300"
+                                : "bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:border-sky-400")}
                           >
-                            {opt} {isCorrect && "✓"}
-                          </div>
+                            {opt} {isRevealedCorrect && "✓"}
+                          </button>
                         );
                       })}
                     </div>
                   )}
 
-                  {q.explanation && (
+                  {!canManageQuestionBank && (!Array.isArray(q.options) || q.options.length === 0) && (
+                    <div className="flex flex-col sm:flex-row gap-2">
+                      <input
+                        type="text"
+                        dir="auto"
+                        value={practiceAnswers[String(q.id)] || ""}
+                        onChange={(event) => setPracticeAnswers((current) => ({ ...current, [String(q.id)]: event.target.value }))}
+                        onKeyDown={(event) => {
+                          if (event.key === "Enter") {
+                            event.preventDefault();
+                            checkPracticeAnswer(q, practiceAnswers[String(q.id)] || "");
+                          }
+                        }}
+                        disabled={practiceStatus[String(q.id)] === "correct"}
+                        aria-label={lang === "ar" ? "إجابتك" : "Your answer"}
+                        placeholder={lang === "ar" ? "اكتب إجابتك هنا" : "Type your answer here"}
+                        className="min-w-0 flex-1 rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm text-slate-900 outline-none focus:border-sky-500 dark:border-slate-700 dark:bg-slate-800 dark:text-white"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => checkPracticeAnswer(q, practiceAnswers[String(q.id)] || "")}
+                        disabled={!practiceAnswers[String(q.id)]?.trim() || practiceStatus[String(q.id)] === "correct"}
+                        className="rounded-xl bg-sky-600 px-4 py-2 text-xs font-black text-white disabled:cursor-not-allowed disabled:opacity-50"
+                      >
+                        {lang === "ar" ? "تحقق" : "Check answer"}
+                      </button>
+                    </div>
+                  )}
+
+                  {!canManageQuestionBank && practiceStatus[String(q.id)] && (
+                    <div
+                      role="status"
+                      aria-live="polite"
+                      className={"flex flex-wrap items-center justify-between gap-2 rounded-xl border p-2.5 text-xs font-bold " + (practiceStatus[String(q.id)] === "correct"
+                        ? "border-emerald-200 bg-emerald-50 text-emerald-800 dark:border-emerald-900 dark:bg-emerald-950/40 dark:text-emerald-200"
+                        : "border-rose-200 bg-rose-50 text-rose-800 dark:border-rose-900 dark:bg-rose-950/40 dark:text-rose-200")}
+                    >
+                      <span>{practiceStatus[String(q.id)] === "correct"
+                        ? (lang === "ar" ? "إجابة صحيحة! أحسنت." : "Correct answer! Well done.")
+                        : (lang === "ar" ? "ليست الإجابة الصحيحة. حاول مرة أخرى." : "That is not correct. Try again.")}</span>
+                      {practiceStatus[String(q.id)] === "incorrect" && (
+                        <button type="button" onClick={() => retryPracticeQuestion(String(q.id))} className="rounded-lg border border-rose-300 px-2.5 py-1 text-[11px] font-black hover:bg-rose-100 dark:border-rose-800 dark:hover:bg-rose-950">
+                          {lang === "ar" ? "حاول مرة أخرى" : "Try again"}
+                        </button>
+                      )}
+                    </div>
+                  )}
+
+                  {q.explanation && (canManageQuestionBank || practiceStatus[String(q.id)] === "correct") && (
                     <p className="text-[11px] text-slate-500 bg-slate-50 dark:bg-slate-800/50 p-2.5 rounded-xl border border-slate-100 dark:border-slate-800">
                       💡 <strong>Explanation:</strong> {q.explanation}
                     </p>
@@ -577,7 +832,7 @@ export const QuestionBankWorkspace: React.FC<{ onExamGenerated?: (exam: any) => 
             <div className="grid grid-cols-2 gap-3">
               <div><label className="block mb-1">Stage</label><select value={examStage} onChange={e=>setExamStage(e.target.value)} className="w-full p-3 rounded-2xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white"><option>Preparatory</option><option>Secondary</option></select></div>
               <div><label className="block mb-1">Grade</label><select value={examGrade} onChange={e=>setAiExamGrade(e.target.value)} className="w-full p-3 rounded-2xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white"><option>Third Prep</option><option>First Secondary</option><option>Second Secondary</option><option>Third Secondary (Baccalaureate)</option></select></div>
-              <div><label className="block mb-1">Curriculum</label><select value={examCurriculum} onChange={e=>setExamCurriculum(e.target.value)} className="w-full p-3 rounded-2xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white"><option>Connect</option><option>Connect Plus</option><option>Ministry</option><option>M High</option><option>Baccalaureate</option><option>Thanaweya Amma</option></select></div>
+              <div><label className="block mb-1">Curriculum</label><select value={examCurriculum} onChange={e=>setExamCurriculum(e.target.value)} className="w-full p-3 rounded-2xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white"><option>Connect</option><option>Connect Plus</option><option>Ministry</option><option>M High</option><option>Baccalaureate</option><option>Thanaweya Amma</option><option>Professional in English 2027</option></select></div>
               <div><label className="block mb-1">Term</label><select value={examTerm} onChange={e=>setExamTerm(e.target.value)} className="w-full p-3 rounded-2xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white"><option>First</option><option>Second</option></select></div>
               <div><label className="block mb-1">Unit</label><select value={examUnit} onChange={e=>setExamUnit(e.target.value)} className="w-full p-3 rounded-2xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white col-span-2"><option>All</option><option>Units 1-2</option>{Array.from({length:12},(_,i)=><option key={i}>Unit {i+1}</option>)}<option>All My Sons</option></select></div>
             </div>

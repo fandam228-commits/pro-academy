@@ -1,10 +1,11 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import Link from "next/link";
 import { AppProvider, useApp } from "@/context/AppContext";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
-import { AdaptivePlacementTest } from "@/components/AdaptivePlacementTest";
+import { PlacementTestHub } from "@/components/PlacementTestHub";
 import { AiAssistantWorkspace } from "@/components/AiAssistantWorkspace";
 import { SuperAdminDashboard } from "@/components/SuperAdminDashboard";
 import { TeacherDashboard } from "@/components/TeacherDashboard";
@@ -70,9 +71,12 @@ function MainAppContent() {
     try {
       const params = new URLSearchParams(window.location.search);
       const tab = params.get("tab");
-      if (tab) setActiveTab(tab);
+      if (tab) {
+        // The URL query is the source of truth for PWA deep links on first load.
+        // eslint-disable-next-line react-hooks/set-state-in-effect
+        setActiveTab(tab);
+      }
     } catch {}
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleTabChange = (tab: string) => {
@@ -217,9 +221,9 @@ function MainAppContent() {
                     <button onClick={() => setActiveTab("courses")} className="rounded-2xl border border-white/20 bg-white/10 px-6 py-4 text-sm font-extrabold text-white backdrop-blur transition hover:bg-white/15">
                       {lang === "ar" ? "تصفح الكورسات" : "Explore Courses"}
                     </button>
-                    <button onClick={() => setActiveTab("placement")} className="rounded-2xl border border-white/15 px-6 py-4 text-sm font-bold text-blue-100 transition hover:bg-white/10">
+                    <Link href="/placement-test" className="rounded-2xl border border-white/15 px-6 py-4 text-sm font-bold text-blue-100 transition hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-300">
                       {lang === "ar" ? "اختبار تحديد المستوى" : "Placement Test"}
-                    </button>
+                    </Link>
                   </div>
                   <div className="flex flex-wrap justify-center gap-x-5 gap-y-2 border-t border-white/10 pt-5 text-xs font-semibold text-blue-100/75 lg:justify-start">
                     <span className="flex items-center gap-2"><CheckCircle className="h-4 w-4 text-emerald-300" />{lang === "ar" ? "تدريب حسب منهجك" : "Curriculum-aligned practice"}</span>
@@ -373,7 +377,7 @@ function MainAppContent() {
         ) : activeTab === "placement" ? (
           
           /* VIEW: PLACEMENT TEST */
-          <AdaptivePlacementTest />
+          <PlacementTestHub />
         ) : activeTab === "ai_assistant" ? (
           
           /* VIEW: AI WORKSPACE */

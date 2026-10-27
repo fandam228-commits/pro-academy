@@ -1,0 +1,60 @@
+{
+  "source": "ثالثة اعدادي ترم أول 2027 - Habib El Rahman.pdf",
+  "author": "Mr. Habib El Rahman",
+  "courseId": "crs_prep_3",
+  "grade": "Third Prep",
+  "curriculum": "Professional in English 2027",
+  "term": "First",
+  "importedPages": [
+    5,
+    6,
+    7,
+    9,
+    10,
+    14,
+    23,
+    24,
+    28,
+    29,
+    30,
+    32,
+    33,
+    36,
+    39,
+    40,
+    43,
+    44,
+    45,
+    46,
+    95,
+    96,
+    244
+  ],
+  "includedQuestions": 177,
+  "vocabularyAndLanguageMultipleChoiceQuestions": 149,
+  "readingPassages": 4,
+  "readingMultipleChoiceQuestions": 13,
+  "interactiveDialogueGaps": 15,
+  "answerKeyNote": "Multiple-choice answers were checked against the source sentences/passages. Dialogue gaps do not include an official answer key in the source; proposed responses and accepted variants were inferred from the next line and need teacher review before high-stakes grading.",
+  "excludedItems": [
+    {
+      "page": 36,
+      "question": 2,
+      "reason": "The printed sentence repeats 'We are proud ___ live...' while the source notes distinguish 'proud to + infinitive' from 'proud of + V-ing'. No answer preserves the printed sentence grammatically."
+    },
+    {
+      "pages": [
+        24,
+        40,
+        44,
+        45
+      ],
+      "reason": "Open-response reading questions are not auto-graded yet; only the source's multiple-choice reading items are included in this batch."
+    }
+  ],
+  "remainingScope": "Continue importing the remaining Unit 1 and Unit 3 exercises and story sections, then continue through Units 2 and 4–6.",
+  "units": [
+    "Unit 1",
+    "Unit 3"
+  ]
+}

@@ -5,6 +5,9 @@ import { NextResponse } from "next/server";
 import { ensureDbSetup } from "@/db/migrate-and-seed";
 import { requireRoles, getAuthContext } from "@/lib/security";
 import { getFirstSecondaryAdminExamQuestions } from "@/db/first-secondary-admin-exams";
+import { getThirdPrepProfessionalEnglishQuestions } from "@/db/third-prep-professional-english";
+import { getPlacementGrade } from "@/data/placement-grades";
+import { getPlacementConfig } from "@/lib/placement-config";
 
 function normalizedAnswerSet(value: unknown): string[] {
   try {
@@ -22,7 +25,63 @@ function answersMatch(question: any, studentAnswer: string): boolean {
     const actual = normalizedAnswerSet(studentAnswer);
     return expected.length > 0 && expected.length === actual.length && expected.every((x, i) => x === actual[i]);
   }
-  return studentAnswer.trim().toLowerCase() === String(question.correctAnswer || "").trim().toLowerCase();
+  const normalizeText = (value: unknown) => String(value || "").trim().toLocaleLowerCase().replace(/[.!?]+$/g, "").replace(/\s+/g, " ");
+  const acceptedAnswers = Array.isArray(question.acceptedAnswers) ? question.acceptedAnswers : [];
+  return [question.correctAnswer, ...acceptedAnswers].some((answer) => normalizeText(answer) === normalizeText(studentAnswer));
+}
+
+function getBundledQuestionBankQuestions() {
+  return [...getFirstSecondaryAdminExamQuestions(), ...getThirdPrepProfessionalEnglishQuestions()];
+}
+
+function isBundledQuestionId(id: string) {
+  return id.startsWith("qb_1sec_admin_") || id.startsWith("qb_3prep_professional_");
+}
+
+function buildPlacementDiagnostic(exam: any, percentage: number, feedback: Record<string, any>) {
+  const topicScores = new Map<string, { correct: number; total: number }>();
+  const domainScores = new Map<string, { correct: number; total: number }>();
+  for (const item of Object.values(feedback) as any[]) {
+    const topic = String(item.topic || "General");
+    const stats = topicScores.get(topic) || { correct: 0, total: 0 };
+    stats.total += 1;
+    if (item.isCorrect) stats.correct += 1;
+    topicScores.set(topic, stats);
+
+    const domain = String(item.domainCategory || item.skill || "General");
+    const domainStats = domainScores.get(domain) || { correct: 0, total: 0 };
+    domainStats.total += 1;
+    if (item.isCorrect) domainStats.correct += 1;
+    domainScores.set(domain, domainStats);
+  }
+  const topicResults = [...topicScores.entries()].map(([topic, stats]) => ({
+    topic,
+    ...stats,
+    percentage: Math.round(stats.correct / Math.max(1, stats.total) * 100),
+  }));
+  const domainResults = [...domainScores.entries()].map(([domain, stats]) => ({
+    domain,
+    ...stats,
+    percentage: Math.round(stats.correct / Math.max(1, stats.total) * 100),
+  })).filter((result) => result.domain !== "General");
+  const config = exam.config as any;
+  const thresholds = config?.proficiencyThresholds || { developing: 40, good: 60, veryGood: 75, excellent: 90 };
+  const proficiency = percentage >= Number(thresholds.excellent) ? "Excellent"
+    : percentage >= Number(thresholds.veryGood) ? "Very Good"
+      : percentage >= Number(thresholds.good) ? "Good"
+        : percentage >= Number(thresholds.developing) ? "Developing" : "Needs Foundation";
+  return {
+    grade: exam.grade,
+    academicYear: config?.academicYear || "Needs confirmation",
+    isOfficialGrade: false,
+    sourceVerification: config?.verificationStatus || "needs_review",
+    proficiency,
+    domainResults,
+    topicResults,
+    strengths: topicResults.filter((topic) => topic.percentage >= 75).map((topic) => topic.topic),
+    revisionTopics: topicResults.filter((topic) => topic.percentage < 60).map((topic) => topic.topic),
+    message: "Diagnostic result only; this is not an official school examination grade.",
+  };
 }
 
 export async function GET(req: Request) {
@@ -85,7 +144,7 @@ export async function GET(req: Request) {
     // Keep the imported exam questions in the application bundle instead of seeding
     // the shared Preview/Production database with user-provided source material.
     const requestedDomains = domainCategory?.split(",").map((d) => d.trim()).filter(Boolean) || [];
-    const importedQuestions = getFirstSecondaryAdminExamQuestions().filter((q) => {
+    const importedQuestions = getBundledQuestionBankQuestions().filter((q) => {
       if (domainCategory && !requestedDomains.includes(q.domainCategory)) return false;
       if (stage && q.stage !== stage) return false;
       if (grade && q.grade !== grade) return false;
@@ -113,7 +172,9 @@ export async function GET(req: Request) {
     const vocabCount = allQuestions.filter((q) => q.domainCategory === "Vocabulary").length;
     const grammarCount = allQuestions.filter((q) => q.domainCategory === "Grammar").length;
 
-    const safeQuestions = (ctx.user.role === "admin" || ctx.user.role === "teacher") ? allQuestions : allQuestions.map(({ correctAnswer, ...q }) => q);
+    const safeQuestions = (ctx.user.role === "admin" || ctx.user.role === "teacher")
+      ? allQuestions
+      : allQuestions.map(({ correctAnswer: _correctAnswer, acceptedAnswers: _acceptedAnswers, ...q }) => q);
     return NextResponse.json({
       questions: safeQuestions,
       stats: {
@@ -158,7 +219,7 @@ export async function POST(req: Request) {
     }
 
     // ---- SECURITY: Exam generation & submission → any logged-in session required
-    const studentActions = ["generate_smart_exam", "submit_exam"];
+    const studentActions = ["generate_smart_exam", "generate_placement_test", "get_placement_test", "submit_exam"];
     if (studentActions.includes(action)) {
       const { denied } = await requireRoles(req);
       if (denied) return denied;
@@ -359,7 +420,153 @@ export async function POST(req: Request) {
       });
     }
 
-    // 4. SMART EXAM GENERATOR
+    // 4. GRADE-SPECIFIC PLACEMENT ASSESSMENT
+    if (action === "generate_placement_test") {
+      if (ctx.user.role !== "student") return NextResponse.json({ error: "Students only" }, { status: 403 });
+      const gradeName = String(body.grade || "");
+      const grade = getPlacementGrade(gradeName);
+      if (!grade) return NextResponse.json({ error: "Select one of the six supported school grades." }, { status: 400 });
+      const config = await getPlacementConfig(grade.grade);
+      if (!config || !config.isPublished) return NextResponse.json({ error: "This placement assessment is not published yet." }, { status: 404 });
+
+      const scope = [
+        eq(questionBank.grade, grade.grade),
+        eq(questionBank.stage, grade.stage),
+        eq(questionBank.term, config.term),
+        eq(questionBank.questionType, "mcq"),
+      ];
+      if (config.curriculum) scope.push(eq(questionBank.curriculum, config.curriculum));
+      const databaseCandidates = await db.select().from(questionBank).where(and(...scope));
+      const candidatesById = new Map<string, any>();
+      for (const question of databaseCandidates) candidatesById.set(question.id, question);
+      for (const question of getBundledQuestionBankQuestions()) {
+        if (question.grade === grade.grade && question.stage === grade.stage && question.term === config.term &&
+            question.questionType === "mcq" && (!config.curriculum || question.curriculum === config.curriculum)) {
+          candidatesById.set(question.id, question);
+        }
+      }
+      const candidates = [...candidatesById.values()].filter((question) => {
+        const options = Array.isArray(question.options) ? question.options.map((option: unknown) => String(option).trim()) : [];
+        const correctAnswer = String(question.correctAnswer || "").trim().toLocaleLowerCase();
+        return options.length === 4 && new Set(options.map((option: string) => option.toLocaleLowerCase())).size === 4 &&
+          Boolean(correctAnswer) && options.some((option: string) => option.toLocaleLowerCase() === correctAnswer);
+      });
+      if (candidates.length < config.questionCount) {
+        return NextResponse.json({
+          error: `This grade has ${candidates.length} valid four-option questions, but the current assessment needs ${config.questionCount}. Ask an administrator to add or verify questions, or adjust the development settings.`,
+          availableQuestionCount: candidates.length,
+          requiredQuestionCount: config.questionCount,
+        }, { status: 409 });
+      }
+
+      const shuffle = <T,>(items: T[]) => {
+        const result = [...items];
+        for (let i = result.length - 1; i > 0; i -= 1) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [result[i], result[j]] = [result[j], result[i]];
+        }
+        return result;
+      };
+      const selected: any[] = [];
+      const selectedIds = new Set<string>();
+      const push = (question: any) => {
+        if (selected.length >= config.questionCount || selectedIds.has(question.id)) return;
+        selectedIds.add(question.id);
+        selected.push({
+          ...question,
+          type: question.type || question.questionType,
+          options: shuffle(question.options.map((option: unknown) => String(option))),
+          points: config.marksPerQuestion,
+        });
+      };
+
+      const topicTargets = config.topicDistribution;
+      if (topicTargets.length > 0) {
+        for (const target of topicTargets) {
+          const count = Math.round(config.questionCount * target.percent / 100);
+          const topicPool = shuffle(candidates.filter((question) => String(question.topic || "") === target.topic));
+          for (const question of topicPool.slice(0, count)) push(question);
+        }
+      }
+
+      for (const difficulty of ["Easy", "Medium", "Hard"]) {
+        const targetPercent = config.difficultyDistribution[difficulty as keyof typeof config.difficultyDistribution] || 0;
+        const targetCount = Math.round(config.questionCount * targetPercent / 100);
+        const alreadySelected = selected.filter((question) => question.difficulty === difficulty).length;
+        const need = Math.max(0, targetCount - alreadySelected);
+        const pool = shuffle(candidates.filter((question) => question.difficulty === difficulty && !selectedIds.has(question.id)));
+        for (const question of pool.slice(0, need)) push(question);
+      }
+      for (const question of shuffle(candidates)) push(question);
+
+      for (const question of selected) {
+        if (!isBundledQuestionId(String(question.id))) {
+          await db.update(questionBank).set({ timesUsed: (question.timesUsed || 0) + 1, lastUsedAt: new Date() }).where(eq(questionBank.id, question.id));
+        }
+      }
+
+      const examId = `placement_${Date.now()}_${Math.random().toString(36).slice(2, 10)}`;
+      const assessmentConfig = {
+        type: "grade-placement",
+        academicYear: config.academicYear,
+        term: config.term,
+        curriculum: config.curriculum,
+        curriculumVersion: config.curriculumVersion,
+        verificationStatus: config.verificationStatus,
+        sourceNote: config.sourceNote,
+        questionCount: config.questionCount,
+        marksPerQuestion: config.marksPerQuestion,
+        passPercentage: config.passPercentage,
+        proficiencyThresholds: config.proficiencyThresholds,
+        topicDistribution: config.topicDistribution,
+        difficultyDistribution: config.difficultyDistribution,
+      };
+      const exam = {
+        id: examId,
+        studentId: ctx.user.id,
+        title: `Placement Assessment: ${grade.en} (${config.questionCount} Questions)`,
+        stage: grade.stage,
+        grade: grade.grade,
+        config: assessmentConfig,
+        questionIds: selected.map((question) => question.id),
+        questionsData: selected,
+        totalPoints: config.questionCount * config.marksPerQuestion,
+        durationMinutes: config.durationMinutes,
+      };
+      await db.insert(generatedExams).values(exam);
+      const safeExam = {
+        ...exam,
+        questionsData: selected.map(({ correctAnswer: _correctAnswer, acceptedAnswers: _acceptedAnswers, ...question }) => question),
+      };
+      return NextResponse.json({ success: true, exam: safeExam }, { headers: { "Cache-Control": "no-store" } });
+    }
+
+    if (action === "get_placement_test") {
+      if (ctx.user.role !== "student") return NextResponse.json({ error: "Students only" }, { status: 403 });
+      const examId = String(body.examId || "");
+      const exams = await db.select().from(generatedExams).where(and(eq(generatedExams.id, examId), eq(generatedExams.studentId, ctx.user.id)));
+      const exam = exams[0];
+      if (!exam || (exam.config as any)?.type !== "grade-placement") return NextResponse.json({ error: "Placement assessment not found." }, { status: 404 });
+      const questions = Array.isArray(exam.questionsData) ? exam.questionsData as any[] : [];
+      const safeExam = {
+        ...exam,
+        questionsData: questions.map(({ correctAnswer: _correctAnswer, acceptedAnswers: _acceptedAnswers, ...question }) => question),
+      };
+      const attempts = await db.select().from(examAttempts).where(and(eq(examAttempts.examId, exam.id), eq(examAttempts.studentId, ctx.user.id))).limit(1);
+      const attempt = attempts[0];
+      const submission = attempt ? {
+        success: true,
+        score: attempt.score,
+        percentage: attempt.percentage,
+        passed: attempt.passed,
+        details: attempt.detailedFeedback,
+        diagnostic: buildPlacementDiagnostic(exam, attempt.percentage, attempt.detailedFeedback as Record<string, any>),
+        summaryText: attempt.passed ? "Assessment complete." : "Review the explanations and focus on the suggested topics.",
+      } : null;
+      return NextResponse.json({ success: true, exam: safeExam, submission }, { headers: { "Cache-Control": "no-store" } });
+    }
+
+    // 5. SMART EXAM GENERATOR
     if (action === "generate_smart_exam") {
       const { studentId, stage, grade, curriculum, term, unit, domainCategory, questionType, difficulty, source, lesson, section, grammarTopic, topic, questionCount, easyPercent, mediumPercent, hardPercent, grammarRatio } = body;
 
@@ -374,7 +581,7 @@ export async function POST(req: Request) {
       let candidates: any[] = await db.select().from(questionBank).where(eq(questionBank.grade, grade));
       candidates = [
         ...candidates,
-        ...getFirstSecondaryAdminExamQuestions().filter((q) => q.grade === grade && !candidates.some((existing) => existing.id === q.id)),
+        ...getBundledQuestionBankQuestions().filter((q) => q.grade === grade && !candidates.some((existing) => existing.id === q.id)),
       ];
       if (stage) candidates = candidates.filter((q) => q.stage === stage);
       if (curriculum) candidates = candidates.filter((q) => (q.curriculum || "Ministry") === curriculum);
@@ -413,9 +620,9 @@ export async function POST(req: Request) {
         if (selected.length >= totalNum || usedIds.has(q.id)) return;
         let randomizedOptions = q.options;
         if (Array.isArray(q.options)) randomizedOptions = [...q.options].sort(() => Math.random() - 0.5);
-        selected.push({ ...q, options: randomizedOptions });
+        selected.push({ ...q, type: q.type || q.questionType, options: randomizedOptions });
         usedIds.add(q.id);
-        if (!String(q.id).startsWith("qb_1sec_admin_")) {
+        if (!isBundledQuestionId(String(q.id))) {
           await db.update(questionBank).set({ timesUsed: (q.timesUsed || 0) + 1, lastUsedAt: new Date() }).where(eq(questionBank.id, q.id));
         }
       };
@@ -455,7 +662,7 @@ export async function POST(req: Request) {
       // Keep the answer key server-side; students receive only the playable exam.
       const safeExam = {
         ...examObj,
-        questionsData: selected.map(({ correctAnswer, ...q }) => q),
+        questionsData: selected.map(({ correctAnswer: _correctAnswer, acceptedAnswers: _acceptedAnswers, ...q }) => q),
       };
 
       return NextResponse.json({
@@ -464,14 +671,14 @@ export async function POST(req: Request) {
       });
     }
 
-    // 5. SUBMIT QUICK GRAMMAR PRACTICE
+    // 6. SUBMIT QUICK GRAMMAR PRACTICE
     if (action === "submit_practice") {
       const answers = body.answers || {};
       const questionIds = Array.isArray(body.questionIds) ? body.questionIds.map(String) : [];
       if (!questionIds.length) return NextResponse.json({ error: "No practice questions supplied" }, { status: 400 });
       const rows = await db.select().from(questionBank).where(inArray(questionBank.id, questionIds));
       const byId = new Map<string, any>(rows.map((q) => [q.id, q]));
-      for (const question of getFirstSecondaryAdminExamQuestions()) {
+      for (const question of getBundledQuestionBankQuestions()) {
         if (questionIds.includes(question.id) && !byId.has(question.id)) byId.set(question.id, question);
       }
       let score = 0;
@@ -480,14 +687,14 @@ export async function POST(req: Request) {
         const q = byId.get(id);
         if (!q) continue;
         const studentAnswer = String(answers[id] || "").trim();
-        const isCorrect = studentAnswer.toLowerCase() === String(q.correctAnswer || "").trim().toLowerCase();
+        const isCorrect = answersMatch(q, studentAnswer);
         if (isCorrect) score++;
         feedback[id] = { isCorrect, correctAnswer: q.correctAnswer, explanation: q.explanation };
       }
       return NextResponse.json({ success: true, score, total: questionIds.length, feedback });
     }
 
-    // 6. SUBMIT GENERATED SMART EXAM
+    // 7. SUBMIT GENERATED SMART EXAM
     if (action === "submit_exam") {
       const { examId, studentId, userAnswers } = body;
       if (ctx.user.role !== "admin" && ctx.user.role !== "teacher" && studentId !== ctx.user.id) return NextResponse.json({ error: "Forbidden" }, { status: 403 });
@@ -505,19 +712,57 @@ export async function POST(req: Request) {
         return NextResponse.json({ error: "Forbidden" }, { status: 403 });
       }
 
+      const isPlacementAssessment = (exam.config as any)?.type === "grade-placement";
+      if (!userAnswers || typeof userAnswers !== "object" || Array.isArray(userAnswers)) {
+        return NextResponse.json({ error: "Answer map is required." }, { status: 400 });
+      }
+
       // One attempt per generated exam prevents repeated point/streak farming.
       const existingAttempts = await db
         .select()
         .from(examAttempts)
         .where(and(eq(examAttempts.examId, examId), eq(examAttempts.studentId, studentId)));
       if (existingAttempts.length > 0) {
+        if ((exam.config as any)?.type === "grade-placement") {
+          const existingAttempt = existingAttempts[0];
+          const diagnostic = buildPlacementDiagnostic(exam, existingAttempt.percentage, existingAttempt.detailedFeedback as Record<string, any>);
+          return NextResponse.json({
+            success: true,
+            attempt: existingAttempt,
+            score: existingAttempt.score,
+            totalPoints: exam.totalPoints,
+            percentage: existingAttempt.percentage,
+            passed: existingAttempt.passed,
+            feedback: existingAttempt.detailedFeedback,
+            diagnostic,
+            duplicate: true,
+          });
+        }
         return NextResponse.json(
           { error: "Exam already submitted", attempt: existingAttempts[existingAttempts.length - 1] },
           { status: 409 }
         );
       }
 
+      if (isPlacementAssessment && exam.durationMinutes > 0 && Date.now() > new Date(exam.createdAt).getTime() + exam.durationMinutes * 60_000 + 60_000) {
+        return NextResponse.json({ error: "The assessment time has expired. Your saved answers were not changed." }, { status: 410 });
+      }
+
       const questions = (exam.questionsData as any[]) || [];
+      if (isPlacementAssessment) {
+        const expectedQuestionIds = new Set(questions.map((question) => String(question.id)));
+        if (Object.keys(userAnswers).some((questionId) => !expectedQuestionIds.has(questionId))) {
+          return NextResponse.json({ error: "Answers include a question outside this grade-specific assessment." }, { status: 400 });
+        }
+        for (const question of questions) {
+          const answer = userAnswers[question.id];
+          if (answer === undefined || String(answer).trim() === "") continue;
+          const options = Array.isArray(question.options) ? question.options.map(String) : [];
+          if (!options.includes(String(answer))) {
+            return NextResponse.json({ error: "One or more selected options are invalid." }, { status: 400 });
+          }
+        }
+      }
 
       let earned = 0;
       let totalPoints = 0;
@@ -535,35 +780,22 @@ export async function POST(req: Request) {
 
         feedback[q.id] = {
           questionText: q.questionText,
+          topic: q.topic || q.grammarTopic || q.domainCategory || "General",
+          domainCategory: q.domainCategory || q.questionType || "General",
+          difficulty: q.difficulty || "Medium",
           studentAnswer: studentAns,
           correctAnswer: q.correctAnswer,
           isCorrect,
           explanation: q.explanation,
         };
 
-        // Update discrimination/difficulty stats in questionBank
-        const qbList = await db.select().from(questionBank).where(eq(questionBank.id, q.id));
-        if (qbList.length > 0) {
-          const qb = qbList[0];
-          const newAttempts = (qb.totalAttempts || 0) + 1;
-          const newCorrect = (qb.correctCount || 0) + (isCorrect ? 1 : 0);
-          const diffIdx = (newCorrect / newAttempts).toFixed(2);
-
-          await db
-            .update(questionBank)
-            .set({
-              totalAttempts: newAttempts,
-              correctCount: newCorrect,
-              difficultyIndex: diffIdx,
-            })
-            .where(eq(questionBank.id, q.id));
-        }
       }
 
       const percentage = Math.round((earned / (totalPoints || 1)) * 100);
-      const passed = percentage >= 60;
+      const configuredPassPercentage = Number((exam.config as any)?.passPercentage);
+      const passed = percentage >= (Number.isFinite(configuredPassPercentage) ? configuredPassPercentage : 60);
 
-      const attemptId = `att_${Date.now()}`;
+      const attemptId = isPlacementAssessment ? `att_${examId}` : `att_${Date.now()}`;
       const newAttempt = {
         id: attemptId,
         examId,
@@ -576,10 +808,35 @@ export async function POST(req: Request) {
         detailedFeedback: feedback,
       };
 
-      await db.insert(examAttempts).values(newAttempt);
+      let persistedAttempt: typeof newAttempt | any = newAttempt;
+      let shouldUpdateQuestionStats = !isPlacementAssessment;
+      if (isPlacementAssessment) {
+        const inserted = await db.insert(examAttempts).values(newAttempt).onConflictDoNothing().returning({ id: examAttempts.id });
+        shouldUpdateQuestionStats = inserted.length > 0;
+        const savedAttempts = await db.select().from(examAttempts)
+          .where(and(eq(examAttempts.examId, examId), eq(examAttempts.studentId, studentId))).limit(1);
+        if (savedAttempts[0]) persistedAttempt = savedAttempts[0];
+      } else {
+        await db.insert(examAttempts).values(newAttempt);
+      }
+
+      if (shouldUpdateQuestionStats) {
+        for (const q of questions) {
+          const qbList = await db.select().from(questionBank).where(eq(questionBank.id, q.id));
+          if (qbList.length === 0) continue;
+          const qb = qbList[0];
+          const newAttempts = (qb.totalAttempts || 0) + 1;
+          const newCorrect = (qb.correctCount || 0) + (feedback[q.id]?.isCorrect ? 1 : 0);
+          await db.update(questionBank).set({
+            totalAttempts: newAttempts,
+            correctCount: newCorrect,
+            difficultyIndex: (newCorrect / newAttempts).toFixed(2),
+          }).where(eq(questionBank.id, q.id));
+        }
+      }
 
       // Award Points & Streak
-      const stList = await db.select().from(users).where(eq(users.id, studentId));
+      const stList = isPlacementAssessment ? [] : await db.select().from(users).where(eq(users.id, studentId));
       if (stList.length > 0) {
         const u = stList[0];
         await db
@@ -588,14 +845,19 @@ export async function POST(req: Request) {
           .where(eq(users.id, studentId));
       }
 
+      const diagnostic = (exam.config as any)?.type === "grade-placement"
+        ? buildPlacementDiagnostic(exam, persistedAttempt.percentage, persistedAttempt.detailedFeedback as Record<string, any>)
+        : undefined;
+
       return NextResponse.json({
         success: true,
-        attempt: newAttempt,
-        score: earned,
+        attempt: persistedAttempt,
+        score: persistedAttempt.score,
         totalPoints,
-        percentage,
-        passed,
-        feedback,
+        percentage: persistedAttempt.percentage,
+        passed: persistedAttempt.passed,
+        feedback: persistedAttempt.detailedFeedback,
+        ...(diagnostic ? { diagnostic } : {}),
       });
     }
 

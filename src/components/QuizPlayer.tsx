@@ -1,15 +1,27 @@
 "use client";
 
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useRef } from "react";
 import { useApp } from "@/context/AppContext";
 import { authHeaders } from "@/lib/client-auth";
 import { Clock, CheckCircle2, XCircle, Volume2, HelpCircle, ArrowRight, ArrowLeft, Send, Sparkles, Award, Printer } from "lucide-react";
+import { getPlacementGrade } from "@/data/placement-grades";
+
+const QUESTION_DOMAIN_LABELS_AR: Record<string, string> = {
+  grammar: "القواعد",
+  vocabulary: "المفردات",
+  reading: "القراءة",
+  writing: "الكتابة",
+  listening: "الاستماع",
+  "grammar & context": "القواعد والسياق",
+};
 
 interface Question {
   id: string;
   type: string; // 'mcq', 'true_false', 'fill_blanks', 'correction', 'writing', 'listening'
   questionText: string;
   passageText?: string;
+  passageHighlightText?: string;
+  passageHighlightOccurrence?: number;
   audioUrl?: string;
   options?: string[];
   // Students receive answer keys only in the server-graded submission feedback.
@@ -17,6 +29,27 @@ interface Question {
   explanation?: string;
   points?: number;
   domainCategory?: string;
+  topic?: string;
+  difficulty?: string;
+}
+
+function renderPassageText(question: Question): React.ReactNode {
+  const { passageText, passageHighlightText } = question;
+  if (!passageText || !passageHighlightText) return passageText;
+
+  const normalizedPassage = passageText.toLocaleLowerCase();
+  const normalizedHighlight = passageHighlightText.toLocaleLowerCase();
+  let matchIndex = -1;
+  let searchFrom = 0;
+  const occurrence = Math.max(0, question.passageHighlightOccurrence || 0);
+  for (let index = 0; index <= occurrence; index += 1) {
+    matchIndex = normalizedPassage.indexOf(normalizedHighlight, searchFrom);
+    if (matchIndex < 0) return passageText;
+    searchFrom = matchIndex + normalizedHighlight.length;
+  }
+
+  const matchEnd = matchIndex + passageHighlightText.length;
+  return <>{passageText.slice(0, matchIndex)}<u className="decoration-2 underline underline-offset-2">{passageText.slice(matchIndex, matchEnd)}</u>{passageText.slice(matchEnd)}</>;
 }
 
 interface QuizPlayerProps {
@@ -27,6 +60,9 @@ interface QuizPlayerProps {
   onComplete?: (submission: any) => void;
   submissionTarget?: "quiz" | "smart_exam";
   onExit?: () => void;
+  assessmentMode?: "placement";
+  assessmentConfig?: Record<string, any>;
+  initialSubmission?: any;
 }
 
 export const QuizPlayer: React.FC<QuizPlayerProps> = ({
@@ -37,20 +73,27 @@ export const QuizPlayer: React.FC<QuizPlayerProps> = ({
   onComplete,
   submissionTarget = "quiz",
   onExit,
+  assessmentMode,
+  assessmentConfig,
+  initialSubmission,
 }) => {
   const { user, lang } = useApp();
+  const isPlacementAssessment = assessmentMode === "placement";
   const [currentIndex, setCurrentIndex] = useState(0);
   const [userAnswers, setUserAnswers] = useState<Record<string, string>>({});
   const [timeLeft, setTimeLeft] = useState(durationMinutes * 60);
-  const [isSubmitted, setIsSubmitted] = useState(false);
-  const [result, setResult] = useState<any>(null);
+  const [isSubmitted, setIsSubmitted] = useState(Boolean(initialSubmission));
+  const [result, setResult] = useState<any>(initialSubmission || null);
   const [loading, setLoading] = useState(false);
+  const [submitError, setSubmitError] = useState("");
   const [mistakePracticeStarted, setMistakePracticeStarted] = useState(false);
   const [mistakePracticeFinished, setMistakePracticeFinished] = useState(false);
   const [mistakePracticeIndex, setMistakePracticeIndex] = useState(0);
   const [mistakePracticeAnswers, setMistakePracticeAnswers] = useState<Record<string, string>>({});
   const [mistakePracticeChecked, setMistakePracticeChecked] = useState(false);
   const [mistakePracticeCorrect, setMistakePracticeCorrect] = useState(0);
+  const draftStorageKey = isPlacementAssessment && user?.id ? `pa-placement-draft:${user.id}:${quizId}` : null;
+  const draftReadyRef = useRef(false);
 
   const currentQ = questions[currentIndex];
   const missedChoiceQuestions: Question[] = result?.details
@@ -89,6 +132,46 @@ export const QuizPlayer: React.FC<QuizPlayerProps> = ({
     setMistakePracticeCorrect(0);
   };
 
+  useEffect(() => {
+    draftReadyRef.current = false;
+    if (!draftStorageKey || typeof window === "undefined") {
+      draftReadyRef.current = true;
+      return;
+    }
+    if (!initialSubmission) {
+      try {
+        const saved = JSON.parse(window.localStorage.getItem(draftStorageKey) || "null");
+        if (saved?.version === 1 && saved.answers && typeof saved.answers === "object" && !Array.isArray(saved.answers)) {
+          // Restore this student's local in-progress draft for the same assessment.
+          // eslint-disable-next-line react-hooks/set-state-in-effect
+          setUserAnswers(saved.answers);
+          setCurrentIndex(Math.min(Math.max(Number(saved.currentIndex) || 0, 0), Math.max(0, questions.length - 1)));
+          if (durationMinutes > 0 && Number.isFinite(Number(saved.timeLeft))) {
+            setTimeLeft(Math.max(0, Math.min(durationMinutes * 60, Number(saved.timeLeft))));
+          }
+        }
+      } catch {
+        window.localStorage.removeItem(draftStorageKey);
+      }
+    } else {
+      window.localStorage.removeItem(draftStorageKey);
+    }
+    window.setTimeout(() => { draftReadyRef.current = true; }, 0);
+  }, [draftStorageKey, durationMinutes, questions.length, initialSubmission]);
+
+  useEffect(() => {
+    if (!draftStorageKey || !draftReadyRef.current || isSubmitted || typeof window === "undefined") return;
+    try {
+      window.localStorage.setItem(draftStorageKey, JSON.stringify({
+        version: 1,
+        answers: userAnswers,
+        currentIndex,
+        timeLeft,
+        savedAt: Date.now(),
+      }));
+    } catch {}
+  }, [draftStorageKey, userAnswers, currentIndex, timeLeft, isSubmitted]);
+
   const startMistakePractice = () => {
     setMistakePracticeIndex(0);
     setMistakePracticeAnswers({});
@@ -115,6 +198,7 @@ export const QuizPlayer: React.FC<QuizPlayerProps> = ({
   };
 
   const handleOptionSelect = (ans: string) => {
+    setSubmitError("");
     if (currentQ.type === "multi_select") {
       let selected: string[] = [];
       try {
@@ -135,6 +219,7 @@ export const QuizPlayer: React.FC<QuizPlayerProps> = ({
   const handleSubmit = useCallback(async () => {
     if (isSubmitted || loading) return;
     setLoading(true);
+    setSubmitError("");
 
     try {
       let data: any;
@@ -151,7 +236,7 @@ export const QuizPlayer: React.FC<QuizPlayerProps> = ({
           }),
         });
         const json = await res.json();
-        if (json.success) {
+        if (res.ok && json.success) {
           const passed = json.passed;
           data = {
             success: true,
@@ -159,6 +244,7 @@ export const QuizPlayer: React.FC<QuizPlayerProps> = ({
             percentage: json.percentage,
             passed,
             details: json.feedback,
+            diagnostic: json.diagnostic,
             summaryText: passed
               ? lang === "ar"
                 ? `أداء رائع! حصلت على ${json.percentage}% في الامتحان الذكي. استمر على هذا المستوى!`
@@ -167,7 +253,7 @@ export const QuizPlayer: React.FC<QuizPlayerProps> = ({
               ? `حصلت على ${json.percentage}%. راجع الشروحات بالأسفل وركز على نقاط الضعف قبل إعادة المحاولة.`
               : `You scored ${json.percentage}%. Review explanations below and focus on weak points.`,
           };
-        }
+        } else throw new Error(json.error || "Could not submit this assessment.");
       } else {
         const res = await fetch("/api/quizzes", {
           method: "POST",
@@ -187,21 +273,24 @@ export const QuizPlayer: React.FC<QuizPlayerProps> = ({
       if (data?.success) {
         setResult(data);
         setIsSubmitted(true);
+        if (draftStorageKey && typeof window !== "undefined") window.localStorage.removeItem(draftStorageKey);
         if (onComplete) onComplete(data);
       }
     } catch (e) {
       console.error("Quiz submission error:", e);
+      setSubmitError(e instanceof Error ? e.message : (lang === "ar" ? "تعذر تسليم الاختبار. حاول مرة أخرى." : "Could not submit the test. Please try again."));
     } finally {
       setLoading(false);
     }
-  }, [isSubmitted, loading, submissionTarget, quizId, user, userAnswers, lang, onComplete]);
+  }, [isSubmitted, loading, submissionTarget, quizId, user, userAnswers, lang, onComplete, draftStorageKey]);
 
   // Timer Countdown
   useEffect(() => {
-    if (isSubmitted || timeLeft <= 0) return;
+    if (isSubmitted || durationMinutes <= 0) return;
     const interval = setInterval(() => {
       setTimeLeft((prev) => {
         if (prev <= 1) {
+          clearInterval(interval);
           void handleSubmit();
           return 0;
         }
@@ -209,7 +298,22 @@ export const QuizPlayer: React.FC<QuizPlayerProps> = ({
       });
     }, 1000);
     return () => clearInterval(interval);
-  }, [timeLeft, isSubmitted, handleSubmit]);
+  }, [timeLeft, isSubmitted, durationMinutes, handleSubmit]);
+
+  const requestSubmit = () => {
+    if (isPlacementAssessment && typeof window !== "undefined") {
+      const unanswered = questions.filter((question) => !String(userAnswers[question.id] || "").trim()).length;
+      const confirmation = lang === "ar"
+        ? unanswered > 0
+          ? `متبقي ${unanswered} سؤالًا بدون إجابة. هل تريد تسليم الاختبار الآن؟`
+          : "بعد التسليم ستظهر النتيجة والشروحات. هل تؤكد إنهاء الاختبار؟"
+        : unanswered > 0
+          ? `${unanswered} questions are unanswered. Do you want to submit now?`
+          : "Your result and explanations will appear after submission. Confirm that you want to finish the test.";
+      if (!window.confirm(confirmation)) return;
+    }
+    void handleSubmit();
+  };
 
   const formatTimer = (sec: number) => {
     const mins = Math.floor(sec / 60);
@@ -242,9 +346,10 @@ export const QuizPlayer: React.FC<QuizPlayerProps> = ({
       <div className="flex flex-wrap items-center justify-between gap-4 pb-6 border-b border-slate-100 dark:border-slate-800 mb-6">
         <div>
           <span className="text-xs font-bold text-blue-600 dark:text-blue-400 uppercase tracking-wider">
-            {lang === "ar" ? "اختبار التقييم التفاعلي" : "Interactive Quiz Module"}
+            {isPlacementAssessment ? (lang === "ar" ? "اختبار تشخيصي حسب الصف" : "Grade-specific diagnostic") : (lang === "ar" ? "اختبار التقييم التفاعلي" : "Interactive Quiz Module")}
           </span>
           <h2 className="text-xl font-extrabold text-slate-900 dark:text-white mt-1">{title}</h2>
+          {isPlacementAssessment && assessmentConfig && <p className="mt-1 text-[10px] font-semibold text-slate-500 dark:text-slate-400">{assessmentConfig.academicYear} · {assessmentConfig.term}</p>}
         </div>
 
         <div className="flex items-center gap-2 no-print">
@@ -257,7 +362,7 @@ export const QuizPlayer: React.FC<QuizPlayerProps> = ({
             <Printer className="w-4 h-4" />
           </button>
 
-          {!isSubmitted && (
+          {!isSubmitted && durationMinutes > 0 && (
             <div className="flex items-center gap-2 bg-red-50 dark:bg-red-950/50 text-red-600 dark:text-red-400 px-4 py-2 rounded-2xl border border-red-200 dark:border-red-800/40 font-mono font-bold text-sm animate-pulse">
               <Clock className="w-4 h-4" />
               <span>{formatTimer(timeLeft)}</span>
@@ -265,6 +370,8 @@ export const QuizPlayer: React.FC<QuizPlayerProps> = ({
           )}
         </div>
       </div>
+
+      {submitError && !isSubmitted && <div role="alert" className="mb-5 rounded-xl border border-rose-200 bg-rose-50 px-4 py-3 text-xs font-bold leading-5 text-rose-800 dark:border-rose-900/50 dark:bg-rose-950/30 dark:text-rose-100">{submitError}</div>}
 
       {!isSubmitted ? (
         <div>
@@ -314,7 +421,7 @@ export const QuizPlayer: React.FC<QuizPlayerProps> = ({
                   {lang === "ar" ? "قطعة الفهم" : "Reading passage"}
                 </h3>
                 <p dir="auto" className="whitespace-pre-line text-sm font-medium leading-7 text-slate-800 dark:text-slate-100">
-                  {currentQ.passageText}
+                  {renderPassageText(currentQ)}
                 </p>
               </section>
             )}
@@ -399,7 +506,7 @@ export const QuizPlayer: React.FC<QuizPlayerProps> = ({
               </button>
             ) : (
               <button
-                onClick={handleSubmit}
+                onClick={requestSubmit}
                 disabled={loading}
                 className="flex items-center gap-2 px-8 py-3 rounded-2xl bg-emerald-600 hover:bg-emerald-500 text-white font-extrabold text-sm shadow-xl shadow-emerald-500/30 transition-all"
               >
@@ -481,6 +588,31 @@ export const QuizPlayer: React.FC<QuizPlayerProps> = ({
               );
             })()}
 
+            {isPlacementAssessment && result?.diagnostic && (() => {
+              const diagnostic = result.diagnostic;
+              const grade = getPlacementGrade(diagnostic.grade);
+              const bandLabels: Record<string, { ar: string; en: string }> = {
+                "Needs Foundation": { ar: "يحتاج تأسيس", en: "Needs Foundation" },
+                Developing: { ar: "في طور التطور", en: "Developing" },
+                Good: { ar: "جيد", en: "Good" },
+                "Very Good": { ar: "جيد جدًا", en: "Very Good" },
+                Excellent: { ar: "ممتاز", en: "Excellent" },
+              };
+              return (
+                <section className="mt-5 mx-auto max-w-3xl rounded-2xl border border-indigo-200 bg-indigo-50/70 p-4 text-start dark:border-indigo-900/50 dark:bg-indigo-950/25" aria-labelledby="placement-diagnostic-title">
+                  <div className="flex flex-wrap items-start justify-between gap-3">
+                    <div><h4 id="placement-diagnostic-title" className="text-sm font-black text-slate-900 dark:text-white">{lang === "ar" ? "تقرير تشخيصي حسب الصف" : "School-grade diagnostic report"}</h4><p className="mt-1 text-[10px] font-semibold text-slate-500 dark:text-slate-400">{grade ? (lang === "ar" ? grade.ar : grade.en) : diagnostic.grade} · {diagnostic.academicYear}{user?.name ? ` · ${user.name}` : ""}</p></div>
+                    <span className="rounded-full bg-white px-3 py-1.5 text-[10px] font-black text-indigo-800 dark:bg-slate-900 dark:text-indigo-200">{lang === "ar" ? bandLabels[diagnostic.proficiency]?.ar : bandLabels[diagnostic.proficiency]?.en || diagnostic.proficiency}</span>
+                  </div>
+                  <div className="mt-3 rounded-xl border border-amber-200 bg-amber-50 p-3 text-[10px] font-bold leading-5 text-amber-900 dark:border-amber-900/60 dark:bg-amber-950/30 dark:text-amber-100">{lang === "ar" ? "هذه نتيجة تدريبية تشخيصية، وليست درجة امتحان رسمي. مصدر بنك الأسئلة " : "This is a practice diagnostic, not an official exam grade. Question-bank source status: "}{diagnostic.sourceVerification === "verified" ? (lang === "ar" ? "مُراجع" : "reviewed") : (lang === "ar" ? "غير موثق رسميًا بعد" : "not yet verified")}{diagnostic.message ? "." : ""}</div>
+                  {diagnostic.domainResults?.length > 0 && <div className="mt-4"><h5 className="text-[11px] font-black text-slate-900 dark:text-white">{lang === "ar" ? "الأداء حسب مجال الأسئلة" : "Performance by question area"}</h5><p className="mt-1 text-[10px] text-slate-500 dark:text-slate-400">{lang === "ar" ? "يعرض التقرير المجالات الموجودة في هذا الاختبار فقط." : "This report shows only the question areas represented in this assessment."}</p><div className="mt-2 grid gap-2 sm:grid-cols-2">{diagnostic.domainResults.map((area: any) => <div key={area.domain} className="rounded-xl border border-white bg-white/80 p-3 dark:border-slate-800 dark:bg-slate-900/70"><div className="flex items-center justify-between gap-2 text-[10px]"><strong className="text-slate-800 dark:text-slate-100">{lang === "ar" ? (QUESTION_DOMAIN_LABELS_AR[String(area.domain).toLocaleLowerCase()] || area.domain) : area.domain}</strong><span className="font-black text-blue-700 dark:text-blue-300">{area.percentage}% · {area.correct}/{area.total}</span></div><div className="mt-2 h-1.5 overflow-hidden rounded-full bg-slate-100 dark:bg-slate-800"><div className={`h-full ${area.percentage >= 75 ? "bg-emerald-500" : area.percentage >= 60 ? "bg-amber-500" : "bg-rose-500"}`} style={{ width: `${area.percentage}%` }} /></div></div>)}</div></div>}
+                  {diagnostic.topicResults?.length > 0 && <div className="mt-4"><h5 className="text-[11px] font-black text-slate-900 dark:text-white">{lang === "ar" ? "الأداء حسب الموضوع" : "Performance by topic"}</h5><div className="mt-2 grid gap-2 sm:grid-cols-2">{diagnostic.topicResults.map((topic: any) => <div key={topic.topic} className="rounded-xl border border-white bg-white/80 p-3 dark:border-slate-800 dark:bg-slate-900/70"><div className="flex items-center justify-between gap-2 text-[10px]"><strong className="text-slate-800 dark:text-slate-100">{topic.topic}</strong><span className="font-black text-blue-700 dark:text-blue-300">{topic.percentage}% · {topic.correct}/{topic.total}</span></div><div className="mt-2 h-1.5 overflow-hidden rounded-full bg-slate-100 dark:bg-slate-800"><div className={`h-full ${topic.percentage >= 75 ? "bg-emerald-500" : topic.percentage >= 60 ? "bg-amber-500" : "bg-rose-500"}`} style={{ width: `${topic.percentage}%` }} /></div></div>)}</div></div>}
+                  {diagnostic.revisionTopics?.length > 0 && <p className="mt-3 text-[10px] leading-5 text-slate-700 dark:text-slate-300"><strong>{lang === "ar" ? "موضوعات مقترحة للمراجعة: " : "Suggested revision: "}</strong>{diagnostic.revisionTopics.join("، ")}</p>}
+                  {diagnostic.strengths?.length > 0 && <p className="mt-1 text-[10px] leading-5 text-emerald-800 dark:text-emerald-200"><strong>{lang === "ar" ? "نقاط قوية: " : "Strengths: "}</strong>{diagnostic.strengths.join("، ")}</p>}
+                </section>
+              );
+            })()}
+
             <div className="mt-5 flex flex-wrap justify-center gap-3">
               {submissionTarget === "quiz" && (
                 <button type="button" onClick={handleRetake} className="px-6 py-3 rounded-xl bg-blue-700 text-white text-xs font-black transition hover:bg-blue-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500">
@@ -533,7 +665,7 @@ export const QuizPlayer: React.FC<QuizPlayerProps> = ({
                   {currentMistakeQuestion.passageText && (
                     <details className="mb-3 rounded-xl border border-indigo-200 bg-indigo-50/70 p-3 dark:border-indigo-900 dark:bg-indigo-950/30">
                       <summary className="cursor-pointer text-[11px] font-black text-indigo-700 dark:text-indigo-300">{lang === "ar" ? "عرض قطعة الفهم" : "Show reading passage"}</summary>
-                      <p dir="auto" className="mt-2 whitespace-pre-line text-xs leading-6 text-slate-700 dark:text-slate-200">{currentMistakeQuestion.passageText}</p>
+                      <p dir="auto" className="mt-2 whitespace-pre-line text-xs leading-6 text-slate-700 dark:text-slate-200">{renderPassageText(currentMistakeQuestion)}</p>
                     </details>
                   )}
                   <p dir="auto" className="text-sm font-extrabold leading-7 text-slate-900 dark:text-white">{currentMistakeQuestion.questionText}</p>
@@ -717,4 +849,3 @@ export const QuizPlayer: React.FC<QuizPlayerProps> = ({
     </div>
   );
 };
-

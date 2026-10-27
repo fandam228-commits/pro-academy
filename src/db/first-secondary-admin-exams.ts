@@ -21,8 +21,11 @@ export type ImportedAdminExamQuestion = {
   topic: string;
   bloomLevel: string;
   passageText?: string;
+  passageHighlightText?: string;
+  passageHighlightOccurrence?: number;
   options: string[];
   correctAnswer: string;
+  acceptedAnswers?: string[];
   explanation: string;
   points: number;
   timesUsed: number;
