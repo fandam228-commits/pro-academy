@@ -9,12 +9,14 @@ import {
   attendanceRecords,
   questionBank,
   enrollments,
+  courses,
   parentLinks,
 } from "@/db/schema";
 import { eq, and } from "drizzle-orm";
 import { NextResponse } from "next/server";
 import { ensureDbSetup } from "@/db/migrate-and-seed";
 import { getAuthContext } from "@/lib/security";
+import { canAccessStudentAnalytics } from "@/lib/analytics-authorization";
 
 function attendanceRate(records: any[]) {
   if (records.length === 0) return 100;
@@ -163,15 +165,45 @@ export async function GET(req: Request) {
   const role = ctx.user.role as string;
 
   try {
-    // ---------- TEACHER / ADMIN: class-wide analytics ----------
-    if (role === "teacher" || role === "admin") {
+    // ---------- ADMIN: unrestricted analytics ----------
+    if (role === "admin") {
       if (requestedStudent) {
         const report = await buildStudentReport(requestedStudent);
+        if (!report.student) return NextResponse.json({ error: "Student not found" }, { status: 404 });
         return NextResponse.json({ scope: "student", ...report });
       }
 
       const students = await db.select().from(users).where(eq(users.role, "student"));
       const reports = await Promise.all(students.map((s) => buildStudentReport(s.id)));
+
+      return buildClassAnalyticsResponse(reports);
+    }
+
+    // ---------- TEACHER: only students enrolled in courses owned by this teacher ----------
+    if (role === "teacher") {
+      const teacherEnrollments = await db
+        .select({ studentId: enrollments.studentId })
+        .from(enrollments)
+        .innerJoin(courses, eq(enrollments.courseId, courses.id))
+        .where(eq(courses.teacherId, ctx.user.id));
+      const teacherStudentIds = [...new Set(teacherEnrollments.map((row) => row.studentId))];
+
+      if (requestedStudent) {
+        const allowed = canAccessStudentAnalytics({
+          role,
+          requesterId: ctx.user.id,
+          studentId: requestedStudent,
+          teacherStudentIds,
+        });
+        if (!allowed) return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+        const report = await buildStudentReport(requestedStudent);
+        if (!report.student || report.student.id === undefined) return NextResponse.json({ error: "Student not found" }, { status: 404 });
+        return NextResponse.json({ scope: "student", ...report });
+      }
+
+      const students = await db.select().from(users).where(eq(users.role, "student"));
+      const visibleStudents = students.filter((student) => teacherStudentIds.includes(student.id));
+      const reports = await Promise.all(visibleStudents.map((s) => buildStudentReport(s.id)));
 
       const classRows = reports
         .map((r) => ({
@@ -229,13 +261,22 @@ export async function GET(req: Request) {
         studentId = links[0]?.studentId || null;
       }
       if (!studentId) return NextResponse.json({ error: "No linked student" }, { status: 404 });
-      const links = await db.select().from(parentLinks).where(and(eq(parentLinks.parentId, ctx.user.id), eq(parentLinks.studentId, studentId)));
-      if (!links.length) return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+      const links = await db.select().from(parentLinks).where(eq(parentLinks.parentId, ctx.user.id));
+      const allowed = canAccessStudentAnalytics({
+        role,
+        requesterId: ctx.user.id,
+        studentId,
+        linkedParentStudentIds: links.map((link) => link.studentId),
+      });
+      if (!allowed) return NextResponse.json({ error: "Forbidden" }, { status: 403 });
       const report = await buildStudentReport(studentId);
       return NextResponse.json({ scope: "parent", ...report });
     }
 
-    // ---------- STUDENT: own report ----------
+    // ---------- STUDENT: own report only ----------
+    if (!canAccessStudentAnalytics({ role, requesterId: ctx.user.id, studentId: requestedStudent || ctx.user.id })) {
+      return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+    }
     const report = await buildStudentReport(ctx.user.id);
     return NextResponse.json({ scope: "student", ...report });
   } catch (error) {
