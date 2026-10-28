@@ -210,7 +210,7 @@ export async function POST(req: Request) {
           return NextResponse.json({ error: "Course not found" }, { status: 404 });
         }
         if (!canAssignHomeworkToCourse({
-          role,
+          role: ctx.user.role as string,
           requesterId: ctx.user.id,
           courseTeacherId: course.teacherId,
         })) {
