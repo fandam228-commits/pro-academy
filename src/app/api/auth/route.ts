@@ -90,7 +90,15 @@ export async function GET(req: Request) {
 export async function POST(req: Request) {
   await ensureDbSetup();
   try {
-    const body = await req.json();
+    let body: any;
+    try {
+      body = await req.json();
+    } catch {
+      return NextResponse.json({ error: "Malformed JSON request body." }, { status: 400 });
+    }
+    if (!body || typeof body !== "object" || Array.isArray(body)) {
+      return NextResponse.json({ error: "Request body must be a JSON object." }, { status: 400 });
+    }
     const { email, username, password, name, role, stage, grade, phone, parentPhone } = body;
     const rawAction = typeof body?.action === "string" ? body.action.trim().toLowerCase() : "";
     // Accept common sign-in aliases and older clients that send credentials without an action.
@@ -120,7 +128,7 @@ export async function POST(req: Request) {
       if (!name || !email || !password) {
         return NextResponse.json({ error: "Name, email and password are required." }, { status: 400 });
       }
-      if (!isWithinRegistrationInputLimits({ name, email, password })) {
+      if (!isWithinRegistrationInputLimits({ name, email, password, stage, grade, phone, parentPhone, referralCode: body.referralCode })) {
         return NextResponse.json({ error: "Registration fields are invalid or exceed the allowed length." }, { status: 400 });
       }
 
