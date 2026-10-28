@@ -88,3 +88,19 @@ test("missing teacher identity fails closed for all scoped report data", () => {
   assert.deepEqual(scoped.enrollments, []);
   assert.deepEqual(scoped.enrolledCourses, []);
 });
+
+test("course-linked teacher data is excluded when no owned course relationship was loaded", () => {
+  const scoped = scopeTeacherWeeklyReportData({
+    teacherId: "teacher-1",
+    teacherCourseIds: [],
+    homeworkRows: [
+      { id: "hw-course", teacherId: "teacher-1", courseId: "course-1" },
+      { id: "hw-general", teacherId: "teacher-1", courseId: null },
+    ],
+    quizzes: [{ id: "q1", courseId: "course-1" }],
+    quizSubmissions: [{ id: "qs1", quizId: "q1" }],
+  });
+  assert.deepEqual(scoped.homeworkRows.map((row) => row.id), ["hw-general"]);
+  assert.deepEqual(scoped.quizzes, []);
+  assert.deepEqual(scoped.quizSubmissions, []);
+});
