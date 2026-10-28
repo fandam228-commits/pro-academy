@@ -36,6 +36,13 @@ test("students must be enrolled to access course-linked PDFs", () => {
   assert.equal(canStudentAccessPdf({ ...base, activeCourseIds: [] }), false);
 });
 
+test("unprotected course-linked PDFs still require enrollment in the linked course", () => {
+  const base = { studentGrade: "Third Secondary", documentGrade: "Third Secondary", documentCourseId: "course-1", isProtected: false };
+  assert.equal(canStudentAccessPdf({ ...base, activeCourseIds: ["course-1"] }), true);
+  assert.equal(canStudentAccessPdf({ ...base, activeCourseIds: ["course-2"] }), false);
+  assert.equal(canStudentAccessPdf({ ...base, activeCourseIds: [] }), false);
+});
+
 test("protected course-less PDFs are limited to the student's grade", () => {
   assert.equal(canStudentAccessPdf({ studentGrade: "Third Prep", documentGrade: "Third Prep", isProtected: true }), true);
   assert.equal(canStudentAccessPdf({ studentGrade: "Third Prep", documentGrade: "First Secondary", isProtected: true }), false);
