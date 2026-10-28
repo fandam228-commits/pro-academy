@@ -24,6 +24,8 @@ export function canViewHomeworkSubmissionFile({
   return false;
 }
 
-export function canSubmitHomework({ role }) {
-  return role === "student";
+export function canSubmitHomework({ role, studentGrade, homeworkGrade }) {
+  if (role !== "student") return false;
+  if (studentGrade && homeworkGrade && studentGrade !== homeworkGrade) return false;
+  return true;
 }
