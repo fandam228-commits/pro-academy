@@ -15,5 +15,7 @@ export function canViewHomeworkSubmissionFile(input: HomeworkSubmissionFileAcces
 
 export interface HomeworkSubmissionInput {
   role: string | null | undefined;
+  studentGrade?: string | null;
+  homeworkGrade?: string | null;
 }
 export function canSubmitHomework(input: HomeworkSubmissionInput): boolean;
