@@ -68,3 +68,19 @@ test("registration input rejects empty passwords, malformed fields, and non-stri
   assert.equal(isWithinRegistrationInputLimits(null), false);
   assert.equal(isWithinRegistrationInputLimits([]), false);
 });
+
+test("registration keeps optional profile fields optional for existing clients", () => {
+  const base = { name: "Student", email: "student@example.com", password: "password123" };
+  assert.equal(isWithinRegistrationInputLimits(base), true);
+  assert.equal(
+    isWithinRegistrationInputLimits({
+      ...base,
+      stage: null,
+      grade: null,
+      phone: null,
+      parentPhone: null,
+      referralCode: null,
+    }),
+    true
+  );
+});
