@@ -1,9 +1,10 @@
 import { db } from "@/db";
 import { homework, homeworkSubmissions, users, notifications } from "@/db/schema";
-import { eq, and } from "drizzle-orm";
+import { eq, and, inArray } from "drizzle-orm";
 import { NextResponse } from "next/server";
 import { ensureDbSetup } from "@/db/migrate-and-seed";
 import { requireRoles, getAuthContext } from "@/lib/security";
+import { canAccessHomeworkRecord } from "@/lib/homework-authorization.mjs";
 import { notifyUser } from "@/lib/push";
 import { put } from "@vercel/blob";
 
@@ -21,18 +22,40 @@ export async function GET(req: Request) {
   const role = ctx.user.role as string;
 
   try {
-    // Teacher/Admin sees assignments + all submissions
+    // Admin may inspect all homework; teachers are scoped to homework they own.
     if (role === "teacher" || role === "admin") {
       if (homeworkId) {
         const hw = await db.select().from(homework).where(eq(homework.id, homeworkId));
+        const record = hw[0];
+        if (
+          !record ||
+          !canAccessHomeworkRecord({
+            role,
+            requesterId: ctx.user.id,
+            homeworkTeacherId: record.teacherId,
+          })
+        ) {
+          // Use 404 for missing and non-owned records to avoid revealing their existence.
+          return NextResponse.json({ error: "Homework not found" }, { status: 404 });
+        }
         const subs = await db
           .select()
           .from(homeworkSubmissions)
           .where(eq(homeworkSubmissions.homeworkId, homeworkId));
-        return NextResponse.json({ homework: hw[0] || null, submissions: subs });
+        return NextResponse.json({ homework: record, submissions: subs });
       }
-      const allHw = await db.select().from(homework);
-      const allSubs = await db.select().from(homeworkSubmissions);
+
+      const allHw =
+        role === "teacher"
+          ? await db.select().from(homework).where(eq(homework.teacherId, ctx.user.id))
+          : await db.select().from(homework);
+      const homeworkIds = allHw.map((item) => item.id);
+      const allSubs = homeworkIds.length
+        ? await db
+            .select()
+            .from(homeworkSubmissions)
+            .where(inArray(homeworkSubmissions.homeworkId, homeworkIds))
+        : [];
       const withCounts = allHw.map((h) => ({
         ...h,
         submissionsCount: allSubs.filter((s) => s.homeworkId === h.id).length,
