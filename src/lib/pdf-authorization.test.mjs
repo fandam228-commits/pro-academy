@@ -11,7 +11,7 @@ test("admins can manage any PDF; teachers can manage only trusted new records th
   assert.equal(canManagePdfDocument({ role: "teacher", requesterId: "teacher-1", uploaderId: "teacher-1", documentId: "pdfu_new" }), true);
   assert.equal(canManagePdfDocument({ role: "teacher", requesterId: "teacher-2", uploaderId: "teacher-1", documentId: "pdfu_new" }), false);
   assert.equal(canManagePdfDocument({ role: "teacher", requesterId: "teacher-1", uploaderId: "teacher-1", documentId: "pdf_legacy" }), false);
-  assert.equal(canManagePdfDocument({ role: "teacher", requesterId: "teacher-1", uploaderId: "teacher-1", documentId: "pdfext_legacy" }), false);
+  assert.equal(canManagePdfDocument({ role: "teacher", requesterId: "teacher-1", uploaderId: "teacher-1", documentId: "pdf_ext_legacy" }), false);
   assert.equal(canManagePdfDocument({ role: "student", requesterId: "student-1", uploaderId: "student-1", documentId: "pdfu_new" }), false);
 });
 
