@@ -1,13 +1,18 @@
 import { db } from "@/db";
 import { homework, homeworkSubmissions, users, notifications } from "@/db/schema";
-import { eq, and } from "drizzle-orm";
+import { eq, and, inArray } from "drizzle-orm";
 import { NextResponse } from "next/server";
 import { ensureDbSetup } from "@/db/migrate-and-seed";
 import { requireRoles, getAuthContext } from "@/lib/security";
 import { notifyUser } from "@/lib/push";
 import { put } from "@vercel/blob";
+import { canManageHomework, canSubmitHomework } from "@/lib/homework-authorization.mjs";
 
 const MAX_SIZE_BYTES = 20 * 1024 * 1024; // 20MB
+
+function withoutStoragePath(record: object) {
+  return Object.fromEntries(Object.entries(record).filter(([key]) => key !== "storagePath"));
+}
 
 export async function GET(req: Request) {
   await ensureDbSetup();
@@ -21,18 +26,34 @@ export async function GET(req: Request) {
   const role = ctx.user.role as string;
 
   try {
-    // Teacher/Admin sees assignments + all submissions
+    // Teachers may only read homework and submissions they own; admins may read all.
     if (role === "teacher" || role === "admin") {
       if (homeworkId) {
-        const hw = await db.select().from(homework).where(eq(homework.id, homeworkId));
+        const hwRows = await db.select().from(homework).where(eq(homework.id, homeworkId));
+        if (hwRows.length === 0) {
+          return NextResponse.json({ error: "Homework not found" }, { status: 404 });
+        }
+        const hw = hwRows[0];
+        if (!canManageHomework({ role, requesterId: ctx.user.id, homeworkTeacherId: hw.teacherId })) {
+          return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+        }
         const subs = await db
           .select()
           .from(homeworkSubmissions)
           .where(eq(homeworkSubmissions.homeworkId, homeworkId));
-        return NextResponse.json({ homework: hw[0] || null, submissions: subs });
+        return NextResponse.json({
+          homework: hw,
+          submissions: subs.map((submission) => withoutStoragePath(submission)),
+        });
       }
-      const allHw = await db.select().from(homework);
-      const allSubs = await db.select().from(homeworkSubmissions);
+
+      const allHw = role === "admin"
+        ? await db.select().from(homework)
+        : await db.select().from(homework).where(eq(homework.teacherId, ctx.user.id));
+      const homeworkIds = allHw.map((assignment) => assignment.id);
+      const allSubs = homeworkIds.length
+        ? await db.select().from(homeworkSubmissions).where(inArray(homeworkSubmissions.homeworkId, homeworkIds))
+        : [];
       const withCounts = allHw.map((h) => ({
         ...h,
         submissionsCount: allSubs.filter((s) => s.homeworkId === h.id).length,
@@ -41,7 +62,11 @@ export async function GET(req: Request) {
       return NextResponse.json({ homeworkList: withCounts, role });
     }
 
-    // Student sees homework for their grade + own submission status
+    if (role !== "student") {
+      return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+    }
+
+    // Students see homework for their grade and their own submission status only.
     const myGrade = ctx.user.grade || "";
     let list = await db.select().from(homework);
     if (myGrade) {
@@ -54,7 +79,7 @@ export async function GET(req: Request) {
 
     const withStatus = list.map((h) => {
       const mine = mySubs.find((s) => s.homeworkId === h.id) || null;
-      return { ...h, mySubmission: mine };
+      return { ...h, mySubmission: mine ? withoutStoragePath(mine) : null };
     });
 
     return NextResponse.json({ homeworkList: withStatus, role: "student" });
@@ -75,6 +100,9 @@ export async function POST(req: Request) {
 
   // ============ STUDENT SUBMIT ANSWER (multipart, optional file) ============
   if (contentType.includes("multipart/form-data")) {
+    if (!canSubmitHomework({ role: ctx.user.role })) {
+      return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+    }
     try {
       const form = await req.formData();
       const homeworkId = String(form.get("homeworkId") || "");
@@ -88,6 +116,9 @@ export async function POST(req: Request) {
       const hw = await db.select().from(homework).where(eq(homework.id, homeworkId));
       if (hw.length === 0) {
         return NextResponse.json({ error: "Homework not found" }, { status: 404 });
+      }
+      if (ctx.user.grade && hw[0].grade && ctx.user.grade !== hw[0].grade) {
+        return NextResponse.json({ error: "You cannot submit homework assigned to another grade." }, { status: 403 });
       }
 
       // One submission per student — replace an existing ungraded one
@@ -148,7 +179,7 @@ export async function POST(req: Request) {
         "/?tab=homework"
       );
 
-      return NextResponse.json({ success: true, submission: sub });
+      return NextResponse.json({ success: true, submission: withoutStoragePath(sub) });
     } catch (error) {
       console.error("Homework submit error:", error);
       return NextResponse.json({ error: "Submission failed" }, { status: 500 });
