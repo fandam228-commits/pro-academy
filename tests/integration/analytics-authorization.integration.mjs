@@ -81,7 +81,7 @@ async function withFixture(run) {
         ('link-2', 'parent-1', 'student-2'),
         ('link-3', 'parent-2', 'student-3');
     `);
-    await run({ client, db: drizzle(client) });
+    await run({ db: drizzle(client) });
   } finally {
     await client.end();
   }
@@ -97,7 +97,7 @@ integrationTest("PostgreSQL teacher enrollment query enforces owned-course scope
         teacherId: courses.teacherId,
       })
       .from(enrollments)
-      .innerJoin(enrollments ? courses : courses, eq(enrollments.courseId, courses.id))
+      .innerJoin(courses, eq(enrollments.courseId, courses.id))
       .where(eq(courses.teacherId, "teacher-1"));
 
     assert.deepEqual(getTeacherAnalyticsStudentIds(rows, "teacher-1"), ["student-1", "student-2"]);
