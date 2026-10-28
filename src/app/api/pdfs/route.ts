@@ -1,17 +1,49 @@
 import { db } from "@/db";
-import { pdfDocuments, enrollments } from "@/db/schema";
-import { eq, and } from "drizzle-orm";
+import { pdfDocuments, enrollments, courses, parentLinks, users } from "@/db/schema";
+import { eq, and, inArray } from "drizzle-orm";
 import { NextResponse } from "next/server";
+import { randomUUID } from "node:crypto";
 import { ensureDbSetup } from "@/db/migrate-and-seed";
 import { requireRoles, getAuthContext } from "@/lib/security";
+import { canAttachPdfToCourse, canManagePdfDocument, canStudentAccessPdf } from "@/lib/pdf-authorization.mjs";
+import { canListPdfDocument, toPublicPdfMetadata } from "@/lib/pdf-list-authorization.mjs";
+import { normalizePublicPdfUrl } from "@/lib/pdf-external-url.mjs";
 
 // Vercel serverless body limit is ~4.5MB — keep uploads under that.
 const MAX_SIZE_BYTES = 4 * 1024 * 1024; // 4MB
+
+async function authorizePdfMutation(documentId: string, user: { id: string; role: string }) {
+  const rows = await db
+    .select({ id: pdfDocuments.id, uploaderId: pdfDocuments.uploaderId, courseId: pdfDocuments.courseId })
+    .from(pdfDocuments)
+    .where(eq(pdfDocuments.id, documentId));
+  if (rows.length === 0) return { document: null, allowed: false };
+
+  const document = rows[0];
+  let courseTeacherId: string | null = null;
+  if (document.courseId) {
+    const courseRows = await db.select({ teacherId: courses.teacherId }).from(courses).where(eq(courses.id, document.courseId));
+    courseTeacherId = courseRows[0]?.teacherId ?? null;
+  }
+
+  return {
+    document,
+    allowed: canManagePdfDocument({
+      role: user.role,
+      requesterId: user.id,
+      uploaderId: document.uploaderId,
+      documentId: document.id,
+      documentCourseId: document.courseId,
+      courseTeacherId,
+    }),
+  };
+}
 
 export async function GET(req: Request) {
   await ensureDbSetup();
   const ctx = await getAuthContext(req);
   if (!ctx) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+
   const { searchParams } = new URL(req.url);
   const search = searchParams.get("search")?.toLowerCase();
   const stage = searchParams.get("stage");
@@ -20,32 +52,126 @@ export async function GET(req: Request) {
   const courseId = searchParams.get("courseId");
 
   try {
-    // Never return the heavy base64 payload in the list endpoint
-    const all = await db.select().from(pdfDocuments);
-    let docs = all.map(({ fileData, ...rest }) => rest);
-    if (ctx.user.role === "student") {
-      const active = await db.select({ courseId: enrollments.courseId }).from(enrollments).where(and(eq(enrollments.studentId, ctx.user.id), eq(enrollments.status, "active")));
-      const allowed = new Set(active.map((e) => e.courseId));
-      docs = docs.filter((d) => !d.courseId || allowed.has(d.courseId));
+    // Select metadata only. Do not load file bytes or internal storage destinations
+    // for a list response; the direct-file endpoint performs its own authorization.
+    const all = await db.select({
+      id: pdfDocuments.id,
+      title: pdfDocuments.title,
+      description: pdfDocuments.description,
+      uploaderId: pdfDocuments.uploaderId,
+      uploaderName: pdfDocuments.uploaderName,
+      stage: pdfDocuments.stage,
+      grade: pdfDocuments.grade,
+      unit: pdfDocuments.unit,
+      topic: pdfDocuments.topic,
+      courseId: pdfDocuments.courseId,
+      fileName: pdfDocuments.fileName,
+      fileSizeKb: pdfDocuments.fileSizeKb,
+      pageCount: pdfDocuments.pageCount,
+      views: pdfDocuments.views,
+      downloads: pdfDocuments.downloads,
+      isProtected: pdfDocuments.isProtected,
+      watermarkEnabled: pdfDocuments.watermarkEnabled,
+      allowDownload: pdfDocuments.allowDownload,
+      createdAt: pdfDocuments.createdAt,
+    }).from(pdfDocuments);
+
+    let activeCourseIds: string[] = [];
+    let linkedStudentGrades: string[] = [];
+    let ownedCourseIds = new Set<string>();
+
+    if (ctx.user.role === "teacher") {
+      const ownedCourses = await db
+        .select({ id: courses.id })
+        .from(courses)
+        .where(eq(courses.teacherId, ctx.user.id));
+      ownedCourseIds = new Set(ownedCourses.map((course) => course.id));
     }
 
-    if (search) {
-      docs = docs.filter(
-        (d) =>
-          d.title.toLowerCase().includes(search) ||
-          (d.description || "").toLowerCase().includes(search) ||
-          (d.topic || "").toLowerCase().includes(search)
-      );
+    if (ctx.user.role === "student") {
+      const active = await db
+        .select({ courseId: enrollments.courseId })
+        .from(enrollments)
+        .where(and(
+          eq(enrollments.studentId, ctx.user.id),
+          eq(enrollments.status, "active")
+        ));
+      activeCourseIds = [...new Set(active.map((enrollment) => enrollment.courseId))];
     }
-    if (stage) docs = docs.filter((d) => d.stage === stage);
-    if (grade) docs = docs.filter((d) => d.grade === grade);
-    if (topic) docs = docs.filter((d) => d.topic === topic);
-    if (courseId) docs = docs.filter((d) => d.courseId === courseId);
+
+    if (ctx.user.role === "parent") {
+      const links = await db
+        .select({ studentId: parentLinks.studentId })
+        .from(parentLinks)
+        .where(eq(parentLinks.parentId, ctx.user.id));
+      const linkedStudentIds = [...new Set(links.map((link) => link.studentId))];
+
+      if (linkedStudentIds.length > 0) {
+        const [linkedUsers, linkedEnrollments] = await Promise.all([
+          db.select({ grade: users.grade }).from(users).where(inArray(users.id, linkedStudentIds)),
+          db.select({ courseId: enrollments.courseId })
+            .from(enrollments)
+            .where(and(
+              inArray(enrollments.studentId, linkedStudentIds),
+              eq(enrollments.status, "active")
+            )),
+        ]);
+        linkedStudentGrades = [...new Set(
+          linkedUsers
+            .map((linkedUser) => linkedUser.grade)
+            .filter((value): value is string => typeof value === "string" && value.length > 0)
+        )];
+        activeCourseIds = [...new Set(linkedEnrollments.map((enrollment) => enrollment.courseId))];
+      }
+    }
+
+    const docs = all
+      .filter((doc) => canListPdfDocument({
+        role: ctx.user.role,
+        requesterId: ctx.user.id,
+        uploaderId: doc.uploaderId,
+        documentId: doc.id,
+        documentCourseId: doc.courseId,
+        courseTeacherId: doc.courseId && ownedCourseIds.has(doc.courseId) ? ctx.user.id : null,
+        studentGrade: ctx.user.grade,
+        documentGrade: doc.grade,
+        // Treat missing protection metadata as protected (fail closed).
+        isProtected: doc.isProtected !== false,
+        activeCourseIds,
+        linkedStudentGrades,
+      }))
+      .map((doc) => toPublicPdfMetadata(doc)!);
+
+    if (search) {
+      const filtered = docs.filter(
+        (doc) =>
+          doc.title.toLowerCase().includes(search) ||
+          (doc.description || "").toLowerCase().includes(search) ||
+          (doc.topic || "").toLowerCase().includes(search)
+      );
+      docs.splice(0, docs.length, ...filtered);
+    }
+    if (stage) {
+      const filtered = docs.filter((doc) => doc.stage === stage);
+      docs.splice(0, docs.length, ...filtered);
+    }
+    if (grade) {
+      const filtered = docs.filter((doc) => doc.grade === grade);
+      docs.splice(0, docs.length, ...filtered);
+    }
+    if (topic) {
+      const filtered = docs.filter((doc) => doc.topic === topic);
+      docs.splice(0, docs.length, ...filtered);
+    }
+    if (courseId) {
+      const filtered = docs.filter((doc) => doc.courseId === courseId);
+      docs.splice(0, docs.length, ...filtered);
+    }
 
     const stats = {
       total: docs.length,
-      totalViews: docs.reduce((s, d) => s + (d.views || 0), 0),
-      totalDownloads: docs.reduce((s, d) => s + (d.downloads || 0), 0),
+      totalViews: docs.reduce((sum, doc) => sum + (doc.views || 0), 0),
+      totalDownloads: docs.reduce((sum, doc) => sum + (doc.downloads || 0), 0),
     };
 
     return NextResponse.json({ documents: docs, stats });
@@ -57,7 +183,7 @@ export async function GET(req: Request) {
 
 export async function POST(req: Request) {
   await ensureDbSetup();
-  const { denied } = await requireRoles(req, ["admin", "teacher"]);
+  const { user, denied } = await requireRoles(req, ["admin", "teacher"]);
   if (denied) return denied;
 
   const contentType = req.headers.get("content-type") || "";
@@ -89,17 +215,24 @@ export async function POST(req: Request) {
 
       const title = String(form.get("title") || file.name.replace(/\.pdf$/i, ""));
       const description = String(form.get("description") || "");
-      const uploaderId = String(form.get("uploaderId") || "usr_admin_1");
-      const uploaderName = String(form.get("uploaderName") || "Mr. Habib El Rahman");
+      const uploaderId = user!.id;
+      const uploaderName = user!.name;
       const stage = String(form.get("stage") || "Secondary");
       const grade = String(form.get("grade") || "Third Secondary (Baccalaureate)");
       const unit = String(form.get("unit") || "Unit 1");
       const topic = String(form.get("topic") || "General Notes");
-      const courseId = String(form.get("courseId") || "");
+      const courseId = String(form.get("courseId") || "").trim();
+      if (courseId) {
+        const linkedCourse = await db.select({ teacherId: courses.teacherId }).from(courses).where(eq(courses.id, courseId));
+        if (linkedCourse.length === 0) return NextResponse.json({ error: "Course not found." }, { status: 404 });
+        if (!canAttachPdfToCourse({ role: user!.role, requesterId: user!.id, courseTeacherId: linkedCourse[0].teacherId })) {
+          return NextResponse.json({ error: "You may only attach PDFs to courses you own." }, { status: 403 });
+        }
+      }
       const allowDownload = String(form.get("allowDownload") || "false") === "true";
       const watermarkEnabled = String(form.get("watermarkEnabled") || "true") === "true";
 
-      const id = `pdf_${Date.now()}_${Math.random().toString(36).substring(2, 6)}`;
+      const id = `pdfu_${randomUUID()}`;
       const safeName = file.name.replace(/[^a-zA-Z0-9._-]/g, "_");
 
       // Store file content in the database (works on Vercel serverless)
@@ -151,16 +284,26 @@ export async function POST(req: Request) {
 
     if (action === "delete") {
       const { documentId } = body;
+      if (!documentId) return NextResponse.json({ error: "Document ID is required." }, { status: 400 });
+      const authorization = await authorizePdfMutation(documentId, user!);
+      if (!authorization.document) return NextResponse.json({ error: "Document not found." }, { status: 404 });
+      if (!authorization.allowed) return NextResponse.json({ error: "Forbidden" }, { status: 403 });
       await db.delete(pdfDocuments).where(eq(pdfDocuments.id, documentId));
       return NextResponse.json({ success: true });
     }
 
     if (action === "update_meta") {
       const { documentId, meta } = body;
+      if (!documentId || !meta || typeof meta !== "object") {
+        return NextResponse.json({ error: "Document ID and metadata are required." }, { status: 400 });
+      }
+      const authorization = await authorizePdfMutation(documentId, user!);
+      if (!authorization.document) return NextResponse.json({ error: "Document not found." }, { status: 404 });
+      if (!authorization.allowed) return NextResponse.json({ error: "Forbidden" }, { status: 403 });
       await db
         .update(pdfDocuments)
         .set({
-          title: meta.title,
+          title: String(meta.title || "").trim(),
           description: meta.description || null,
           unit: meta.unit || "Unit 1",
           topic: meta.topic || "General Notes",
@@ -179,13 +322,20 @@ export async function POST(req: Request) {
       if (!title || !externalUrl) {
         return NextResponse.json({ error: "Title and external URL are required." }, { status: 400 });
       }
-      const id = `pdf_ext_${Date.now()}`;
+      const normalizedExternalUrl = normalizePublicPdfUrl(externalUrl);
+      if (!normalizedExternalUrl) {
+        return NextResponse.json(
+          { error: "External URL must be an absolute HTTP(S) URL without embedded credentials." },
+          { status: 400 }
+        );
+      }
+      const id = `pdfext_${randomUUID()}`;
       const newDoc = {
         id,
         title,
         description: description || "",
-        uploaderId: "usr_admin_1",
-        uploaderName: "Mr. Habib El Rahman",
+        uploaderId: user!.id,
+        uploaderName: user!.name,
         stage: stage || "Secondary",
         grade: grade || "Third Secondary (Baccalaureate)",
         unit: unit || "Unit 1",
@@ -194,7 +344,7 @@ export async function POST(req: Request) {
         fileName: `${title}.pdf`,
         storagePath: null,
         fileData: null,
-        externalUrl,
+        externalUrl: normalizedExternalUrl,
         fileSizeKb: 0,
         pageCount: 1,
         views: 0,

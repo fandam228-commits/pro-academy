@@ -29,7 +29,6 @@ interface PdfDoc {
   id: string;
   title: string;
   description?: string;
-  uploaderId: string;
   uploaderName: string;
   stage?: string;
   grade?: string;
@@ -37,7 +36,6 @@ interface PdfDoc {
   topic?: string;
   courseId?: string | null;
   fileName: string;
-  storagePath?: string | null;
   fileSizeKb?: number;
   pageCount?: number;
   views?: number;
