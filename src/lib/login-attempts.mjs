@@ -33,19 +33,6 @@ export function createLoginAttemptLimiter(options = {}) {
     }
   }
 
-  function oldestUnlockedKey(currentTime) {
-    let oldestKey = null;
-    let oldestTouchedAt = Infinity;
-    for (const [key, record] of records) {
-      if (record.lockedUntil > currentTime && record.lockedUntil !== 0) continue;
-      if (record.lastTouchedAt < oldestTouchedAt) {
-        oldestKey = key;
-        oldestTouchedAt = record.lastTouchedAt;
-      }
-    }
-    return oldestKey;
-  }
-
   function checkLoginLock(identifier) {
     const key = normalizeIdentifier(identifier);
     if (!key) return 0;
@@ -58,9 +45,10 @@ export function createLoginAttemptLimiter(options = {}) {
       return Math.max(1, Math.ceil((record.lockedUntil - currentTime) / 60_000));
     }
 
-    // If every tracked slot is currently locked, fail closed for new identities
-    // rather than allocating beyond the configured memory bound.
-    if (!record && records.size >= maxTrackedKeys && oldestUnlockedKey(currentTime) === null) {
+    // Do not evict another identity's failure history to make room for an
+    // attacker-supplied identifier. At capacity, reject new/untracked keys until
+    // stale records expire; this preserves the hard memory bound and lockouts.
+    if (!record && records.size >= maxTrackedKeys) {
       return Math.max(1, Math.ceil(lockoutMs / 60_000));
     }
 
@@ -82,11 +70,7 @@ export function createLoginAttemptLimiter(options = {}) {
     }
 
     if (!record) {
-      if (records.size >= maxTrackedKeys) {
-        const evictableKey = oldestUnlockedKey(currentTime);
-        if (evictableKey === null) return false;
-        records.delete(evictableKey);
-      }
+      if (records.size >= maxTrackedKeys) return false;
       record = {
         count: 0,
         windowStartedAt: currentTime,
