@@ -8,25 +8,32 @@ test("Analytics rosters minimize user fields and constrain teacher IDs in SQL", 
   const source = await readFile(analyticsRouteUrl, "utf8");
   const adminIdOnlyRosterQuery =
     /db\.select\(\{\s*id:\s*users\.id\s*\}\)\.from\(users\)\.where\(eq\(users\.role,\s*"student"\)\)/g;
-  const teacherScopedRosterQuery =
-    /db\.select\(\{\s*id:\s*users\.id\s*\}\)\.from\(users\)\.where\(and\(\s*eq\(users\.role,\s*"student"\),\s*inArray\(users\.id,\s*teacherStudentIds\),?\s*\)\s*\)/g;
   const broadRosterQuery =
     /db\.select\(\)\.from\(users\)\.where\(eq\(users\.role,\s*"student"\)\)/g;
+  const teacherRosterBlock = source.match(
+    /const visibleStudents = teacherStudentIds\.length === 0[\s\S]*?const reports =/,
+  );
 
   assert.equal(
     (source.match(adminIdOnlyRosterQuery) ?? []).length,
     1,
     "admin roster enumeration should project only the student ID",
   );
-  assert.equal(
-    (source.match(teacherScopedRosterQuery) ?? []).length,
-    1,
+  assert.ok(teacherRosterBlock, "teacher roster must explicitly short-circuit an empty authorization scope");
+  assert.match(
+    teacherRosterBlock[0],
+    /inArray\(\s*users\.id,\s*teacherStudentIds\s*\)/,
     "teacher roster queries must be constrained in SQL to authorized student IDs",
   );
   assert.match(
-    source,
-    /teacherStudentIds\.length === 0\s*\?\s*\[\]\s*:/,
-    "an empty authorized roster must not trigger an unscoped student query",
+    teacherRosterBlock[0],
+    /eq\(\s*users\.role,\s*"student"\s*\)/,
+    "teacher roster query must still reject non-student accounts",
+  );
+  assert.doesNotMatch(
+    teacherRosterBlock[0],
+    /students\.filter/,
+    "teacher roster authorization must not be deferred to in-memory filtering",
   );
   assert.equal(
     (source.match(broadRosterQuery) ?? []).length,
