@@ -19,3 +19,9 @@ export interface HomeworkSubmissionInput {
   homeworkGrade?: string | null;
 }
 export function canSubmitHomework(input: HomeworkSubmissionInput): boolean;
+
+export interface HomeworkFileAccessDecisionInput extends HomeworkSubmissionFileAccessInput {
+  submissionFound: boolean;
+  homeworkFound: boolean;
+}
+export function getHomeworkFileAccessDecision(input: HomeworkFileAccessDecisionInput): "allowed" | "not-found";
