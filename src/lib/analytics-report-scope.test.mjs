@@ -6,6 +6,7 @@ import {
   isTeacherScopedHomework,
   isCourseScopedQuiz,
   resolveParentAnalyticsStudentId,
+  isAnalyticsStudentAccount,
 } from "./analytics-report-scope.mjs";
 
 const enrollmentRows = [
@@ -62,7 +63,6 @@ test("malformed enrollment inputs fail closed", () => {
   assert.deepEqual(getTeacherAnalyticsCourseIds(enrollmentRows, "teacher-1", ""), []);
 });
 
-
 test("parent analytics resolves an explicitly selected linked student only", () => {
   assert.deepEqual(
     resolveParentAnalyticsStudentId("student-2", ["student-1", "student-2"]),
@@ -79,7 +79,6 @@ test("parent analytics requires studentId when multiple distinct children are li
     resolveParentAnalyticsStudentId(null, ["student-1", "student-2"]),
     { ok: false, reason: "student-id-required" }
   );
-  // Duplicate link rows must not make one child look like multiple children.
   assert.deepEqual(
     resolveParentAnalyticsStudentId(null, ["student-1", "student-1"]),
     { ok: true, studentId: "student-1" }
@@ -103,4 +102,14 @@ test("parent analytics handles no links and malformed relationship data fail-clo
     resolveParentAnalyticsStudentId("", ["student-1"]),
     { ok: false, reason: "invalid-student-id" }
   );
+});
+
+test("only user records whose role is student may be analytics targets", () => {
+  assert.equal(isAnalyticsStudentAccount({ id: "student-1", role: "student" }), true);
+  assert.equal(isAnalyticsStudentAccount({ id: "teacher-1", role: "teacher" }), false);
+  assert.equal(isAnalyticsStudentAccount({ id: "parent-1", role: "parent" }), false);
+  assert.equal(isAnalyticsStudentAccount({ id: "admin-1", role: "admin" }), false);
+  assert.equal(isAnalyticsStudentAccount({ id: "student-1" }), false);
+  assert.equal(isAnalyticsStudentAccount(null), false);
+  assert.equal(isAnalyticsStudentAccount({ id: " ", role: "student" }), false);
 });

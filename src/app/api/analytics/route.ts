@@ -23,6 +23,7 @@ import {
   getTeacherAnalyticsStudentIds,
   getTeacherAnalyticsCourseIds,
   resolveParentAnalyticsStudentId,
+  isAnalyticsStudentAccount,
 } from "@/lib/analytics-report-scope.mjs";
 
 type TeacherReportScope = {
@@ -30,10 +31,20 @@ type TeacherReportScope = {
   allowedCourseIds: string[];
 };
 
+class AnalyticsStudentNotFoundError extends Error {
+  constructor() {
+    super("Analytics target is not a student account");
+    this.name = "AnalyticsStudentNotFoundError";
+  }
+}
+
 /** Builds a learning profile; teacher calls receive only explicitly course-scoped data. */
 async function buildStudentReport(studentId: string, scope?: TeacherReportScope) {
   const userRows = await db.select().from(users).where(eq(users.id, studentId));
   const student = userRows[0];
+  // Enrollment or parent-link data must never turn a teacher/parent/admin account
+  // into an analytics target. Fail before reading any assessment records.
+  if (!isAnalyticsStudentAccount(student)) throw new AnalyticsStudentNotFoundError();
 
   // Generated exams/attempts have no reliable course foreign key. Exclude them
   // from teacher reports rather than exposing performance from other courses.
@@ -470,6 +481,9 @@ export async function GET(req: Request) {
     const report = await buildStudentReport(ctx.user.id);
     return NextResponse.json({ scope: "student", ...report });
   } catch (error) {
+    if (error instanceof AnalyticsStudentNotFoundError) {
+      return NextResponse.json({ error: "Student not found" }, { status: 404 });
+    }
     console.error("Analytics GET error:", error);
     return NextResponse.json({ error: "Failed to build analytics" }, { status: 500 });
   }

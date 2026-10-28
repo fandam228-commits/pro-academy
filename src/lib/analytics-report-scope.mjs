@@ -4,6 +4,21 @@ function isNonEmptyString(value) {
   return typeof value === "string" && value.trim().length > 0;
 }
 
+/**
+ * Analytics reports must only be built for an actual student account.
+ * This prevents malformed enrollment or parent-link rows from turning another
+ * role's user ID into a student-performance lookup.
+ */
+export function isAnalyticsStudentAccount(user) {
+  return Boolean(
+    user &&
+    typeof user === "object" &&
+    !Array.isArray(user) &&
+    user.role === "student" &&
+    isNonEmptyString(user.id)
+  );
+}
+
 export function getTeacherAnalyticsStudentIds(enrollmentRows, teacherId) {
   if (!Array.isArray(enrollmentRows) || !isNonEmptyString(teacherId)) return [];
 
@@ -57,7 +72,6 @@ export function isCourseScopedQuiz(quiz, allowedCourseIds) {
     allowedCourseIds.includes(quiz.courseId)
   );
 }
-
 
 /**
  * Resolve the student a parent may view without silently choosing among children.
