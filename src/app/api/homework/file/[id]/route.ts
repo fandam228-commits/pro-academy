@@ -4,7 +4,7 @@ import { eq } from "drizzle-orm";
 import { NextResponse } from "next/server";
 import { ensureDbSetup } from "@/db/migrate-and-seed";
 import { getAuthContext } from "@/lib/security";
-import { canViewHomeworkSubmissionFile } from "@/lib/homework-authorization.mjs";
+import { getHomeworkFileAccessDecision } from "@/lib/homework-authorization.mjs";
 import { get } from "@vercel/blob";
 import {
   getHomeworkPrivateBlobToken,
@@ -22,27 +22,26 @@ export async function GET(req: Request, { params }: { params: Promise<{ id: stri
   try {
     const { id } = await params;
     const subs = await db.select().from(homeworkSubmissions).where(eq(homeworkSubmissions.id, id));
-    if (subs.length === 0) {
-      return NextResponse.json({ error: "Submission not found" }, { status: 404 });
-    }
-
     const sub = subs[0];
-    const homeworkRows = await db
-      .select({ teacherId: homework.teacherId })
-      .from(homework)
-      .where(eq(homework.id, sub.homeworkId));
-    if (homeworkRows.length === 0) {
-      return NextResponse.json({ error: "Homework not found" }, { status: 404 });
-    }
+    const homeworkRows = sub
+      ? await db
+          .select({ teacherId: homework.teacherId })
+          .from(homework)
+          .where(eq(homework.id, sub.homeworkId))
+      : [];
+    const homeworkRow = homeworkRows[0];
 
-    const isAllowed = canViewHomeworkSubmissionFile({
+    const accessDecision = getHomeworkFileAccessDecision({
+      submissionFound: Boolean(sub),
+      homeworkFound: Boolean(homeworkRow),
       role: ctx.user.role,
       requesterId: ctx.user.id,
-      submissionStudentId: sub.studentId,
-      homeworkTeacherId: homeworkRows[0].teacherId,
+      submissionStudentId: sub?.studentId,
+      homeworkTeacherId: homeworkRow?.teacherId,
     });
-    if (!isAllowed) {
-      return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+    if (!sub || !homeworkRow || accessDecision !== "allowed") {
+      // Use the same status and body for missing records and unauthorized callers.
+      return NextResponse.json({ error: "Submission not found" }, { status: 404 });
     }
 
     if (!sub.storagePath) {
