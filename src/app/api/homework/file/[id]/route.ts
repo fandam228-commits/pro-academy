@@ -1,9 +1,10 @@
 import { db } from "@/db";
-import { homeworkSubmissions } from "@/db/schema";
+import { homework, homeworkSubmissions } from "@/db/schema";
 import { eq } from "drizzle-orm";
 import { NextResponse } from "next/server";
 import { ensureDbSetup } from "@/db/migrate-and-seed";
 import { getAuthContext } from "@/lib/security";
+import { canViewHomeworkSubmissionFile } from "@/lib/homework-authorization.mjs";
 
 export async function GET(req: Request, { params }: { params: Promise<{ id: string }> }) {
   await ensureDbSetup();
@@ -20,8 +21,20 @@ export async function GET(req: Request, { params }: { params: Promise<{ id: stri
     }
 
     const sub = subs[0];
-    // Only the owning student, teachers, or admins may view the answer file
-    const isAllowed = ctx.user.role === "teacher" || ctx.user.role === "admin" || ctx.user.id === sub.studentId;
+    const homeworkRows = await db
+      .select({ teacherId: homework.teacherId })
+      .from(homework)
+      .where(eq(homework.id, sub.homeworkId));
+    if (homeworkRows.length === 0) {
+      return NextResponse.json({ error: "Homework not found" }, { status: 404 });
+    }
+
+    const isAllowed = canViewHomeworkSubmissionFile({
+      role: ctx.user.role,
+      requesterId: ctx.user.id,
+      submissionStudentId: sub.studentId,
+      homeworkTeacherId: homeworkRows[0].teacherId,
+    });
     if (!isAllowed) {
       return NextResponse.json({ error: "Forbidden" }, { status: 403 });
     }
