@@ -57,3 +57,37 @@ export function isCourseScopedQuiz(quiz, allowedCourseIds) {
     allowedCourseIds.includes(quiz.courseId)
   );
 }
+
+
+/**
+ * Resolve the student a parent may view without silently choosing among children.
+ * The caller must supply parent-link IDs read from the database.
+ */
+export function resolveParentAnalyticsStudentId(requestedStudentId, linkedParentStudentIds) {
+  if (
+    !Array.isArray(linkedParentStudentIds) ||
+    !linkedParentStudentIds.every((id) => isNonEmptyString(id))
+  ) {
+    return { ok: false, reason: "invalid-links" };
+  }
+
+  const uniqueLinkedIds = [...new Set(linkedParentStudentIds)];
+
+  if (requestedStudentId !== null && requestedStudentId !== undefined) {
+    if (!isNonEmptyString(requestedStudentId)) {
+      return { ok: false, reason: "invalid-student-id" };
+    }
+    if (!uniqueLinkedIds.includes(requestedStudentId)) {
+      return { ok: false, reason: "forbidden" };
+    }
+    return { ok: true, studentId: requestedStudentId };
+  }
+
+  if (uniqueLinkedIds.length === 0) {
+    return { ok: false, reason: "no-linked-student" };
+  }
+  if (uniqueLinkedIds.length > 1) {
+    return { ok: false, reason: "student-id-required" };
+  }
+  return { ok: true, studentId: uniqueLinkedIds[0] };
+}
