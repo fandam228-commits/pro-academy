@@ -45,24 +45,16 @@ test("lockout expires and the record is cleaned up", () => {
   assert.equal(limiter.getTrackedKeyCount(), 0);
 });
 
-test("tracking stays within the configured bound and evicts the oldest unlocked record", () => {
-  const { limiter, advance } = makeLimiter({ maxAttempts: 5, maxTrackedKeys: 2 });
+test("capacity remains bounded without evicting another identifier's failure history", () => {
+  const { limiter } = makeLimiter({ maxAttempts: 2, maxTrackedKeys: 2, lockoutMs: 60_000 });
   limiter.recordFailedLogin("first@example.com");
-  advance(1);
   limiter.recordFailedLogin("second@example.com");
-  advance(1);
-  limiter.recordFailedLogin("third@example.com");
-  assert.equal(limiter.getTrackedKeyCount(), 2);
-  assert.equal(limiter.checkLoginLock("first@example.com"), 0);
-  assert.equal(limiter.checkLoginLock("second@example.com"), 0);
-});
-
-test("when every tracked slot is locked, new identifiers fail closed without growing the map", () => {
-  const { limiter } = makeLimiter({ maxAttempts: 1, maxTrackedKeys: 2, lockoutMs: 60_000 });
-  limiter.recordFailedLogin("locked-one@example.com");
-  limiter.recordFailedLogin("locked-two@example.com");
   assert.equal(limiter.checkLoginLock("new@example.com"), 1);
   assert.equal(limiter.recordFailedLogin("new@example.com"), false);
+  assert.equal(limiter.getTrackedKeyCount(), 2);
+
+  limiter.recordFailedLogin("first@example.com");
+  assert.equal(limiter.checkLoginLock("first@example.com"), 1);
   assert.equal(limiter.getTrackedKeyCount(), 2);
 });
 
