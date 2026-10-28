@@ -18,6 +18,7 @@ import {
   recordFailedLogin,
   clearFailedLogins,
 } from "@/lib/security";
+import { isWithinLoginInputLimits, isWithinRegistrationInputLimits, readBoundedJsonBody } from "@/lib/auth-input-limits.mjs";
 
 function sanitizeUser(u: any) {
   if (!u) return u;
@@ -87,9 +88,15 @@ export async function GET(req: Request) {
 }
 
 export async function POST(req: Request) {
+  // Reject oversized bodies before database setup, parsing, or password work.
+  const parsedBody = await readBoundedJsonBody(req);
+  if (!parsedBody.ok) {
+    return NextResponse.json({ error: parsedBody.error }, { status: parsedBody.status });
+  }
+
   await ensureDbSetup();
   try {
-    const body = await req.json();
+    const body: any = parsedBody.value;
     const { email, username, password, name, role, stage, grade, phone, parentPhone } = body;
     const rawAction = typeof body?.action === "string" ? body.action.trim().toLowerCase() : "";
     // Accept common sign-in aliases and older clients that send credentials without an action.
@@ -104,6 +111,9 @@ export async function POST(req: Request) {
       if (!loginId || !password) {
         return NextResponse.json({ error: "Username/email and password are required." }, { status: 400 });
       }
+      if (!isWithinLoginInputLimits(loginId, password)) {
+        return NextResponse.json({ error: "Username/email or password is invalid or exceeds the allowed length." }, { status: 400 });
+      }
       const result = await performLogin(loginId, password, userAgent);
       if (result.errorResponse) return result.errorResponse;
       const response = NextResponse.json({ success: true, user: result.user, expiresAt: result.expiresAt });
@@ -115,6 +125,9 @@ export async function POST(req: Request) {
     if (action === "register") {
       if (!name || !email || !password) {
         return NextResponse.json({ error: "Name, email and password are required." }, { status: 400 });
+      }
+      if (!isWithinRegistrationInputLimits({ name, email, password, stage, grade, phone, parentPhone, referralCode: body.referralCode })) {
+        return NextResponse.json({ error: "Registration fields are invalid or exceed the allowed length." }, { status: 400 });
       }
 
       const normalizedEmail = email.trim().toLowerCase();
