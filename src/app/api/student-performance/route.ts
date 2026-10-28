@@ -5,6 +5,7 @@ import { NextResponse } from "next/server";
 import { ensureDbSetup } from "@/db/migrate-and-seed";
 import { getAuthContext } from "@/lib/security";
 import { resolveStudentDataAccess } from "@/lib/student-data-access.mjs";
+import { canReadUnscopedGeneratedExamHistory } from "@/lib/student-performance-authorization.mjs";
 
 export async function GET(req: Request) {
   await ensureDbSetup();
@@ -18,6 +19,15 @@ export async function GET(req: Request) {
   try {
     if (!["admin", "teacher", "parent", "student"].includes(role)) {
       return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+    }
+
+    // generated_exams has no courseId/teacher ownership relation. Fail closed
+    // for teachers until attempts can be scoped to courses they own.
+    if (!canReadUnscopedGeneratedExamHistory(role)) {
+      return NextResponse.json(
+        { error: "Teacher access to generated exam history is unavailable until exams can be scoped to owned courses." },
+        { status: 403 }
+      );
     }
 
     let linkedParentStudentIds: string[] = [];
