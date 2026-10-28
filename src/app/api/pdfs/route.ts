@@ -7,6 +7,7 @@ import { ensureDbSetup } from "@/db/migrate-and-seed";
 import { requireRoles, getAuthContext } from "@/lib/security";
 import { canAttachPdfToCourse, canManagePdfDocument, canStudentAccessPdf } from "@/lib/pdf-authorization.mjs";
 import { canListPdfDocument, toPublicPdfMetadata } from "@/lib/pdf-list-authorization.mjs";
+import { normalizePublicPdfUrl } from "@/lib/pdf-external-url.mjs";
 
 // Vercel serverless body limit is ~4.5MB — keep uploads under that.
 const MAX_SIZE_BYTES = 4 * 1024 * 1024; // 4MB
@@ -321,6 +322,13 @@ export async function POST(req: Request) {
       if (!title || !externalUrl) {
         return NextResponse.json({ error: "Title and external URL are required." }, { status: 400 });
       }
+      const normalizedExternalUrl = normalizePublicPdfUrl(externalUrl);
+      if (!normalizedExternalUrl) {
+        return NextResponse.json(
+          { error: "External URL must be an absolute HTTP(S) URL without embedded credentials." },
+          { status: 400 }
+        );
+      }
       const id = `pdfext_${randomUUID()}`;
       const newDoc = {
         id,
@@ -336,7 +344,7 @@ export async function POST(req: Request) {
         fileName: `${title}.pdf`,
         storagePath: null,
         fileData: null,
-        externalUrl,
+        externalUrl: normalizedExternalUrl,
         fileSizeKb: 0,
         pageCount: 1,
         views: 0,
