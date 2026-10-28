@@ -17,6 +17,7 @@ import { NextResponse } from "next/server";
 import { ensureDbSetup } from "@/db/migrate-and-seed";
 import { getAuthContext } from "@/lib/security";
 import { canAccessStudentAnalytics } from "@/lib/analytics-authorization.mjs";
+import { resolveParentAnalyticsStudent } from "@/lib/analytics-parent-selection.mjs";
 import { attendanceRate, calculatePerformanceIndex, homeworkCompletion } from "@/lib/analytics-metrics.mjs";
 
 /** Builds a full learning profile for one student. */
@@ -311,18 +312,19 @@ export async function GET(req: Request) {
 
     // ---------- PARENT: linked student report ----------
     if (role === "parent") {
-      let studentId = requestedStudent;
-      if (!studentId) {
-        const links = await db.select().from(parentLinks).where(eq(parentLinks.parentId, ctx.user.id));
-        studentId = links[0]?.studentId || null;
-      }
-      if (!studentId) return NextResponse.json({ error: "No linked student" }, { status: 404 });
       const links = await db.select().from(parentLinks).where(eq(parentLinks.parentId, ctx.user.id));
+      const linkedStudentIds = links.map((link) => link.studentId);
+      const selection = resolveParentAnalyticsStudent(requestedStudent, linkedStudentIds);
+      if (selection.status === "missing") return NextResponse.json({ error: "No linked student" }, { status: 404 });
+      if (selection.status === "ambiguous") {
+        return NextResponse.json({ error: "Multiple linked students; specify studentId" }, { status: 400 });
+      }
+      const studentId = selection.studentId;
       const allowed = canAccessStudentAnalytics({
         role,
         requesterId: ctx.user.id,
         studentId,
-        linkedParentStudentIds: links.map((link) => link.studentId),
+        linkedParentStudentIds: linkedStudentIds,
       });
       if (!allowed) return NextResponse.json({ error: "Forbidden" }, { status: 403 });
       const report = await buildStudentReport(studentId);
