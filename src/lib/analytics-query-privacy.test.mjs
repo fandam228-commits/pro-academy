@@ -9,7 +9,7 @@ test("Analytics rosters minimize user fields and constrain teacher IDs in SQL", 
   const adminIdOnlyRosterQuery =
     /db\.select\(\{\s*id:\s*users\.id\s*\}\)\.from\(users\)\.where\(eq\(users\.role,\s*"student"\)\)/g;
   const teacherScopedRosterQuery =
-    /db\.select\(\{\s*id:\s*users\.id\s*\}\)\.from\(users\)\.where\(and\(\s*eq\(users\.role,\s*"student"\),\s*inArray\(users\.id,\s*teacherStudentIds\)\s*\)\)/g;
+    /db\.select\(\{\s*id:\s*users\.id\s*\}\)\.from\(users\)\.where\(and\(\s*eq\(users\.role,\s*"student"\),\s*inArray\(users\.id,\s*teacherStudentIds\),?\s*\)\s*\)/g;
   const broadRosterQuery =
     /db\.select\(\)\.from\(users\)\.where\(eq\(users\.role,\s*"student"\)\)/g;
 
