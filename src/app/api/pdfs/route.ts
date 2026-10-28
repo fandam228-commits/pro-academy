@@ -8,6 +8,7 @@ import { requireRoles, getAuthContext } from "@/lib/security";
 import { canAttachPdfToCourse, canManagePdfDocument, canStudentAccessPdf } from "@/lib/pdf-authorization.mjs";
 import { canListPdfDocument, toPublicPdfMetadata } from "@/lib/pdf-list-authorization.mjs";
 import { normalizePublicPdfUrl } from "@/lib/pdf-external-url.mjs";
+import { hasPdfHeader } from "@/lib/pdf-signature.mjs";
 
 // Vercel serverless body limit is ~4.5MB — keep uploads under that.
 const MAX_SIZE_BYTES = 4 * 1024 * 1024; // 4MB
@@ -237,6 +238,9 @@ export async function POST(req: Request) {
 
       // Store file content in the database (works on Vercel serverless)
       const buffer = Buffer.from(await file.arrayBuffer());
+      if (!hasPdfHeader(buffer)) {
+        return NextResponse.json({ error: "The uploaded file does not contain a valid PDF header." }, { status: 400 });
+      }
       const base64 = buffer.toString("base64");
 
       const newDoc = {
