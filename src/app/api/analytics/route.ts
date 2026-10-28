@@ -380,8 +380,17 @@ export async function GET(req: Request) {
         return NextResponse.json({ scope: "student", ...report });
       }
 
-      const students = await db.select({ id: users.id }).from(users).where(eq(users.role, "student"));
-      const visibleStudents = students.filter((student) => teacherStudentIds.includes(student.id));
+      // Query only students authorized by owned-course enrollments. Do not enumerate
+      // every student's ID and filter in application memory.
+      const visibleStudents = teacherStudentIds.length === 0
+        ? []
+        : await db
+            .select({ id: users.id })
+            .from(users)
+            .where(and(
+              eq(users.role, "student"),
+              inArray(users.id, teacherStudentIds),
+            ));
       const reports = await Promise.all(visibleStudents.map((student) => buildStudentReport(student.id, {
         teacherId: ctx.user.id,
         allowedCourseIds: getTeacherAnalyticsCourseIds(teacherEnrollmentRows, ctx.user.id, student.id),
