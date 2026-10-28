@@ -72,3 +72,69 @@ test("unknown roles and missing identifiers are denied", () => {
     false
   );
 });
+
+test("teacher relationship checks require exact IDs in a valid array", () => {
+  assert.equal(
+    canAccessStudentAnalytics({
+      role: "teacher",
+      requesterId: "teacher-1",
+      studentId: "student-1",
+      teacherStudentIds: "student-12",
+    }),
+    false,
+    "a string must not match by substring",
+  );
+  assert.equal(
+    canAccessStudentAnalytics({
+      role: "teacher",
+      requesterId: "teacher-1",
+      studentId: "student-1",
+      teacherStudentIds: ["student-12"],
+    }),
+    false,
+  );
+  assert.equal(
+    canAccessStudentAnalytics({
+      role: "teacher",
+      requesterId: "teacher-1",
+      studentId: "student-1",
+      teacherStudentIds: ["student-1", null],
+    }),
+    false,
+    "malformed relationship lists must fail closed",
+  );
+});
+
+test("parent relationship checks reject malformed or substring-like link lists", () => {
+  assert.equal(
+    canAccessStudentAnalytics({
+      role: "parent",
+      requesterId: "parent-1",
+      studentId: "student-1",
+      linkedParentStudentIds: "prefix-student-1-suffix",
+    }),
+    false,
+  );
+  assert.equal(
+    canAccessStudentAnalytics({
+      role: "parent",
+      requesterId: "parent-1",
+      studentId: "student-1",
+      linkedParentStudentIds: ["student-1", ""],
+    }),
+    false,
+  );
+});
+
+test("invalid policy inputs fail closed without throwing", () => {
+  assert.equal(canAccessStudentAnalytics(null), false);
+  assert.equal(canAccessStudentAnalytics([]), false);
+  assert.equal(
+    canAccessStudentAnalytics({ role: "teacher", requesterId: 1, studentId: "student-1", teacherStudentIds: ["student-1"] }),
+    false,
+  );
+  assert.equal(
+    canAccessStudentAnalytics({ role: "student", requesterId: "student-1", studentId: " student-1 " }),
+    false,
+  );
+});
