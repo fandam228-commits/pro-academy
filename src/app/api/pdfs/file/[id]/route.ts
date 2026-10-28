@@ -1,11 +1,11 @@
 import { db } from "@/db";
-import { pdfDocuments, enrollments } from "@/db/schema";
-import { eq, and } from "drizzle-orm";
+import { pdfDocuments, enrollments, courses, parentLinks, users } from "@/db/schema";
+import { eq, and, inArray } from "drizzle-orm";
 import fs from "fs";
 import { NextResponse } from "next/server";
 import { ensureDbSetup } from "@/db/migrate-and-seed";
 import { requireRoles } from "@/lib/security";
-import { canStudentAccessPdf } from "@/lib/pdf-authorization.mjs";
+import { canListPdfDocument } from "@/lib/pdf-list-authorization.mjs";
 
 export async function GET(
   req: Request,
@@ -13,7 +13,7 @@ export async function GET(
 ) {
   await ensureDbSetup();
   try {
-    const { user, denied } = await requireRoles(req, ["admin", "teacher", "student"]);
+    const { user, denied } = await requireRoles(req, ["admin", "teacher", "student", "parent"]);
     if (denied) return denied;
 
     const { id } = await params;
@@ -27,23 +27,72 @@ export async function GET(
 
     const doc = docs[0];
 
-    if (user!.role === "student") {
-      const active = doc.courseId
-        ? await db
-            .select({ courseId: enrollments.courseId })
+    let courseTeacherId: string | null = null;
+    let activeCourseIds: string[] = [];
+    let linkedStudentGrades: string[] = [];
+
+    if (user!.role === "teacher" && doc.courseId) {
+      const courseRows = await db
+        .select({ teacherId: courses.teacherId })
+        .from(courses)
+        .where(eq(courses.id, doc.courseId));
+      courseTeacherId = courseRows[0]?.teacherId ?? null;
+    }
+
+    if (user!.role === "student" && doc.courseId) {
+      const active = await db
+        .select({ courseId: enrollments.courseId })
+        .from(enrollments)
+        .where(and(
+          eq(enrollments.studentId, user!.id),
+          eq(enrollments.courseId, doc.courseId),
+          eq(enrollments.status, "active")
+        ));
+      activeCourseIds = active.map((enrollment) => enrollment.courseId);
+    }
+
+    if (user!.role === "parent") {
+      const links = await db
+        .select({ studentId: parentLinks.studentId })
+        .from(parentLinks)
+        .where(eq(parentLinks.parentId, user!.id));
+      const linkedStudentIds = [...new Set(links.map((link) => link.studentId))];
+
+      if (linkedStudentIds.length > 0) {
+        const [linkedUsers, linkedEnrollments] = await Promise.all([
+          db.select({ grade: users.grade }).from(users).where(inArray(users.id, linkedStudentIds)),
+          db.select({ courseId: enrollments.courseId })
             .from(enrollments)
-            .where(and(eq(enrollments.studentId, user!.id), eq(enrollments.courseId, doc.courseId), eq(enrollments.status, "active")))
-        : [];
-      const allowed = canStudentAccessPdf({
-        studentGrade: user!.grade,
-        documentGrade: doc.grade,
-        documentCourseId: doc.courseId,
-        isProtected: doc.isProtected,
-        activeCourseIds: active.map((enrollment) => enrollment.courseId),
-      });
-      if (!allowed) {
-        return NextResponse.json({ error: "You do not have access to this document." }, { status: 403 });
+            .where(and(
+              inArray(enrollments.studentId, linkedStudentIds),
+              eq(enrollments.status, "active")
+            )),
+        ]);
+        linkedStudentGrades = [...new Set(
+          linkedUsers
+            .map((linkedUser) => linkedUser.grade)
+            .filter((value): value is string => typeof value === "string" && value.length > 0)
+        )];
+        activeCourseIds = [...new Set(linkedEnrollments.map((enrollment) => enrollment.courseId))];
       }
+    }
+
+    const allowed = canListPdfDocument({
+      role: user!.role,
+      requesterId: user!.id,
+      uploaderId: doc.uploaderId,
+      documentId: doc.id,
+      documentCourseId: doc.courseId,
+      courseTeacherId,
+      studentGrade: user!.grade,
+      documentGrade: doc.grade,
+      // Treat missing protection metadata as protected (fail closed).
+      isProtected: doc.isProtected !== false,
+      activeCourseIds,
+      linkedStudentGrades,
+    });
+    if (!allowed) {
+      return NextResponse.json({ error: "You do not have access to this document." }, { status: 403 });
     }
 
     if (isDownload && !doc.allowDownload && user!.role !== "admin") {
