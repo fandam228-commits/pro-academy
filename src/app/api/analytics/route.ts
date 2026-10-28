@@ -343,7 +343,7 @@ export async function GET(req: Request) {
         return NextResponse.json({ scope: "student", ...report });
       }
 
-      const students = await db.select().from(users).where(eq(users.role, "student"));
+      const students = await db.select({ id: users.id }).from(users).where(eq(users.role, "student"));
       const reports = await Promise.all(students.map((s) => buildStudentReport(s.id)));
 
       return buildClassAnalyticsResponse(reports);
@@ -380,7 +380,7 @@ export async function GET(req: Request) {
         return NextResponse.json({ scope: "student", ...report });
       }
 
-      const students = await db.select().from(users).where(eq(users.role, "student"));
+      const students = await db.select({ id: users.id }).from(users).where(eq(users.role, "student"));
       const visibleStudents = students.filter((student) => teacherStudentIds.includes(student.id));
       const reports = await Promise.all(visibleStudents.map((student) => buildStudentReport(student.id, {
         teacherId: ctx.user.id,
