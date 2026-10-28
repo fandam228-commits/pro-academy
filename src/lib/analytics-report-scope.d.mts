@@ -1,3 +1,4 @@
+export function isAnalyticsStudentAccount(user: unknown): boolean;
 export interface TeacherAnalyticsEnrollmentRow {
   studentId: string;
   courseId: string;
