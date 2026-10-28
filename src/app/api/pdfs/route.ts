@@ -2,12 +2,40 @@ import { db } from "@/db";
 import { pdfDocuments, enrollments, courses } from "@/db/schema";
 import { eq, and } from "drizzle-orm";
 import { NextResponse } from "next/server";
+import { randomUUID } from "node:crypto";
 import { ensureDbSetup } from "@/db/migrate-and-seed";
 import { requireRoles, getAuthContext } from "@/lib/security";
 import { canAttachPdfToCourse, canManagePdfDocument, canStudentAccessPdf } from "@/lib/pdf-authorization.mjs";
 
 // Vercel serverless body limit is ~4.5MB — keep uploads under that.
 const MAX_SIZE_BYTES = 4 * 1024 * 1024; // 4MB
+
+async function authorizePdfMutation(documentId: string, user: { id: string; role: string }) {
+  const rows = await db
+    .select({ id: pdfDocuments.id, uploaderId: pdfDocuments.uploaderId, courseId: pdfDocuments.courseId })
+    .from(pdfDocuments)
+    .where(eq(pdfDocuments.id, documentId));
+  if (rows.length === 0) return { document: null, allowed: false };
+
+  const document = rows[0];
+  let courseTeacherId: string | null = null;
+  if (document.courseId) {
+    const courseRows = await db.select({ teacherId: courses.teacherId }).from(courses).where(eq(courses.id, document.courseId));
+    courseTeacherId = courseRows[0]?.teacherId ?? null;
+  }
+
+  return {
+    document,
+    allowed: canManagePdfDocument({
+      role: user.role,
+      requesterId: user.id,
+      uploaderId: document.uploaderId,
+      documentId: document.id,
+      documentCourseId: document.courseId,
+      courseTeacherId,
+    }),
+  };
+}
 
 export async function GET(req: Request) {
   await ensureDbSetup();
@@ -113,7 +141,7 @@ export async function POST(req: Request) {
       const allowDownload = String(form.get("allowDownload") || "false") === "true";
       const watermarkEnabled = String(form.get("watermarkEnabled") || "true") === "true";
 
-      const id = `pdf_${Date.now()}_${Math.random().toString(36).substring(2, 6)}`;
+      const id = `pdfu_${randomUUID()}`;
       const safeName = file.name.replace(/[^a-zA-Z0-9._-]/g, "_");
 
       // Store file content in the database (works on Vercel serverless)
@@ -166,11 +194,9 @@ export async function POST(req: Request) {
     if (action === "delete") {
       const { documentId } = body;
       if (!documentId) return NextResponse.json({ error: "Document ID is required." }, { status: 400 });
-      const existing = await db.select({ uploaderId: pdfDocuments.uploaderId }).from(pdfDocuments).where(eq(pdfDocuments.id, documentId));
-      if (existing.length === 0) return NextResponse.json({ error: "Document not found." }, { status: 404 });
-      if (!canManagePdfDocument({ role: user!.role, requesterId: user!.id, uploaderId: existing[0].uploaderId })) {
-        return NextResponse.json({ error: "Forbidden" }, { status: 403 });
-      }
+      const authorization = await authorizePdfMutation(documentId, user!);
+      if (!authorization.document) return NextResponse.json({ error: "Document not found." }, { status: 404 });
+      if (!authorization.allowed) return NextResponse.json({ error: "Forbidden" }, { status: 403 });
       await db.delete(pdfDocuments).where(eq(pdfDocuments.id, documentId));
       return NextResponse.json({ success: true });
     }
@@ -180,11 +206,9 @@ export async function POST(req: Request) {
       if (!documentId || !meta || typeof meta !== "object") {
         return NextResponse.json({ error: "Document ID and metadata are required." }, { status: 400 });
       }
-      const existing = await db.select({ uploaderId: pdfDocuments.uploaderId }).from(pdfDocuments).where(eq(pdfDocuments.id, documentId));
-      if (existing.length === 0) return NextResponse.json({ error: "Document not found." }, { status: 404 });
-      if (!canManagePdfDocument({ role: user!.role, requesterId: user!.id, uploaderId: existing[0].uploaderId })) {
-        return NextResponse.json({ error: "Forbidden" }, { status: 403 });
-      }
+      const authorization = await authorizePdfMutation(documentId, user!);
+      if (!authorization.document) return NextResponse.json({ error: "Document not found." }, { status: 404 });
+      if (!authorization.allowed) return NextResponse.json({ error: "Forbidden" }, { status: 403 });
       await db
         .update(pdfDocuments)
         .set({
@@ -207,7 +231,7 @@ export async function POST(req: Request) {
       if (!title || !externalUrl) {
         return NextResponse.json({ error: "Title and external URL are required." }, { status: 400 });
       }
-      const id = `pdf_ext_${Date.now()}`;
+      const id = `pdfext_${randomUUID()}`;
       const newDoc = {
         id,
         title,
