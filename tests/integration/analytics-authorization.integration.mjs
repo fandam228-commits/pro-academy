@@ -12,6 +12,10 @@ import {
 } from "../../src/lib/analytics-report-scope.mjs";
 
 const connectionString = process.env.TEST_DATABASE_URL;
+const requireIntegration = process.env.REQUIRE_ANALYTICS_INTEGRATION_TESTS === "true";
+if (requireIntegration && !connectionString) {
+  throw new Error("TEST_DATABASE_URL is required when REQUIRE_ANALYTICS_INTEGRATION_TESTS=true; refusing to skip Analytics authorization integration tests.");
+}
 const integrationTest = connectionString ? test : test.skip;
 
 // Keep this suite safe by refusing any non-local database URL. CI supplies an
