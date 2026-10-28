@@ -97,8 +97,10 @@ test("parents, unknown roles, and incomplete relationships are denied file acces
   );
 });
 
-test("only student accounts may submit homework answers", () => {
+test("only student accounts may submit homework answers and only for their recorded grade", () => {
   assert.equal(canSubmitHomework({ role: "student" }), true);
+  assert.equal(canSubmitHomework({ role: "student", studentGrade: "Third Secondary", homeworkGrade: "Third Secondary" }), true);
+  assert.equal(canSubmitHomework({ role: "student", studentGrade: "First Secondary", homeworkGrade: "Third Secondary" }), false);
   assert.equal(canSubmitHomework({ role: "teacher" }), false);
   assert.equal(canSubmitHomework({ role: "admin" }), false);
   assert.equal(canSubmitHomework({ role: "parent" }), false);
