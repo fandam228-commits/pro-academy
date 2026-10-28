@@ -66,7 +66,7 @@ export async function readBoundedJsonBody(request, maxBytes = MAX_AUTH_BODY_BYTE
 
   const contentLength = request.headers?.get?.("content-length");
   if (contentLength !== null && contentLength !== undefined) {
-    if (!/^\\d+$/.test(contentLength)) {
+    if (!/^\d+$/.test(contentLength)) {
       return { ok: false, status: 400, error: "Invalid Content-Length header." };
     }
     const declaredLength = Number(contentLength);
