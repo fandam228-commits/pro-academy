@@ -24,6 +24,7 @@ import {
   getTeacherAnalyticsCourseIds,
   isTeacherScopedHomework,
   isCourseScopedQuiz,
+  resolveParentAnalyticsStudentId,
 } from "@/lib/analytics-report-scope.mjs";
 
 type TeacherReportScope = {
@@ -373,18 +374,26 @@ export async function GET(req: Request) {
     if (role === "parent") {
       const links = await db.select().from(parentLinks).where(eq(parentLinks.parentId, ctx.user.id));
       const linkedParentStudentIds = links.map((link) => link.studentId);
-      let studentId = requestedStudent;
+      const resolution = resolveParentAnalyticsStudentId(requestedStudent, linkedParentStudentIds);
 
-      if (!studentId) {
-        if (linkedParentStudentIds.length === 0) {
+      if (!resolution.ok) {
+        if (resolution.reason === "no-linked-student") {
           return NextResponse.json({ error: "No linked student" }, { status: 404 });
         }
-        if (linkedParentStudentIds.length > 1) {
+        if (resolution.reason === "student-id-required") {
           return NextResponse.json({ error: "studentId is required when multiple students are linked" }, { status: 400 });
         }
-        studentId = linkedParentStudentIds[0];
+        if (resolution.reason === "invalid-links") {
+          return NextResponse.json({ error: "Unable to verify linked student" }, { status: 403 });
+        }
+        if (resolution.reason === "invalid-student-id") {
+          return NextResponse.json({ error: "Invalid studentId" }, { status: 400 });
+        }
+        return NextResponse.json({ error: "Forbidden" }, { status: 403 });
       }
 
+      const studentId = resolution.studentId;
+      // Keep the role policy as a second authorization check after selection.
       const allowed = canAccessStudentAnalytics({
         role,
         requesterId: ctx.user.id,
