@@ -6,6 +6,7 @@ import { ensureDbSetup } from "@/db/migrate-and-seed";
 import { requireRoles, getAuthContext } from "@/lib/security";
 import { notifyUser } from "@/lib/push";
 import { put } from "@vercel/blob";
+import { getHomeworkPrivateBlobToken } from "@/lib/homework-storage.mjs";
 import { randomUUID } from "node:crypto";
 import { canManageHomework, canSubmitHomework } from "@/lib/homework-authorization.mjs";
 
@@ -139,13 +140,21 @@ export async function POST(req: Request) {
         }
         const subId = `hws_${randomUUID()}`;
         const safeName = file.name.replace(/[^a-zA-Z0-9._-]/g, "_");
-        // Upload to Vercel Blob (cloud storage)
+        // Homework submissions contain student data: fail closed unless a private Blob store is configured.
+        const privateBlobToken = getHomeworkPrivateBlobToken();
+        if (!privateBlobToken) {
+          return NextResponse.json(
+            { error: "Private homework file storage is not configured. Text-only submissions remain available." },
+            { status: 503 }
+          );
+        }
         const blob = await put(`homework/${subId}_${safeName}`, file, {
-          access: "public",
+          access: "private",
+          token: privateBlobToken,
           addRandomSuffix: true,
         });
         fileName = file.name;
-        storagePath = blob.url; // store Blob URL instead of local path
+        storagePath = blob.pathname; // Store only the private Blob pathname, never a public URL.
       }
 
       if (existing.length > 0) {
