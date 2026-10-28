@@ -23,9 +23,10 @@ test("rejects relative, malformed, empty, and non-string values", () => {
   assert.equal(normalizePublicPdfUrl({ href: "https://example.com" }), null);
 });
 
-test("rejects embedded credentials, control/space characters, and oversized URLs", () => {
+test("rejects embedded credentials, internal whitespace, and oversized URLs", () => {
   assert.equal(normalizePublicPdfUrl("https://user:secret@example.com/notes.pdf"), null);
   assert.equal(normalizePublicPdfUrl("https://example.com/a b.pdf"), null);
+  assert.equal(normalizePublicPdfUrl("https://example.com/notes\n.pdf"), null);
   assert.equal(normalizePublicPdfUrl("https://example.com/notes.pdf\n"), "https://example.com/notes.pdf");
   assert.equal(normalizePublicPdfUrl("https://example.com/" + "a".repeat(2048)), null);
 });
