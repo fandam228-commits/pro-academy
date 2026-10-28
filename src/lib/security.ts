@@ -3,6 +3,7 @@ import { db } from "@/db";
 import { sessions, users } from "@/db/schema";
 import { eq, lt } from "drizzle-orm";
 import { NextResponse } from "next/server";
+import { createLoginAttemptLimiter } from "./login-attempts.mjs";
 
 // ===================== PASSWORD HASHING (scrypt + random salt) =====================
 
@@ -135,36 +136,20 @@ export async function requireRoles(
 }
 
 // ===================== LOGIN BRUTE-FORCE PROTECTION =====================
+// This bounded process-local limiter prevents unbounded Map growth. It is not a
+// distributed rate limiter; production deployments with multiple instances still
+// need a shared store/provider for consistent enforcement across instances.
 
-interface AttemptRecord {
-  count: number;
-  lockedUntil: number;
-}
-
-const loginAttempts = new Map<string, AttemptRecord>();
-const MAX_ATTEMPTS = 5;
-const LOCKOUT_MS = 10 * 60 * 1000; // 10 minutes
+const loginAttemptLimiter = createLoginAttemptLimiter();
 
 export function checkLoginLock(email: string): number {
-  const rec = loginAttempts.get(email.toLowerCase());
-  if (!rec) return 0;
-  if (rec.lockedUntil > Date.now()) {
-    return Math.ceil((rec.lockedUntil - Date.now()) / 60000); // minutes remaining
-  }
-  return 0;
+  return loginAttemptLimiter.checkLoginLock(email);
 }
 
 export function recordFailedLogin(email: string): void {
-  const key = email.toLowerCase();
-  const rec = loginAttempts.get(key) || { count: 0, lockedUntil: 0 };
-  rec.count += 1;
-  if (rec.count >= MAX_ATTEMPTS) {
-    rec.lockedUntil = Date.now() + LOCKOUT_MS;
-    rec.count = 0;
-  }
-  loginAttempts.set(key, rec);
+  loginAttemptLimiter.recordFailedLogin(email);
 }
 
 export function clearFailedLogins(email: string): void {
-  loginAttempts.delete(email.toLowerCase());
+  loginAttemptLimiter.clearFailedLogins(email);
 }
