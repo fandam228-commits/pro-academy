@@ -18,6 +18,7 @@ import {
   recordFailedLogin,
   clearFailedLogins,
 } from "@/lib/security";
+import { isWithinLoginInputLimits, isWithinRegistrationInputLimits } from "@/lib/auth-input-limits.mjs";
 
 function sanitizeUser(u: any) {
   if (!u) return u;
@@ -104,6 +105,9 @@ export async function POST(req: Request) {
       if (!loginId || !password) {
         return NextResponse.json({ error: "Username/email and password are required." }, { status: 400 });
       }
+      if (!isWithinLoginInputLimits(loginId, password)) {
+        return NextResponse.json({ error: "Username/email or password is invalid or exceeds the allowed length." }, { status: 400 });
+      }
       const result = await performLogin(loginId, password, userAgent);
       if (result.errorResponse) return result.errorResponse;
       const response = NextResponse.json({ success: true, user: result.user, expiresAt: result.expiresAt });
@@ -115,6 +119,9 @@ export async function POST(req: Request) {
     if (action === "register") {
       if (!name || !email || !password) {
         return NextResponse.json({ error: "Name, email and password are required." }, { status: 400 });
+      }
+      if (!isWithinRegistrationInputLimits({ name, email, password })) {
+        return NextResponse.json({ error: "Registration fields are invalid or exceed the allowed length." }, { status: 400 });
       }
 
       const normalizedEmail = email.trim().toLowerCase();
