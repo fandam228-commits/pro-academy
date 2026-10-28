@@ -13,7 +13,7 @@ export interface StudentPdfAccessInput {
   studentGrade?: string | null;
   documentGrade?: string | null;
   documentCourseId?: string | null;
-  isProtected?: boolean;
+  isProtected?: boolean | null;
   activeCourseIds?: string[];
 }
 export function canStudentAccessPdf(input: StudentPdfAccessInput): boolean;
