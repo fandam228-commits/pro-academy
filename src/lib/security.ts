@@ -3,6 +3,7 @@ import { db } from "@/db";
 import { sessions, users } from "@/db/schema";
 import { eq, lt } from "drizzle-orm";
 import { NextResponse } from "next/server";
+import { legacyPasswordMatches } from "@/lib/legacy-password.mjs";
 
 // ===================== PASSWORD HASHING (scrypt + random salt) =====================
 
@@ -22,11 +23,9 @@ export function verifyPassword(password: string, stored: string): boolean {
     if (computed.length !== storedBuf.length) return false;
     return crypto.timingSafeEqual(computed, storedBuf);
   }
-  // Legacy plaintext comparison (will be upgraded to hash on successful login)
-  return crypto.timingSafeEqual(
-    Buffer.from(password.padEnd(64).slice(0, 64)),
-    Buffer.from(stored.padEnd(64).slice(0, 64))
-  );
+  // Legacy plaintext comparison (will be upgraded to a hash on successful login).
+  // Compare the complete UTF-8 values; truncation/padding could accept distinct passwords.
+  return legacyPasswordMatches(password, stored);
 }
 
 export function isLegacyPlaintext(stored: string): boolean {
