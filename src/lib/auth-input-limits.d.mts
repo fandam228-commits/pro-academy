@@ -21,3 +21,12 @@ export function isWithinRegistrationInputLimits(input?: {
   parentPhone?: unknown;
   referralCode?: unknown;
 }): boolean;
+
+export const MAX_AUTH_BODY_BYTES: number;
+export function readBoundedJsonBody(
+  request: Request,
+  maxBytes?: number
+): Promise<
+  | { ok: true; value: Record<string, unknown> }
+  | { ok: false; status: 400 | 413; error: string }
+>;
