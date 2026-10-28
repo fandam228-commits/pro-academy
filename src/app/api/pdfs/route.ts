@@ -1,9 +1,10 @@
 import { db } from "@/db";
-import { pdfDocuments, enrollments } from "@/db/schema";
+import { pdfDocuments, enrollments, courses } from "@/db/schema";
 import { eq, and } from "drizzle-orm";
 import { NextResponse } from "next/server";
 import { ensureDbSetup } from "@/db/migrate-and-seed";
 import { requireRoles, getAuthContext } from "@/lib/security";
+import { canAttachPdfToCourse, canManagePdfDocument, canStudentAccessPdf } from "@/lib/pdf-authorization.mjs";
 
 // Vercel serverless body limit is ~4.5MB — keep uploads under that.
 const MAX_SIZE_BYTES = 4 * 1024 * 1024; // 4MB
@@ -26,7 +27,13 @@ export async function GET(req: Request) {
     if (ctx.user.role === "student") {
       const active = await db.select({ courseId: enrollments.courseId }).from(enrollments).where(and(eq(enrollments.studentId, ctx.user.id), eq(enrollments.status, "active")));
       const allowed = new Set(active.map((e) => e.courseId));
-      docs = docs.filter((d) => !d.courseId || allowed.has(d.courseId));
+      docs = docs.filter((d) => canStudentAccessPdf({
+        studentGrade: ctx.user.grade,
+        documentGrade: d.grade,
+        documentCourseId: d.courseId,
+        isProtected: d.isProtected,
+        activeCourseIds: [...allowed],
+      }));
     }
 
     if (search) {
@@ -57,7 +64,7 @@ export async function GET(req: Request) {
 
 export async function POST(req: Request) {
   await ensureDbSetup();
-  const { denied } = await requireRoles(req, ["admin", "teacher"]);
+  const { user, denied } = await requireRoles(req, ["admin", "teacher"]);
   if (denied) return denied;
 
   const contentType = req.headers.get("content-type") || "";
@@ -89,13 +96,20 @@ export async function POST(req: Request) {
 
       const title = String(form.get("title") || file.name.replace(/\.pdf$/i, ""));
       const description = String(form.get("description") || "");
-      const uploaderId = String(form.get("uploaderId") || "usr_admin_1");
-      const uploaderName = String(form.get("uploaderName") || "Mr. Habib El Rahman");
+      const uploaderId = user!.id;
+      const uploaderName = user!.name;
       const stage = String(form.get("stage") || "Secondary");
       const grade = String(form.get("grade") || "Third Secondary (Baccalaureate)");
       const unit = String(form.get("unit") || "Unit 1");
       const topic = String(form.get("topic") || "General Notes");
-      const courseId = String(form.get("courseId") || "");
+      const courseId = String(form.get("courseId") || "").trim();
+      if (courseId) {
+        const linkedCourse = await db.select({ teacherId: courses.teacherId }).from(courses).where(eq(courses.id, courseId));
+        if (linkedCourse.length === 0) return NextResponse.json({ error: "Course not found." }, { status: 404 });
+        if (!canAttachPdfToCourse({ role: user!.role, requesterId: user!.id, courseTeacherId: linkedCourse[0].teacherId })) {
+          return NextResponse.json({ error: "You may only attach PDFs to courses you own." }, { status: 403 });
+        }
+      }
       const allowDownload = String(form.get("allowDownload") || "false") === "true";
       const watermarkEnabled = String(form.get("watermarkEnabled") || "true") === "true";
 
@@ -151,16 +165,30 @@ export async function POST(req: Request) {
 
     if (action === "delete") {
       const { documentId } = body;
+      if (!documentId) return NextResponse.json({ error: "Document ID is required." }, { status: 400 });
+      const existing = await db.select({ uploaderId: pdfDocuments.uploaderId }).from(pdfDocuments).where(eq(pdfDocuments.id, documentId));
+      if (existing.length === 0) return NextResponse.json({ error: "Document not found." }, { status: 404 });
+      if (!canManagePdfDocument({ role: user!.role, requesterId: user!.id, uploaderId: existing[0].uploaderId })) {
+        return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+      }
       await db.delete(pdfDocuments).where(eq(pdfDocuments.id, documentId));
       return NextResponse.json({ success: true });
     }
 
     if (action === "update_meta") {
       const { documentId, meta } = body;
+      if (!documentId || !meta || typeof meta !== "object") {
+        return NextResponse.json({ error: "Document ID and metadata are required." }, { status: 400 });
+      }
+      const existing = await db.select({ uploaderId: pdfDocuments.uploaderId }).from(pdfDocuments).where(eq(pdfDocuments.id, documentId));
+      if (existing.length === 0) return NextResponse.json({ error: "Document not found." }, { status: 404 });
+      if (!canManagePdfDocument({ role: user!.role, requesterId: user!.id, uploaderId: existing[0].uploaderId })) {
+        return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+      }
       await db
         .update(pdfDocuments)
         .set({
-          title: meta.title,
+          title: String(meta.title || "").trim(),
           description: meta.description || null,
           unit: meta.unit || "Unit 1",
           topic: meta.topic || "General Notes",
@@ -184,8 +212,8 @@ export async function POST(req: Request) {
         id,
         title,
         description: description || "",
-        uploaderId: "usr_admin_1",
-        uploaderName: "Mr. Habib El Rahman",
+        uploaderId: user!.id,
+        uploaderName: user!.name,
         stage: stage || "Secondary",
         grade: grade || "Third Secondary (Baccalaureate)",
         unit: unit || "Unit 1",
