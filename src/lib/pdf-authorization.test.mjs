@@ -6,12 +6,20 @@ import {
   canStudentAccessPdf,
 } from "./pdf-authorization.mjs";
 
-test("only admins and the uploader can manage PDF metadata", () => {
-  assert.equal(canManagePdfDocument({ role: "admin", requesterId: "admin-1", uploaderId: "teacher-1" }), true);
-  assert.equal(canManagePdfDocument({ role: "teacher", requesterId: "teacher-1", uploaderId: "teacher-1" }), true);
-  assert.equal(canManagePdfDocument({ role: "teacher", requesterId: "teacher-2", uploaderId: "teacher-1" }), false);
-  assert.equal(canManagePdfDocument({ role: "teacher", requesterId: "teacher-1", uploaderId: null }), false);
-  assert.equal(canManagePdfDocument({ role: "student", requesterId: "student-1", uploaderId: "student-1" }), false);
+test("admins can manage any PDF; teachers can manage only trusted new records they own", () => {
+  assert.equal(canManagePdfDocument({ role: "admin", requesterId: "admin-1", uploaderId: "teacher-1", documentId: "pdf_legacy" }), true);
+  assert.equal(canManagePdfDocument({ role: "teacher", requesterId: "teacher-1", uploaderId: "teacher-1", documentId: "pdfu_new" }), true);
+  assert.equal(canManagePdfDocument({ role: "teacher", requesterId: "teacher-2", uploaderId: "teacher-1", documentId: "pdfu_new" }), false);
+  assert.equal(canManagePdfDocument({ role: "teacher", requesterId: "teacher-1", uploaderId: "teacher-1", documentId: "pdf_legacy" }), false);
+  assert.equal(canManagePdfDocument({ role: "teacher", requesterId: "teacher-1", uploaderId: "teacher-1", documentId: "pdfext_legacy" }), false);
+  assert.equal(canManagePdfDocument({ role: "student", requesterId: "student-1", uploaderId: "student-1", documentId: "pdfu_new" }), false);
+});
+
+test("course-linked PDF mutations also require verified course ownership", () => {
+  const base = { role: "teacher", requesterId: "teacher-1", uploaderId: "teacher-1", documentId: "pdfu_new", documentCourseId: "course-1" };
+  assert.equal(canManagePdfDocument({ ...base, courseTeacherId: "teacher-1" }), true);
+  assert.equal(canManagePdfDocument({ ...base, courseTeacherId: "teacher-2" }), false);
+  assert.equal(canManagePdfDocument({ ...base, courseTeacherId: null }), false);
 });
 
 test("teachers may attach course PDFs only to courses they own", () => {
