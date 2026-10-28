@@ -9,6 +9,7 @@ export function canListPdfDocument({
   role,
   requesterId,
   uploaderId,
+  documentId,
   documentCourseId,
   courseTeacherId,
   studentGrade,
@@ -22,7 +23,8 @@ export function canListPdfDocument({
   if (role === "teacher") {
     if (!requesterId) return false;
     if (documentCourseId) return courseTeacherId === requesterId;
-    return uploaderId === requesterId;
+    const trustedNewUpload = typeof documentId === "string" && (documentId.startsWith("pdfu_") || documentId.startsWith("pdfext_"));
+    return trustedNewUpload && uploaderId === requesterId;
   }
 
   if (role === "student") {
