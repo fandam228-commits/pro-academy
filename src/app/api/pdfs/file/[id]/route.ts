@@ -5,6 +5,7 @@ import fs from "fs";
 import { NextResponse } from "next/server";
 import { ensureDbSetup } from "@/db/migrate-and-seed";
 import { requireRoles } from "@/lib/security";
+import { canStudentAccessPdf } from "@/lib/pdf-authorization.mjs";
 
 export async function GET(
   req: Request,
@@ -26,14 +27,22 @@ export async function GET(
 
     const doc = docs[0];
 
-    if (user!.role === "student" && doc.isProtected && doc.courseId) {
-      const access = await db
-        .select({ id: enrollments.id })
-        .from(enrollments)
-        .where(and(eq(enrollments.studentId, user!.id), eq(enrollments.courseId, doc.courseId), eq(enrollments.status, "active")));
-
-      if (access.length === 0) {
-        return NextResponse.json({ error: "You are not enrolled in this course." }, { status: 403 });
+    if (user!.role === "student") {
+      const active = doc.courseId
+        ? await db
+            .select({ courseId: enrollments.courseId })
+            .from(enrollments)
+            .where(and(eq(enrollments.studentId, user!.id), eq(enrollments.courseId, doc.courseId), eq(enrollments.status, "active")))
+        : [];
+      const allowed = canStudentAccessPdf({
+        studentGrade: user!.grade,
+        documentGrade: doc.grade,
+        documentCourseId: doc.courseId,
+        isProtected: doc.isProtected,
+        activeCourseIds: active.map((enrollment) => enrollment.courseId),
+      });
+      if (!allowed) {
+        return NextResponse.json({ error: "You do not have access to this document." }, { status: 403 });
       }
     }
 
