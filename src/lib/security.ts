@@ -3,7 +3,7 @@ import { db } from "@/db";
 import { sessions, users } from "@/db/schema";
 import { eq, lt } from "drizzle-orm";
 import { NextResponse } from "next/server";
-import { legacyPasswordMatches } from "@/lib/legacy-password.mjs";
+import { isScryptPasswordHash, legacyPasswordMatches } from "@/lib/legacy-password.mjs";
 
 // ===================== PASSWORD HASHING (scrypt + random salt) =====================
 
@@ -16,7 +16,7 @@ export function hashPassword(password: string): string {
 // Supports both new hashed format ("salt:hash") and legacy plaintext (auto-upgrade path)
 export function verifyPassword(password: string, stored: string): boolean {
   if (!stored) return false;
-  if (stored.includes(":")) {
+  if (isScryptPasswordHash(stored)) {
     const [salt, storedHash] = stored.split(":");
     const computed = crypto.scryptSync(password, salt, 64);
     const storedBuf = Buffer.from(storedHash, "hex");
@@ -29,7 +29,7 @@ export function verifyPassword(password: string, stored: string): boolean {
 }
 
 export function isLegacyPlaintext(stored: string): boolean {
-  return !stored.includes(":");
+  return !isScryptPasswordHash(stored);
 }
 
 // ===================== SESSION TOKENS =====================
