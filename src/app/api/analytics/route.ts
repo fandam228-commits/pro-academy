@@ -13,7 +13,7 @@ import {
   courses,
   parentLinks,
 } from "@/db/schema";
-import { eq } from "drizzle-orm";
+import { and, eq, inArray } from "drizzle-orm";
 import { NextResponse } from "next/server";
 import { ensureDbSetup } from "@/db/migrate-and-seed";
 import { getAuthContext } from "@/lib/security";
@@ -22,8 +22,6 @@ import { attendanceRate, calculatePerformanceIndex, homeworkCompletion } from "@
 import {
   getTeacherAnalyticsStudentIds,
   getTeacherAnalyticsCourseIds,
-  isTeacherScopedHomework,
-  isCourseScopedQuiz,
   resolveParentAnalyticsStudentId,
 } from "@/lib/analytics-report-scope.mjs";
 
@@ -45,26 +43,78 @@ async function buildStudentReport(studentId: string, scope?: TeacherReportScope)
         (a, b) => new Date(a.submittedAt).getTime() - new Date(b.submittedAt).getTime()
       );
 
-  const allQuizSubs = await db.select().from(quizSubmissions).where(eq(quizSubmissions.studentId, studentId));
-  let quizSubs = allQuizSubs;
-  if (scope) {
-    const allQuizzes = await db.select().from(quizzes);
-    const allowedQuizIds = new Set(
-      allQuizzes.filter((quiz) => isCourseScopedQuiz(quiz, scope.allowedCourseIds)).map((quiz) => quiz.id)
-    );
-    quizSubs = allQuizSubs.filter((submission) => allowedQuizIds.has(submission.quizId));
-  }
-  quizSubs = quizSubs.sort((a, b) => new Date(a.submittedAt).getTime() - new Date(b.submittedAt).getTime());
+  // For teacher reports, constrain database reads to the authorized course IDs.
+  // Avoid loading unrelated teachers' quiz/homework records and filtering afterward.
+  const quizSubs = (scope
+    ? scope.allowedCourseIds.length === 0
+      ? []
+      : await db
+          .select({
+            percentage: quizSubmissions.percentage,
+            submittedAt: quizSubmissions.submittedAt,
+          })
+          .from(quizSubmissions)
+          .innerJoin(quizzes, eq(quizSubmissions.quizId, quizzes.id))
+          .where(and(
+            eq(quizSubmissions.studentId, studentId),
+            inArray(quizzes.courseId, scope.allowedCourseIds),
+          ))
+    : await db
+        .select({
+          percentage: quizSubmissions.percentage,
+          submittedAt: quizSubmissions.submittedAt,
+        })
+        .from(quizSubmissions)
+        .where(eq(quizSubmissions.studentId, studentId)))
+    .sort((a, b) => new Date(a.submittedAt).getTime() - new Date(b.submittedAt).getTime());
 
-  const allHwSubs = await db.select().from(homeworkSubmissions).where(eq(homeworkSubmissions.studentId, studentId));
-  const allHw = await db.select().from(homework);
   const visibleHomework = scope
-    ? allHw.filter((item) => isTeacherScopedHomework(item, scope.teacherId, scope.allowedCourseIds))
-    : allHw;
-  const visibleHomeworkIds = new Set(visibleHomework.map((item) => item.id));
+    ? scope.allowedCourseIds.length === 0
+      ? []
+      : await db
+          .select({
+            id: homework.id,
+            courseId: homework.courseId,
+            grade: homework.grade,
+            totalPoints: homework.totalPoints,
+          })
+          .from(homework)
+          .where(and(
+            eq(homework.teacherId, scope.teacherId),
+            inArray(homework.courseId, scope.allowedCourseIds),
+          ))
+    : await db.select({
+        id: homework.id,
+        courseId: homework.courseId,
+        grade: homework.grade,
+        totalPoints: homework.totalPoints,
+      }).from(homework);
+
+  const visibleHomeworkIds = new Set(visibleHomework
+    .filter((item) => !student?.grade || item.grade === student.grade)
+    .map((item) => item.id));
   const hwSubs = scope
-    ? allHwSubs.filter((submission) => visibleHomeworkIds.has(submission.homeworkId))
-    : allHwSubs;
+    ? visibleHomeworkIds.size === 0
+      ? []
+      : await db
+          .select({
+            homeworkId: homeworkSubmissions.homeworkId,
+            score: homeworkSubmissions.score,
+            status: homeworkSubmissions.status,
+          })
+          .from(homeworkSubmissions)
+          .where(and(
+            eq(homeworkSubmissions.studentId, studentId),
+            inArray(homeworkSubmissions.homeworkId, [...visibleHomeworkIds]),
+          ))
+    : await db
+        .select({
+          homeworkId: homeworkSubmissions.homeworkId,
+          score: homeworkSubmissions.score,
+          status: homeworkSubmissions.status,
+        })
+        .from(homeworkSubmissions)
+        .where(eq(homeworkSubmissions.studentId, studentId));
 
   // Attendance records currently have no course/teacher ownership key, so a
   // teacher report must not include attendance that cannot be scoped safely.
@@ -73,10 +123,17 @@ async function buildStudentReport(studentId: string, scope?: TeacherReportScope)
     : await db.select().from(attendanceRecords).where(eq(attendanceRecords.studentId, studentId));
   const bank = scope ? [] : await db.select().from(questionBank);
 
-  const allEnrollments = await db.select().from(enrollments).where(eq(enrollments.studentId, studentId));
   const myEnrollments = scope
-    ? allEnrollments.filter((enrollment) => scope.allowedCourseIds.includes(enrollment.courseId))
-    : allEnrollments;
+    ? scope.allowedCourseIds.length === 0
+      ? []
+      : await db
+          .select()
+          .from(enrollments)
+          .where(and(
+            eq(enrollments.studentId, studentId),
+            inArray(enrollments.courseId, scope.allowedCourseIds),
+          ))
+    : await db.select().from(enrollments).where(eq(enrollments.studentId, studentId));
 
   // ---------- SCORE TIMELINE (exams + quizzes merged chronologically) ----------
   const timeline = [
