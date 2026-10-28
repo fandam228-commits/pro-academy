@@ -4,6 +4,8 @@ import {
   AUTH_INPUT_LIMITS,
   isWithinLoginInputLimits,
   isWithinRegistrationInputLimits,
+  MAX_AUTH_BODY_BYTES,
+  readBoundedJsonBody,
 } from "./auth-input-limits.mjs";
 
 test("login input accepts ordinary credentials and the documented maximum boundary", () => {
@@ -83,4 +85,58 @@ test("registration keeps optional profile fields optional for existing clients",
     }),
     true
   );
+});
+
+
+test("bounded JSON reader accepts an ordinary object body", async () => {
+  const request = new Request("https://example.test/api/auth", {
+    method: "POST",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify({ action: "login", username: "student", password: "secret" }),
+  });
+  const result = await readBoundedJsonBody(request);
+  assert.equal(result.ok, true);
+  if (result.ok) assert.deepEqual(result.value, { action: "login", username: "student", password: "secret" });
+});
+
+test("bounded JSON reader rejects a declared oversized body before reading it", async () => {
+  const request = new Request("https://example.test/api/auth", {
+    method: "POST",
+    headers: { "content-length": String(MAX_AUTH_BODY_BYTES + 1) },
+    body: "{}",
+  });
+  const result = await readBoundedJsonBody(request);
+  assert.deepEqual(result, { ok: false, status: 413, error: "Request body is too large." });
+});
+
+test("bounded JSON reader counts streamed bytes even without a Content-Length header", async () => {
+  const request = new Request("https://example.test/api/auth", {
+    method: "POST",
+    body: "x".repeat(33),
+  });
+  const result = await readBoundedJsonBody(request, 32);
+  assert.deepEqual(result, { ok: false, status: 413, error: "Request body is too large." });
+});
+
+test("bounded JSON reader rejects malformed JSON, arrays, primitives, and bad length headers", async () => {
+  const malformed = await readBoundedJsonBody(new Request("https://example.test", {
+    method: "POST", body: "{",
+  }));
+  assert.equal(malformed.ok, false);
+  if (!malformed.ok) assert.equal(malformed.status, 400);
+
+  const arrayBody = await readBoundedJsonBody(new Request("https://example.test", {
+    method: "POST", body: "[]",
+  }));
+  assert.deepEqual(arrayBody, { ok: false, status: 400, error: "Request body must be a JSON object." });
+
+  const primitiveBody = await readBoundedJsonBody(new Request("https://example.test", {
+    method: "POST", body: "null",
+  }));
+  assert.deepEqual(primitiveBody, { ok: false, status: 400, error: "Request body must be a JSON object." });
+
+  const badLength = await readBoundedJsonBody(new Request("https://example.test", {
+    method: "POST", headers: { "content-length": "many" }, body: "{}",
+  }));
+  assert.deepEqual(badLength, { ok: false, status: 400, error: "Invalid Content-Length header." });
 });
