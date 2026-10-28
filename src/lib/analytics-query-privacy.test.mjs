@@ -7,11 +7,11 @@ const analyticsRouteUrl = new URL("../app/api/analytics/route.ts", import.meta.u
 test("Analytics rosters minimize user fields and constrain teacher IDs in SQL", async () => {
   const source = await readFile(analyticsRouteUrl, "utf8");
   const adminIdOnlyRosterQuery =
-    /db\\.select\\(\\{\\s*id:\\s*users\\.id\\s*\\}\\)\\.from\\(users\\)\\.where\\(eq\\(users\\.role,\\s*"student"\\)\\)/g;
+    /db\.select\(\{\s*id:\s*users\.id\s*\}\)\.from\(users\)\.where\(eq\(users\.role,\s*"student"\)\)/g;
   const teacherScopedRosterQuery =
-    /db\\.select\\(\\{\\s*id:\\s*users\\.id\\s*\\}\\)\\.from\\(users\\)\\.where\\(and\\(\\s*eq\\(users\\.role,\\s*"student"\\),\\s*inArray\\(users\\.id,\\s*teacherStudentIds\\)\\s*\\)\\)/g;
+    /db\.select\(\{\s*id:\s*users\.id\s*\}\)\.from\(users\)\.where\(and\(\s*eq\(users\.role,\s*"student"\),\s*inArray\(users\.id,\s*teacherStudentIds\)\s*\)\)/g;
   const broadRosterQuery =
-    /db\\.select\\(\\)\\.from\\(users\\)\\.where\\(eq\\(users\\.role,\\s*"student"\\)\\)/g;
+    /db\.select\(\)\.from\(users\)\.where\(eq\(users\.role,\s*"student"\)\)/g;
 
   assert.equal(
     (source.match(adminIdOnlyRosterQuery) ?? []).length,
@@ -25,7 +25,7 @@ test("Analytics rosters minimize user fields and constrain teacher IDs in SQL", 
   );
   assert.match(
     source,
-    /teacherStudentIds\\.length === 0\\s*\\?\\s*\\[\\]\\s*:/,
+    /teacherStudentIds\.length === 0\s*\?\s*\[\]\s*:/,
     "an empty authorized roster must not trigger an unscoped student query",
   );
   assert.equal(
