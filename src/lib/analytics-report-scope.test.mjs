@@ -5,6 +5,7 @@ import {
   getTeacherAnalyticsCourseIds,
   isTeacherScopedHomework,
   isCourseScopedQuiz,
+  resolveParentAnalyticsStudentId,
 } from "./analytics-report-scope.mjs";
 
 const enrollmentRows = [
@@ -59,4 +60,47 @@ test("quiz results are scoped to explicitly linked authorized courses", () => {
 test("malformed enrollment inputs fail closed", () => {
   assert.deepEqual(getTeacherAnalyticsStudentIds("invalid", "teacher-1"), []);
   assert.deepEqual(getTeacherAnalyticsCourseIds(enrollmentRows, "teacher-1", ""), []);
+});
+
+
+test("parent analytics resolves an explicitly selected linked student only", () => {
+  assert.deepEqual(
+    resolveParentAnalyticsStudentId("student-2", ["student-1", "student-2"]),
+    { ok: true, studentId: "student-2" }
+  );
+  assert.deepEqual(
+    resolveParentAnalyticsStudentId("student-3", ["student-1", "student-2"]),
+    { ok: false, reason: "forbidden" }
+  );
+});
+
+test("parent analytics requires studentId when multiple distinct children are linked", () => {
+  assert.deepEqual(
+    resolveParentAnalyticsStudentId(null, ["student-1", "student-2"]),
+    { ok: false, reason: "student-id-required" }
+  );
+  // Duplicate link rows must not make one child look like multiple children.
+  assert.deepEqual(
+    resolveParentAnalyticsStudentId(null, ["student-1", "student-1"]),
+    { ok: true, studentId: "student-1" }
+  );
+});
+
+test("parent analytics handles no links and malformed relationship data fail-closed", () => {
+  assert.deepEqual(
+    resolveParentAnalyticsStudentId(null, []),
+    { ok: false, reason: "no-linked-student" }
+  );
+  assert.deepEqual(
+    resolveParentAnalyticsStudentId(null, "student-1"),
+    { ok: false, reason: "invalid-links" }
+  );
+  assert.deepEqual(
+    resolveParentAnalyticsStudentId(null, ["student-1", null]),
+    { ok: false, reason: "invalid-links" }
+  );
+  assert.deepEqual(
+    resolveParentAnalyticsStudentId("", ["student-1"]),
+    { ok: false, reason: "invalid-student-id" }
+  );
 });
