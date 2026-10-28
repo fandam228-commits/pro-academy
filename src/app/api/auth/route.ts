@@ -18,7 +18,7 @@ import {
   recordFailedLogin,
   clearFailedLogins,
 } from "@/lib/security";
-import { isWithinLoginInputLimits, isWithinRegistrationInputLimits } from "@/lib/auth-input-limits.mjs";
+import { isWithinLoginInputLimits, isWithinRegistrationInputLimits, readBoundedJsonBody } from "@/lib/auth-input-limits.mjs";
 
 function sanitizeUser(u: any) {
   if (!u) return u;
@@ -88,17 +88,15 @@ export async function GET(req: Request) {
 }
 
 export async function POST(req: Request) {
+  // Reject oversized bodies before database setup, parsing, or password work.
+  const parsedBody = await readBoundedJsonBody(req);
+  if (!parsedBody.ok) {
+    return NextResponse.json({ error: parsedBody.error }, { status: parsedBody.status });
+  }
+
   await ensureDbSetup();
   try {
-    let body: any;
-    try {
-      body = await req.json();
-    } catch {
-      return NextResponse.json({ error: "Malformed JSON request body." }, { status: 400 });
-    }
-    if (!body || typeof body !== "object" || Array.isArray(body)) {
-      return NextResponse.json({ error: "Request body must be a JSON object." }, { status: 400 });
-    }
+    const body: any = parsedBody.value;
     const { email, username, password, name, role, stage, grade, phone, parentPhone } = body;
     const rawAction = typeof body?.action === "string" ? body.action.trim().toLowerCase() : "";
     // Accept common sign-in aliases and older clients that send credentials without an action.
