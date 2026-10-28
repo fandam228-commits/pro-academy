@@ -36,24 +36,40 @@ export interface TeacherCourse {
   [key: string]: unknown;
 }
 
-export interface TeacherWeeklyReportScopeInput {
+export interface TeacherWeeklyReportScopeInput<
+  A extends TeacherAttendanceRecord = TeacherAttendanceRecord,
+  H extends TeacherHomeworkRecord = TeacherHomeworkRecord,
+  HS extends TeacherHomeworkSubmission = TeacherHomeworkSubmission,
+  Q extends TeacherQuizRecord = TeacherQuizRecord,
+  QS extends TeacherQuizSubmission = TeacherQuizSubmission,
+  E extends TeacherEnrollment = TeacherEnrollment,
+  C extends TeacherCourse = TeacherCourse
+> {
   teacherId: string | null | undefined;
   teacherCourseIds?: string[];
-  attendanceRecords?: TeacherAttendanceRecord[];
-  homeworkRows?: TeacherHomeworkRecord[];
-  homeworkSubmissions?: TeacherHomeworkSubmission[];
-  quizzes?: TeacherQuizRecord[];
-  quizSubmissions?: TeacherQuizSubmission[];
-  enrollments?: TeacherEnrollment[];
-  courses?: TeacherCourse[];
+  attendanceRecords?: A[];
+  homeworkRows?: H[];
+  homeworkSubmissions?: HS[];
+  quizzes?: Q[];
+  quizSubmissions?: QS[];
+  enrollments?: E[];
+  courses?: C[];
 }
 
-export function scopeTeacherWeeklyReportData(input: TeacherWeeklyReportScopeInput): {
-  attendanceRecords: TeacherAttendanceRecord[];
-  homeworkRows: TeacherHomeworkRecord[];
-  homeworkSubmissions: TeacherHomeworkSubmission[];
-  quizzes: TeacherQuizRecord[];
-  quizSubmissions: TeacherQuizSubmission[];
-  enrollments: TeacherEnrollment[];
-  enrolledCourses: TeacherCourse[];
+export function scopeTeacherWeeklyReportData<
+  A extends TeacherAttendanceRecord = TeacherAttendanceRecord,
+  H extends TeacherHomeworkRecord = TeacherHomeworkRecord,
+  HS extends TeacherHomeworkSubmission = TeacherHomeworkSubmission,
+  Q extends TeacherQuizRecord = TeacherQuizRecord,
+  QS extends TeacherQuizSubmission = TeacherQuizSubmission,
+  E extends TeacherEnrollment = TeacherEnrollment,
+  C extends TeacherCourse = TeacherCourse
+>(input: TeacherWeeklyReportScopeInput<A, H, HS, Q, QS, E, C>): {
+  attendanceRecords: A[];
+  homeworkRows: H[];
+  homeworkSubmissions: HS[];
+  quizzes: Q[];
+  quizSubmissions: QS[];
+  enrollments: E[];
+  enrolledCourses: C[];
 };
