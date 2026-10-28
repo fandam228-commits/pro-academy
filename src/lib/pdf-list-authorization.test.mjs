@@ -5,6 +5,7 @@ import { canListPdfDocument, toPublicPdfMetadata } from "./pdf-list-authorizatio
 const base = {
   requesterId: "teacher-1",
   uploaderId: "teacher-1",
+  documentId: "pdfu_new",
   documentCourseId: "course-1",
   courseTeacherId: "teacher-1",
   documentGrade: "Third Secondary",
@@ -27,6 +28,7 @@ test("teachers see course-linked PDFs only for courses they own", () => {
 test("teachers see course-less PDFs only when they uploaded them", () => {
   assert.equal(canListPdfDocument({ ...base, role: "teacher", documentCourseId: null }), true);
   assert.equal(canListPdfDocument({ ...base, role: "teacher", documentCourseId: null, uploaderId: "teacher-2" }), false);
+  assert.equal(canListPdfDocument({ ...base, role: "teacher", documentCourseId: null, documentId: "pdf_legacy" }), false);
 });
 
 test("students must have enrollment for course-linked PDFs regardless of protection flag", () => {
