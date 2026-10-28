@@ -6,6 +6,7 @@ import { ensureDbSetup } from "@/db/migrate-and-seed";
 import { requireRoles, getAuthContext } from "@/lib/security";
 import { notifyUser } from "@/lib/push";
 import { put } from "@vercel/blob";
+import { randomUUID } from "node:crypto";
 import { canManageHomework, canSubmitHomework } from "@/lib/homework-authorization.mjs";
 
 const MAX_SIZE_BYTES = 20 * 1024 * 1024; // 20MB
@@ -136,12 +137,12 @@ export async function POST(req: Request) {
         if (file.size > MAX_SIZE_BYTES) {
           return NextResponse.json({ error: "File exceeds 20MB limit." }, { status: 400 });
         }
-        const subId = `hws_${Date.now()}_${Math.random().toString(36).substring(2, 6)}`;
+        const subId = `hws_${randomUUID()}`;
         const safeName = file.name.replace(/[^a-zA-Z0-9._-]/g, "_");
         // Upload to Vercel Blob (cloud storage)
         const blob = await put(`homework/${subId}_${safeName}`, file, {
           access: "public",
-          addRandomSuffix: false,
+          addRandomSuffix: true,
         });
         fileName = file.name;
         storagePath = blob.url; // store Blob URL instead of local path
@@ -159,7 +160,7 @@ export async function POST(req: Request) {
       }
 
       const sub = {
-        id: `hws_${Date.now()}_${Math.random().toString(36).substring(2, 6)}`,
+        id: `hws_${randomUUID()}`,
         homeworkId,
         studentId: ctx.user.id,
         studentName: ctx.user.name,
