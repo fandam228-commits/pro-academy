@@ -1,11 +1,12 @@
 import { db } from "@/db";
-import { users, parentLinks, attendanceRecords, homeworkSubmissions, homework, quizSubmissions, enrollments, courses } from "@/db/schema";
+import { users, parentLinks, attendanceRecords, homeworkSubmissions, homework, quizSubmissions, quizzes, enrollments, courses } from "@/db/schema";
 import { eq } from "drizzle-orm";
 import { NextResponse } from "next/server";
 import { ensureDbSetup } from "@/db/migrate-and-seed";
 import { getAuthContext } from "@/lib/security";
 import { resolveStudentDataAccess } from "@/lib/student-data-access.mjs";
 import { calculateOverallAttendanceRate } from "@/lib/report-metrics.mjs";
+import { scopeTeacherWeeklyReportData } from "@/lib/teacher-report-scope.mjs";
 
 function getWeekRange() {
   const now = new Date();
@@ -40,6 +41,7 @@ export async function GET(req: Request) {
 
     let linkedParentStudentIds: string[] = [];
     let teacherStudentIds: string[] = [];
+    let teacherCourseIds: string[] = [];
 
     if (role === "parent") {
       const links = await db
@@ -51,11 +53,12 @@ export async function GET(req: Request) {
 
     if (role === "teacher") {
       const teacherEnrollments = await db
-        .select({ studentId: enrollments.studentId })
+        .select({ studentId: enrollments.studentId, courseId: enrollments.courseId })
         .from(enrollments)
         .innerJoin(courses, eq(enrollments.courseId, courses.id))
         .where(eq(courses.teacherId, ctx.user.id));
       teacherStudentIds = [...new Set(teacherEnrollments.map((row) => row.studentId))];
+      teacherCourseIds = [...new Set(teacherEnrollments.map((row) => row.courseId))];
     }
 
     const access = resolveStudentDataAccess({
@@ -88,7 +91,39 @@ export async function GET(req: Request) {
     const week = getWeekRange();
 
     // 1. Attendance this week
-    const allAttendance = await db.select().from(attendanceRecords).where(eq(attendanceRecords.studentId, studentId));
+    let allAttendance = await db.select().from(attendanceRecords).where(eq(attendanceRecords.studentId, studentId));
+    let allHwSubs = await db.select().from(homeworkSubmissions).where(eq(homeworkSubmissions.studentId, studentId));
+    let allQuizSubs = await db.select().from(quizSubmissions).where(eq(quizSubmissions.studentId, studentId));
+    let allEnrollments = await db.select().from(enrollments).where(eq(enrollments.studentId, studentId));
+    const allCourses = await db.select().from(courses);
+    let enrolledCourses = allCourses.filter((c) => allEnrollments.some((e) => e.courseId === c.id));
+
+    if (role === "teacher") {
+      // Attendance records have no courseId, so only rows explicitly marked by
+      // this teacher can be attributed safely. Generated exams are not part of
+      // this weekly report; course-scoped quiz results are filtered below.
+      const [allHomeworkRows, allQuizRows] = await Promise.all([
+        db.select().from(homework),
+        db.select().from(quizzes),
+      ]);
+      const scoped = scopeTeacherWeeklyReportData({
+        teacherId: ctx.user.id,
+        teacherCourseIds,
+        attendanceRecords: allAttendance,
+        homeworkRows: allHomeworkRows,
+        homeworkSubmissions: allHwSubs,
+        quizzes: allQuizRows,
+        quizSubmissions: allQuizSubs,
+        enrollments: allEnrollments,
+        courses: allCourses,
+      });
+      allAttendance = scoped.attendanceRecords;
+      allHwSubs = scoped.homeworkSubmissions;
+      allQuizSubs = scoped.quizSubmissions;
+      allEnrollments = scoped.enrollments;
+      enrolledCourses = scoped.enrolledCourses;
+    }
+
     const weekAttendance = allAttendance.filter((a) => a.sessionDate >= week.start && a.sessionDate <= week.end);
     const totalAttendance = allAttendance.length;
     const weekPresent = weekAttendance.filter((a) => a.status === "present").length;
@@ -97,7 +132,6 @@ export async function GET(req: Request) {
     const overallRate = calculateOverallAttendanceRate(allAttendance);
 
     // 2. Homework this week
-    const allHwSubs = await db.select().from(homeworkSubmissions).where(eq(homeworkSubmissions.studentId, studentId));
     const weekHwSubs = allHwSubs.filter((s) => new Date(s.submittedAt) >= week.startDate && new Date(s.submittedAt) <= week.endDate);
     const gradedHw = weekHwSubs.filter((s) => s.status === "graded");
     const avgHwScore = gradedHw.length > 0
@@ -105,16 +139,10 @@ export async function GET(req: Request) {
       : null;
 
     // 3. Quiz/Exam submissions this week
-    const allQuizSubs = await db.select().from(quizSubmissions).where(eq(quizSubmissions.studentId, studentId));
     const weekQuizSubs = allQuizSubs.filter((s) => new Date(s.submittedAt) >= week.startDate && new Date(s.submittedAt) <= week.endDate);
     const avgQuizScore = weekQuizSubs.length > 0
       ? Math.round(weekQuizSubs.reduce((sum, s) => sum + s.percentage, 0) / weekQuizSubs.length)
       : null;
-
-    // 4. Overall stats
-    const allEnrollments = await db.select().from(enrollments).where(eq(enrollments.studentId, studentId));
-    const allCourses = await db.select().from(courses);
-    const enrolledCourses = allCourses.filter((c) => allEnrollments.some((e) => e.courseId === c.id));
 
     // 5. Streak & Points
     const streak = student.streak || 0;
