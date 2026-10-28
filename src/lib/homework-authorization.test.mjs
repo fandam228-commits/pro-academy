@@ -4,6 +4,7 @@ import {
   canManageHomework,
   canViewHomeworkSubmissionFile,
   canSubmitHomework,
+  getHomeworkFileAccessDecision,
 } from "./homework-authorization.mjs";
 
 test("teachers can manage only homework they own", () => {
@@ -105,4 +106,21 @@ test("only student accounts may submit homework answers and only for their recor
   assert.equal(canSubmitHomework({ role: "admin" }), false);
   assert.equal(canSubmitHomework({ role: "parent" }), false);
   assert.equal(canSubmitHomework({ role: null }), false);
+});
+
+test("homework file access hides missing and unauthorized records behind one not-found decision", () => {
+  const allowed = {
+    submissionFound: true,
+    homeworkFound: true,
+    role: "student",
+    requesterId: "student-1",
+    submissionStudentId: "student-1",
+    homeworkTeacherId: "teacher-1",
+  };
+  assert.equal(getHomeworkFileAccessDecision(allowed), "allowed");
+  assert.equal(getHomeworkFileAccessDecision({ ...allowed, submissionFound: false }), "not-found");
+  assert.equal(getHomeworkFileAccessDecision({ ...allowed, homeworkFound: false }), "not-found");
+  assert.equal(getHomeworkFileAccessDecision({ ...allowed, requesterId: "student-2" }), "not-found");
+  assert.equal(getHomeworkFileAccessDecision({ ...allowed, role: "teacher", requesterId: "teacher-2" }), "not-found");
+  assert.equal(getHomeworkFileAccessDecision({ ...allowed, role: "parent", requesterId: "parent-1" }), "not-found");
 });
