@@ -4,6 +4,7 @@ import { sessions, users } from "@/db/schema";
 import { eq, lt } from "drizzle-orm";
 import { NextResponse } from "next/server";
 import { isLegacyPlaintextPassword, verifyStoredPassword } from "./password-verification.mjs";
+import { extractSessionToken } from "./session-token.mjs";
 
 // ===================== PASSWORD HASHING (scrypt + random salt) =====================
 
@@ -60,13 +61,7 @@ export async function destroySession(token: string) {
 const SESSION_COOKIE = "pa_session";
 
 export function extractToken(req: Request): string | null {
-  const header = req.headers.get("authorization") || "";
-  if (header.toLowerCase().startsWith("bearer ")) {
-    return header.slice(7).trim();
-  }
-  const cookieHeader = req.headers.get("cookie") || "";
-  const match = cookieHeader.match(new RegExp(`(?:^|;\\s*)${SESSION_COOKIE}=([^;]+)`));
-  return match ? decodeURIComponent(match[1]) : null;
+  return extractSessionToken(req.headers.get("authorization"), req.headers.get("cookie"));
 }
 
 export function sessionCookie(token: string, expiresAt: Date): string {
