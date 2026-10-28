@@ -2,6 +2,7 @@ export interface PdfListAuthorizationInput {
   role: string;
   requesterId?: string | null;
   uploaderId?: string | null;
+  documentId?: string | null;
   documentCourseId?: string | null;
   courseTeacherId?: string | null;
   studentGrade?: string | null;
