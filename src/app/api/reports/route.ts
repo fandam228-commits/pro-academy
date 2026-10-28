@@ -5,6 +5,7 @@ import { NextResponse } from "next/server";
 import { ensureDbSetup } from "@/db/migrate-and-seed";
 import { getAuthContext } from "@/lib/security";
 import { resolveStudentDataAccess } from "@/lib/student-data-access.mjs";
+import { calculateOverallAttendanceRate } from "@/lib/report-metrics.mjs";
 
 function getWeekRange() {
   const now = new Date();
@@ -93,9 +94,7 @@ export async function GET(req: Request) {
     const weekPresent = weekAttendance.filter((a) => a.status === "present").length;
     const weekLate = weekAttendance.filter((a) => a.status === "late").length;
     const weekAbsent = weekAttendance.filter((a) => a.status === "absent").length;
-    const overallRate = totalAttendance > 0
-      ? Math.round(((allAttendance.filter((a) => a.status === "present").length + allAttendance.filter((a) => a.status === "late").length * 0.7) / totalAttendance) * 100)
-      : 100;
+    const overallRate = calculateOverallAttendanceRate(allAttendance);
 
     // 2. Homework this week
     const allHwSubs = await db.select().from(homeworkSubmissions).where(eq(homeworkSubmissions.studentId, studentId));
@@ -126,8 +125,8 @@ export async function GET(req: Request) {
     const strengths: string[] = [];
     const weaknesses: string[] = [];
 
-    if (overallRate >= 90) strengths.push("التزام عالي بالحضور والمواظبة");
-    else if (overallRate < 75) weaknesses.push("نسبة الحضور منخفضة — يحتاج متابعة");
+    if (overallRate !== null && overallRate >= 90) strengths.push("التزام عالي بالحضور والمواظبة");
+    else if (overallRate !== null && overallRate < 75) weaknesses.push("نسبة الحضور منخفضة — يحتاج متابعة");
 
     if (streak >= 7) strengths.push(`تتابع دراسي ممتاز: ${streak} يوم متواصل`);
     else weaknesses.push("التتابع الدراسي ضعيف — يحتاج تحفيز يومي");
