@@ -1,6 +1,8 @@
+import { resolveStudentDataAccess } from "./student-data-access.mjs";
+
 /**
  * Authorization policy for a single student's analytics report.
- * Data relationships must be loaded from the database by the caller.
+ * Relationship IDs must be loaded from the database by the caller.
  */
 export function canAccessStudentAnalytics({
   role,
@@ -9,10 +11,12 @@ export function canAccessStudentAnalytics({
   linkedParentStudentIds = [],
   teacherStudentIds = [],
 }) {
-  if (!role || !requesterId || !studentId) return false;
-  if (role === "admin") return true;
-  if (role === "student") return requesterId === studentId;
-  if (role === "parent") return linkedParentStudentIds.includes(studentId);
-  if (role === "teacher") return teacherStudentIds.includes(studentId);
-  return false;
+  if (!studentId) return false;
+  return resolveStudentDataAccess({
+    role,
+    requesterId,
+    requestedStudentId: studentId,
+    linkedParentStudentIds,
+    teacherStudentIds,
+  }).allowed;
 }

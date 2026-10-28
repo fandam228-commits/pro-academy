@@ -112,11 +112,15 @@ export const WeeklyReport: React.FC = () => {
         <div className="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-lg p-5 text-center">
           <ClipboardCheck className="w-6 h-6 text-emerald-500 mx-auto mb-2" />
           <p className="text-[10px] font-bold text-slate-400 uppercase">{lang === "ar" ? "الحضور الكلي" : "Overall Attendance"}</p>
-          <p className={`text-3xl font-black ${attendance.overallRate >= 90 ? "text-emerald-500" : attendance.overallRate >= 75 ? "text-amber-500" : "text-red-500"}`}>
-            {attendance.overallRate}%
+          <p className={`text-3xl font-black ${attendance.overallRate == null ? "text-slate-400" : attendance.overallRate >= 90 ? "text-emerald-500" : attendance.overallRate >= 75 ? "text-amber-500" : "text-red-500"}`}>
+            {attendance.overallRate == null
+              ? lang === "ar" ? "غير مسجل" : "Not recorded"
+              : `${attendance.overallRate}%`}
           </p>
           <p className="text-[10px] text-slate-500 mt-1">
-            {lang === "ar" ? `${attendance.weekPresent}H / ${attendance.weekLate}L / ${attendance.weekAbsent}A هذا الأسبوع` : `This week: ${attendance.weekPresent}P / ${attendance.weekLate}L / ${attendance.weekAbsent}A`}
+            {attendance.totalSessions === 0
+              ? lang === "ar" ? "لم يتم تسجيل الحضور بعد" : "Attendance has not been recorded"
+              : lang === "ar" ? `${attendance.weekPresent}H / ${attendance.weekLate}L / ${attendance.weekAbsent}A هذا الأسبوع` : `This week: ${attendance.weekPresent}P / ${attendance.weekLate}L / ${attendance.weekAbsent}A`}
           </p>
         </div>
 
@@ -198,7 +202,11 @@ export const WeeklyReport: React.FC = () => {
             {lang === "ar" ? "توصية مستر حبيب الرحمن للأسبوع القادم:" : "Mr. Habib's Recommendation:"}
           </h4>
           <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
-            {attendance.overallRate >= 90 && homework.weekSubmissions > 0
+            {attendance.overallRate == null
+              ? lang === "ar"
+                ? "لم يتم تسجيل بيانات الحضور بعد. راجع التقرير مرة أخرى بعد تسجيل الحضور."
+                : "Attendance has not been recorded yet. Review this report after attendance is entered."
+              : attendance.overallRate >= 90 && homework.weekSubmissions > 0
               ? lang === "ar"
                 ? "أداء ممتاز! استمر في الالتزام بالحضور وتسليم الواجبات. ركز الأسبوع القادم على حل المزيد من نماذج الامتحانات من بنك الأسئلة الذكي لتعزيز الجاهزية."
                 : "Excellent performance! Keep up the attendance and homework commitment. Focus next week on practicing more smart exam models to boost readiness."

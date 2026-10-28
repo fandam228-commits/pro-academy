@@ -4,6 +4,8 @@ import { eq } from "drizzle-orm";
 import { NextResponse } from "next/server";
 import { ensureDbSetup } from "@/db/migrate-and-seed";
 import { getAuthContext } from "@/lib/security";
+import { resolveStudentDataAccess } from "@/lib/student-data-access.mjs";
+import { calculateOverallAttendanceRate } from "@/lib/report-metrics.mjs";
 
 function getWeekRange() {
   const now = new Date();
@@ -28,29 +30,59 @@ export async function GET(req: Request) {
   if (!ctx) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
   const { searchParams } = new URL(req.url);
-  let studentId = searchParams.get("studentId");
+  const requestedStudentId = searchParams.get("studentId");
+  const role = ctx.user.role as string;
 
   try {
-    // Parent: find linked student
-    if (ctx.user.role === "parent") {
-      const links = await db.select().from(parentLinks).where(eq(parentLinks.parentId, ctx.user.id));
-      studentId = links[0]?.studentId || null;
-    } else if (ctx.user.role === "student") {
-      studentId = ctx.user.id;
+    if (!["admin", "teacher", "parent", "student"].includes(role)) {
+      return NextResponse.json({ error: "Forbidden" }, { status: 403 });
     }
 
-    if (ctx.user.role !== "admin" && ctx.user.role !== "teacher" && ctx.user.role !== "parent" && ctx.user.role !== "student") return NextResponse.json({ error: "Forbidden" }, { status: 403 });
-    if (!studentId) {
-      return NextResponse.json({ error: "No student specified" }, { status: 400 });
+    let linkedParentStudentIds: string[] = [];
+    let teacherStudentIds: string[] = [];
+
+    if (role === "parent") {
+      const links = await db
+        .select({ studentId: parentLinks.studentId })
+        .from(parentLinks)
+        .where(eq(parentLinks.parentId, ctx.user.id));
+      linkedParentStudentIds = links.map((link) => link.studentId);
     }
 
-    if (ctx.user.role === "parent") {
-      const links = await db.select().from(parentLinks).where(eq(parentLinks.parentId, ctx.user.id));
-      if (!links.some((l) => l.studentId === studentId)) return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+    if (role === "teacher") {
+      const teacherEnrollments = await db
+        .select({ studentId: enrollments.studentId })
+        .from(enrollments)
+        .innerJoin(courses, eq(enrollments.courseId, courses.id))
+        .where(eq(courses.teacherId, ctx.user.id));
+      teacherStudentIds = [...new Set(teacherEnrollments.map((row) => row.studentId))];
     }
-    if (ctx.user.role === "student" && studentId !== ctx.user.id) return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+
+    const access = resolveStudentDataAccess({
+      role,
+      requesterId: ctx.user.id,
+      requestedStudentId,
+      linkedParentStudentIds,
+      teacherStudentIds,
+    });
+
+    if (!access.allowed) {
+      if (access.reason === "no_linked_student") {
+        return NextResponse.json({ error: "No linked student" }, { status: 404 });
+      }
+      if (access.reason === "student_required") {
+        return NextResponse.json({ error: "studentId is required" }, { status: 400 });
+      }
+      return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+    }
+
+    const studentId = access.studentId;
+    if (!studentId) return NextResponse.json({ error: "studentId is required" }, { status: 400 });
+
     const stList = await db.select().from(users).where(eq(users.id, studentId));
-    if (stList.length === 0) return NextResponse.json({ error: "Student not found" }, { status: 404 });
+    if (stList.length === 0 || stList[0].role !== "student") {
+      return NextResponse.json({ error: "Student not found" }, { status: 404 });
+    }
     const student = stList[0];
 
     const week = getWeekRange();
@@ -62,9 +94,7 @@ export async function GET(req: Request) {
     const weekPresent = weekAttendance.filter((a) => a.status === "present").length;
     const weekLate = weekAttendance.filter((a) => a.status === "late").length;
     const weekAbsent = weekAttendance.filter((a) => a.status === "absent").length;
-    const overallRate = totalAttendance > 0
-      ? Math.round(((allAttendance.filter((a) => a.status === "present").length + allAttendance.filter((a) => a.status === "late").length * 0.7) / totalAttendance) * 100)
-      : 100;
+    const overallRate = calculateOverallAttendanceRate(allAttendance);
 
     // 2. Homework this week
     const allHwSubs = await db.select().from(homeworkSubmissions).where(eq(homeworkSubmissions.studentId, studentId));
@@ -95,8 +125,8 @@ export async function GET(req: Request) {
     const strengths: string[] = [];
     const weaknesses: string[] = [];
 
-    if (overallRate >= 90) strengths.push("التزام عالي بالحضور والمواظبة");
-    else if (overallRate < 75) weaknesses.push("نسبة الحضور منخفضة — يحتاج متابعة");
+    if (overallRate !== null && overallRate >= 90) strengths.push("التزام عالي بالحضور والمواظبة");
+    else if (overallRate !== null && overallRate < 75) weaknesses.push("نسبة الحضور منخفضة — يحتاج متابعة");
 
     if (streak >= 7) strengths.push(`تتابع دراسي ممتاز: ${streak} يوم متواصل`);
     else weaknesses.push("التتابع الدراسي ضعيف — يحتاج تحفيز يومي");
