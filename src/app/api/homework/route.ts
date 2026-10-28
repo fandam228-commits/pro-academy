@@ -118,7 +118,7 @@ export async function POST(req: Request) {
       if (hw.length === 0) {
         return NextResponse.json({ error: "Homework not found" }, { status: 404 });
       }
-      if (ctx.user.grade && hw[0].grade && ctx.user.grade !== hw[0].grade) {
+      if (!canSubmitHomework({ role: ctx.user.role, studentGrade: ctx.user.grade, homeworkGrade: hw[0].grade })) {
         return NextResponse.json({ error: "You cannot submit homework assigned to another grade." }, { status: 403 });
       }
 
