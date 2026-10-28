@@ -2,9 +2,26 @@
  * Authorization rules for the PDF library.
  * The route loads ownership/enrollment relationships from the database.
  */
-export function canManagePdfDocument({ role, requesterId, uploaderId }) {
+export function canManagePdfDocument({
+  role,
+  requesterId,
+  uploaderId,
+  documentId,
+  documentCourseId,
+  courseTeacherId,
+}) {
   if (role === "admin") return true;
-  return role === "teacher" && Boolean(requesterId) && requesterId === uploaderId;
+  if (role !== "teacher" || !requesterId || requesterId !== uploaderId) return false;
+
+  // Old PDF records accepted client-supplied uploaderId/courseId values.
+  // Do not trust that legacy metadata to authorize teacher mutations.
+  const createdByCurrentUploadFlow =
+    typeof documentId === "string" && (documentId.startsWith("pdfu_") || documentId.startsWith("pdfext_"));
+  if (!createdByCurrentUploadFlow) return false;
+
+  // For course-linked files, require independently verified course ownership too.
+  if (documentCourseId) return courseTeacherId === requesterId;
+  return true;
 }
 
 export function canAttachPdfToCourse({ role, requesterId, courseTeacherId }) {
