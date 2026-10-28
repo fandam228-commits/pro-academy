@@ -129,6 +129,7 @@ export async function GET(req: Request) {
         role: ctx.user.role,
         requesterId: ctx.user.id,
         uploaderId: doc.uploaderId,
+        documentId: doc.id,
         documentCourseId: doc.courseId,
         courseTeacherId: doc.courseId && ownedCourseIds.has(doc.courseId) ? ctx.user.id : null,
         studentGrade: ctx.user.grade,
