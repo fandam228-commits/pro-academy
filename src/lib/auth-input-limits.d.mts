@@ -20,4 +20,4 @@ export function isWithinRegistrationInputLimits(input?: {
   phone?: unknown;
   parentPhone?: unknown;
   referralCode?: unknown;
-} | null): boolean;
+}): boolean;
