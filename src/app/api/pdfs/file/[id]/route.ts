@@ -6,6 +6,7 @@ import { NextResponse } from "next/server";
 import { ensureDbSetup } from "@/db/migrate-and-seed";
 import { requireRoles } from "@/lib/security";
 import { canListPdfDocument } from "@/lib/pdf-list-authorization.mjs";
+import { normalizePublicPdfUrl } from "@/lib/pdf-external-url.mjs";
 
 export async function GET(
   req: Request,
@@ -100,12 +101,18 @@ export async function GET(
     }
 
     if (doc.externalUrl) {
+      // Validate legacy stored destinations too; validation only at creation is
+      // insufficient because older records may contain arbitrary URL schemes.
+      const externalUrl = normalizePublicPdfUrl(doc.externalUrl);
+      if (!externalUrl) {
+        return NextResponse.json({ error: "External PDF destination is invalid." }, { status: 404 });
+      }
       if (isDownload && doc.allowDownload) {
         await db.update(pdfDocuments).set({ downloads: (doc.downloads || 0) + 1 }).where(eq(pdfDocuments.id, id));
       } else {
         await db.update(pdfDocuments).set({ views: (doc.views || 0) + 1 }).where(eq(pdfDocuments.id, id));
       }
-      return NextResponse.redirect(doc.externalUrl);
+      return NextResponse.redirect(externalUrl);
     }
 
     let fileBuffer: Buffer | null = null;
