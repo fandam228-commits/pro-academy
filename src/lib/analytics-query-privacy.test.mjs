@@ -32,3 +32,28 @@ test("teacher-scoped report profile query verifies the account role in SQL", () 
     "teacher-scoped profile lookup must fail closed for non-student or stale accounts",
   );
 });
+test("parent analytics route requires an admin-verified link to a current student account", () => {
+  const parentStart = routeSource.indexOf('if (role === "parent")');
+  const studentStart = routeSource.indexOf("// ---------- STUDENT: own report only ----------", parentStart);
+  assert.notEqual(parentStart, -1, "parent analytics branch must exist");
+  assert.notEqual(studentStart, -1, "student branch must follow the parent branch");
+  const parentSource = routeSource.slice(parentStart, studentStart);
+
+  assert.match(parentSource, /\.innerJoin\(users, eq\(parentLinks\.studentId, users\.id\)\)/);
+  assert.match(parentSource, /eq\(parentLinks\.parentId, ctx\.user\.id\)/);
+  assert.match(parentSource, /eq\(users\.role, "student"\)/);
+  assert.match(parentSource, /isNotNull\(parentLinks\.verifiedAt\)/);
+  assert.match(parentSource, /isNotNull\(parentLinks\.verifiedBy\)/);
+  assert.match(parentSource, /getVerifiedParentAnalyticsStudentIds\(links\)/);
+});
+
+test("student analytics route authorizes the requested ID but only builds the authenticated student's report", () => {
+  const studentStart = routeSource.indexOf("// ---------- STUDENT: own report only ----------");
+  assert.notEqual(studentStart, -1, "student analytics branch must exist");
+  const studentSource = routeSource.slice(studentStart);
+
+  assert.match(studentSource, /studentId:\s*requestedStudent\s*\|\|\s*ctx\.user\.id/);
+  assert.match(studentSource, /if\s*\(!canAccessStudentAnalytics\(/);
+  assert.match(studentSource, /const report = await buildStudentReport\(ctx\.user\.id\)/);
+  assert.doesNotMatch(studentSource, /buildStudentReport\(requestedStudent\)/);
+});
