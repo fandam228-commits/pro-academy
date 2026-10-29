@@ -8,6 +8,7 @@ import { canAccessStudentAnalytics } from "../../src/lib/analytics-authorization
 import {
   getTeacherAnalyticsStudentIds,
   getTeacherAnalyticsCourseIds,
+  getVerifiedParentAnalyticsStudentIds,
   resolveParentAnalyticsStudentId,
 } from "../../src/lib/analytics-report-scope.mjs";
 
