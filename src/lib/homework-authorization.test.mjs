@@ -4,6 +4,7 @@ import {
   canManageHomework,
   canViewHomeworkSubmissionFile,
   canSubmitHomework,
+  canReplaceHomeworkSubmission,
   getHomeworkFileAccessDecision,
 } from "./homework-authorization.mjs";
 
@@ -96,6 +97,12 @@ test("parents, unknown roles, and incomplete relationships are denied file acces
     }),
     false
   );
+});
+
+test("graded submissions are rejected before a replacement file is uploaded", () => {
+  assert.equal(canReplaceHomeworkSubmission({ status: "graded" }), false);
+  assert.equal(canReplaceHomeworkSubmission({ status: "submitted" }), true);
+  assert.equal(canReplaceHomeworkSubmission({ status: null }), true);
 });
 
 test("only student accounts may submit homework answers and only for their recorded grade", () => {
