@@ -3,8 +3,8 @@ name: CI — Type Check & Build
 on:
   push:
     branches: [main, master]
+  # Run verification for stacked feature-branch PRs as well as PRs targeting main.
   pull_request:
-    branches: [main, master]
   workflow_dispatch:
 
 jobs:

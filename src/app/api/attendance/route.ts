@@ -4,6 +4,7 @@ import { eq, and } from "drizzle-orm";
 import { NextResponse } from "next/server";
 import { ensureDbSetup } from "@/db/migrate-and-seed";
 import { requireRoles, getAuthContext } from "@/lib/security";
+import { resolveParentStudentSelection } from "@/lib/parent-student-selection.mjs";
 
 function computeRate(records: any[]) {
   if (records.length === 0) return 100;
@@ -56,16 +57,38 @@ export async function GET(req: Request) {
       return NextResponse.json({ roster, sessionTitles, recentDates, role });
     }
 
-    // ============ PARENT: linked student's records ============
+    // ============ PARENT: explicitly selected linked student's records ============
     if (role === "parent") {
-      let studentId = searchParams.get("studentId");
-      if (!studentId) {
-        const links = await db.select().from(parentLinks).where(eq(parentLinks.parentId, ctx.user.id));
-        studentId = links[0]?.studentId || null;
+      // Resolve links against current users and accept only accounts whose role is
+      // student. Legacy text links to deleted/non-student accounts are ignored.
+      const links = await db
+        .select({ studentId: parentLinks.studentId })
+        .from(parentLinks)
+        .innerJoin(users, eq(parentLinks.studentId, users.id))
+        .where(and(
+          eq(parentLinks.parentId, ctx.user.id),
+          eq(users.role, "student"),
+        ));
+      const linkedStudentIds = [...new Set(links.map((link) => link.studentId))];
+      const selection = resolveParentStudentSelection(searchParams.get("studentId"), linkedStudentIds);
+
+      if (!selection.ok) {
+        if (selection.reason === "no-linked-student") {
+          return NextResponse.json({ error: "No linked student" }, { status: 404 });
+        }
+        if (selection.reason === "student-id-required") {
+          return NextResponse.json({ error: "studentId is required when multiple students are linked" }, { status: 400 });
+        }
+        if (selection.reason === "invalid-student-id") {
+          return NextResponse.json({ error: "Invalid studentId" }, { status: 400 });
+        }
+        if (selection.reason === "invalid-links") {
+          return NextResponse.json({ error: "Unable to verify linked student" }, { status: 403 });
+        }
+        return NextResponse.json({ error: "Forbidden" }, { status: 403 });
       }
-      if (!studentId) return NextResponse.json({ error: "No linked student" }, { status: 404 });
-      const links = await db.select().from(parentLinks).where(and(eq(parentLinks.parentId, ctx.user.id), eq(parentLinks.studentId, studentId)));
-      if (!links.length) return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+
+      const studentId = selection.studentId;
       const records = await db.select().from(attendanceRecords).where(eq(attendanceRecords.studentId, studentId));
       const sorted = records.sort((a, b) => (a.sessionDate < b.sessionDate ? 1 : -1));
       return NextResponse.json({ role: "parent", studentId, records: sorted, rate: computeRate(records), total: records.length });
