@@ -9,6 +9,7 @@ export function getTeacherAnalyticsStudentIds(enrollmentRows: unknown, teacherId
 export function getTeacherAnalyticsCourseIds(enrollmentRows: unknown, teacherId: string, studentId: string): string[];
 export function isTeacherScopedHomework(item: unknown, teacherId: string, allowedCourseIds: unknown): boolean;
 export function isCourseScopedQuiz(quiz: unknown, allowedCourseIds: unknown): boolean;
+export function getVerifiedParentAnalyticsStudentIds(linkRows: unknown): string[];
 
 export type ParentAnalyticsStudentResolution =
   | { ok: true; studentId: string }
