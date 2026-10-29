@@ -259,11 +259,21 @@ integrationTest("PostgreSQL teacher roster query returns only current student ac
 integrationTest("PostgreSQL parent links require explicit choice for multiple children and deny unlinked students", async () => {
   await withFixture(async ({ db }) => {
     const rows = await db
-      .select({ studentId: parentLinks.studentId })
+      .select({
+        studentId: parentLinks.studentId,
+        verifiedAt: parentLinks.verifiedAt,
+        verifiedBy: parentLinks.verifiedBy,
+      })
       .from(parentLinks)
       .innerJoin(users, eq(parentLinks.studentId, users.id))
-      .where(and(eq(parentLinks.parentId, "parent-1"), eq(users.role, "student")));
-    const linkedIds = rows.map((row) => row.studentId);
+      .where(and(
+        eq(parentLinks.parentId, "parent-1"),
+        eq(users.role, "student"),
+        isNotNull(parentLinks.verifiedAt),
+        isNotNull(parentLinks.verifiedBy),
+      ));
+    const linkedIds = getVerifiedParentAnalyticsStudentIds(rows);
+    assert.deepEqual(linkedIds, ["student-1", "student-2"]);
 
     assert.deepEqual(
       resolveParentAnalyticsStudentId(null, linkedIds),
