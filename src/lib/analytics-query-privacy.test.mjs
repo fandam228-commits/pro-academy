@@ -40,6 +40,8 @@ test("parent analytics route requires an admin-verified link to a current studen
   const parentSource = routeSource.slice(parentStart, studentStart);
 
   assert.match(parentSource, /\.innerJoin\(users, eq\(parentLinks\.studentId, users\.id\)\)/);
+  assert.match(parentSource, /\.innerJoin\(verifiedByUser, eq\(parentLinks\.verifiedBy, verifiedByUser\.id\)\)/);
+  assert.match(parentSource, /eq\(verifiedByUser\.role, "admin"\)/);
   assert.match(parentSource, /eq\(parentLinks\.parentId, ctx\.user\.id\)/);
   assert.match(parentSource, /eq\(users\.role, "student"\)/);
   assert.match(parentSource, /isNotNull\(parentLinks\.verifiedAt\)/);
