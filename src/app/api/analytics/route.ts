@@ -481,8 +481,19 @@ export async function GET(req: Request) {
 
     // ---------- PARENT: linked student report ----------
     if (role === "parent") {
-      const links = await db.select().from(parentLinks).where(eq(parentLinks.parentId, ctx.user.id));
-      const linkedParentStudentIds = links.map((link) => link.studentId);
+      // Parent-link rows are legacy text references without a foreign key. Resolve them
+      // against current user records and accept only accounts whose role is student.
+      // Stale links to missing accounts and links to teachers/admins must not become
+      // selectable children or create false ambiguity.
+      const links = await db
+        .select({ studentId: parentLinks.studentId })
+        .from(parentLinks)
+        .innerJoin(users, eq(parentLinks.studentId, users.id))
+        .where(and(
+          eq(parentLinks.parentId, ctx.user.id),
+          eq(users.role, "student"),
+        ));
+      const linkedParentStudentIds = [...new Set(links.map((link) => link.studentId))];
       const resolution = resolveParentAnalyticsStudentId(requestedStudent, linkedParentStudentIds);
 
       if (!resolution.ok) {
