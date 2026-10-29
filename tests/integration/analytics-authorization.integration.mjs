@@ -2,7 +2,7 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { Client } from "pg";
 import { drizzle } from "drizzle-orm/node-postgres";
-import { and, eq, inArray } from "drizzle-orm";
+import { and, eq, inArray, isNotNull } from "drizzle-orm";
 import { integer, pgTable, text, timestamp } from "drizzle-orm/pg-core";
 import { canAccessStudentAnalytics } from "../../src/lib/analytics-authorization.mjs";
 import {
