@@ -249,6 +249,9 @@ export const parentLinks = pgTable("parent_links", {
   parentId: text("parent_id").notNull(),
   studentId: text("student_id").notNull(),
   relationship: text("relationship").default("Guardian"),
+  // A link is not trusted for parent-facing reports until an admin records verification.
+  verifiedAt: timestamp("verified_at"),
+  verifiedBy: text("verified_by"),
 });
 
 // CENTER GROUPS TABLE
