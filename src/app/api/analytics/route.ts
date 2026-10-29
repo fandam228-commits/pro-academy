@@ -472,13 +472,23 @@ export async function GET(req: Request) {
 
     // ---------- PARENT: linked student report ----------
     if (role === "parent") {
-      // Ignore stale links and links to accounts that are no longer students.
+      // Only admin-verified links may authorize parent-facing student reports.
+      // Existing legacy links without verification metadata fail closed.
       const links = await db
-        .select({ studentId: parentLinks.studentId })
+        .select({
+          studentId: parentLinks.studentId,
+          verifiedAt: parentLinks.verifiedAt,
+          verifiedBy: parentLinks.verifiedBy,
+        })
         .from(parentLinks)
         .innerJoin(users, eq(parentLinks.studentId, users.id))
-        .where(and(eq(parentLinks.parentId, ctx.user.id), eq(users.role, "student")));
-      const linkedParentStudentIds = links.map((link) => link.studentId);
+        .where(and(
+          eq(parentLinks.parentId, ctx.user.id),
+          eq(users.role, "student"),
+          isNotNull(parentLinks.verifiedAt),
+          isNotNull(parentLinks.verifiedBy),
+        ));
+      const linkedParentStudentIds = getVerifiedParentAnalyticsStudentIds(links);
       const resolution = resolveParentAnalyticsStudentId(requestedStudent, linkedParentStudentIds);
 
       if (!resolution.ok) {
