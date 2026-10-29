@@ -6,17 +6,16 @@ import {
 
 const connectionString = process.env.DATABASE_URL;
 const allowRemote = process.env.ALLOW_REMOTE_HOMEWORK_STORAGE_AUDIT === "true";
-let auditAllowed = false;
+let databaseScope;
 
 try {
-  assertSafeHomeworkAuditTarget(connectionString, allowRemote);
-  auditAllowed = true;
+  databaseScope = assertSafeHomeworkAuditTarget(connectionString, allowRemote);
 } catch (error) {
   console.error(error instanceof Error ? error.message : "Invalid audit configuration.");
   process.exitCode = 1;
 }
 
-if (auditAllowed) {
+if (databaseScope) {
   const client = new Client({
     connectionString,
     connectionTimeoutMillis: 5000,
@@ -39,7 +38,7 @@ if (auditAllowed) {
 
     console.log(JSON.stringify({
       auditMode: "read-only",
-      databaseScope: allowRemote ? "explicit-remote-opt-in" : "local-only",
+      databaseScope,
       ...summary,
       note: "Absolute URLs require review in the storage provider; counts alone do not prove whether a URL is publicly accessible. No paths or student identifiers are printed.",
     }, null, 2));
