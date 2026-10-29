@@ -13,11 +13,10 @@ export async function POST(
   req: Request,
   { params }: { params: Promise<{ id: string }> },
 ) {
+  await ensureDbSetup();
   const ctx = await getAuthContext(req);
   if (!ctx) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   if (ctx.user.role !== "admin") return NextResponse.json({ error: "Forbidden" }, { status: 403 });
-
-  await ensureDbSetup();
   try {
     const { id } = await params;
     if (!id || !id.trim()) return NextResponse.json({ error: "Invalid parent link id" }, { status: 400 });
