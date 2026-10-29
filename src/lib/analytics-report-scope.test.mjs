@@ -5,6 +5,7 @@ import {
   getTeacherAnalyticsCourseIds,
   isTeacherScopedHomework,
   isCourseScopedQuiz,
+  getVerifiedParentAnalyticsStudentIds,
   resolveParentAnalyticsStudentId,
 } from "./analytics-report-scope.mjs";
 
@@ -62,6 +63,18 @@ test("malformed enrollment inputs fail closed", () => {
   assert.deepEqual(getTeacherAnalyticsCourseIds(enrollmentRows, "teacher-1", ""), []);
 });
 
+
+test("parent analytics ignores unverified, malformed, and duplicate link rows", () => {
+  assert.deepEqual(getVerifiedParentAnalyticsStudentIds([
+    { studentId: "student-1", verifiedAt: new Date("2026-10-29T08:00:00Z"), verifiedBy: "admin-1" },
+    { studentId: "student-2", verifiedAt: null, verifiedBy: "admin-1" },
+    { studentId: "student-3", verifiedAt: "not-a-date", verifiedBy: "admin-1" },
+    { studentId: "student-4", verifiedAt: new Date("2026-10-29T08:00:00Z"), verifiedBy: " " },
+    { studentId: "student-1", verifiedAt: "2026-10-29T08:00:00Z", verifiedBy: "admin-2" },
+    null,
+  ]), ["student-1"]);
+  assert.deepEqual(getVerifiedParentAnalyticsStudentIds(null), []);
+});
 
 test("parent analytics resolves an explicitly selected linked student only", () => {
   assert.deepEqual(

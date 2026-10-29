@@ -2,12 +2,13 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { Client } from "pg";
 import { drizzle } from "drizzle-orm/node-postgres";
-import { and, eq, inArray } from "drizzle-orm";
+import { and, eq, inArray, isNotNull } from "drizzle-orm";
 import { integer, pgTable, text, timestamp } from "drizzle-orm/pg-core";
 import { canAccessStudentAnalytics } from "../../src/lib/analytics-authorization.mjs";
 import {
   getTeacherAnalyticsStudentIds,
   getTeacherAnalyticsCourseIds,
+  getVerifiedParentAnalyticsStudentIds,
   resolveParentAnalyticsStudentId,
 } from "../../src/lib/analytics-report-scope.mjs";
 
@@ -45,6 +46,8 @@ const parentLinks = pgTable("parent_links", {
   id: text("id").primaryKey(),
   parentId: text("parent_id").notNull(),
   studentId: text("student_id").notNull(),
+  verifiedAt: timestamp("verified_at"),
+  verifiedBy: text("verified_by"),
 });
 const quizzes = pgTable("quizzes", {
   id: text("id").primaryKey(),
@@ -106,7 +109,9 @@ async function withFixture(run) {
       CREATE TEMP TABLE parent_links (
         id TEXT PRIMARY KEY,
         parent_id TEXT NOT NULL,
-        student_id TEXT NOT NULL
+        student_id TEXT NOT NULL,
+        verified_at TIMESTAMP,
+        verified_by TEXT
       );
       CREATE TEMP TABLE quizzes (
         id TEXT PRIMARY KEY,
@@ -149,13 +154,14 @@ async function withFixture(run) {
         -- Malformed legacy data must not turn a teacher account into a student roster row.
         ('enroll-7', 'teacher-2', 'course-a', 'active');
 
-      INSERT INTO parent_links (id, parent_id, student_id) VALUES
-        ('link-1', 'parent-1', 'student-1'),
-        ('link-2', 'parent-1', 'student-2'),
-        ('link-3', 'parent-2', 'student-3'),
-        -- Legacy links may reference a non-student or a deleted account.
-        ('link-4', 'parent-1', 'teacher-2'),
-        ('link-5', 'parent-1', 'deleted-student');
+      INSERT INTO parent_links (id, parent_id, student_id, verified_at, verified_by) VALUES
+        ('link-1', 'parent-1', 'student-1', '2026-10-29 08:00:00', 'admin-1'),
+        ('link-2', 'parent-1', 'student-2', '2026-10-29 08:00:00', 'admin-1'),
+        ('link-3', 'parent-2', 'student-3', '2026-10-29 08:00:00', 'admin-1'),
+        -- Legacy links may reference a non-student or a deleted account and are not verified.
+        ('link-4', 'parent-1', 'teacher-2', NULL, NULL),
+        ('link-5', 'parent-1', 'deleted-student', NULL, NULL),
+        ('link-6', 'parent-1', 'student-4', NULL, NULL);
 
       INSERT INTO quizzes (id, course_id) VALUES
         ('quiz-a', 'course-a'),
@@ -253,11 +259,21 @@ integrationTest("PostgreSQL teacher roster query returns only current student ac
 integrationTest("PostgreSQL parent links require explicit choice for multiple children and deny unlinked students", async () => {
   await withFixture(async ({ db }) => {
     const rows = await db
-      .select({ studentId: parentLinks.studentId })
+      .select({
+        studentId: parentLinks.studentId,
+        verifiedAt: parentLinks.verifiedAt,
+        verifiedBy: parentLinks.verifiedBy,
+      })
       .from(parentLinks)
       .innerJoin(users, eq(parentLinks.studentId, users.id))
-      .where(and(eq(parentLinks.parentId, "parent-1"), eq(users.role, "student")));
-    const linkedIds = rows.map((row) => row.studentId);
+      .where(and(
+        eq(parentLinks.parentId, "parent-1"),
+        eq(users.role, "student"),
+        isNotNull(parentLinks.verifiedAt),
+        isNotNull(parentLinks.verifiedBy),
+      ));
+    const linkedIds = getVerifiedParentAnalyticsStudentIds(rows);
+    assert.deepEqual(linkedIds, ["student-1", "student-2"]);
 
     assert.deepEqual(
       resolveParentAnalyticsStudentId(null, linkedIds),
