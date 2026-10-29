@@ -60,6 +60,29 @@ export function isCourseScopedQuiz(quiz, allowedCourseIds) {
 
 
 /**
+ * Return only links with an explicit admin verification timestamp and actor.
+ * Database reads should also filter these columns; this helper is a second fail-closed guard.
+ */
+export function getVerifiedParentAnalyticsStudentIds(linkRows) {
+  if (!Array.isArray(linkRows)) return [];
+
+  const verifiedIds = linkRows
+    .filter((row) => {
+      if (!row || typeof row !== "object" || !isNonEmptyString(row.studentId)) return false;
+      if (!isNonEmptyString(row.verifiedBy)) return false;
+      const timestamp = row.verifiedAt instanceof Date
+        ? row.verifiedAt.getTime()
+        : typeof row.verifiedAt === "string"
+          ? Date.parse(row.verifiedAt)
+          : Number.NaN;
+      return Number.isFinite(timestamp);
+    })
+    .map((row) => row.studentId);
+
+  return [...new Set(verifiedIds)];
+}
+
+/**
  * Resolve the student a parent may view without silently choosing among children.
  * The caller must supply parent-link IDs read from the database.
  */
