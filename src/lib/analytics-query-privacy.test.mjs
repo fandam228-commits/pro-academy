@@ -13,22 +13,22 @@ test("analytics report profile query uses an explicit field allowlist", () => {
 
   assert.doesNotMatch(
     reportSource,
-    /db\\.select\\(\\)\\.from\\(users\\)/,
+    /db\.select\(\)\.from\(users\)/,
     "report generation must not load the entire user row",
   );
-  assert.match(reportSource, /id:\\s*users\\.id/);
-  assert.match(reportSource, /name:\\s*users\\.name/);
-  assert.match(reportSource, /grade:\\s*users\\.grade/);
-  assert.match(reportSource, /points:\\s*users\\.points/);
-  assert.match(reportSource, /streak:\\s*users\\.streak/);
-  assert.match(reportSource, /level:\\s*users\\.level/);
+  assert.match(reportSource, /id:\s*users\.id/);
+  assert.match(reportSource, /name:\s*users\.name/);
+  assert.match(reportSource, /grade:\s*users\.grade/);
+  assert.match(reportSource, /points:\s*users\.points/);
+  assert.match(reportSource, /streak:\s*users\.streak/);
+  assert.match(reportSource, /level:\s*users\.level/);
 });
 
 test("teacher-scoped report profile query verifies the account role in SQL", () => {
   const reportSource = routeSource.slice(reportStart, reportEnd);
   assert.match(
     reportSource,
-    /eq\\(users\\.role, "student"\\)/,
+    /eq\(users\.role, "student"\)/,
     "teacher-scoped profile lookup must fail closed for non-student or stale accounts",
   );
 });
