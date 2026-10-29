@@ -40,8 +40,40 @@ class AnalyticsStudentNotFoundError extends Error {
 
 /** Builds a learning profile; teacher calls receive only explicitly course-scoped data. */
 async function buildStudentReport(studentId: string, scope?: TeacherReportScope) {
-  const userRows = await db.select().from(users).where(eq(users.id, studentId));
-  const student = userRows[0];
+  // Teacher reports need only the student's identity, grade, and role.
+  // Do not read password hashes, contact details, or private profile metrics for teacher views.
+  const userRows = scope
+    ? await db
+        .select({
+          id: users.id,
+          name: users.name,
+          grade: users.grade,
+          role: users.role,
+        })
+        .from(users)
+        .where(eq(users.id, studentId))
+    : await db
+        .select({
+          id: users.id,
+          name: users.name,
+          grade: users.grade,
+          role: users.role,
+          points: users.points,
+          streak: users.streak,
+          level: users.level,
+        })
+        .from(users)
+        .where(eq(users.id, studentId));
+  type AnalyticsStudentProfile = {
+    id: string;
+    name: string;
+    grade: string | null;
+    role: string;
+    points?: number | null;
+    streak?: number | null;
+    level?: string | null;
+  };
+  const student = userRows[0] as AnalyticsStudentProfile | undefined;
   // Enrollment or parent-link data must never turn a teacher/parent/admin account
   // into an analytics target. Fail before reading any assessment records.
   if (!isAnalyticsStudentAccount(student)) throw new AnalyticsStudentNotFoundError();
@@ -343,7 +375,7 @@ export async function GET(req: Request) {
         return NextResponse.json({ scope: "student", ...report });
       }
 
-      const students = await db.select().from(users).where(eq(users.role, "student"));
+      const students = await db.select({ id: users.id }).from(users).where(eq(users.role, "student"));
       const reports = await Promise.all(students.map((s) => buildStudentReport(s.id)));
 
       return buildClassAnalyticsResponse(reports);
@@ -380,8 +412,17 @@ export async function GET(req: Request) {
         return NextResponse.json({ scope: "student", ...report });
       }
 
-      const students = await db.select().from(users).where(eq(users.role, "student"));
-      const visibleStudents = students.filter((student) => teacherStudentIds.includes(student.id));
+      // Query only students authorized by owned-course enrollments. Do not enumerate
+      // every student's ID and filter in application memory.
+      const visibleStudents = teacherStudentIds.length === 0
+        ? []
+        : await db
+            .select({ id: users.id })
+            .from(users)
+            .where(and(
+              eq(users.role, "student"),
+              inArray(users.id, teacherStudentIds),
+            ));
       const reports = await Promise.all(visibleStudents.map((student) => buildStudentReport(student.id, {
         teacherId: ctx.user.id,
         allowedCourseIds: getTeacherAnalyticsCourseIds(teacherEnrollmentRows, ctx.user.id, student.id),
