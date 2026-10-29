@@ -14,7 +14,7 @@ export function isLegacyPublicHomeworkBlobUrl(value) {
 /** Accept only pathnames in the homework namespace; never fetch arbitrary URLs. */
 export function isPrivateHomeworkBlobPath(value) {
   if (typeof value !== "string" || !value.startsWith("homework/")) return false;
-  if (value.includes("\\") || value.includes("?") || value.includes("#")) return false;
+  if (value.includes("\\") || value.includes("?") || value.includes("#") || value.includes("%")) return false;
   const segments = value.split("/");
   return segments.every((segment) => segment !== "" && segment !== "." && segment !== "..");
 }
