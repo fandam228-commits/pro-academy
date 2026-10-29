@@ -5,6 +5,7 @@ import {
   getTeacherAnalyticsCourseIds,
   isTeacherScopedHomework,
   isCourseScopedQuiz,
+  getVerifiedParentAnalyticsStudentIds,
   resolveParentAnalyticsStudentId,
 } from "./analytics-report-scope.mjs";
 
