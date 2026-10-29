@@ -369,8 +369,13 @@ export async function GET(req: Request) {
         return NextResponse.json({ scope: "student", ...report });
       }
 
-      const students = await db.select().from(users).where(eq(users.role, "student"));
-      const visibleStudents = students.filter((student) => teacherStudentIds.includes(student.id));
+      // Filter the roster in SQL; do not load every student account into application memory.
+      const visibleStudents = teacherStudentIds.length === 0
+        ? []
+        : await db
+            .select({ id: users.id, name: users.name, grade: users.grade })
+            .from(users)
+            .where(and(eq(users.role, "student"), inArray(users.id, teacherStudentIds)));
       const reports = await Promise.all(visibleStudents.map((student) => buildStudentReport(student.id, {
         teacherId: ctx.user.id,
         allowedCourseIds: getTeacherAnalyticsCourseIds(teacherEnrollmentRows, ctx.user.id, student.id),
@@ -429,7 +434,12 @@ export async function GET(req: Request) {
 
     // ---------- PARENT: linked student report ----------
     if (role === "parent") {
-      const links = await db.select().from(parentLinks).where(eq(parentLinks.parentId, ctx.user.id));
+      // Ignore stale links and links to accounts that are no longer students.
+      const links = await db
+        .select({ studentId: parentLinks.studentId })
+        .from(parentLinks)
+        .innerJoin(users, eq(parentLinks.studentId, users.id))
+        .where(and(eq(parentLinks.parentId, ctx.user.id), eq(users.role, "student")));
       const linkedParentStudentIds = links.map((link) => link.studentId);
       const resolution = resolveParentAnalyticsStudentId(requestedStudent, linkedParentStudentIds);
 
