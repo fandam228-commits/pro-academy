@@ -45,7 +45,7 @@ test("Analytics rosters minimize user fields and constrain teacher IDs in SQL", 
 test("Analytics student report projects only the fields required by each report scope", async () => {
   const source = await readFile(analyticsRouteUrl, "utf8");
   const profileQuery = source.match(
-    /const userRows = scope[\s\S]*?const student = userRows\[0\];/,
+    /const userRows = scope[\s\S]*?const student = userRows\[0\][\s\S]*?;/,
   );
 
   assert.ok(profileQuery, "student profile lookup must use explicit projections");
