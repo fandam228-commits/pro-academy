@@ -147,7 +147,8 @@ async function withFixture(run) {
         ('link-3', 'parent-2', 'student-3'),
         ('link-4', 'parent-1', 'teacher-1'),
         ('link-5', 'parent-1', 'admin-1'),
-        ('link-6', 'parent-1', 'missing-user');
+        ('link-6', 'parent-1', 'missing-user'),
+        ('link-7', 'parent-2', 'teacher-1');
 
       INSERT INTO quizzes (id, course_id) VALUES
         ('quiz-a', 'course-a'),
@@ -233,6 +234,18 @@ integrationTest("PostgreSQL parent links require explicit choice for multiple ch
         linkedParentStudentIds: linkedIds,
       }),
       false,
+    );
+
+    // A stale link to a teacher must not turn a single valid child into an
+    // ambiguous selection or make the teacher account selectable as a child.
+    const singleChildRows = await db
+      .select({ studentId: parentLinks.studentId })
+      .from(parentLinks)
+      .innerJoin(users, eq(parentLinks.studentId, users.id))
+      .where(and(eq(parentLinks.parentId, "parent-2"), eq(users.role, "student")));
+    assert.deepEqual(
+      resolveParentAnalyticsStudentId(null, singleChildRows.map((row) => row.studentId)),
+      { ok: true, studentId: "student-3" },
     );
   });
 });
