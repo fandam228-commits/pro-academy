@@ -2,7 +2,7 @@ const PRIVATE_HOMEWORK_PREFIX = "homework/";
 
 function isSafePrivateHomeworkPath(value) {
   if (!value.startsWith(PRIVATE_HOMEWORK_PREFIX)) return false;
-  if (value.includes("\\") || value.includes("?") || value.includes("#")) return false;
+  if (value.includes("\\") || value.includes("?") || value.includes("#") || value.includes("%")) return false;
   const segments = value.split("/");
   return segments.every((segment) => segment !== "" && segment !== "." && segment !== "..");
 }
