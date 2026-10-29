@@ -23,6 +23,10 @@ function assertLocalTestDatabase(value) {
   }
 }
 
+const users = pgTable("users", {
+  id: text("id").primaryKey(),
+  role: text("role").notNull(),
+});
 const courses = pgTable("courses", {
   id: text("id").primaryKey(),
   teacherId: text("teacher_id").notNull(),
@@ -72,6 +76,10 @@ async function withFixture(run) {
     // Temporary tables are scoped to this client connection and disappear
     // when it closes; no persistent or production tables are touched.
     await client.query(`
+      CREATE TEMP TABLE users (
+        id TEXT PRIMARY KEY,
+        role TEXT NOT NULL
+      );
       CREATE TEMP TABLE courses (
         id TEXT PRIMARY KEY,
         teacher_id TEXT NOT NULL
@@ -126,10 +134,20 @@ async function withFixture(run) {
         ('enroll-5', 'student-4', 'course-a', NULL),
         ('enroll-6', 'student-5', 'course-other', 'active');
 
+      INSERT INTO users (id, role) VALUES
+        ('student-1', 'student'),
+        ('student-2', 'student'),
+        ('student-3', 'student'),
+        ('teacher-1', 'teacher'),
+        ('admin-1', 'admin');
+
       INSERT INTO parent_links (id, parent_id, student_id) VALUES
         ('link-1', 'parent-1', 'student-1'),
         ('link-2', 'parent-1', 'student-2'),
-        ('link-3', 'parent-2', 'student-3');
+        ('link-3', 'parent-2', 'student-3'),
+        ('link-4', 'parent-1', 'teacher-1'),
+        ('link-5', 'parent-1', 'admin-1'),
+        ('link-6', 'parent-1', 'missing-user');
 
       INSERT INTO quizzes (id, course_id) VALUES
         ('quiz-a', 'course-a'),
@@ -191,7 +209,8 @@ integrationTest("PostgreSQL parent links require explicit choice for multiple ch
     const rows = await db
       .select({ studentId: parentLinks.studentId })
       .from(parentLinks)
-      .where(eq(parentLinks.parentId, "parent-1"));
+      .innerJoin(users, eq(parentLinks.studentId, users.id))
+      .where(and(eq(parentLinks.parentId, "parent-1"), eq(users.role, "student")));
     const linkedIds = rows.map((row) => row.studentId);
 
     assert.deepEqual(
@@ -215,6 +234,22 @@ integrationTest("PostgreSQL parent links require explicit choice for multiple ch
       }),
       false,
     );
+  });
+});
+
+integrationTest("parent analytics ignores links to missing or non-student accounts", async () => {
+  await withFixture(async ({ db }) => {
+    const rows = await db
+      .select({ studentId: parentLinks.studentId })
+      .from(parentLinks)
+      .innerJoin(users, eq(parentLinks.studentId, users.id))
+      .where(and(eq(parentLinks.parentId, "parent-1"), eq(users.role, "student")));
+    const linkedIds = rows.map((row) => row.studentId);
+
+    assert.deepEqual(linkedIds, ["student-1", "student-2"]);
+    assert.equal(resolveParentAnalyticsStudentId("teacher-1", linkedIds).reason, "forbidden");
+    assert.equal(resolveParentAnalyticsStudentId("admin-1", linkedIds).reason, "forbidden");
+    assert.equal(resolveParentAnalyticsStudentId("missing-user", linkedIds).reason, "forbidden");
   });
 });
 
