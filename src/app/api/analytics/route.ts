@@ -429,7 +429,14 @@ export async function GET(req: Request) {
 
     // ---------- PARENT: linked student report ----------
     if (role === "parent") {
-      const links = await db.select().from(parentLinks).where(eq(parentLinks.parentId, ctx.user.id));
+      // Treat a parent link as usable only when it resolves to an existing student account.
+      // The schema has no separate verification-status column, so do not infer any stronger
+      // identity verification than the stored relationship plus the target account's role.
+      const links = await db
+        .select({ studentId: parentLinks.studentId })
+        .from(parentLinks)
+        .innerJoin(users, eq(parentLinks.studentId, users.id))
+        .where(and(eq(parentLinks.parentId, ctx.user.id), eq(users.role, "student")));
       const linkedParentStudentIds = links.map((link) => link.studentId);
       const resolution = resolveParentAnalyticsStudentId(requestedStudent, linkedParentStudentIds);
 
