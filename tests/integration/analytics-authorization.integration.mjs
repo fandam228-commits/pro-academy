@@ -46,6 +46,8 @@ const parentLinks = pgTable("parent_links", {
   id: text("id").primaryKey(),
   parentId: text("parent_id").notNull(),
   studentId: text("student_id").notNull(),
+  verifiedAt: timestamp("verified_at"),
+  verifiedBy: text("verified_by"),
 });
 const quizzes = pgTable("quizzes", {
   id: text("id").primaryKey(),
