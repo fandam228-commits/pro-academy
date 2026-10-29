@@ -11,10 +11,23 @@ export function isLegacyPublicHomeworkBlobUrl(value) {
   return typeof value === "string" && /^https?:\/\//i.test(value);
 }
 
-/** Accept only pathnames in the homework namespace; never fetch arbitrary URLs. */
+/**
+ * Accept only canonical, generated pathnames in the private homework namespace.
+ * Encoded separators/traversal and non-generated characters are rejected so
+ * the storage SDK never receives an ambiguous path supplied by a database row.
+ */
 export function isPrivateHomeworkBlobPath(value) {
-  if (typeof value !== "string" || !value.startsWith("homework/")) return false;
-  if (value.includes("\\") || value.includes("?") || value.includes("#")) return false;
+  if (typeof value !== "string" || value.length > 1024 || !value.startsWith("homework/")) return false;
+  if (/[\\?#%\u0000-\u001f\u007f]/.test(value)) return false;
+
   const segments = value.split("/");
-  return segments.every((segment) => segment !== "" && segment !== "." && segment !== "..");
+  if (segments.length < 2 || segments[0] !== "homework") return false;
+
+  return segments.slice(1).every(
+    (segment) =>
+      segment.length > 0 &&
+      segment !== "." &&
+      segment !== ".." &&
+      /^[A-Za-z0-9._-]+$/.test(segment)
+  );
 }
