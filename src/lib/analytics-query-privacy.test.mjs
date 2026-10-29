@@ -45,28 +45,28 @@ test("Analytics rosters minimize user fields and constrain teacher IDs in SQL", 
 test("Analytics student report projects only the fields required by each report scope", async () => {
   const source = await readFile(analyticsRouteUrl, "utf8");
   const profileQuery = source.match(
-    /const userRows = scope[\\s\\S]*?const student = userRows\\[0\\];/,
+    /const userRows = scope[\s\S]*?const student = userRows\[0\];/,
   );
 
   assert.ok(profileQuery, "student profile lookup must use explicit projections");
   assert.match(
     profileQuery[0],
-    /select\\(\\{[\\s\\S]*?id: users\\.id,[\\s\\S]*?name: users\\.name,[\\s\\S]*?grade: users\\.grade,[\\s\\S]*?role: users\\.role,[\\s\\S]*?\\}\\)[\\s\\S]*?from\\(users\\)/,
+    /select\(\{[\s\S]*?id: users\.id,[\s\S]*?name: users\.name,[\s\S]*?grade: users\.grade,[\s\S]*?role: users\.role,[\s\S]*?\}\)[\s\S]*?from\(users\)/,
     "teacher and non-teacher report lookups must project an explicit minimal profile",
   );
   assert.match(
     profileQuery[0],
-    /scope[\\s\\S]*?select\\(\\{[\\s\\S]*?role: users\\.role,[\\s\\S]*?\\}\\)[\\s\\S]*?from\\(users\\)/,
+    /scope[\s\S]*?select\(\{[\s\S]*?role: users\.role,[\s\S]*?\}\)[\s\S]*?from\(users\)/,
     "teacher-scoped reports must select only identity, grade, and role",
   );
   assert.doesNotMatch(
     profileQuery[0].split(": await db")[0],
-    /users\\.(email|password|phone|parentPhone|avatar|points|streak|level)/,
+    /users\.(email|password|phone|parentPhone|avatar|points|streak|level)/,
     "teacher report lookups must not read password hashes, contact details, or private profile metrics",
   );
   assert.doesNotMatch(
     profileQuery[0],
-    /db\\.select\\(\\)\\.from\\(users\\)/,
+    /db\.select\(\)\.from\(users\)/,
     "analytics student report must not load every user column",
   );
 });
