@@ -14,6 +14,7 @@ import {
   parentLinks,
 } from "@/db/schema";
 import { and, eq, inArray, isNotNull } from "drizzle-orm";
+import { alias } from "drizzle-orm/pg-core";
 import { NextResponse } from "next/server";
 import { ensureDbSetup } from "@/db/migrate-and-seed";
 import { getAuthContext } from "@/lib/security";
@@ -25,6 +26,8 @@ import {
   resolveParentAnalyticsStudentId,
   getVerifiedParentAnalyticsStudentIds,
 } from "@/lib/analytics-report-scope.mjs";
+
+const verifiedByUser = alias(users, "verified_by_user");
 
 type TeacherReportScope = {
   teacherId: string;
@@ -482,9 +485,11 @@ export async function GET(req: Request) {
         })
         .from(parentLinks)
         .innerJoin(users, eq(parentLinks.studentId, users.id))
+        .innerJoin(verifiedByUser, eq(parentLinks.verifiedBy, verifiedByUser.id))
         .where(and(
           eq(parentLinks.parentId, ctx.user.id),
           eq(users.role, "student"),
+          eq(verifiedByUser.role, "admin"),
           isNotNull(parentLinks.verifiedAt),
           isNotNull(parentLinks.verifiedBy),
         ));
