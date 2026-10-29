@@ -1,10 +1,11 @@
 import { db } from "@/db";
-import { attendanceRecords, users, parentLinks } from "@/db/schema";
-import { eq, and } from "drizzle-orm";
+import { attendanceRecords, users, parentLinks, courses, enrollments } from "@/db/schema";
+import { eq, and, inArray } from "drizzle-orm";
 import { NextResponse } from "next/server";
 import { ensureDbSetup } from "@/db/migrate-and-seed";
 import { requireRoles, getAuthContext } from "@/lib/security";
 import { resolveParentStudentSelection } from "@/lib/parent-student-selection.mjs";
+import { getTeacherAttendanceStudentIds } from "@/lib/attendance-authorization.mjs";
 
 function computeRate(records: any[]) {
   if (records.length === 0) return 100;
@@ -28,12 +29,15 @@ export async function GET(req: Request) {
   const role = ctx.user.role as string;
 
   try {
-    // ============ TEACHER / ADMIN: full roster + stats ============
-    if (role === "teacher" || role === "admin") {
-      const allStudents = await db.select().from(users).where(eq(users.role, "student"));
+    // ============ ADMIN: full roster + stats ============
+    if (role === "admin") {
+      // Roster reports need no credentials or contact fields.
+      const allStudents = await db
+        .select({ id: users.id, name: users.name, grade: users.grade })
+        .from(users)
+        .where(eq(users.role, "student"));
       const allRecords = await db.select().from(attendanceRecords);
 
-      // Per-student summary
       const roster = allStudents.map((st) => {
         const recs = allRecords.filter((r) => r.studentId === st.id);
         const todayRec = date ? recs.find((r) => r.sessionDate === date) : null;
@@ -52,8 +56,69 @@ export async function GET(req: Request) {
       });
 
       const sessionTitles = [...new Set(allRecords.map((r) => r.sessionTitle))];
-      const recentDates = [...new Set(allRecords.map((r) => r.sessionDate))].sort((a, b) => (a < b ? 1 : -1)).slice(0, 20);
+      const recentDates = [...new Set(allRecords.map((r) => r.sessionDate))]
+        .sort((a, b) => (a < b ? 1 : -1))
+        .slice(0, 20);
+      return NextResponse.json({ roster, sessionTitles, recentDates, role });
+    }
 
+    // ============ TEACHER: only students enrolled in owned courses ============
+    if (role === "teacher") {
+      const enrollmentRows = await db
+        .select({
+          studentId: enrollments.studentId,
+          courseId: enrollments.courseId,
+          status: enrollments.status,
+          teacherId: courses.teacherId,
+        })
+        .from(enrollments)
+        .innerJoin(courses, eq(enrollments.courseId, courses.id))
+        .where(eq(courses.teacherId, ctx.user.id));
+      const allowedStudentIds = getTeacherAttendanceStudentIds(enrollmentRows, ctx.user.id);
+
+      const allStudents = allowedStudentIds.length === 0
+        ? []
+        : await db
+            .select({ id: users.id, name: users.name, grade: users.grade })
+            .from(users)
+            .where(and(
+              eq(users.role, "student"),
+              inArray(users.id, allowedStudentIds),
+            ));
+      // Attendance has no courseId column. Until records can be reliably attributed
+      // to a course, show teachers only the records they themselves marked and only
+      // for students in their own active/completed course enrollments.
+      const allRecords = allowedStudentIds.length === 0
+        ? []
+        : await db
+            .select()
+            .from(attendanceRecords)
+            .where(and(
+              inArray(attendanceRecords.studentId, allowedStudentIds),
+              eq(attendanceRecords.markedBy, ctx.user.id),
+            ));
+
+      const roster = allStudents.map((st) => {
+        const recs = allRecords.filter((r) => r.studentId === st.id);
+        const todayRec = date ? recs.find((r) => r.sessionDate === date) : null;
+        return {
+          studentId: st.id,
+          studentName: st.name,
+          grade: st.grade,
+          totalSessions: recs.length,
+          presentCount: recs.filter((r) => r.status === "present").length,
+          lateCount: recs.filter((r) => r.status === "late").length,
+          absentCount: recs.filter((r) => r.status === "absent").length,
+          excusedCount: recs.filter((r) => r.status === "excused").length,
+          rate: computeRate(recs),
+          statusOnDate: todayRec?.status || null,
+        };
+      });
+
+      const sessionTitles = [...new Set(allRecords.map((r) => r.sessionTitle))];
+      const recentDates = [...new Set(allRecords.map((r) => r.sessionDate))]
+        .sort((a, b) => (a < b ? 1 : -1))
+        .slice(0, 20);
       return NextResponse.json({ roster, sessionTitles, recentDates, role });
     }
 
@@ -132,6 +197,25 @@ export async function POST(req: Request) {
       const { sessionTitle, sessionDate, marks } = body;
       if (!sessionTitle || !sessionDate || !Array.isArray(marks)) {
         return NextResponse.json({ error: "sessionTitle, sessionDate & marks are required" }, { status: 400 });
+      }
+
+      if (ctx.user.role === "teacher") {
+        const enrollmentRows = await db
+          .select({
+            studentId: enrollments.studentId,
+            courseId: enrollments.courseId,
+            status: enrollments.status,
+            teacherId: courses.teacherId,
+          })
+          .from(enrollments)
+          .innerJoin(courses, eq(enrollments.courseId, courses.id))
+          .where(eq(courses.teacherId, ctx.user.id));
+        const allowedStudentIds = new Set(getTeacherAttendanceStudentIds(enrollmentRows, ctx.user.id));
+        if (marks.some((m: { studentId?: unknown } | null) =>
+          !m || typeof m.studentId !== "string" || !allowedStudentIds.has(m.studentId)
+        )) {
+          return NextResponse.json({ error: "One or more students are outside your course scope" }, { status: 403 });
+        }
       }
 
       let saved = 0;
