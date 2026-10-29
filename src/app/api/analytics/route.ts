@@ -32,7 +32,29 @@ type TeacherReportScope = {
 
 /** Builds a learning profile; teacher calls receive only explicitly course-scoped data. */
 async function buildStudentReport(studentId: string, scope?: TeacherReportScope) {
-  const userRows = await db.select().from(users).where(eq(users.id, studentId));
+  // Reports only need the profile fields below. Never hydrate the full user row here:
+  // it contains unrelated account data (for example contact/authentication fields).
+  // Teacher reports additionally require a current student role in the same query.
+  const userRows = scope
+    ? await db
+        .select({
+          id: users.id,
+          name: users.name,
+          grade: users.grade,
+        })
+        .from(users)
+        .where(and(eq(users.id, studentId), eq(users.role, "student")))
+    : await db
+        .select({
+          id: users.id,
+          name: users.name,
+          grade: users.grade,
+          points: users.points,
+          streak: users.streak,
+          level: users.level,
+        })
+        .from(users)
+        .where(eq(users.id, studentId));
   const student = userRows[0];
 
   // Generated exams/attempts have no reliable course foreign key. Exclude them
