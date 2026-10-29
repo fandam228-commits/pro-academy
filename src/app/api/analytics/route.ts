@@ -349,7 +349,13 @@ export async function GET(req: Request) {
         })
         .from(enrollments)
         .innerJoin(courses, eq(enrollments.courseId, courses.id))
-        .where(eq(courses.teacherId, ctx.user.id));
+        // Enforce the target account's current role in SQL as well as the enrollment scope.
+        // A malformed legacy enrollment must never authorize a report for a teacher/admin account.
+        .innerJoin(users, eq(enrollments.studentId, users.id))
+        .where(and(
+          eq(courses.teacherId, ctx.user.id),
+          eq(users.role, "student"),
+        ));
       const teacherStudentIds = getTeacherAnalyticsStudentIds(teacherEnrollmentRows, ctx.user.id);
 
       if (requestedStudent) {
