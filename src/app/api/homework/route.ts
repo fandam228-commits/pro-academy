@@ -8,7 +8,7 @@ import { notifyUser } from "@/lib/push";
 import { put } from "@vercel/blob";
 import { getHomeworkPrivateBlobToken } from "@/lib/homework-storage.mjs";
 import { randomUUID } from "node:crypto";
-import { canManageHomework, canSubmitHomework } from "@/lib/homework-authorization.mjs";
+import { canManageHomework, canSubmitHomework, canReplaceHomeworkSubmission } from "@/lib/homework-authorization.mjs";
 
 const MAX_SIZE_BYTES = 20 * 1024 * 1024; // 20MB
 
@@ -131,6 +131,12 @@ export async function POST(req: Request) {
           and(eq(homeworkSubmissions.homeworkId, homeworkId), eq(homeworkSubmissions.studentId, ctx.user.id))
         );
 
+      // Reject already-graded replacements before creating a private Blob object.
+      // Otherwise every rejected retry could upload an orphaned file.
+      if (existing.length > 0 && !canReplaceHomeworkSubmission({ status: existing[0].status })) {
+        return NextResponse.json({ error: "This submission is already graded and can't be replaced." }, { status: 400 });
+      }
+
       let fileName: string | null = null;
       let storagePath: string | null = null;
 
@@ -158,9 +164,6 @@ export async function POST(req: Request) {
       }
 
       if (existing.length > 0) {
-        if (existing[0].status === "graded") {
-          return NextResponse.json({ error: "This submission is already graded and can't be replaced." }, { status: 400 });
-        }
         await db
           .update(homeworkSubmissions)
           .set({ answerText, fileName: fileName ?? existing[0].fileName, storagePath: storagePath ?? existing[0].storagePath, submittedAt: new Date() })
