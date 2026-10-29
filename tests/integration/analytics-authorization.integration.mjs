@@ -195,9 +195,21 @@ integrationTest("PostgreSQL teacher enrollment query enforces owned-course scope
       })
       .from(enrollments)
       .innerJoin(courses, eq(enrollments.courseId, courses.id))
-      .where(eq(courses.teacherId, "teacher-1"));
+      .innerJoin(users, eq(enrollments.studentId, users.id))
+      .where(and(eq(courses.teacherId, "teacher-1"), eq(users.role, "student")));
 
-    assert.deepEqual(getTeacherAnalyticsStudentIds(rows, "teacher-1"), ["student-1", "student-2"]);
+    const allowedStudentIds = getTeacherAnalyticsStudentIds(rows, "teacher-1");
+    assert.deepEqual(allowedStudentIds, ["student-1", "student-2"]);
+    // A malformed enrollment that points to a teacher account must not authorize a direct report lookup.
+    assert.equal(
+      canAccessStudentAnalytics({
+        role: "teacher",
+        requesterId: "teacher-1",
+        studentId: "teacher-2",
+        teacherStudentIds: allowedStudentIds,
+      }),
+      false,
+    );
     assert.deepEqual(getTeacherAnalyticsCourseIds(rows, "teacher-1", "student-1"), ["course-a"]);
     assert.deepEqual(getTeacherAnalyticsCourseIds(rows, "teacher-1", "student-5"), []);
     assert.equal(
