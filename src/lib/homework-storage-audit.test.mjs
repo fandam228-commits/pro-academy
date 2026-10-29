@@ -24,6 +24,9 @@ test("absolute URLs are flagged for review, not assumed to be public", () => {
 test("malformed paths and traversal attempts are never classified as private", () => {
   for (const value of [
     "homework/../secrets.pdf",
+    "homework/%2e%2e/secrets.pdf",
+    "homework/%2Fescape.pdf",
+    "homework/%ZZ/file.pdf",
     "homework//file.pdf",
     "homework/file.pdf?token=secret",
     "homework\\file.pdf",
@@ -41,14 +44,15 @@ test("audit summary reports aggregate counts only", () => {
       "homework/file.pdf",
       "https://example.invalid/private.pdf",
       "homework/../escape.pdf",
+      "homework/%2e%2e/escape.pdf",
       "",
     ]),
     {
-      totalRows: 5,
+      totalRows: 6,
       empty: 2,
       privatePath: 1,
       absoluteUrlNeedsReview: 1,
-      unknownOrMalformed: 1,
+      unknownOrMalformed: 2,
     },
   );
 });
