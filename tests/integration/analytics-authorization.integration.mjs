@@ -3,7 +3,7 @@ import assert from "node:assert/strict";
 import { Client } from "pg";
 import { drizzle } from "drizzle-orm/node-postgres";
 import { and, eq, inArray, isNotNull } from "drizzle-orm";
-import { integer, pgTable, text, timestamp } from "drizzle-orm/pg-core";
+import { alias, integer, pgTable, text, timestamp } from "drizzle-orm/pg-core";
 import { canAccessStudentAnalytics } from "../../src/lib/analytics-authorization.mjs";
 import {
   getTeacherAnalyticsStudentIds,
@@ -49,6 +49,7 @@ const parentLinks = pgTable("parent_links", {
   verifiedAt: timestamp("verified_at"),
   verifiedBy: text("verified_by"),
 });
+const verifiedByUser = alias(users, "verified_by_user");
 const quizzes = pgTable("quizzes", {
   id: text("id").primaryKey(),
   courseId: text("course_id"),
@@ -95,7 +96,11 @@ async function withFixture(run) {
         ('student-3', 'student', 'Student Three', 'Third Secondary'),
         ('student-4', 'student', 'Student Four', 'Third Secondary'),
         ('student-5', 'student', 'Student Five', 'Third Secondary'),
-        ('teacher-2', 'teacher', 'Teacher Two', NULL);
+        ('student-6', 'student', 'Student Six', 'Third Secondary'),
+        ('teacher-2', 'teacher', 'Teacher Two', NULL),
+        ('admin-1', 'admin', 'Admin One', NULL),
+        ('parent-1', 'parent', 'Parent One', NULL),
+        ('parent-2', 'parent', 'Parent Two', NULL);
       CREATE TEMP TABLE courses (
         id TEXT PRIMARY KEY,
         teacher_id TEXT NOT NULL
@@ -161,7 +166,11 @@ async function withFixture(run) {
         -- Even a malformed legacy link with verification metadata must not authorize a non-student account.
         ('link-4', 'parent-1', 'teacher-2', '2026-10-29 08:00:00', 'admin-1'),
         ('link-5', 'parent-1', 'deleted-student', NULL, NULL),
-        ('link-6', 'parent-1', 'student-4', NULL, NULL);
+        ('link-6', 'parent-1', 'student-4', NULL, NULL),
+        -- Verification metadata from a non-admin must not authorize parent analytics.
+        ('link-7', 'parent-1', 'student-5', '2026-10-29 08:00:00', 'teacher-2'),
+        -- A deleted verifier account must fail closed.
+        ('link-8', 'parent-1', 'student-6', '2026-10-29 08:00:00', 'deleted-admin');
 
       INSERT INTO quizzes (id, course_id) VALUES
         ('quiz-a', 'course-a'),
@@ -266,14 +275,18 @@ integrationTest("PostgreSQL parent links require explicit choice for multiple ch
       })
       .from(parentLinks)
       .innerJoin(users, eq(parentLinks.studentId, users.id))
+      .innerJoin(verifiedByUser, eq(parentLinks.verifiedBy, verifiedByUser.id))
       .where(and(
         eq(parentLinks.parentId, "parent-1"),
         eq(users.role, "student"),
+        eq(verifiedByUser.role, "admin"),
         isNotNull(parentLinks.verifiedAt),
         isNotNull(parentLinks.verifiedBy),
       ));
     const linkedIds = getVerifiedParentAnalyticsStudentIds(rows);
     assert.deepEqual(linkedIds, ["student-1", "student-2"]);
+    assert.equal(rows.some((row) => row.studentId === "student-5"), false, "a teacher verifier must not authorize a parent link");
+    assert.equal(rows.some((row) => row.studentId === "student-6"), false, "a missing verifier account must not authorize a parent link");
 
     assert.deepEqual(
       resolveParentAnalyticsStudentId(null, linkedIds),
