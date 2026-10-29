@@ -1,5 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
+import { readFile } from "node:fs/promises";
 import {
   canManageHomework,
   canViewHomeworkSubmissionFile,
@@ -130,4 +131,20 @@ test("homework file access hides missing and unauthorized records behind one not
   assert.equal(getHomeworkFileAccessDecision({ ...allowed, requesterId: "student-2" }), "not-found");
   assert.equal(getHomeworkFileAccessDecision({ ...allowed, role: "teacher", requesterId: "teacher-2" }), "not-found");
   assert.equal(getHomeworkFileAccessDecision({ ...allowed, role: "parent", requesterId: "parent-1" }), "not-found");
+});
+
+
+const homeworkRouteSource = await readFile(new URL("../app/api/homework/route.ts", import.meta.url), "utf8");
+
+test("replacement update atomically rejects a concurrent grading race and cleans up the unreferenced upload", () => {
+  const updateStart = homeworkRouteSource.indexOf(".update(homeworkSubmissions)");
+  const updateEnd = homeworkRouteSource.indexOf("return NextResponse.json({ success: true, updated: true });", updateStart);
+  assert.notEqual(updateStart, -1, "submission replacement update must exist");
+  assert.notEqual(updateEnd, -1, "successful replacement response must follow the guarded update");
+  const updateSource = homeworkRouteSource.slice(updateStart, updateEnd);
+
+  assert.match(updateSource, /or\\(isNull\\(homeworkSubmissions\\.status\\),\\s*ne\\(homeworkSubmissions\\.status,\\s*"graded"\\)\\)/);
+  assert.match(updateSource, /\\.returning\\(\\{\\s*id:\\s*homeworkSubmissions\\.id\\s*\\}\\)/);
+  assert.match(updateSource, /if \\(updated\\.length === 0\\)/);
+  assert.match(updateSource, /await del\\(storagePath,\\s*\\{\\s*token:\\s*uploadToken\\s*\\}\\)/);
 });
