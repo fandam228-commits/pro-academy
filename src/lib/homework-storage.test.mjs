@@ -25,7 +25,7 @@ test("legacy public Blob URLs are detected and must not be redirected", () => {
   assert.equal(isLegacyPublicHomeworkBlobUrl(null), false);
 });
 
-test("only safe homework namespace pathnames are accepted for private Blob reads", () => {
+test("only canonical safe homework namespace pathnames are accepted for private Blob reads", () => {
   assert.equal(isPrivateHomeworkBlobPath("homework/hws_123_file.pdf"), true);
   assert.equal(isPrivateHomeworkBlobPath("homework/nested/file.pdf"), true);
   assert.equal(isPrivateHomeworkBlobPath("https://store.public.blob.vercel-storage.com/homework/file.pdf"), false);
@@ -33,5 +33,11 @@ test("only safe homework namespace pathnames are accepted for private Blob reads
   assert.equal(isPrivateHomeworkBlobPath("homework//file.pdf"), false);
   assert.equal(isPrivateHomeworkBlobPath("other/file.pdf"), false);
   assert.equal(isPrivateHomeworkBlobPath("homework/file.pdf?token=x"), false);
+  assert.equal(isPrivateHomeworkBlobPath("homework/%2e%2e/secrets.txt"), false);
+  assert.equal(isPrivateHomeworkBlobPath("homework/%2F..%2Fsecrets.txt"), false);
+  assert.equal(isPrivateHomeworkBlobPath("homework/file%00.pdf"), false);
+  assert.equal(isPrivateHomeworkBlobPath("homework/file name.pdf"), false);
+  assert.equal(isPrivateHomeworkBlobPath("homework/file\n.pdf"), false);
+  assert.equal(isPrivateHomeworkBlobPath(`homework/${"a".repeat(1024)}`), false);
   assert.equal(isPrivateHomeworkBlobPath(null), false);
 });
