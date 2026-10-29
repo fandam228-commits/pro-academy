@@ -23,6 +23,7 @@ import {
   getTeacherAnalyticsStudentIds,
   getTeacherAnalyticsCourseIds,
   resolveParentAnalyticsStudentId,
+  getVerifiedParentAnalyticsStudentIds,
 } from "@/lib/analytics-report-scope.mjs";
 
 type TeacherReportScope = {
