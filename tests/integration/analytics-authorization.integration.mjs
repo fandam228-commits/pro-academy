@@ -158,8 +158,8 @@ async function withFixture(run) {
         ('link-1', 'parent-1', 'student-1', '2026-10-29 08:00:00', 'admin-1'),
         ('link-2', 'parent-1', 'student-2', '2026-10-29 08:00:00', 'admin-1'),
         ('link-3', 'parent-2', 'student-3', '2026-10-29 08:00:00', 'admin-1'),
-        -- Legacy links may reference a non-student or a deleted account and are not verified.
-        ('link-4', 'parent-1', 'teacher-2', NULL, NULL),
+        -- Even a malformed legacy link with verification metadata must not authorize a non-student account.
+        ('link-4', 'parent-1', 'teacher-2', '2026-10-29 08:00:00', 'admin-1'),
         ('link-5', 'parent-1', 'deleted-student', NULL, NULL),
         ('link-6', 'parent-1', 'student-4', NULL, NULL);
 
