@@ -27,6 +27,14 @@ const courses = pgTable("courses", {
   id: text("id").primaryKey(),
   teacherId: text("teacher_id").notNull(),
 });
+
+const users = pgTable("users", {
+  id: text("id").primaryKey(),
+  role: text("role").notNull(),
+  name: text("name").notNull(),
+  grade: text("grade"),
+});
+
 const enrollments = pgTable("enrollments", {
   id: text("id").primaryKey(),
   studentId: text("student_id").notNull(),
@@ -72,6 +80,19 @@ async function withFixture(run) {
     // Temporary tables are scoped to this client connection and disappear
     // when it closes; no persistent or production tables are touched.
     await client.query(`
+      CREATE TEMP TABLE users (
+        id TEXT PRIMARY KEY,
+        role TEXT NOT NULL,
+        name TEXT NOT NULL,
+        grade TEXT
+      );
+      INSERT INTO users (id, role, name, grade) VALUES
+        ('student-1', 'student', 'Student One', 'Third Secondary'),
+        ('student-2', 'student', 'Student Two', 'Third Secondary'),
+        ('student-3', 'student', 'Student Three', 'Third Secondary'),
+        ('student-4', 'student', 'Student Four', 'Third Secondary'),
+        ('student-5', 'student', 'Student Five', 'Third Secondary'),
+        ('teacher-2', 'teacher', 'Teacher Two', NULL);
       CREATE TEMP TABLE courses (
         id TEXT PRIMARY KEY,
         teacher_id TEXT NOT NULL
@@ -124,12 +145,17 @@ async function withFixture(run) {
         ('enroll-3', 'student-2', 'course-b', 'completed'),
         ('enroll-4', 'student-3', 'course-a', 'cancelled'),
         ('enroll-5', 'student-4', 'course-a', NULL),
-        ('enroll-6', 'student-5', 'course-other', 'active');
+        ('enroll-6', 'student-5', 'course-other', 'active'),
+        -- Malformed legacy data must not turn a teacher account into a student roster row.
+        ('enroll-7', 'teacher-2', 'course-a', 'active');
 
       INSERT INTO parent_links (id, parent_id, student_id) VALUES
         ('link-1', 'parent-1', 'student-1'),
         ('link-2', 'parent-1', 'student-2'),
-        ('link-3', 'parent-2', 'student-3');
+        ('link-3', 'parent-2', 'student-3'),
+        -- Legacy links may reference a non-student or a deleted account.
+        ('link-4', 'parent-1', 'teacher-2'),
+        ('link-5', 'parent-1', 'deleted-student');
 
       INSERT INTO quizzes (id, course_id) VALUES
         ('quiz-a', 'course-a'),
@@ -186,12 +212,39 @@ integrationTest("PostgreSQL teacher enrollment query enforces owned-course scope
   });
 });
 
+integrationTest("PostgreSQL teacher roster query returns only current student accounts in the owned-course scope", async () => {
+  await withFixture(async ({ db }) => {
+    const enrollmentRows = await db
+      .select({
+        studentId: enrollments.studentId,
+        courseId: enrollments.courseId,
+        status: enrollments.status,
+        teacherId: courses.teacherId,
+      })
+      .from(enrollments)
+      .innerJoin(courses, eq(enrollments.courseId, courses.id))
+      .where(eq(courses.teacherId, "teacher-1"));
+    const allowedIds = getTeacherAnalyticsStudentIds(enrollmentRows, "teacher-1");
+    const visibleStudents = allowedIds.length === 0
+      ? []
+      : await db
+          .select({ id: users.id, name: users.name, grade: users.grade })
+          .from(users)
+          .where(and(eq(users.role, "student"), inArray(users.id, allowedIds)));
+
+    assert.deepEqual(visibleStudents.map((student) => student.id), ["student-1", "student-2"]);
+    assert.equal(visibleStudents.some((student) => student.id === "teacher-2"), false);
+    assert.equal(visibleStudents.some((student) => student.id === "deleted-student"), false);
+  });
+});
+
 integrationTest("PostgreSQL parent links require explicit choice for multiple children and deny unlinked students", async () => {
   await withFixture(async ({ db }) => {
     const rows = await db
       .select({ studentId: parentLinks.studentId })
       .from(parentLinks)
-      .where(eq(parentLinks.parentId, "parent-1"));
+      .innerJoin(users, eq(parentLinks.studentId, users.id))
+      .where(and(eq(parentLinks.parentId, "parent-1"), eq(users.role, "student")));
     const linkedIds = rows.map((row) => row.studentId);
 
     assert.deepEqual(
