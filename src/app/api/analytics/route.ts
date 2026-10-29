@@ -30,12 +30,21 @@ type TeacherReportScope = {
   allowedCourseIds: string[];
 };
 
+type AnalyticsStudentProfile = {
+  id: string;
+  name: string;
+  grade: string | null;
+  points?: number | null;
+  streak?: number | null;
+  level?: string | null;
+};
+
 /** Builds a learning profile; teacher calls receive only explicitly course-scoped data. */
 async function buildStudentReport(studentId: string, scope?: TeacherReportScope) {
   // Reports only need the profile fields below. Never hydrate the full user row here:
   // it contains unrelated account data (for example contact/authentication fields).
   // Teacher reports additionally require a current student role in the same query.
-  const userRows = scope
+  const userRows: AnalyticsStudentProfile[] = scope
     ? await db
         .select({
           id: users.id,
