@@ -35,3 +35,12 @@ test("only safe homework namespace pathnames are accepted for private Blob reads
   assert.equal(isPrivateHomeworkBlobPath("homework/file.pdf?token=x"), false);
   assert.equal(isPrivateHomeworkBlobPath(null), false);
 });
+
+
+test("private homework path validation rejects percent-encoded traversal and separators", () => {
+  assert.equal(isPrivateHomeworkBlobPath("homework/%2e%2e/secrets.txt"), false);
+  assert.equal(isPrivateHomeworkBlobPath("homework/%2E%2E/secrets.txt"), false);
+  assert.equal(isPrivateHomeworkBlobPath("homework%2Fsecrets.txt"), false);
+  assert.equal(isPrivateHomeworkBlobPath("homework/file%2F..%2Fsecrets.txt"), false);
+  assert.equal(isPrivateHomeworkBlobPath("homework/%ZZ/file.pdf"), false);
+});
