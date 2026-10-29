@@ -96,6 +96,7 @@ async function withFixture(run) {
         ('student-3', 'student', 'Student Three', 'Third Secondary'),
         ('student-4', 'student', 'Student Four', 'Third Secondary'),
         ('student-5', 'student', 'Student Five', 'Third Secondary'),
+        ('student-6', 'student', 'Student Six', 'Third Secondary'),
         ('teacher-2', 'teacher', 'Teacher Two', NULL),
         ('parent-1', 'parent', 'Parent One', NULL),
         ('admin-1', 'admin', 'Admin One', NULL);
@@ -166,7 +167,9 @@ async function withFixture(run) {
         ('link-5', 'parent-1', 'deleted-student', NULL, NULL),
         ('link-6', 'parent-1', 'student-4', NULL, NULL),
         -- A verified timestamp alone is insufficient if the verifier is not a current admin.
-        ('link-7', 'parent-1', 'student-5', '2026-10-29 08:00:00', 'teacher-2');
+        ('link-7', 'parent-1', 'student-5', '2026-10-29 08:00:00', 'teacher-2'),
+        -- A stale verifier ID must fail closed even if the link has verification metadata.
+        ('link-8', 'parent-1', 'student-6', '2026-10-29 08:00:00', 'deleted-admin');
 
       INSERT INTO quizzes (id, course_id) VALUES
         ('quiz-a', 'course-a'),
@@ -281,6 +284,7 @@ integrationTest("PostgreSQL parent links require explicit choice for multiple ch
       ));
     const linkedIds = getVerifiedParentAnalyticsStudentIds(rows);
     assert.deepEqual(linkedIds, ["student-1", "student-2"]);
+    assert.equal(rows.some((row) => row.studentId === "student-6"), false, "a deleted verifier must not authorize a parent link");
 
     assert.deepEqual(
       resolveParentAnalyticsStudentId(null, linkedIds),
