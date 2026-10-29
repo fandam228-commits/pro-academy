@@ -3,13 +3,13 @@ name: CI — Type Check & Build
 on:
   push:
     branches: [main, master]
+  # Also verify stacked draft PRs that target a feature branch (not only main).
   pull_request:
-    branches: [main, master]
   workflow_dispatch:
 
 jobs:
   verify:
-    name: Type check and production build
+    name: Unit tests, type check, lint, and production build
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
