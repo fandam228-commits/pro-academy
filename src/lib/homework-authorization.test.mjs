@@ -143,8 +143,8 @@ test("replacement update atomically rejects a concurrent grading race and cleans
   assert.notEqual(updateEnd, -1, "successful replacement response must follow the guarded update");
   const updateSource = homeworkRouteSource.slice(updateStart, updateEnd);
 
-  assert.match(updateSource, /or\\(isNull\\(homeworkSubmissions\\.status\\),\\s*ne\\(homeworkSubmissions\\.status,\\s*"graded"\\)\\)/);
-  assert.match(updateSource, /\\.returning\\(\\{\\s*id:\\s*homeworkSubmissions\\.id\\s*\\}\\)/);
-  assert.match(updateSource, /if \\(updated\\.length === 0\\)/);
-  assert.match(updateSource, /await del\\(storagePath,\\s*\\{\\s*token:\\s*uploadToken\\s*\\}\\)/);
+  assert.ok(updateSource.includes('or(isNull(homeworkSubmissions.status), ne(homeworkSubmissions.status, "graded"))'));
+  assert.ok(updateSource.includes(".returning({ id: homeworkSubmissions.id })"));
+  assert.ok(updateSource.includes("if (updated.length === 0)"));
+  assert.ok(updateSource.includes("await del(storagePath, { token: uploadToken })"));
 });
