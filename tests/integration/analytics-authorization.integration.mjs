@@ -109,7 +109,9 @@ async function withFixture(run) {
       CREATE TEMP TABLE parent_links (
         id TEXT PRIMARY KEY,
         parent_id TEXT NOT NULL,
-        student_id TEXT NOT NULL
+        student_id TEXT NOT NULL,
+        verified_at TIMESTAMP,
+        verified_by TEXT
       );
       CREATE TEMP TABLE quizzes (
         id TEXT PRIMARY KEY,
