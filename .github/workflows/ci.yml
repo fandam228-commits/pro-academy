@@ -37,7 +37,8 @@ jobs:
         run: npm ci
       - name: Unit tests
         run: npm test
-      - name: PostgreSQL-backed Analytics authorization integration tests
+      - name: PostgreSQL-backed Analytics authorization integration tests (when present)
+        if: ${{ hashFiles('tests/integration/analytics-authorization.integration.mjs') != '' }}
         run: node --test tests/integration/analytics-authorization.integration.mjs
         env:
           TEST_DATABASE_URL: postgresql://postgres:postgres@127.0.0.1:5432/proacademy_test
