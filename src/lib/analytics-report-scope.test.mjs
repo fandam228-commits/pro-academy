@@ -149,3 +149,18 @@ test("self, parent, and admin reports may retain unscoped sources after role aut
     includeGlobalQuestionBank: true,
   });
 });
+
+
+test("malformed non-null teacher scopes fail closed for every unscoped report source", () => {
+  const expected = {
+    includeStudentGamification: false,
+    includeGeneratedExamAttempts: false,
+    includeAttendance: false,
+    includeGlobalQuestionBank: false,
+  };
+
+  // Empty/malformed scope objects must not accidentally restore global data.
+  assert.deepEqual(getAnalyticsReportDataVisibility({}), expected);
+  assert.deepEqual(getAnalyticsReportDataVisibility({ teacherId: "", allowedCourseIds: [] }), expected);
+  assert.deepEqual(getAnalyticsReportDataVisibility({ teacherId: "teacher-1", allowedCourseIds: [] }), expected);
+});
