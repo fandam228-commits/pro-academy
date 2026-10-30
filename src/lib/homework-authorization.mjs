@@ -24,6 +24,11 @@ export function canViewHomeworkSubmissionFile({
   return false;
 }
 
+/** A graded submission is immutable; check this before uploading any replacement file. */
+export function canReplaceHomeworkSubmission({ status }) {
+  return status !== "graded";
+}
+
 export function canSubmitHomework({ role, studentGrade, homeworkGrade }) {
   if (role !== "student") return false;
   if (studentGrade && homeworkGrade && studentGrade !== homeworkGrade) return false;

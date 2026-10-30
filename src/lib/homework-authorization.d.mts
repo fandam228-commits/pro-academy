@@ -13,6 +13,11 @@ export interface HomeworkSubmissionFileAccessInput {
 }
 export function canViewHomeworkSubmissionFile(input: HomeworkSubmissionFileAccessInput): boolean;
 
+export interface HomeworkSubmissionReplaceInput {
+  status?: string | null;
+}
+export function canReplaceHomeworkSubmission(input: HomeworkSubmissionReplaceInput): boolean;
+
 export interface HomeworkSubmissionInput {
   role: string | null | undefined;
   studentGrade?: string | null;

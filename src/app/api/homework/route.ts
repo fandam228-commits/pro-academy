@@ -1,14 +1,14 @@
 import { db } from "@/db";
 import { homework, homeworkSubmissions, users, notifications } from "@/db/schema";
-import { eq, and, inArray } from "drizzle-orm";
+import { eq, and, inArray, isNull, ne, or } from "drizzle-orm";
 import { NextResponse } from "next/server";
 import { ensureDbSetup } from "@/db/migrate-and-seed";
 import { requireRoles, getAuthContext } from "@/lib/security";
 import { notifyUser } from "@/lib/push";
-import { put } from "@vercel/blob";
+import { del, put } from "@vercel/blob";
 import { getHomeworkPrivateBlobToken } from "@/lib/homework-storage.mjs";
 import { randomUUID } from "node:crypto";
-import { canManageHomework, canSubmitHomework } from "@/lib/homework-authorization.mjs";
+import { canManageHomework, canSubmitHomework, canReplaceHomeworkSubmission } from "@/lib/homework-authorization.mjs";
 
 const MAX_SIZE_BYTES = 20 * 1024 * 1024; // 20MB
 
@@ -131,8 +131,15 @@ export async function POST(req: Request) {
           and(eq(homeworkSubmissions.homeworkId, homeworkId), eq(homeworkSubmissions.studentId, ctx.user.id))
         );
 
+      // Reject already-graded replacements before creating a private Blob object.
+      // Otherwise every rejected retry could upload an orphaned file.
+      if (existing.length > 0 && !canReplaceHomeworkSubmission({ status: existing[0].status })) {
+        return NextResponse.json({ error: "This submission is already graded and can't be replaced." }, { status: 400 });
+      }
+
       let fileName: string | null = null;
       let storagePath: string | null = null;
+      let uploadToken: string | null = null;
 
       if (file && file.size > 0) {
         if (file.size > MAX_SIZE_BYTES) {
@@ -148,6 +155,7 @@ export async function POST(req: Request) {
             { status: 503 }
           );
         }
+        uploadToken = privateBlobToken;
         const blob = await put(`homework/${subId}_${safeName}`, file, {
           access: "private",
           token: privateBlobToken,
@@ -158,13 +166,27 @@ export async function POST(req: Request) {
       }
 
       if (existing.length > 0) {
-        if (existing[0].status === "graded") {
-          return NextResponse.json({ error: "This submission is already graded and can't be replaced." }, { status: 400 });
-        }
-        await db
+        const updated = await db
           .update(homeworkSubmissions)
           .set({ answerText, fileName: fileName ?? existing[0].fileName, storagePath: storagePath ?? existing[0].storagePath, submittedAt: new Date() })
-          .where(eq(homeworkSubmissions.id, existing[0].id));
+          .where(and(
+            eq(homeworkSubmissions.id, existing[0].id),
+            or(isNull(homeworkSubmissions.status), ne(homeworkSubmissions.status, "graded")),
+          ))
+          .returning({ id: homeworkSubmissions.id });
+
+        // Grading may happen after the preflight check. The SQL predicate is the
+        // final atomic guard; if grading won the race, remove only this new upload.
+        if (updated.length === 0) {
+          if (storagePath && uploadToken) {
+            try {
+              await del(storagePath, { token: uploadToken });
+            } catch (cleanupError) {
+              console.error("Failed to remove unreferenced homework upload:", cleanupError);
+            }
+          }
+          return NextResponse.json({ error: "This submission is already graded and can't be replaced." }, { status: 400 });
+        }
         return NextResponse.json({ success: true, updated: true });
       }
 

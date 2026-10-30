@@ -1,9 +1,11 @@
 import test from "node:test";
 import assert from "node:assert/strict";
+import { readFile } from "node:fs/promises";
 import {
   canManageHomework,
   canViewHomeworkSubmissionFile,
   canSubmitHomework,
+  canReplaceHomeworkSubmission,
   getHomeworkFileAccessDecision,
 } from "./homework-authorization.mjs";
 
@@ -98,6 +100,12 @@ test("parents, unknown roles, and incomplete relationships are denied file acces
   );
 });
 
+test("graded submissions are rejected before a replacement file is uploaded", () => {
+  assert.equal(canReplaceHomeworkSubmission({ status: "graded" }), false);
+  assert.equal(canReplaceHomeworkSubmission({ status: "submitted" }), true);
+  assert.equal(canReplaceHomeworkSubmission({ status: null }), true);
+});
+
 test("only student accounts may submit homework answers and only for their recorded grade", () => {
   assert.equal(canSubmitHomework({ role: "student" }), true);
   assert.equal(canSubmitHomework({ role: "student", studentGrade: "Third Secondary", homeworkGrade: "Third Secondary" }), true);
@@ -123,4 +131,20 @@ test("homework file access hides missing and unauthorized records behind one not
   assert.equal(getHomeworkFileAccessDecision({ ...allowed, requesterId: "student-2" }), "not-found");
   assert.equal(getHomeworkFileAccessDecision({ ...allowed, role: "teacher", requesterId: "teacher-2" }), "not-found");
   assert.equal(getHomeworkFileAccessDecision({ ...allowed, role: "parent", requesterId: "parent-1" }), "not-found");
+});
+
+
+const homeworkRouteSource = await readFile(new URL("../app/api/homework/route.ts", import.meta.url), "utf8");
+
+test("replacement update atomically rejects a concurrent grading race and cleans up the unreferenced upload", () => {
+  const updateStart = homeworkRouteSource.indexOf(".update(homeworkSubmissions)");
+  const updateEnd = homeworkRouteSource.indexOf("return NextResponse.json({ success: true, updated: true });", updateStart);
+  assert.notEqual(updateStart, -1, "submission replacement update must exist");
+  assert.notEqual(updateEnd, -1, "successful replacement response must follow the guarded update");
+  const updateSource = homeworkRouteSource.slice(updateStart, updateEnd);
+
+  assert.ok(updateSource.includes('or(isNull(homeworkSubmissions.status), ne(homeworkSubmissions.status, "graded"))'));
+  assert.ok(updateSource.includes(".returning({ id: homeworkSubmissions.id })"));
+  assert.ok(updateSource.includes("if (updated.length === 0)"));
+  assert.ok(updateSource.includes("await del(storagePath, { token: uploadToken })"));
 });
