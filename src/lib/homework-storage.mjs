@@ -18,3 +18,19 @@ export function isPrivateHomeworkBlobPath(value) {
   const segments = value.split("/");
   return segments.every((segment) => segment !== "" && segment !== "." && segment !== "..");
 }
+
+
+/**
+ * Resolve the storage policy before any provider read. Legacy absolute URLs and
+ * malformed paths fail closed; a missing private-store token never falls back
+ * to public storage.
+ */
+export function getHomeworkFileStorageDecision({ storagePath, privateBlobToken }) {
+  if (typeof storagePath !== "string" || storagePath.length === 0) return "no-file";
+  if (isLegacyPublicHomeworkBlobUrl(storagePath)) return "legacy-public-url";
+  if (!isPrivateHomeworkBlobPath(storagePath)) return "invalid-private-path";
+  if (typeof privateBlobToken !== "string" || privateBlobToken.trim() === "") {
+    return "private-storage-not-configured";
+  }
+  return "stream-private";
+}
