@@ -65,13 +65,15 @@ test("malformed enrollment inputs fail closed", () => {
 });
 
 
-test("parent analytics ignores unverified, malformed, and duplicate link rows", () => {
+test("parent analytics ignores unverified, malformed, duplicate, and non-admin-verified link rows", () => {
   assert.deepEqual(getVerifiedParentAnalyticsStudentIds([
-    { studentId: "student-1", verifiedAt: new Date("2026-10-29T08:00:00Z"), verifiedBy: "admin-1" },
-    { studentId: "student-2", verifiedAt: null, verifiedBy: "admin-1" },
-    { studentId: "student-3", verifiedAt: "not-a-date", verifiedBy: "admin-1" },
-    { studentId: "student-4", verifiedAt: new Date("2026-10-29T08:00:00Z"), verifiedBy: " " },
-    { studentId: "student-1", verifiedAt: "2026-10-29T08:00:00Z", verifiedBy: "admin-2" },
+    { studentId: "student-1", verifiedAt: new Date("2026-10-29T08:00:00Z"), verifiedBy: "admin-1", verifiedByRole: "admin" },
+    { studentId: "student-2", verifiedAt: null, verifiedBy: "admin-1", verifiedByRole: "admin" },
+    { studentId: "student-3", verifiedAt: "not-a-date", verifiedBy: "admin-1", verifiedByRole: "admin" },
+    { studentId: "student-4", verifiedAt: new Date("2026-10-29T08:00:00Z"), verifiedBy: " ", verifiedByRole: "admin" },
+    { studentId: "student-1", verifiedAt: "2026-10-29T08:00:00Z", verifiedBy: "admin-2", verifiedByRole: "admin" },
+    { studentId: "student-5", verifiedAt: new Date("2026-10-29T08:00:00Z"), verifiedBy: "teacher-1", verifiedByRole: "teacher" },
+    { studentId: "student-6", verifiedAt: new Date("2026-10-29T08:00:00Z"), verifiedBy: "deleted-admin", verifiedByRole: null },
     null,
   ]), ["student-1"]);
   assert.deepEqual(getVerifiedParentAnalyticsStudentIds(null), []);

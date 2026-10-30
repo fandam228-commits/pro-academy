@@ -85,6 +85,9 @@ export function getVerifiedParentAnalyticsStudentIds(linkRows) {
     .filter((row) => {
       if (!row || typeof row !== "object" || !isNonEmptyString(row.studentId)) return false;
       if (!isNonEmptyString(row.verifiedBy)) return false;
+      // Defense in depth: the caller's SQL join must verify the current actor role,
+      // and this helper independently rejects rows not explicitly marked as admin-verified.
+      if (row.verifiedByRole !== "admin") return false;
       const timestamp = row.verifiedAt instanceof Date
         ? row.verifiedAt.getTime()
         : typeof row.verifiedAt === "string"

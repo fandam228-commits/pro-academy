@@ -272,6 +272,7 @@ integrationTest("PostgreSQL parent links require explicit choice for multiple ch
         studentId: parentLinks.studentId,
         verifiedAt: parentLinks.verifiedAt,
         verifiedBy: parentLinks.verifiedBy,
+        verifiedByRole: verifiedByUser.role,
       })
       .from(parentLinks)
       .innerJoin(users, eq(parentLinks.studentId, users.id))
