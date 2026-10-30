@@ -126,12 +126,27 @@ test("teacher reports scope quiz, homework, submission, and enrollment reads to 
   assert.match(reportSource, /inArray\(enrollments\.courseId, scope\.allowedCourseIds\)/);
 });
 
-test("teacher reports omit unscopable exam, attendance, and question-bank data", () => {
+test("teacher reports use the centralized fail-closed visibility policy for unscopable sources", () => {
   const reportSource = routeSource.slice(reportStart, reportEnd);
-  assert.match(reportSource, /const attempts = scope\s*\?\s*\[\]/,
-    "exam attempts without a reliable course key must not enter teacher reports");
-  assert.match(reportSource, /const attendance = scope\s*\?\s*\[\]/,
-    "attendance without a teacher/course ownership key must not enter teacher reports");
-  assert.match(reportSource, /const bank = scope \? \[\] : await db\.select\(\)\.from\(questionBank\)/,
-    "global question-bank records must not be used to derive teacher-scoped mastery");
+
+  assert.match(
+    reportSource,
+    /const dataVisibility = getAnalyticsReportDataVisibility\\(scope\\)/,
+    "report generation must derive source visibility from the centralized policy",
+  );
+  assert.match(
+    reportSource,
+    /const attempts = dataVisibility\\.includeGeneratedExamAttempts\\s*\\?/,
+    "exam attempts without a reliable course key must be excluded from teacher reports",
+  );
+  assert.match(
+    reportSource,
+    /const attendance = dataVisibility\\.includeAttendance\\s*\\?/,
+    "attendance without a teacher/course ownership key must be excluded from teacher reports",
+  );
+  assert.match(
+    reportSource,
+    /const bank = dataVisibility\\.includeGlobalQuestionBank\\s*\\?/,
+    "global question-bank records must not be used to derive teacher-scoped mastery",
+  );
 });
