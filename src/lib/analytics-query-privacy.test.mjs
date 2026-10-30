@@ -59,3 +59,32 @@ test("student analytics route authorizes the requested ID but only builds the au
   assert.match(studentSource, /const report = await buildStudentReport\(ctx\.user\.id\)/);
   assert.doesNotMatch(studentSource, /buildStudentReport\(requestedStudent\)/);
 });
+
+test("teacher reports always pass an owned-course scope to the report builder", () => {
+  const teacherStart = routeSource.indexOf('if (role === "teacher")');
+  const parentStart = routeSource.indexOf('if (role === "parent")', teacherStart);
+  assert.notEqual(teacherStart, -1, "teacher analytics branch must exist");
+  assert.notEqual(parentStart, -1, "parent analytics branch must follow teacher branch");
+  const teacherSource = routeSource.slice(teacherStart, parentStart);
+
+  assert.match(
+    teacherSource,
+    /const allowedCourseIds = getTeacherAnalyticsCourseIds\\(teacherEnrollmentRows, ctx\\.user\\.id, requestedStudent\\)/,
+    "single-student reports must derive the requesting teacher's enrolled-course scope",
+  );
+  assert.match(
+    teacherSource,
+    /buildStudentReport\\(requestedStudent,\\s*\\{\\s*teacherId:\\s*ctx\\.user\\.id,\\s*allowedCourseIds,\\s*\\}\\)/,
+    "single-student teacher reports must pass the explicit scope to the builder",
+  );
+  assert.match(
+    teacherSource,
+    /buildStudentReport\\(student\\.id,\\s*\\{\\s*teacherId:\\s*ctx\\.user\\.id,\\s*allowedCourseIds:\\s*getTeacherAnalyticsCourseIds\\(teacherEnrollmentRows,\\s*ctx\\.user\\.id,\\s*student\\.id\\),\\s*\\}\\)/,
+    "class reports must pass a per-student owned-course scope to the builder",
+  );
+  assert.doesNotMatch(
+    teacherSource,
+    /buildStudentReport\\(requestedStudent\\)/,
+    "teacher-specific report requests must never call the unscoped report builder",
+  );
+});
