@@ -105,30 +105,26 @@ const homeworkApiRouteSource = await readFile(
 );
 
 test("private homework downloads use private Blob access and non-cacheable response headers", () => {
-  assert.match(
-    homeworkFileRouteSource,
-    /await get\\(sub\\.storagePath as string, \\{ access: "private", token: privateBlobToken \\}\\)/,
+  assert.ok(
+    homeworkFileRouteSource.includes('await get(sub.storagePath as string, { access: "private", token: privateBlobToken })'),
     "file reads must use the dedicated private token and private Blob access",
   );
-  assert.match(homeworkFileRouteSource, /"Cache-Control": "private, no-store"/);
-  assert.match(homeworkFileRouteSource, /"X-Content-Type-Options": "nosniff"/);
-  assert.match(homeworkFileRouteSource, /"Content-Disposition": `attachment; filename="\\$\\{safeFileName\\}"`/);
+  assert.ok(homeworkFileRouteSource.includes('"Cache-Control": "private, no-store"'));
+  assert.ok(homeworkFileRouteSource.includes('"X-Content-Type-Options": "nosniff"'));
+  assert.ok(homeworkFileRouteSource.includes('"Content-Disposition": `attachment; filename="${safeFileName}"`'));
 });
 
 test("homework API strips storagePath from teacher, student, and submit response payloads", () => {
-  assert.match(
-    homeworkApiRouteSource,
-    /submissions: subs\\.map\\(\\(submission\\) => withoutStoragePath\\(submission\\)\\)/,
+  assert.ok(
+    homeworkApiRouteSource.includes("submissions: subs.map((submission) => withoutStoragePath(submission))"),
     "teacher submission lists must not expose the private storage pathname",
   );
-  assert.match(
-    homeworkApiRouteSource,
-    /mySubmission: mine \\? withoutStoragePath\\(mine\\) : null/,
+  assert.ok(
+    homeworkApiRouteSource.includes("mySubmission: mine ? withoutStoragePath(mine) : null"),
     "student responses must not expose the private storage pathname",
   );
-  assert.match(
-    homeworkApiRouteSource,
-    /submission: withoutStoragePath\\(sub\\)/,
+  assert.ok(
+    homeworkApiRouteSource.includes("submission: withoutStoragePath(sub)"),
     "new submission responses must not expose the private storage pathname",
   );
 });
