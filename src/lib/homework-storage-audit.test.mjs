@@ -4,6 +4,7 @@ import {
   assertSafeHomeworkAuditTarget,
   classifyHomeworkStoragePath,
   summarizeHomeworkStoragePaths,
+  mergeHomeworkStoragePathSummaries,
 } from "./homework-storage-audit.mjs";
 
 test("storage audit classifies empty and private homework paths without exposing values", () => {
@@ -53,6 +54,31 @@ test("audit summary reports aggregate counts only", () => {
       privatePath: 1,
       absoluteUrlNeedsReview: 1,
       unknownOrMalformed: 2,
+    },
+  );
+});
+
+
+
+test("audit summaries can be combined across bounded batches without retaining paths", () => {
+  const firstBatch = summarizeHomeworkStoragePaths([
+    null,
+    "homework/first.pdf",
+    "https://example.invalid/legacy.pdf",
+  ]);
+  const secondBatch = summarizeHomeworkStoragePaths([
+    "homework/%2e%2e/escape.pdf",
+    "  ",
+  ]);
+
+  assert.deepEqual(
+    mergeHomeworkStoragePathSummaries(firstBatch, secondBatch),
+    {
+      totalRows: 5,
+      empty: 2,
+      privatePath: 1,
+      absoluteUrlNeedsReview: 1,
+      unknownOrMalformed: 1,
     },
   );
 });
