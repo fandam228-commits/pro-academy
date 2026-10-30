@@ -538,3 +538,4 @@ export async function GET(req: Request) {
     console.error("Analytics GET error:", error);
     return NextResponse.json({ error: "Failed to build analytics" }, { status: 500 });
   }
+}
