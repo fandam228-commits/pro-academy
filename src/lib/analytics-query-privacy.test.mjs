@@ -24,6 +24,26 @@ test("analytics report profile query uses an explicit field allowlist", () => {
   assert.match(reportSource, /level:\s*users\.level/);
 });
 
+test("profile projection includes gamification only for non-teacher reports", () => {
+  const reportSource = routeSource.slice(reportStart, reportEnd);
+  const queryStart = reportSource.indexOf("const userRows: AnalyticsStudentProfile[] = dataVisibility.includeStudentGamification");
+  const queryEnd = reportSource.indexOf("const student = userRows[0];", queryStart);
+  assert.notEqual(queryStart, -1, "profile projection must use the centralized visibility policy");
+  assert.notEqual(queryEnd, -1, "profile projection must have a bounded query block");
+  const query = reportSource.slice(queryStart, queryEnd);
+  const restrictedBranchStart = query.indexOf(": await db");
+  assert.notEqual(restrictedBranchStart, -1, "teacher-safe profile projection must exist");
+  const fullProfileBranch = query.slice(0, restrictedBranchStart);
+  const restrictedProfileBranch = query.slice(restrictedBranchStart);
+
+  assert.match(fullProfileBranch, /points:\s*users\.points/);
+  assert.match(fullProfileBranch, /streak:\s*users\.streak/);
+  assert.match(fullProfileBranch, /level:\s*users\.level/);
+  assert.doesNotMatch(restrictedProfileBranch, /points:\s*users\.points|streak:\s*users\.streak|level:\s*users\.level/);
+  assert.equal((query.match(/eq\(users\.role, "student"\)/g) || []).length, 2,
+    "both profile projections must reject non-student and stale accounts");
+});
+
 test("teacher-scoped report profile query verifies the account role in SQL", () => {
   const reportSource = routeSource.slice(reportStart, reportEnd);
   assert.match(
