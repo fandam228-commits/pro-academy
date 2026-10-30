@@ -1,5 +1,20 @@
 const ELIGIBLE_STATUSES = new Set(["active", "completed"]);
 
+/**
+ * Teacher analytics must not expose report sources that lack a trustworthy
+ * course/teacher relationship. Keep this policy centralized and testable so
+ * a future report-builder refactor cannot accidentally re-enable global data.
+ */
+export function getAnalyticsReportDataVisibility(scope) {
+  const teacherScoped = scope !== null && scope !== undefined;
+  return {
+    includeStudentGamification: !teacherScoped,
+    includeGeneratedExamAttempts: !teacherScoped,
+    includeAttendance: !teacherScoped,
+    includeGlobalQuestionBank: !teacherScoped,
+  };
+}
+
 function isNonEmptyString(value) {
   return typeof value === "string" && value.trim().length > 0;
 }
