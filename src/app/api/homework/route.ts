@@ -21,18 +21,39 @@ export async function GET(req: Request) {
   const role = ctx.user.role as string;
 
   try {
-    // Teacher/Admin sees assignments + all submissions
+    // Teacher sees only their own assignments and submissions; admin sees all
     if (role === "teacher" || role === "admin") {
+      const isAdmin = role === "admin";
       if (homeworkId) {
         const hw = await db.select().from(homework).where(eq(homework.id, homeworkId));
+        if (!isAdmin && hw.length === 0) {
+          return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+        }
+        const hwRow = hw[0];
+        if (!isAdmin && hwRow.teacherId !== ctx.user.id) {
+          return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+        }
         const subs = await db
           .select()
           .from(homeworkSubmissions)
           .where(eq(homeworkSubmissions.homeworkId, homeworkId));
-        return NextResponse.json({ homework: hw[0] || null, submissions: subs });
+        return NextResponse.json({ homework: hwRow, submissions: subs });
       }
-      const allHw = await db.select().from(homework);
-      const allSubs = await db.select().from(homeworkSubmissions);
+
+      let allHw: any[] = [];
+      let allSubs: any[] = [];
+      if (isAdmin) {
+        allHw = await db.select().from(homework);
+        allSubs = await db.select().from(homeworkSubmissions);
+      } else {
+        const own = await db.select().from(homework).where(eq(homework.teacherId, ctx.user.id));
+        allHw = own;
+        const ownIds = new Set(allHw.map((h) => h.id));
+        if (ownIds.size > 0) {
+          const allCandidateSubs = await db.select().from(homeworkSubmissions);
+          allSubs = allCandidateSubs.filter((s) => ownIds.has(s.homeworkId));
+        }
+      }
       const withCounts = allHw.map((h) => ({
         ...h,
         submissionsCount: allSubs.filter((s) => s.homeworkId === h.id).length,
@@ -109,7 +130,7 @@ export async function POST(req: Request) {
         const safeName = file.name.replace(/[^a-zA-Z0-9._-]/g, "_");
         // Upload to Vercel Blob (cloud storage)
         const blob = await put(`homework/${subId}_${safeName}`, file, {
-          access: "public",
+          access: "private",
           addRandomSuffix: false,
         });
         fileName = file.name;
