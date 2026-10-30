@@ -21,6 +21,7 @@ import { getAuthContext } from "@/lib/security";
 import { canAccessStudentAnalytics } from "@/lib/analytics-authorization.mjs";
 import { attendanceRate, calculatePerformanceIndex, homeworkCompletion } from "@/lib/analytics-metrics.mjs";
 import {
+  getAnalyticsReportDataVisibility,
   getTeacherAnalyticsStudentIds,
   getTeacherAnalyticsCourseIds,
   resolveParentAnalyticsStudentId,
@@ -45,10 +46,11 @@ type AnalyticsStudentProfile = {
 
 /** Builds a learning profile; teacher calls receive only explicitly course-scoped data. */
 async function buildStudentReport(studentId: string, scope?: TeacherReportScope) {
+  const dataVisibility = getAnalyticsReportDataVisibility(scope);
   // Reports only need the profile fields below. Never hydrate the full user row here:
   // it contains unrelated account data (for example contact/authentication fields).
   // Teacher reports additionally require a current student role in the same query.
-  const userRows: AnalyticsStudentProfile[] = scope
+  const userRows: AnalyticsStudentProfile[] = dataVisibility.includeStudentGamification
     ? await db
         .select({
           id: users.id,
@@ -72,11 +74,11 @@ async function buildStudentReport(studentId: string, scope?: TeacherReportScope)
 
   // Generated exams/attempts have no reliable course foreign key. Exclude them
   // from teacher reports rather than exposing performance from other courses.
-  const attempts = scope
-    ? []
-    : (await db.select().from(examAttempts).where(eq(examAttempts.studentId, studentId))).sort(
+  const attempts = dataVisibility.includeGeneratedExamAttempts
+    ? (await db.select().from(examAttempts).where(eq(examAttempts.studentId, studentId))).sort(
         (a, b) => new Date(a.submittedAt).getTime() - new Date(b.submittedAt).getTime()
-      );
+      )
+    : [];
 
   // For teacher reports, constrain database reads to the authorized course IDs.
   // Avoid loading unrelated teachers' quiz/homework records and filtering afterward.
@@ -153,10 +155,10 @@ async function buildStudentReport(studentId: string, scope?: TeacherReportScope)
 
   // Attendance records currently have no course/teacher ownership key, so a
   // teacher report must not include attendance that cannot be scoped safely.
-  const attendance = scope
-    ? []
-    : await db.select().from(attendanceRecords).where(eq(attendanceRecords.studentId, studentId));
-  const bank = scope ? [] : await db.select().from(questionBank);
+  const attendance = dataVisibility.includeAttendance
+    ? await db.select().from(attendanceRecords).where(eq(attendanceRecords.studentId, studentId))
+    : [];
+  const bank = dataVisibility.includeGlobalQuestionBank ? await db.select().from(questionBank) : [];
 
   const myEnrollments = scope
     ? scope.allowedCourseIds.length === 0
@@ -270,9 +272,9 @@ async function buildStudentReport(studentId: string, scope?: TeacherReportScope)
       id: student.id,
       name: student.name,
       grade: student.grade,
-      points: scope ? null : student.points,
-      streak: scope ? null : student.streak,
-      level: scope ? null : student.level,
+      points: dataVisibility.includeStudentGamification ? student.points : null,
+      streak: dataVisibility.includeStudentGamification ? student.streak : null,
+      level: dataVisibility.includeStudentGamification ? student.level : null,
     } : null,
     kpis: {
       avgScore,
