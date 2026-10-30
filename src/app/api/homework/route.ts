@@ -1,5 +1,5 @@
 import { db } from "@/db";
-import { homework, homeworkSubmissions, users, notifications } from "@/db/schema";
+import { homework, homeworkSubmissions, users, notifications, courses } from "@/db/schema";
 import { eq, and, inArray } from "drizzle-orm";
 import { NextResponse } from "next/server";
 import { ensureDbSetup } from "@/db/migrate-and-seed";
@@ -8,7 +8,7 @@ import { notifyUser } from "@/lib/push";
 import { put } from "@vercel/blob";
 import { getHomeworkPrivateBlobToken } from "@/lib/homework-storage.mjs";
 import { randomUUID } from "node:crypto";
-import { canManageHomework, canSubmitHomework } from "@/lib/homework-authorization.mjs";
+import { canManageHomework, canSubmitHomework, canAssignHomeworkToCourse } from "@/lib/homework-authorization.mjs";
 
 const MAX_SIZE_BYTES = 20 * 1024 * 1024; // 20MB
 
@@ -210,6 +210,32 @@ export async function POST(req: Request) {
         return NextResponse.json({ error: "Title and due date are required." }, { status: 400 });
       }
 
+      // A course-linked assignment must reference a real course. Teachers may
+      // attach homework only to courses they own; admins retain cross-course access.
+      const requestedCourseId = hwData.courseId;
+      let courseId: string | null = null;
+      if (requestedCourseId !== undefined && requestedCourseId !== null && requestedCourseId !== "") {
+        if (typeof requestedCourseId !== "string" || requestedCourseId.trim() === "") {
+          return NextResponse.json({ error: "Invalid courseId" }, { status: 400 });
+        }
+        courseId = requestedCourseId.trim();
+        const courseRows = await db
+          .select({ id: courses.id, teacherId: courses.teacherId })
+          .from(courses)
+          .where(eq(courses.id, courseId));
+        const course = courseRows[0];
+        if (!course) {
+          return NextResponse.json({ error: "Course not found" }, { status: 404 });
+        }
+        if (!canAssignHomeworkToCourse({
+          role: ctx.user.role as string,
+          requesterId: ctx.user.id,
+          courseTeacherId: course.teacherId,
+        })) {
+          return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+        }
+      }
+
       const newHw = {
         id: `hw_${Date.now()}_${Math.random().toString(36).substring(2, 5)}`,
         title: hwData.title,
@@ -218,7 +244,7 @@ export async function POST(req: Request) {
         teacherName: ctx.user.name,
         stage: hwData.stage || "Secondary",
         grade: hwData.grade || "Third Secondary (Baccalaureate)",
-        courseId: hwData.courseId || null,
+        courseId,
         unit: hwData.unit || "Unit 1",
         dueDate: hwData.dueDate,
         totalPoints: parseInt(hwData.totalPoints) || 50,
