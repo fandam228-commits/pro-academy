@@ -314,9 +314,14 @@ export async function GET(req: Request) {
       let studentId = requestedStudent;
       if (!studentId) {
         const links = await db.select().from(parentLinks).where(eq(parentLinks.parentId, ctx.user.id));
-        studentId = links[0]?.studentId || null;
+        if (links.length === 0) return NextResponse.json({ error: "No linked student" }, { status: 404 });
+        if (links.length > 1) {
+          return NextResponse.json({
+            error: "Select a linked student explicitly via the studentId query parameter.",
+          }, { status: 400 });
+        }
+        studentId = links[0].studentId;
       }
-      if (!studentId) return NextResponse.json({ error: "No linked student" }, { status: 404 });
       const links = await db.select().from(parentLinks).where(eq(parentLinks.parentId, ctx.user.id));
       const allowed = canAccessStudentAnalytics({
         role,
