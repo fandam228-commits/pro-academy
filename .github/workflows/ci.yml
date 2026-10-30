@@ -42,6 +42,11 @@ jobs:
         run: node --test tests/integration/analytics-authorization.integration.mjs
         env:
           TEST_DATABASE_URL: postgresql://postgres:postgres@127.0.0.1:5432/proacademy_test
+      - name: PostgreSQL-backed homework storage audit integration tests (when present)
+        if: ${{ hashFiles('tests/integration/homework-storage-audit.integration.mjs') != '' }}
+        run: node --test tests/integration/homework-storage-audit.integration.mjs
+        env:
+          TEST_DATABASE_URL: postgresql://postgres:postgres@127.0.0.1:5432/proacademy_test
       - name: TypeScript check
         run: npm run typecheck
         env:
