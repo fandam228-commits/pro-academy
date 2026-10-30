@@ -47,19 +47,11 @@ type AnalyticsStudentProfile = {
 /** Builds a learning profile; teacher calls receive only explicitly course-scoped data. */
 async function buildStudentReport(studentId: string, scope?: TeacherReportScope) {
   const dataVisibility = getAnalyticsReportDataVisibility(scope);
-  // Reports only need the profile fields below. Never hydrate the full user row here:
-  // it contains unrelated account data (for example contact/authentication fields).
-  // Teacher reports additionally require a current student role in the same query.
+  // Reports only need an explicit profile-field allowlist; never hydrate the full user row.
+  // Include gamification fields only for non-teacher reports, and require a current student role
+  // in SQL for every report so stale or malformed links cannot target another account type.
   const userRows: AnalyticsStudentProfile[] = dataVisibility.includeStudentGamification
     ? await db
-        .select({
-          id: users.id,
-          name: users.name,
-          grade: users.grade,
-        })
-        .from(users)
-        .where(and(eq(users.id, studentId), eq(users.role, "student")))
-    : await db
         .select({
           id: users.id,
           name: users.name,
@@ -69,7 +61,15 @@ async function buildStudentReport(studentId: string, scope?: TeacherReportScope)
           level: users.level,
         })
         .from(users)
-        .where(eq(users.id, studentId));
+        .where(and(eq(users.id, studentId), eq(users.role, "student")))
+    : await db
+        .select({
+          id: users.id,
+          name: users.name,
+          grade: users.grade,
+        })
+        .from(users)
+        .where(and(eq(users.id, studentId), eq(users.role, "student")));
   const student = userRows[0];
 
   // Generated exams/attempts have no reliable course foreign key. Exclude them
@@ -538,4 +538,3 @@ export async function GET(req: Request) {
     console.error("Analytics GET error:", error);
     return NextResponse.json({ error: "Failed to build analytics" }, { status: 500 });
   }
-}
