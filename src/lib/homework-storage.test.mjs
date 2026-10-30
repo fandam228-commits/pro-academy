@@ -1,5 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
+import { readFile } from "node:fs/promises";
 import {
   getHomeworkPrivateBlobToken,
   getHomeworkFileStorageDecision,
@@ -69,5 +70,30 @@ test("homework file storage policy fails closed before any private Blob read", (
   assert.equal(
     getHomeworkFileStorageDecision({ storagePath: "homework/submission.pdf", privateBlobToken: "private-token" }),
     "stream-private",
+  );
+});
+
+
+const homeworkFileRouteSource = await readFile(
+  new URL("../app/api/homework/file/[id]/route.ts", import.meta.url),
+  "utf8",
+);
+
+test("legacy public homework URLs fail with 410 before any Blob provider read", () => {
+  const legacyDecision = homeworkFileRouteSource.indexOf('storageDecision === "legacy-public-url"');
+  const privateBlobRead = homeworkFileRouteSource.indexOf('await get(sub.storagePath as string');
+
+  assert.notEqual(legacyDecision, -1, "the authenticated file route must handle legacy public URLs explicitly");
+  assert.notEqual(privateBlobRead, -1, "private file streaming must use the Blob provider");
+  assert.ok(legacyDecision < privateBlobRead, "legacy URLs must be rejected before a provider read");
+  assert.match(
+    homeworkFileRouteSource.slice(legacyDecision, privateBlobRead),
+    /status:\s*410/,
+    "legacy public references must not be served through the authenticated route",
+  );
+  assert.doesNotMatch(
+    homeworkFileRouteSource,
+    /NextResponse\.redirect\s*\(\s*sub\.storagePath/,
+    "the route must never redirect callers to the stored legacy URL",
   );
 });
