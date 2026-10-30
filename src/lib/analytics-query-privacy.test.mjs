@@ -88,3 +88,27 @@ test("teacher reports always pass an owned-course scope to the report builder", 
     "teacher-specific report requests must never call the unscoped report builder",
   );
 });
+
+test("parent analytics route requires explicit selection when multiple verified children are linked", () => {
+  const parentStart = routeSource.indexOf('if (role === "parent")');
+  const studentStart = routeSource.indexOf("// ---------- STUDENT: own report only ----------", parentStart);
+  assert.notEqual(parentStart, -1, "parent analytics branch must exist");
+  assert.notEqual(studentStart, -1, "student analytics branch must follow the parent branch");
+  const parentSource = routeSource.slice(parentStart, studentStart);
+
+  assert.match(
+    parentSource,
+    /resolveParentAnalyticsStudentId\(requestedStudent,\s*linkedParentStudentIds\)/,
+    "the route must resolve the requested child against verified linked IDs",
+  );
+  assert.match(
+    parentSource,
+    /resolution\.reason === "student-id-required"/,
+    "the route must return an explicit-selection error when multiple children are linked",
+  );
+  assert.doesNotMatch(
+    parentSource,
+    /links\s*\[\s*0\s*\]\s*\??\.\s*studentId|linkedParentStudentIds\s*\[\s*0\s*\]/,
+    "the route must never silently select the first linked child",
+  );
+});
