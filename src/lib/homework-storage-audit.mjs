@@ -80,3 +80,22 @@ export function summarizeHomeworkStoragePaths(values) {
 
   return summary;
 }
+
+
+/** Combine per-batch aggregate counts without retaining any stored file references. */
+export function mergeHomeworkStoragePathSummaries(...summaries) {
+  const merged = summarizeHomeworkStoragePaths([]);
+  const keys = Object.keys(merged);
+
+  for (const summary of summaries) {
+    if (!summary || typeof summary !== "object") continue;
+    for (const key of keys) {
+      const count = summary[key];
+      if (Number.isSafeInteger(count) && count >= 0) {
+        merged[key] += count;
+      }
+    }
+  }
+
+  return merged;
+}
