@@ -25,3 +25,11 @@ export interface HomeworkFileAccessDecisionInput extends HomeworkSubmissionFileA
   homeworkFound: boolean;
 }
 export function getHomeworkFileAccessDecision(input: HomeworkFileAccessDecisionInput): "allowed" | "not-found";
+
+
+export interface HomeworkCourseAssignmentAccessInput {
+  role: string | null | undefined;
+  requesterId: string | null | undefined;
+  courseTeacherId?: string | null;
+}
+export function canAssignHomeworkToCourse(input: HomeworkCourseAssignmentAccessInput): boolean;
