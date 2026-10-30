@@ -2,6 +2,7 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import {
   assertSafeHomeworkAuditTarget,
+  beginConsistentReadOnlyHomeworkAudit,
   classifyHomeworkStoragePath,
   summarizeHomeworkStoragePaths,
   mergeHomeworkStoragePathSummaries,
@@ -104,5 +105,25 @@ test("remote audit requires explicit opt-in and remains documented as read-only"
   assert.equal(
     assertSafeHomeworkAuditTarget("postgresql://audit:password@db.example.invalid/proacademy", true),
     "remote-read-only-opt-in",
+  );
+});
+
+
+test("read-only storage audit uses one repeatable-read snapshot across batches", async () => {
+  const statements = [];
+  await beginConsistentReadOnlyHomeworkAudit({
+    async query(statement) {
+      statements.push(statement);
+    },
+  });
+  assert.deepEqual(statements, [
+    "BEGIN TRANSACTION ISOLATION LEVEL REPEATABLE READ READ ONLY",
+  ]);
+});
+
+test("read-only storage audit refuses a client without a query method", async () => {
+  await assert.rejects(
+    () => beginConsistentReadOnlyHomeworkAudit(null),
+    /PostgreSQL-compatible client is required/,
   );
 });
