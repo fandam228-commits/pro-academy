@@ -1,9 +1,10 @@
 import { db } from "@/db";
-import { homework, homeworkSubmissions, users, notifications } from "@/db/schema";
-import { eq, and } from "drizzle-orm";
+import { homework, homeworkSubmissions, users, notifications, courses } from "@/db/schema";
+import { eq, and, inArray } from "drizzle-orm";
 import { NextResponse } from "next/server";
 import { ensureDbSetup } from "@/db/migrate-and-seed";
 import { requireRoles, getAuthContext } from "@/lib/security";
+import { canAccessHomeworkRecord, canAssignHomeworkToCourse } from "@/lib/homework-authorization.mjs";
 import { notifyUser } from "@/lib/push";
 import { put } from "@vercel/blob";
 
@@ -21,18 +22,40 @@ export async function GET(req: Request) {
   const role = ctx.user.role as string;
 
   try {
-    // Teacher/Admin sees assignments + all submissions
+    // Admin may inspect all homework; teachers are scoped to homework they own.
     if (role === "teacher" || role === "admin") {
       if (homeworkId) {
         const hw = await db.select().from(homework).where(eq(homework.id, homeworkId));
+        const record = hw[0];
+        if (
+          !record ||
+          !canAccessHomeworkRecord({
+            role,
+            requesterId: ctx.user.id,
+            homeworkTeacherId: record.teacherId,
+          })
+        ) {
+          // Use 404 for missing and non-owned records to avoid revealing their existence.
+          return NextResponse.json({ error: "Homework not found" }, { status: 404 });
+        }
         const subs = await db
           .select()
           .from(homeworkSubmissions)
           .where(eq(homeworkSubmissions.homeworkId, homeworkId));
-        return NextResponse.json({ homework: hw[0] || null, submissions: subs });
+        return NextResponse.json({ homework: record, submissions: subs });
       }
-      const allHw = await db.select().from(homework);
-      const allSubs = await db.select().from(homeworkSubmissions);
+
+      const allHw =
+        role === "teacher"
+          ? await db.select().from(homework).where(eq(homework.teacherId, ctx.user.id))
+          : await db.select().from(homework);
+      const homeworkIds = allHw.map((item) => item.id);
+      const allSubs = homeworkIds.length
+        ? await db
+            .select()
+            .from(homeworkSubmissions)
+            .where(inArray(homeworkSubmissions.homeworkId, homeworkIds))
+        : [];
       const withCounts = allHw.map((h) => ({
         ...h,
         submissionsCount: allSubs.filter((s) => s.homeworkId === h.id).length,
@@ -169,6 +192,32 @@ export async function POST(req: Request) {
         return NextResponse.json({ error: "Title and due date are required." }, { status: 400 });
       }
 
+      // A course-linked assignment must reference a real course. Teachers may
+      // attach homework only to courses they own; admins retain cross-course access.
+      const requestedCourseId = hwData.courseId;
+      let courseId: string | null = null;
+      if (requestedCourseId !== undefined && requestedCourseId !== null && requestedCourseId !== "") {
+        if (typeof requestedCourseId !== "string" || requestedCourseId.trim() === "") {
+          return NextResponse.json({ error: "Invalid courseId" }, { status: 400 });
+        }
+        courseId = requestedCourseId.trim();
+        const courseRows = await db
+          .select({ id: courses.id, teacherId: courses.teacherId })
+          .from(courses)
+          .where(eq(courses.id, courseId));
+        const course = courseRows[0];
+        if (!course) {
+          return NextResponse.json({ error: "Course not found" }, { status: 404 });
+        }
+        if (!canAssignHomeworkToCourse({
+          role: ctx.user.role as string,
+          requesterId: ctx.user.id,
+          courseTeacherId: course.teacherId,
+        })) {
+          return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+        }
+      }
+
       const newHw = {
         id: `hw_${Date.now()}_${Math.random().toString(36).substring(2, 5)}`,
         title: hwData.title,
@@ -177,7 +226,7 @@ export async function POST(req: Request) {
         teacherName: ctx.user.name,
         stage: hwData.stage || "Secondary",
         grade: hwData.grade || "Third Secondary (Baccalaureate)",
-        courseId: hwData.courseId || null,
+        courseId,
         unit: hwData.unit || "Unit 1",
         dueDate: hwData.dueDate,
         totalPoints: parseInt(hwData.totalPoints) || 50,
