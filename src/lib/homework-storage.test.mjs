@@ -97,3 +97,38 @@ test("legacy public homework URLs fail with 410 before any Blob provider read", 
     "the route must never redirect callers to the stored legacy URL",
   );
 });
+
+
+const homeworkApiRouteSource = await readFile(
+  new URL("../app/api/homework/route.ts", import.meta.url),
+  "utf8",
+);
+
+test("private homework downloads use private Blob access and non-cacheable response headers", () => {
+  assert.match(
+    homeworkFileRouteSource,
+    /await get\\(sub\\.storagePath as string, \\{ access: "private", token: privateBlobToken \\}\\)/,
+    "file reads must use the dedicated private token and private Blob access",
+  );
+  assert.match(homeworkFileRouteSource, /"Cache-Control": "private, no-store"/);
+  assert.match(homeworkFileRouteSource, /"X-Content-Type-Options": "nosniff"/);
+  assert.match(homeworkFileRouteSource, /"Content-Disposition": `attachment; filename="\\$\\{safeFileName\\}"`/);
+});
+
+test("homework API strips storagePath from teacher, student, and submit response payloads", () => {
+  assert.match(
+    homeworkApiRouteSource,
+    /submissions: subs\\.map\\(\\(submission\\) => withoutStoragePath\\(submission\\)\\)/,
+    "teacher submission lists must not expose the private storage pathname",
+  );
+  assert.match(
+    homeworkApiRouteSource,
+    /mySubmission: mine \\? withoutStoragePath\\(mine\\) : null/,
+    "student responses must not expose the private storage pathname",
+  );
+  assert.match(
+    homeworkApiRouteSource,
+    /submission: withoutStoragePath\\(sub\\)/,
+    "new submission responses must not expose the private storage pathname",
+  );
+});
