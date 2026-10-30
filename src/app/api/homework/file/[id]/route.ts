@@ -8,8 +8,7 @@ import { getHomeworkFileAccessDecision } from "@/lib/homework-authorization.mjs"
 import { get } from "@vercel/blob";
 import {
   getHomeworkPrivateBlobToken,
-  isLegacyPublicHomeworkBlobUrl,
-  isPrivateHomeworkBlobPath,
+  getHomeworkFileStorageDecision,
 } from "@/lib/homework-storage.mjs";
 
 export async function GET(req: Request, { params }: { params: Promise<{ id: string }> }) {
@@ -44,27 +43,30 @@ export async function GET(req: Request, { params }: { params: Promise<{ id: stri
       return NextResponse.json({ error: "Submission not found" }, { status: 404 });
     }
 
-    if (!sub.storagePath) {
+    const privateBlobToken = getHomeworkPrivateBlobToken();
+    const storageDecision = getHomeworkFileStorageDecision({
+      storagePath: sub.storagePath,
+      privateBlobToken,
+    });
+
+    if (storageDecision === "no-file") {
       return NextResponse.json({ error: "No file attached to this submission" }, { status: 404 });
     }
-
     // Legacy public Blob URLs are not redirected: the URL itself bypasses this route's authorization.
-    if (isLegacyPublicHomeworkBlobUrl(sub.storagePath)) {
+    if (storageDecision === "legacy-public-url") {
       return NextResponse.json(
         { error: "This submission uses legacy public storage and must be migrated before secure access can be restored." },
         { status: 410 }
       );
     }
-    if (!isPrivateHomeworkBlobPath(sub.storagePath)) {
+    if (storageDecision === "invalid-private-path") {
       return NextResponse.json({ error: "Invalid private file reference" }, { status: 404 });
     }
-
-    const privateBlobToken = getHomeworkPrivateBlobToken();
-    if (!privateBlobToken) {
+    if (storageDecision === "private-storage-not-configured" || !privateBlobToken) {
       return NextResponse.json({ error: "Private homework file storage is not configured." }, { status: 503 });
     }
 
-    const blob = await get(sub.storagePath, { access: "private", token: privateBlobToken });
+    const blob = await get(sub.storagePath as string, { access: "private", token: privateBlobToken });
     if (!blob || blob.statusCode !== 200 || !blob.stream) {
       return NextResponse.json({ error: "File not found" }, { status: 404 });
     }
