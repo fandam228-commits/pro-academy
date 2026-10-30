@@ -1,5 +1,16 @@
 const PRIVATE_HOMEWORK_PREFIX = "homework/";
 
+/**
+ * Start a stable, read-only snapshot so keyset-paginated audit batches observe
+ * one consistent database view even if submissions change during the audit.
+ */
+export async function beginConsistentReadOnlyHomeworkAudit(client) {
+  if (!client || typeof client.query !== "function") {
+    throw new TypeError("A PostgreSQL-compatible client is required.");
+  }
+  await client.query("BEGIN TRANSACTION ISOLATION LEVEL REPEATABLE READ READ ONLY");
+}
+
 function isSafePrivateHomeworkPath(value) {
   if (!value.startsWith(PRIVATE_HOMEWORK_PREFIX)) return false;
   if (value.includes("\\") || value.includes("?") || value.includes("#") || value.includes("%")) return false;
