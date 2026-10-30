@@ -1,6 +1,7 @@
 import { Client } from "pg";
 import {
   assertSafeHomeworkAuditTarget,
+  beginConsistentReadOnlyHomeworkAudit,
   summarizeHomeworkStoragePaths,
   mergeHomeworkStoragePathSummaries,
 } from "../src/lib/homework-storage-audit.mjs";
@@ -27,7 +28,7 @@ if (databaseScope) {
   try {
     await client.connect();
     connected = true;
-    await client.query("BEGIN READ ONLY");
+    await beginConsistentReadOnlyHomeworkAudit(client);
     readOnlyTransactionStarted = true;
 
     // Process a bounded number of rows per query so a large submissions table
