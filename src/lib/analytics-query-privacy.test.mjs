@@ -129,24 +129,20 @@ test("teacher reports scope quiz, homework, submission, and enrollment reads to 
 test("teacher reports use the centralized fail-closed visibility policy for unscopable sources", () => {
   const reportSource = routeSource.slice(reportStart, reportEnd);
 
-  assert.match(
-    reportSource,
-    /const dataVisibility = getAnalyticsReportDataVisibility\\(scope\\)/,
+  assert.ok(
+    reportSource.includes("const dataVisibility = getAnalyticsReportDataVisibility(scope);"),
     "report generation must derive source visibility from the centralized policy",
   );
-  assert.match(
-    reportSource,
-    /const attempts = dataVisibility\\.includeGeneratedExamAttempts\\s*\\?/,
+  assert.ok(
+    reportSource.includes("const attempts = dataVisibility.includeGeneratedExamAttempts"),
     "exam attempts without a reliable course key must be excluded from teacher reports",
   );
-  assert.match(
-    reportSource,
-    /const attendance = dataVisibility\\.includeAttendance\\s*\\?/,
+  assert.ok(
+    reportSource.includes("const attendance = dataVisibility.includeAttendance"),
     "attendance without a teacher/course ownership key must be excluded from teacher reports",
   );
-  assert.match(
-    reportSource,
-    /const bank = dataVisibility\\.includeGlobalQuestionBank\\s*\\?/,
+  assert.ok(
+    reportSource.includes("const bank = dataVisibility.includeGlobalQuestionBank"),
     "global question-bank records must not be used to derive teacher-scoped mastery",
   );
 });
