@@ -112,3 +112,26 @@ test("parent analytics route requires explicit selection when multiple verified 
     "the route must never silently select the first linked child",
   );
 });
+
+
+test("teacher reports scope quiz, homework, submission, and enrollment reads to owned courses", () => {
+  const reportSource = routeSource.slice(reportStart, reportEnd);
+  assert.match(reportSource, /innerJoin\(quizzes, eq\(quizSubmissions\.quizId, quizzes\.id\)\)/);
+  assert.match(reportSource, /inArray\(quizzes\.courseId, scope\.allowedCourseIds\)/);
+  assert.match(reportSource, /eq\(homework\.teacherId, scope\.teacherId\)/);
+  assert.match(reportSource, /inArray\(homework\.courseId, scope\.allowedCourseIds\)/);
+  assert.match(reportSource, /eq\(homeworkSubmissions\.studentId, studentId\)/);
+  assert.match(reportSource, /inArray\(homeworkSubmissions\.homeworkId, \[\.\.\.visibleHomeworkIds\]\)/);
+  assert.match(reportSource, /eq\(enrollments\.studentId, studentId\)/);
+  assert.match(reportSource, /inArray\(enrollments\.courseId, scope\.allowedCourseIds\)/);
+});
+
+test("teacher reports omit unscopable exam, attendance, and question-bank data", () => {
+  const reportSource = routeSource.slice(reportStart, reportEnd);
+  assert.match(reportSource, /const attempts = scope\s*\?\s*\[\]/,
+    "exam attempts without a reliable course key must not enter teacher reports");
+  assert.match(reportSource, /const attendance = scope\s*\?\s*\[\]/,
+    "attendance without a teacher/course ownership key must not enter teacher reports");
+  assert.match(reportSource, /const bank = scope \? \[\] : await db\.select\(\)\.from\(questionBank\)/,
+    "global question-bank records must not be used to derive teacher-scoped mastery");
+});
