@@ -2,6 +2,7 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import {
   getHomeworkPrivateBlobToken,
+  getHomeworkFileStorageDecision,
   isLegacyPublicHomeworkBlobUrl,
   isPrivateHomeworkBlobPath,
 } from "./homework-storage.mjs";
@@ -43,4 +44,30 @@ test("private homework path validation rejects percent-encoded traversal and sep
   assert.equal(isPrivateHomeworkBlobPath("homework%2Fsecrets.txt"), false);
   assert.equal(isPrivateHomeworkBlobPath("homework/file%2F..%2Fsecrets.txt"), false);
   assert.equal(isPrivateHomeworkBlobPath("homework/%ZZ/file.pdf"), false);
+});
+
+
+test("homework file storage policy fails closed before any private Blob read", () => {
+  assert.equal(getHomeworkFileStorageDecision({ storagePath: null, privateBlobToken: "private-token" }), "no-file");
+  assert.equal(getHomeworkFileStorageDecision({ storagePath: "", privateBlobToken: "private-token" }), "no-file");
+  assert.equal(
+    getHomeworkFileStorageDecision({ storagePath: "https://store.public.blob.vercel-storage.com/old.pdf", privateBlobToken: "private-token" }),
+    "legacy-public-url",
+  );
+  assert.equal(
+    getHomeworkFileStorageDecision({ storagePath: "homework/../outside.pdf", privateBlobToken: "private-token" }),
+    "invalid-private-path",
+  );
+  assert.equal(
+    getHomeworkFileStorageDecision({ storagePath: "homework/submission.pdf", privateBlobToken: null }),
+    "private-storage-not-configured",
+  );
+  assert.equal(
+    getHomeworkFileStorageDecision({ storagePath: "homework/submission.pdf", privateBlobToken: "  " }),
+    "private-storage-not-configured",
+  );
+  assert.equal(
+    getHomeworkFileStorageDecision({ storagePath: "homework/submission.pdf", privateBlobToken: "private-token" }),
+    "stream-private",
+  );
 });
