@@ -1,6 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import {
+  getAnalyticsReportDataVisibility,
   getTeacherAnalyticsStudentIds,
   getTeacherAnalyticsCourseIds,
   isTeacherScopedHomework,
@@ -116,4 +117,35 @@ test("parent analytics handles no links and malformed relationship data fail-clo
     resolveParentAnalyticsStudentId("", ["student-1"]),
     { ok: false, reason: "invalid-student-id" }
   );
+});
+
+
+test("teacher analytics excludes report sources without a trustworthy course scope", () => {
+  assert.deepEqual(
+    getAnalyticsReportDataVisibility({
+      teacherId: "teacher-1",
+      allowedCourseIds: ["course-a"],
+    }),
+    {
+      includeStudentGamification: false,
+      includeGeneratedExamAttempts: false,
+      includeAttendance: false,
+      includeGlobalQuestionBank: false,
+    },
+  );
+});
+
+test("self, parent, and admin reports may retain unscoped sources after role authorization", () => {
+  assert.deepEqual(getAnalyticsReportDataVisibility(undefined), {
+    includeStudentGamification: true,
+    includeGeneratedExamAttempts: true,
+    includeAttendance: true,
+    includeGlobalQuestionBank: true,
+  });
+  assert.deepEqual(getAnalyticsReportDataVisibility(null), {
+    includeStudentGamification: true,
+    includeGeneratedExamAttempts: true,
+    includeAttendance: true,
+    includeGlobalQuestionBank: true,
+  });
 });
