@@ -69,22 +69,22 @@ test("teacher reports always pass an owned-course scope to the report builder", 
 
   assert.match(
     teacherSource,
-    /const allowedCourseIds = getTeacherAnalyticsCourseIds\\(teacherEnrollmentRows, ctx\\.user\\.id, requestedStudent\\)/,
+    /const allowedCourseIds = getTeacherAnalyticsCourseIds\(teacherEnrollmentRows, ctx\.user\.id, requestedStudent\)/,
     "single-student reports must derive the requesting teacher's enrolled-course scope",
   );
   assert.match(
     teacherSource,
-    /buildStudentReport\\(requestedStudent,\\s*\\{\\s*teacherId:\\s*ctx\\.user\\.id,\\s*allowedCourseIds,\\s*\\}\\)/,
+    /buildStudentReport\(requestedStudent,\s*\{\s*teacherId:\s*ctx\.user\.id,\s*allowedCourseIds,\s*\}\)/,
     "single-student teacher reports must pass the explicit scope to the builder",
   );
   assert.match(
     teacherSource,
-    /buildStudentReport\\(student\\.id,\\s*\\{\\s*teacherId:\\s*ctx\\.user\\.id,\\s*allowedCourseIds:\\s*getTeacherAnalyticsCourseIds\\(teacherEnrollmentRows,\\s*ctx\\.user\\.id,\\s*student\\.id\\),\\s*\\}\\)/,
+    /buildStudentReport\(student\.id,\s*\{\s*teacherId:\s*ctx\.user\.id,\s*allowedCourseIds:\s*getTeacherAnalyticsCourseIds\(teacherEnrollmentRows,\s*ctx\.user\.id,\s*student\.id\),\s*\}\)/,
     "class reports must pass a per-student owned-course scope to the builder",
   );
   assert.doesNotMatch(
     teacherSource,
-    /buildStudentReport\\(requestedStudent\\)/,
+    /buildStudentReport\(requestedStudent\)/,
     "teacher-specific report requests must never call the unscoped report builder",
   );
 });
