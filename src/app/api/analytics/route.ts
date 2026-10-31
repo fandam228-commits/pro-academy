@@ -482,6 +482,7 @@ export async function GET(req: Request) {
           studentId: parentLinks.studentId,
           verifiedAt: parentLinks.verifiedAt,
           verifiedBy: parentLinks.verifiedBy,
+          verifiedByRole: verifiedByUser.role,
         })
         .from(parentLinks)
         .innerJoin(users, eq(parentLinks.studentId, users.id))
