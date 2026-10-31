@@ -76,7 +76,7 @@ test("student analytics route authorizes the requested ID but only builds the au
 
   assert.match(studentSource, /studentId:\s*requestedStudent\s*\|\|\s*ctx\.user\.id/);
   assert.match(studentSource, /if\s*\(!canAccessStudentAnalytics\(/);
-  assert.match(studentSource, /const report = await buildStudentReport\(ctx\.user\.id\)/);
+  assert.match(studentSource, /const report = await buildStudentReport\(ctx\.user\.id,\s*\{\s*role:\s*"student"\s*\}\)/);
   assert.doesNotMatch(studentSource, /buildStudentReport\(requestedStudent\)/);
 });
 
@@ -94,12 +94,12 @@ test("teacher reports always pass an owned-course scope to the report builder", 
   );
   assert.match(
     teacherSource,
-    /buildStudentReport\(requestedStudent,\s*\{\s*teacherId:\s*ctx\.user\.id,\s*allowedCourseIds,\s*\}\)/,
+    /buildStudentReport\(requestedStudent,\s*\{\s*role:\s*"teacher",\s*teacherId:\s*ctx\.user\.id,\s*allowedCourseIds,\s*\}\)/,
     "single-student teacher reports must pass the explicit scope to the builder",
   );
   assert.match(
     teacherSource,
-    /buildStudentReport\(student\.id,\s*\{\s*teacherId:\s*ctx\.user\.id,\s*allowedCourseIds:\s*getTeacherAnalyticsCourseIds\(teacherEnrollmentRows,\s*ctx\.user\.id,\s*student\.id\),\s*\}\)/,
+    /buildStudentReport\(student\.id,\s*\{\s*role:\s*"teacher",\s*teacherId:\s*ctx\.user\.id,\s*allowedCourseIds:\s*getTeacherAnalyticsCourseIds\(teacherEnrollmentRows,\s*ctx\.user\.id,\s*student\.id\),\s*\}\)/,
     "class reports must pass a per-student owned-course scope to the builder",
   );
   assert.doesNotMatch(
@@ -150,7 +150,7 @@ test("teacher reports use the centralized fail-closed visibility policy for unsc
   const reportSource = routeSource.slice(reportStart, reportEnd);
 
   assert.ok(
-    reportSource.includes("const dataVisibility = getAnalyticsReportDataVisibility(scope);"),
+    reportSource.includes("const dataVisibility = getAnalyticsReportDataVisibility(context);"),
     "report generation must derive source visibility from the centralized policy",
   );
   assert.ok(
