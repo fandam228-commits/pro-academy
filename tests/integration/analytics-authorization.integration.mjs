@@ -270,8 +270,10 @@ integrationTest("PostgreSQL parent links require explicit choice for multiple ch
     const rows = await db
       .select({
         studentId: parentLinks.studentId,
+        studentRole: users.role,
         verifiedAt: parentLinks.verifiedAt,
         verifiedBy: parentLinks.verifiedBy,
+        verifiedByRole: verifiedByUser.role,
       })
       .from(parentLinks)
       .innerJoin(users, eq(parentLinks.studentId, users.id))
