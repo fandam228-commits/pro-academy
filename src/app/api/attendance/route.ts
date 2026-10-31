@@ -30,6 +30,10 @@ export async function GET(req: Request) {
   if (!["admin", "teacher", "parent", "student"].includes(role)) {
     return NextResponse.json({ error: "Forbidden" }, { status: 403 });
   }
+  // Attendance rows have no reliable course ownership key; do not expose the full roster to teachers.
+  if (role === "teacher") {
+    return NextResponse.json({ error: "Teacher attendance requires course-scoped records." }, { status: 403 });
+  }
   await ensureDbSetup();
 
   const { searchParams } = new URL(req.url);

@@ -30,3 +30,12 @@ for (const [name, source] of [["reports", reports], ["attendance", attendance]])
     assert.doesNotMatch(source, /studentId\s*=\s*links\[0\]\?\.studentId/);
   });
 }
+
+for (const [name, source] of [["reports", reports], ["attendance", attendance]]) {
+  test(`${name} fails closed for teachers before database setup while data is not course-scoped`, () => {
+    const guard = source.indexOf('if (role === "teacher")');
+    const setup = source.indexOf("await ensureDbSetup()");
+    assert.ok(guard >= 0 && setup > guard, "teacher access must be denied before setup");
+    assert.match(source.slice(guard, setup), /status:\s*403/);
+  });
+}

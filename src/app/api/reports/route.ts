@@ -35,6 +35,11 @@ export async function GET(req: Request) {
   if (!["admin", "teacher", "parent", "student"].includes(role)) {
     return NextResponse.json({ error: "Forbidden" }, { status: 403 });
   }
+  // This endpoint aggregates attendance and assessment data that is not all course-scoped.
+  // Fail closed for teachers until every data source can be proven to belong to their courses.
+  if (role === "teacher") {
+    return NextResponse.json({ error: "Use course-scoped Analytics; generic reports are not available to teachers." }, { status: 403 });
+  }
   await ensureDbSetup();
 
   const { searchParams } = new URL(req.url);
