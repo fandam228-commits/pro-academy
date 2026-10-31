@@ -17,15 +17,20 @@ function withoutStoragePath(record: object) {
 }
 
 export async function GET(req: Request) {
-  await ensureDbSetup();
+  // Authenticate and reject unsupported roles before database setup/migration work.
   const ctx = await getAuthContext(req);
   if (!ctx) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
+  const role = ctx.user.role as string;
+  if (!["teacher", "admin", "student"].includes(role)) {
+    return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+  }
+
+  await ensureDbSetup();
   const { searchParams } = new URL(req.url);
   const homeworkId = searchParams.get("homeworkId");
-  const role = ctx.user.role as string;
 
   try {
     // Teachers may only read homework and submissions they own; admins may read all.
@@ -106,7 +111,7 @@ export async function GET(req: Request) {
 }
 
 export async function POST(req: Request) {
-  await ensureDbSetup();
+  // Authenticate before setup/migration work so anonymous requests cannot trigger it.
   const ctx = await getAuthContext(req);
   if (!ctx) {
     return NextResponse.json({ error: "Unauthorized. Login required." }, { status: 401 });
@@ -119,6 +124,7 @@ export async function POST(req: Request) {
     if (!canSubmitHomework({ role: ctx.user.role })) {
       return NextResponse.json({ error: "Forbidden" }, { status: 403 });
     }
+    await ensureDbSetup();
     try {
       const form = await req.formData();
       const homeworkId = String(form.get("homeworkId") || "");
@@ -277,6 +283,16 @@ export async function POST(req: Request) {
   try {
     const body = await req.json();
     const { action } = body;
+
+    if (!["create", "grade", "delete"].includes(action)) {
+      return NextResponse.json({ error: "Invalid action" }, { status: 400 });
+    }
+    if (!["admin", "teacher"].includes(ctx.user.role)) {
+      return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+    }
+
+    // Validate the requested action and role before any database setup work.
+    await ensureDbSetup();
 
     if (action === "create") {
       const { denied } = await requireRoles(req, ["admin", "teacher"]);
