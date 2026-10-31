@@ -56,11 +56,17 @@ export async function GET(req: Request) {
       return NextResponse.json({ roster, sessionTitles, recentDates, role });
     }
 
-    // ============ PARENT: linked student's records ============
+    // ============ PARENT: linked student's records ===========
     if (role === "parent") {
       let studentId = searchParams.get("studentId");
       if (!studentId) {
         const links = await db.select().from(parentLinks).where(eq(parentLinks.parentId, ctx.user.id));
+        if (links.length === 0) return NextResponse.json({ error: "No linked student" }, { status: 404 });
+        if (links.length > 1) {
+          return NextResponse.json({
+            error: "Select a linked student explicitly via the studentId query parameter.",
+          }, { status: 400 });
+        }
         studentId = links[0]?.studentId || null;
       }
       if (!studentId) return NextResponse.json({ error: "No linked student" }, { status: 404 });
