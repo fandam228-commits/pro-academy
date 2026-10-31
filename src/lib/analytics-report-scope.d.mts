@@ -1,3 +1,12 @@
+export interface AnalyticsReportDataVisibility {
+  includeStudentGamification: boolean;
+  includeGeneratedExamAttempts: boolean;
+  includeAttendance: boolean;
+  includeGlobalQuestionBank: boolean;
+}
+
+export function getAnalyticsReportDataVisibility(scope: unknown): AnalyticsReportDataVisibility;
+
 export interface TeacherAnalyticsEnrollmentRow {
   studentId: string;
   courseId: string;

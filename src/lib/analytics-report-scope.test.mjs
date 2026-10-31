@@ -1,6 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import {
+  getAnalyticsReportDataVisibility,
   getTeacherAnalyticsStudentIds,
   getTeacherAnalyticsCourseIds,
   isTeacherScopedHomework,
@@ -64,13 +65,15 @@ test("malformed enrollment inputs fail closed", () => {
 });
 
 
-test("parent analytics ignores unverified, malformed, and duplicate link rows", () => {
+test("parent analytics ignores unverified, malformed, duplicate, and non-admin-verified link rows", () => {
   assert.deepEqual(getVerifiedParentAnalyticsStudentIds([
-    { studentId: "student-1", verifiedAt: new Date("2026-10-29T08:00:00Z"), verifiedBy: "admin-1" },
-    { studentId: "student-2", verifiedAt: null, verifiedBy: "admin-1" },
-    { studentId: "student-3", verifiedAt: "not-a-date", verifiedBy: "admin-1" },
-    { studentId: "student-4", verifiedAt: new Date("2026-10-29T08:00:00Z"), verifiedBy: " " },
-    { studentId: "student-1", verifiedAt: "2026-10-29T08:00:00Z", verifiedBy: "admin-2" },
+    { studentId: "student-1", verifiedAt: new Date("2026-10-29T08:00:00Z"), verifiedBy: "admin-1", verifiedByRole: "admin" },
+    { studentId: "student-2", verifiedAt: null, verifiedBy: "admin-1", verifiedByRole: "admin" },
+    { studentId: "student-3", verifiedAt: "not-a-date", verifiedBy: "admin-1", verifiedByRole: "admin" },
+    { studentId: "student-4", verifiedAt: new Date("2026-10-29T08:00:00Z"), verifiedBy: " ", verifiedByRole: "admin" },
+    { studentId: "student-1", verifiedAt: "2026-10-29T08:00:00Z", verifiedBy: "admin-2", verifiedByRole: "admin" },
+    { studentId: "student-5", verifiedAt: new Date("2026-10-29T08:00:00Z"), verifiedBy: "teacher-1", verifiedByRole: "teacher" },
+    { studentId: "student-6", verifiedAt: new Date("2026-10-29T08:00:00Z"), verifiedBy: "deleted-admin", verifiedByRole: null },
     null,
   ]), ["student-1"]);
   assert.deepEqual(getVerifiedParentAnalyticsStudentIds(null), []);
@@ -116,4 +119,41 @@ test("parent analytics handles no links and malformed relationship data fail-clo
     resolveParentAnalyticsStudentId("", ["student-1"]),
     { ok: false, reason: "invalid-student-id" }
   );
+});
+
+
+test("teacher and missing report contexts fail closed for every unscoped source", () => {
+  const expected = {
+    includeStudentGamification: false,
+    includeGeneratedExamAttempts: false,
+    includeAttendance: false,
+    includeGlobalQuestionBank: false,
+  };
+
+  // A missing/unknown context or an incomplete teacher scope must never grant
+  // access to report sources that lack a trustworthy course relationship.
+  for (const context of [
+    undefined,
+    null,
+    {},
+    { role: "unknown" },
+    { role: "teacher" },
+    { role: "teacher", teacherId: "", allowedCourseIds: [] },
+    { role: "teacher", teacherId: "teacher-1", allowedCourseIds: [] },
+  ]) {
+    assert.deepEqual(getAnalyticsReportDataVisibility(context), expected);
+  }
+});
+
+test("only explicit admin, parent, and student contexts may retain unscoped sources", () => {
+  const expected = {
+    includeStudentGamification: true,
+    includeGeneratedExamAttempts: true,
+    includeAttendance: true,
+    includeGlobalQuestionBank: true,
+  };
+
+  for (const role of ["admin", "parent", "student"]) {
+    assert.deepEqual(getAnalyticsReportDataVisibility({ role }), expected);
+  }
 });

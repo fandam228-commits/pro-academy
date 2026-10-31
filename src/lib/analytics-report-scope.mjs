@@ -1,5 +1,23 @@
 const ELIGIBLE_STATUSES = new Set(["active", "completed"]);
 
+/**
+ * Teacher analytics must not expose report sources that lack a trustworthy
+ * course/teacher relationship. Keep this policy centralized and testable so
+ * a future report-builder refactor cannot accidentally re-enable global data.
+ */
+export function getAnalyticsReportDataVisibility(context) {
+  // Unscoped sources are opt-in for an explicitly authorized non-teacher role.
+  // Missing, malformed, or unknown context must never restore global report data.
+  const role = context && typeof context === "object" ? context.role : null;
+  const includeUnscopedSources = ["admin", "parent", "student"].includes(role);
+  return {
+    includeStudentGamification: includeUnscopedSources,
+    includeGeneratedExamAttempts: includeUnscopedSources,
+    includeAttendance: includeUnscopedSources,
+    includeGlobalQuestionBank: includeUnscopedSources,
+  };
+}
+
 function isNonEmptyString(value) {
   return typeof value === "string" && value.trim().length > 0;
 }
@@ -70,6 +88,9 @@ export function getVerifiedParentAnalyticsStudentIds(linkRows) {
     .filter((row) => {
       if (!row || typeof row !== "object" || !isNonEmptyString(row.studentId)) return false;
       if (!isNonEmptyString(row.verifiedBy)) return false;
+      // Defense in depth: the caller's SQL join must verify the current actor role,
+      // and this helper independently rejects rows not explicitly marked as admin-verified.
+      if (row.verifiedByRole !== "admin") return false;
       const timestamp = row.verifiedAt instanceof Date
         ? row.verifiedAt.getTime()
         : typeof row.verifiedAt === "string"

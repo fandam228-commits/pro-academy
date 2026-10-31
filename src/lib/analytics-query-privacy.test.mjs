@@ -24,6 +24,26 @@ test("analytics report profile query uses an explicit field allowlist", () => {
   assert.match(reportSource, /level:\s*users\.level/);
 });
 
+test("profile projection includes gamification only for non-teacher reports", () => {
+  const reportSource = routeSource.slice(reportStart, reportEnd);
+  const queryStart = reportSource.indexOf("const userRows: AnalyticsStudentProfile[] = dataVisibility.includeStudentGamification");
+  const queryEnd = reportSource.indexOf("const student = userRows[0];", queryStart);
+  assert.notEqual(queryStart, -1, "profile projection must use the centralized visibility policy");
+  assert.notEqual(queryEnd, -1, "profile projection must have a bounded query block");
+  const query = reportSource.slice(queryStart, queryEnd);
+  const restrictedBranchStart = query.indexOf(": await db");
+  assert.notEqual(restrictedBranchStart, -1, "teacher-safe profile projection must exist");
+  const fullProfileBranch = query.slice(0, restrictedBranchStart);
+  const restrictedProfileBranch = query.slice(restrictedBranchStart);
+
+  assert.match(fullProfileBranch, /points:\s*users\.points/);
+  assert.match(fullProfileBranch, /streak:\s*users\.streak/);
+  assert.match(fullProfileBranch, /level:\s*users\.level/);
+  assert.doesNotMatch(restrictedProfileBranch, /points:\s*users\.points|streak:\s*users\.streak|level:\s*users\.level/);
+  assert.equal((query.match(/eq\(users\.role, "student"\)/g) || []).length, 2,
+    "both profile projections must reject non-student and stale accounts");
+});
+
 test("teacher-scoped report profile query verifies the account role in SQL", () => {
   const reportSource = routeSource.slice(reportStart, reportEnd);
   assert.match(
@@ -56,7 +76,7 @@ test("student analytics route authorizes the requested ID but only builds the au
 
   assert.match(studentSource, /studentId:\s*requestedStudent\s*\|\|\s*ctx\.user\.id/);
   assert.match(studentSource, /if\s*\(!canAccessStudentAnalytics\(/);
-  assert.match(studentSource, /const report = await buildStudentReport\(ctx\.user\.id\)/);
+  assert.match(studentSource, /const report = await buildStudentReport\(ctx\.user\.id,\s*\{\s*role:\s*"student"\s*\}\)/);
   assert.doesNotMatch(studentSource, /buildStudentReport\(requestedStudent\)/);
 });
 
@@ -74,12 +94,12 @@ test("teacher reports always pass an owned-course scope to the report builder", 
   );
   assert.match(
     teacherSource,
-    /buildStudentReport\(requestedStudent,\s*\{\s*teacherId:\s*ctx\.user\.id,\s*allowedCourseIds,\s*\}\)/,
+    /buildStudentReport\(requestedStudent,\s*\{\s*role:\s*"teacher",\s*teacherId:\s*ctx\.user\.id,\s*allowedCourseIds,\s*\}\)/,
     "single-student teacher reports must pass the explicit scope to the builder",
   );
   assert.match(
     teacherSource,
-    /buildStudentReport\(student\.id,\s*\{\s*teacherId:\s*ctx\.user\.id,\s*allowedCourseIds:\s*getTeacherAnalyticsCourseIds\(teacherEnrollmentRows,\s*ctx\.user\.id,\s*student\.id\),\s*\}\)/,
+    /buildStudentReport\(student\.id,\s*\{\s*role:\s*"teacher",\s*teacherId:\s*ctx\.user\.id,\s*allowedCourseIds:\s*getTeacherAnalyticsCourseIds\(teacherEnrollmentRows,\s*ctx\.user\.id,\s*student\.id\),\s*\}\)/,
     "class reports must pass a per-student owned-course scope to the builder",
   );
   assert.doesNotMatch(
@@ -126,12 +146,23 @@ test("teacher reports scope quiz, homework, submission, and enrollment reads to 
   assert.match(reportSource, /inArray\(enrollments\.courseId, scope\.allowedCourseIds\)/);
 });
 
-test("teacher reports omit unscopable exam, attendance, and question-bank data", () => {
+test("teacher reports use the centralized fail-closed visibility policy for unscopable sources", () => {
   const reportSource = routeSource.slice(reportStart, reportEnd);
-  assert.match(reportSource, /const attempts = scope\s*\?\s*\[\]/,
-    "exam attempts without a reliable course key must not enter teacher reports");
-  assert.match(reportSource, /const attendance = scope\s*\?\s*\[\]/,
-    "attendance without a teacher/course ownership key must not enter teacher reports");
-  assert.match(reportSource, /const bank = scope \? \[\] : await db\.select\(\)\.from\(questionBank\)/,
-    "global question-bank records must not be used to derive teacher-scoped mastery");
+
+  assert.ok(
+    reportSource.includes("const dataVisibility = getAnalyticsReportDataVisibility(context);"),
+    "report generation must derive source visibility from the centralized policy",
+  );
+  assert.ok(
+    reportSource.includes("const attempts = dataVisibility.includeGeneratedExamAttempts"),
+    "exam attempts without a reliable course key must be excluded from teacher reports",
+  );
+  assert.ok(
+    reportSource.includes("const attendance = dataVisibility.includeAttendance"),
+    "attendance without a teacher/course ownership key must be excluded from teacher reports",
+  );
+  assert.ok(
+    reportSource.includes("const bank = dataVisibility.includeGlobalQuestionBank"),
+    "global question-bank records must not be used to derive teacher-scoped mastery",
+  );
 });
