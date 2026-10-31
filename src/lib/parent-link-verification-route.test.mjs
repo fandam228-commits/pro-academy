@@ -44,13 +44,16 @@ test("verification records the authenticated administrator and timestamp, not ca
   assert.doesNotMatch(postSource, /req\.json\(\)[\s\S]*?verifiedBy/);
 });
 
-test("verification re-checks parent and student roles atomically in the UPDATE predicate", () => {
+test("verification re-checks the current admin, parent, and student roles atomically in the UPDATE predicate", () => {
   const mutationStart = postSource.indexOf("const verifiedRows = await db.update(parentLinks)");
   const mutationEnd = postSource.indexOf(".returning({ id: parentLinks.id })", mutationStart);
   assert.ok(mutationStart >= 0, "verification must use a guarded UPDATE");
   assert.ok(mutationEnd > mutationStart, "guarded UPDATE must return whether it matched");
   const mutationSource = postSource.slice(mutationStart, mutationEnd);
 
+  assert.match(mutationSource, /exists\(db\.select\(\{ id: verifierAccount\.id \}\)/);
+  assert.match(mutationSource, /eq\(verifierAccount\.id, ctx\.user\.id\)/);
+  assert.match(mutationSource, /eq\(verifierAccount\.role, "admin"\)/);
   assert.match(mutationSource, /exists\(db\.select\(\{ id: parentAccount\.id \}\)/);
   assert.match(mutationSource, /eq\(parentAccount\.role, "parent"\)/);
   assert.match(mutationSource, /exists\(db\.select\(\{ id: studentAccount\.id \}\)/);
