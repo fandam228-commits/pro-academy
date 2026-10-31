@@ -56,4 +56,6 @@ After the private copy and reference update are verified:
 
 ## Current status
 
-This document is a runbook only. The repository's audit command is read-only and does not perform any migration or revoke legacy public URLs. Production migration remains blocked until the required approvals, provider access, and a tested migration implementation are available.
+This document is a runbook only. Remote audit safety: non-local DATABASE_URL targets require explicit `ALLOW_REMOTE_HOMEWORK_STORAGE_AUDIT=true` and `sslmode=verify-full` so the database server certificate and hostname are verified. `sslmode=require` and `sslmode=verify-ca` are insufficient for this audit. Local-only CI fixtures do not need remote TLS settings.
+
+The repository's audit command is read-only and does not perform any migration or revoke legacy public URLs. Production migration remains blocked until the required approvals, provider access, and a tested migration implementation are available.
