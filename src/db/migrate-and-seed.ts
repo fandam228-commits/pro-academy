@@ -1,10 +1,28 @@
-import { db, pool } from "./index";
+import { db, databaseConfigured, isBuildPhase } from "./index";
 import { sql } from "drizzle-orm";
 import { seedDatabase } from "./seed-data";
 import { seedFirstSecondaryUnits12Review } from "./seed-unit12-review";
 import { seedBaccalaureateModelA2027 } from "./seed-baccalaureate-model-a-2027";
 
+let dbSetupPromise: Promise<void> | null = null;
+
 export async function ensureDbSetup() {
+  if (isBuildPhase) return;
+  if (!databaseConfigured) {
+    throw new Error("DATABASE_URL is required before database setup can run.");
+  }
+
+  if (!dbSetupPromise) {
+    dbSetupPromise = runDbSetup().catch((error) => {
+      dbSetupPromise = null;
+      throw error;
+    });
+  }
+
+  await dbSetupPromise;
+}
+
+async function runDbSetup() {
   try {
     // Execute DDL SQL statements to create required tables if they don't exist
     await db.execute(sql`
@@ -438,5 +456,6 @@ export async function ensureDbSetup() {
     await seedDatabase();
   } catch (error) {
     console.error("Migration / Seed error:", error);
+    throw error;
   }
 }
