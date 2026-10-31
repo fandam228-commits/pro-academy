@@ -1,37 +1,87 @@
 import { db } from "@/db";
-import { homeworkSubmissions } from "@/db/schema";
+import { homework, homeworkSubmissions } from "@/db/schema";
 import { eq } from "drizzle-orm";
 import { NextResponse } from "next/server";
 import { ensureDbSetup } from "@/db/migrate-and-seed";
 import { getAuthContext } from "@/lib/security";
+import { getHomeworkFileAccessDecision } from "@/lib/homework-authorization.mjs";
+import { get } from "@vercel/blob";
+import {
+  getHomeworkPrivateBlobToken,
+  getHomeworkFileStorageDecision,
+} from "@/lib/homework-storage.mjs";
 
 export async function GET(req: Request, { params }: { params: Promise<{ id: string }> }) {
-  await ensureDbSetup();
+  // Authenticate before running setup/migration work. Unauthenticated requests
+  // must not be able to trigger database setup as a side effect.
   const ctx = await getAuthContext(req);
   if (!ctx) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
+  await ensureDbSetup();
   try {
     const { id } = await params;
     const subs = await db.select().from(homeworkSubmissions).where(eq(homeworkSubmissions.id, id));
-    if (subs.length === 0) {
+    const sub = subs[0];
+    const homeworkRows = sub
+      ? await db
+          .select({ teacherId: homework.teacherId })
+          .from(homework)
+          .where(eq(homework.id, sub.homeworkId))
+      : [];
+    const homeworkRow = homeworkRows[0];
+
+    const accessDecision = getHomeworkFileAccessDecision({
+      submissionFound: Boolean(sub),
+      homeworkFound: Boolean(homeworkRow),
+      role: ctx.user.role,
+      requesterId: ctx.user.id,
+      submissionStudentId: sub?.studentId,
+      homeworkTeacherId: homeworkRow?.teacherId,
+    });
+    if (!sub || !homeworkRow || accessDecision !== "allowed") {
+      // Use the same status and body for missing records and unauthorized callers.
       return NextResponse.json({ error: "Submission not found" }, { status: 404 });
     }
 
-    const sub = subs[0];
-    // Only the owning student, teachers, or admins may view the answer file
-    const isAllowed = ctx.user.role === "teacher" || ctx.user.role === "admin" || ctx.user.id === sub.studentId;
-    if (!isAllowed) {
-      return NextResponse.json({ error: "Forbidden" }, { status: 403 });
-    }
+    const privateBlobToken = getHomeworkPrivateBlobToken();
+    const storageDecision = getHomeworkFileStorageDecision({
+      storagePath: sub.storagePath,
+      privateBlobToken,
+    });
 
-    if (!sub.storagePath) {
+    if (storageDecision === "no-file") {
       return NextResponse.json({ error: "No file attached to this submission" }, { status: 404 });
     }
+    // Legacy public Blob URLs are not redirected: the URL itself bypasses this route's authorization.
+    if (storageDecision === "legacy-public-url") {
+      return NextResponse.json(
+        { error: "This submission uses legacy public storage and must be migrated before secure access can be restored." },
+        { status: 410 }
+      );
+    }
+    if (storageDecision === "invalid-private-path") {
+      return NextResponse.json({ error: "Invalid private file reference" }, { status: 404 });
+    }
+    if (storageDecision === "private-storage-not-configured" || !privateBlobToken) {
+      return NextResponse.json({ error: "Private homework file storage is not configured." }, { status: 503 });
+    }
 
-    // storagePath is now a Vercel Blob URL — redirect to it
-    return NextResponse.redirect(sub.storagePath);
+    const blob = await get(sub.storagePath as string, { access: "private", token: privateBlobToken });
+    if (!blob || blob.statusCode !== 200 || !blob.stream) {
+      return NextResponse.json({ error: "File not found" }, { status: 404 });
+    }
+
+    const safeFileName = (sub.fileName || "homework-submission").replace(/[^a-zA-Z0-9._-]/g, "_");
+    return new Response(blob.stream, {
+      headers: {
+        "Content-Type": blob.blob.contentType || "application/octet-stream",
+        "Content-Disposition": `attachment; filename="${safeFileName}"`,
+        "X-Content-Type-Options": "nosniff",
+        "Cache-Control": "private, no-store",
+      },
+    });
   } catch (error) {
     console.error("Homework file error:", error);
     return NextResponse.json({ error: "Failed to stream file" }, { status: 500 });
