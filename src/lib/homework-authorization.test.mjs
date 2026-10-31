@@ -5,6 +5,7 @@ import {
   canManageHomework,
   canViewHomeworkSubmissionFile,
   canSubmitHomework,
+  canAccessHomeworkCourse,
   getHomeworkFileAccessDecision,
   canAssignHomeworkToCourse,
   canReplaceHomeworkSubmission,
@@ -191,4 +192,51 @@ test("submission replacement checks status before upload and uses an atomic guar
   assert.ok(preflight >= 0 && upload > preflight, "graded submissions must be rejected before a Blob upload");
   assert.match(route, /or\(isNull\(homeworkSubmissions\.status\), ne\(homeworkSubmissions\.status, "graded"\)\)/);
   assert.match(route, /await del\(storagePath, \{ token: uploadToken \}\)/);
+});
+
+
+test("course-linked homework requires an active/completed enrollment", () => {
+  const enrolled = ["course-active", "course-completed"];
+  assert.equal(canAccessHomeworkCourse({
+    role: "student", homeworkCourseId: "course-active", enrolledCourseIds: enrolled,
+  }), true);
+  assert.equal(canAccessHomeworkCourse({
+    role: "student", homeworkCourseId: "course-completed", enrolledCourseIds: enrolled,
+  }), true);
+  assert.equal(canAccessHomeworkCourse({
+    role: "student", homeworkCourseId: "course-other", enrolledCourseIds: enrolled,
+  }), false);
+  assert.equal(canAccessHomeworkCourse({
+    role: "student", homeworkCourseId: "course-cancelled", enrolledCourseIds: [],
+  }), false);
+  assert.equal(canAccessHomeworkCourse({
+    role: "student", homeworkCourseId: "", enrolledCourseIds: enrolled,
+  }), false);
+  assert.equal(canAccessHomeworkCourse({
+    role: "parent", homeworkCourseId: "course-active", enrolledCourseIds: enrolled,
+  }), false);
+  assert.equal(canAccessHomeworkCourse({
+    role: "student", homeworkCourseId: null, enrolledCourseIds: [],
+  }), true, "grade-only homework remains available to the existing grade policy");
+});
+
+test("student homework GET and submission routes both enforce course enrollment", async () => {
+  const route = await readFile(new URL("../app/api/homework/route.ts", import.meta.url), "utf8");
+  const studentListStart = route.indexOf('const myGrade = ctx.user.grade || ""');
+  const studentListEnd = route.indexOf("const mySubs", studentListStart);
+  assert.ok(studentListStart >= 0 && studentListEnd > studentListStart);
+  const studentList = route.slice(studentListStart, studentListEnd);
+  assert.match(studentList, /canAccessHomeworkCourse/);
+  assert.match(studentList, /\.from\(enrollments\)/);
+  assert.match(studentList, /inArray\(enrollments\.status, \["active", "completed"\]\)/);
+
+  const submitStart = route.indexOf('if (contentType.includes("multipart/form-data"))');
+  const submitEnd = route.indexOf("// ============ JSON ACTIONS", submitStart);
+  assert.ok(submitStart >= 0 && submitEnd > submitStart);
+  const submitRoute = route.slice(submitStart, submitEnd);
+  const enrollmentGuard = submitRoute.indexOf("canAccessHomeworkCourse(");
+  const upload = submitRoute.indexOf("await put(");
+  const persist = submitRoute.indexOf("await db.insert(homeworkSubmissions).values(sub)");
+  assert.ok(enrollmentGuard >= 0 && upload > enrollmentGuard && persist > enrollmentGuard,
+    "course enrollment must be checked before file upload or submission persistence");
 });
