@@ -2,8 +2,12 @@ import { db } from "@/db";
 import { parentLinks, users } from "@/db/schema";
 import { ensureDbSetup } from "@/db/migrate-and-seed";
 import { getAuthContext } from "@/lib/security";
-import { eq } from "drizzle-orm";
+import { and, eq, exists } from "drizzle-orm";
+import { alias } from "drizzle-orm/pg-core";
 import { NextResponse } from "next/server";
+
+const parentAccount = alias(users, "parent_link_parent_account");
+const studentAccount = alias(users, "parent_link_student_account");
 
 /**
  * Record an administrator's explicit verification of a parent/student link.
@@ -13,10 +17,13 @@ export async function POST(
   req: Request,
   { params }: { params: Promise<{ id: string }> },
 ) {
-  await ensureDbSetup();
+  // Reject unauthenticated and non-admin requests before triggering database setup.
+  // This mirrors DELETE and prevents unauthorized requests from invoking setup/migration work.
   const ctx = await getAuthContext(req);
   if (!ctx) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   if (ctx.user.role !== "admin") return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+
+  await ensureDbSetup();
   try {
     const { id } = await params;
     if (!id || !id.trim()) return NextResponse.json({ error: "Invalid parent link id" }, { status: 400 });
@@ -36,10 +43,28 @@ export async function POST(
       return NextResponse.json({ error: "Parent link does not resolve to a current parent and student account" }, { status: 409 });
     }
 
+    // Re-check both account roles in the UPDATE predicate. The earlier reads provide a
+    // helpful conflict response, while these correlated EXISTS guards prevent a role-change
+    // race from marking a stale/non-parent/non-student relationship as verified.
     const verifiedAt = new Date();
-    await db.update(parentLinks)
+    const verifiedRows = await db.update(parentLinks)
       .set({ verifiedAt, verifiedBy: ctx.user.id })
-      .where(eq(parentLinks.id, id));
+      .where(and(
+        eq(parentLinks.id, id),
+        exists(db.select({ id: parentAccount.id }).from(parentAccount).where(and(
+          eq(parentAccount.id, parentLinks.parentId),
+          eq(parentAccount.role, "parent"),
+        ))),
+        exists(db.select({ id: studentAccount.id }).from(studentAccount).where(and(
+          eq(studentAccount.id, parentLinks.studentId),
+          eq(studentAccount.role, "student"),
+        ))),
+      ))
+      .returning({ id: parentLinks.id });
+
+    if (!verifiedRows[0]) {
+      return NextResponse.json({ error: "Parent or student account changed during verification; reload and retry" }, { status: 409 });
+    }
 
     return NextResponse.json({ success: true, verifiedAt: verifiedAt.toISOString() });
   } catch (error) {
