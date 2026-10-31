@@ -14,13 +14,20 @@ assert.notEqual(deleteStart, -1, "parent-link verification DELETE handler must e
 const postSource = routeSource.slice(postStart, deleteStart);
 const deleteSource = routeSource.slice(deleteStart);
 
-test("parent-link verification requires an authenticated administrator before mutation", () => {
+test("parent-link verification authenticates an administrator before database setup or mutation", () => {
+  const authIndex = postSource.indexOf("const ctx = await getAuthContext(req)");
+  const unauthenticatedGuardIndex = postSource.indexOf('if (!ctx)');
+  const adminGuardIndex = postSource.indexOf('if (ctx.user.role !== "admin")');
+  const setupIndex = postSource.indexOf("await ensureDbSetup()");
+  const mutationIndex = postSource.indexOf("await db.update(parentLinks)");
+
+  assert.ok(authIndex >= 0, "POST must resolve the authenticated context");
+  assert.ok(unauthenticatedGuardIndex > authIndex, "POST must reject unauthenticated callers");
+  assert.ok(adminGuardIndex > unauthenticatedGuardIndex, "POST must reject non-admin callers");
+  assert.ok(setupIndex > adminGuardIndex, "database setup must occur only after the admin guard");
+  assert.ok(mutationIndex > setupIndex, "verification mutation must occur after authorization and setup");
   assert.match(postSource, /if\s*\(!ctx\)[\s\S]*?status:\s*401/);
   assert.match(postSource, /if\s*\(ctx\.user\.role\s*!==\s*"admin"\)[\s\S]*?status:\s*403/);
-  assert.ok(
-    postSource.indexOf('if (ctx.user.role !== "admin")') < postSource.indexOf("await db.update(parentLinks)"),
-    "verification writes must occur only after the administrator guard",
-  );
 });
 
 test("verification rejects links that do not resolve to current parent and student accounts", () => {
@@ -38,11 +45,16 @@ test("verification records the authenticated administrator and timestamp, not ca
 });
 
 test("revoking a parent-link verification is administrator-only and clears both verification fields", () => {
-  assert.match(deleteSource, /if\s*\(!ctx\)[\s\S]*?status:\s*401/);
-  assert.match(deleteSource, /if\s*\(ctx\.user\.role\s*!==\s*"admin"\)[\s\S]*?status:\s*403/);
-  assert.ok(
-    deleteSource.indexOf('if (ctx.user.role !== "admin")') < deleteSource.indexOf("await db.update(parentLinks)"),
-    "revocation writes must occur only after the administrator guard",
-  );
+  const authIndex = deleteSource.indexOf("const ctx = await getAuthContext(req)");
+  const unauthenticatedGuardIndex = deleteSource.indexOf('if (!ctx)');
+  const adminGuardIndex = deleteSource.indexOf('if (ctx.user.role !== "admin")');
+  const setupIndex = deleteSource.indexOf("await ensureDbSetup()");
+  const mutationIndex = deleteSource.indexOf("await db.update(parentLinks)");
+
+  assert.ok(authIndex >= 0, "DELETE must resolve the authenticated context");
+  assert.ok(unauthenticatedGuardIndex > authIndex, "DELETE must reject unauthenticated callers");
+  assert.ok(adminGuardIndex > unauthenticatedGuardIndex, "DELETE must reject non-admin callers");
+  assert.ok(setupIndex > adminGuardIndex, "database setup must occur only after the admin guard");
+  assert.ok(mutationIndex > setupIndex, "revocation mutation must occur after authorization and setup");
   assert.match(deleteSource, /\.set\(\{\s*verifiedAt:\s*null,\s*verifiedBy:\s*null\s*\}\)/);
 });
