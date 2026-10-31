@@ -1,20 +1,29 @@
 import { drizzle } from "drizzle-orm/node-postgres";
 import { Pool } from "pg";
 
-// Vercel Build Phase has no DATABASE_URL — use dummy URL so `next build` doesn't crash.
-// At runtime Vercel injects the real DATABASE_URL and Pool will connect to the real DB.
-const databaseUrl = process.env.DATABASE_URL;
+const databaseUrl = process.env.DATABASE_URL?.trim();
+export const databaseConfigured = Boolean(databaseUrl);
+export const isBuildPhase = process.env.NEXT_PHASE === "phase-production-build";
 
-// Detect Next.js build phase (no DB needed)
-const isBuildPhase = process.env.NEXT_PHASE === "phase-production-build";
-
-const connectionString = databaseUrl || "postgresql://dummy:dummy@localhost:5432/dummy";
-
-if (!databaseUrl && !isBuildPhase) {
-  console.warn(
-    "⚠️ DATABASE_URL is not set — database operations will fail. Set it in Vercel → Project → Settings → Environment Variables."
-  );
+function isLoopbackDatabaseUrl(value: string): boolean {
+  try {
+    const hostname = new URL(value).hostname.toLowerCase().replace(/^\[|\]$/g, "");
+    return hostname === "localhost" || hostname === "127.0.0.1" || hostname === "::1";
+  } catch {
+    return false;
+  }
 }
+
+if (!databaseConfigured && !isBuildPhase) {
+  throw new Error("DATABASE_URL is required for runtime database operations.");
+}
+
+if (process.env.VERCEL && databaseUrl && isLoopbackDatabaseUrl(databaseUrl)) {
+  throw new Error("DATABASE_URL must point to a remote database on Vercel.");
+}
+
+// Build-time imports need a syntactically valid pool URL, but must never target a local database.
+const connectionString = databaseUrl ?? "postgresql://build.invalid:5432/build";
 
 const globalForDb = globalThis as typeof globalThis & {
   __arenaNextJsPostgresqlPool?: Pool;
