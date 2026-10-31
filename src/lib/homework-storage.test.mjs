@@ -128,3 +128,19 @@ test("homework API strips storagePath from teacher, student, and submit response
     "new submission responses must not expose the private storage pathname",
   );
 });
+
+test("failed homework submission inserts clean up the newly uploaded private Blob", () => {
+  const upload = homeworkApiRouteSource.indexOf("const blob = await put(");
+  const insert = homeworkApiRouteSource.indexOf("await db.insert(homeworkSubmissions).values(sub);");
+  assert.ok(upload !== -1 && insert > upload, "the private upload must precede the database insert");
+
+  const guardStart = homeworkApiRouteSource.lastIndexOf("try {", insert);
+  const guardEnd = homeworkApiRouteSource.indexOf("throw insertError;", insert);
+  assert.ok(guardStart !== -1 && guardEnd > insert, "the insert must have a failure cleanup guard");
+  const guardedInsert = homeworkApiRouteSource.slice(guardStart, guardEnd);
+
+  assert.match(guardedInsert, /if \(storagePath && uploadToken\)/);
+  assert.match(guardedInsert, /await del\(storagePath, \{ token: uploadToken \}\)/);
+  assert.match(guardedInsert, /Failed to remove homework upload after insert failure/);
+  assert.match(guardedInsert, /throw insertError;/);
+});
