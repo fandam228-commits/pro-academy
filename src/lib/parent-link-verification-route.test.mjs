@@ -16,7 +16,7 @@ const deleteSource = routeSource.slice(deleteStart);
 
 test("parent-link verification authenticates an administrator before database setup or mutation", () => {
   const authIndex = postSource.indexOf("const ctx = await getAuthContext(req)");
-  const unauthenticatedGuardIndex = postSource.indexOf('if (!ctx)');
+  const unauthenticatedGuardIndex = postSource.indexOf("if (!ctx)");
   const adminGuardIndex = postSource.indexOf('if (ctx.user.role !== "admin")');
   const setupIndex = postSource.indexOf("await ensureDbSetup()");
   const mutationIndex = postSource.indexOf("await db.update(parentLinks)");
@@ -44,9 +44,23 @@ test("verification records the authenticated administrator and timestamp, not ca
   assert.doesNotMatch(postSource, /req\.json\(\)[\s\S]*?verifiedBy/);
 });
 
+test("verification re-checks parent and student roles atomically in the UPDATE predicate", () => {
+  const mutationStart = postSource.indexOf("const verifiedRows = await db.update(parentLinks)");
+  const mutationEnd = postSource.indexOf(".returning({ id: parentLinks.id })", mutationStart);
+  assert.ok(mutationStart >= 0, "verification must use a guarded UPDATE");
+  assert.ok(mutationEnd > mutationStart, "guarded UPDATE must return whether it matched");
+  const mutationSource = postSource.slice(mutationStart, mutationEnd);
+
+  assert.match(mutationSource, /exists\(db\.select\(\{ id: parentAccount\.id \}\)/);
+  assert.match(mutationSource, /eq\(parentAccount\.role, "parent"\)/);
+  assert.match(mutationSource, /exists\(db\.select\(\{ id: studentAccount\.id \}\)/);
+  assert.match(mutationSource, /eq\(studentAccount\.role, "student"\)/);
+  assert.match(postSource, /if\s*\(!verifiedRows\[0\]\)[\s\S]*?status:\s*409/);
+});
+
 test("revoking a parent-link verification is administrator-only and clears both verification fields", () => {
   const authIndex = deleteSource.indexOf("const ctx = await getAuthContext(req)");
-  const unauthenticatedGuardIndex = deleteSource.indexOf('if (!ctx)');
+  const unauthenticatedGuardIndex = deleteSource.indexOf("if (!ctx)");
   const adminGuardIndex = deleteSource.indexOf('if (ctx.user.role !== "admin")');
   const setupIndex = deleteSource.indexOf("await ensureDbSetup()");
   const mutationIndex = deleteSource.indexOf("await db.update(parentLinks)");
