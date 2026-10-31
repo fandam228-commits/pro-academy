@@ -1,5 +1,5 @@
 import { db } from "@/db";
-import { homework, homeworkSubmissions, users, notifications, courses } from "@/db/schema";
+import { homework, homeworkSubmissions, users, notifications, courses, enrollments } from "@/db/schema";
 import { eq, and, inArray, isNull, ne, or } from "drizzle-orm";
 import { NextResponse } from "next/server";
 import { ensureDbSetup } from "@/db/migrate-and-seed";
@@ -8,7 +8,7 @@ import { notifyUser } from "@/lib/push";
 import { del, put } from "@vercel/blob";
 import { getHomeworkPrivateBlobToken } from "@/lib/homework-storage.mjs";
 import { randomUUID } from "node:crypto";
-import { canManageHomework, canSubmitHomework, canAssignHomeworkToCourse, canReplaceHomeworkSubmission } from "@/lib/homework-authorization.mjs";
+import { canManageHomework, canSubmitHomework, canAccessHomeworkCourse, canAssignHomeworkToCourse, canReplaceHomeworkSubmission } from "@/lib/homework-authorization.mjs";
 
 const MAX_SIZE_BYTES = 20 * 1024 * 1024; // 20MB
 
@@ -70,10 +70,24 @@ export async function GET(req: Request) {
 
     // Students see homework for their grade and their own submission status only.
     const myGrade = ctx.user.grade || "";
+    const enrollmentRows = await db
+      .select({ courseId: enrollments.courseId })
+      .from(enrollments)
+      .innerJoin(courses, eq(enrollments.courseId, courses.id))
+      .where(and(
+        eq(enrollments.studentId, ctx.user.id),
+        inArray(enrollments.status, ["active", "completed"]),
+      ));
+    const enrolledCourseIds = [...new Set(enrollmentRows.map((row) => row.courseId))];
     let list = await db.select().from(homework);
-    if (myGrade) {
-      list = list.filter((h) => h.grade === myGrade || !h.grade);
-    }
+    list = list.filter((assignment) =>
+      (!myGrade || assignment.grade === myGrade || !assignment.grade) &&
+      canAccessHomeworkCourse({
+        role,
+        homeworkCourseId: assignment.courseId,
+        enrolledCourseIds,
+      })
+    );
     const mySubs = await db
       .select()
       .from(homeworkSubmissions)
@@ -121,6 +135,29 @@ export async function POST(req: Request) {
       }
       if (!canSubmitHomework({ role: ctx.user.role, studentGrade: ctx.user.grade, homeworkGrade: hw[0].grade })) {
         return NextResponse.json({ error: "You cannot submit homework assigned to another grade." }, { status: 403 });
+      }
+
+      // A matching grade is not enough for course-specific assignments. Resolve
+      // enrollment from the database and fail closed for non-enrolled students.
+      const homeworkCourseId = hw[0].courseId;
+      const submissionEnrollmentRows = homeworkCourseId
+        ? await db
+            .select({ courseId: enrollments.courseId })
+            .from(enrollments)
+            .innerJoin(courses, eq(enrollments.courseId, courses.id))
+            .where(and(
+              eq(enrollments.studentId, ctx.user.id),
+              eq(enrollments.courseId, homeworkCourseId),
+              inArray(enrollments.status, ["active", "completed"]),
+            ))
+        : [];
+      const submissionEnrolledCourseIds = [...new Set(submissionEnrollmentRows.map((row) => row.courseId))];
+      if (!canAccessHomeworkCourse({
+        role: ctx.user.role as string,
+        homeworkCourseId,
+        enrolledCourseIds: submissionEnrolledCourseIds,
+      })) {
+        return NextResponse.json({ error: "You must be enrolled in this course to submit this homework." }, { status: 403 });
       }
 
       // One submission per student — replace an existing ungraded one
