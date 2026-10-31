@@ -243,7 +243,19 @@ export async function POST(req: Request) {
         storagePath,
         status: "submitted",
       };
-      await db.insert(homeworkSubmissions).values(sub);
+      try {
+        await db.insert(homeworkSubmissions).values(sub);
+      } catch (insertError) {
+        // The private upload succeeded but the database insert failed; avoid leaving an orphaned Blob.
+        if (storagePath && uploadToken) {
+          try {
+            await del(storagePath, { token: uploadToken });
+          } catch (cleanupError) {
+            console.error("Failed to remove homework upload after insert failure:", cleanupError);
+          }
+        }
+        throw insertError;
+      }
 
       // Notify teacher (in-app + device push)
       await notifyUser(
