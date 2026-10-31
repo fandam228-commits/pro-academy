@@ -12,12 +12,14 @@ import {
 } from "@/lib/homework-storage.mjs";
 
 export async function GET(req: Request, { params }: { params: Promise<{ id: string }> }) {
-  await ensureDbSetup();
+  // Authenticate before running setup/migration work. Unauthenticated requests
+  // must not be able to trigger database setup as a side effect.
   const ctx = await getAuthContext(req);
   if (!ctx) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
+  await ensureDbSetup();
   try {
     const { id } = await params;
     const subs = await db.select().from(homeworkSubmissions).where(eq(homeworkSubmissions.id, id));
