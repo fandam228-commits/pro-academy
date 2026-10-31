@@ -28,6 +28,7 @@ const parentLinks = pgTable("parent_links", {
 });
 const parentAccount = alias(users, "parent_link_parent_account");
 const studentAccount = alias(users, "parent_link_student_account");
+const verifierAccount = alias(users, "parent_link_verifier_account");
 
 async function withFixture(run) {
   assertLocalTestDatabase(connectionString);
@@ -45,6 +46,7 @@ async function withFixture(run) {
         verified_by TEXT
       );
       INSERT INTO users (id, role) VALUES
+        ('admin-1', 'admin'),
         ('parent-valid', 'parent'),
         ('student-valid', 'student'),
         ('parent-role-changed', 'student'),
@@ -66,6 +68,10 @@ async function guardedVerify(db, linkId, adminId = "admin-1") {
     .set({ verifiedAt, verifiedBy: adminId })
     .where(and(
       eq(parentLinks.id, linkId),
+      exists(db.select({ id: verifierAccount.id }).from(verifierAccount).where(and(
+        eq(verifierAccount.id, adminId),
+        eq(verifierAccount.role, "admin"),
+      ))),
       exists(db.select({ id: parentAccount.id }).from(parentAccount).where(and(
         eq(parentAccount.id, parentLinks.parentId),
         eq(parentAccount.role, "parent"),
@@ -78,15 +84,17 @@ async function guardedVerify(db, linkId, adminId = "admin-1") {
     .returning({ id: parentLinks.id });
 }
 
-integrationTest("PostgreSQL guarded verification updates only a current parent-to-student link", async () => {
+integrationTest("PostgreSQL guarded verification updates only a current admin-to-parent-to-student link", async () => {
   await withFixture(async ({ db }) => {
     const valid = await guardedVerify(db, "link-valid");
     assert.deepEqual(valid.map((row) => row.id), ["link-valid"]);
 
     const badParent = await guardedVerify(db, "link-bad-parent");
     const badStudent = await guardedVerify(db, "link-bad-student");
+    const missingAdmin = await guardedVerify(db, "link-valid", "unknown-admin");
     assert.deepEqual(badParent, []);
     assert.deepEqual(badStudent, []);
+    assert.deepEqual(missingAdmin, []);
 
     const rows = await db.select().from(parentLinks);
     assert.equal(rows.find((row) => row.id === "link-valid")?.verifiedBy, "admin-1");
@@ -95,12 +103,26 @@ integrationTest("PostgreSQL guarded verification updates only a current parent-t
   });
 });
 
-integrationTest("PostgreSQL guarded verification fails closed when an account role changes after preflight", async () => {
+integrationTest("PostgreSQL guarded verification fails closed when any account role changes after preflight", async () => {
   await withFixture(async ({ db }) => {
-    // Model a successful preflight role check followed by a role change before UPDATE.
     const preflight = await db.select({ role: users.role }).from(users).where(eq(users.id, "parent-valid"));
     assert.equal(preflight[0]?.role, "parent");
     await db.update(users).set({ role: "student" }).where(eq(users.id, "parent-valid"));
+
+    const updated = await guardedVerify(db, "link-valid");
+    assert.deepEqual(updated, []);
+
+    const rows = await db.select().from(parentLinks).where(eq(parentLinks.id, "link-valid"));
+    assert.equal(rows[0]?.verifiedAt, null);
+    assert.equal(rows[0]?.verifiedBy, null);
+  });
+});
+
+integrationTest("PostgreSQL guarded verification rejects a verifier whose admin role changes after preflight", async () => {
+  await withFixture(async ({ db }) => {
+    const preflight = await db.select({ role: users.role }).from(users).where(eq(users.id, "admin-1"));
+    assert.equal(preflight[0]?.role, "admin");
+    await db.update(users).set({ role: "teacher" }).where(eq(users.id, "admin-1"));
 
     const updated = await guardedVerify(db, "link-valid");
     assert.deepEqual(updated, []);
