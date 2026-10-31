@@ -1,9 +1,15 @@
 import { db } from "@/db";
 import { users, parentLinks, attendanceRecords, homeworkSubmissions, homework, quizSubmissions, enrollments, courses } from "@/db/schema";
-import { eq } from "drizzle-orm";
+import { and, eq, isNotNull } from "drizzle-orm";
+import { alias } from "drizzle-orm/pg-core";
+import { getVerifiedParentAnalyticsStudentIds, resolveParentAnalyticsStudentId } from "@/lib/analytics-report-scope.mjs";
 import { NextResponse } from "next/server";
 import { ensureDbSetup } from "@/db/migrate-and-seed";
 import { getAuthContext } from "@/lib/security";
+
+const parentAccount = alias(users, "parent_reports_parent_account");
+const linkedStudentAccount = alias(users, "parent_reports_student_account");
+const verifierAccount = alias(users, "parent_reports_verifier_account");
 
 function getWeekRange() {
   const now = new Date();
@@ -23,9 +29,13 @@ function getWeekRange() {
 }
 
 export async function GET(req: Request) {
-  await ensureDbSetup();
   const ctx = await getAuthContext(req);
   if (!ctx) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  const role = ctx.user.role as string;
+  if (!["admin", "teacher", "parent", "student"].includes(role)) {
+    return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+  }
+  await ensureDbSetup();
 
   const { searchParams } = new URL(req.url);
   let studentId = searchParams.get("studentId");
@@ -33,8 +43,38 @@ export async function GET(req: Request) {
   try {
     // Parent: find linked student
     if (ctx.user.role === "parent") {
-      const links = await db.select().from(parentLinks).where(eq(parentLinks.parentId, ctx.user.id));
-      studentId = links[0]?.studentId || null;
+      // Only an admin-verified link to a current student may authorize a report.
+      const links = await db
+        .select({
+          studentId: parentLinks.studentId,
+          verifiedAt: parentLinks.verifiedAt,
+          verifiedBy: parentLinks.verifiedBy,
+        })
+        .from(parentLinks)
+        .innerJoin(parentAccount, eq(parentLinks.parentId, parentAccount.id))
+        .innerJoin(linkedStudentAccount, eq(parentLinks.studentId, linkedStudentAccount.id))
+        .innerJoin(verifierAccount, eq(parentLinks.verifiedBy, verifierAccount.id))
+        .where(and(
+          eq(parentLinks.parentId, ctx.user.id),
+          eq(parentAccount.role, "parent"),
+          eq(linkedStudentAccount.role, "student"),
+          eq(verifierAccount.role, "admin"),
+          isNotNull(parentLinks.verifiedAt),
+          isNotNull(parentLinks.verifiedBy),
+        ));
+      const verifiedStudentIds = getVerifiedParentAnalyticsStudentIds(links);
+      const resolution = resolveParentAnalyticsStudentId(studentId, verifiedStudentIds);
+      if (!resolution.ok) {
+        const status = resolution.reason === "no-linked-student" ? 404
+          : resolution.reason === "student-id-required" || resolution.reason === "invalid-student-id" ? 400
+          : 403;
+        const error = resolution.reason === "no-linked-student" ? "No verified linked student"
+          : resolution.reason === "student-id-required" ? "studentId is required when multiple verified students are linked"
+          : resolution.reason === "invalid-student-id" ? "Invalid studentId"
+          : "Forbidden";
+        return NextResponse.json({ error }, { status });
+      }
+      studentId = resolution.studentId;
     } else if (ctx.user.role === "student") {
       studentId = ctx.user.id;
     }
