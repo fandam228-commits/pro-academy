@@ -5,7 +5,8 @@ import { alias } from "drizzle-orm/pg-core";
 import { getVerifiedParentAnalyticsStudentIds, resolveParentAnalyticsStudentId } from "@/lib/analytics-report-scope.mjs";
 import { NextResponse } from "next/server";
 import { ensureDbSetup } from "@/db/migrate-and-seed";
-import { requireRoles, getAuthContext } from "@/lib/security";
+import { getAuthContext } from "@/lib/security";
+import { authorizeAttendanceWrite } from "@/lib/attendance-write-authorization.mjs";
 
 const parentAccount = alias(users, "parent_attendance_parent_account");
 const linkedStudentAccount = alias(users, "parent_attendance_student_account");
@@ -129,24 +130,51 @@ export async function GET(req: Request) {
 }
 
 export async function POST(req: Request) {
-  await ensureDbSetup();
+  // Authenticate and authorize before any database setup or migration work.
   const ctx = await getAuthContext(req);
   if (!ctx) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
+  let body: any;
   try {
-    const body = await req.json();
-    const { action } = body;
+    body = await req.json();
+  } catch {
+    return NextResponse.json({ error: "Invalid JSON body" }, { status: 400 });
+  }
+  if (!body || typeof body !== "object" || Array.isArray(body)) {
+    return NextResponse.json({ error: "Invalid request body" }, { status: 400 });
+  }
 
-    // ============ TEACHER: BULK MARK ROSTER FOR A SESSION ============
+  const { action } = body;
+  const access = authorizeAttendanceWrite(ctx.user.role as string, action);
+  if (!access.ok) {
+    const message = access.reason === "teacher-scope-unavailable"
+      ? "Teacher attendance writes are disabled until records can be scoped to owned courses."
+      : access.reason === "invalid-action"
+        ? "Invalid action"
+        : "Forbidden";
+    return NextResponse.json({ error: message }, { status: access.status });
+  }
+
+  try {
+    await ensureDbSetup();
+
+    // Bulk attendance writes are admin-only until each attendance record can be
+    // tied to a course owned by the requesting teacher.
     if (action === "bulk_mark") {
-      const { denied } = await requireRoles(req, ["teacher", "admin"]);
-      if (denied) return denied;
-
       const { sessionTitle, sessionDate, marks } = body;
       if (!sessionTitle || !sessionDate || !Array.isArray(marks)) {
         return NextResponse.json({ error: "sessionTitle, sessionDate & marks are required" }, { status: 400 });
+      }
+      const validStatuses = new Set(["present", "late", "absent", "excused"]);
+      if (marks.some((mark: any) =>
+        !mark ||
+        typeof mark.studentId !== "string" ||
+        !mark.studentId.trim() ||
+        (mark.status !== undefined && !validStatuses.has(mark.status))
+      )) {
+        return NextResponse.json({ error: "Each mark must include a studentId and a valid status" }, { status: 400 });
       }
 
       let saved = 0;
@@ -165,7 +193,7 @@ export async function POST(req: Request) {
         if (existing.length > 0) {
           await db
             .update(attendanceRecords)
-            .set({ status: m.status, markedBy: ctx.user.id })
+            .set({ status: m.status || "present", markedBy: ctx.user.id })
             .where(eq(attendanceRecords.id, existing[0].id));
         } else {
           await db.insert(attendanceRecords).values({
@@ -185,7 +213,7 @@ export async function POST(req: Request) {
       return NextResponse.json({ success: true, saved });
     }
 
-    // ============ STUDENT: SELF CHECK-IN (today's live session) ============
+    // The policy helper guarantees that only a student reaches this self check-in path.
     if (action === "check_in") {
       const today = new Date().toISOString().split("T")[0];
       const title = body.sessionTitle || "حصة مباشرة مع مستر حبيب";
