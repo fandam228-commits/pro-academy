@@ -350,13 +350,18 @@ function buildClassAnalyticsResponse(reports: Awaited<ReturnType<typeof buildStu
 }
 
 export async function GET(req: Request) {
-  await ensureDbSetup();
+  // Authenticate and validate the role before database setup or migration work.
   const ctx = await getAuthContext(req);
   if (!ctx) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
+  const role = ctx.user.role as string;
+  if (!["admin", "teacher", "parent", "student"].includes(role)) {
+    return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+  }
+
+  await ensureDbSetup();
   const { searchParams } = new URL(req.url);
   const requestedStudent = searchParams.get("studentId");
-  const role = ctx.user.role as string;
 
   try {
     // ---------- ADMIN: unrestricted analytics ----------
