@@ -480,6 +480,7 @@ export async function GET(req: Request) {
       const links = await db
         .select({
           studentId: parentLinks.studentId,
+          studentRole: users.role,
           verifiedAt: parentLinks.verifiedAt,
           verifiedBy: parentLinks.verifiedBy,
           verifiedByRole: verifiedByUser.role,
