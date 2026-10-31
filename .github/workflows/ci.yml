@@ -3,14 +3,28 @@ name: CI — Type Check & Build
 on:
   push:
     branches: [main, master]
+  # Run the full verification suite for stacked PRs targeting feature branches too.
   pull_request:
-    branches: [main, master]
   workflow_dispatch:
 
 jobs:
   verify:
-    name: Type check and production build
+    name: Tests, type check, lint, and production build
     runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: proacademy_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres -d proacademy_test"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -23,6 +37,30 @@ jobs:
         run: npm ci
       - name: Unit tests
         run: npm test
+      - name: PostgreSQL-backed homework course ownership authorization integration tests (when present)
+        if: ${{ hashFiles('tests/integration/homework-authorization.integration.mjs') != '' }}
+        run: node --test tests/integration/homework-authorization.integration.mjs
+        env:
+          TEST_DATABASE_URL: postgresql://postgres:postgres@127.0.0.1:5432/proacademy_test
+      - name: PostgreSQL-backed homework replacement atomicity integration tests
+        run: |
+          if [ -z "${TEST_DATABASE_URL:-}" ]; then
+            echo "::error::TEST_DATABASE_URL is required; homework replacement integration tests must not silently skip in CI."
+            exit 1
+          fi
+          node --test tests/integration/homework-replacement-atomicity.integration.mjs
+        env:
+          TEST_DATABASE_URL: postgresql://postgres:postgres@127.0.0.1:5432/proacademy_test
+      - name: PostgreSQL-backed Analytics authorization integration tests (when present)
+        if: ${{ hashFiles('tests/integration/analytics-authorization.integration.mjs') != '' }}
+        run: node --test tests/integration/analytics-authorization.integration.mjs
+        env:
+          TEST_DATABASE_URL: postgresql://postgres:postgres@127.0.0.1:5432/proacademy_test
+      - name: PostgreSQL-backed homework storage audit integration tests (when present)
+        if: ${{ hashFiles('tests/integration/homework-storage-audit.integration.mjs') != '' }}
+        run: node --test tests/integration/homework-storage-audit.integration.mjs
+        env:
+          TEST_DATABASE_URL: postgresql://postgres:postgres@127.0.0.1:5432/proacademy_test
       - name: TypeScript check
         run: npm run typecheck
         env:

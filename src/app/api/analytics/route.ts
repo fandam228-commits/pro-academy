@@ -17,6 +17,7 @@ import { NextResponse } from "next/server";
 import { ensureDbSetup } from "@/db/migrate-and-seed";
 import { getAuthContext } from "@/lib/security";
 import { canAccessStudentAnalytics } from "@/lib/analytics-authorization.mjs";
+import { resolveParentStudentSelection } from "@/lib/parent-student-selection.mjs";
 import { attendanceRate, calculatePerformanceIndex, homeworkCompletion } from "@/lib/analytics-metrics.mjs";
 
 /** Builds a full learning profile for one student. */
@@ -311,13 +312,22 @@ export async function GET(req: Request) {
 
     // ---------- PARENT: linked student report ----------
     if (role === "parent") {
-      let studentId = requestedStudent;
-      if (!studentId) {
-        const links = await db.select().from(parentLinks).where(eq(parentLinks.parentId, ctx.user.id));
-        studentId = links[0]?.studentId || null;
-      }
-      if (!studentId) return NextResponse.json({ error: "No linked student" }, { status: 404 });
       const links = await db.select().from(parentLinks).where(eq(parentLinks.parentId, ctx.user.id));
+      const selection = resolveParentStudentSelection({
+        requestedStudentId: requestedStudent,
+        linkedStudentIds: links.map((link) => link.studentId),
+      });
+      if (selection.status !== "allowed") {
+        const status = selection.status === "no-linked-student" ? 404
+          : selection.status === "selection-required" || selection.status === "invalid-student-id" ? 400
+          : 403;
+        const error = selection.status === "no-linked-student" ? "No linked student"
+          : selection.status === "selection-required" ? "Select a linked student explicitly via the studentId query parameter."
+          : selection.status === "invalid-student-id" ? "Invalid studentId"
+          : "Forbidden";
+        return NextResponse.json({ error }, { status });
+      }
+      const studentId = selection.studentId;
       const allowed = canAccessStudentAnalytics({
         role,
         requesterId: ctx.user.id,
