@@ -60,12 +60,12 @@ export function assertSafeHomeworkAuditTarget(connectionString, allowRemote = fa
   }
 
   // A remote audit must never send database credentials or student-file metadata
-  // over a connection that has not explicitly required TLS.
+  // over a connection whose server identity has not been verified.
   if (!isLocal) {
     const sslMode = (parsed.searchParams.get("sslmode") || "").toLowerCase();
-    if (!["require", "verify-ca", "verify-full"].includes(sslMode)) {
+    if (sslMode !== "verify-full") {
       throw new Error(
-        "Remote homework storage audits require DATABASE_URL sslmode=require, sslmode=verify-ca, or sslmode=verify-full."
+        "Remote homework storage audits require DATABASE_URL sslmode=verify-full to verify the server certificate and hostname."
       );
     }
   }
