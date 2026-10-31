@@ -4,6 +4,7 @@ import { eq, and } from "drizzle-orm";
 import { NextResponse } from "next/server";
 import { ensureDbSetup } from "@/db/migrate-and-seed";
 import { requireRoles, getAuthContext } from "@/lib/security";
+import { resolveParentStudentSelection } from "@/lib/parent-student-selection.mjs";
 
 function computeRate(records: any[]) {
   if (records.length === 0) return 100;
@@ -58,20 +59,25 @@ export async function GET(req: Request) {
 
     // ============ PARENT: linked student's records ===========
     if (role === "parent") {
-      let studentId = searchParams.get("studentId");
-      if (!studentId) {
-        const links = await db.select().from(parentLinks).where(eq(parentLinks.parentId, ctx.user.id));
-        if (links.length === 0) return NextResponse.json({ error: "No linked student" }, { status: 404 });
-        if (links.length > 1) {
-          return NextResponse.json({
-            error: "Select a linked student explicitly via the studentId query parameter.",
-          }, { status: 400 });
-        }
-        studentId = links[0]?.studentId || null;
+      const requestedStudentId = searchParams.get("studentId");
+      const links = await db.select().from(parentLinks).where(eq(parentLinks.parentId, ctx.user.id));
+      const selection = resolveParentStudentSelection({
+        requestedStudentId,
+        linkedStudentIds: links.map((link) => link.studentId),
+      });
+      if (selection.status !== "allowed") {
+        const status = selection.status === "no-linked-student" ? 404
+          : selection.status === "selection-required" || selection.status === "invalid-student-id" ? 400
+          : 403;
+        const error = selection.status === "no-linked-student" ? "No linked student"
+          : selection.status === "selection-required" ? "Select a linked student explicitly via the studentId query parameter."
+          : selection.status === "invalid-student-id" ? "Invalid studentId"
+          : "Forbidden";
+        return NextResponse.json({ error }, { status });
       }
-      if (!studentId) return NextResponse.json({ error: "No linked student" }, { status: 404 });
-      const links = await db.select().from(parentLinks).where(and(eq(parentLinks.parentId, ctx.user.id), eq(parentLinks.studentId, studentId)));
-      if (!links.length) return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+      const studentId = selection.studentId;
+      const verifiedLink = await db.select().from(parentLinks).where(and(eq(parentLinks.parentId, ctx.user.id), eq(parentLinks.studentId, studentId)));
+      if (!verifiedLink.length) return NextResponse.json({ error: "Forbidden" }, { status: 403 });
       const records = await db.select().from(attendanceRecords).where(eq(attendanceRecords.studentId, studentId));
       const sorted = records.sort((a, b) => (a.sessionDate < b.sessionDate ? 1 : -1));
       return NextResponse.json({ role: "parent", studentId, records: sorted, rate: computeRate(records), total: records.length });

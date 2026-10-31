@@ -4,6 +4,7 @@ import { eq } from "drizzle-orm";
 import { NextResponse } from "next/server";
 import { ensureDbSetup } from "@/db/migrate-and-seed";
 import { getAuthContext } from "@/lib/security";
+import { resolveParentStudentSelection } from "@/lib/parent-student-selection.mjs";
 
 function getWeekRange() {
   const now = new Date();
@@ -34,13 +35,21 @@ export async function GET(req: Request) {
     // Parent: find linked student
     if (ctx.user.role === "parent") {
       const links = await db.select().from(parentLinks).where(eq(parentLinks.parentId, ctx.user.id));
-      if (links.length === 0) return NextResponse.json({ error: "No linked student" }, { status: 404 });
-      if (links.length > 1) {
-        return NextResponse.json({
-          error: "Select a linked student explicitly via the studentId query parameter.",
-        }, { status: 400 });
+      const selection = resolveParentStudentSelection({
+        requestedStudentId: studentId,
+        linkedStudentIds: links.map((link) => link.studentId),
+      });
+      if (selection.status !== "allowed") {
+        const status = selection.status === "no-linked-student" ? 404
+          : selection.status === "selection-required" || selection.status === "invalid-student-id" ? 400
+          : 403;
+        const error = selection.status === "no-linked-student" ? "No linked student"
+          : selection.status === "selection-required" ? "Select a linked student explicitly via the studentId query parameter."
+          : selection.status === "invalid-student-id" ? "Invalid studentId"
+          : "Forbidden";
+        return NextResponse.json({ error }, { status });
       }
-      studentId = links[0]?.studentId || null;
+      studentId = selection.studentId;
     } else if (ctx.user.role === "student") {
       studentId = ctx.user.id;
     }
