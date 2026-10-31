@@ -101,9 +101,26 @@ test("audit target requires a PostgreSQL URL and defaults to local databases onl
   );
 });
 
-test("remote audit requires explicit opt-in and remains documented as read-only", () => {
+test("remote audit requires explicit opt-in and TLS", () => {
+  const remoteUrl = "postgresql://audit:password@db.example.invalid/proacademy";
+  assert.throws(
+    () => assertSafeHomeworkAuditTarget(remoteUrl),
+    /Refusing a non-local database/,
+  );
+  assert.throws(
+    () => assertSafeHomeworkAuditTarget(remoteUrl, true),
+    /require DATABASE_URL sslmode=require/,
+  );
+  assert.throws(
+    () => assertSafeHomeworkAuditTarget(`${remoteUrl}?sslmode=prefer`, true),
+    /require DATABASE_URL sslmode=require/,
+  );
   assert.equal(
-    assertSafeHomeworkAuditTarget("postgresql://audit:password@db.example.invalid/proacademy", true),
+    assertSafeHomeworkAuditTarget(`${remoteUrl}?sslmode=require`, true),
+    "remote-read-only-opt-in",
+  );
+  assert.equal(
+    assertSafeHomeworkAuditTarget(`${remoteUrl}?sslmode=verify-full`, true),
     "remote-read-only-opt-in",
   );
 });
