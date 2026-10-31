@@ -36,6 +36,22 @@ export function canSubmitHomework({ role, studentGrade, homeworkGrade }) {
 }
 
 /**
+ * Course-linked homework is visible/submittable only to a student with a current
+ * active/completed enrollment in that course. Grade-only homework (no courseId)
+ * remains governed by the caller's grade check.
+ */
+export function canAccessHomeworkCourse({ role, homeworkCourseId, enrolledCourseIds }) {
+  if (role !== "student") return false;
+  if (homeworkCourseId === null || homeworkCourseId === undefined) return true;
+  if (typeof homeworkCourseId !== "string" || homeworkCourseId.trim() === "") return false;
+  if (!Array.isArray(enrolledCourseIds) ||
+      !enrolledCourseIds.every((id) => typeof id === "string" && id.trim() !== "")) {
+    return false;
+  }
+  return enrolledCourseIds.includes(homeworkCourseId);
+}
+
+/**
  * Collapse missing and unauthorized submission-file lookups into the same
  * externally visible outcome to avoid leaking whether another user's record exists.
  */
