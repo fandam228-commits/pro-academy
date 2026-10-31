@@ -122,38 +122,7 @@ test("parent analytics handles no links and malformed relationship data fail-clo
 });
 
 
-test("teacher analytics excludes report sources without a trustworthy course scope", () => {
-  assert.deepEqual(
-    getAnalyticsReportDataVisibility({
-      teacherId: "teacher-1",
-      allowedCourseIds: ["course-a"],
-    }),
-    {
-      includeStudentGamification: false,
-      includeGeneratedExamAttempts: false,
-      includeAttendance: false,
-      includeGlobalQuestionBank: false,
-    },
-  );
-});
-
-test("self, parent, and admin reports may retain unscoped sources after role authorization", () => {
-  assert.deepEqual(getAnalyticsReportDataVisibility(undefined), {
-    includeStudentGamification: true,
-    includeGeneratedExamAttempts: true,
-    includeAttendance: true,
-    includeGlobalQuestionBank: true,
-  });
-  assert.deepEqual(getAnalyticsReportDataVisibility(null), {
-    includeStudentGamification: true,
-    includeGeneratedExamAttempts: true,
-    includeAttendance: true,
-    includeGlobalQuestionBank: true,
-  });
-});
-
-
-test("malformed non-null teacher scopes fail closed for every unscoped report source", () => {
+test("teacher and missing report contexts fail closed for every unscoped source", () => {
   const expected = {
     includeStudentGamification: false,
     includeGeneratedExamAttempts: false,
@@ -161,8 +130,30 @@ test("malformed non-null teacher scopes fail closed for every unscoped report so
     includeGlobalQuestionBank: false,
   };
 
-  // Empty/malformed scope objects must not accidentally restore global data.
-  assert.deepEqual(getAnalyticsReportDataVisibility({}), expected);
-  assert.deepEqual(getAnalyticsReportDataVisibility({ teacherId: "", allowedCourseIds: [] }), expected);
-  assert.deepEqual(getAnalyticsReportDataVisibility({ teacherId: "teacher-1", allowedCourseIds: [] }), expected);
+  // A missing/unknown context or an incomplete teacher scope must never grant
+  // access to report sources that lack a trustworthy course relationship.
+  for (const context of [
+    undefined,
+    null,
+    {},
+    { role: "unknown" },
+    { role: "teacher" },
+    { role: "teacher", teacherId: "", allowedCourseIds: [] },
+    { role: "teacher", teacherId: "teacher-1", allowedCourseIds: [] },
+  ]) {
+    assert.deepEqual(getAnalyticsReportDataVisibility(context), expected);
+  }
+});
+
+test("only explicit admin, parent, and student contexts may retain unscoped sources", () => {
+  const expected = {
+    includeStudentGamification: true,
+    includeGeneratedExamAttempts: true,
+    includeAttendance: true,
+    includeGlobalQuestionBank: true,
+  };
+
+  for (const role of ["admin", "parent", "student"]) {
+    assert.deepEqual(getAnalyticsReportDataVisibility({ role }), expected);
+  }
 });

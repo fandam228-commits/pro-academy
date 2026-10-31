@@ -5,13 +5,16 @@ const ELIGIBLE_STATUSES = new Set(["active", "completed"]);
  * course/teacher relationship. Keep this policy centralized and testable so
  * a future report-builder refactor cannot accidentally re-enable global data.
  */
-export function getAnalyticsReportDataVisibility(scope) {
-  const teacherScoped = scope !== null && scope !== undefined;
+export function getAnalyticsReportDataVisibility(context) {
+  // Unscoped sources are opt-in for an explicitly authorized non-teacher role.
+  // Missing, malformed, or unknown context must never restore global report data.
+  const role = context && typeof context === "object" ? context.role : null;
+  const includeUnscopedSources = ["admin", "parent", "student"].includes(role);
   return {
-    includeStudentGamification: !teacherScoped,
-    includeGeneratedExamAttempts: !teacherScoped,
-    includeAttendance: !teacherScoped,
-    includeGlobalQuestionBank: !teacherScoped,
+    includeStudentGamification: includeUnscopedSources,
+    includeGeneratedExamAttempts: includeUnscopedSources,
+    includeAttendance: includeUnscopedSources,
+    includeGlobalQuestionBank: includeUnscopedSources,
   };
 }
 

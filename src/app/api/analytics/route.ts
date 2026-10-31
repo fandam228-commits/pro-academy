@@ -35,6 +35,10 @@ type TeacherReportScope = {
   allowedCourseIds: string[];
 };
 
+type AnalyticsReportContext =
+  | ({ role: "teacher" } & TeacherReportScope)
+  | { role: "admin" | "parent" | "student" };
+
 type AnalyticsStudentProfile = {
   id: string;
   name: string;
@@ -45,8 +49,9 @@ type AnalyticsStudentProfile = {
 };
 
 /** Builds a learning profile; teacher calls receive only explicitly course-scoped data. */
-async function buildStudentReport(studentId: string, scope?: TeacherReportScope) {
-  const dataVisibility = getAnalyticsReportDataVisibility(scope);
+async function buildStudentReport(studentId: string, context: AnalyticsReportContext) {
+  const scope: TeacherReportScope | undefined = context.role === "teacher" ? context : undefined;
+  const dataVisibility = getAnalyticsReportDataVisibility(context);
   // Reports only need an explicit profile-field allowlist; never hydrate the full user row.
   // Include gamification fields only for non-teacher reports, and require a current student role
   // in SQL for every report so stale or malformed links cannot target another account type.
@@ -364,13 +369,13 @@ export async function GET(req: Request) {
     // ---------- ADMIN: unrestricted analytics ----------
     if (role === "admin") {
       if (requestedStudent) {
-        const report = await buildStudentReport(requestedStudent);
+        const report = await buildStudentReport(requestedStudent, { role: "admin" });
         if (!report.student) return NextResponse.json({ error: "Student not found" }, { status: 404 });
         return NextResponse.json({ scope: "student", ...report });
       }
 
       const students = await db.select().from(users).where(eq(users.role, "student"));
-      const reports = await Promise.all(students.map((s) => buildStudentReport(s.id)));
+      const reports = await Promise.all(students.map((s) => buildStudentReport(s.id, { role: "admin" })));
 
       return buildClassAnalyticsResponse(reports);
     }
@@ -405,6 +410,7 @@ export async function GET(req: Request) {
         if (!allowed) return NextResponse.json({ error: "Forbidden" }, { status: 403 });
         const allowedCourseIds = getTeacherAnalyticsCourseIds(teacherEnrollmentRows, ctx.user.id, requestedStudent);
         const report = await buildStudentReport(requestedStudent, {
+          role: "teacher",
           teacherId: ctx.user.id,
           allowedCourseIds,
         });
@@ -420,6 +426,7 @@ export async function GET(req: Request) {
             .from(users)
             .where(and(eq(users.role, "student"), inArray(users.id, teacherStudentIds)));
       const reports = await Promise.all(visibleStudents.map((student) => buildStudentReport(student.id, {
+        role: "teacher",
         teacherId: ctx.user.id,
         allowedCourseIds: getTeacherAnalyticsCourseIds(teacherEnrollmentRows, ctx.user.id, student.id),
       })));
@@ -524,7 +531,7 @@ export async function GET(req: Request) {
         linkedParentStudentIds,
       });
       if (!allowed) return NextResponse.json({ error: "Forbidden" }, { status: 403 });
-      const report = await buildStudentReport(studentId);
+      const report = await buildStudentReport(studentId, { role: "parent" });
       if (!report.student) return NextResponse.json({ error: "Student not found" }, { status: 404 });
       return NextResponse.json({ scope: "parent", ...report });
     }
@@ -533,7 +540,7 @@ export async function GET(req: Request) {
     if (!canAccessStudentAnalytics({ role, requesterId: ctx.user.id, studentId: requestedStudent || ctx.user.id })) {
       return NextResponse.json({ error: "Forbidden" }, { status: 403 });
     }
-    const report = await buildStudentReport(ctx.user.id);
+    const report = await buildStudentReport(ctx.user.id, { role: "student" });
     return NextResponse.json({ scope: "student", ...report });
   } catch (error) {
     console.error("Analytics GET error:", error);
