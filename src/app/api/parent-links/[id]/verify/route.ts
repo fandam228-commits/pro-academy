@@ -8,6 +8,7 @@ import { NextResponse } from "next/server";
 
 const parentAccount = alias(users, "parent_link_parent_account");
 const studentAccount = alias(users, "parent_link_student_account");
+const verifierAccount = alias(users, "parent_link_verifier_account");
 
 /**
  * Record an administrator's explicit verification of a parent/student link.
@@ -43,14 +44,18 @@ export async function POST(
       return NextResponse.json({ error: "Parent link does not resolve to a current parent and student account" }, { status: 409 });
     }
 
-    // Re-check both account roles in the UPDATE predicate. The earlier reads provide a
-    // helpful conflict response, while these correlated EXISTS guards prevent a role-change
-    // race from marking a stale/non-parent/non-student relationship as verified.
+    // Re-check all three current roles in the UPDATE predicate. The earlier reads provide a
+    // helpful conflict response, while these correlated EXISTS guards prevent role-change races
+    // for the parent, student, or verifier from recording a stale/unauthorized verification.
     const verifiedAt = new Date();
     const verifiedRows = await db.update(parentLinks)
       .set({ verifiedAt, verifiedBy: ctx.user.id })
       .where(and(
         eq(parentLinks.id, id),
+        exists(db.select({ id: verifierAccount.id }).from(verifierAccount).where(and(
+          eq(verifierAccount.id, ctx.user.id),
+          eq(verifierAccount.role, "admin"),
+        ))),
         exists(db.select({ id: parentAccount.id }).from(parentAccount).where(and(
           eq(parentAccount.id, parentLinks.parentId),
           eq(parentAccount.role, "parent"),
@@ -63,7 +68,7 @@ export async function POST(
       .returning({ id: parentLinks.id });
 
     if (!verifiedRows[0]) {
-      return NextResponse.json({ error: "Parent or student account changed during verification; reload and retry" }, { status: 409 });
+      return NextResponse.json({ error: "Parent, student, or administrator account changed during verification; reload and retry" }, { status: 409 });
     }
 
     return NextResponse.json({ success: true, verifiedAt: verifiedAt.toISOString() });
