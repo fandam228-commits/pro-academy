@@ -135,3 +135,18 @@ test("teacher reports omit unscopable exam, attendance, and question-bank data",
   assert.match(reportSource, /const bank = scope \? \[\] : await db\.select\(\)\.from\(questionBank\)/,
     "global question-bank records must not be used to derive teacher-scoped mastery");
 });
+
+test("analytics GET authenticates and rejects unsupported roles before database setup", () => {
+  const getStart = routeSource.indexOf("export async function GET(req: Request)");
+  assert.notEqual(getStart, -1, "Analytics GET handler must exist");
+  const getSource = routeSource.slice(getStart);
+  const auth = getSource.indexOf("const ctx = await getAuthContext(req)");
+  const unauthorized = getSource.indexOf("if (!ctx)", auth);
+  const role = getSource.indexOf('const role = ctx.user.role as string', unauthorized);
+  const roleGuard = getSource.indexOf('if (!["admin", "teacher", "parent", "student"].includes(role))', role);
+  const setup = getSource.indexOf("await ensureDbSetup()");
+  assert.ok(
+    auth >= 0 && unauthorized > auth && role > unauthorized && roleGuard > role && setup > roleGuard,
+    "authentication and role validation must finish before database setup",
+  );
+});
