@@ -156,3 +156,33 @@ test("homework file route authenticates before database setup or private record 
   assert.ok(submissionReadIndex > setupIndex, "submission records must be read only after authentication and setup");
   assert.match(homeworkFileRouteSource, /if\s*\(!ctx\)[\s\S]*?status:\s*401/);
 });
+
+test("new homework submissions upload only to the private Blob store with the dedicated token", () => {
+  const uploadStart = homeworkApiRouteSource.indexOf("const blob = await put(");
+  const uploadEnd = homeworkApiRouteSource.indexOf("fileName = file.name;", uploadStart);
+  assert.ok(uploadStart >= 0 && uploadEnd > uploadStart, "the submission upload block must exist");
+  const uploadSource = homeworkApiRouteSource.slice(uploadStart, uploadEnd);
+
+  assert.match(
+    uploadSource,
+    /const privateBlobToken = getHomeworkPrivateBlobToken\(\)/,
+    "uploads must use the dedicated private-store token helper",
+  );
+  assert.match(
+    uploadSource,
+    /if \(!privateBlobToken\)[\s\S]*?status:\s*503/,
+    "file uploads must fail closed when the private-store token is missing",
+  );
+  assert.match(
+    uploadSource,
+    /await put\([\s\S]*?access:\s*"private"[\s\S]*?token:\s*privateBlobToken/,
+    "the Blob provider must receive private access and the dedicated token",
+  );
+  assert.match(
+    uploadSource,
+    /storagePath = blob\.pathname/,
+    "the database must store the private pathname, not a public download URL",
+  );
+  assert.doesNotMatch(uploadSource, /access:\s*"public"/);
+  assert.doesNotMatch(uploadSource, /storagePath\s*=\s*blob\.url/);
+});
