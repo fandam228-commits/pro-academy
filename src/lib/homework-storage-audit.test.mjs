@@ -101,7 +101,7 @@ test("audit target requires a PostgreSQL URL and defaults to local databases onl
   );
 });
 
-test("remote audit requires explicit opt-in and TLS", () => {
+test("remote audit requires explicit opt-in and verified TLS identity", () => {
   const remoteUrl = "postgresql://audit:password@db.example.invalid/proacademy";
   assert.throws(
     () => assertSafeHomeworkAuditTarget(remoteUrl),
@@ -109,22 +109,20 @@ test("remote audit requires explicit opt-in and TLS", () => {
   );
   assert.throws(
     () => assertSafeHomeworkAuditTarget(remoteUrl, true),
-    /require DATABASE_URL sslmode=require/,
+    /require DATABASE_URL sslmode=verify-full/,
   );
-  assert.throws(
-    () => assertSafeHomeworkAuditTarget(`${remoteUrl}?sslmode=prefer`, true),
-    /require DATABASE_URL sslmode=require/,
-  );
-  assert.equal(
-    assertSafeHomeworkAuditTarget(`${remoteUrl}?sslmode=require`, true),
-    "remote-read-only-opt-in",
-  );
+  for (const sslmode of ["prefer", "require", "verify-ca", "disable"]) {
+    assert.throws(
+      () => assertSafeHomeworkAuditTarget(`${remoteUrl}?sslmode=${sslmode}`, true),
+      /require DATABASE_URL sslmode=verify-full/,
+      sslmode,
+    );
+  }
   assert.equal(
     assertSafeHomeworkAuditTarget(`${remoteUrl}?sslmode=verify-full`, true),
     "remote-read-only-opt-in",
   );
 });
-
 
 test("read-only storage audit uses one repeatable-read snapshot across batches", async () => {
   const statements = [];
