@@ -70,7 +70,9 @@ export function getVerifiedParentAnalyticsStudentIds(linkRows) {
     .filter((row) => {
       if (!row || typeof row !== "object" || !isNonEmptyString(row.studentId)) return false;
       if (!isNonEmptyString(row.verifiedBy)) return false;
-      // Defense in depth: require the verifier's current database role.
+      // Defense in depth: require the linked account to still be a student,
+      // and the verifier to still be an administrator at read time.
+      if (row.studentRole !== "student") return false;
       if (row.verifiedByRole !== "admin") return false;
       const timestamp = row.verifiedAt instanceof Date
         ? row.verifiedAt.getTime()
