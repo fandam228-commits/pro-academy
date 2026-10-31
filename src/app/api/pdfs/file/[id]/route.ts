@@ -1,3 +1,4 @@
+import { get } from "@vercel/blob";
 import { db } from "@/db";
 import { pdfDocuments, enrollments } from "@/db/schema";
 import { eq, and } from "drizzle-orm";
@@ -5,6 +6,7 @@ import fs from "fs";
 import { NextResponse } from "next/server";
 import { ensureDbSetup } from "@/db/migrate-and-seed";
 import { requireRoles } from "@/lib/security";
+import { isPrivateVercelBlobUrl } from "@/lib/pdf-authorization.mjs";
 
 export async function GET(
   req: Request,
@@ -51,8 +53,27 @@ export async function GET(
     }
 
     let fileBuffer: Buffer | null = null;
+    let blobStream: ReadableStream<Uint8Array> | null = null;
     if (doc.fileData) {
       fileBuffer = Buffer.from(doc.fileData, "base64");
+    } else if (doc.storagePath?.startsWith("https://")) {
+      // Protected PDFs must live in a private Blob store. A public Blob URL
+      // would bypass the authorization checks in this route.
+      if (!isPrivateVercelBlobUrl(doc.storagePath)) {
+        return NextResponse.json(
+          { error: "Protected PDFs require private Vercel Blob storage." },
+          { status: 409 },
+        );
+      }
+      try {
+        const blob = await get(doc.storagePath, { access: "private" });
+        if (!blob || blob.statusCode !== 200 || !blob.stream) {
+          return NextResponse.json({ error: "Stored PDF is missing from private Blob storage" }, { status: 404 });
+        }
+        blobStream = blob.stream;
+      } catch {
+        return NextResponse.json({ error: "Unable to retrieve PDF from private Blob storage" }, { status: 502 });
+      }
     } else if (doc.storagePath) {
       try {
         fileBuffer = await fs.promises.readFile(doc.storagePath);
@@ -61,7 +82,7 @@ export async function GET(
       }
     }
 
-    if (!fileBuffer) {
+    if (!fileBuffer && !blobStream) {
       return NextResponse.json({ error: "No file attached to this document" }, { status: 404 });
     }
 
@@ -72,15 +93,14 @@ export async function GET(
     }
 
     const disposition = isDownload && doc.allowDownload ? "attachment" : "inline";
-    return new NextResponse(new Uint8Array(fileBuffer), {
-      headers: {
-        "Content-Type": "application/pdf",
-        "Content-Disposition": `${disposition}; filename="${doc.fileName.replace(/[\\\r\n"]/g, "_")}"`,
-        "Content-Length": String(fileBuffer.length),
-        "Cache-Control": "private, no-store, max-age=0",
-        "X-Content-Type-Options": "nosniff",
-      },
-    });
+    const headers: Record<string, string> = {
+      "Content-Type": "application/pdf",
+      "Content-Disposition": `${disposition}; filename="${doc.fileName.replace(/[\\\r\n"]/g, "_")}"`,
+      "Cache-Control": "private, no-store, max-age=0",
+      "X-Content-Type-Options": "nosniff",
+    };
+    if (fileBuffer) headers["Content-Length"] = String(fileBuffer.length);
+    return new NextResponse(blobStream ?? new Uint8Array(fileBuffer!), { headers });
   } catch (error) {
     console.error("PDF stream error:", error);
     return NextResponse.json({ error: "Failed to stream PDF" }, { status: 500 });

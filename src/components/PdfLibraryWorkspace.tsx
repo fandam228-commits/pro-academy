@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
+import { upload } from "@vercel/blob/client";
 import { useApp } from "@/context/AppContext";
 import {
   FileText,
@@ -72,6 +73,7 @@ export const PdfLibraryWorkspace: React.FC = () => {
   const [upGrade, setUpGrade] = useState("Third Secondary (Baccalaureate)");
   const [upUnit, setUpUnit] = useState("Unit 1");
   const [upTopic, setUpTopic] = useState("Grammar Notes");
+  const [upCourseId, setUpCourseId] = useState("");
   const [upAllowDownload, setUpAllowDownload] = useState(false);
   const [upFile, setUpFile] = useState<File | null>(null);
   const [uploading, setUploading] = useState(false);
@@ -135,36 +137,44 @@ export const PdfLibraryWorkspace: React.FC = () => {
       setUploadMsg({ type: "error", text: lang === "ar" ? "اختر ملف PDF أولاً" : "Please select a PDF file" });
       return;
     }
-    // Client-side size guard (Vercel limit ~4.5MB)
-    if (upFile.size > 4 * 1024 * 1024) {
+    // Direct browser upload avoids the Vercel serverless request-body limit.
+    if (upFile.size > 100 * 1024 * 1024) {
       setUploadMsg({
         type: "error",
         text:
           lang === "ar"
-            ? `الملف حجمه ${(upFile.size / (1024 * 1024)).toFixed(1)} ميجا. صغّره لأقل من 4 ميجا ثم أعد المحاولة.`
-            : `File is ${(upFile.size / (1024 * 1024)).toFixed(1)}MB. Compress it under 4MB and try again.`,
+            ? `الملف حجمه ${(upFile.size / (1024 * 1024)).toFixed(1)} ميجا. الحد الأقصى 100 ميجا.`
+            : `File is ${(upFile.size / (1024 * 1024)).toFixed(1)}MB. Maximum size is 100MB.`,
       });
       return;
     }
     setUploading(true);
     setUploadMsg(null);
     try {
-      const form = new FormData();
-      form.append("file", upFile);
-      form.append("title", upTitle || upFile.name.replace(/\.pdf$/i, ""));
-      form.append("description", upDesc);
-      form.append("uploaderId", user?.id || "usr_admin_1");
-      form.append("uploaderName", user?.name || "Mr. Habib El Rahman");
-      form.append("stage", upStage);
-      form.append("grade", upGrade);
-      form.append("unit", upUnit);
-      form.append("topic", upTopic);
-      form.append("allowDownload", String(upAllowDownload));
-      form.append("watermarkEnabled", "true");
+      const title = upTitle || upFile.name.replace(/\\.pdf$/i, "");
+      const blob = await upload(upFile.name, upFile, {
+        access: "private",
+        handleUploadUrl: "/api/pdfs/blob-upload",
+        contentType: "application/pdf",
+      });
 
       const res = await fetch("/api/pdfs", {
         method: "POST",
-        body: form,
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          action: "add_blob",
+          title,
+          description: upDesc,
+          blobUrl: blob.url,
+          fileName: upFile.name,
+          fileSize: upFile.size,
+          stage: upStage,
+          grade: upGrade,
+          unit: upUnit,
+          topic: upTopic,
+          courseId: upCourseId.trim(),
+          allowDownload: upAllowDownload,
+        }),
       });
       const json = await res.json();
       if (json.success) {
@@ -174,6 +184,7 @@ export const PdfLibraryWorkspace: React.FC = () => {
         });
         setUpTitle("");
         setUpDesc("");
+        setUpCourseId("");
         setUpFile(null);
         if (fileInputRef.current) fileInputRef.current.value = "";
         fetchDocs();
@@ -442,7 +453,7 @@ export const PdfLibraryWorkspace: React.FC = () => {
                 {upFile ? upFile.name : lang === "ar" ? "اضغط لاختيار ملف PDF من جهازك" : "Click to select a PDF file"}
               </p>
               <p className="text-[10px] text-slate-400 mt-1">
-                {lang === "ar" ? "الحد الأقصى: 4 ميجابايت (قيود السيرفر)" : "Maximum size: 4MB (server limit)"}
+                {lang === "ar" ? "الحد الأقصى: 100 ميجابايت" : "Maximum size: 100MB"}
               </p>
             </label>
 
@@ -451,6 +462,14 @@ export const PdfLibraryWorkspace: React.FC = () => {
               value={upTitle}
               onChange={(e) => setUpTitle(e.target.value)}
               placeholder={lang === "ar" ? "عنوان الملف (مثال: مذكرة الوحدة الأولى)..." : "Document title..."}
+              className="w-full p-3 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs font-medium text-slate-900 dark:text-white"
+            />
+
+            <input
+              type="text"
+              value={upCourseId}
+              onChange={(e) => setUpCourseId(e.target.value)}
+              placeholder={lang === "ar" ? "معرّف الكورس (اختياري، مثال: crs_sec_3)" : "Course ID (optional, e.g. crs_sec_3)"}
               className="w-full p-3 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs font-medium text-slate-900 dark:text-white"
             />
 
