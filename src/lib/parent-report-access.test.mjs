@@ -39,3 +39,16 @@ for (const [name, source] of [["reports", reports], ["attendance", attendance]])
     assert.match(source.slice(guard, setup), /status:\s*403/);
   });
 }
+
+test("attendance POST authenticates and authorizes the action before database setup", () => {
+  const postStart = attendance.indexOf("export async function POST(req: Request)");
+  assert.ok(postStart >= 0, "POST handler must exist");
+  const post = attendance.slice(postStart);
+  const auth = post.indexOf("const ctx = await getAuthContext(req)");
+  const parse = post.indexOf("body = await req.json()");
+  const policy = post.indexOf("authorizeAttendanceWrite(ctx.user.role as string, action)");
+  const setup = post.indexOf("await ensureDbSetup()");
+  assert.ok(auth >= 0 && parse > auth && policy > parse && setup > policy);
+  assert.doesNotMatch(post, /requireRoles\(/);
+  assert.match(post, /teacher-scope-unavailable/);
+});
