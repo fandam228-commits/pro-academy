@@ -20,6 +20,13 @@ export interface HomeworkSubmissionInput {
 }
 export function canSubmitHomework(input: HomeworkSubmissionInput): boolean;
 
+export interface HomeworkCourseAccessInput {
+  role: string | null | undefined;
+  homeworkCourseId?: string | null;
+  enrolledCourseIds?: string[];
+}
+export function canAccessHomeworkCourse(input: HomeworkCourseAccessInput): boolean;
+
 export interface HomeworkFileAccessDecisionInput extends HomeworkSubmissionFileAccessInput {
   submissionFound: boolean;
   homeworkFound: boolean;
