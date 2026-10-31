@@ -82,7 +82,6 @@ const homeworkFileRouteSource = await readFile(
 test("legacy public homework URLs fail with 410 before any Blob provider read", () => {
   const legacyDecision = homeworkFileRouteSource.indexOf('storageDecision === "legacy-public-url"');
   const privateBlobRead = homeworkFileRouteSource.indexOf('await get(sub.storagePath as string');
-
   assert.notEqual(legacyDecision, -1, "the authenticated file route must handle legacy public URLs explicitly");
   assert.notEqual(privateBlobRead, -1, "private file streaming must use the Blob provider");
   assert.ok(legacyDecision < privateBlobRead, "legacy URLs must be rejected before a provider read");
@@ -143,4 +142,17 @@ test("failed homework submission inserts clean up the newly uploaded private Blo
   assert.match(guardedInsert, /await del\(storagePath, \{ token: uploadToken \}\)/);
   assert.match(guardedInsert, /Failed to remove homework upload after insert failure/);
   assert.match(guardedInsert, /throw insertError;/);
+});
+
+test("homework file route authenticates before database setup or private record reads", () => {
+  const authIndex = homeworkFileRouteSource.indexOf("const ctx = await getAuthContext(req)");
+  const unauthorizedGuardIndex = homeworkFileRouteSource.indexOf("if (!ctx)");
+  const setupIndex = homeworkFileRouteSource.indexOf("await ensureDbSetup()");
+  const submissionReadIndex = homeworkFileRouteSource.indexOf("const subs = await db.select().from(homeworkSubmissions)");
+
+  assert.ok(authIndex >= 0, "the route must resolve the session before database setup");
+  assert.ok(unauthorizedGuardIndex > authIndex, "unauthenticated requests must be rejected");
+  assert.ok(setupIndex > unauthorizedGuardIndex, "unauthenticated requests must not trigger database setup");
+  assert.ok(submissionReadIndex > setupIndex, "submission records must be read only after authentication and setup");
+  assert.match(homeworkFileRouteSource, /if\s*\(!ctx\)[\s\S]*?status:\s*401/);
 });
