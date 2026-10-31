@@ -137,7 +137,7 @@ test("failed homework submission inserts clean up the newly uploaded private Blo
   const guardStart = homeworkApiRouteSource.lastIndexOf("try {", insert);
   const guardEnd = homeworkApiRouteSource.indexOf("throw insertError;", insert);
   assert.ok(guardStart !== -1 && guardEnd > insert, "the insert must have a failure cleanup guard");
-  const guardedInsert = homeworkApiRouteSource.slice(guardStart, guardEnd);
+  const guardedInsert = homeworkApiRouteSource.slice(guardStart, guardEnd + "throw insertError;".length);
 
   assert.match(guardedInsert, /if \(storagePath && uploadToken\)/);
   assert.match(guardedInsert, /await del\(storagePath, \{ token: uploadToken \}\)/);
