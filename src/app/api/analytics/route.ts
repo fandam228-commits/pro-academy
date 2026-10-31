@@ -350,9 +350,10 @@ function buildClassAnalyticsResponse(reports: Awaited<ReturnType<typeof buildStu
 }
 
 export async function GET(req: Request) {
-  await ensureDbSetup();
+  // Reject unauthenticated requests before setup/migration work or analytics reads.
   const ctx = await getAuthContext(req);
   if (!ctx) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  await ensureDbSetup();
 
   const { searchParams } = new URL(req.url);
   const requestedStudent = searchParams.get("studentId");
