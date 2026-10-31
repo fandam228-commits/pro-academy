@@ -33,3 +33,9 @@ export interface HomeworkCourseAssignmentAccessInput {
   courseTeacherId?: string | null;
 }
 export function canAssignHomeworkToCourse(input: HomeworkCourseAssignmentAccessInput): boolean;
+
+
+export interface HomeworkSubmissionReplacementInput {
+  status?: string | null;
+}
+export function canReplaceHomeworkSubmission(input: HomeworkSubmissionReplacementInput): boolean;

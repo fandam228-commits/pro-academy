@@ -7,6 +7,7 @@ import {
   canSubmitHomework,
   getHomeworkFileAccessDecision,
   canAssignHomeworkToCourse,
+  canReplaceHomeworkSubmission,
 } from "./homework-authorization.mjs";
 
 test("teachers can manage only homework they own", () => {
@@ -172,4 +173,22 @@ test("homework create route verifies course existence and ownership before inser
     "a supplied course ID must refer to an existing course");
   assert.match(createSource, /courseId,\s*unit:/,
     "the persisted homework must use the validated course ID");
+});
+
+
+test("graded homework submissions cannot be replaced", () => {
+  assert.equal(canReplaceHomeworkSubmission({ status: "graded" }), false);
+  assert.equal(canReplaceHomeworkSubmission({ status: "submitted" }), true);
+  assert.equal(canReplaceHomeworkSubmission({ status: "pending" }), true);
+  assert.equal(canReplaceHomeworkSubmission({ status: null }), true);
+  assert.equal(canReplaceHomeworkSubmission({}), true);
+});
+
+test("submission replacement checks status before upload and uses an atomic guarded update", async () => {
+  const route = await readFile(new URL("../app/api/homework/route.ts", import.meta.url), "utf8");
+  const preflight = route.indexOf("canReplaceHomeworkSubmission({ status: existing[0].status })");
+  const upload = route.indexOf("await put(");
+  assert.ok(preflight >= 0 && upload > preflight, "graded submissions must be rejected before a Blob upload");
+  assert.match(route, /or\(isNull\(homeworkSubmissions\.status\), ne\(homeworkSubmissions\.status, "graded"\)\)/);
+  assert.match(route, /await del\(storagePath, \{ token: uploadToken \}\)/);
 });

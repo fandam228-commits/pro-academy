@@ -42,6 +42,15 @@ jobs:
         run: node --test tests/integration/homework-authorization.integration.mjs
         env:
           TEST_DATABASE_URL: postgresql://postgres:postgres@127.0.0.1:5432/proacademy_test
+      - name: PostgreSQL-backed homework replacement atomicity integration tests
+        run: |
+          if [ -z "${TEST_DATABASE_URL:-}" ]; then
+            echo "::error::TEST_DATABASE_URL is required; homework replacement integration tests must not silently skip in CI."
+            exit 1
+          fi
+          node --test tests/integration/homework-replacement-atomicity.integration.mjs
+        env:
+          TEST_DATABASE_URL: postgresql://postgres:postgres@127.0.0.1:5432/proacademy_test
       - name: PostgreSQL-backed Analytics authorization integration tests (when present)
         if: ${{ hashFiles('tests/integration/analytics-authorization.integration.mjs') != '' }}
         run: node --test tests/integration/analytics-authorization.integration.mjs
