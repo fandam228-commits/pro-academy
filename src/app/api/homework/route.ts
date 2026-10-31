@@ -17,11 +17,12 @@ function withoutStoragePath(record: object) {
 }
 
 export async function GET(req: Request) {
-  await ensureDbSetup();
   const ctx = await getAuthContext(req);
   if (!ctx) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
+  // Do not let unauthenticated requests trigger schema setup or seed work.
+  await ensureDbSetup();
 
   const { searchParams } = new URL(req.url);
   const homeworkId = searchParams.get("homeworkId");
@@ -106,11 +107,12 @@ export async function GET(req: Request) {
 }
 
 export async function POST(req: Request) {
-  await ensureDbSetup();
   const ctx = await getAuthContext(req);
   if (!ctx) {
     return NextResponse.json({ error: "Unauthorized. Login required." }, { status: 401 });
   }
+  // Authenticate before any schema setup or database mutation side effects.
+  await ensureDbSetup();
 
   const contentType = req.headers.get("content-type") || "";
 
