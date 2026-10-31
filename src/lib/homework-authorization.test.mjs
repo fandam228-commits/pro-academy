@@ -240,3 +240,24 @@ test("student homework GET and submission routes both enforce course enrollment"
   assert.ok(enrollmentGuard >= 0 && upload > enrollmentGuard && persist > enrollmentGuard,
     "course enrollment must be checked before file upload or submission persistence");
 });
+
+
+test("homework GET and POST authenticate before database setup", async () => {
+  const route = await readFile(new URL("../app/api/homework/route.ts", import.meta.url), "utf8");
+
+  for (const method of ["GET", "POST"]) {
+    const start = route.indexOf(`export async function ${method}(`);
+    assert.notEqual(start, -1, `${method} handler must exist`);
+    const nextHandler = method === "GET"
+      ? route.indexOf("export async function POST(", start)
+      : route.length;
+    const handler = route.slice(start, nextHandler < 0 ? route.length : nextHandler);
+    const auth = handler.indexOf("const ctx = await getAuthContext(req)");
+    const unauthorizedGuard = handler.indexOf("if (!ctx)", auth);
+    const setup = handler.indexOf("await ensureDbSetup()");
+
+    assert.ok(auth >= 0, `${method} must resolve authentication context`);
+    assert.ok(unauthorizedGuard > auth, `${method} must reject missing authentication`);
+    assert.ok(setup > unauthorizedGuard, `${method} must not run database setup before authentication`);
+  }
+});
