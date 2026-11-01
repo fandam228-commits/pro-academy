@@ -158,18 +158,21 @@ test("homework file route authenticates before database setup or private record 
 });
 
 test("new homework submissions upload only to the private Blob store with the dedicated token", () => {
+  const tokenHelperIndex = homeworkApiRouteSource.indexOf("const privateBlobToken = getHomeworkPrivateBlobToken()");
+  const missingTokenGuardIndex = homeworkApiRouteSource.indexOf("if (!privateBlobToken)", tokenHelperIndex);
   const uploadStart = homeworkApiRouteSource.indexOf("const blob = await put(");
   const uploadEnd = homeworkApiRouteSource.indexOf("fileName = file.name;", uploadStart);
-  assert.ok(uploadStart >= 0 && uploadEnd > uploadStart, "the submission upload block must exist");
+
+  assert.ok(tokenHelperIndex >= 0, "uploads must use the dedicated private-store token helper");
+  assert.ok(missingTokenGuardIndex > tokenHelperIndex, "the missing-token guard must follow token lookup");
+  assert.ok(uploadStart > missingTokenGuardIndex, "the upload must not happen before the fail-closed token guard");
+  assert.ok(uploadEnd > uploadStart, "the submission upload block must exist");
+
+  const tokenGuardSource = homeworkApiRouteSource.slice(tokenHelperIndex, uploadStart);
   const uploadSource = homeworkApiRouteSource.slice(uploadStart, uploadEnd);
 
   assert.match(
-    uploadSource,
-    /const privateBlobToken = getHomeworkPrivateBlobToken\(\)/,
-    "uploads must use the dedicated private-store token helper",
-  );
-  assert.match(
-    uploadSource,
+    tokenGuardSource,
     /if \(!privateBlobToken\)[\s\S]*?status:\s*503/,
     "file uploads must fail closed when the private-store token is missing",
   );
