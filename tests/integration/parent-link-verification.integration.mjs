@@ -144,3 +144,35 @@ integrationTest("PostgreSQL guarded verification fails closed when the verifier 
     assert.equal(rows[0]?.verifiedBy, null);
   });
 });
+
+
+async function guardedRevoke(db, linkId, adminId = "admin-1") {
+  return db.update(parentLinks)
+    .set({ verifiedAt: null, verifiedBy: null })
+    .where(and(
+      eq(parentLinks.id, linkId),
+      exists(db.select({ id: verifierAccount.id }).from(verifierAccount).where(and(
+        eq(verifierAccount.id, adminId),
+        eq(verifierAccount.role, "admin"),
+      ))),
+    ))
+    .returning({ id: parentLinks.id });
+}
+
+integrationTest("PostgreSQL guarded revocation fails closed when the administrator role changes after preflight", async () => {
+  await withFixture(async ({ db }) => {
+    const verified = await guardedVerify(db, "link-valid");
+    assert.deepEqual(verified.map((row) => row.id), ["link-valid"]);
+
+    const preflight = await db.select({ role: users.role }).from(users).where(eq(users.id, "admin-1"));
+    assert.equal(preflight[0]?.role, "admin");
+    await db.update(users).set({ role: "student" }).where(eq(users.id, "admin-1"));
+
+    const revoked = await guardedRevoke(db, "link-valid", "admin-1");
+    assert.deepEqual(revoked, [], "the stale administrator must not revoke the verified link");
+
+    const rows = await db.select().from(parentLinks).where(eq(parentLinks.id, "link-valid"));
+    assert.ok(rows[0]?.verifiedAt, "existing verification must remain intact when the admin role is no longer current");
+    assert.equal(rows[0]?.verifiedBy, "admin-1");
+  });
+});
