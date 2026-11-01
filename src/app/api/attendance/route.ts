@@ -37,9 +37,9 @@ export async function GET(req: Request) {
     // Teachers may only see the roster for students enrolled in their owned courses.
     // Attendance rows lack a course ID, so expose only rows they personally marked.
     if (role === "teacher" || role === "admin") {
-      const allStudents = role === "teacher"
-        ? (() => [])()
-        : await db.select().from(users).where(eq(users.role, "student"));
+      const allStudents = role === "admin"
+        ? await db.select().from(users).where(eq(users.role, "student"))
+        : [];
       const visibleStudents = role === "teacher"
         ? await (async () => {
             const rows = await db
