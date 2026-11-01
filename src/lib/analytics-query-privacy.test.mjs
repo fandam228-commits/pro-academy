@@ -299,3 +299,19 @@ test("Analytics GET authenticates and validates the role before database setup",
     "Analytics GET must reject unauthenticated and unsupported-role callers before database setup",
   );
 });
+
+
+test("teacher Analytics enrollment SQL excludes cancelled and unknown statuses before report scoping", () => {
+  const getStart = routeSource.indexOf("export async function GET(req: Request)");
+  const teacherStart = routeSource.indexOf('if (role === "teacher")', getStart);
+  const requestedStudentStart = routeSource.indexOf("if (requestedStudent)", teacherStart);
+  assert.ok(getStart >= 0 && teacherStart > getStart && requestedStudentStart > teacherStart,
+    "teacher Analytics branch and enrollment query must exist");
+  const enrollmentQuery = routeSource.slice(teacherStart, requestedStudentStart);
+  assert.match(enrollmentQuery, /eq\\(courses\\.teacherId, ctx\\.user\\.id\\)/,
+    "the enrollment allowlist must only include courses owned by the requesting teacher");
+  assert.match(enrollmentQuery, /eq\\(users\\.role, "student"\\)/,
+    "malformed enrollments must not authorize non-student accounts");
+  assert.match(enrollmentQuery, /inArray\\(enrollments\\.status, \\["active", "completed"\\]\\)/,
+    "cancelled and unknown enrollment statuses must be excluded in SQL before building report scope");
+});
