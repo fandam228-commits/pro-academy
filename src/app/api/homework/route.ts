@@ -32,12 +32,15 @@ export async function GET(req: Request) {
   if (!ctx) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
-  // Do not let unauthenticated requests trigger schema setup or seed work.
+  const role = ctx.user.role as string;
+  if (!["teacher", "admin", "student"].includes(role)) {
+    return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+  }
+  // Authenticate and authorize supported roles before schema setup or seed work.
   await ensureDbSetup();
 
   const { searchParams } = new URL(req.url);
   const homeworkId = searchParams.get("homeworkId");
-  const role = ctx.user.role as string;
 
   try {
     // Teachers may only read homework and submissions they own; admins may read all.
@@ -137,16 +140,18 @@ export async function POST(req: Request) {
   if (!ctx) {
     return NextResponse.json({ error: "Unauthorized. Login required." }, { status: 401 });
   }
-  // Authenticate before any schema setup or database mutation side effects.
-  await ensureDbSetup();
-
   const contentType = req.headers.get("content-type") || "";
+  // Only students may submit multipart answers; only teachers/admins may use JSON actions.
+  if (!contentType.includes("multipart/form-data") && !["admin", "teacher"].includes(ctx.user.role)) {
+    return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+  }
 
   // ============ STUDENT SUBMIT ANSWER (multipart, optional file) ============
   if (contentType.includes("multipart/form-data")) {
     if (!canSubmitHomework({ role: ctx.user.role })) {
       return NextResponse.json({ error: "Forbidden" }, { status: 403 });
     }
+    await ensureDbSetup();
     try {
       const form = await req.formData();
       const homeworkId = String(form.get("homeworkId") || "");
@@ -305,6 +310,14 @@ export async function POST(req: Request) {
   try {
     const body = await req.json();
     const { action } = body;
+    if (!["create", "grade", "delete"].includes(action)) {
+      return NextResponse.json({ error: "Invalid action" }, { status: 400 });
+    }
+    if (!["admin", "teacher"].includes(ctx.user.role)) {
+      return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+    }
+    // Validate the action and role before schema setup or database mutation side effects.
+    await ensureDbSetup();
 
     if (action === "create") {
       const { denied } = await requireRoles(req, ["admin", "teacher"]);
