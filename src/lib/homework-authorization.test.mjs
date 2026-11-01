@@ -11,18 +11,58 @@ import {
   canReplaceHomeworkSubmission,
 } from "./homework-authorization.mjs";
 
-test("teachers can manage only homework they own", () => {
+test("teachers can manage only their own homework with a consistent course owner", () => {
   assert.equal(
-    canManageHomework({ role: "teacher", requesterId: "teacher-1", homeworkTeacherId: "teacher-1" }),
+    canManageHomework({
+      role: "teacher", requesterId: "teacher-1", homeworkTeacherId: "teacher-1",
+      homeworkCourseId: null, courseTeacherId: null,
+    }),
+    true,
+    "grade-only homework remains supported",
+  );
+  assert.equal(
+    canManageHomework({
+      role: "teacher", requesterId: "teacher-1", homeworkTeacherId: "teacher-2",
+      homeworkCourseId: null, courseTeacherId: null,
+    }),
+    false
+  );
+  assert.equal(
+    canManageHomework({
+      role: "teacher", requesterId: "teacher-1", homeworkTeacherId: null,
+      homeworkCourseId: null, courseTeacherId: null,
+    }),
+    false
+  );
+  assert.equal(
+    canManageHomework({
+      role: "teacher", requesterId: "teacher-1", homeworkTeacherId: "teacher-1",
+      homeworkCourseId: "course-a", courseTeacherId: "teacher-1",
+    }),
     true
   );
   assert.equal(
-    canManageHomework({ role: "teacher", requesterId: "teacher-1", homeworkTeacherId: "teacher-2" }),
-    false
+    canManageHomework({
+      role: "teacher", requesterId: "teacher-1", homeworkTeacherId: "teacher-1",
+      homeworkCourseId: "course-a", courseTeacherId: "teacher-2",
+    }),
+    false,
+    "stale homework ownership must not override the current course owner",
   );
   assert.equal(
-    canManageHomework({ role: "teacher", requesterId: "teacher-1", homeworkTeacherId: null }),
-    false
+    canManageHomework({
+      role: "teacher", requesterId: "teacher-1", homeworkTeacherId: "teacher-1",
+      homeworkCourseId: "course-a", courseTeacherId: null,
+    }),
+    false,
+    "missing course owner must fail closed",
+  );
+  assert.equal(
+    canManageHomework({
+      role: "teacher", requesterId: "teacher-1", homeworkTeacherId: "teacher-1",
+    }),
+    false,
+    "missing course context must fail closed rather than assume grade-only homework",
   );
 });
 
@@ -220,6 +260,16 @@ test("homework create route verifies course existence and ownership before inser
     "the persisted homework must use the validated course ID");
 });
 
+
+test("teacher homework reads, grading, and deletion enforce linked course ownership", async () => {
+  const route = await readFile(new URL("../app/api/homework/route.ts", import.meta.url), "utf8");
+  assert.match(route, /\.leftJoin\(courses, eq\(homework\.courseId, courses\.id\)\)/);
+  assert.match(route, /or\(isNull\(homework\.courseId\), eq\(courses\.teacherId, ctx\.user\.id\)\)/);
+  assert.match(route, /homeworkCourseId:\s*hw\.courseId[\s\S]*?courseTeacherId/);
+  assert.match(route, /homeworkCourseId:\s*hw\[0\]\.courseId[\s\S]*?courseTeacherId/);
+  assert.match(route, /homeworkCourseId:\s*own\.courseId[\s\S]*?courseTeacherId/);
+  assert.match(route, /async function getHomeworkCourseTeacherId\(/);
+});
 
 test("graded homework submissions cannot be replaced", () => {
   assert.equal(canReplaceHomeworkSubmission({ status: "graded" }), false);
