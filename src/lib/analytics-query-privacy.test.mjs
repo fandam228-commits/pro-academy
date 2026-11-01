@@ -4,6 +4,7 @@ import { readFile } from "node:fs/promises";
 
 const routeSource = await readFile(new URL("../app/api/analytics/route.ts", import.meta.url), "utf8");
 const verificationRouteSource = await readFile(new URL("../app/api/parent-links/[id]/verify/route.ts", import.meta.url), "utf8");
+const attendanceRouteSource = await readFile(new URL("../app/api/attendance/route.ts", import.meta.url), "utf8");
 const reportStart = routeSource.indexOf("async function buildStudentReport(");
 const reportEnd = routeSource.indexOf("function buildClassAnalyticsResponse", reportStart);
 
@@ -201,4 +202,82 @@ test("parent-link verification rechecks current admin, parent, and student roles
   assert.match(mutation, /exists\(db\.select\(\{ id: studentAccount\.id \}\)/);
   assert.match(mutation, /eq\(studentAccount\.role, "student"\)/);
   assert.match(postSource, /if\s*\(!verifiedRows\[0\]\)[\s\S]*?status:\s*409/);
+});
+
+
+test("attendance GET authenticates and validates supported roles before database setup", () => {
+  const getStart = attendanceRouteSource.indexOf("export async function GET(req: Request)");
+  const postStart = attendanceRouteSource.indexOf("export async function POST(", getStart);
+  assert.notEqual(getStart, -1, "attendance GET handler must exist");
+  assert.notEqual(postStart, -1, "attendance POST handler must follow GET");
+  const getSource = attendanceRouteSource.slice(getStart, postStart);
+  const auth = getSource.indexOf("const ctx = await getAuthContext(req)");
+  const unauthorized = getSource.indexOf("if (!ctx)", auth);
+  const role = getSource.indexOf("const role = ctx.user.role as string", unauthorized);
+  const roleGuard = getSource.indexOf('if (!["teacher", "admin", "parent", "student"].includes(role))', role);
+  const setup = getSource.indexOf("await ensureDbSetup()");
+  assert.ok(auth >= 0 && unauthorized > auth && role > unauthorized && roleGuard > role && setup > roleGuard,
+    "attendance GET must reject unauthenticated and unsupported-role callers before database setup");
+});
+
+test("teacher attendance GET is limited to owned-course student roster and records marked by that teacher", () => {
+  const getStart = attendanceRouteSource.indexOf("export async function GET(req: Request)");
+  const postStart = attendanceRouteSource.indexOf("export async function POST(", getStart);
+  const getSource = attendanceRouteSource.slice(getStart, postStart);
+  assert.match(getSource, /eq\(courses\.teacherId, ctx\.user\.id\)/,
+    "teacher roster must be based on courses owned by the requesting teacher");
+  assert.match(getSource, /eq\(users\.role, "student"\)/,
+    "malformed enrollments must not add non-student accounts to the roster");
+  assert.match(getSource, /inArray\(enrollments\.status, \["active", "completed"\]\)/,
+    "cancelled or invalid enrollments must not authorize roster visibility");
+  assert.match(getSource, /role === "teacher"\s*\? await db\.select\(\)\.from\(attendanceRecords\)\.where\(eq\(attendanceRecords\.markedBy, ctx\.user\.id\)\)/,
+    "because attendance rows have no course key, teachers must only receive records they marked");
+  assert.match(getSource, /allRecords\.filter\(\(record\) => visibleStudents\.some\(\(student\) => student\.id === record\.studentId\)\)/,
+    "teacher session metadata must also be limited to the owned-course roster");
+});
+
+test("parent attendance GET requires an admin-verified current student and explicit child resolution", () => {
+  const parentStart = attendanceRouteSource.indexOf('if (role === "parent")');
+  const studentStart = attendanceRouteSource.indexOf("// ============ STUDENT: own records ============", parentStart);
+  assert.notEqual(parentStart, -1, "parent attendance branch must exist");
+  assert.notEqual(studentStart, -1, "student attendance branch must follow parent branch");
+  const parentSource = attendanceRouteSource.slice(parentStart, studentStart);
+  assert.match(parentSource, /innerJoin\(users, eq\(parentLinks\.studentId, users\.id\)\)/);
+  assert.match(parentSource, /innerJoin\(verifiedByUser, eq\(parentLinks\.verifiedBy, verifiedByUser\.id\)\)/);
+  assert.match(parentSource, /eq\(parentLinks\.parentId, ctx\.user\.id\)/);
+  assert.match(parentSource, /eq\(users\.role, "student"\)/);
+  assert.match(parentSource, /eq\(verifiedByUser\.role, "admin"\)/);
+  assert.match(parentSource, /isNotNull\(parentLinks\.verifiedAt\)/);
+  assert.match(parentSource, /resolveParentAnalyticsStudentId\(requestedStudent, linkedStudentIds\)/);
+  assert.doesNotMatch(parentSource, /links\s*\[\s*0\s*\]\s*\??\.\s*studentId/,
+    "parent attendance must not silently select the first linked child");
+  assert.match(parentSource, /eq\(attendanceRecords\.studentId, studentId\)/,
+    "records must be queried only for the explicitly resolved authorized child");
+});
+
+test("student attendance GET always queries only the authenticated student's records", () => {
+  const studentStart = attendanceRouteSource.indexOf("// ============ STUDENT: own records ============");
+  assert.notEqual(studentStart, -1, "student attendance branch must exist");
+  const studentSource = attendanceRouteSource.slice(studentStart);
+  assert.match(studentSource, /eq\(attendanceRecords\.studentId, ctx\.user\.id\)/);
+  assert.doesNotMatch(studentSource, /searchParams\.get\(["']studentId["']\)/,
+    "student attendance must not accept a caller-selected student ID");
+});
+
+test("teacher attendance POST rejects students outside owned active/completed enrollments", () => {
+  const postStart = attendanceRouteSource.indexOf("export async function POST(");
+  assert.notEqual(postStart, -1, "attendance POST handler must exist");
+  const postSource = attendanceRouteSource.slice(postStart);
+  const auth = postSource.indexOf("const ctx = await getAuthContext(req)");
+  const unauthorized = postSource.indexOf("if (!ctx)", auth);
+  const roleGuard = postSource.indexOf('if (ctx.user.role !== "teacher" && ctx.user.role !== "admin")', unauthorized);
+  const setup = postSource.indexOf("await ensureDbSetup()");
+  assert.ok(auth >= 0 && unauthorized > auth && roleGuard > unauthorized && setup > roleGuard,
+    "attendance POST must authorize the role before database setup");
+  assert.match(postSource, /eq\(courses\.teacherId, ctx\.user\.id\)/);
+  assert.match(postSource, /eq\(users\.role, "student"\)/);
+  assert.match(postSource, /inArray\(enrollments\.status, \["active", "completed"\]\)/);
+  assert.match(postSource, /const allowedStudentIds = new Set\(rows\.map\(\(row\) => row\.studentId\)\)/);
+  assert.match(postSource, /marks\.some\(\(mark\) => typeof mark\?\.studentId !== "string" \|\| !allowedStudentIds\.has\(mark\.studentId\)\)/,
+    "every teacher-submitted attendance mark must belong to an allowed student");
 });
