@@ -1,9 +1,15 @@
 import { db } from "@/db";
 import { attendanceRecords, users, parentLinks } from "@/db/schema";
-import { eq, and } from "drizzle-orm";
+import { eq, and, isNotNull } from "drizzle-orm";
+import { alias } from "drizzle-orm/pg-core";
+import { getVerifiedParentAnalyticsStudentIds, resolveParentAnalyticsStudentId } from "@/lib/analytics-report-scope.mjs";
 import { NextResponse } from "next/server";
 import { ensureDbSetup } from "@/db/migrate-and-seed";
 import { requireRoles, getAuthContext } from "@/lib/security";
+
+const parentAccount = alias(users, "parent_attendance_parent_account");
+const linkedStudentAccount = alias(users, "parent_attendance_student_account");
+const verifierAccount = alias(users, "parent_attendance_verifier_account");
 
 function computeRate(records: any[]) {
   if (records.length === 0) return 100;
@@ -16,15 +22,22 @@ function computeRate(records: any[]) {
 }
 
 export async function GET(req: Request) {
-  await ensureDbSetup();
   const ctx = await getAuthContext(req);
   if (!ctx) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
+  const role = ctx.user.role as string;
+  if (!["admin", "teacher", "parent", "student"].includes(role)) {
+    return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+  }
+  // Attendance rows have no reliable course ownership key; do not expose the full roster to teachers.
+  if (role === "teacher") {
+    return NextResponse.json({ error: "Teacher attendance requires course-scoped records." }, { status: 403 });
+  }
+  await ensureDbSetup();
 
   const { searchParams } = new URL(req.url);
   const date = searchParams.get("date");
-  const role = ctx.user.role as string;
 
   try {
     // ============ TEACHER / ADMIN: full roster + stats ============
@@ -58,14 +71,39 @@ export async function GET(req: Request) {
 
     // ============ PARENT: linked student's records ============
     if (role === "parent") {
-      let studentId = searchParams.get("studentId");
-      if (!studentId) {
-        const links = await db.select().from(parentLinks).where(eq(parentLinks.parentId, ctx.user.id));
-        studentId = links[0]?.studentId || null;
+      // Only an admin-verified link to a current student may authorize attendance.
+      const requestedStudentId = searchParams.get("studentId");
+      const links = await db
+        .select({
+          studentId: parentLinks.studentId,
+          verifiedAt: parentLinks.verifiedAt,
+          verifiedBy: parentLinks.verifiedBy,
+        })
+        .from(parentLinks)
+        .innerJoin(parentAccount, eq(parentLinks.parentId, parentAccount.id))
+        .innerJoin(linkedStudentAccount, eq(parentLinks.studentId, linkedStudentAccount.id))
+        .innerJoin(verifierAccount, eq(parentLinks.verifiedBy, verifierAccount.id))
+        .where(and(
+          eq(parentLinks.parentId, ctx.user.id),
+          eq(parentAccount.role, "parent"),
+          eq(linkedStudentAccount.role, "student"),
+          eq(verifierAccount.role, "admin"),
+          isNotNull(parentLinks.verifiedAt),
+          isNotNull(parentLinks.verifiedBy),
+        ));
+      const verifiedStudentIds = getVerifiedParentAnalyticsStudentIds(links);
+      const resolution = resolveParentAnalyticsStudentId(requestedStudentId, verifiedStudentIds);
+      if (!resolution.ok) {
+        const status = resolution.reason === "no-linked-student" ? 404
+          : resolution.reason === "student-id-required" || resolution.reason === "invalid-student-id" ? 400
+          : 403;
+        const error = resolution.reason === "no-linked-student" ? "No verified linked student"
+          : resolution.reason === "student-id-required" ? "studentId is required when multiple verified students are linked"
+          : resolution.reason === "invalid-student-id" ? "Invalid studentId"
+          : "Forbidden";
+        return NextResponse.json({ error }, { status });
       }
-      if (!studentId) return NextResponse.json({ error: "No linked student" }, { status: 404 });
-      const links = await db.select().from(parentLinks).where(and(eq(parentLinks.parentId, ctx.user.id), eq(parentLinks.studentId, studentId)));
-      if (!links.length) return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+      const studentId = resolution.studentId;
       const records = await db.select().from(attendanceRecords).where(eq(attendanceRecords.studentId, studentId));
       const sorted = records.sort((a, b) => (a.sessionDate < b.sessionDate ? 1 : -1));
       return NextResponse.json({ role: "parent", studentId, records: sorted, rate: computeRate(records), total: records.length });
