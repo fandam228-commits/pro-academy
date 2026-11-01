@@ -308,10 +308,10 @@ test("teacher Analytics enrollment SQL excludes cancelled and unknown statuses b
   assert.ok(getStart >= 0 && teacherStart > getStart && requestedStudentStart > teacherStart,
     "teacher Analytics branch and enrollment query must exist");
   const enrollmentQuery = routeSource.slice(teacherStart, requestedStudentStart);
-  assert.match(enrollmentQuery, /eq\\(courses\\.teacherId, ctx\\.user\\.id\\)/,
+  assert.match(enrollmentQuery, /eq\(courses\.teacherId, ctx\.user\.id\)/,
     "the enrollment allowlist must only include courses owned by the requesting teacher");
-  assert.match(enrollmentQuery, /eq\\(users\\.role, "student"\\)/,
+  assert.match(enrollmentQuery, /eq\(users\.role, "student"\)/,
     "malformed enrollments must not authorize non-student accounts");
-  assert.match(enrollmentQuery, /inArray\\(enrollments\\.status, \\["active", "completed"\\]\\)/,
+  assert.match(enrollmentQuery, /inArray\(enrollments\.status, \["active", "completed"\]\)/,
     "cancelled and unknown enrollment statuses must be excluded in SQL before building report scope");
 });
