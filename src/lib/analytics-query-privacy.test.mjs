@@ -182,3 +182,23 @@ test("unscoped report profile lookup also requires a current student account", (
     "admin and parent report builders must not resolve a non-student account as a student report",
   );
 });
+
+
+test("parent-link verification rechecks current admin, parent, and student roles atomically", () => {
+  const postStart = verificationRouteSource.indexOf("export async function POST(");
+  const deleteStart = verificationRouteSource.indexOf("export async function DELETE(", postStart + 1);
+  assert.notEqual(postStart, -1, "verification POST handler must exist");
+  assert.notEqual(deleteStart, -1, "revocation DELETE handler must exist");
+  const postSource = verificationRouteSource.slice(postStart, deleteStart);
+  const mutationStart = postSource.indexOf("const verifiedRows = await db.update(parentLinks)");
+  const mutationEnd = postSource.indexOf(".returning({ id: parentLinks.id })", mutationStart);
+  assert.ok(mutationStart >= 0 && mutationEnd > mutationStart, "verification must use a guarded UPDATE");
+  const mutation = postSource.slice(mutationStart, mutationEnd);
+  assert.match(mutation, /exists\(db\.select\(\{ id: verifierAccount\.id \}\)/);
+  assert.match(mutation, /eq\(verifierAccount\.role, "admin"\)/);
+  assert.match(mutation, /exists\(db\.select\(\{ id: parentAccount\.id \}\)/);
+  assert.match(mutation, /eq\(parentAccount\.role, "parent"\)/);
+  assert.match(mutation, /exists\(db\.select\(\{ id: studentAccount\.id \}\)/);
+  assert.match(mutation, /eq\(studentAccount\.role, "student"\)/);
+  assert.match(postSource, /if\s*\(!verifiedRows\[0\]\)[\s\S]*?status:\s*409/);
+});
