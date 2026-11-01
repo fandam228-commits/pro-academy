@@ -395,3 +395,22 @@ test("homework POST authorizes role and action before database setup", async () 
   assert.ok(actionGate >= 0 && roleGate >= 0 && jsonSetup > actionGate && jsonSetup > roleGate,
     "invalid actions and non-teacher/admin roles must be rejected before database setup");
 });
+
+
+test("successful submission replacement deletes only a prior validated private Blob path after the guarded update", async () => {
+  const route = await readFile(new URL("../app/api/homework/route.ts", import.meta.url), "utf8");
+  const updateStart = route.indexOf("const updated = await db");
+  const failedUpdateGuard = route.indexOf("if (updated.length === 0)", updateStart);
+  const previousPathRead = route.indexOf("const previousStoragePath = existing[0].storagePath", failedUpdateGuard);
+  const cleanupCall = route.indexOf("await del(previousStoragePath, { token: uploadToken })", previousPathRead);
+  const successResponse = route.indexOf("return NextResponse.json({ success: true, updated: true })", cleanupCall);
+
+  assert.ok(updateStart >= 0, "the atomic guarded database update must exist");
+  assert.ok(failedUpdateGuard > updateStart, "failed guarded updates must be handled before old-file cleanup");
+  assert.ok(previousPathRead > failedUpdateGuard, "the old path may be cleaned up only after the guarded update succeeds");
+  assert.ok(cleanupCall > previousPathRead && successResponse > cleanupCall);
+  const cleanupBlock = route.slice(previousPathRead, successResponse);
+  assert.match(cleanupBlock, /previousStoragePath !== storagePath/);
+  assert.match(cleanupBlock, /isPrivateHomeworkBlobPath\(previousStoragePath\)/,
+    "legacy absolute URLs and malformed paths must never be sent to private Blob deletion");
+});
