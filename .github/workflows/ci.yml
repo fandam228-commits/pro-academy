@@ -46,6 +46,15 @@ jobs:
           node --test tests/integration/analytics-authorization.integration.mjs
         env:
           TEST_DATABASE_URL: postgresql://postgres:postgres@127.0.0.1:5432/proacademy_test
+      - name: PostgreSQL parent-link verification guard integration tests
+        run: |
+          if [ -z "${TEST_DATABASE_URL:-}" ]; then
+            echo "::error::TEST_DATABASE_URL is required; parent-link integration tests must not silently skip in CI."
+            exit 1
+          fi
+          node --test tests/integration/parent-link-verification.integration.mjs
+        env:
+          TEST_DATABASE_URL: postgresql://postgres:postgres@127.0.0.1:5432/proacademy_test
       - name: TypeScript check
         run: npm run typecheck
         env:
