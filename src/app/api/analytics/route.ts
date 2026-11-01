@@ -67,7 +67,7 @@ async function buildStudentReport(studentId: string, scope?: TeacherReportScope)
           level: users.level,
         })
         .from(users)
-        .where(eq(users.id, studentId));
+        .where(and(eq(users.id, studentId), eq(users.role, "student")));
   const student = userRows[0];
 
   // Generated exams/attempts have no reliable course foreign key. Exclude them
