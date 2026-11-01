@@ -121,7 +121,7 @@ export async function GET(req: Request) {
     const weekPresent = weekAttendance.filter((a) => a.status === "present").length;
     const weekLate = weekAttendance.filter((a) => a.status === "late").length;
     const weekAbsent = weekAttendance.filter((a) => a.status === "absent").length;
-    const overallRate = totalAttendance > 0
+    const overallRate = role === "teacher" ? null : totalAttendance > 0
       ? Math.round(((allAttendance.filter((a) => a.status === "present").length + allAttendance.filter((a) => a.status === "late").length * 0.7) / totalAttendance) * 100)
       : 100;
 
