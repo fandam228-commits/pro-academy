@@ -69,6 +69,8 @@ test("teacher student report scope requires owned-course enrollment and excludes
     "attendance has no course ownership key and must be omitted from teacher reports");
   assert.match(routeFiles.reports, /role === "teacher" \? null : \(student\.points \|\| 0\)/,
     "global gamification values must not be exposed in teacher reports");
+  assert.match(routeFiles.reports, /if \(streak !== null\) \{\s*if \(streak >= 7\)/,
+    "teacher reports must guard nullable streak before numeric comparison");
 });
 
 test("teacher attendance bulk marking rejects students outside owned-course enrollments", () => {
