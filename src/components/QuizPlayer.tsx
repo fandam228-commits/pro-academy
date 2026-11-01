@@ -92,6 +92,10 @@ export const QuizPlayer: React.FC<QuizPlayerProps> = ({
   const [mistakePracticeAnswers, setMistakePracticeAnswers] = useState<Record<string, string>>({});
   const [mistakePracticeChecked, setMistakePracticeChecked] = useState(false);
   const [mistakePracticeCorrect, setMistakePracticeCorrect] = useState(0);
+  const [previousMistakeQuestions, setPreviousMistakeQuestions] = useState<Question[]>([]);
+  const [loadingPreviousMistakes, setLoadingPreviousMistakes] = useState(false);
+  const [previousMistakeMessage, setPreviousMistakeMessage] = useState("");
+  const [practicingPreviousMistakes, setPracticingPreviousMistakes] = useState(false);
   const draftStorageKey = isPlacementAssessment && user?.id ? `pa-placement-draft:${user.id}:${quizId}` : null;
   const draftReadyRef = useRef(false);
 
@@ -109,9 +113,14 @@ export const QuizPlayer: React.FC<QuizPlayerProps> = ({
         );
       })
     : [];
-  const currentMistakeQuestion = missedChoiceQuestions[mistakePracticeIndex];
-  const currentMistakeDetail = currentMistakeQuestion ? result?.details?.[currentMistakeQuestion.id] : null;
-  const currentMistakeAnswer = String(currentMistakeDetail?.correctAnswer || "");
+  const practiceQuestions = practicingPreviousMistakes ? previousMistakeQuestions : missedChoiceQuestions;
+  const currentMistakeQuestion = practiceQuestions[mistakePracticeIndex];
+  const currentMistakeDetail = currentMistakeQuestion
+    ? practicingPreviousMistakes
+      ? { correctAnswer: currentMistakeQuestion.correctAnswer, explanation: currentMistakeQuestion.explanation }
+      : result?.details?.[currentMistakeQuestion.id]
+    : null;
+  const currentMistakeAnswer = String(currentMistakeDetail?.correctAnswer || currentMistakeQuestion?.correctAnswer || "");
   const currentMistakeSelection = currentMistakeQuestion ? mistakePracticeAnswers[currentMistakeQuestion.id] || "" : "";
   const currentMistakeIsCorrect = Boolean(
     currentMistakeSelection &&
@@ -130,6 +139,7 @@ export const QuizPlayer: React.FC<QuizPlayerProps> = ({
     setMistakePracticeAnswers({});
     setMistakePracticeChecked(false);
     setMistakePracticeCorrect(0);
+    setPracticingPreviousMistakes(false);
   };
 
   useEffect(() => {
@@ -172,13 +182,44 @@ export const QuizPlayer: React.FC<QuizPlayerProps> = ({
     } catch {}
   }, [draftStorageKey, userAnswers, currentIndex, timeLeft, isSubmitted]);
 
-  const startMistakePractice = () => {
+  const startMistakePractice = (usePreviousMistakes = false) => {
+    setPracticingPreviousMistakes(usePreviousMistakes);
     setMistakePracticeIndex(0);
     setMistakePracticeAnswers({});
     setMistakePracticeChecked(false);
     setMistakePracticeCorrect(0);
     setMistakePracticeFinished(false);
     setMistakePracticeStarted(true);
+  };
+
+  const loadPreviousMistakes = async () => {
+    if (loadingPreviousMistakes) return;
+    setLoadingPreviousMistakes(true);
+    setPreviousMistakeMessage("");
+    try {
+      const response = await fetch("/api/question-bank", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", ...authHeaders() },
+        body: JSON.stringify({ action: "get_mistake_review", excludeExamId: quizId }),
+      });
+      const payload = await response.json();
+      if (!response.ok || !payload.success) throw new Error("Could not load previous mistakes");
+      const loadedQuestions = Array.isArray(payload.questions) ? payload.questions as Question[] : [];
+      setPreviousMistakeQuestions(loadedQuestions);
+      if (loadedQuestions.length === 0) {
+        setPreviousMistakeMessage(lang === "ar"
+          ? "لا توجد أخطاء اختيار من اختبارات سابقة تحتاج إلى مراجعة الآن."
+          : "No missed choice questions from earlier exams need review right now.");
+        return;
+      }
+      startMistakePractice(true);
+    } catch {
+      setPreviousMistakeMessage(lang === "ar"
+        ? "تعذر تحميل الأخطاء السابقة. حاول مرة أخرى."
+        : "Could not load previous mistakes. Please try again.");
+    } finally {
+      setLoadingPreviousMistakes(false);
+    }
   };
 
   const checkMistakePracticeAnswer = () => {
@@ -189,7 +230,7 @@ export const QuizPlayer: React.FC<QuizPlayerProps> = ({
 
   const nextMistakePracticeQuestion = () => {
     if (!mistakePracticeChecked) return;
-    if (mistakePracticeIndex + 1 >= missedChoiceQuestions.length) {
+    if (mistakePracticeIndex + 1 >= practiceQuestions.length) {
       setMistakePracticeFinished(true);
       return;
     }
@@ -631,20 +672,41 @@ export const QuizPlayer: React.FC<QuizPlayerProps> = ({
             </p>
           </div>
 
-          {missedChoiceQuestions.length > 0 && (
+          {submissionTarget === "smart_exam" && user?.role === "student" && !isPlacementAssessment && (
+            <section className="mb-5 flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-indigo-200 bg-indigo-50/70 p-4 dark:border-indigo-900/50 dark:bg-indigo-950/20">
+              <div>
+                <h4 className="text-sm font-black text-slate-900 dark:text-white">{lang === "ar" ? "مراجعة أخطاء اختبارات سابقة" : "Review mistakes from earlier exams"}</h4>
+                <p className="mt-1 text-[11px] leading-5 text-slate-600 dark:text-slate-300">
+                  {lang === "ar" ? "تدرّب على الأسئلة التي أخطأت فيها مؤخرًا. إذا أجبت عنها بشكل صحيح في اختبار لاحق، ستخرج من قائمة المراجعة." : "Practice questions you recently missed. Answering one correctly on a later exam removes it from this review list."}
+                </p>
+                {previousMistakeMessage && <p role="status" className="mt-2 text-[11px] font-bold text-indigo-800 dark:text-indigo-200">{previousMistakeMessage}</p>}
+              </div>
+              <button type="button" onClick={() => void loadPreviousMistakes()} disabled={loadingPreviousMistakes} className="shrink-0 rounded-xl bg-indigo-700 px-4 py-2.5 text-xs font-black text-white transition hover:bg-indigo-600 disabled:cursor-wait disabled:opacity-60">
+                {loadingPreviousMistakes
+                  ? (lang === "ar" ? "جاري تحميل الأخطاء..." : "Loading mistakes...")
+                  : (lang === "ar" ? "ابدأ مراجعة الأخطاء السابقة" : "Review previous mistakes")}
+              </button>
+            </section>
+          )}
+
+          {practiceQuestions.length > 0 && (
             <section className="mb-8 rounded-3xl border border-violet-200 bg-violet-50/70 p-5 dark:border-violet-900/60 dark:bg-violet-950/20" aria-live="polite">
               <div className="flex flex-wrap items-center justify-between gap-3">
                 <div>
                   <h4 className="text-sm font-black text-slate-900 dark:text-white">
-                    {lang === "ar" ? "تدريب الأخطاء" : "Mistake practice"}
+                    {practicingPreviousMistakes
+                      ? (lang === "ar" ? "مراجعة أخطاء سابقة" : "Review previous mistakes")
+                      : (lang === "ar" ? "تدريب الأخطاء" : "Mistake practice")}
                     <span className="ms-2 rounded-full bg-violet-100 px-2 py-0.5 text-[10px] text-violet-800 dark:bg-violet-900/60 dark:text-violet-200">
-                      {missedChoiceQuestions.length} {lang === "ar" ? "سؤال" : "questions"}
+                      {practiceQuestions.length} {lang === "ar" ? "سؤال" : "questions"}
                     </span>
                   </h4>
                   <p className="mt-1 text-[11px] leading-5 text-slate-600 dark:text-slate-300">
-                    {lang === "ar"
-                      ? "أعد حل أسئلة الاختيار التي أخطأت فيها أو تركتها، سؤالًا واحدًا كل مرة. لن تتغير نتيجة الاختبار الأصلية."
-                      : "Retry only the choice questions you missed or skipped, one at a time. Your original score stays unchanged."}
+                    {practicingPreviousMistakes
+                      ? (lang === "ar" ? "حل الأسئلة التي فاتتك في اختبارات سابقة، سؤالًا واحدًا كل مرة." : "Retry questions you missed in earlier exams, one at a time.")
+                      : (lang === "ar"
+                        ? "أعد حل أسئلة الاختيار التي أخطأت فيها أو تركتها، سؤالًا واحدًا كل مرة. لن تتغير نتيجة الاختبار الأصلية."
+                        : "Retry only the choice questions you missed or skipped, one at a time. Your original score stays unchanged.")}
                   </p>
                 </div>
                 {!mistakePracticeStarted && (
@@ -659,8 +721,10 @@ export const QuizPlayer: React.FC<QuizPlayerProps> = ({
               {mistakePracticeStarted && !mistakePracticeFinished && currentMistakeQuestion && (
                 <div className="mt-4 rounded-2xl border border-violet-200 bg-white p-4 dark:border-violet-900/50 dark:bg-slate-900">
                   <div className="mb-3 flex items-center justify-between gap-2 text-[10px] font-black text-violet-700 dark:text-violet-300">
-                    <span>{lang === "ar" ? "تدريب الأخطاء" : "Mistake practice"}</span>
-                    <span>{mistakePracticeIndex + 1} / {missedChoiceQuestions.length}</span>
+                    <span>{practicingPreviousMistakes
+                      ? (lang === "ar" ? "مراجعة أخطاء سابقة" : "Review previous mistakes")
+                      : (lang === "ar" ? "تدريب الأخطاء" : "Mistake practice")}</span>
+                    <span>{mistakePracticeIndex + 1} / {practiceQuestions.length}</span>
                   </div>
                   {currentMistakeQuestion.passageText && (
                     <details className="mb-3 rounded-xl border border-indigo-200 bg-indigo-50/70 p-3 dark:border-indigo-900 dark:bg-indigo-950/30">
@@ -712,7 +776,7 @@ export const QuizPlayer: React.FC<QuizPlayerProps> = ({
                     </button>
                     {mistakePracticeChecked ? (
                       <button type="button" onClick={nextMistakePracticeQuestion} className="rounded-xl bg-violet-700 px-4 py-2 text-[11px] font-black text-white hover:bg-violet-600">
-                        {mistakePracticeIndex + 1 >= missedChoiceQuestions.length
+                        {mistakePracticeIndex + 1 >= practiceQuestions.length
                           ? (lang === "ar" ? "إنهاء التدريب" : "Finish practice")
                           : (lang === "ar" ? "السؤال التالي" : "Next question")}
                       </button>
@@ -728,7 +792,7 @@ export const QuizPlayer: React.FC<QuizPlayerProps> = ({
               {mistakePracticeFinished && (
                 <div className="mt-4 rounded-2xl border border-emerald-200 bg-white p-4 text-center dark:border-emerald-900/60 dark:bg-slate-900">
                   <p className="text-sm font-black text-emerald-700 dark:text-emerald-300">
-                    {lang === "ar" ? `أكملت التدريب: ${mistakePracticeCorrect} من ${missedChoiceQuestions.length} إجابات صحيحة` : `Practice complete: ${mistakePracticeCorrect} of ${missedChoiceQuestions.length} correct`}
+                    {lang === "ar" ? `أكملت التدريب: ${mistakePracticeCorrect} من ${practiceQuestions.length} إجابات صحيحة` : `Practice complete: ${mistakePracticeCorrect} of ${practiceQuestions.length} correct`}
                   </p>
                   <button type="button" onClick={startMistakePractice} className="mt-3 rounded-xl bg-violet-700 px-4 py-2 text-[11px] font-black text-white hover:bg-violet-600">
                     {lang === "ar" ? "تدرب مرة أخرى" : "Practice again"}
