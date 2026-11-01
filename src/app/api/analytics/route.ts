@@ -395,6 +395,7 @@ export async function GET(req: Request) {
         .where(and(
           eq(courses.teacherId, ctx.user.id),
           eq(users.role, "student"),
+          inArray(enrollments.status, ["active", "completed"]),
         ));
       const teacherStudentIds = getTeacherAnalyticsStudentIds(teacherEnrollmentRows, ctx.user.id);
 
