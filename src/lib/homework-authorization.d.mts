@@ -2,6 +2,8 @@ export interface HomeworkManagementAccessInput {
   role: string | null | undefined;
   requesterId: string | null | undefined;
   homeworkTeacherId?: string | null;
+  homeworkCourseId?: string | null;
+  courseTeacherId?: string | null;
 }
 export function canManageHomework(input: HomeworkManagementAccessInput): boolean;
 
