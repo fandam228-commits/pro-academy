@@ -1,5 +1,5 @@
 import { db } from "@/db";
-import { questionBank, generatedExams, examAttempts, users } from "@/db/schema";
+import { questionBank, generatedExams, examAttempts, users, questions as quizQuestions, quizSubmissions } from "@/db/schema";
 import { eq, and, sql, ilike, inArray, notInArray, desc } from "drizzle-orm";
 import { NextResponse } from "next/server";
 import { ensureDbSetup } from "@/db/migrate-and-seed";
@@ -568,48 +568,86 @@ export async function POST(req: Request) {
 
     if (action === "get_mistake_review") {
       if (ctx.user.role !== "student") return NextResponse.json({ error: "Students only" }, { status: 403 });
-      const excludedExamId = String(body.excludeExamId || "");
-      const recentAttempts = await db.select().from(examAttempts)
-        .where(eq(examAttempts.studentId, ctx.user.id))
-        .orderBy(desc(examAttempts.submittedAt))
-        .limit(100);
-      const attempts = recentAttempts.filter((attempt) => attempt.examId !== excludedExamId);
-      const examIds = [...new Set(attempts.map((attempt) => attempt.examId))];
-      if (examIds.length === 0) {
-        return NextResponse.json({ success: true, questions: [] }, { headers: { "Cache-Control": "no-store" } });
+      const excludedAssessmentId = String(body.excludeAssessmentId || body.excludeExamId || "");
+      const [recentExamAttempts, recentQuizSubmissions] = await Promise.all([
+        db.select().from(examAttempts)
+          .where(eq(examAttempts.studentId, ctx.user.id))
+          .orderBy(desc(examAttempts.submittedAt))
+          .limit(100),
+        db.select().from(quizSubmissions)
+          .where(eq(quizSubmissions.studentId, ctx.user.id))
+          .orderBy(desc(quizSubmissions.submittedAt))
+          .limit(100),
+      ]);
+      const examAttemptsForReview = recentExamAttempts.filter((attempt) => attempt.examId !== excludedAssessmentId);
+      const quizSubmissionsForReview = recentQuizSubmissions.filter((submission) => submission.quizId !== excludedAssessmentId);
+      const examIds = [...new Set(examAttemptsForReview.map((attempt) => attempt.examId))];
+      const quizIds = [...new Set(quizSubmissionsForReview.map((submission) => submission.quizId))];
+      const [examRows, quizQuestionRows] = await Promise.all([
+        examIds.length ? db.select().from(generatedExams).where(inArray(generatedExams.id, examIds)) : Promise.resolve([]),
+        quizIds.length ? db.select().from(quizQuestions).where(inArray(quizQuestions.quizId, quizIds)) : Promise.resolve([]),
+      ]);
+      const examsById = new Map(examRows.map((exam) => [exam.id, exam]));
+      const questionsByQuizId = new Map<string, any[]>();
+      for (const question of quizQuestionRows) {
+        const list = questionsByQuizId.get(question.quizId) || [];
+        list.push(question);
+        questionsByQuizId.set(question.quizId, list);
       }
 
-      const examRows = await db.select().from(generatedExams).where(inArray(generatedExams.id, examIds));
-      const examsById = new Map(examRows.map((exam) => [exam.id, exam]));
-      const latestByQuestion = new Map<string, { question: any; detail: any; isCorrect: boolean }>();
+      const reviewEvents: Array<{
+        submittedAt: Date;
+        examAttempt?: typeof examAttemptsForReview[number];
+        quizSubmission?: typeof quizSubmissionsForReview[number];
+      }> = [
+        ...examAttemptsForReview.map((attempt) => ({ submittedAt: attempt.submittedAt, examAttempt: attempt })),
+        ...quizSubmissionsForReview.map((submission) => ({ submittedAt: submission.submittedAt, quizSubmission: submission })),
+      ].sort((a, b) => b.submittedAt.getTime() - a.submittedAt.getTime());
+      const latestByQuestion = new Map<string, { question: any; detail: any; options: string[]; isCorrect: boolean }>();
 
-      for (const attempt of attempts) {
-        const exam = examsById.get(attempt.examId);
-        if (!exam || exam.studentId !== ctx.user.id) continue;
-        const snapshot = Array.isArray(exam.questionsData) ? exam.questionsData as any[] : [];
-        const feedback = attempt.detailedFeedback && typeof attempt.detailedFeedback === "object"
-          ? attempt.detailedFeedback as Record<string, any>
-          : {};
+      for (const event of reviewEvents) {
+        let snapshot: any[] = [];
+        let feedback: Record<string, any> = {};
+        if (event.examAttempt) {
+          const exam = examsById.get(event.examAttempt.examId);
+          if (!exam || exam.studentId !== ctx.user.id) continue;
+          snapshot = Array.isArray(exam.questionsData) ? exam.questionsData as any[] : [];
+          feedback = event.examAttempt.detailedFeedback && typeof event.examAttempt.detailedFeedback === "object"
+            ? event.examAttempt.detailedFeedback as Record<string, any>
+            : {};
+        } else if (event.quizSubmission) {
+          const parsedFeedback = (() => {
+            try {
+              const parsed = JSON.parse(event.quizSubmission?.feedback || "{}");
+              return parsed && typeof parsed === "object" ? parsed.details || {} : {};
+            } catch {
+              return {};
+            }
+          })();
+          snapshot = questionsByQuizId.get(event.quizSubmission.quizId) || [];
+          feedback = parsedFeedback;
+        }
 
         for (const question of snapshot) {
           const id = String(question.id || "");
           const detail = feedback[id];
-          const options = Array.isArray(question.options) ? question.options : [];
+          const rawOptions = Array.isArray(question.options) ? question.options : [];
+          const options = rawOptions.filter((option: unknown) => typeof option === "string" || typeof option === "number").map(String);
           const type = String(question.type || question.questionType || "mcq");
-          if (!id || latestByQuestion.has(id) || !detail || type === "multi_select" || options.length === 0) continue;
-          latestByQuestion.set(id, { question, detail, isCorrect: Boolean(detail.isCorrect) });
+          if (!id || latestByQuestion.has(id) || !detail || type === "multi_select" || options.length < 2) continue;
+          latestByQuestion.set(id, { question, detail, options, isCorrect: Boolean(detail.isCorrect) });
         }
       }
 
       const questions = [...latestByQuestion.values()]
         .filter((item) => !item.isCorrect)
         .slice(0, 20)
-        .map(({ question, detail }) => ({
+        .map(({ question, detail, options }) => ({
           id: String(question.id),
           type: String(question.type || question.questionType || "mcq"),
           questionText: String(question.questionText || detail.questionText || ""),
           passageText: question.passageText ? String(question.passageText) : undefined,
-          options: question.options.map((option: unknown) => String(option)),
+          options,
           correctAnswer: String(detail.correctAnswer || question.correctAnswer || ""),
           explanation: detail.explanation || question.explanation || undefined,
           topic: detail.topic || question.topic || question.grammarTopic || undefined,
