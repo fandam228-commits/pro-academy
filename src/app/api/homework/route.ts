@@ -12,6 +12,17 @@ import { canManageHomework, canSubmitHomework, canAccessHomeworkCourse, canAssig
 
 const MAX_SIZE_BYTES = 20 * 1024 * 1024; // 20MB
 
+async function getHomeworkCourseTeacherId(courseId: string | null | undefined): Promise<string | null> {
+  if (courseId === null || courseId === undefined || typeof courseId !== "string" || courseId.trim() === "") {
+    return null;
+  }
+  const rows = await db
+    .select({ teacherId: courses.teacherId })
+    .from(courses)
+    .where(eq(courses.id, courseId));
+  return rows[0]?.teacherId ?? null;
+}
+
 function withoutStoragePath(record: object) {
   return Object.fromEntries(Object.entries(record).filter(([key]) => key !== "storagePath"));
 }
@@ -37,7 +48,14 @@ export async function GET(req: Request) {
           return NextResponse.json({ error: "Homework not found" }, { status: 404 });
         }
         const hw = hwRows[0];
-        if (!canManageHomework({ role, requesterId: ctx.user.id, homeworkTeacherId: hw.teacherId })) {
+        const courseTeacherId = await getHomeworkCourseTeacherId(hw.courseId);
+        if (!canManageHomework({
+          role,
+          requesterId: ctx.user.id,
+          homeworkTeacherId: hw.teacherId,
+          homeworkCourseId: hw.courseId,
+          courseTeacherId,
+        })) {
           return NextResponse.json({ error: "Forbidden" }, { status: 403 });
         }
         const subs = await db
@@ -52,7 +70,15 @@ export async function GET(req: Request) {
 
       const allHw = role === "admin"
         ? await db.select().from(homework)
-        : await db.select().from(homework).where(eq(homework.teacherId, ctx.user.id));
+        : (await db
+            .select({ assignment: homework })
+            .from(homework)
+            .leftJoin(courses, eq(homework.courseId, courses.id))
+            .where(and(
+              eq(homework.teacherId, ctx.user.id),
+              or(isNull(homework.courseId), eq(courses.teacherId, ctx.user.id)),
+            )))
+            .map(({ assignment }) => assignment);
       const homeworkIds = allHw.map((assignment) => assignment.id);
       const allSubs = homeworkIds.length
         ? await db.select().from(homeworkSubmissions).where(inArray(homeworkSubmissions.homeworkId, homeworkIds))
@@ -361,7 +387,14 @@ export async function POST(req: Request) {
       if (hw.length === 0) {
         return NextResponse.json({ error: "Homework not found" }, { status: 404 });
       }
-      if (ctx.user.role === "teacher" && hw[0].teacherId !== ctx.user.id) {
+      const courseTeacherId = await getHomeworkCourseTeacherId(hw[0].courseId);
+      if (!canManageHomework({
+        role: ctx.user.role as string,
+        requesterId: ctx.user.id,
+        homeworkTeacherId: hw[0].teacherId,
+        homeworkCourseId: hw[0].courseId,
+        courseTeacherId,
+      })) {
         return NextResponse.json({ error: "Forbidden" }, { status: 403 });
       }
       const maxPts = hw[0]?.totalPoints || 50;
@@ -394,8 +427,18 @@ export async function POST(req: Request) {
       const { denied } = await requireRoles(req, ["admin", "teacher"]);
       if (denied) return denied;
       if (ctx.user.role === "teacher") {
-        const own = await db.select({ id: homework.id }).from(homework).where(and(eq(homework.id, body.homeworkId), eq(homework.teacherId, ctx.user.id)));
-        if (own.length === 0) return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+        const ownRows = await db.select().from(homework).where(eq(homework.id, body.homeworkId));
+        const own = ownRows[0];
+        const courseTeacherId = own ? await getHomeworkCourseTeacherId(own.courseId) : null;
+        if (!own || !canManageHomework({
+          role: ctx.user.role as string,
+          requesterId: ctx.user.id,
+          homeworkTeacherId: own.teacherId,
+          homeworkCourseId: own.courseId,
+          courseTeacherId,
+        })) {
+          return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+        }
       }
       await db.delete(homework).where(eq(homework.id, body.homeworkId));
       return NextResponse.json({ success: true });
