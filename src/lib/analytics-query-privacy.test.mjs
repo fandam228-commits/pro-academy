@@ -363,21 +363,21 @@ test("parent-link revocation rechecks the current administrator role in the UPDA
     "a stale or revoked administrator must not receive a successful revocation response");
 });
 
+
 test("admin class analytics loads only student IDs before building individual reports", () => {
   const adminStart = routeSource.indexOf("// ---------- ADMIN: unrestricted analytics ----------");
   const teacherStart = routeSource.indexOf("// ---------- TEACHER: only students enrolled in courses owned by this teacher ----------", adminStart);
   assert.ok(adminStart >= 0 && teacherStart > adminStart, "admin and teacher Analytics branches must exist");
   const adminSource = routeSource.slice(adminStart, teacherStart);
 
-  assert.match(
-    adminSource,
-    /const students = await db\\.select\\(\\{\\s*id: users\\.id\\s*\\}\\)\\.from\\(users\\)\\.where\\(eq\\(users\\.role, "student"\\)\\)/,
+  assert.ok(
+    adminSource.includes('const students = await db.select({ id: users.id }).from(users).where(eq(users.role, "student"));'),
     "admin class roster should fetch only IDs needed to build reports",
   );
   assert.doesNotMatch(
     adminSource,
-    /db\\.select\\(\\)\\.from\\(users\\)/,
+    /db\.select\(\)\.from\(users\)/,
     "class report generation must not load password, contact, or other unrelated user columns",
   );
-  assert.match(adminSource, /students\\.map\\(\\(s\\) => buildStudentReport\\(s\\.id\\)\\)/);
+  assert.ok(adminSource.includes("students.map((s) => buildStudentReport(s.id))"));
 });
