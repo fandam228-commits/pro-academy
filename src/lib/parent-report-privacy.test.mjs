@@ -59,7 +59,7 @@ test("teacher student report scope requires owned-course enrollment and excludes
   assert.match(routeFiles.reports, /eq\(homework\.teacherId, ctx\.user\.id\)/);
   assert.match(routeFiles.reports, /inArray\(homeworkSubmissions\.homeworkId, visibleHomeworkIds!\)/);
   assert.match(routeFiles.reports, /inArray\(quizSubmissions\.quizId, visibleQuizIds!\)/);
-  assert.match(routeFiles.reports, /role === "teacher" \? \[\] : await db\.select\(\)\.from\(attendanceRecords\)/,
+  assert.match(routeFiles.reports, /const overallRate = role === "teacher" \\? null :/,\n    "teacher reports must not fabricate a 100% attendance rate when attendance cannot be scoped");\n  assert.match(routeFiles.reports, /role === "teacher" \? \[\] : await db\.select\(\)\.from\(attendanceRecords\)/,
     "attendance has no course ownership key and must be omitted from teacher reports");
   assert.match(routeFiles.reports, /role === "teacher" \? null : \(student\.points \|\| 0\)/,
     "global gamification values must not be exposed in teacher reports");
