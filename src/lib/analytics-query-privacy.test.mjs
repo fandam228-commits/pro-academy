@@ -3,6 +3,7 @@ import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 
 const routeSource = await readFile(new URL("../app/api/analytics/route.ts", import.meta.url), "utf8");
+const verificationRouteSource = await readFile(new URL("../app/api/parent-links/[id]/verify/route.ts", import.meta.url), "utf8");
 const reportStart = routeSource.indexOf("async function buildStudentReport(");
 const reportEnd = routeSource.indexOf("function buildClassAnalyticsResponse", reportStart);
 
@@ -113,7 +114,6 @@ test("parent analytics route requires explicit selection when multiple verified 
   );
 });
 
-
 test("teacher reports scope quiz, homework, submission, and enrollment reads to owned courses", () => {
   const reportSource = routeSource.slice(reportStart, reportEnd);
   assert.match(reportSource, /innerJoin\(quizzes, eq\(quizSubmissions\.quizId, quizzes\.id\)\)/);
@@ -136,7 +136,6 @@ test("teacher reports omit unscopable exam, attendance, and question-bank data",
     "global question-bank records must not be used to derive teacher-scoped mastery");
 });
 
-
 test("Analytics GET authenticates and validates supported roles before database setup", () => {
   const getStart = routeSource.indexOf("export async function GET(req: Request)");
   assert.notEqual(getStart, -1, "Analytics GET handler must exist");
@@ -150,4 +149,21 @@ test("Analytics GET authenticates and validates supported roles before database 
     auth >= 0 && unauthorized > auth && role > unauthorized && roleGuard > role && setup > roleGuard,
     "authentication and supported-role validation must finish before database setup",
   );
+});
+
+test("parent-link verification and revocation authenticate and authorize before database setup", () => {
+  for (const method of ["POST", "DELETE"]) {
+    const handlerStart = verificationRouteSource.indexOf("export async function " + method + "(");
+    assert.notEqual(handlerStart, -1, method + " handler must exist");
+    const nextHandler = verificationRouteSource.indexOf("export async function ", handlerStart + 1);
+    const handler = verificationRouteSource.slice(handlerStart, nextHandler === -1 ? undefined : nextHandler);
+    const auth = handler.indexOf("const ctx = await getAuthContext(req)");
+    const unauthorized = handler.indexOf('if (!ctx) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });', auth);
+    const adminGuard = handler.indexOf('if (ctx.user.role !== "admin") return NextResponse.json({ error: "Forbidden" }, { status: 403 });', unauthorized);
+    const setup = handler.indexOf("await ensureDbSetup()");
+    assert.ok(
+      auth >= 0 && unauthorized > auth && adminGuard > unauthorized && setup > adminGuard,
+      method + " must reject unauthenticated/non-admin callers before schema setup",
+    );
+  }
 });
