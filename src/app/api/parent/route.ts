@@ -12,7 +12,9 @@ const verifiedByUser = alias(users, "parent_route_verified_by_user");
 export async function GET(req: Request) {
   const ctx = await getAuthContext(req);
   if (!ctx) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-  if (ctx.user.role !== "parent" && ctx.user.role !== "admin" && ctx.user.role !== "teacher") {
+  // This is a parent overview endpoint, not a teacher report endpoint. Teachers must use
+  // /api/reports, which scopes every report to courses they own.
+  if (ctx.user.role !== "parent" && ctx.user.role !== "admin") {
     return NextResponse.json({ error: "Forbidden" }, { status: 403 });
   }
 
