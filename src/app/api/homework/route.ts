@@ -109,14 +109,16 @@ export async function GET(req: Request) {
         inArray(enrollments.status, ["active", "completed"]),
       ));
     const enrolledCourseIds = [...new Set(enrollmentRows.map((row) => row.courseId))];
-    let list = await db.select().from(homework);
-    list = list.filter((assignment) =>
-      (!myGrade || assignment.grade === myGrade || !assignment.grade) &&
-      canAccessHomeworkCourse({
-        role,
-        homeworkCourseId: assignment.courseId,
-        enrolledCourseIds,
-      })
+    // Apply student visibility at the database layer rather than loading every
+    // teacher's homework into memory and filtering afterward.
+    const courseVisibility = enrolledCourseIds.length > 0
+      ? or(isNull(homework.courseId), inArray(homework.courseId, enrolledCourseIds))
+      : isNull(homework.courseId);
+    const gradeVisibility = myGrade
+      ? or(isNull(homework.grade), eq(homework.grade, ""), eq(homework.grade, myGrade))
+      : undefined;
+    const list = await db.select().from(homework).where(
+      gradeVisibility ? and(courseVisibility, gradeVisibility) : courseVisibility
     );
     const mySubs = await db
       .select()
