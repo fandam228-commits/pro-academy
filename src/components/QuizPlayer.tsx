@@ -200,7 +200,7 @@ export const QuizPlayer: React.FC<QuizPlayerProps> = ({
       const response = await fetch("/api/question-bank", {
         method: "POST",
         headers: { "Content-Type": "application/json", ...authHeaders() },
-        body: JSON.stringify({ action: "get_mistake_review", excludeExamId: quizId }),
+        body: JSON.stringify({ action: "get_mistake_review", excludeAssessmentId: quizId }),
       });
       const payload = await response.json();
       if (!response.ok || !payload.success) throw new Error("Could not load previous mistakes");
@@ -672,12 +672,12 @@ export const QuizPlayer: React.FC<QuizPlayerProps> = ({
             </p>
           </div>
 
-          {submissionTarget === "smart_exam" && user?.role === "student" && !isPlacementAssessment && (
+          {(submissionTarget === "smart_exam" || submissionTarget === "quiz") && user?.role === "student" && !isPlacementAssessment && (
             <section className="mb-5 flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-indigo-200 bg-indigo-50/70 p-4 dark:border-indigo-900/50 dark:bg-indigo-950/20">
               <div>
-                <h4 className="text-sm font-black text-slate-900 dark:text-white">{lang === "ar" ? "مراجعة أخطاء اختبارات سابقة" : "Review mistakes from earlier exams"}</h4>
+                <h4 className="text-sm font-black text-slate-900 dark:text-white">{lang === "ar" ? "مراجعة أخطاء الاختبارات والكويزات السابقة" : "Review mistakes from previous tests and quizzes"}</h4>
                 <p className="mt-1 text-[11px] leading-5 text-slate-600 dark:text-slate-300">
-                  {lang === "ar" ? "تدرّب على الأسئلة التي أخطأت فيها مؤخرًا. إذا أجبت عنها بشكل صحيح في اختبار لاحق، ستخرج من قائمة المراجعة." : "Practice questions you recently missed. Answering one correctly on a later exam removes it from this review list."}
+                  {lang === "ar" ? "راجع الأسئلة التي أخطأت فيها في الاختبارات وكويزات الدروس. الإجابة الصحيحة في محاولة أحدث تخرج السؤال من القائمة." : "Review questions missed in tests and lesson quizzes. A correct answer in a later attempt removes a question from this list."}
                 </p>
                 {previousMistakeMessage && <p role="status" className="mt-2 text-[11px] font-bold text-indigo-800 dark:text-indigo-200">{previousMistakeMessage}</p>}
               </div>
