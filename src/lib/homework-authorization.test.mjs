@@ -365,3 +365,33 @@ test("homework GET and POST authenticate before database setup", async () => {
     assert.ok(setup > unauthorizedGuard, `${method} must not run database setup before authentication`);
   }
 });
+
+
+test("homework GET rejects unsupported roles before database setup", async () => {
+  const route = await readFile(new URL("../app/api/homework/route.ts", import.meta.url), "utf8");
+  const start = route.indexOf("export async function GET(");
+  const next = route.indexOf("export async function POST(", start);
+  const handler = route.slice(start, next);
+  const roleGate = handler.indexOf('if (!["teacher", "admin", "student"].includes(role))');
+  const setup = handler.indexOf("await ensureDbSetup()");
+  assert.ok(roleGate >= 0 && setup > roleGate,
+    "unsupported authenticated roles must be rejected before database setup");
+});
+
+test("homework POST authorizes role and action before database setup", async () => {
+  const route = await readFile(new URL("../app/api/homework/route.ts", import.meta.url), "utf8");
+  const start = route.indexOf("export async function POST(");
+  const handler = route.slice(start);
+  const multipartStart = handler.indexOf('if (contentType.includes("multipart/form-data"))');
+  const multipartRoleGate = handler.indexOf("canSubmitHomework({ role: ctx.user.role })", multipartStart);
+  const multipartSetup = handler.indexOf("await ensureDbSetup()", multipartStart);
+  assert.ok(multipartRoleGate >= 0 && multipartSetup > multipartRoleGate,
+    "non-student multipart requests must be rejected before database setup");
+
+  const jsonStart = handler.indexOf("// ============ JSON ACTIONS");
+  const actionGate = handler.indexOf('if (!["create", "grade", "delete"].includes(action))', jsonStart);
+  const roleGate = handler.indexOf('if (!["admin", "teacher"].includes(ctx.user.role))', jsonStart);
+  const jsonSetup = handler.indexOf("await ensureDbSetup()", jsonStart);
+  assert.ok(actionGate >= 0 && roleGate >= 0 && jsonSetup > actionGate && jsonSetup > roleGate,
+    "invalid actions and non-teacher/admin roles must be rejected before database setup");
+});
