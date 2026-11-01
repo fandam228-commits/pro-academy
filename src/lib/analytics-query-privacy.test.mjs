@@ -270,7 +270,7 @@ test("teacher attendance POST rejects students outside owned active/completed en
   const postSource = attendanceRouteSource.slice(postStart);
   const auth = postSource.indexOf("const ctx = await getAuthContext(req)");
   const unauthorized = postSource.indexOf("if (!ctx)", auth);
-  const roleGuard = postSource.indexOf('if (ctx.user.role !== "teacher" && ctx.user.role !== "admin")', unauthorized);
+  const roleGuard = postSource.indexOf('if (!["teacher", "admin", "student"].includes(ctx.user.role))', unauthorized);
   const setup = postSource.indexOf("await ensureDbSetup()");
   assert.ok(auth >= 0 && unauthorized > auth && roleGuard > unauthorized && setup > roleGuard,
     "attendance POST must authorize the role before database setup");
@@ -278,6 +278,8 @@ test("teacher attendance POST rejects students outside owned active/completed en
   assert.match(postSource, /eq\(users\.role, "student"\)/);
   assert.match(postSource, /inArray\(enrollments\.status, \["active", "completed"\]\)/);
   assert.match(postSource, /const allowedStudentIds = new Set\(rows\.map\(\(row\) => row\.studentId\)\)/);
+  assert.match(postSource, /requireRoles\(req, \["teacher", "admin"\]\)/,
+    "bulk attendance marking must independently restrict writes to teachers and admins");
   assert.match(postSource, /marks\.some\(\(mark\) => typeof mark\?\.studentId !== "string" \|\| !allowedStudentIds\.has\(mark\.studentId\)\)/,
     "every teacher-submitted attendance mark must belong to an allowed student");
 });
