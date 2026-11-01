@@ -710,7 +710,7 @@ export const QuizPlayer: React.FC<QuizPlayerProps> = ({
                   </p>
                 </div>
                 {!mistakePracticeStarted && (
-                  <button type="button" onClick={startMistakePractice} className="rounded-xl bg-violet-700 px-4 py-2.5 text-xs font-black text-white transition hover:bg-violet-600">
+                  <button type="button" onClick={() => startMistakePractice()} className="rounded-xl bg-violet-700 px-4 py-2.5 text-xs font-black text-white transition hover:bg-violet-600">
                     {mistakePracticeFinished
                       ? (lang === "ar" ? "تدرب مرة أخرى" : "Practice again")
                       : (lang === "ar" ? "ابدأ التدريب" : "Start practice")}
@@ -794,7 +794,7 @@ export const QuizPlayer: React.FC<QuizPlayerProps> = ({
                   <p className="text-sm font-black text-emerald-700 dark:text-emerald-300">
                     {lang === "ar" ? `أكملت التدريب: ${mistakePracticeCorrect} من ${practiceQuestions.length} إجابات صحيحة` : `Practice complete: ${mistakePracticeCorrect} of ${practiceQuestions.length} correct`}
                   </p>
-                  <button type="button" onClick={startMistakePractice} className="mt-3 rounded-xl bg-violet-700 px-4 py-2 text-[11px] font-black text-white hover:bg-violet-600">
+                  <button type="button" onClick={() => startMistakePractice()} className="mt-3 rounded-xl bg-violet-700 px-4 py-2 text-[11px] font-black text-white hover:bg-violet-600">
                     {lang === "ar" ? "تدرب مرة أخرى" : "Practice again"}
                   </button>
                 </div>
