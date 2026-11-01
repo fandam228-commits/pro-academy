@@ -161,7 +161,7 @@ test("new homework submissions upload only to the private Blob store with the de
   const tokenHelperIndex = homeworkApiRouteSource.indexOf("const privateBlobToken = getHomeworkPrivateBlobToken()");
   const missingTokenGuardIndex = homeworkApiRouteSource.indexOf("if (!privateBlobToken)", tokenHelperIndex);
   const uploadStart = homeworkApiRouteSource.indexOf("const blob = await put(");
-  const uploadEnd = homeworkApiRouteSource.indexOf("fileName = file.name;", uploadStart);
+  const uploadEnd = homeworkApiRouteSource.indexOf("if (existing.length > 0)", uploadStart);
 
   assert.ok(tokenHelperIndex >= 0, "uploads must use the dedicated private-store token helper");
   assert.ok(missingTokenGuardIndex > tokenHelperIndex, "the missing-token guard must follow token lookup");
