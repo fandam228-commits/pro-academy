@@ -200,8 +200,11 @@ export async function GET(req: Request) {
     if (overallRate !== null && overallRate >= 90) strengths.push("التزام عالي بالحضور والمواظبة");
     else if (overallRate !== null && overallRate < 75) weaknesses.push("نسبة الحضور منخفضة — يحتاج متابعة");
 
-    if (streak >= 7) strengths.push(`تتابع دراسي ممتاز: ${streak} يوم متواصل`);
-    else weaknesses.push("التتابع الدراسي ضعيف — يحتاج تحفيز يومي");
+    // Teacher reports deliberately omit global streak data; do not compare null with a number.
+    if (streak !== null) {
+      if (streak >= 7) strengths.push(`تتابع دراسي ممتاز: ${streak} يوم متواصل`);
+      else weaknesses.push("التتابع الدراسي ضعيف — يحتاج تحفيز يومي");
+    }
 
     if (avgQuizScore !== null && avgQuizScore >= 80) strengths.push(`أداء امتحانات متميز: ${avgQuizScore}%`);
     else if (avgQuizScore !== null && avgQuizScore < 60) weaknesses.push(`متوسط الامتحانات ضعيف: ${avgQuizScore}% — يحتاج مراجعة مكثفة`);
