@@ -14,22 +14,22 @@ test("analytics report profile query uses an explicit field allowlist", () => {
 
   assert.doesNotMatch(
     reportSource,
-    /db\\.select\\(\\)\\.from\\(users\\)/,
+    /db\.select\(\)\.from\(users\)/,
     "report generation must not load the entire user row",
   );
-  assert.match(reportSource, /id:\\s*users\\.id/);
-  assert.match(reportSource, /name:\\s*users\\.name/);
-  assert.match(reportSource, /grade:\\s*users\\.grade/);
-  assert.match(reportSource, /points:\\s*users\\.points/);
-  assert.match(reportSource, /streak:\\s*users\\.streak/);
-  assert.match(reportSource, /level:\\s*users\\.level/);
+  assert.match(reportSource, /id:\s*users\.id/);
+  assert.match(reportSource, /name:\s*users\.name/);
+  assert.match(reportSource, /grade:\s*users\.grade/);
+  assert.match(reportSource, /points:\s*users\.points/);
+  assert.match(reportSource, /streak:\s*users\.streak/);
+  assert.match(reportSource, /level:\s*users\.level/);
 });
 
 test("teacher-scoped report profile query verifies the account role in SQL", () => {
   const reportSource = routeSource.slice(reportStart, reportEnd);
   assert.match(
     reportSource,
-    /eq\\(users\\.role, "student"\\)/,
+    /eq\(users\.role, "student"\)/,
     "teacher-scoped profile lookup must fail closed for non-student or stale accounts",
   );
 });
@@ -40,14 +40,14 @@ test("parent analytics route requires an admin-verified link to a current studen
   assert.notEqual(studentStart, -1, "student branch must follow the parent branch");
   const parentSource = routeSource.slice(parentStart, studentStart);
 
-  assert.match(parentSource, /\\.innerJoin\\(users, eq\\(parentLinks\\.studentId, users\\.id\\)\\)/);
-  assert.match(parentSource, /\\.innerJoin\\(verifiedByUser, eq\\(parentLinks\\.verifiedBy, verifiedByUser\\.id\\)\\)/);
-  assert.match(parentSource, /eq\\(verifiedByUser\\.role, "admin"\\)/);
-  assert.match(parentSource, /eq\\(parentLinks\\.parentId, ctx\\.user\\.id\\)/);
-  assert.match(parentSource, /eq\\(users\\.role, "student"\\)/);
-  assert.match(parentSource, /isNotNull\\(parentLinks\\.verifiedAt\\)/);
-  assert.match(parentSource, /isNotNull\\(parentLinks\\.verifiedBy\\)/);
-  assert.match(parentSource, /getVerifiedParentAnalyticsStudentIds\\(links\\)/);
+  assert.match(parentSource, /\.innerJoin\(users, eq\(parentLinks\.studentId, users\.id\)\)/);
+  assert.match(parentSource, /\.innerJoin\(verifiedByUser, eq\(parentLinks\.verifiedBy, verifiedByUser\.id\)\)/);
+  assert.match(parentSource, /eq\(verifiedByUser\.role, "admin"\)/);
+  assert.match(parentSource, /eq\(parentLinks\.parentId, ctx\.user\.id\)/);
+  assert.match(parentSource, /eq\(users\.role, "student"\)/);
+  assert.match(parentSource, /isNotNull\(parentLinks\.verifiedAt\)/);
+  assert.match(parentSource, /isNotNull\(parentLinks\.verifiedBy\)/);
+  assert.match(parentSource, /getVerifiedParentAnalyticsStudentIds\(links\)/);
 });
 
 test("student analytics route authorizes the requested ID but only builds the authenticated student's report", () => {
@@ -55,10 +55,10 @@ test("student analytics route authorizes the requested ID but only builds the au
   assert.notEqual(studentStart, -1, "student analytics branch must exist");
   const studentSource = routeSource.slice(studentStart);
 
-  assert.match(studentSource, /studentId:\\s*requestedStudent\\s*\\|\\|\\s*ctx\\.user\\.id/);
-  assert.match(studentSource, /if\\s*\\(!canAccessStudentAnalytics\\(/);
-  assert.match(studentSource, /const report = await buildStudentReport\\(ctx\\.user\\.id\\)/);
-  assert.doesNotMatch(studentSource, /buildStudentReport\\(requestedStudent\\)/);
+  assert.match(studentSource, /studentId:\s*requestedStudent\s*\|\|\s*ctx\.user\.id/);
+  assert.match(studentSource, /if\s*\(!canAccessStudentAnalytics\(/);
+  assert.match(studentSource, /const report = await buildStudentReport\(ctx\.user\.id\)/);
+  assert.doesNotMatch(studentSource, /buildStudentReport\(requestedStudent\)/);
 });
 
 test("teacher reports always pass an owned-course scope to the report builder", () => {
@@ -70,22 +70,22 @@ test("teacher reports always pass an owned-course scope to the report builder", 
 
   assert.match(
     teacherSource,
-    /const allowedCourseIds = getTeacherAnalyticsCourseIds\\(teacherEnrollmentRows, ctx\\.user\\.id, requestedStudent\\)/,
+    /const allowedCourseIds = getTeacherAnalyticsCourseIds\(teacherEnrollmentRows, ctx\.user\.id, requestedStudent\)/,
     "single-student reports must derive the requesting teacher's enrolled-course scope",
   );
   assert.match(
     teacherSource,
-    /buildStudentReport\\(requestedStudent,\\s*\\{\\s*teacherId:\\s*ctx\\.user\\.id,\\s*allowedCourseIds,\\s*\\}\\)/,
+    /buildStudentReport\(requestedStudent,\s*\{\s*teacherId:\s*ctx\.user\.id,\s*allowedCourseIds,\s*\}\)/,
     "single-student teacher reports must pass the explicit scope to the builder",
   );
   assert.match(
     teacherSource,
-    /buildStudentReport\\(student\\.id,\\s*\\{\\s*teacherId:\\s*ctx\\.user\\.id,\\s*allowedCourseIds:\\s*getTeacherAnalyticsCourseIds\\(teacherEnrollmentRows,\\s*ctx\\.user\\.id,\\s*student\\.id\\),\\s*\\}\\)/,
+    /buildStudentReport\(student\.id,\s*\{\s*teacherId:\s*ctx\.user\.id,\s*allowedCourseIds:\s*getTeacherAnalyticsCourseIds\(teacherEnrollmentRows,\s*ctx\.user\.id,\s*student\.id\),\s*\}\)/,
     "class reports must pass a per-student owned-course scope to the builder",
   );
   assert.doesNotMatch(
     teacherSource,
-    /buildStudentReport\\(requestedStudent\\)/,
+    /buildStudentReport\(requestedStudent\)/,
     "teacher-specific report requests must never call the unscoped report builder",
   );
 });
@@ -99,40 +99,40 @@ test("parent analytics route requires explicit selection when multiple verified 
 
   assert.match(
     parentSource,
-    /resolveParentAnalyticsStudentId\\(requestedStudent,\\s*linkedParentStudentIds\\)/,
+    /resolveParentAnalyticsStudentId\(requestedStudent,\s*linkedParentStudentIds\)/,
     "the route must resolve the requested child against verified linked IDs",
   );
   assert.match(
     parentSource,
-    /resolution\\.reason === "student-id-required"/,
+    /resolution\.reason === "student-id-required"/,
     "the route must return an explicit-selection error when multiple children are linked",
   );
   assert.doesNotMatch(
     parentSource,
-    /links\\s*\\[\\s*0\\s*\\]\\s*\\??\\.\\s*studentId|linkedParentStudentIds\\s*\\[\\s*0\\s*\\]/,
+    /links\s*\[\s*0\s*\]\s*\??\.\s*studentId|linkedParentStudentIds\s*\[\s*0\s*\]/,
     "the route must never silently select the first linked child",
   );
 });
 
 test("teacher reports scope quiz, homework, submission, and enrollment reads to owned courses", () => {
   const reportSource = routeSource.slice(reportStart, reportEnd);
-  assert.match(reportSource, /innerJoin\\(quizzes, eq\\(quizSubmissions\\.quizId, quizzes\\.id\\)\\)/);
-  assert.match(reportSource, /inArray\\(quizzes\\.courseId, scope\\.allowedCourseIds\\)/);
-  assert.match(reportSource, /eq\\(homework\\.teacherId, scope\\.teacherId\\)/);
-  assert.match(reportSource, /inArray\\(homework\\.courseId, scope\\.allowedCourseIds\\)/);
-  assert.match(reportSource, /eq\\(homeworkSubmissions\\.studentId, studentId\\)/);
-  assert.match(reportSource, /inArray\\(homeworkSubmissions\\.homeworkId, \\[\\.\\.\\.visibleHomeworkIds\\]\\)/);
-  assert.match(reportSource, /eq\\(enrollments\\.studentId, studentId\\)/);
-  assert.match(reportSource, /inArray\\(enrollments\\.courseId, scope\\.allowedCourseIds\\)/);
+  assert.match(reportSource, /innerJoin\(quizzes, eq\(quizSubmissions\.quizId, quizzes\.id\)\)/);
+  assert.match(reportSource, /inArray\(quizzes\.courseId, scope\.allowedCourseIds\)/);
+  assert.match(reportSource, /eq\(homework\.teacherId, scope\.teacherId\)/);
+  assert.match(reportSource, /inArray\(homework\.courseId, scope\.allowedCourseIds\)/);
+  assert.match(reportSource, /eq\(homeworkSubmissions\.studentId, studentId\)/);
+  assert.match(reportSource, /inArray\(homeworkSubmissions\.homeworkId, \[\.\.\.visibleHomeworkIds\]\)/);
+  assert.match(reportSource, /eq\(enrollments\.studentId, studentId\)/);
+  assert.match(reportSource, /inArray\(enrollments\.courseId, scope\.allowedCourseIds\)/);
 });
 
 test("teacher reports omit unscopable exam, attendance, and question-bank data", () => {
   const reportSource = routeSource.slice(reportStart, reportEnd);
-  assert.match(reportSource, /const attempts = scope\\s*\\?\\s*\\[\\]/,
+  assert.match(reportSource, /const attempts = scope\s*\?\s*\[\]/,
     "exam attempts without a reliable course key must not enter teacher reports");
-  assert.match(reportSource, /const attendance = scope\\s*\\?\\s*\\[\\]/,
+  assert.match(reportSource, /const attendance = scope\s*\?\s*\[\]/,
     "attendance without a teacher/course ownership key must not enter teacher reports");
-  assert.match(reportSource, /const bank = scope \\? \\[\\] : await db\\.select\\(\\)\\.from\\(questionBank\\)/,
+  assert.match(reportSource, /const bank = scope \? \[\] : await db\.select\(\)\.from\(questionBank\)/,
     "global question-bank records must not be used to derive teacher-scoped mastery");
 });
 
@@ -153,8 +153,8 @@ test("Analytics GET authenticates and validates supported roles before database 
 
 test("parent-link verification and revocation authenticate and authorize before database setup", () => {
   for (const method of ["POST", "DELETE"]) {
-    const handlerStart = verificationRouteSource.indexOf(`export async function ${method}(`);
-    assert.notEqual(handlerStart, -1, `${method} handler must exist`);
+    const handlerStart = verificationRouteSource.indexOf("export async function " + method + "(");
+    assert.notEqual(handlerStart, -1, method + " handler must exist");
     const nextHandler = verificationRouteSource.indexOf("export async function ", handlerStart + 1);
     const handler = verificationRouteSource.slice(handlerStart, nextHandler === -1 ? undefined : nextHandler);
     const auth = handler.indexOf("const ctx = await getAuthContext(req)");
@@ -163,7 +163,7 @@ test("parent-link verification and revocation authenticate and authorize before 
     const setup = handler.indexOf("await ensureDbSetup()");
     assert.ok(
       auth >= 0 && unauthorized > auth && adminGuard > unauthorized && setup > adminGuard,
-      `${method} must reject unauthenticated/non-admin callers before schema setup`,
+      method + " must reject unauthenticated/non-admin callers before schema setup",
     );
   }
 });
