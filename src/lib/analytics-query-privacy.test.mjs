@@ -346,3 +346,19 @@ test("teacher class roster selects only authorized student profile fields", () =
     "teacher class analytics must not expose account contact, authentication, storage, or parent-link fields",
   );
 });
+
+
+test("parent-link revocation rechecks the current administrator role in the UPDATE predicate", () => {
+  const deleteStart = verificationRouteSource.indexOf("export async function DELETE(");
+  assert.notEqual(deleteStart, -1, "revocation DELETE handler must exist");
+  const deleteSource = verificationRouteSource.slice(deleteStart);
+  const mutationStart = deleteSource.indexOf("const revokedRows = await db.update(parentLinks)");
+  const mutationEnd = deleteSource.indexOf(".returning({ id: parentLinks.id })", mutationStart);
+  assert.ok(mutationStart >= 0 && mutationEnd > mutationStart, "revocation must use a guarded UPDATE");
+  const mutation = deleteSource.slice(mutationStart, mutationEnd);
+  assert.match(mutation, /exists\(db\.select\(\{ id: verifierAccount\.id \}\)/);
+  assert.match(mutation, /eq\(verifierAccount\.id, ctx\.user\.id\)/);
+  assert.match(mutation, /eq\(verifierAccount\.role, "admin"\)/);
+  assert.match(deleteSource, /if\s*\(!revokedRows\[0\]\)[\s\S]*?status:\s*409/,
+    "a stale or revoked administrator must not receive a successful revocation response");
+});
