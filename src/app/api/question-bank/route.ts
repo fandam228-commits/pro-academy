@@ -1,6 +1,6 @@
 import { db } from "@/db";
 import { questionBank, generatedExams, examAttempts, users } from "@/db/schema";
-import { eq, and, sql, ilike, inArray, notInArray } from "drizzle-orm";
+import { eq, and, sql, ilike, inArray, notInArray, desc } from "drizzle-orm";
 import { NextResponse } from "next/server";
 import { ensureDbSetup } from "@/db/migrate-and-seed";
 import { requireRoles, getAuthContext } from "@/lib/security";
@@ -219,7 +219,7 @@ export async function POST(req: Request) {
     }
 
     // ---- SECURITY: Exam generation & submission → any logged-in session required
-    const studentActions = ["generate_smart_exam", "generate_placement_test", "get_placement_test", "submit_exam"];
+    const studentActions = ["generate_smart_exam", "generate_placement_test", "get_placement_test", "get_mistake_review", "submit_exam"];
     if (studentActions.includes(action)) {
       const { denied } = await requireRoles(req);
       if (denied) return denied;
@@ -564,6 +564,60 @@ export async function POST(req: Request) {
         summaryText: attempt.passed ? "Assessment complete." : "Review the explanations and focus on the suggested topics.",
       } : null;
       return NextResponse.json({ success: true, exam: safeExam, submission }, { headers: { "Cache-Control": "no-store" } });
+    }
+
+    if (action === "get_mistake_review") {
+      if (ctx.user.role !== "student") return NextResponse.json({ error: "Students only" }, { status: 403 });
+      const excludedExamId = String(body.excludeExamId || "");
+      const recentAttempts = await db.select().from(examAttempts)
+        .where(eq(examAttempts.studentId, ctx.user.id))
+        .orderBy(desc(examAttempts.submittedAt))
+        .limit(100);
+      const attempts = recentAttempts.filter((attempt) => attempt.examId !== excludedExamId);
+      const examIds = [...new Set(attempts.map((attempt) => attempt.examId))];
+      if (examIds.length === 0) {
+        return NextResponse.json({ success: true, questions: [] }, { headers: { "Cache-Control": "no-store" } });
+      }
+
+      const examRows = await db.select().from(generatedExams).where(inArray(generatedExams.id, examIds));
+      const examsById = new Map(examRows.map((exam) => [exam.id, exam]));
+      const latestByQuestion = new Map<string, { question: any; detail: any; isCorrect: boolean }>();
+
+      for (const attempt of attempts) {
+        const exam = examsById.get(attempt.examId);
+        if (!exam || exam.studentId !== ctx.user.id) continue;
+        const snapshot = Array.isArray(exam.questionsData) ? exam.questionsData as any[] : [];
+        const feedback = attempt.detailedFeedback && typeof attempt.detailedFeedback === "object"
+          ? attempt.detailedFeedback as Record<string, any>
+          : {};
+
+        for (const question of snapshot) {
+          const id = String(question.id || "");
+          const detail = feedback[id];
+          const options = Array.isArray(question.options) ? question.options : [];
+          const type = String(question.type || question.questionType || "mcq");
+          if (!id || latestByQuestion.has(id) || !detail || type === "multi_select" || options.length === 0) continue;
+          latestByQuestion.set(id, { question, detail, isCorrect: Boolean(detail.isCorrect) });
+        }
+      }
+
+      const questions = [...latestByQuestion.values()]
+        .filter((item) => !item.isCorrect)
+        .slice(0, 20)
+        .map(({ question, detail }) => ({
+          id: String(question.id),
+          type: String(question.type || question.questionType || "mcq"),
+          questionText: String(question.questionText || detail.questionText || ""),
+          passageText: question.passageText ? String(question.passageText) : undefined,
+          options: question.options.map((option: unknown) => String(option)),
+          correctAnswer: String(detail.correctAnswer || question.correctAnswer || ""),
+          explanation: detail.explanation || question.explanation || undefined,
+          topic: detail.topic || question.topic || question.grammarTopic || undefined,
+          difficulty: detail.difficulty || question.difficulty || undefined,
+        }))
+        .filter((question) => question.questionText && question.correctAnswer);
+
+      return NextResponse.json({ success: true, questions }, { headers: { "Cache-Control": "no-store" } });
     }
 
     // 5. SMART EXAM GENERATOR
