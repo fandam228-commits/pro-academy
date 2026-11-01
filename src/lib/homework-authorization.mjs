@@ -12,11 +12,19 @@ export function canViewHomeworkSubmissionFile({
   requesterId,
   submissionStudentId,
   homeworkTeacherId,
+  homeworkCourseId,
+  courseTeacherId,
 }) {
   if (!role || !requesterId) return false;
   if (role === "admin") return true;
   if (role === "teacher") {
-    return Boolean(homeworkTeacherId) && requesterId === homeworkTeacherId;
+    if (!homeworkTeacherId || requesterId !== homeworkTeacherId) return false;
+
+    // Course-linked legacy rows can contain inconsistent teacher IDs. Require
+    // the current course owner to match too; only grade-only homework may omit it.
+    if (homeworkCourseId === null) return true;
+    if (typeof homeworkCourseId !== "string" || homeworkCourseId.trim() === "") return false;
+    return Boolean(courseTeacherId) && requesterId === courseTeacherId;
   }
   if (role === "student") {
     return Boolean(submissionStudentId) && requesterId === submissionStudentId;
@@ -62,6 +70,8 @@ export function getHomeworkFileAccessDecision({
   requesterId,
   submissionStudentId,
   homeworkTeacherId,
+  homeworkCourseId,
+  courseTeacherId,
 }) {
   if (submissionFound !== true || homeworkFound !== true) return "not-found";
   return canViewHomeworkSubmissionFile({
@@ -69,6 +79,8 @@ export function getHomeworkFileAccessDecision({
     requesterId,
     submissionStudentId,
     homeworkTeacherId,
+    homeworkCourseId,
+    courseTeacherId,
   }) ? "allowed" : "not-found";
 }
 
