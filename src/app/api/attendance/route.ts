@@ -1,9 +1,13 @@
 import { db } from "@/db";
-import { attendanceRecords, users, parentLinks } from "@/db/schema";
-import { eq, and } from "drizzle-orm";
+import { attendanceRecords, users, parentLinks, enrollments, courses } from "@/db/schema";
+import { eq, and, inArray, isNotNull } from "drizzle-orm";
+import { alias } from "drizzle-orm/pg-core";
 import { NextResponse } from "next/server";
 import { ensureDbSetup } from "@/db/migrate-and-seed";
 import { requireRoles, getAuthContext } from "@/lib/security";
+import { getVerifiedParentAnalyticsStudentIds, resolveParentAnalyticsStudentId } from "@/lib/analytics-report-scope.mjs";
+
+const verifiedByUser = alias(users, "attendance_verified_by_user");
 
 function computeRate(records: any[]) {
   if (records.length === 0) return 100;
@@ -16,24 +20,49 @@ function computeRate(records: any[]) {
 }
 
 export async function GET(req: Request) {
-  await ensureDbSetup();
   const ctx = await getAuthContext(req);
   if (!ctx) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
+  const role = ctx.user.role as string;
+  if (!["teacher", "admin", "parent", "student"].includes(role)) {
+    return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+  }
 
+  await ensureDbSetup();
   const { searchParams } = new URL(req.url);
   const date = searchParams.get("date");
-  const role = ctx.user.role as string;
 
   try {
-    // ============ TEACHER / ADMIN: full roster + stats ============
+    // Teachers may only see the roster for students enrolled in their owned courses.
+    // Attendance rows lack a course ID, so expose only rows they personally marked.
     if (role === "teacher" || role === "admin") {
-      const allStudents = await db.select().from(users).where(eq(users.role, "student"));
-      const allRecords = await db.select().from(attendanceRecords);
+      const allStudents = role === "admin"
+        ? await db.select().from(users).where(eq(users.role, "student"))
+        : [];
+      const visibleStudents = role === "teacher"
+        ? await (async () => {
+            const rows = await db
+              .select({ studentId: enrollments.studentId })
+              .from(enrollments)
+              .innerJoin(courses, eq(enrollments.courseId, courses.id))
+              .innerJoin(users, eq(enrollments.studentId, users.id))
+              .where(and(
+                eq(courses.teacherId, ctx.user.id),
+                eq(users.role, "student"),
+                inArray(enrollments.status, ["active", "completed"]),
+              ));
+            const ids = [...new Set(rows.map((row) => row.studentId))];
+            return ids.length
+              ? await db.select().from(users).where(and(eq(users.role, "student"), inArray(users.id, ids)))
+              : [];
+          })()
+        : allStudents;
+      const allRecords = role === "teacher"
+        ? await db.select().from(attendanceRecords).where(eq(attendanceRecords.markedBy, ctx.user.id))
+        : await db.select().from(attendanceRecords);
 
-      // Per-student summary
-      const roster = allStudents.map((st) => {
+      const roster = visibleStudents.map((st) => {
         const recs = allRecords.filter((r) => r.studentId === st.id);
         const todayRec = date ? recs.find((r) => r.sessionDate === date) : null;
         return {
@@ -50,22 +79,43 @@ export async function GET(req: Request) {
         };
       });
 
-      const sessionTitles = [...new Set(allRecords.map((r) => r.sessionTitle))];
-      const recentDates = [...new Set(allRecords.map((r) => r.sessionDate))].sort((a, b) => (a < b ? 1 : -1)).slice(0, 20);
+      const visibleRecords = role === "teacher"
+        ? allRecords.filter((record) => visibleStudents.some((student) => student.id === record.studentId))
+        : allRecords;
+      const sessionTitles = [...new Set(visibleRecords.map((r) => r.sessionTitle))];
+      const recentDates = [...new Set(visibleRecords.map((r) => r.sessionDate))].sort((a, b) => (a < b ? 1 : -1)).slice(0, 20);
 
       return NextResponse.json({ roster, sessionTitles, recentDates, role });
     }
 
-    // ============ PARENT: linked student's records ============
+    // Parent access requires a current student account and an admin-verified relationship.
     if (role === "parent") {
-      let studentId = searchParams.get("studentId");
-      if (!studentId) {
-        const links = await db.select().from(parentLinks).where(eq(parentLinks.parentId, ctx.user.id));
-        studentId = links[0]?.studentId || null;
+      const requestedStudent = searchParams.get("studentId");
+      const links = await db
+        .select({
+          studentId: parentLinks.studentId,
+          verifiedAt: parentLinks.verifiedAt,
+          verifiedBy: parentLinks.verifiedBy,
+        })
+        .from(parentLinks)
+        .innerJoin(users, eq(parentLinks.studentId, users.id))
+        .innerJoin(verifiedByUser, eq(parentLinks.verifiedBy, verifiedByUser.id))
+        .where(and(
+          eq(parentLinks.parentId, ctx.user.id),
+          eq(users.role, "student"),
+          eq(verifiedByUser.role, "admin"),
+          isNotNull(parentLinks.verifiedAt),
+          isNotNull(parentLinks.verifiedBy),
+        ));
+      const linkedStudentIds = getVerifiedParentAnalyticsStudentIds(links);
+      const resolution = resolveParentAnalyticsStudentId(requestedStudent, linkedStudentIds);
+      if (!resolution.ok) {
+        if (resolution.reason === "no-linked-student") return NextResponse.json({ error: "No verified linked student" }, { status: 404 });
+        if (resolution.reason === "student-id-required") return NextResponse.json({ error: "studentId is required when multiple students are linked" }, { status: 400 });
+        if (resolution.reason === "invalid-student-id") return NextResponse.json({ error: "Invalid studentId" }, { status: 400 });
+        return NextResponse.json({ error: "Forbidden" }, { status: 403 });
       }
-      if (!studentId) return NextResponse.json({ error: "No linked student" }, { status: 404 });
-      const links = await db.select().from(parentLinks).where(and(eq(parentLinks.parentId, ctx.user.id), eq(parentLinks.studentId, studentId)));
-      if (!links.length) return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+      const studentId = resolution.studentId;
       const records = await db.select().from(attendanceRecords).where(eq(attendanceRecords.studentId, studentId));
       const sorted = records.sort((a, b) => (a.sessionDate < b.sessionDate ? 1 : -1));
       return NextResponse.json({ role: "parent", studentId, records: sorted, rate: computeRate(records), total: records.length });
@@ -91,11 +141,14 @@ export async function GET(req: Request) {
 }
 
 export async function POST(req: Request) {
-  await ensureDbSetup();
   const ctx = await getAuthContext(req);
   if (!ctx) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
+  if (!["teacher", "admin", "student"].includes(ctx.user.role)) {
+    return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+  }
+  await ensureDbSetup();
 
   try {
     const body = await req.json();
@@ -109,6 +162,23 @@ export async function POST(req: Request) {
       const { sessionTitle, sessionDate, marks } = body;
       if (!sessionTitle || !sessionDate || !Array.isArray(marks)) {
         return NextResponse.json({ error: "sessionTitle, sessionDate & marks are required" }, { status: 400 });
+      }
+
+      if (ctx.user.role === "teacher") {
+        const rows = await db
+          .select({ studentId: enrollments.studentId })
+          .from(enrollments)
+          .innerJoin(courses, eq(enrollments.courseId, courses.id))
+          .innerJoin(users, eq(enrollments.studentId, users.id))
+          .where(and(
+            eq(courses.teacherId, ctx.user.id),
+            eq(users.role, "student"),
+            inArray(enrollments.status, ["active", "completed"]),
+          ));
+        const allowedStudentIds = new Set(rows.map((row) => row.studentId));
+        if (marks.some((mark) => typeof mark?.studentId !== "string" || !allowedStudentIds.has(mark.studentId))) {
+          return NextResponse.json({ error: "Attendance includes a student outside your owned courses" }, { status: 403 });
+        }
       }
 
       let saved = 0;
