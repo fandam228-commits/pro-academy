@@ -197,8 +197,8 @@ export async function GET(req: Request) {
     const strengths: string[] = [];
     const weaknesses: string[] = [];
 
-    if (overallRate >= 90) strengths.push("التزام عالي بالحضور والمواظبة");
-    else if (overallRate < 75) weaknesses.push("نسبة الحضور منخفضة — يحتاج متابعة");
+    if (overallRate !== null && overallRate >= 90) strengths.push("التزام عالي بالحضور والمواظبة");
+    else if (overallRate !== null && overallRate < 75) weaknesses.push("نسبة الحضور منخفضة — يحتاج متابعة");
 
     if (streak >= 7) strengths.push(`تتابع دراسي ممتاز: ${streak} يوم متواصل`);
     else weaknesses.push("التتابع الدراسي ضعيف — يحتاج تحفيز يومي");
