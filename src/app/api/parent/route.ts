@@ -1,28 +1,84 @@
 import { db } from "@/db";
-import { parentLinks, users, enrollments, quizSubmissions, attendance, courses } from "@/db/schema";
-import { eq } from "drizzle-orm";
+import { parentLinks, users, enrollments, quizSubmissions, attendance } from "@/db/schema";
+import { and, eq, isNotNull } from "drizzle-orm";
+import { alias } from "drizzle-orm/pg-core";
 import { NextResponse } from "next/server";
 import { ensureDbSetup } from "@/db/migrate-and-seed";
 import { getAuthContext } from "@/lib/security";
+import { getVerifiedParentAnalyticsStudentIds, resolveParentAnalyticsStudentId } from "@/lib/analytics-report-scope.mjs";
+
+const verifiedByUser = alias(users, "parent_route_verified_by_user");
 
 export async function GET(req: Request) {
-  await ensureDbSetup();
   const ctx = await getAuthContext(req);
   if (!ctx) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-  if (ctx.user.role !== "parent" && ctx.user.role !== "admin" && ctx.user.role !== "teacher") return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+  if (ctx.user.role !== "parent" && ctx.user.role !== "admin" && ctx.user.role !== "teacher") {
+    return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+  }
+
+  await ensureDbSetup();
   const { searchParams } = new URL(req.url);
   const parentId = ctx.user.role === "parent" ? ctx.user.id : searchParams.get("parentId");
+  const requestedStudent = searchParams.get("studentId");
   if (!parentId) return NextResponse.json({ error: "parentId required" }, { status: 400 });
 
   try {
-    const links = await db.select().from(parentLinks).where(eq(parentLinks.parentId, parentId));
-    if (links.length === 0) {
-      return NextResponse.json({ error: "No linked student found" }, { status: 404 });
+    const parentAccount = await db
+      .select({ id: users.id })
+      .from(users)
+      .where(and(eq(users.id, parentId), eq(users.role, "parent")));
+    if (parentAccount.length === 0) return NextResponse.json({ error: "Parent not found" }, { status: 404 });
+
+    const links = await db
+      .select({
+        studentId: parentLinks.studentId,
+        relationship: parentLinks.relationship,
+        verifiedAt: parentLinks.verifiedAt,
+        verifiedBy: parentLinks.verifiedBy,
+      })
+      .from(parentLinks)
+      .innerJoin(users, eq(parentLinks.studentId, users.id))
+      .innerJoin(verifiedByUser, eq(parentLinks.verifiedBy, verifiedByUser.id))
+      .where(and(
+        eq(parentLinks.parentId, parentId),
+        eq(users.role, "student"),
+        eq(verifiedByUser.role, "admin"),
+        isNotNull(parentLinks.verifiedAt),
+        isNotNull(parentLinks.verifiedBy),
+      ));
+    const linkedStudentIds = getVerifiedParentAnalyticsStudentIds(links);
+    const resolution = resolveParentAnalyticsStudentId(requestedStudent, linkedStudentIds);
+    if (!resolution.ok) {
+      if (resolution.reason === "no-linked-student") {
+        return NextResponse.json({ error: "No verified linked student found" }, { status: 404 });
+      }
+      if (resolution.reason === "student-id-required") {
+        return NextResponse.json({ error: "studentId is required when multiple students are linked" }, { status: 400 });
+      }
+      if (resolution.reason === "invalid-student-id") {
+        return NextResponse.json({ error: "Invalid studentId" }, { status: 400 });
+      }
+      return NextResponse.json({ error: "Forbidden" }, { status: 403 });
     }
 
-    const primaryLink = links[0];
-    const studentList = await db.select().from(users).where(eq(users.id, primaryLink.studentId));
+    const studentId = resolution.studentId;
+    const primaryLink = links.find((link) => link.studentId === studentId);
+    if (!primaryLink) return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+
+    // Never return the complete users row: it includes password and other private account fields.
+    const studentList = await db
+      .select({
+        id: users.id,
+        name: users.name,
+        grade: users.grade,
+        level: users.level,
+        streak: users.streak,
+        points: users.points,
+      })
+      .from(users)
+      .where(and(eq(users.id, studentId), eq(users.role, "student")));
     const student = studentList[0];
+    if (!student) return NextResponse.json({ error: "Student not found" }, { status: 404 });
 
     const studentEnrs = await db.select().from(enrollments).where(eq(enrollments.studentId, student.id));
     const studentSubs = await db.select().from(quizSubmissions).where(eq(quizSubmissions.studentId, student.id));
