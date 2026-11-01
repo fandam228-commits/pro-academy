@@ -93,9 +93,22 @@ export async function DELETE(
     const rows = await db.select({ id: parentLinks.id }).from(parentLinks).where(eq(parentLinks.id, id));
     if (!rows[0]) return NextResponse.json({ error: "Parent link not found" }, { status: 404 });
 
-    await db.update(parentLinks)
+    // Re-check the administrator's current role in the mutation predicate too;
+    // a request context alone may become stale between authorization and this write.
+    const revokedRows = await db.update(parentLinks)
       .set({ verifiedAt: null, verifiedBy: null })
-      .where(eq(parentLinks.id, id));
+      .where(and(
+        eq(parentLinks.id, id),
+        exists(db.select({ id: verifierAccount.id }).from(verifierAccount).where(and(
+          eq(verifierAccount.id, ctx.user.id),
+          eq(verifierAccount.role, "admin"),
+        ))),
+      ))
+      .returning({ id: parentLinks.id });
+
+    if (!revokedRows[0]) {
+      return NextResponse.json({ error: "Administrator account changed during verification revocation; reload and retry" }, { status: 409 });
+    }
 
     return NextResponse.json({ success: true, verified: false });
   } catch (error) {
