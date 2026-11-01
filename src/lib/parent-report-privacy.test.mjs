@@ -78,3 +78,22 @@ test("teacher attendance bulk marking rejects students outside owned-course enro
   assert.match(routeFiles.attendance, /allowedStudentIds\.has\(mark\.studentId\)/);
   assert.match(routeFiles.attendance, /Attendance includes a student outside your owned courses/);
 });
+
+
+test("student report endpoint rejects attempts to select another student", () => {
+  const source = routeFiles.reports;
+  const studentBranch = source.indexOf('} else if (role === "student") {');
+  assert.notEqual(studentBranch, -1, "student report branch must exist");
+  const forbiddenGuard = source.indexOf('if (studentId && studentId !== ctx.user.id)', studentBranch);
+  const selfAssignment = source.indexOf("studentId = ctx.user.id;", forbiddenGuard);
+  const studentLookup = source.indexOf("const stList = await db", selfAssignment);
+  assert.ok(
+    forbiddenGuard > studentBranch && selfAssignment > forbiddenGuard && studentLookup > selfAssignment,
+    "a student-supplied target ID must be rejected before report data is queried, then the authenticated ID is used",
+  );
+  assert.match(
+    source.slice(studentBranch, selfAssignment),
+    /return NextResponse\.json\(\{ error: "Forbidden" \}, \{ status: 403 \}\)/,
+    "cross-student report requests must return HTTP 403",
+  );
+});
