@@ -211,7 +211,7 @@ integrationTest("PostgreSQL teacher enrollment query enforces owned-course scope
       .from(enrollments)
       .innerJoin(courses, eq(enrollments.courseId, courses.id))
       .innerJoin(users, eq(enrollments.studentId, users.id))
-      .where(and(eq(courses.teacherId, "teacher-1"), eq(users.role, "student")));
+      .where(and(eq(courses.teacherId, "teacher-1"), eq(users.role, "student"), inArray(enrollments.status, ["active", "completed"])));
 
     const allowedStudentIds = getTeacherAnalyticsStudentIds(rows, "teacher-1");
     assert.deepEqual(allowedStudentIds, ["student-1", "student-2"]);
@@ -250,7 +250,9 @@ integrationTest("PostgreSQL teacher roster query returns only current student ac
       })
       .from(enrollments)
       .innerJoin(courses, eq(enrollments.courseId, courses.id))
-      .where(eq(courses.teacherId, "teacher-1"));
+      .where(and(eq(courses.teacherId, "teacher-1"), inArray(enrollments.status, ["active", "completed"])));
+    assert.equal(enrollmentRows.some((row) => row.studentId === "student-3"), false, "cancelled enrollment must be excluded by SQL");
+    assert.equal(enrollmentRows.some((row) => row.studentId === "student-4"), false, "unknown enrollment status must be excluded by SQL");
     const allowedIds = getTeacherAnalyticsStudentIds(enrollmentRows, "teacher-1");
     const visibleStudents = allowedIds.length === 0
       ? []
