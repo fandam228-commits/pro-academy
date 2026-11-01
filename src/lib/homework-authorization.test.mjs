@@ -197,12 +197,22 @@ test("homework file access hides missing and unauthorized records behind one not
   };
   assert.equal(getHomeworkFileAccessDecision(allowed), "allowed");
   assert.equal(
-    getHomeworkFileAccessDecision({ ...allowed, courseTeacherId: "teacher-2" }),
+    getHomeworkFileAccessDecision({
+      ...allowed,
+      role: "teacher",
+      requesterId: "teacher-1",
+      courseTeacherId: "teacher-2",
+    }),
     "not-found",
     "teacher access must be denied if the current course owner differs from the homework teacher",
   );
   assert.equal(
-    getHomeworkFileAccessDecision({ ...allowed, courseTeacherId: null }),
+    getHomeworkFileAccessDecision({
+      ...allowed,
+      role: "teacher",
+      requesterId: "teacher-1",
+      courseTeacherId: null,
+    }),
     "not-found",
     "missing course ownership must fail closed for course-linked homework",
   );
