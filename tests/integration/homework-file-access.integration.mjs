@@ -23,9 +23,14 @@ integrationTest("database-derived homework file access is owner-scoped and legac
   try {
     // Connection-scoped temporary fixtures only; never touches application or production tables.
     await client.query(`
-      CREATE TEMP TABLE homework (
+      CREATE TEMP TABLE courses (
         id TEXT PRIMARY KEY,
         teacher_id TEXT NOT NULL
+      );
+      CREATE TEMP TABLE homework (
+        id TEXT PRIMARY KEY,
+        teacher_id TEXT NOT NULL,
+        course_id TEXT
       );
       CREATE TEMP TABLE homework_submissions (
         id TEXT PRIMARY KEY,
@@ -33,19 +38,27 @@ integrationTest("database-derived homework file access is owner-scoped and legac
         homework_id TEXT NOT NULL,
         storage_path TEXT
       );
-      INSERT INTO homework (id, teacher_id) VALUES
-        ('hw-owned', 'teacher-1'),
-        ('hw-other', 'teacher-2');
+      INSERT INTO courses (id, teacher_id) VALUES
+        ('course-owned', 'teacher-1'),
+        ('course-other', 'teacher-2');
+      INSERT INTO homework (id, teacher_id, course_id) VALUES
+        ('hw-owned', 'teacher-1', 'course-owned'),
+        -- Legacy inconsistency: the homework row claims teacher-1 but the linked course belongs to teacher-2.
+        ('hw-mismatch', 'teacher-1', 'course-other'),
+        ('hw-other', 'teacher-2', 'course-other');
       INSERT INTO homework_submissions (id, student_id, homework_id, storage_path) VALUES
         ('sub-private', 'student-1', 'hw-owned', 'homework/sub-private.pdf'),
+        ('sub-mismatch', 'student-1', 'hw-mismatch', 'homework/sub-mismatch.pdf'),
         ('sub-legacy', 'student-2', 'hw-other', 'https://store.public.blob.vercel-storage.com/legacy.pdf');
     `);
 
     async function lookup(submissionId) {
       const result = await client.query(
-        `SELECT s.id, s.student_id, s.storage_path, h.teacher_id
+        `SELECT s.id, s.student_id, s.storage_path,
+                h.teacher_id, h.course_id, c.teacher_id AS course_teacher_id
          FROM homework_submissions AS s
          INNER JOIN homework AS h ON h.id = s.homework_id
+         LEFT JOIN courses AS c ON c.id = h.course_id
          WHERE s.id = $1`,
         [submissionId],
       );
@@ -61,6 +74,8 @@ integrationTest("database-derived homework file access is owner-scoped and legac
       requesterId,
       submissionStudentId: row?.student_id,
       homeworkTeacherId: row?.teacher_id,
+      homeworkCourseId: row?.course_id,
+      courseTeacherId: row?.course_teacher_id,
     });
 
     assert.equal(access("student", "student-1", privateSubmission), "allowed");
@@ -68,6 +83,14 @@ integrationTest("database-derived homework file access is owner-scoped and legac
     assert.equal(access("teacher", "teacher-1", privateSubmission), "allowed");
     assert.equal(access("teacher", "teacher-2", privateSubmission), "not-found");
     assert.equal(access("parent", "parent-1", privateSubmission), "not-found");
+
+    const mismatchedCourseSubmission = await lookup("sub-mismatch");
+    assert.ok(mismatchedCourseSubmission);
+    assert.equal(
+      access("teacher", "teacher-1", mismatchedCourseSubmission),
+      "not-found",
+      "the homework teacherId must not override the current owner of its linked course",
+    );
     assert.equal(access("student", "student-1", null), "not-found");
 
     assert.equal(
