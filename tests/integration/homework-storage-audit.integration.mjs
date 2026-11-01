@@ -48,7 +48,10 @@ test("storage audit classifies references without exposing their values", () => 
 
 test("storage audit refuses remote database targets unless explicitly opted in", () => {
   assert.throws(() => assertSafeHomeworkAuditTarget(""), /DATABASE_URL is required/);
-  assert.throws(() => assertSafeHomeworkAuditTarget("https://example.test"), /must use the postgres:\/\/ or postgresql:\/\/ protocol/);
+  assert.throws(
+    () => assertSafeHomeworkAuditTarget("https://example.test"),
+    (error) => error instanceof Error && error.message.includes("must use the postgres:// or postgresql:// protocol"),
+  );
   assert.equal(assertSafeHomeworkAuditTarget("postgresql://postgres:postgres@127.0.0.1:5432/proacademy_test"), "local");
   assert.throws(
     () => assertSafeHomeworkAuditTarget("postgresql://user:pass@db.example.test/prod"),
