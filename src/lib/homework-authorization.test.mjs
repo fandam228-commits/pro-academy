@@ -330,9 +330,16 @@ test("student homework GET and submission routes both enforce course enrollment"
   const studentListEnd = route.indexOf("const mySubs", studentListStart);
   assert.ok(studentListStart >= 0 && studentListEnd > studentListStart);
   const studentList = route.slice(studentListStart, studentListEnd);
-  assert.match(studentList, /canAccessHomeworkCourse/);
   assert.match(studentList, /\.from\(enrollments\)/);
   assert.match(studentList, /inArray\(enrollments\.status, \["active", "completed"\]\)/);
+  assert.match(studentList, /const courseVisibility = enrolledCourseIds\.length > 0/);
+  assert.match(studentList, /isNull\(homework\.courseId\)/);
+  assert.match(studentList, /inArray\(homework\.courseId, enrolledCourseIds\)/);
+  assert.match(studentList, /const gradeVisibility = myGrade/);
+  assert.match(studentList, /eq\(homework\.grade, myGrade\)/);
+  assert.match(studentList, /\.where\(\s*gradeVisibility \? and\(courseVisibility, gradeVisibility\) : courseVisibility\s*\)/);
+  assert.doesNotMatch(studentList, /let list = await db\.select\(\)\.from\(homework\)/,
+    "student visibility must be enforced in SQL before homework rows are loaded");
 
   const submitStart = route.indexOf('if (contentType.includes("multipart/form-data"))');
   const submitEnd = route.indexOf("// ============ JSON ACTIONS", submitStart);
