@@ -1,10 +1,22 @@
 /** Authorization rules for homework and submission records.
  * Database relationships must be resolved by the caller before invoking these rules.
  */
-export function canManageHomework({ role, requesterId, homeworkTeacherId }) {
+export function canManageHomework({
+  role,
+  requesterId,
+  homeworkTeacherId,
+  homeworkCourseId,
+  courseTeacherId,
+}) {
   if (!role || !requesterId) return false;
   if (role === "admin") return true;
-  return role === "teacher" && Boolean(homeworkTeacherId) && requesterId === homeworkTeacherId;
+  if (role !== "teacher" || !homeworkTeacherId || requesterId !== homeworkTeacherId) return false;
+
+  // Legacy course-linked homework can have stale teacher ownership metadata.
+  // Require the current course owner to match; only grade-only homework may omit a course.
+  if (homeworkCourseId === null) return true;
+  if (typeof homeworkCourseId !== "string" || homeworkCourseId.trim() === "") return false;
+  return Boolean(courseTeacherId) && requesterId === courseTeacherId;
 }
 
 export function canViewHomeworkSubmissionFile({
