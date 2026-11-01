@@ -6,7 +6,7 @@ import { ensureDbSetup } from "@/db/migrate-and-seed";
 import { requireRoles, getAuthContext } from "@/lib/security";
 import { notifyUser } from "@/lib/push";
 import { del, put } from "@vercel/blob";
-import { getHomeworkPrivateBlobToken } from "@/lib/homework-storage.mjs";
+import { getHomeworkPrivateBlobToken, isPrivateHomeworkBlobPath } from "@/lib/homework-storage.mjs";
 import { randomUUID } from "node:crypto";
 import { canManageHomework, canSubmitHomework, canAccessHomeworkCourse, canAssignHomeworkToCourse, canReplaceHomeworkSubmission } from "@/lib/homework-authorization.mjs";
 
@@ -263,6 +263,25 @@ export async function POST(req: Request) {
           }
           return NextResponse.json({ error: "This submission is already graded and can't be replaced." }, { status: 400 });
         }
+
+        // After the database points at the new upload, clean up the previous object
+        // only when it is a validated private pathname. Never pass legacy public URLs
+        // or malformed database values to the private Blob delete API.
+        const previousStoragePath = existing[0].storagePath;
+        if (
+          storagePath &&
+          uploadToken &&
+          previousStoragePath &&
+          previousStoragePath !== storagePath &&
+          isPrivateHomeworkBlobPath(previousStoragePath)
+        ) {
+          try {
+            await del(previousStoragePath, { token: uploadToken });
+          } catch (cleanupError) {
+            console.error("Failed to remove replaced private homework upload:", cleanupError);
+          }
+        }
+
         return NextResponse.json({ success: true, updated: true });
       }
 
