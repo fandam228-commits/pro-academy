@@ -37,13 +37,16 @@ jobs:
         run: npm ci
       - name: Unit tests
         run: npm test
-      - name: PostgreSQL-backed homework course ownership authorization integration tests (when present)
-        if: ${{ hashFiles('tests/integration/homework-authorization.integration.mjs') != '' }}
+      - name: Require homework integration test files
+        run: |
+          test -f tests/integration/homework-authorization.integration.mjs
+          test -f tests/integration/homework-file-access.integration.mjs
+          test -f tests/integration/homework-replacement-atomicity.integration.mjs
+      - name: PostgreSQL-backed homework course ownership authorization integration tests
         run: node --test tests/integration/homework-authorization.integration.mjs
         env:
           TEST_DATABASE_URL: postgresql://postgres:postgres@127.0.0.1:5432/proacademy_test
       - name: PostgreSQL-backed homework file authorization and storage policy integration tests
-        if: ${{ hashFiles('tests/integration/homework-file-access.integration.mjs') != '' }}
         run: node --test tests/integration/homework-file-access.integration.mjs
         env:
           TEST_DATABASE_URL: postgresql://postgres:postgres@127.0.0.1:5432/proacademy_test
