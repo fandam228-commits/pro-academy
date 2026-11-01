@@ -12,11 +12,16 @@ import {
 } from "@/lib/homework-storage.mjs";
 
 export async function GET(req: Request, { params }: { params: Promise<{ id: string }> }) {
-  // Authenticate before running setup/migration work. Unauthenticated requests
-  // must not be able to trigger database setup as a side effect.
+  // Authenticate and reject unsupported roles before running setup/migration work.
+  // Unauthenticated or unrelated roles must not trigger database setup as a side effect.
   const ctx = await getAuthContext(req);
   if (!ctx) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
+  const role = ctx.user.role as string;
+  if (!["teacher", "admin", "student"].includes(role)) {
+    return NextResponse.json({ error: "Forbidden" }, { status: 403 });
   }
 
   await ensureDbSetup();
@@ -40,7 +45,7 @@ export async function GET(req: Request, { params }: { params: Promise<{ id: stri
     const accessDecision = getHomeworkFileAccessDecision({
       submissionFound: Boolean(sub),
       homeworkFound: Boolean(homeworkRow),
-      role: ctx.user.role,
+      role,
       requesterId: ctx.user.id,
       submissionStudentId: sub?.studentId,
       homeworkTeacherId: homeworkRow?.teacherId,
