@@ -283,3 +283,19 @@ test("teacher attendance POST rejects students outside owned active/completed en
   assert.match(postSource, /marks\.some\(\(mark\) => typeof mark\?\.studentId !== "string" \|\| !allowedStudentIds\.has\(mark\.studentId\)\)/,
     "every teacher-submitted attendance mark must belong to an allowed student");
 });
+
+
+test("Analytics GET authenticates and validates the role before database setup", () => {
+  const getStart = routeSource.indexOf("export async function GET(req: Request)");
+  assert.notEqual(getStart, -1, "Analytics GET handler must exist");
+  const getSource = routeSource.slice(getStart);
+  const auth = getSource.indexOf("const ctx = await getAuthContext(req)");
+  const unauthorized = getSource.indexOf("if (!ctx)", auth);
+  const roleGuard = getSource.indexOf('if (!["admin", "teacher", "parent", "student"].includes(role))', unauthorized);
+  const setup = getSource.indexOf("await ensureDbSetup()");
+
+  assert.ok(
+    auth >= 0 && unauthorized > auth && roleGuard > unauthorized && setup > roleGuard,
+    "Analytics GET must reject unauthenticated and unsupported-role callers before database setup",
+  );
+});
