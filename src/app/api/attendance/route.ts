@@ -107,8 +107,8 @@ export async function GET(req: Request) {
           isNotNull(parentLinks.verifiedAt),
           isNotNull(parentLinks.verifiedBy),
         ));
-      const linkedIds = getVerifiedParentAnalyticsStudentIds(links);
-      const resolution = resolveParentAnalyticsStudentId(requestedStudent, linkedIds);
+      const linkedStudentIds = getVerifiedParentAnalyticsStudentIds(links);
+      const resolution = resolveParentAnalyticsStudentId(requestedStudent, linkedStudentIds);
       if (!resolution.ok) {
         if (resolution.reason === "no-linked-student") return NextResponse.json({ error: "No verified linked student" }, { status: 404 });
         if (resolution.reason === "student-id-required") return NextResponse.json({ error: "studentId is required when multiple students are linked" }, { status: 400 });
