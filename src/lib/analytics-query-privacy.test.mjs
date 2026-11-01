@@ -167,3 +167,18 @@ test("parent-link verification and revocation authenticate and authorize before 
     );
   }
 });
+
+
+test("unscoped report profile lookup also requires a current student account", () => {
+  const reportSource = routeSource.slice(reportStart, reportEnd);
+  const studentMarker = reportSource.indexOf("const student = userRows[0];");
+  assert.notEqual(studentMarker, -1, "student profile lookup must exist");
+  const unscopedQueryStart = reportSource.lastIndexOf(": await db", studentMarker);
+  assert.notEqual(unscopedQueryStart, -1, "unscoped profile query must exist");
+  const unscopedQuery = reportSource.slice(unscopedQueryStart, studentMarker);
+  assert.match(
+    unscopedQuery,
+    /eq\\(users\\.role, "student"\\)/,
+    "admin and parent report builders must not resolve a non-student account as a student report",
+  );
+});
