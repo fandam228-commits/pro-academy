@@ -41,11 +41,13 @@ test("admins can manage homework while students and parents cannot", () => {
   );
 });
 
-test("only the submission owner, owning teacher, or admin can view a submission file", () => {
+test("only the submission owner, course-owning teacher, or admin can view a submission file", () => {
   const context = {
     requesterId: "student-1",
     submissionStudentId: "student-1",
     homeworkTeacherId: "teacher-1",
+    homeworkCourseId: "course-a",
+    courseTeacherId: "teacher-1",
   };
   assert.equal(canViewHomeworkSubmissionFile({ role: "student", ...context }), true);
   assert.equal(
@@ -59,6 +61,36 @@ test("only the submission owner, owning teacher, or admin can view a submission 
   assert.equal(
     canViewHomeworkSubmissionFile({ role: "teacher", ...context, requesterId: "teacher-2" }),
     false
+  );
+  assert.equal(
+    canViewHomeworkSubmissionFile({
+      role: "teacher",
+      ...context,
+      homeworkTeacherId: "teacher-1",
+      courseTeacherId: "teacher-2",
+    }),
+    false,
+    "a stale homework teacherId must not override the current course owner",
+  );
+  assert.equal(
+    canViewHomeworkSubmissionFile({
+      role: "teacher",
+      ...context,
+      courseTeacherId: null,
+    }),
+    false,
+    "course-linked homework must fail closed when the course owner cannot be resolved",
+  );
+  assert.equal(
+    canViewHomeworkSubmissionFile({
+      role: "teacher",
+      requesterId: "teacher-1",
+      homeworkTeacherId: "teacher-1",
+      homeworkCourseId: null,
+      courseTeacherId: null,
+    }),
+    true,
+    "grade-only homework remains accessible to its assigned teacher",
   );
   assert.equal(
     canViewHomeworkSubmissionFile({ role: "admin", requesterId: "admin-1", ...context }),
@@ -120,8 +152,20 @@ test("homework file access hides missing and unauthorized records behind one not
     requesterId: "student-1",
     submissionStudentId: "student-1",
     homeworkTeacherId: "teacher-1",
+    homeworkCourseId: "course-a",
+    courseTeacherId: "teacher-1",
   };
   assert.equal(getHomeworkFileAccessDecision(allowed), "allowed");
+  assert.equal(
+    getHomeworkFileAccessDecision({ ...allowed, courseTeacherId: "teacher-2" }),
+    "not-found",
+    "teacher access must be denied if the current course owner differs from the homework teacher",
+  );
+  assert.equal(
+    getHomeworkFileAccessDecision({ ...allowed, courseTeacherId: null }),
+    "not-found",
+    "missing course ownership must fail closed for course-linked homework",
+  );
   assert.equal(getHomeworkFileAccessDecision({ ...allowed, submissionFound: false }), "not-found");
   assert.equal(getHomeworkFileAccessDecision({ ...allowed, homeworkFound: false }), "not-found");
   assert.equal(getHomeworkFileAccessDecision({ ...allowed, requesterId: "student-2" }), "not-found");
