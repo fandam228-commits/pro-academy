@@ -29,7 +29,7 @@ function assertVerifiedParentSelection(source, routeName) {
   assert.match(source, /isNotNull\(parentLinks\.verifiedAt\)/);
   assert.match(source, /isNotNull\(parentLinks\.verifiedBy\)/);
   assert.match(source, /getVerifiedParentAnalyticsStudentIds\(links\)/);
-  assert.match(source, /resolveParentAnalyticsStudentId\(requestedStudent, linkedStudentIds\)/);
+  assert.match(source, /resolveParentAnalyticsStudentId\((?:requestedStudent|studentId), linkedStudentIds\)/);
   assert.doesNotMatch(source, /links\s*\[\s*0\s*\]\s*\??\.\s*studentId/,
     `${routeName} must not silently select the first linked child`);
 }
