@@ -10,6 +10,8 @@ export interface HomeworkSubmissionFileAccessInput {
   requesterId: string | null | undefined;
   submissionStudentId?: string | null;
   homeworkTeacherId?: string | null;
+  homeworkCourseId?: string | null;
+  courseTeacherId?: string | null;
 }
 export function canViewHomeworkSubmissionFile(input: HomeworkSubmissionFileAccessInput): boolean;
 
