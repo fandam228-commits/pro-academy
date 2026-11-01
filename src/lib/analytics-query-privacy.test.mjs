@@ -178,7 +178,7 @@ test("unscoped report profile lookup also requires a current student account", (
   const unscopedQuery = reportSource.slice(unscopedQueryStart, studentMarker);
   assert.match(
     unscopedQuery,
-    /eq\\(users\\.role, "student"\\)/,
+    /eq\(users\.role, "student"\)/,
     "admin and parent report builders must not resolve a non-student account as a student report",
   );
 });
