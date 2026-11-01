@@ -1,5 +1,5 @@
 import { db } from "@/db";
-import { homework, homeworkSubmissions } from "@/db/schema";
+import { homework, homeworkSubmissions, courses } from "@/db/schema";
 import { eq } from "drizzle-orm";
 import { NextResponse } from "next/server";
 import { ensureDbSetup } from "@/db/migrate-and-seed";
@@ -26,8 +26,13 @@ export async function GET(req: Request, { params }: { params: Promise<{ id: stri
     const sub = subs[0];
     const homeworkRows = sub
       ? await db
-          .select({ teacherId: homework.teacherId })
+          .select({
+            teacherId: homework.teacherId,
+            courseId: homework.courseId,
+            courseTeacherId: courses.teacherId,
+          })
           .from(homework)
+          .leftJoin(courses, eq(homework.courseId, courses.id))
           .where(eq(homework.id, sub.homeworkId))
       : [];
     const homeworkRow = homeworkRows[0];
@@ -39,6 +44,8 @@ export async function GET(req: Request, { params }: { params: Promise<{ id: stri
       requesterId: ctx.user.id,
       submissionStudentId: sub?.studentId,
       homeworkTeacherId: homeworkRow?.teacherId,
+      homeworkCourseId: homeworkRow?.courseId,
+      courseTeacherId: homeworkRow?.courseTeacherId,
     });
     if (!sub || !homeworkRow || accessDecision !== "allowed") {
       // Use the same status and body for missing records and unauthorized callers.
