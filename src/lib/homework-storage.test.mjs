@@ -144,6 +144,18 @@ test("failed homework submission inserts clean up the newly uploaded private Blo
   assert.match(guardedInsert, /throw insertError;/);
 });
 
+test("teacher file access resolves the current course owner from the database", () => {
+  assert.match(
+    homeworkFileRouteSource,
+    /\.leftJoin\(courses, eq\(homework\.courseId, courses\.id\)\)/,
+    "file authorization must resolve the course linked to the homework",
+  );
+  assert.match(homeworkFileRouteSource, /courseId:\s*homework\.courseId/);
+  assert.match(homeworkFileRouteSource, /courseTeacherId:\s*courses\.teacherId/);
+  assert.match(homeworkFileRouteSource, /homeworkCourseId:\s*homeworkRow\?\.courseId/);
+  assert.match(homeworkFileRouteSource, /courseTeacherId:\s*homeworkRow\?\.courseTeacherId/);
+});
+
 test("homework file route authenticates before database setup or private record reads", () => {
   const authIndex = homeworkFileRouteSource.indexOf("const ctx = await getAuthContext(req)");
   const unauthorizedGuardIndex = homeworkFileRouteSource.indexOf("if (!ctx)");
