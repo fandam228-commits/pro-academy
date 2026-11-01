@@ -421,3 +421,24 @@ test("successful submission replacement deletes only a prior validated private B
   assert.match(cleanupBlock, /isPrivateHomeworkBlobPath\(previousStoragePath\)/,
     "legacy absolute URLs and malformed paths must never be sent to private Blob deletion");
 });
+
+
+test("homework file GET rejects unsupported roles before database setup", async () => {
+  const route = await readFile(new URL("../app/api/homework/file/[id]/route.ts", import.meta.url), "utf8");
+  const start = route.indexOf("export async function GET(");
+  const handler = route.slice(start);
+  const auth = handler.indexOf("const ctx = await getAuthContext(req)");
+  const unauthorizedGuard = handler.indexOf("if (!ctx)", auth);
+  const roleDeclaration = handler.indexOf("const role = ctx.user.role as string", unauthorizedGuard);
+  const roleGuard = handler.indexOf('if (!["teacher", "admin", "student"].includes(role))', roleDeclaration);
+  const setup = handler.indexOf("await ensureDbSetup()");
+
+  assert.ok(
+    auth >= 0 &&
+      unauthorizedGuard > auth &&
+      roleDeclaration > unauthorizedGuard &&
+      roleGuard > roleDeclaration &&
+      setup > roleGuard,
+    "homework file GET must reject unauthenticated and unsupported-role callers before database setup",
+  );
+});
