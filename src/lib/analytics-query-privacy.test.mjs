@@ -315,3 +315,34 @@ test("teacher Analytics enrollment SQL excludes cancelled and unknown statuses b
   assert.match(enrollmentQuery, /inArray\(enrollments\.status, \["active", "completed"\]\)/,
     "cancelled and unknown enrollment statuses must be excluded in SQL before building report scope");
 });
+
+test("teacher class roster selects only authorized student profile fields", () => {
+  const teacherStart = routeSource.indexOf('if (role === "teacher")');
+  const parentStart = routeSource.indexOf('if (role === "parent")', teacherStart);
+  assert.ok(teacherStart >= 0 && parentStart > teacherStart, "teacher report branch must exist");
+  const teacherSource = routeSource.slice(teacherStart, parentStart);
+
+  assert.match(
+    teacherSource,
+    /const visibleStudents = teacherStudentIds\.length === 0\s*\?\s*\[\]\s*:\s*await db\s*\.select\(\{\s*id: users\.id,\s*name: users\.name,\s*grade: users\.grade\s*\}\)\s*\.from\(users\)\s*\.where\(and\(eq\(users\.role, "student"\), inArray\(users\.id, teacherStudentIds\)\)\)/,
+    "teacher roster SQL must select only id/name/grade and filter by the authorized student-ID allowlist",
+  );
+  assert.doesNotMatch(
+    teacherSource,
+    /db\.select\(\)\.from\(users\)/,
+    "teacher roster must not hydrate every user row or unrelated account fields",
+  );
+
+  const rowsStart = teacherSource.indexOf("const classRows = reports");
+  const rowsEnd = teacherSource.indexOf("const topicAgg", rowsStart);
+  assert.ok(rowsStart >= 0 && rowsEnd > rowsStart, "teacher class response mapping must exist");
+  const responseMapping = teacherSource.slice(rowsStart, rowsEnd);
+  assert.match(responseMapping, /id:\s*r\.student\?\.id/);
+  assert.match(responseMapping, /name:\s*r\.student\?\.name/);
+  assert.match(responseMapping, /grade:\s*r\.student\?\.grade/);
+  assert.doesNotMatch(
+    responseMapping,
+    /email|phone|password|token|storagePath|parentId|verifiedBy/i,
+    "teacher class analytics must not expose account contact, authentication, storage, or parent-link fields",
+  );
+});
