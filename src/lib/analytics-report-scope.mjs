@@ -47,6 +47,20 @@ export function isTeacherScopedHomework(item, teacherId, allowedCourseIds) {
   );
 }
 
+/**
+ * Grade-specific homework is visible only when the student's current grade is
+ * known and matches. A blank/null assignment grade is intentionally grade-agnostic.
+ * Missing student grade must never disable grade filtering.
+ */
+export function isHomeworkGradeVisibleToStudent(homeworkGrade, studentGrade) {
+  const assignmentGrade = typeof homeworkGrade === "string" ? homeworkGrade.trim() : "";
+  const learnerGrade = typeof studentGrade === "string" ? studentGrade.trim() : "";
+
+  if (!assignmentGrade) return true;
+  if (!learnerGrade) return false;
+  return assignmentGrade === learnerGrade;
+}
+
 export function isCourseScopedQuiz(quiz, allowedCourseIds) {
   return Boolean(
     quiz &&
