@@ -230,8 +230,12 @@ test("teacher attendance GET is limited to owned-course student roster and recor
     "malformed enrollments must not add non-student accounts to the roster");
   assert.match(getSource, /inArray\(enrollments\.status, \["active", "completed"\]\)/,
     "cancelled or invalid enrollments must not authorize roster visibility");
-  assert.match(getSource, /role === "teacher"\s*\? await db\.select\(\)\.from\(attendanceRecords\)\.where\(eq\(attendanceRecords\.markedBy, ctx\.user\.id\)\)/,
-    "because attendance rows have no course key, teachers must only receive records they marked");
+  assert.match(getSource, /eq\\(attendanceRecords\\.markedBy, ctx\\.user\\.id\\)/,
+    "teacher attendance reads must include only records marked by the requesting teacher");
+  assert.match(getSource, /inArray\\(attendanceRecords\\.studentId, visibleStudentIds\\)/,
+    "teacher attendance reads must be limited in SQL to the current owned-course roster");
+  assert.match(getSource, /visibleStudentIds\\.length === 0\\s*\\?\\s*\\[\\]/,
+    "an empty authorized roster must fail closed without an unscoped attendance query");
   assert.match(getSource, /allRecords\.filter\(\(record\) => visibleStudents\.some\(\(student\) => student\.id === record\.studentId\)\)/,
     "teacher session metadata must also be limited to the owned-course roster");
 });
