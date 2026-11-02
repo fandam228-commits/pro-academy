@@ -228,6 +228,11 @@ export async function POST(req: Request) {
 
     // ============ STUDENT: SELF CHECK-IN (today's live session) ============
     if (action === "check_in") {
+      // Teachers and admins may bulk-mark authorized rosters, but must not use
+      // the student self check-in action to create attendance for their own account.
+      if (ctx.user.role !== "student") {
+        return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+      }
       const today = new Date().toISOString().split("T")[0];
       const title = body.sessionTitle || "حصة مباشرة مع مستر حبيب";
 
