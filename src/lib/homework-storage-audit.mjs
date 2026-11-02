@@ -110,3 +110,36 @@ export function mergeHomeworkStoragePathSummaries(...summaries) {
 
   return merged;
 }
+
+
+const AUDIT_REPORT_COUNT_KEYS = [
+  "totalRows",
+  "empty",
+  "privatePath",
+  "absoluteUrlNeedsReview",
+  "unknownOrMalformed",
+];
+
+/**
+ * Build a strict, non-sensitive CLI report. Only aggregate count fields are
+ * copied; extra properties (including raw paths, URLs, or student identifiers)
+ * can never leak into serialized audit output.
+ */
+export function buildHomeworkStorageAuditReport(databaseScope, summary) {
+  const safeScope = databaseScope === "local" || databaseScope === "remote-read-only-opt-in"
+    ? databaseScope
+    : "unknown";
+  const counts = {};
+
+  for (const key of AUDIT_REPORT_COUNT_KEYS) {
+    const value = summary && typeof summary === "object" ? summary[key] : undefined;
+    counts[key] = Number.isSafeInteger(value) && value >= 0 ? value : 0;
+  }
+
+  return {
+    auditMode: "read-only",
+    databaseScope: safeScope,
+    ...counts,
+    note: "Absolute URLs require review in the storage provider; counts alone do not prove whether a URL is publicly accessible. No paths or student identifiers are printed.",
+  };
+}
