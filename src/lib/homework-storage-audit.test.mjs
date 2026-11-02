@@ -142,7 +142,7 @@ test("serialized audit report allowlists aggregate counts and never exposes path
   });
   const serialized = JSON.stringify(report);
 
-  assert.doesNotMatch(serialized, /blob\\.example\\.invalid|student-secret-9281/);
+  assert.doesNotMatch(serialized, /blob\.example\.invalid|student-secret-9281/);
   assert.deepEqual(Object.keys(report), [
     "auditMode",
     "databaseScope",
