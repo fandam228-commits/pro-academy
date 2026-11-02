@@ -4,6 +4,7 @@ import {
   beginConsistentReadOnlyHomeworkAudit,
   summarizeHomeworkStoragePaths,
   mergeHomeworkStoragePathSummaries,
+  buildHomeworkStorageAuditReport,
 } from "../src/lib/homework-storage-audit.mjs";
 
 const connectionString = process.env.DATABASE_URL;
@@ -63,12 +64,7 @@ if (databaseScope) {
     await client.query("ROLLBACK");
     readOnlyTransactionStarted = false;
 
-    console.log(JSON.stringify({
-      auditMode: "read-only",
-      databaseScope,
-      ...summary,
-      note: "Absolute URLs require review in the storage provider; counts alone do not prove whether a URL is publicly accessible. No paths or student identifiers are printed.",
-    }, null, 2));
+    console.log(JSON.stringify(buildHomeworkStorageAuditReport(databaseScope, summary), null, 2));
   } catch {
     if (connected && readOnlyTransactionStarted) {
       try {
