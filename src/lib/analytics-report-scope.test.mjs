@@ -5,6 +5,7 @@ import {
   getTeacherAnalyticsCourseIds,
   isTeacherScopedHomework,
   isCourseScopedQuiz,
+  isHomeworkGradeVisibleToStudent,
   getVerifiedParentAnalyticsStudentIds,
   resolveParentAnalyticsStudentId,
 } from "./analytics-report-scope.mjs";
@@ -116,4 +117,16 @@ test("parent analytics handles no links and malformed relationship data fail-clo
     resolveParentAnalyticsStudentId("", ["student-1"]),
     { ok: false, reason: "invalid-student-id" }
   );
+});
+
+
+test("homework grade scope fails closed for missing student grade but keeps grade-agnostic homework visible", () => {
+  assert.equal(isHomeworkGradeVisibleToStudent("Third Secondary", "Third Secondary"), true);
+  assert.equal(isHomeworkGradeVisibleToStudent(" Third Secondary ", "Third Secondary "), true);
+  assert.equal(isHomeworkGradeVisibleToStudent("First Prep", "Third Secondary"), false);
+  assert.equal(isHomeworkGradeVisibleToStudent("Third Secondary", null), false);
+  assert.equal(isHomeworkGradeVisibleToStudent("Third Secondary", "  "), false);
+  assert.equal(isHomeworkGradeVisibleToStudent(null, null), true);
+  assert.equal(isHomeworkGradeVisibleToStudent("   ", undefined), true);
+  assert.equal(isHomeworkGradeVisibleToStudent(null, "Third Secondary"), true);
 });
