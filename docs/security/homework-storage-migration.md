@@ -11,7 +11,8 @@ Do not run a migration against production until the data owner approves the scop
 1. Use a disposable/local PostgreSQL fixture first and run `npm run audit:homework-storage`.
 2. Confirm the command exits successfully and reports only aggregate counts.
 3. For a remote audit, obtain explicit owner approval first. Use a read-only database credential with the minimum permission needed to select `homework_submissions.storage_path`; only then set `ALLOW_REMOTE_HOMEWORK_STORAGE_AUDIT=true`. This flag is an opt-in guard, not a substitute for approval or read-only database permissions.
-4. Treat `absoluteUrlNeedsReview` as a review queue, **not** as proof that the URL is public. Determine access mode and object ownership in the storage provider's console using an authorized operator. Keep any URL-to-record mapping in a restricted, short-lived location outside the repository.
+4. Review `vercelPublicBlobUrlNeedsReview` first: these references use Vercel's known public Blob hostname and should be checked with the provider operator for object existence and anonymous accessibility. This hostname classification is a priority signal, not proof that a particular object still exists.
+5. Treat `absoluteUrlNeedsReview` as a separate review queue for other absolute URLs; do not assume those URLs are public. Determine access mode and object ownership in the storage provider's console using an authorized operator. Keep any URL-to-record mapping in a restricted, short-lived location outside the repository.
 
 ## Phase 2 — Prepare a migration
 
@@ -56,4 +57,4 @@ After the private copy and reference update are verified:
 
 ## Current status
 
-This document is a runbook only. The repository's audit command is read-only and does not perform any migration or revoke legacy public URLs. Production migration remains blocked until the required approvals, provider access, and a tested migration implementation are available.
+This document is a runbook only. The repository's audit command is read-only and does not perform any migration or revoke legacy public URLs. It now reports known Vercel public Blob host references separately from other absolute URLs, without printing the URLs themselves. Production migration remains blocked until the required approvals, provider access, and a tested migration implementation are available.
