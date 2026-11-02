@@ -5,6 +5,7 @@ import { readFile } from "node:fs/promises";
 const routeSource = await readFile(new URL("../app/api/analytics/route.ts", import.meta.url), "utf8");
 const verificationRouteSource = await readFile(new URL("../app/api/parent-links/[id]/verify/route.ts", import.meta.url), "utf8");
 const attendanceRouteSource = await readFile(new URL("../app/api/attendance/route.ts", import.meta.url), "utf8");
+const reportsRouteSource = await readFile(new URL("../app/api/reports/route.ts", import.meta.url), "utf8");
 const reportStart = routeSource.indexOf("async function buildStudentReport(");
 const reportEnd = routeSource.indexOf("function buildClassAnalyticsResponse", reportStart);
 
@@ -384,4 +385,68 @@ test("admin class analytics loads only student IDs before building individual re
     "class report generation must not load password, contact, or other unrelated user columns",
   );
   assert.ok(adminSource.includes("students.map((s) => buildStudentReport(s.id))"));
+});
+
+
+test("reports GET authenticates and validates supported roles before database setup", () => {
+  const getStart = reportsRouteSource.indexOf("export async function GET(req: Request)");
+  assert.notEqual(getStart, -1, "reports GET handler must exist");
+  const getSource = reportsRouteSource.slice(getStart);
+  const auth = getSource.indexOf("const ctx = await getAuthContext(req)");
+  const unauthorized = getSource.indexOf("if (!ctx)", auth);
+  const roleGuard = getSource.indexOf('if (!["admin", "teacher", "parent", "student"].includes(role))', unauthorized);
+  const setup = getSource.indexOf("await ensureDbSetup()");
+  assert.ok(auth >= 0 && unauthorized > auth && roleGuard > unauthorized && setup > roleGuard,
+    "reports GET must reject unauthenticated and unsupported-role callers before database setup");
+});
+
+test("reports parent access requires a verified current student and current admin verifier", () => {
+  const parentStart = reportsRouteSource.indexOf('if (role === "parent")');
+  const studentStart = reportsRouteSource.indexOf('else if (role === "student")', parentStart);
+  assert.ok(parentStart >= 0 && studentStart > parentStart, "parent and student report branches must exist");
+  const parentSource = reportsRouteSource.slice(parentStart, studentStart);
+  assert.match(parentSource, /\.innerJoin\(users, eq\(parentLinks\.studentId, users\.id\)\)/);
+  assert.match(parentSource, /\.innerJoin\(verifiedByUser, eq\(parentLinks\.verifiedBy, verifiedByUser\.id\)\)/);
+  assert.match(parentSource, /eq\(parentLinks\.parentId, ctx\.user\.id\)/);
+  assert.match(parentSource, /eq\(users\.role, "student"\)/);
+  assert.match(parentSource, /eq\(verifiedByUser\.role, "admin"\)/);
+  assert.match(parentSource, /isNotNull\(parentLinks\.verifiedAt\)/);
+  assert.match(parentSource, /isNotNull\(parentLinks\.verifiedBy\)/);
+  assert.match(parentSource, /resolveParentAnalyticsStudentId\(studentId, linkedStudentIds\)/);
+  assert.doesNotMatch(parentSource, /links\s*\[\s*0\s*\]\s*\??\.\s*studentId|linkedStudentIds\s*\[\s*0\s*\]/,
+    "reports must never silently choose the first linked child");
+});
+
+test("reports student access is self-only and rejects a forged target ID", () => {
+  const studentStart = reportsRouteSource.indexOf('else if (role === "student")');
+  const studentEnd = reportsRouteSource.indexOf("if (!studentId)", studentStart);
+  assert.ok(studentStart >= 0 && studentEnd > studentStart, "student report selector must exist");
+  const studentSource = reportsRouteSource.slice(studentStart, studentEnd);
+  assert.match(studentSource, /if\s*\(studentId\s*&&\s*studentId\s*!==\s*ctx\.user\.id\)/);
+  assert.match(studentSource, /studentId\s*=\s*ctx\.user\.id/);
+});
+
+test("reports teacher data is scoped to owned courses and active/completed enrollments", () => {
+  const teacherStart = reportsRouteSource.indexOf('if (role === "teacher")');
+  const profileStart = reportsRouteSource.indexOf("const stList", teacherStart);
+  assert.ok(teacherStart >= 0 && profileStart > teacherStart, "teacher report scope query must exist");
+  const teacherScope = reportsRouteSource.slice(teacherStart, profileStart);
+  assert.match(teacherScope, /eq\(enrollments\.studentId, studentId\)/);
+  assert.match(teacherScope, /eq\(courses\.teacherId, ctx\.user\.id\)/);
+  assert.match(teacherScope, /inArray\(enrollments\.status, \["active", "completed"\]\)/);
+  assert.match(teacherScope, /if\s*\(teacherCourseIds\.length === 0\)[\s\S]*?status:\s*403/);
+  assert.match(reportsRouteSource, /eq\(homework\.teacherId, ctx\.user\.id\)/);
+  assert.match(reportsRouteSource, /inArray\(homework\.courseId, teacherCourseIds \?\? \[\]\)/);
+  assert.match(reportsRouteSource, /inArray\(homeworkSubmissions\.homeworkId, visibleHomeworkIds!\)/);
+  assert.match(reportsRouteSource, /inArray\(quizzes\.courseId, teacherCourseIds \?\? \[\]\)/);
+  assert.match(reportsRouteSource, /inArray\(quizSubmissions\.quizId, visibleQuizIds!\)/);
+  assert.match(reportsRouteSource, /inArray\(enrollments\.courseId, teacherCourseIds \?\? \[\]\)/);
+});
+
+test("reports do not expose unscoped attendance or global gamification values to teachers", () => {
+  assert.match(reportsRouteSource, /role === "teacher" \? \[\] : await db\.select\(\)\.from\(attendanceRecords\)/);
+  assert.match(reportsRouteSource, /role === "teacher" \? null/);
+  assert.match(reportsRouteSource, /role === "teacher" \? null : \(student\.streak \|\| 0\)/);
+  assert.match(reportsRouteSource, /role === "teacher" \? null : \(student\.points \|\| 0\)/);
+  assert.match(reportsRouteSource, /role === "teacher" \? null : \(student\.level \|\| "Intermediate"\)/);
 });
