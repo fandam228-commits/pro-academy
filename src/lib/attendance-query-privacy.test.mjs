@@ -10,7 +10,7 @@ test("attendance roster queries select only the fields returned to the roster", 
   assert.ok(rosterStart >= 0 && rosterEnd > rosterStart, "the roster query block must exist");
 
   const rosterSource = route.slice(rosterStart, rosterEnd);
-  const projectedUserQuery = /db\\.select\\(\\{\\s*id:\\s*users\\.id,\\s*name:\\s*users\\.name,\\s*grade:\\s*users\\.grade\\s*\\}\\)\\.from\\(users\\)/g;
+  const projectedUserQuery = /db\.select\(\{\s*id:\s*users\.id,\s*name:\s*users\.name,\s*grade:\s*users\.grade\s*\}\)\.from\(users\)/g;
   assert.equal(
     (rosterSource.match(projectedUserQuery) || []).length,
     2,
@@ -18,7 +18,7 @@ test("attendance roster queries select only the fields returned to the roster", 
   );
   assert.doesNotMatch(
     rosterSource,
-    /db\\.select\\(\\)\\.from\\(users\\)/,
+    /db\.select\(\)\.from\(users\)/,
     "attendance roster generation must not load full user records into memory",
   );
 });
