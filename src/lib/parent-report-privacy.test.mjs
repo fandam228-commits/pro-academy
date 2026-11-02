@@ -204,3 +204,19 @@ test("teacher attendance reads only current owned-course students at the databas
     "an empty authorized roster must return no attendance rows without issuing an unscoped read",
   );
 });
+
+test("attendance self check-in is student-only before any attendance read or write", () => {
+  const source = routeFiles.attendance;
+  const checkInStart = source.indexOf('if (action === "check_in")');
+  assert.notEqual(checkInStart, -1, "self check-in action must exist");
+  const roleGuard = source.indexOf('if (ctx.user.role !== "student")', checkInStart);
+  const forbiddenResponse = source.indexOf('status: 403', roleGuard);
+  const todaySetup = source.indexOf("const today =", checkInStart);
+  const attendanceRead = source.indexOf("const existing = await db", checkInStart);
+  assert.ok(
+    roleGuard > checkInStart && forbiddenResponse > roleGuard &&
+    todaySetup > forbiddenResponse && attendanceRead > todaySetup,
+    "non-students must be rejected before self check-in reads or writes attendance",
+  );
+});
+
