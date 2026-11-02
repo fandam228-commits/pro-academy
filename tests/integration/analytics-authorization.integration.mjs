@@ -50,6 +50,7 @@ const parentLinks = pgTable("parent_links", {
   verifiedBy: text("verified_by"),
 });
 const verifiedByUser = alias(users, "verified_by_user");
+const parentAccount = alias(users, "parent_account");
 const quizzes = pgTable("quizzes", {
   id: text("id").primaryKey(),
   courseId: text("course_id"),
@@ -276,10 +277,12 @@ integrationTest("PostgreSQL parent links require explicit choice for multiple ch
         verifiedBy: parentLinks.verifiedBy,
       })
       .from(parentLinks)
+      .innerJoin(parentAccount, eq(parentLinks.parentId, parentAccount.id))
       .innerJoin(users, eq(parentLinks.studentId, users.id))
       .innerJoin(verifiedByUser, eq(parentLinks.verifiedBy, verifiedByUser.id))
       .where(and(
         eq(parentLinks.parentId, "parent-1"),
+        eq(parentAccount.role, "parent"),
         eq(users.role, "student"),
         eq(verifiedByUser.role, "admin"),
         isNotNull(parentLinks.verifiedAt),
@@ -311,6 +314,25 @@ integrationTest("PostgreSQL parent links require explicit choice for multiple ch
       }),
       false,
     );
+
+    // Simulate a parent account whose role changed after the session was issued.
+    // The live database join must fail closed even if the request context is stale.
+    await db.update(users).set({ role: "teacher" }).where(eq(users.id, "parent-2"));
+    const staleRoleLinks = await db
+      .select({ studentId: parentLinks.studentId })
+      .from(parentLinks)
+      .innerJoin(parentAccount, eq(parentLinks.parentId, parentAccount.id))
+      .innerJoin(users, eq(parentLinks.studentId, users.id))
+      .innerJoin(verifiedByUser, eq(parentLinks.verifiedBy, verifiedByUser.id))
+      .where(and(
+        eq(parentLinks.parentId, "parent-2"),
+        eq(parentAccount.role, "parent"),
+        eq(users.role, "student"),
+        eq(verifiedByUser.role, "admin"),
+        isNotNull(parentLinks.verifiedAt),
+        isNotNull(parentLinks.verifiedBy),
+      ));
+    assert.deepEqual(staleRoleLinks, [], "a stale parent session must not authorize links after the account role changes");
   });
 });
 
