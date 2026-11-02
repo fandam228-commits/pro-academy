@@ -58,8 +58,17 @@ export async function GET(req: Request) {
               : [];
           })()
         : allStudents;
+      // Restrict the database read to the teacher's current owned-course roster.
+      // Filtering only after loading every record marked by this teacher would still
+      // bring out-of-scope student data into application memory.
+      const visibleStudentIds = visibleStudents.map((student) => student.id);
       const allRecords = role === "teacher"
-        ? await db.select().from(attendanceRecords).where(eq(attendanceRecords.markedBy, ctx.user.id))
+        ? visibleStudentIds.length === 0
+          ? []
+          : await db.select().from(attendanceRecords).where(and(
+              eq(attendanceRecords.markedBy, ctx.user.id),
+              inArray(attendanceRecords.studentId, visibleStudentIds),
+            ))
         : await db.select().from(attendanceRecords);
 
       const roster = visibleStudents.map((st) => {
