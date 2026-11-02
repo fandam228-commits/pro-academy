@@ -385,3 +385,22 @@ test("admin class analytics loads only student IDs before building individual re
   );
   assert.ok(adminSource.includes("students.map((s) => buildStudentReport(s.id))"));
 });
+
+
+test("analytics homework summaries apply fail-closed grade filtering in both report paths", () => {
+  assert.match(
+    routeSource,
+    /isHomeworkGradeVisibleToStudent/,
+    "the analytics route must use the tested grade-scope policy",
+  );
+  assert.match(
+    routeSource,
+    /filter\(\(item\) => isHomeworkGradeVisibleToStudent\(item\.grade, student\?\.grade\)\)/,
+    "submission lookups must exclude grade-specific homework when student grade is missing",
+  );
+  assert.match(
+    routeSource,
+    /isHomeworkGradeVisibleToStudent\(h\.grade, student\?\.grade\)/,
+    "homework totals and completion metrics must use the same fail-closed grade policy",
+  );
+});
