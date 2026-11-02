@@ -220,3 +220,24 @@ test("attendance self check-in is student-only before any attendance read or wri
   );
 });
 
+
+
+test("attendance POST validates action-specific roles before database setup", () => {
+  const source = routeFiles.attendance;
+  const postStart = source.indexOf("export async function POST(req: Request)");
+  assert.notEqual(postStart, -1, "attendance POST handler must exist");
+  const postSource = source.slice(postStart);
+  const auth = postSource.indexOf("const ctx = await getAuthContext(req)");
+  const roleAllowlist = postSource.indexOf('if (!["teacher", "admin", "student"].includes(ctx.user.role))', auth);
+  const parseBody = postSource.indexOf("const { action } = body;", roleAllowlist);
+  const bulkGuard = postSource.indexOf('if (action === "bulk_mark" && !["teacher", "admin"].includes(ctx.user.role))', parseBody);
+  const checkInGuard = postSource.indexOf('if (action === "check_in" && ctx.user.role !== "student")', parseBody);
+  const unsupportedGuard = postSource.indexOf('if (action !== "bulk_mark" && action !== "check_in")', parseBody);
+  const setup = postSource.indexOf("await ensureDbSetup()", parseBody);
+  assert.ok(auth >= 0 && roleAllowlist > auth && parseBody > roleAllowlist,
+    "request must authenticate and parse the requested action before setup");
+  assert.ok(bulkGuard > parseBody && checkInGuard > parseBody && unsupportedGuard > parseBody,
+    "each supported action must enforce its own role and unknown actions must be rejected");
+  assert.ok(setup > bulkGuard && setup > checkInGuard && setup > unsupportedGuard,
+    "database setup must occur only after action-specific authorization");
+});
