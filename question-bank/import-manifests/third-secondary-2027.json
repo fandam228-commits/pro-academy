@@ -1,0 +1,30 @@
+{
+  "grade": "Third Secondary",
+  "curriculumYear": "2026-2027",
+  "status": "source-audit-in-progress",
+  "sources": [
+    {
+      "filename": "بوكليت تالته ثانوى 2027 اسئلة على كامل المنهج .pdf",
+      "pages": 15,
+      "extraction": "text-extractable; 168 numbered markers detected across MCQ, reading, story, translation and writing; separate MCQ count still requires classification"
+    },
+    {
+      "filename": "اجابات_إهداء_من_فريق_العمالقة_ليلة_امتحان_3_ثانوي_اللهم_علم_ينتفع.pdf",
+      "pages": 99,
+      "extraction": "text-extractable but mixed reference/worksheet content; must identify authoritative answer-key sections before matching"
+    }
+  ],
+  "importRules": [
+    "Separate MCQ questions from reading, story, translation and writing tasks.",
+    "Preserve the source question and option text exactly.",
+    "Do not assume the large reference PDF is a matching answer key merely from its filename.",
+    "Keep source page and source document in every staged question record.",
+    "Do not import unverified answer keys into production."
+  ],
+  "validation": [
+    "Classify question type and grade/unit scope.",
+    "Verify option text and answer mapping against source pages.",
+    "Retain unresolved questions in review status instead of fabricating answers.",
+    "Run duplicate and option-count checks."
+  ]
+}
