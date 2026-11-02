@@ -211,10 +211,11 @@ integrationTest("parent attendance requires a current parent role, admin-verifie
 
 integrationTest("student attendance query returns only the requesting student's records", async () => {
   await withFixture(async ({ db }) => {
-    const ownRecords = await db
+    const ownRecords = (await db
       .select({ id: attendanceRecords.id, studentId: attendanceRecords.studentId })
       .from(attendanceRecords)
-      .where(eq(attendanceRecords.studentId, "student-1"));
+      .where(eq(attendanceRecords.studentId, "student-1")))
+      .sort((a, b) => a.id.localeCompare(b.id));
     assert.deepEqual(ownRecords, [
       { id: "att-1", studentId: "student-1" },
       { id: "att-5", studentId: "student-1" },
