@@ -470,6 +470,9 @@ test("student homework listing does not expose grade-specific assignments when p
   const end = route.indexOf("const list = await db.select().from(homework)", start);
   assert.ok(start >= 0 && end > start, "student grade visibility must be applied before querying homework");
   const visibility = route.slice(start, end);
-  assert.match(visibility, /: or\\(isNull\\(homework\\.grade\\), eq\\(homework\\.grade, ""\\)\\);/);
+  assert.ok(
+    visibility.includes(': or(isNull(homework.grade), eq(homework.grade, ""));'),
+    "when the student grade is missing, only grade-agnostic homework may be listed",
+  );
   assert.doesNotMatch(visibility, /: undefined;/);
 });
