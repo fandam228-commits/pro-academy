@@ -384,6 +384,37 @@ integrationTest("teacher analytics database reads stay within owned enrolled cou
   });
 });
 
+integrationTest("PostgreSQL attendance parent links reject a stale parent role after the account changes", async () => {
+  await withFixture(async ({ db }) => {
+    const queryVerifiedAttendanceLinks = () => db
+      .select({
+        studentId: parentLinks.studentId,
+        verifiedAt: parentLinks.verifiedAt,
+        verifiedBy: parentLinks.verifiedBy,
+      })
+      .from(parentLinks)
+      .innerJoin(parentAccount, eq(parentLinks.parentId, parentAccount.id))
+      .innerJoin(users, eq(parentLinks.studentId, users.id))
+      .innerJoin(verifiedByUser, eq(parentLinks.verifiedBy, verifiedByUser.id))
+      .where(and(
+        eq(parentLinks.parentId, "parent-2"),
+        eq(parentAccount.role, "parent"),
+        eq(users.role, "student"),
+        eq(verifiedByUser.role, "admin"),
+        isNotNull(parentLinks.verifiedAt),
+        isNotNull(parentLinks.verifiedBy),
+      ));
+
+    const beforeRoleChange = await queryVerifiedAttendanceLinks();
+    assert.deepEqual(beforeRoleChange.map((row) => row.studentId), ["student-3"]);
+
+    // Simulate a role change after a parent session was issued.
+    await db.update(users).set({ role: "teacher" }).where(eq(users.id, "parent-2"));
+    const afterRoleChange = await queryVerifiedAttendanceLinks();
+    assert.deepEqual(afterRoleChange, [], "stale parent session must not authorize attendance for linked students");
+  });
+});
+
 integrationTest("student analytics authorization is self-only", async () => {
   await withFixture(async () => {
     assert.equal(
