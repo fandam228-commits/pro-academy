@@ -158,3 +158,33 @@ test("analytics students can only request their own report", () => {
   assert.doesNotMatch(studentBranch, /buildStudentReport\(requestedStudent\)/,
     "student reports must use the authenticated user's ID, never the caller-supplied target");
 });
+
+
+test("analytics teacher reports query only authorized course data and omit unscopable records", () => {
+  const source = routeFiles.analytics;
+  const builderStart = source.indexOf("async function buildStudentReport(");
+  const builderEnd = source.indexOf("function buildClassAnalyticsResponse(", builderStart);
+  assert.ok(builderStart >= 0 && builderEnd > builderStart, "student report builder must exist");
+  const builder = source.slice(builderStart, builderEnd);
+
+  assert.match(builder, /const attempts = scope\s*\?\s*\[\]\s*:/,
+    "exam attempts without a reliable course key must be omitted from teacher reports");
+  assert.match(builder, /inArray\(quizzes\.courseId, scope\.allowedCourseIds\)/,
+    "teacher quiz submissions must be constrained by the allowed course IDs");
+  assert.match(builder, /eq\(homework\.teacherId, scope\.teacherId\)/,
+    "teacher homework must also match the current teacher owner");
+  assert.match(builder, /inArray\(homework\.courseId, scope\.allowedCourseIds\)/,
+    "teacher homework must be constrained by the allowed course IDs");
+  assert.match(builder, /const attendance = scope\s*\?\s*\[\]\s*:/,
+    "attendance without a course ownership key must be omitted from teacher reports");
+  assert.match(builder, /const bank = scope \? \[\] : await db\.select\(\)\.from\(questionBank\)/,
+    "unscoped question-bank data must not be loaded for teacher reports");
+
+  assert.match(builder, /id: users\.id,\s*name: users\.name,\s*grade: users\.grade/,
+    "teacher report profiles must use an explicit minimal column projection");
+  assert.doesNotMatch(builder, /scope\s*\?\s*await db\.select\(\)\.from\(users\)/,
+    "teacher report must not load a full user row");
+  assert.match(builder, /points: scope \? null : student\.points/);
+  assert.match(builder, /streak: scope \? null : student\.streak/);
+  assert.match(builder, /level: scope \? null : student\.level/);
+});
