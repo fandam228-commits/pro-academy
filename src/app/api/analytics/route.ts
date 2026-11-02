@@ -23,6 +23,7 @@ import { attendanceRate, calculatePerformanceIndex, homeworkCompletion } from "@
 import {
   getTeacherAnalyticsStudentIds,
   getTeacherAnalyticsCourseIds,
+  isHomeworkGradeVisibleToStudent,
   resolveParentAnalyticsStudentId,
   getVerifiedParentAnalyticsStudentIds,
 } from "@/lib/analytics-report-scope.mjs";
@@ -127,7 +128,7 @@ async function buildStudentReport(studentId: string, scope?: TeacherReportScope)
       }).from(homework);
 
   const visibleHomeworkIds = new Set(visibleHomework
-    .filter((item) => !student?.grade || item.grade === student.grade)
+    .filter((item) => isHomeworkGradeVisibleToStudent(item.grade, student?.grade))
     .map((item) => item.id));
   const hwSubs = scope
     ? visibleHomeworkIds.size === 0
@@ -223,7 +224,7 @@ async function buildStudentReport(studentId: string, scope?: TeacherReportScope)
 
   const enrolledCourseIds = new Set(myEnrollments.map((enrollment) => enrollment.courseId));
   const relevantHw = visibleHomework.filter(
-    (h) => (!student?.grade || h.grade === student.grade) && (!h.courseId || enrolledCourseIds.has(h.courseId))
+    (h) => isHomeworkGradeVisibleToStudent(h.grade, student?.grade) && (!h.courseId || enrolledCourseIds.has(h.courseId))
   );
   const relevantHomeworkIds = new Set(relevantHw.map((h) => h.id));
   const relevantHwSubs = hwSubs.filter((submission) => relevantHomeworkIds.has(submission.homeworkId));
