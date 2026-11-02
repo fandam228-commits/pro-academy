@@ -412,7 +412,11 @@ integrationTest("PostgreSQL parent links reject a linked account whose role chan
     await db.update(users).set({ role: "teacher" }).where(eq(users.id, "student-1"));
 
     const rows = await db
-      .select({ studentId: parentLinks.studentId })
+      .select({
+        studentId: parentLinks.studentId,
+        verifiedAt: parentLinks.verifiedAt,
+        verifiedBy: parentLinks.verifiedBy,
+      })
       .from(parentLinks)
       .innerJoin(parentAccount, eq(parentLinks.parentId, parentAccount.id))
       .innerJoin(users, eq(parentLinks.studentId, users.id))
