@@ -404,3 +404,34 @@ integrationTest("student analytics authorization is self-only", async () => {
     );
   });
 });
+
+integrationTest("PostgreSQL parent links reject a linked account whose role changes from student", async () => {
+  await withFixture(async ({ db }) => {
+    // A once-valid parent link must not continue authorizing a report if the
+    // linked account is later changed from student to another role.
+    await db.update(users).set({ role: "teacher" }).where(eq(users.id, "student-1"));
+
+    const rows = await db
+      .select({ studentId: parentLinks.studentId })
+      .from(parentLinks)
+      .innerJoin(parentAccount, eq(parentLinks.parentId, parentAccount.id))
+      .innerJoin(users, eq(parentLinks.studentId, users.id))
+      .innerJoin(verifiedByUser, eq(parentLinks.verifiedBy, verifiedByUser.id))
+      .where(and(
+        eq(parentLinks.parentId, "parent-1"),
+        eq(parentAccount.role, "parent"),
+        eq(users.role, "student"),
+        eq(verifiedByUser.role, "admin"),
+        isNotNull(parentLinks.verifiedAt),
+        isNotNull(parentLinks.verifiedBy),
+      ));
+
+    const linkedIds = getVerifiedParentAnalyticsStudentIds(rows);
+    assert.deepEqual(
+      linkedIds,
+      ["student-2"],
+      "a linked account that is no longer a student must not remain report-accessible",
+    );
+  });
+});
+
