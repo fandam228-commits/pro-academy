@@ -6,6 +6,7 @@ import {
   classifyHomeworkStoragePath,
   summarizeHomeworkStoragePaths,
   mergeHomeworkStoragePathSummaries,
+  buildHomeworkStorageAuditReport,
 } from "./homework-storage-audit.mjs";
 
 test("storage audit classifies empty and private homework paths without exposing values", () => {
@@ -126,4 +127,33 @@ test("read-only storage audit refuses a client without a query method", async ()
     () => beginConsistentReadOnlyHomeworkAudit(null),
     /PostgreSQL-compatible client is required/,
   );
+});
+
+
+test("serialized audit report allowlists aggregate counts and never exposes paths or student identifiers", () => {
+  const privateUrl = "https://blob.example.invalid/private/student-secret-9281.pdf";
+  const studentPath = "homework/student-secret-9281.pdf";
+  const counts = summarizeHomeworkStoragePaths([privateUrl, studentPath]);
+  const report = buildHomeworkStorageAuditReport("local", {
+    ...counts,
+    rawPath: studentPath,
+    url: privateUrl,
+    studentId: "student-secret-9281",
+  });
+  const serialized = JSON.stringify(report);
+
+  assert.doesNotMatch(serialized, /blob\\.example\\.invalid|student-secret-9281/);
+  assert.deepEqual(Object.keys(report), [
+    "auditMode",
+    "databaseScope",
+    "totalRows",
+    "empty",
+    "privatePath",
+    "absoluteUrlNeedsReview",
+    "unknownOrMalformed",
+    "note",
+  ]);
+  assert.equal(report.totalRows, 2);
+  assert.equal(report.privatePath, 1);
+  assert.equal(report.absoluteUrlNeedsReview, 1);
 });
