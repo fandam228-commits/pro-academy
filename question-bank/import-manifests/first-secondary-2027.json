@@ -1,0 +1,31 @@
+{
+  "grade": "First Secondary",
+  "curriculumYear": "2026-2027",
+  "status": "source-audit-in-progress",
+  "sources": [
+    {
+      "filename": "ليلة امتحان أولي ثانوي - Habib El Rahman.pdf",
+      "pages": 13,
+      "extraction": "image-based; text extraction returned no usable text; OCR/manual review required"
+    },
+    {
+      "filename": "اهداء من فريق العمالقة اجابات امتحان الصف الاول  الثانوي    2027.pdf",
+      "pages": 10,
+      "extraction": "text-extractable; title suggests answers but extracted content contains full MCQ questions; verify whether a true answer key exists"
+    }
+  ],
+  "importRules": [
+    "Preserve question and option text exactly as printed.",
+    "Keep original order and source page in provenance metadata.",
+    "Do not mark an answer correct unless an authoritative key or teacher verification supports it.",
+    "Stage imported questions for review; do not write to production database during extraction.",
+    "For generated attempts, use the balanced answer-position helper without editing option wording."
+  ],
+  "validation": [
+    "Question count matches source inventory.",
+    "Every MCQ has exactly its original options.",
+    "Correct answer matches exactly one option.",
+    "Duplicate detection across source PDFs.",
+    "Review OCR uncertainty before accepting a question."
+  ]
+}
