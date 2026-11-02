@@ -4,6 +4,7 @@ import { eq, and, sql, ilike, inArray, notInArray } from "drizzle-orm";
 import { NextResponse } from "next/server";
 import { ensureDbSetup } from "@/db/migrate-and-seed";
 import { requireRoles, getAuthContext } from "@/lib/security";
+import { shuffleOptionsBalanced } from "@/lib/balanced-option-shuffle.mjs";
 
 function normalizedAnswerSet(value: unknown): string[] {
   try {
@@ -378,9 +379,7 @@ export async function POST(req: Request) {
 
       const pushQuestion = async (q: any) => {
         if (selected.length >= totalNum || usedIds.has(q.id)) return;
-        let randomizedOptions = q.options;
-        if (Array.isArray(q.options)) randomizedOptions = [...q.options].sort(() => Math.random() - 0.5);
-        selected.push({ ...q, options: randomizedOptions });
+        selected.push({ ...q, options: Array.isArray(q.options) ? [...q.options] : q.options });
         usedIds.add(q.id);
         await db.update(questionBank).set({ timesUsed: (q.timesUsed || 0) + 1, lastUsedAt: new Date() }).where(eq(questionBank.id, q.id));
       };
@@ -401,6 +400,9 @@ export async function POST(req: Request) {
         }
       }
 
+      // Balance correct-answer positions per exam while preserving all original option text.
+      const balancedSelected = shuffleOptionsBalanced(selected);
+
       const examId = `exam_${Date.now()}`;
       const examObj = {
         id: examId,
@@ -420,7 +422,7 @@ export async function POST(req: Request) {
       // Keep the answer key server-side; students receive only the playable exam.
       const safeExam = {
         ...examObj,
-        questionsData: selected.map(({ correctAnswer, ...q }) => q),
+        questionsData: balancedSelected.map(({ correctAnswer, ...q }) => q),
       };
 
       return NextResponse.json({
