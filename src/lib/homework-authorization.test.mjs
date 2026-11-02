@@ -442,3 +442,34 @@ test("homework file GET rejects unsupported roles before database setup", async 
     "homework file GET must reject unauthenticated and unsupported-role callers before database setup",
   );
 });
+
+
+test("missing student grade fails closed for grade-specific homework", () => {
+  assert.equal(
+    canSubmitHomework({ role: "student", studentGrade: "", homeworkGrade: "Third Secondary" }),
+    false,
+  );
+  assert.equal(
+    canSubmitHomework({ role: "student", studentGrade: null, homeworkGrade: "Third Secondary" }),
+    false,
+  );
+  assert.equal(
+    canSubmitHomework({ role: "student", studentGrade: " First Secondary ", homeworkGrade: "First Secondary" }),
+    true,
+  );
+  assert.equal(
+    canSubmitHomework({ role: "student", studentGrade: "", homeworkGrade: "" }),
+    true,
+    "grade-agnostic homework remains available when its grade is intentionally blank",
+  );
+});
+
+test("student homework listing does not expose grade-specific assignments when profile grade is missing", async () => {
+  const route = await readFile(new URL("../app/api/homework/route.ts", import.meta.url), "utf8");
+  const start = route.indexOf("const gradeVisibility = myGrade");
+  const end = route.indexOf("const list = await db.select().from(homework)", start);
+  assert.ok(start >= 0 && end > start, "student grade visibility must be applied before querying homework");
+  const visibility = route.slice(start, end);
+  assert.match(visibility, /: or\\(isNull\\(homework\\.grade\\), eq\\(homework\\.grade, ""\\)\\);/);
+  assert.doesNotMatch(visibility, /: undefined;/);
+});
