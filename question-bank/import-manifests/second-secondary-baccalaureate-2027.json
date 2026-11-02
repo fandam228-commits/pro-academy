@@ -1,0 +1,41 @@
+{
+  "grade": "Second Secondary / Baccalaureate",
+  "curriculumYear": "2026-2027",
+  "status": "source-audit-in-progress",
+  "sources": [
+    {
+      "filename": "ليلة امتحان ثانية ثانوي - Habib El Rahman.pdf",
+      "pages": 13,
+      "extraction": "image-based; text extraction returned no usable text; OCR/manual review required"
+    },
+    {
+      "filename": "اهداء من فريق العمالقة امتحان الصف الثاني الثانوي نموذج أ 2027.pdf",
+      "pages": 12,
+      "extraction": "text-extractable; includes numbered MCQ items; answer-key verification required"
+    },
+    {
+      "filename": "Extracted pages from المعاصر_انجليزي_2ث_بكالوريا_الترم_الاول_2027_المتميزون.pdf",
+      "extraction": "pending-inspection"
+    },
+    {
+      "filename": "الوحده_الأولى_المعاصر_تانيه_بكالوريا_(1).pdf",
+      "extraction": "pending-inspection"
+    },
+    {
+      "filename": "بكالوريا 2nd term.pdf",
+      "extraction": "pending-inspection"
+    }
+  ],
+  "importRules": [
+    "Keep second secondary and baccalaureate curricula distinguishable in metadata.",
+    "Preserve source wording and option wording exactly.",
+    "Never infer answer keys from option distribution or guess when the key is absent.",
+    "Stage all extracted questions for review before any database import.",
+    "Generated attempts may reorder choices only, preserving their text and correct-answer mapping."
+  ],
+  "validation": [
+    "Track curriculum, term, unit, source file and page.",
+    "Deduplicate across overlapping source files.",
+    "Verify every answer key against a reliable key or teacher confirmation."
+  ]
+}
