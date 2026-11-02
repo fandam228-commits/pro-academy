@@ -188,3 +188,19 @@ test("analytics teacher reports query only authorized course data and omit unsco
   assert.match(builder, /streak: scope \? null : student\.streak/);
   assert.match(builder, /level: scope \? null : student\.level/);
 });
+
+
+test("teacher attendance reads only current owned-course students at the database layer", () => {
+  const source = routeFiles.attendance;
+  const teacherRecords = source.indexOf('const allRecords = role === "teacher"');
+  const studentScope = source.indexOf("inArray(attendanceRecords.studentId, visibleStudentIds)", teacherRecords);
+  assert.ok(
+    teacherRecords >= 0 && studentScope > teacherRecords,
+    "teacher attendance queries must constrain student IDs in SQL, not only filter results afterward",
+  );
+  assert.match(
+    source,
+    /visibleStudentIds\.length === 0[\s\S]*?inArray\(attendanceRecords\.studentId, visibleStudentIds\)/,
+    "an empty authorized roster must return no attendance rows without issuing an unscoped read",
+  );
+});
