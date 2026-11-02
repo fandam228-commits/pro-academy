@@ -97,3 +97,64 @@ test("student report endpoint rejects attempts to select another student", () =>
     "cross-student report requests must return HTTP 403",
   );
 });
+
+
+routeFiles.analytics = await readFile(new URL("../app/api/analytics/route.ts", import.meta.url), "utf8");
+
+test("analytics authenticates before setup and rejects unsupported roles", () => {
+  assertAuthBeforeSetup(routeFiles.analytics, "analytics");
+  assert.match(
+    routeFiles.analytics,
+    /if \(!\["admin", "teacher", "parent", "student"\]\.includes\(role\)\)/,
+    "analytics must reject unsupported roles before database setup",
+  );
+});
+
+test("analytics teacher reports require owned-course enrollment and current student role", () => {
+  const source = routeFiles.analytics;
+  const teacherStart = source.indexOf('if (role === "teacher") {');
+  const parentStart = source.indexOf("// ---------- PARENT: linked student report ----------", teacherStart);
+  assert.ok(teacherStart >= 0 && parentStart > teacherStart, "teacher analytics branch must exist");
+  const teacherBranch = source.slice(teacherStart, parentStart);
+
+  assert.match(teacherBranch, /eq\(courses\.teacherId, ctx\.user\.id\)/);
+  assert.match(teacherBranch, /eq\(users\.role, "student"\)/);
+  assert.match(teacherBranch, /inArray\(enrollments\.status, \["active", "completed"\]\)/);
+  assert.match(teacherBranch, /canAccessStudentAnalytics\(/);
+  assert.match(teacherBranch, /allowedCourseIds:\s*getTeacherAnalyticsCourseIds\(/);
+  assert.match(teacherBranch, /return NextResponse\.json\(\{ error: "Forbidden" \}, \{ status: 403 \}\)/);
+});
+
+test("analytics parent reports require a verified link and explicit selection for multiple children", () => {
+  const source = routeFiles.analytics;
+  const parentStart = source.indexOf('// ---------- PARENT: linked student report ----------');
+  const studentStart = source.indexOf('// ---------- STUDENT: own report only ----------', parentStart);
+  assert.ok(parentStart >= 0 && studentStart > parentStart, "parent analytics branch must exist");
+  const parentBranch = source.slice(parentStart, studentStart);
+
+  assert.match(parentBranch, /innerJoin\(verifiedByUser, eq\(parentLinks\.verifiedBy, verifiedByUser\.id\)\)/);
+  assert.match(parentBranch, /eq\(verifiedByUser\.role, "admin"\)/);
+  assert.match(parentBranch, /eq\(users\.role, "student"\)/);
+  assert.match(parentBranch, /isNotNull\(parentLinks\.verifiedAt\)/);
+  assert.match(parentBranch, /resolveParentAnalyticsStudentId\(requestedStudent, linkedParentStudentIds\)/);
+  assert.match(parentBranch, /student-id-required/);
+  assert.doesNotMatch(parentBranch, /links\s*\[\s*0\s*\]\s*\??\.\s*studentId/,
+    "analytics must never silently choose the first linked child");
+});
+
+test("analytics students can only request their own report", () => {
+  const source = routeFiles.analytics;
+  const studentStart = source.indexOf("// ---------- STUDENT: own report only ----------");
+  assert.notEqual(studentStart, -1, "student analytics branch must exist");
+  const studentBranch = source.slice(studentStart);
+  const authorization = studentBranch.indexOf(
+    'if (!canAccessStudentAnalytics({ role, requesterId: ctx.user.id, studentId: requestedStudent || ctx.user.id }))',
+  );
+  const forbidden = studentBranch.indexOf('return NextResponse.json({ error: "Forbidden" }, { status: 403 })', authorization);
+  const ownReport = studentBranch.indexOf("buildStudentReport(ctx.user.id)", forbidden);
+
+  assert.ok(authorization >= 0 && forbidden > authorization && ownReport > forbidden,
+    "student target ID must be authorized before report data is loaded");
+  assert.doesNotMatch(studentBranch, /buildStudentReport\(requestedStudent\)/,
+    "student reports must use the authenticated user's ID, never the caller-supplied target");
+});
