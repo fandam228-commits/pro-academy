@@ -99,7 +99,7 @@ export async function GET(req: Request) {
     }
 
     // Students see homework for their grade and their own submission status only.
-    const myGrade = ctx.user.grade || "";
+    const myGrade = (ctx.user.grade || "").trim();
     const enrollmentRows = await db
       .select({ courseId: enrollments.courseId })
       .from(enrollments)
@@ -116,7 +116,7 @@ export async function GET(req: Request) {
       : isNull(homework.courseId);
     const gradeVisibility = myGrade
       ? or(isNull(homework.grade), eq(homework.grade, ""), eq(homework.grade, myGrade))
-      : undefined;
+      : or(isNull(homework.grade), eq(homework.grade, ""));
     const list = await db.select().from(homework).where(
       gradeVisibility ? and(courseVisibility, gradeVisibility) : courseVisibility
     );
