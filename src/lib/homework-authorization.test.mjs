@@ -326,7 +326,7 @@ test("course-linked homework requires an active/completed enrollment", () => {
 
 test("student homework GET and submission routes both enforce course enrollment", async () => {
   const route = await readFile(new URL("../app/api/homework/route.ts", import.meta.url), "utf8");
-  const studentListStart = route.indexOf('const myGrade = ctx.user.grade || ""');
+  const studentListStart = route.indexOf("const myGrade =");
   const studentListEnd = route.indexOf("const mySubs", studentListStart);
   assert.ok(studentListStart >= 0 && studentListEnd > studentListStart);
   const studentList = route.slice(studentListStart, studentListEnd);
