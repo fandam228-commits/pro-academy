@@ -8,6 +8,7 @@ import { requireRoles, getAuthContext } from "@/lib/security";
 import { getVerifiedParentAnalyticsStudentIds, resolveParentAnalyticsStudentId } from "@/lib/analytics-report-scope.mjs";
 
 const verifiedByUser = alias(users, "attendance_verified_by_user");
+const parentAccount = alias(users, "attendance_parent_account");
 
 function computeRate(records: any[]) {
   if (records.length === 0) return 100;
@@ -38,7 +39,7 @@ export async function GET(req: Request) {
     // Attendance rows lack a course ID, so expose only rows they personally marked.
     if (role === "teacher" || role === "admin") {
       const allStudents = role === "admin"
-        ? await db.select().from(users).where(eq(users.role, "student"))
+        ? await db.select({ id: users.id, name: users.name, grade: users.grade }).from(users).where(eq(users.role, "student"))
         : [];
       const visibleStudents = role === "teacher"
         ? await (async () => {
@@ -54,7 +55,7 @@ export async function GET(req: Request) {
               ));
             const ids = [...new Set(rows.map((row) => row.studentId))];
             return ids.length
-              ? await db.select().from(users).where(and(eq(users.role, "student"), inArray(users.id, ids)))
+              ? await db.select({ id: users.id, name: users.name, grade: users.grade }).from(users).where(and(eq(users.role, "student"), inArray(users.id, ids)))
               : [];
           })()
         : allStudents;
@@ -107,10 +108,12 @@ export async function GET(req: Request) {
           verifiedBy: parentLinks.verifiedBy,
         })
         .from(parentLinks)
+        .innerJoin(parentAccount, eq(parentLinks.parentId, parentAccount.id))
         .innerJoin(users, eq(parentLinks.studentId, users.id))
         .innerJoin(verifiedByUser, eq(parentLinks.verifiedBy, verifiedByUser.id))
         .where(and(
           eq(parentLinks.parentId, ctx.user.id),
+          eq(parentAccount.role, "parent"),
           eq(users.role, "student"),
           eq(verifiedByUser.role, "admin"),
           isNotNull(parentLinks.verifiedAt),
