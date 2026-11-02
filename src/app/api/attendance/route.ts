@@ -39,7 +39,7 @@ export async function GET(req: Request) {
     // Attendance rows lack a course ID, so expose only rows they personally marked.
     if (role === "teacher" || role === "admin") {
       const allStudents = role === "admin"
-        ? await db.select().from(users).where(eq(users.role, "student"))
+        ? await db.select({ id: users.id, name: users.name, grade: users.grade }).from(users).where(eq(users.role, "student"))
         : [];
       const visibleStudents = role === "teacher"
         ? await (async () => {
@@ -55,7 +55,7 @@ export async function GET(req: Request) {
               ));
             const ids = [...new Set(rows.map((row) => row.studentId))];
             return ids.length
-              ? await db.select().from(users).where(and(eq(users.role, "student"), inArray(users.id, ids)))
+              ? await db.select({ id: users.id, name: users.name, grade: users.grade }).from(users).where(and(eq(users.role, "student"), inArray(users.id, ids)))
               : [];
           })()
         : allStudents;
