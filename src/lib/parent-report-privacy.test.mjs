@@ -292,3 +292,39 @@ test("student performance reports enforce role-specific authorization before loa
   assert.match(handler, /eq\(users\.role, "student"\)/,
     "only a current student account may be used as a report target");
 });
+
+test("student performance revalidates the current actor before target and report reads", () => {
+  const source = routeFiles.studentPerformance;
+  const actorQuery = source.indexOf("const actorRows = await db");
+  const actorMismatchGuard = source.indexOf(
+    'if (!actorRows[0] || actorRows[0].role !== role)',
+    actorQuery,
+  );
+  const forbiddenResponse = source.indexOf(
+    'return NextResponse.json({ error: "Forbidden" }, { status: 403 });',
+    actorMismatchGuard,
+  );
+  const targetQuery = source.indexOf("const targetRows = await db");
+  const attemptsQuery = source.indexOf("const attempts = await db.select().from(examAttempts)");
+  const generatedExamsQuery = source.indexOf("const exams = await db.select().from(generatedExams)");
+
+  assert.ok(
+    actorQuery >= 0 &&
+      actorMismatchGuard > actorQuery &&
+      forbiddenResponse > actorMismatchGuard &&
+      targetQuery > forbiddenResponse &&
+      attemptsQuery > targetQuery &&
+      generatedExamsQuery > attemptsQuery,
+    "the current account role must be revalidated and rejected before target or exam-history data is read",
+  );
+
+  const targetLookup = source.slice(targetQuery, attemptsQuery);
+  assert.match(targetLookup, /eq\(users\.id, studentId\)/);
+  assert.match(targetLookup, /eq\(users\.role, "student"\)/);
+
+  const reportReads = source.slice(attemptsQuery);
+  assert.match(reportReads, /eq\(examAttempts\.studentId, studentId\)/);
+  assert.match(reportReads, /eq\(generatedExams\.studentId, studentId\)/);
+  assert.doesNotMatch(reportReads, /eq\(examAttempts\.studentId, requestedStudentId\)/);
+  assert.doesNotMatch(reportReads, /eq\(generatedExams\.studentId, requestedStudentId\)/);
+});
