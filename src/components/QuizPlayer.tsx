@@ -33,6 +33,19 @@ interface Question {
   difficulty?: string;
 }
 
+function hasQuestionResponse(question: Question, answer?: string): boolean {
+  const response = String(answer ?? "").trim();
+  if (!response) return false;
+  if (question.type !== "multi_select") return true;
+
+  try {
+    const selected = JSON.parse(response);
+    return Array.isArray(selected) && selected.length > 0;
+  } catch {
+    return false;
+  }
+}
+
 function renderPassageText(question: Question): React.ReactNode {
   const { passageText, passageHighlightText } = question;
   if (!passageText || !passageHighlightText) return passageText;
@@ -102,6 +115,10 @@ export const QuizPlayer: React.FC<QuizPlayerProps> = ({
   const draftReadyRef = useRef(false);
 
   const currentQ = questions[currentIndex];
+  const answeredCount = questions.reduce(
+    (count, question) => count + (hasQuestionResponse(question, userAnswers[question.id]) ? 1 : 0),
+    0,
+  );
   const missedChoiceQuestions: Question[] = result?.details
     ? questions.filter((question) => {
         const detail = result.details[question.id];
@@ -344,14 +361,14 @@ export const QuizPlayer: React.FC<QuizPlayerProps> = ({
   }, [timeLeft, isSubmitted, durationMinutes, handleSubmit]);
 
   const requestSubmit = () => {
-    if (isPlacementAssessment && typeof window !== "undefined") {
-      const unanswered = questions.filter((question) => !String(userAnswers[question.id] || "").trim()).length;
-      const confirmation = lang === "ar"
-        ? unanswered > 0
+    const unanswered = questions.length - answeredCount;
+    if ((isPlacementAssessment || unanswered > 0) && typeof window !== "undefined") {
+      const confirmation = unanswered > 0
+        ? lang === "ar"
           ? `متبقي ${unanswered} سؤالًا بدون إجابة. هل تريد تسليم الاختبار الآن؟`
-          : "بعد التسليم ستظهر النتيجة والشروحات. هل تؤكد إنهاء الاختبار؟"
-        : unanswered > 0
-          ? `${unanswered} questions are unanswered. Do you want to submit now?`
+          : `${unanswered} questions are unanswered. Do you want to submit now?`
+        : lang === "ar"
+          ? "بعد التسليم ستظهر النتيجة والشروحات. هل تؤكد إنهاء الاختبار؟"
           : "Your result and explanations will appear after submission. Confirm that you want to finish the test.";
       if (!window.confirm(confirmation)) return;
     }
@@ -426,10 +443,39 @@ export const QuizPlayer: React.FC<QuizPlayerProps> = ({
 
       {!isSubmitted ? (
         <div>
+          <section className="mb-5 rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 dark:border-slate-800 dark:bg-slate-950/40">
+            <div className="flex items-center justify-between gap-3 text-xs font-bold">
+              <p role="status" aria-live="polite" className="text-slate-700 dark:text-slate-200">
+                {lang === "ar"
+                  ? `أجبت عن ${answeredCount} من ${questions.length} سؤالًا`
+                  : `${answeredCount} of ${questions.length} answered`}
+              </p>
+              <span className="text-slate-500 dark:text-slate-400">
+                {lang === "ar"
+                  ? answeredCount === questions.length ? "اكتمل الاختبار" : `متبقي ${questions.length - answeredCount}`
+                  : answeredCount === questions.length ? "All answered" : `${questions.length - answeredCount} left`}
+              </span>
+            </div>
+            <div
+              className="mt-2 h-2 overflow-hidden rounded-full bg-slate-200 dark:bg-slate-800"
+              role="progressbar"
+              aria-label={lang === "ar" ? "تقدم الإجابة عن الأسئلة" : "Question answer progress"}
+              aria-valuemin={0}
+              aria-valuemax={questions.length}
+              aria-valuenow={answeredCount}
+              dir={lang === "ar" ? "rtl" : "ltr"}
+            >
+              <div
+                className="h-full rounded-full bg-blue-600 transition-[width] duration-200"
+                style={{ width: `${(answeredCount / questions.length) * 100}%` }}
+              />
+            </div>
+          </section>
+
           {/* QUESTION NAVIGATION BADGES */}
           <div className="flex flex-wrap gap-2 mb-6">
             {questions.map((q, idx) => {
-              const isAnswered = !!userAnswers[q.id];
+              const isAnswered = hasQuestionResponse(q, userAnswers[q.id]);
               const isCurrent = idx === currentIndex;
               return (
                 <button
