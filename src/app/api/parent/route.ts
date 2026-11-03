@@ -8,6 +8,7 @@ import { getAuthContext } from "@/lib/security";
 import { getVerifiedParentAnalyticsStudentIds, resolveParentAnalyticsStudentId } from "@/lib/analytics-report-scope.mjs";
 
 const verifiedByUser = alias(users, "parent_route_verified_by_user");
+const parentAccountUser = alias(users, "parent_route_parent_account");
 
 export async function GET(req: Request) {
   const ctx = await getAuthContext(req);
@@ -39,10 +40,12 @@ export async function GET(req: Request) {
         verifiedBy: parentLinks.verifiedBy,
       })
       .from(parentLinks)
+      .innerJoin(parentAccountUser, eq(parentLinks.parentId, parentAccountUser.id))
       .innerJoin(users, eq(parentLinks.studentId, users.id))
       .innerJoin(verifiedByUser, eq(parentLinks.verifiedBy, verifiedByUser.id))
       .where(and(
         eq(parentLinks.parentId, parentId),
+        eq(parentAccountUser.role, "parent"),
         eq(users.role, "student"),
         eq(verifiedByUser.role, "admin"),
         isNotNull(parentLinks.verifiedAt),
