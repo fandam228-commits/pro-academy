@@ -178,6 +178,26 @@ test("storage audit scan rejects invalid batch sizes and malformed database resu
   );
 });
 
+test("storage audit fails closed when any batch row is malformed or duplicated", async () => {
+  const malformedBatches = [
+    [{ id: "submission-a", storage_path: "homework/a.pdf" }, { id: "submission-b" }],
+    [{ id: "submission-a", storage_path: "homework/a.pdf" }, { storage_path: "homework/b.pdf" }],
+    [{ id: "submission-a", storage_path: "homework/a.pdf" }, { id: "submission-a", storage_path: "homework/duplicate.pdf" }],
+  ];
+
+  for (const rows of malformedBatches) {
+    const client = {
+      async query() {
+        return { rows };
+      },
+    };
+    await assert.rejects(
+      () => scanHomeworkStorageReferences(client, { batchSize: 2 }),
+      /malformed row|cursor did not advance/,
+    );
+  }
+});
+
 test("audit target requires a PostgreSQL URL and defaults to local databases only", () => {
   assert.throws(() => assertSafeHomeworkAuditTarget(""), /DATABASE_URL is required/);
   assert.throws(() => assertSafeHomeworkAuditTarget("https://example.invalid/db"), /postgres/);
