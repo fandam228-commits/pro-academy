@@ -26,6 +26,11 @@ test("known Vercel public Blob hosts are separated from other absolute URLs with
     "vercel-public-blob-url-needs-review",
   );
   assert.equal(
+    classifyHomeworkStoragePath("https://store-id.public.blob.vercel-storage.com./homework/file.pdf"),
+    "vercel-public-blob-url-needs-review",
+    "a DNS trailing-dot hostname must not evade the higher-priority public Blob review counter",
+  );
+  assert.equal(
     classifyHomeworkStoragePath("https://example.invalid/student-file.pdf"),
     "absolute-url-needs-review",
   );
