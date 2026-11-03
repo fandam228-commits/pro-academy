@@ -1,7 +1,7 @@
 {
   "grade": "Third Secondary",
   "curriculumYear": "2026-2027",
-  "status": "source-audit-in-progress",
+  "status": "first-source-extracted-to-private-staging; 24 answer keys unresolved",
   "sources": [
     {
       "filename": "بوكليت تالته ثانوى 2027 اسئلة على كامل المنهج .pdf",
@@ -11,7 +11,7 @@
     {
       "filename": "اجابات_إهداء_من_فريق_العمالقة_ليلة_امتحان_3_ثانوي_اللهم_علم_ينتفع.pdf",
       "pages": 99,
-      "extraction": "text-extractable but mixed reference/worksheet content; must identify authoritative answer-key sections before matching"
+      "extraction": "text-extractable; 1,408 four-option MCQ records staged from the 99-page guide; 1,384 correct options mapped from yellow highlights; 24 answer keys remain unresolved and are not guessed"
     }
   ],
   "importRules": [
@@ -25,6 +25,9 @@
     "Classify question type and grade/unit scope.",
     "Verify option text and answer mapping against source pages.",
     "Retain unresolved questions in review status instead of fabricating answers.",
-    "Run duplicate and option-count checks."
+    "Run duplicate and option-count checks.",
+    "Private staging CSV contains 1,408 four-option MCQs; 1,384 have highlighted answer mappings and 24 remain unresolved.",
+    "Correct-answer positions in the source are uneven; generated exam attempts must use the balanced option-ordering helper.",
+    "All extracted text remains private staging data and was not committed to the public repository."
   ]
 }
