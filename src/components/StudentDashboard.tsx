@@ -217,19 +217,19 @@ export const StudentDashboard: React.FC<{ onSelectCourse?: (courseId: string) =>
         <div className="relative z-10 flex items-center gap-3 bg-white/10 backdrop-blur-md p-4 rounded-2xl border border-white/20">
           <div className="text-center px-3">
             <Flame className="w-6 h-6 text-amber-300 mx-auto mb-1 fill-current" />
-            <span className="text-lg font-black">{user?.streak || 12}d</span>
+            <span className="text-lg font-black">{user?.streak ?? 0}d</span>
             <span className="text-[10px] block opacity-80">{lang === "ar" ? "تتابع يومي" : "Streak"}</span>
           </div>
           <div className="w-px h-10 bg-white/20" />
           <div className="text-center px-3">
             <Award className="w-6 h-6 text-emerald-300 mx-auto mb-1" />
-            <span className="text-lg font-black">{user?.points || 680}</span>
+            <span className="text-lg font-black">{user?.points ?? 0}</span>
             <span className="text-[10px] block opacity-80">{lang === "ar" ? "نقاط تفوق" : "Points"}</span>
           </div>
           <div className="w-px h-10 bg-white/20" />
           <div className="text-center px-3">
             <Trophy className="w-6 h-6 text-yellow-300 mx-auto mb-1" />
-            <span className="text-lg font-black">{user?.level || "Upper Int."}</span>
+            <span className="text-lg font-black">{user?.level || (lang === "ar" ? "غير محدد" : "Not set")}</span>
             <span className="text-[10px] block opacity-80">{lang === "ar" ? "المستوى" : "Level"}</span>
           </div>
         </div>
