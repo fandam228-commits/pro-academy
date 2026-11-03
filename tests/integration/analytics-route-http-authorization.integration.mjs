@@ -123,6 +123,17 @@ integrationTest(
       client = new Client({ connectionString });
       await client.connect();
 
+      const unauthenticatedAnalytics = await fetch(`${baseUrl}/api/analytics`, {
+        headers: { "cache-control": "no-store" },
+        signal: AbortSignal.timeout(15000),
+      });
+      assert.equal(
+        unauthenticatedAnalytics.status,
+        401,
+        "Analytics reports must reject requests without an authenticated session",
+      );
+      await unauthenticatedAnalytics.arrayBuffer();
+
       const fixtureUsers = [
         [ids.teacher, "Teacher HTTP Test", `teacher-${suffix}@example.test`, "test-only-password", "teacher", null],
         [ids.otherTeacher, "Other Teacher HTTP Test", `other-teacher-${suffix}@example.test`, "test-only-password", "teacher", null],
