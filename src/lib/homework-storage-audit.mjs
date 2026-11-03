@@ -137,6 +137,59 @@ export function mergeHomeworkStoragePathSummaries(...summaries) {
 }
 
 
+/**
+ * Scan storage references in bounded primary-key batches and return counts only.
+ * The caller must start a read-only repeatable-read transaction before invoking
+ * this helper. Raw IDs and paths remain in-process and are never returned.
+ */
+export async function scanHomeworkStorageReferences(client, { batchSize = 500 } = {}) {
+  if (!client || typeof client.query !== "function") {
+    throw new TypeError("A PostgreSQL-compatible client is required.");
+  }
+  if (!Number.isSafeInteger(batchSize) || batchSize < 1 || batchSize > 5000) {
+    throw new RangeError("batchSize must be a safe integer between 1 and 5000.");
+  }
+
+  let lastId = null;
+  let summary = summarizeHomeworkStoragePaths([]);
+
+  while (true) {
+    const result = lastId === null
+      ? await client.query(
+          "SELECT id, storage_path FROM homework_submissions ORDER BY id ASC LIMIT $1",
+          [batchSize],
+        )
+      : await client.query(
+          "SELECT id, storage_path FROM homework_submissions WHERE id > $1 ORDER BY id ASC LIMIT $2",
+          [lastId, batchSize],
+        );
+
+    if (!result || !Array.isArray(result.rows)) {
+      throw new TypeError("The audit query did not return a rows array.");
+    }
+    if (result.rows.length === 0) break;
+
+    summary = mergeHomeworkStoragePathSummaries(
+      summary,
+      summarizeHomeworkStoragePaths(result.rows.map((row) => row?.storage_path)),
+    );
+
+    const nextId = result.rows[result.rows.length - 1]?.id;
+    if (typeof nextId !== "string" || nextId.length === 0) {
+      throw new TypeError("The audit batch did not contain a valid submission ID.");
+    }
+    if (nextId === lastId) {
+      throw new Error("The audit cursor did not advance; refusing to repeat a batch.");
+    }
+    lastId = nextId;
+
+    if (result.rows.length < batchSize) break;
+  }
+
+  return summary;
+}
+
+
 const AUDIT_REPORT_COUNT_KEYS = [
   "totalRows",
   "empty",
