@@ -469,17 +469,17 @@ test("authorization context uses the current database role rather than a stale s
 
   assert.match(
     authSource,
-    /const userRows = await db\\.select\\(\\)\\.from\\(users\\)\\.where\\(eq\\(users\\.id, session\\.userId\\)\\)/,
+    /const userRows = await db\.select\(\)\.from\(users\)\.where\(eq\(users\.id, session\.userId\)\)/,
     "the authenticated account must be reloaded from the current users row",
   );
   assert.match(
     authSource,
-    /return\\s*\\{\\s*user:\\s*userRows\\[0\\],\\s*session\\s*\\}/,
+    /return\s*\{\s*user:\s*userRows\[0\],\s*session\s*\}/,
     "authorization must use the current database user, including its current role",
   );
   assert.doesNotMatch(
     authSource,
-    /return\\s*\\{\\s*user:\\s*session\\b/,
+    /return\s*\{\s*user:\s*session\b/,
     "a stored session role must not replace the current database role",
   );
 });
