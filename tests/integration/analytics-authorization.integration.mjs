@@ -8,6 +8,7 @@ import { canAccessStudentAnalytics } from "../../src/lib/analytics-authorization
 import {
   getTeacherAnalyticsStudentIds,
   getTeacherAnalyticsCourseIds,
+  isHomeworkGradeVisibleToStudent,
   getVerifiedParentAnalyticsStudentIds,
   resolveParentAnalyticsStudentId,
 } from "../../src/lib/analytics-report-scope.mjs";
@@ -262,7 +263,8 @@ async function withFixture(run) {
         ('hw-a', 'teacher-1', 'course-a', 'Third Secondary', 100),
         ('hw-b', 'teacher-1', 'course-b', 'Third Secondary', 100),
         ('hw-other', 'teacher-2', 'course-other', 'Third Secondary', 100),
-        ('hw-unscoped', 'teacher-1', NULL, 'Third Secondary', 100);
+        ('hw-unscoped', 'teacher-1', NULL, 'Third Secondary', 100),
+        ('hw-any-grade', 'teacher-1', 'course-a', NULL, 100);
       INSERT INTO homework_submissions (id, student_id, homework_id, score, status) VALUES
         ('hw-sub-a', 'student-1', 'hw-a', 90, 'graded'),
         ('hw-sub-b', 'student-1', 'hw-b', 80, 'graded'),
@@ -476,5 +478,31 @@ integrationTest("student analytics authorization is self-only", async () => {
       }),
       false,
     );
+  });
+});
+
+
+integrationTest("PostgreSQL Analytics homework scope fails closed for unknown student grade", async () => {
+  await withFixture(async ({ db }) => {
+    const [student] = await db
+      .select({ grade: users.grade })
+      .from(users)
+      .where(eq(users.id, "student-1"));
+    const items = await db
+      .select({ id: homework.id, grade: homework.grade })
+      .from(homework)
+      .where(and(eq(homework.teacherId, "teacher-1"), eq(homework.courseId, "course-a")));
+
+    const knownGradeIds = items
+      .filter((item) => isHomeworkGradeVisibleToStudent(item.grade, student?.grade))
+      .map((item) => item.id)
+      .sort();
+    const unknownGradeIds = items
+      .filter((item) => isHomeworkGradeVisibleToStudent(item.grade, null))
+      .map((item) => item.id)
+      .sort();
+
+    assert.deepEqual(knownGradeIds, ["hw-a", "hw-any-grade"]);
+    assert.deepEqual(unknownGradeIds, ["hw-any-grade"]);
   });
 });
