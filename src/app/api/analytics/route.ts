@@ -28,6 +28,7 @@ import {
 } from "@/lib/analytics-report-scope.mjs";
 
 const verifiedByUser = alias(users, "verified_by_user");
+const parentAccount = alias(users, "parent_account");
 
 type TeacherReportScope = {
   teacherId: string;
@@ -490,10 +491,13 @@ export async function GET(req: Request) {
           verifiedBy: parentLinks.verifiedBy,
         })
         .from(parentLinks)
+        .innerJoin(parentAccount, eq(parentLinks.parentId, parentAccount.id))
         .innerJoin(users, eq(parentLinks.studentId, users.id))
         .innerJoin(verifiedByUser, eq(parentLinks.verifiedBy, verifiedByUser.id))
         .where(and(
           eq(parentLinks.parentId, ctx.user.id),
+          // Revalidate the parent account in the database; a stale session role is not enough.
+          eq(parentAccount.role, "parent"),
           eq(users.role, "student"),
           eq(verifiedByUser.role, "admin"),
           isNotNull(parentLinks.verifiedAt),
