@@ -201,3 +201,26 @@ test("new homework submissions upload only to the private Blob store with the de
   assert.doesNotMatch(uploadSource, /access:\s*"public"/);
   assert.doesNotMatch(uploadSource, /storagePath\s*=\s*blob\.url/);
 });
+
+
+test("new homework uploads require private Blob access and persist only the private pathname", () => {
+  const uploadStart = homeworkApiRouteSource.indexOf("const blob = await put(");
+  assert.notEqual(uploadStart, -1, "homework submission upload must use the Blob provider");
+
+  const uploadEndMarker = "storagePath = blob.pathname;";
+  const uploadEnd = homeworkApiRouteSource.indexOf(uploadEndMarker, uploadStart);
+  assert.ok(uploadEnd > uploadStart, "the database value must be the private Blob pathname");
+  const uploadSource = homeworkApiRouteSource.slice(uploadStart, uploadEnd + uploadEndMarker.length);
+
+  assert.match(uploadSource, /access:\\s*"private"/, "new student files must never be uploaded as public");
+  assert.match(uploadSource, /token:\\s*privateBlobToken/, "uploads must use the dedicated private-store token");
+  assert.match(uploadSource, /addRandomSuffix:\\s*true/, "new object names must avoid predictable collisions");
+  assert.match(uploadSource, /storagePath\\s*=\\s*blob\\.pathname/);
+  assert.doesNotMatch(uploadSource, /access:\\s*"public"/);
+  assert.doesNotMatch(uploadSource, /storagePath\\s*=\\s*blob\\.url/, "public URLs must never be persisted as submission paths");
+
+  const tokenGuard = homeworkApiRouteSource.indexOf("if (!privateBlobToken)");
+  assert.ok(tokenGuard >= 0 && tokenGuard < uploadStart, "private storage configuration must be checked before upload");
+  const guardSource = homeworkApiRouteSource.slice(tokenGuard, uploadStart);
+  assert.match(guardSource, /status:\\s*503/, "missing private storage configuration must fail closed");
+});
