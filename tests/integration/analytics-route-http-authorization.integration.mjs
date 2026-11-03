@@ -147,11 +147,11 @@ integrationTest(
       );
       await client.query(
         `INSERT INTO enrollments (id, student_id, course_id, status)
-         VALUES ($1, $2, $3, 'active'), ($4, $5, $6, 'active'), ($7, $2, $9, 'active')`,
+         VALUES ($1, $2, $3, 'active'), ($4, $5, $6, 'active'), ($7, $2, $6, 'active')`,
         [
           ids.enrollmentOwned, ids.student, ids.ownedCourse,
           ids.enrollmentOtherStudent, ids.otherStudent, ids.otherCourse,
-          ids.enrollmentStudentOtherCourse, ids.student, ids.otherCourse,
+          ids.enrollmentStudentOtherCourse,
         ],
       );
       await client.query(
