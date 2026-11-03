@@ -455,7 +455,7 @@ integrationTest("teacher analytics database reads stay within owned enrolled cou
           ))
       : [];
 
-    assert.deepEqual(allowedHomeworkIds, ["hw-a"]);
+    assert.deepEqual(allowedHomeworkIds, ["hw-a", "hw-any-grade"]);
     assert.deepEqual(homeworkRows.map((row) => row.id), ["hw-sub-a"]);
   });
 });
