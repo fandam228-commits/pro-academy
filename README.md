@@ -98,14 +98,7 @@ npm run build && npm start   # وضع الإنتاج
 
 ### 🔑 الحسابات التجريبية
 
-| الدور | البريد الإلكتروني | كلمة المرور |
-|------|------------------|-------------|
-| المشرف العام | `habib.admin@proacademy.com` | `admin123password` |
-| المعلم | `sarah.teacher@proacademy.com` | `teacher123password` |
-| الطالب | `omar.student@gmail.com` | `student123password` |
-| ولي الأمر | `mahmoud.parent@gmail.com` | `parent123password` |
-
-> ⚠️ **غيّر كلمات المرور هذه فوراً قبل أي استخدام حقيقي.**
+حسابات العرض تُستخدم في التطوير المحلي فقط. في بيئة الإنتاج لا تُنشأ الحسابات أو بيانات العرض تلقائياً. أنشئ أول مشرف باستخدام متغيرات البيئة `INITIAL_ADMIN_NAME` و`INITIAL_ADMIN_EMAIL` و`INITIAL_ADMIN_PASSWORD` الموضحة في [دليل النشر](./DEPLOY.md)، ثم احذف متغير كلمة المرور بعد تسجيل الدخول لأول مرة.
 
 ---
 
