@@ -23,6 +23,9 @@ export async function GET(req: Request) {
     const primaryLink = links[0];
     const studentList = await db.select().from(users).where(eq(users.id, primaryLink.studentId));
     const student = studentList[0];
+    if (!student) {
+      return NextResponse.json({ error: "Linked student account not found" }, { status: 404 });
+    }
 
     const studentEnrs = await db.select().from(enrollments).where(eq(enrollments.studentId, student.id));
     const studentSubs = await db.select().from(quizSubmissions).where(eq(quizSubmissions.studentId, student.id));
@@ -30,7 +33,7 @@ export async function GET(req: Request) {
 
     const avgScore = studentSubs.length > 0
       ? Math.round(studentSubs.reduce((acc, curr) => acc + curr.percentage, 0) / studentSubs.length)
-      : 85;
+      : null;
 
     return NextResponse.json({
       student,
@@ -39,7 +42,7 @@ export async function GET(req: Request) {
       submissions: studentSubs,
       attendance: studentAtt,
       averageScore: avgScore,
-      attendanceRate: "98%",
+      attendanceRate: null,
     });
   } catch (error) {
     console.error("Parent GET error:", error);

@@ -210,7 +210,7 @@ export const AttendanceWorkspace: React.FC = () => {
                   <div className="min-w-[180px]">
                     <p className="font-extrabold text-sm text-slate-900 dark:text-white">{st.studentName}</p>
                     <p className="text-[10px] text-slate-500">
-                      {st.grade} — {lang === "ar" ? "نسبة المواظبة:" : "Rate:"} <span className="font-black text-blue-600">{st.rate}%</span> ({st.presentCount}H/{st.lateCount}L/{st.absentCount}A)
+                      {st.grade} — {lang === "ar" ? "نسبة المواظبة:" : "Rate:"} <span className="font-black text-blue-600">{st.rate == null ? "—" : String(st.rate) + "%"}</span> ({st.presentCount}H/{st.lateCount}L/{st.absentCount}A)
                     </p>
                   </div>
                   <div className="flex flex-wrap gap-1.5">
@@ -246,11 +246,13 @@ export const AttendanceWorkspace: React.FC = () => {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
               <div className="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-xl p-6 text-center">
                 <p className="text-[11px] font-bold text-slate-400 uppercase">{lang === "ar" ? "نسبة الانضباط" : "Attendance Rate"}</p>
-                <p className={`text-4xl font-black mt-2 ${studentData.rate >= 90 ? "text-emerald-500" : studentData.rate >= 75 ? "text-amber-500" : "text-red-500"}`}>
-                  {studentData.rate}%
+                <p className={`text-4xl font-black mt-2 ${studentData.rate == null ? "text-slate-400" : studentData.rate >= 90 ? "text-emerald-500" : studentData.rate >= 75 ? "text-amber-500" : "text-red-500"}`}>
+                  {studentData.rate == null ? "—" : String(studentData.rate) + "%"}
                 </p>
                 <p className="text-[10px] text-slate-500 mt-1">
-                  {studentData.presentCount} {lang === "ar" ? "حضور" : "Present"} • {studentData.lateCount} {lang === "ar" ? "تأخر" : "Late"} • {studentData.absentCount} {lang === "ar" ? "غياب" : "Absent"}
+                  {studentData.total === 0
+                    ? lang === "ar" ? "لا توجد سجلات حضور بعد" : "No attendance records yet"
+                    : String(studentData.presentCount) + " " + (lang === "ar" ? "حضور" : "Present") + " • " + String(studentData.lateCount) + " " + (lang === "ar" ? "تأخر" : "Late") + " • " + String(studentData.absentCount) + " " + (lang === "ar" ? "غياب" : "Absent")}
                 </p>
               </div>
 

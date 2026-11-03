@@ -5,8 +5,8 @@ import { NextResponse } from "next/server";
 import { ensureDbSetup } from "@/db/migrate-and-seed";
 import { requireRoles, getAuthContext } from "@/lib/security";
 
-function computeRate(records: any[]) {
-  if (records.length === 0) return 100;
+function computeRate(records: any[]): number | null {
+  if (records.length === 0) return null;
   const present = records.filter((r) => r.status === "present").length;
   const late = records.filter((r) => r.status === "late").length;
   const excused = records.filter((r) => r.status === "excused").length;
