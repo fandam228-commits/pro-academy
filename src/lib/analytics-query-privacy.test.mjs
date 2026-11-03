@@ -457,3 +457,29 @@ test("Analytics homework scope fails closed when the student grade is missing", 
   assert.match(routeSource, /isHomeworkGradeVisibleToStudent\(item\.grade, student\?\.grade\)/);
   assert.match(routeSource, /isHomeworkGradeVisibleToStudent\(h\.grade, student\?\.grade\)/);
 });
+
+const securityModuleSource = await readFile(new URL("./security.ts", import.meta.url), "utf8");
+
+test("authorization context uses the current database role rather than a stale session role", () => {
+  const authStart = securityModuleSource.indexOf("export async function getAuthContext");
+  const requireRolesStart = securityModuleSource.indexOf("export async function requireRoles", authStart);
+  assert.notEqual(authStart, -1, "getAuthContext must exist");
+  assert.notEqual(requireRolesStart, -1, "requireRoles must follow getAuthContext");
+  const authSource = securityModuleSource.slice(authStart, requireRolesStart);
+
+  assert.match(
+    authSource,
+    /const userRows = await db\\.select\\(\\)\\.from\\(users\\)\\.where\\(eq\\(users\\.id, session\\.userId\\)\\)/,
+    "the authenticated account must be reloaded from the current users row",
+  );
+  assert.match(
+    authSource,
+    /return\\s*\\{\\s*user:\\s*userRows\\[0\\],\\s*session\\s*\\}/,
+    "authorization must use the current database user, including its current role",
+  );
+  assert.doesNotMatch(
+    authSource,
+    /return\\s*\\{\\s*user:\\s*session\\b/,
+    "a stored session role must not replace the current database role",
+  );
+});
