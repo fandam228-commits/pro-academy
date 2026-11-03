@@ -6,6 +6,7 @@ const routeFiles = {
   reports: await readFile(new URL("../app/api/reports/route.ts", import.meta.url), "utf8"),
   attendance: await readFile(new URL("../app/api/attendance/route.ts", import.meta.url), "utf8"),
   parent: await readFile(new URL("../app/api/parent/route.ts", import.meta.url), "utf8"),
+  studentPerformance: await readFile(new URL("../app/api/student-performance/route.ts", import.meta.url), "utf8"),
 };
 
 function assertAuthBeforeSetup(source, routeName) {
@@ -244,4 +245,50 @@ test("attendance POST validates action-specific roles before database setup", ()
     "each supported action must enforce its own role and unknown actions must be rejected");
   assert.ok(setup > bulkGuard && setup > checkInGuard && setup > unsupportedGuard,
     "database setup must occur only after action-specific authorization");
+});
+
+
+test("student performance reports enforce role-specific authorization before loading attempts", () => {
+  const source = routeFiles.studentPerformance;
+  const getStart = source.indexOf("export async function GET(req: Request)");
+  assert.notEqual(getStart, -1, "student performance GET handler must exist");
+  const handler = source.slice(getStart);
+  const auth = handler.indexOf("const ctx = await getAuthContext(req)");
+  const unauthorized = handler.indexOf('if (!ctx) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });', auth);
+  const roleGuard = handler.indexOf('if (!["admin", "teacher", "parent", "student"].includes(role))', unauthorized);
+  const teacherGuard = handler.indexOf('if (role === "teacher")', roleGuard);
+  const setup = handler.indexOf("await ensureDbSetup()");
+  const attemptsRead = handler.indexOf("const attempts = await db.select().from(examAttempts)");
+  assert.ok(auth >= 0 && unauthorized > auth && roleGuard > unauthorized && setup > roleGuard,
+    "authentication and role allowlisting must precede schema setup");
+  assert.ok(teacherGuard > roleGuard && setup > teacherGuard && attemptsRead > setup,
+    "teachers must be denied before any unscoped exam history is queried");
+  assert.match(handler.slice(teacherGuard, setup), /status: 403/,
+    "teacher access must fail closed because exam attempts have no reliable course ownership key");
+
+  assert.match(handler, /const actorRows = await db[\s\S]*?eq\(users\.id, ctx\.user\.id\)/,
+    "the current requester role must be revalidated in the database");
+  assert.match(handler, /if \(requestedStudentId !== null && requestedStudentId !== ctx\.user\.id\)/,
+    "students must not choose another student's target ID");
+  assert.match(handler, /studentId = ctx\.user\.id/,
+    "student reports must use the authenticated student's own ID");
+
+  const parentStart = handler.indexOf('else if (role === "parent")');
+  const targetCheck = handler.indexOf("// Only a current student account can be the target", parentStart);
+  assert.ok(parentStart >= 0 && targetCheck > parentStart, "parent access must resolve a verified child before target lookup");
+  const parentSource = handler.slice(parentStart, targetCheck);
+  assert.match(parentSource, /innerJoin\(parentAccountUser, eq\(parentLinks\.parentId, parentAccountUser\.id\)\)/);
+  assert.match(parentSource, /eq\(parentAccountUser\.role, "parent"\)/);
+  assert.match(parentSource, /eq\(linkedStudentUser\.role, "student"\)/);
+  assert.match(parentSource, /eq\(verifiedByUser\.role, "admin"\)/);
+  assert.match(parentSource, /isNotNull\(parentLinks\.verifiedAt\)/);
+  assert.match(parentSource, /isNotNull\(parentLinks\.verifiedBy\)/);
+  assert.match(parentSource, /resolveParentAnalyticsStudentId\(requestedStudentId, linkedStudentIds\)/);
+  assert.doesNotMatch(parentSource, /links\s*\[\s*0\s*\]\s*\??\.\s*studentId/,
+    "parent access must not silently choose the first linked child");
+
+  assert.match(handler, /eq\(examAttempts\.studentId, studentId\)/);
+  assert.match(handler, /eq\(generatedExams\.studentId, studentId\)/);
+  assert.match(handler, /eq\(users\.role, "student"\)/,
+    "only a current student account may be used as a report target");
 });
