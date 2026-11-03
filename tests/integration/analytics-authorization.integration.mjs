@@ -75,6 +75,30 @@ test("Parent analytics selection fails closed for missing, malformed, and ambigu
   );
 });
 
+
+test("Verified parent analytics IDs reject incomplete verification metadata and deduplicate links", () => {
+  const verifiedAt = new Date("2026-10-29T08:00:00.000Z");
+  const links = [
+    { studentId: "student-1", verifiedAt, verifiedBy: "admin-1" },
+    // Duplicate legacy rows must not make one child look like multiple children.
+    { studentId: "student-1", verifiedAt: verifiedAt.toISOString(), verifiedBy: "admin-1" },
+    { studentId: "student-2", verifiedAt: "2026-10-29T08:00:00.000Z", verifiedBy: "admin-1" },
+    { studentId: "student-3", verifiedAt: null, verifiedBy: "admin-1" },
+    { studentId: "student-4", verifiedAt: "not-a-date", verifiedBy: "admin-1" },
+    { studentId: "student-5", verifiedAt, verifiedBy: " " },
+    { studentId: " ", verifiedAt, verifiedBy: "admin-1" },
+    null,
+    "not-a-link",
+  ];
+
+  const linkedIds = getVerifiedParentAnalyticsStudentIds(links);
+  assert.deepEqual(linkedIds, ["student-1", "student-2"]);
+  assert.deepEqual(
+    resolveParentAnalyticsStudentId(null, ["student-1", "student-1"]),
+    { ok: true, studentId: "student-1" },
+  );
+});
+
 const courses = pgTable("courses", {
   id: text("id").primaryKey(),
   teacherId: text("teacher_id").notNull(),
