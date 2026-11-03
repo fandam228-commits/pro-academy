@@ -201,3 +201,20 @@ test("new homework submissions upload only to the private Blob store with the de
   assert.doesNotMatch(uploadSource, /access:\s*"public"/);
   assert.doesNotMatch(uploadSource, /storagePath\s*=\s*blob\.url/);
 });
+
+
+test("homework uploads never fall back to a public or generic Blob token", () => {
+  const tokenLookup = homeworkApiRouteSource.indexOf("const privateBlobToken = getHomeworkPrivateBlobToken()");
+  const tokenGuard = homeworkApiRouteSource.indexOf("if (!privateBlobToken)", tokenLookup);
+  const uploadStart = homeworkApiRouteSource.indexOf("const blob = await put(", tokenGuard);
+
+  assert.ok(tokenLookup >= 0, "uploads must obtain their token through the dedicated private-storage helper");
+  assert.ok(tokenGuard > tokenLookup, "the missing-token guard must follow the private token lookup");
+  assert.ok(uploadStart > tokenGuard, "the upload must not run before the private-token guard");
+  assert.ok(homeworkApiRouteSource.includes("uploadToken = privateBlobToken"), "cleanup must retain the same private token used for upload");
+  assert.doesNotMatch(
+    homeworkApiRouteSource,
+    /process\.env\.(BLOB_READ_WRITE_TOKEN|VERCEL_BLOB_READ_WRITE_TOKEN)/,
+    "homework uploads must not fall back to a generic/public Blob token",
+  );
+});
