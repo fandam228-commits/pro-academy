@@ -73,8 +73,12 @@ async function performLogin(loginId: string, password: string, userAgent?: strin
 }
 
 export async function GET(req: Request) {
-  await ensureDbSetup();
   try {
+    if (!process.env.DATABASE_URL) {
+      console.error("Auth GET configuration error: DATABASE_URL is missing");
+      return NextResponse.json({ error: "Database is not configured for this deployment. Add DATABASE_URL in Vercel Environment Variables." }, { status: 503 });
+    }
+    await ensureDbSetup();
     const ctx = await getAuthContext(req);
     if (!ctx) {
       return NextResponse.json({ error: "Session expired or not logged in." }, { status: 401 });
@@ -87,8 +91,12 @@ export async function GET(req: Request) {
 }
 
 export async function POST(req: Request) {
-  await ensureDbSetup();
   try {
+    if (!process.env.DATABASE_URL) {
+      console.error("Auth POST configuration error: DATABASE_URL is missing");
+      return NextResponse.json({ error: "Database is not configured for this deployment. Add DATABASE_URL in Vercel Environment Variables." }, { status: 503 });
+    }
+    await ensureDbSetup();
     const body = await req.json();
     const { email, username, password, name, role, stage, grade, phone, parentPhone } = body;
     const rawAction = typeof body?.action === "string" ? body.action.trim().toLowerCase() : "";
@@ -213,7 +221,12 @@ export async function POST(req: Request) {
 
     return NextResponse.json({ error: "Invalid action" }, { status: 400 });
   } catch (error) {
+    // Keep SQL details and secrets out of client responses; log the cause for diagnosis.
     console.error("Auth API Error:", error);
-    return NextResponse.json({ error: "Authentication failed" }, { status: 500 });
+    const message = error instanceof Error ? error.message : String(error);
+    if (/connect|database|postgres|password authentication|ECONNREFUSED|ENOTFOUND|timeout/i.test(message)) {
+      return NextResponse.json({ error: "Authentication service cannot reach the database. Check DATABASE_URL and Neon connectivity in this Vercel environment." }, { status: 503 });
+    }
+    return NextResponse.json({ error: "Authentication failed. Check Vercel Runtime Logs for Auth API Error details." }, { status: 500 });
   }
 }
