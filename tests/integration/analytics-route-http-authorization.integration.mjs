@@ -103,7 +103,7 @@ integrationTest(
           throw new Error(`Next.js test server exited before readiness. ${serverError}\n${serverLog}`);
         }
         try {
-          const response = await fetch(`${baseUrl}/api/analytics`, {
+          const response = await fetch(`${baseUrl}/api/auth`, {
             headers: { "cache-control": "no-store" },
             signal: AbortSignal.timeout(4000),
           });
