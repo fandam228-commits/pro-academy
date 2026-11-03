@@ -2,8 +2,7 @@ import { Client } from "pg";
 import {
   assertSafeHomeworkAuditTarget,
   beginConsistentReadOnlyHomeworkAudit,
-  summarizeHomeworkStoragePaths,
-  mergeHomeworkStoragePathSummaries,
+  scanHomeworkStorageReferences,
   buildHomeworkStorageAuditReport,
 } from "../src/lib/homework-storage-audit.mjs";
 
@@ -32,34 +31,7 @@ if (databaseScope) {
     await beginConsistentReadOnlyHomeworkAudit(client);
     readOnlyTransactionStarted = true;
 
-    // Process a bounded number of rows per query so a large submissions table
-    // cannot force the audit to retain every stored path in memory. IDs and paths
-    // are used only in-process and are never printed.
-    const batchSize = 500;
-    let lastId = null;
-    let summary = summarizeHomeworkStoragePaths([]);
-
-    while (true) {
-      const result = lastId === null
-        ? await client.query(
-            "SELECT id, storage_path FROM homework_submissions ORDER BY id ASC LIMIT $1",
-            [batchSize],
-          )
-        : await client.query(
-            "SELECT id, storage_path FROM homework_submissions WHERE id > $1 ORDER BY id ASC LIMIT $2",
-            [lastId, batchSize],
-          );
-
-      if (result.rows.length === 0) break;
-
-      summary = mergeHomeworkStoragePathSummaries(
-        summary,
-        summarizeHomeworkStoragePaths(result.rows.map((row) => row.storage_path)),
-      );
-      lastId = result.rows[result.rows.length - 1].id;
-
-      if (result.rows.length < batchSize) break;
-    }
+    const summary = await scanHomeworkStorageReferences(client);
 
     await client.query("ROLLBACK");
     readOnlyTransactionStarted = false;
