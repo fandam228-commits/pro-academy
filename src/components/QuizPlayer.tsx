@@ -96,7 +96,9 @@ export const QuizPlayer: React.FC<QuizPlayerProps> = ({
   const [loadingPreviousMistakes, setLoadingPreviousMistakes] = useState(false);
   const [previousMistakeMessage, setPreviousMistakeMessage] = useState("");
   const [practicingPreviousMistakes, setPracticingPreviousMistakes] = useState(false);
-  const draftStorageKey = isPlacementAssessment && user?.id ? `pa-placement-draft:${user.id}:${quizId}` : null;
+  const draftStorageKey = user?.id
+    ? `${isPlacementAssessment ? "pa-placement-draft" : "pa-assessment-draft"}:${user.id}:${quizId}`
+    : null;
   const draftReadyRef = useRef(false);
 
   const currentQ = questions[currentIndex];
@@ -152,7 +154,7 @@ export const QuizPlayer: React.FC<QuizPlayerProps> = ({
       try {
         const saved = JSON.parse(window.localStorage.getItem(draftStorageKey) || "null");
         if (saved?.version === 1 && saved.answers && typeof saved.answers === "object" && !Array.isArray(saved.answers)) {
-          // Restore this student's local in-progress draft for the same assessment.
+          // Restore this user's local in-progress draft for the same assessment.
           // eslint-disable-next-line react-hooks/set-state-in-effect
           setUserAnswers(saved.answers);
           setCurrentIndex(Math.min(Math.max(Number(saved.currentIndex) || 0, 0), Math.max(0, questions.length - 1)));
@@ -411,6 +413,14 @@ export const QuizPlayer: React.FC<QuizPlayerProps> = ({
           )}
         </div>
       </div>
+
+      {!isSubmitted && draftStorageKey && (
+        <p role="status" aria-live="polite" className="mb-4 text-[10px] font-semibold text-slate-500 dark:text-slate-400">
+          {lang === "ar"
+            ? "إجاباتك تُحفظ تلقائيًا على هذا الجهاز أثناء الاختبار، وتُحذف بعد التسليم."
+            : "Your answers save on this device during the test and are deleted after submission."}
+        </p>
+      )}
 
       {submitError && !isSubmitted && <div role="alert" className="mb-5 rounded-xl border border-rose-200 bg-rose-50 px-4 py-3 text-xs font-bold leading-5 text-rose-800 dark:border-rose-900/50 dark:bg-rose-950/30 dark:text-rose-100">{submitError}</div>}
 
