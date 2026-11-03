@@ -450,3 +450,10 @@ test("reports do not expose unscoped attendance or global gamification values to
   assert.match(reportsRouteSource, /role === "teacher" \? null : \(student\.points \|\| 0\)/);
   assert.match(reportsRouteSource, /role === "teacher" \? null : \(student\.level \|\| "Intermediate"\)/);
 });
+
+
+test("Analytics homework scope fails closed when the student grade is missing", () => {
+  assert.match(routeSource, /isHomeworkGradeVisibleToStudent/);
+  assert.match(routeSource, /isHomeworkGradeVisibleToStudent\(item\.grade, student\?\.grade\)/);
+  assert.match(routeSource, /isHomeworkGradeVisibleToStudent\(h\.grade, student\?\.grade\)/);
+});
