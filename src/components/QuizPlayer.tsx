@@ -454,7 +454,7 @@ export const QuizPlayer: React.FC<QuizPlayerProps> = ({
                     {!isCorrect && (
                       <p>
                         <strong>{lang === "ar" ? "الإجابة الصحيحة:" : "Correct Answer:"}</strong>{" "}
-                        <span className="text-emerald-600 dark:text-emerald-400 font-bold">{formatAnswer(q.correctAnswer, q.type)}</span>
+                        <span className="text-emerald-600 dark:text-emerald-400 font-bold">{formatAnswer(detail?.correctAnswer || q.correctAnswer || "", q.type)}</span>
                       </p>
                     )}
                     {q.explanation && (

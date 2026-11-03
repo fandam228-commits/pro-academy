@@ -3,6 +3,7 @@ import { sql } from "drizzle-orm";
 import { seedDatabase } from "./seed-data";
 import { seedFirstSecondaryUnits12Review } from "./seed-unit12-review";
 import { seedBaccalaureateModelA2027 } from "./seed-baccalaureate-model-a-2027";
+import { seedPreparatoryOctoberReview2027 } from "./seed-preparatory-october-review-2027";
 
 export async function ensureDbSetup() {
   try {
@@ -433,6 +434,7 @@ export async function ensureDbSetup() {
     // Seed new question-bank datasets independently of the legacy user seed guard.
     await seedFirstSecondaryUnits12Review();
     await seedBaccalaureateModelA2027();
+    await seedPreparatoryOctoberReview2027();
 
     // Run legacy seed data
     await seedDatabase();

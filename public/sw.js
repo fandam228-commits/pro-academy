@@ -1,9 +1,9 @@
 /* Professional Academy PWA Service Worker */
-const CACHE_VERSION = "pro-academy-v1";
+const CACHE_VERSION = "pro-academy-v2";
 const STATIC_CACHE = `${CACHE_VERSION}-static`;
 const RUNTIME_CACHE = `${CACHE_VERSION}-runtime`;
 
-const PRECACHE_URLS = ["/", "/manifest.webmanifest"];
+const PRECACHE_URLS = ["/", "/manifest.webmanifest", "/images/mr-habib-el-rahman.jpg"];
 
 // Install: precache shell
 self.addEventListener("install", (event) => {
@@ -48,7 +48,23 @@ self.addEventListener("fetch", (event) => {
     return;
   }
 
-  // Stale-while-revalidate for everything else
+  // Network-first for navigations so installed apps pick up the latest release.
+  if (request.mode === "navigate") {
+    event.respondWith(
+      fetch(request)
+        .then(async (response) => {
+          if (response.ok && url.origin === self.location.origin) {
+            const cache = await caches.open(STATIC_CACHE);
+            await cache.put(request, response.clone());
+          }
+          return response;
+        })
+        .catch(() => caches.match(request).then((cached) => cached || Response.error()))
+    );
+    return;
+  }
+
+  // Stale-while-revalidate for static assets
   event.respondWith(
     caches.match(request).then((cached) => {
       const networkFetch = fetch(request)

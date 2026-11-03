@@ -380,7 +380,8 @@ export async function POST(req: Request) {
         if (selected.length >= totalNum || usedIds.has(q.id)) return;
         let randomizedOptions = q.options;
         if (Array.isArray(q.options)) randomizedOptions = [...q.options].sort(() => Math.random() - 0.5);
-        selected.push({ ...q, options: randomizedOptions });
+        const playerType = q.questionType === "fill_blank" ? "fill_blanks" : (q.questionType || "mcq");
+        selected.push({ ...q, type: playerType, options: randomizedOptions });
         usedIds.add(q.id);
         await db.update(questionBank).set({ timesUsed: (q.timesUsed || 0) + 1, lastUsedAt: new Date() }).where(eq(questionBank.id, q.id));
       };
