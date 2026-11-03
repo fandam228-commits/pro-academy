@@ -174,7 +174,7 @@ test("storage audit scan rejects invalid batch sizes and malformed database resu
   );
   await assert.rejects(
     () => scanHomeworkStorageReferences({ async query() { return { rows: [{ storage_path: "homework/a.pdf" }] }; } }),
-    /valid submission ID/,
+    /malformed row/,
   );
 });
 
