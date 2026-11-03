@@ -666,7 +666,11 @@ export async function POST(req: Request) {
       if (ctx.user.role === "student" && studentId && studentId !== ctx.user.id) return NextResponse.json({ error: "Forbidden" }, { status: 403 });
       const effectiveStudentId = ctx.user.role === "student" ? ctx.user.id : studentId;
       const totalNum = Math.min(parseInt(questionCount) || 15, 100);
-      const numGrammar = Math.round(totalNum * ((parseInt(grammarRatio) || 50) / 100));
+      const parsedGrammarRatio = Number.parseInt(String(grammarRatio), 10);
+      const grammarPercent = Number.isFinite(parsedGrammarRatio)
+        ? Math.min(Math.max(parsedGrammarRatio, 0), 100)
+        : 50;
+      const numGrammar = Math.round(totalNum * (grammarPercent / 100));
       const numVocab = totalNum - numGrammar;
 
       // Query candidate pool from Question Bank

@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { useApp } from "@/context/AppContext";
 import { VocabularyReviewWorkspace } from "@/components/VocabularyReviewWorkspace";
+import { currentCurriculumTracks } from "@/data/current-curriculum";
 import {
   Flame,
   Award,
@@ -24,6 +25,14 @@ import {
   RotateCcw,
 } from "lucide-react";
 
+const resolveQuickReviewCurriculum = (stage?: string, grade?: string) => {
+  if (!stage || !grade) return undefined;
+  if (grade === "Third Secondary (Baccalaureate)") return "Thanaweya Amma";
+  return currentCurriculumTracks.find(
+    (track) => track.stage === stage && track.grade === grade && track.term === "First",
+  )?.curriculum;
+};
+
 export const StudentDashboard: React.FC<{ onSelectCourse?: (courseId: string) => void; onOpenReport?: () => void; onStartExam?: (exam: any) => void }> = ({ onSelectCourse, onOpenReport, onStartExam }) => {
   const { user, lang } = useApp();
   const [plannerTasks, setPlannerTasks] = useState<any[]>([]);
@@ -39,6 +48,8 @@ export const StudentDashboard: React.FC<{ onSelectCourse?: (courseId: string) =>
   const [quickReviewError, setQuickReviewError] = useState("");
   const [performance, setPerformance] = useState<any>(null);
   const [performanceLoading, setPerformanceLoading] = useState(true);
+  const quickReviewCurriculum = resolveQuickReviewCurriculum(user?.stage, user?.grade);
+  const quickReviewUsesWholeBank = user?.grade === "Third Secondary (Baccalaureate)";
 
   useEffect(() => {
     const loadPerformance = async () => {
@@ -74,6 +85,15 @@ export const StudentDashboard: React.FC<{ onSelectCourse?: (courseId: string) =>
   const recommendedRule = weakestRules[0];
 
   const startQuickReview = async (targetTopic?: string) => {
+    if (!user?.stage || !user.grade) {
+      setQuickReviewError(lang === "ar" ? "أكمل المرحلة والصف في ملفك الشخصي أولًا." : "Add your stage and grade to your profile first.");
+      return;
+    }
+    if (!quickReviewCurriculum) {
+      setQuickReviewError(lang === "ar" ? "بنك المراجعة لهذا الصف غير متاح بعد." : "A review bank is not available for this grade yet.");
+      return;
+    }
+
     setQuickReviewLoading(true);
     setQuickReviewError("");
     try {
@@ -83,11 +103,11 @@ export const StudentDashboard: React.FC<{ onSelectCourse?: (courseId: string) =>
         body: JSON.stringify({
           action: "generate_smart_exam",
           studentId: user?.id,
-          stage: "Secondary",
-          grade: "First Secondary",
-          curriculum: "Ministry",
+          stage: user.stage,
+          grade: user.grade,
+          curriculum: quickReviewCurriculum,
           term: "First",
-          unit: quickReviewUnit === "Units 1 + 2" ? "Unit 1,Unit 2" : quickReviewUnit,
+          unit: quickReviewUsesWholeBank ? undefined : (quickReviewUnit === "Units 1 + 2" ? "Unit 1,Unit 2" : quickReviewUnit),
           questionCount: quickReviewCount,
           easyPercent: 30,
           mediumPercent: 50,
@@ -283,13 +303,19 @@ export const StudentDashboard: React.FC<{ onSelectCourse?: (courseId: string) =>
 
               <div className="grid grid-cols-1 sm:grid-cols-[1fr_auto_auto] gap-2 mt-5">
                 <select
-                  value={quickReviewUnit}
+                  value={quickReviewUsesWholeBank ? "All" : quickReviewUnit}
                   onChange={(e) => setQuickReviewUnit(e.target.value)}
                   className="p-3 rounded-xl bg-white/10 border border-white/20 text-xs font-bold text-white outline-none"
                 >
-                  <option value="Units 1 + 2" className="text-slate-900">{lang === "ar" ? "أولى ثانوي — الوحدة 1 + 2" : "First Secondary — Units 1 + 2"}</option>
-                  <option value="Unit 1" className="text-slate-900">{lang === "ar" ? "أولى ثانوي — Unit 1" : "First Secondary — Unit 1"}</option>
-                  <option value="Unit 2" className="text-slate-900">{lang === "ar" ? "أولى ثانوي — Unit 2" : "First Secondary — Unit 2"}</option>
+                  {quickReviewUsesWholeBank ? (
+                    <option value="All" className="text-slate-900">{lang === "ar" ? "بنك النماذج والامتحانات بالكامل" : "Full model exam bank"}</option>
+                  ) : (
+                    <>
+                      <option value="Units 1 + 2" className="text-slate-900">{lang === "ar" ? "صفك الحالي — الوحدة 1 + 2" : `${user?.grade || "Your grade"} — Units 1 + 2`}</option>
+                      <option value="Unit 1" className="text-slate-900">{lang === "ar" ? "صفك الحالي — Unit 1" : `${user?.grade || "Your grade"} — Unit 1`}</option>
+                      <option value="Unit 2" className="text-slate-900">{lang === "ar" ? "صفك الحالي — Unit 2" : `${user?.grade || "Your grade"} — Unit 2`}</option>
+                    </>
+                  )}
                 </select>
                 <select
                   value={quickReviewCount}
@@ -302,12 +328,20 @@ export const StudentDashboard: React.FC<{ onSelectCourse?: (courseId: string) =>
                 </select>
                 <button
                   onClick={() => startQuickReview()}
-                  disabled={quickReviewLoading}
+                  disabled={quickReviewLoading || !quickReviewCurriculum || !user?.stage || !user.grade}
                   className="px-5 py-3 rounded-xl bg-white text-indigo-700 hover:bg-blue-50 font-black text-xs shadow-lg disabled:opacity-60 transition-all"
                 >
                   {quickReviewLoading ? (lang === "ar" ? "جاري التجهيز..." : "Preparing...") : (lang === "ar" ? "ابدأ الآن ▶" : "Start Now ▶")}
                 </button>
               </div>
+
+              {(!user?.stage || !user.grade || !quickReviewCurriculum) && (
+                <p role="status" className="mt-2 text-[10px] font-bold text-amber-100">
+                  {!user?.stage || !user.grade
+                    ? (lang === "ar" ? "أكمل بيانات المرحلة والصف في ملفك لتجهيز مراجعتك." : "Complete your stage and grade in your profile to prepare a review.")
+                    : (lang === "ar" ? "بنك أسئلة هذا الصف لم يُضف بعد." : "Questions for this grade have not been added yet.")}
+                </p>
+              )}
 
               {quickReviewError && (
                 <div className="mt-3 rounded-xl bg-red-500/20 border border-red-200/20 px-3 py-2 text-[10px] font-bold text-red-100">

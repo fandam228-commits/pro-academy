@@ -854,8 +854,8 @@ const QuestionBankWorkspaceContent: React.FC<QuestionBankWorkspaceProps> = ({ on
                 <label className="block mb-1">Grammar vs Vocab Mix ({grammarRatio}% Grammar)</label>
                 <input
                   type="range"
-                  min={10}
-                  max={90}
+                  min={0}
+                  max={100}
                   value={grammarRatio}
                   onChange={(e) => setGrammarRatio(parseInt(e.target.value))}
                   className="w-full accent-amber-500 cursor-pointer"
