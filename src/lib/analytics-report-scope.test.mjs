@@ -130,3 +130,10 @@ test("homework grade scope fails closed for missing student grade but keeps grad
   assert.equal(isHomeworkGradeVisibleToStudent("   ", undefined), true);
   assert.equal(isHomeworkGradeVisibleToStudent(null, "Third Secondary"), true);
 });
+
+test("parent analytics defaults to the sole verified linked child when selection is unambiguous", () => {
+  assert.deepEqual(
+    resolveParentAnalyticsStudentId(null, ["student-only"]),
+    { ok: true, studentId: "student-only" }
+  );
+});
