@@ -25,7 +25,9 @@ function isSafePrivateHomeworkPath(value) {
 function isKnownVercelPublicBlobUrl(value) {
   try {
     const parsed = new URL(value);
-    const host = parsed.hostname.toLowerCase();
+    // DNS permits a trailing dot on a fully qualified hostname; normalize it so a
+    // legacy public Blob URL cannot evade the higher-priority review counter.
+    const host = parsed.hostname.toLowerCase().replace(/\.$/, "");
     return (parsed.protocol === "https:" || parsed.protocol === "http:") &&
       (host === "public.blob.vercel-storage.com" || host.endsWith(".public.blob.vercel-storage.com"));
   } catch {
