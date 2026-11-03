@@ -20,6 +20,10 @@ function assertAuthBeforeSetup(source, routeName) {
 }
 
 function assertVerifiedParentSelection(source, routeName) {
+  assert.match(source, /innerJoin\(parentAccountUser, eq\(parentLinks\.parentId, parentAccountUser\.id\)\)/,
+    routeName + " must join the current parent account, not trust a stale session role");
+  assert.match(source, /eq\(parentAccountUser\.role, "parent"\)/,
+    routeName + " must require the linked parent account to still have the parent role");
   assert.match(source, /innerJoin\(verifiedByUser, eq\(parentLinks\.verifiedBy, verifiedByUser\.id\)\)/,
     routeName + " must join the current verifier account");
   assert.match(source, /eq\(verifiedByUser\.role, "admin"\)/,
