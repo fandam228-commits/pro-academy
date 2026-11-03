@@ -24,6 +24,57 @@ function assertLocalTestDatabase(value) {
   }
 }
 
+// Pure authorization-policy regression tests run even when PostgreSQL integration tests are skipped locally.
+test("Analytics authorization denies cross-student, unlinked-parent, and unscoped-teacher access", () => {
+  assert.equal(
+    canAccessStudentAnalytics({ role: "student", requesterId: "student-1", studentId: "student-1" }),
+    true,
+  );
+  assert.equal(
+    canAccessStudentAnalytics({ role: "student", requesterId: "student-1", studentId: "student-2" }),
+    false,
+  );
+  assert.equal(
+    canAccessStudentAnalytics({ role: "parent", requesterId: "parent-1", studentId: "student-1", linkedParentStudentIds: [] }),
+    false,
+  );
+  assert.equal(
+    canAccessStudentAnalytics({ role: "teacher", requesterId: "teacher-1", studentId: "student-1", teacherStudentIds: [] }),
+    false,
+  );
+  assert.equal(
+    canAccessStudentAnalytics({ role: "support", requesterId: "support-1", studentId: "student-1" }),
+    false,
+  );
+});
+
+test("Parent analytics selection fails closed for missing, malformed, and ambiguous links", () => {
+  assert.deepEqual(
+    resolveParentAnalyticsStudentId(null, []),
+    { ok: false, reason: "no-linked-student" },
+  );
+  assert.deepEqual(
+    resolveParentAnalyticsStudentId(null, ["student-1"]),
+    { ok: true, studentId: "student-1" },
+  );
+  assert.deepEqual(
+    resolveParentAnalyticsStudentId(null, ["student-1", "student-2"]),
+    { ok: false, reason: "student-id-required" },
+  );
+  assert.deepEqual(
+    resolveParentAnalyticsStudentId("student-2", ["student-1", "student-2"]),
+    { ok: true, studentId: "student-2" },
+  );
+  assert.deepEqual(
+    resolveParentAnalyticsStudentId("student-3", ["student-1", "student-2"]),
+    { ok: false, reason: "forbidden" },
+  );
+  assert.deepEqual(
+    resolveParentAnalyticsStudentId(null, ["student-1", ""]),
+    { ok: false, reason: "invalid-links" },
+  );
+});
+
 const courses = pgTable("courses", {
   id: text("id").primaryKey(),
   teacherId: text("teacher_id").notNull(),
