@@ -1,7 +1,7 @@
 {
   "grade": "First Secondary",
   "curriculumYear": "2026-2027",
-  "status": "source-audit-in-progress",
+  "status": "first-source-extracted-to-private-staging; teacher-review-pending",
   "sources": [
     {
       "filename": "ليلة امتحان أولي ثانوي - Habib El Rahman.pdf",
@@ -11,7 +11,7 @@
     {
       "filename": "اهداء من فريق العمالقة اجابات امتحان الصف الاول  الثانوي    2027.pdf",
       "pages": 10,
-      "extraction": "text-extractable; title suggests answers but extracted content contains full MCQ questions; verify whether a true answer key exists"
+      "extraction": "text-extractable; 218 MCQs extracted from pages 1-9; yellow-highlighted correct options mapped for all 218; all staged records have four options after handling one missing punctuation mark in option A label; one repeated question pair retained and flagged for review"
     }
   ],
   "importRules": [
@@ -26,6 +26,9 @@
     "Every MCQ has exactly its original options.",
     "Correct answer matches exactly one option.",
     "Duplicate detection across source PDFs.",
-    "Review OCR uncertainty before accepting a question."
+    "Review OCR uncertainty before accepting a question.",
+    "Private staging CSV: 218 records; all 218 have a mapped highlighted answer and four options.",
+    "Detected one repeated question stem at source questions 136 and 145; retain both until teacher decides whether to deduplicate.",
+    "Source text is staged privately and is not committed to the public repository."
   ]
 }
