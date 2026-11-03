@@ -6,6 +6,7 @@ import {
   classifyHomeworkStoragePath,
   summarizeHomeworkStoragePaths,
   mergeHomeworkStoragePathSummaries,
+  scanHomeworkStorageReferences,
   buildHomeworkStorageAuditReport,
 } from "./homework-storage-audit.mjs";
 
@@ -107,6 +108,73 @@ test("audit summaries can be combined across bounded batches without retaining p
       absoluteUrlNeedsReview: 1,
       unknownOrMalformed: 1,
     },
+  );
+});
+
+test("storage audit scans bounded keyset batches and returns aggregate counts only", async () => {
+  const queries = [];
+  const batches = [
+    {
+      rows: [
+        { id: "submission-a", storage_path: "homework/a.pdf" },
+        { id: "submission-b", storage_path: "https://store-id.public.blob.vercel-storage.com/legacy.pdf" },
+      ],
+    },
+    {
+      rows: [
+        { id: "submission-c", storage_path: "https://example.invalid/legacy.pdf" },
+      ],
+    },
+  ];
+  const client = {
+    async query(statement, params) {
+      queries.push({ statement, params });
+      assert.match(statement, /^SELECT id, storage_path FROM homework_submissions/);
+      const next = batches.shift();
+      return next ?? { rows: [] };
+    },
+  };
+
+  const summary = await scanHomeworkStorageReferences(client, { batchSize: 2 });
+
+  assert.deepEqual(summary, {
+    totalRows: 3,
+    empty: 0,
+    privatePath: 1,
+    vercelPublicBlobUrlNeedsReview: 1,
+    absoluteUrlNeedsReview: 1,
+    unknownOrMalformed: 0,
+  });
+  assert.equal(queries.length, 2, "a short final batch should stop the scan");
+  assert.deepEqual(queries[0].params, [2]);
+  assert.deepEqual(queries[1].params, ["submission-b", 2]);
+  assert.match(queries[1].statement, /WHERE id > \$1 ORDER BY id ASC LIMIT \$2/);
+  assert.deepEqual(Object.keys(summary), [
+    "totalRows",
+    "empty",
+    "privatePath",
+    "vercelPublicBlobUrlNeedsReview",
+    "absoluteUrlNeedsReview",
+    "unknownOrMalformed",
+  ]);
+  assert.doesNotMatch(JSON.stringify(summary), /submission-|legacy\.pdf|example\.invalid/);
+});
+
+test("storage audit scan rejects invalid batch sizes and malformed database results", async () => {
+  const client = { async query() { return { rows: [] }; } };
+  for (const batchSize of [0, -1, 1.5, 5001, Number.MAX_SAFE_INTEGER + 1]) {
+    await assert.rejects(
+      () => scanHomeworkStorageReferences(client, { batchSize }),
+      /batchSize must be a safe integer/,
+    );
+  }
+  await assert.rejects(
+    () => scanHomeworkStorageReferences({ async query() { return {}; } }),
+    /rows array/,
+  );
+  await assert.rejects(
+    () => scanHomeworkStorageReferences({ async query() { return { rows: [{ storage_path: "homework/a.pdf" }] }; } }),
+    /valid submission ID/,
   );
 });
 
