@@ -1,7 +1,7 @@
 {
   "grade": "Second Secondary / Baccalaureate",
   "curriculumYear": "2026-2027",
-  "status": "source-audit-in-progress",
+  "status": "first-source-extracted-to-private-staging; answer-key-required",
   "sources": [
     {
       "filename": "ليلة امتحان ثانية ثانوي - Habib El Rahman.pdf",
@@ -11,7 +11,7 @@
     {
       "filename": "اهداء من فريق العمالقة امتحان الصف الثاني الثانوي نموذج أ 2027.pdf",
       "pages": 12,
-      "extraction": "text-extractable; includes numbered MCQ items; answer-key verification required"
+      "extraction": "text-extractable; 97 MCQs with four labeled options staged from 12 pages; no answer key or yellow-highlighted correct choices found; answer_letter intentionally left blank; repeated stems retained for review"
     },
     {
       "filename": "Extracted pages from المعاصر_انجليزي_2ث_بكالوريا_الترم_الاول_2027_المتميزون.pdf",
@@ -36,6 +36,10 @@
   "validation": [
     "Track curriculum, term, unit, source file and page.",
     "Deduplicate across overlapping source files.",
-    "Verify every answer key against a reliable key or teacher confirmation."
+    "Verify every answer key against a reliable key or teacher confirmation.",
+    "Private staging CSV contains 97 MCQs with all four option strings and blank answer keys.",
+    "135 numbered markers were detected in the source text; only 97 were confidently parsed as four-option MCQs, so the remaining numbered items require classification.",
+    "Do not import this batch into a graded quiz until a reliable answer key is supplied or a teacher verifies each answer.",
+    "No question or option content was committed to the public repository."
   ]
 }
