@@ -51,7 +51,10 @@ export function canReplaceHomeworkSubmission({ status }) {
 
 export function canSubmitHomework({ role, studentGrade, homeworkGrade }) {
   if (role !== "student") return false;
-  if (studentGrade && homeworkGrade && studentGrade !== homeworkGrade) return false;
+  const requestedGrade = typeof homeworkGrade === "string" ? homeworkGrade.trim() : "";
+  const actualGrade = typeof studentGrade === "string" ? studentGrade.trim() : "";
+  // A known grade-specific assignment must fail closed when the student's grade is missing.
+  if (requestedGrade && actualGrade !== requestedGrade) return false;
   return true;
 }
 

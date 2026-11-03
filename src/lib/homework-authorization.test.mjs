@@ -326,7 +326,7 @@ test("course-linked homework requires an active/completed enrollment", () => {
 
 test("student homework GET and submission routes both enforce course enrollment", async () => {
   const route = await readFile(new URL("../app/api/homework/route.ts", import.meta.url), "utf8");
-  const studentListStart = route.indexOf('const myGrade = ctx.user.grade || ""');
+  const studentListStart = route.indexOf("const myGrade =");
   const studentListEnd = route.indexOf("const mySubs", studentListStart);
   assert.ok(studentListStart >= 0 && studentListEnd > studentListStart);
   const studentList = route.slice(studentListStart, studentListEnd);
@@ -441,4 +441,38 @@ test("homework file GET rejects unsupported roles before database setup", async 
       setup > roleGuard,
     "homework file GET must reject unauthenticated and unsupported-role callers before database setup",
   );
+});
+
+
+test("missing student grade fails closed for grade-specific homework", () => {
+  assert.equal(
+    canSubmitHomework({ role: "student", studentGrade: "", homeworkGrade: "Third Secondary" }),
+    false,
+  );
+  assert.equal(
+    canSubmitHomework({ role: "student", studentGrade: null, homeworkGrade: "Third Secondary" }),
+    false,
+  );
+  assert.equal(
+    canSubmitHomework({ role: "student", studentGrade: " First Secondary ", homeworkGrade: "First Secondary" }),
+    true,
+  );
+  assert.equal(
+    canSubmitHomework({ role: "student", studentGrade: "", homeworkGrade: "" }),
+    true,
+    "grade-agnostic homework remains available when its grade is intentionally blank",
+  );
+});
+
+test("student homework listing does not expose grade-specific assignments when profile grade is missing", async () => {
+  const route = await readFile(new URL("../app/api/homework/route.ts", import.meta.url), "utf8");
+  const start = route.indexOf("const gradeVisibility = myGrade");
+  const end = route.indexOf("const list = await db.select().from(homework)", start);
+  assert.ok(start >= 0 && end > start, "student grade visibility must be applied before querying homework");
+  const visibility = route.slice(start, end);
+  assert.ok(
+    visibility.includes(': or(isNull(homework.grade), eq(homework.grade, ""));'),
+    "when the student grade is missing, only grade-agnostic homework may be listed",
+  );
+  assert.doesNotMatch(visibility, /: undefined;/);
 });
