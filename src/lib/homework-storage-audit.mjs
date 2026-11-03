@@ -169,19 +169,32 @@ export async function scanHomeworkStorageReferences(client, { batchSize = 500 } 
     }
     if (result.rows.length === 0) break;
 
+    // Validate every row before counting anything. A malformed intermediate row
+    // must not be silently counted as an empty path, and duplicate IDs must not
+    // let a broken cursor produce misleading totals.
+    const batchIds = new Set();
+    for (const row of result.rows) {
+      if (
+        !row ||
+        typeof row !== "object" ||
+        typeof row.id !== "string" ||
+        row.id.length === 0 ||
+        !Object.prototype.hasOwnProperty.call(row, "storage_path")
+      ) {
+        throw new TypeError("The audit batch contained a malformed row.");
+      }
+      if (row.id === lastId || batchIds.has(row.id)) {
+        throw new Error("The audit cursor did not advance; refusing to repeat a batch.");
+      }
+      batchIds.add(row.id);
+    }
+
     summary = mergeHomeworkStoragePathSummaries(
       summary,
-      summarizeHomeworkStoragePaths(result.rows.map((row) => row?.storage_path)),
+      summarizeHomeworkStoragePaths(result.rows.map((row) => row.storage_path)),
     );
 
-    const nextId = result.rows[result.rows.length - 1]?.id;
-    if (typeof nextId !== "string" || nextId.length === 0) {
-      throw new TypeError("The audit batch did not contain a valid submission ID.");
-    }
-    if (nextId === lastId) {
-      throw new Error("The audit cursor did not advance; refusing to repeat a batch.");
-    }
-    lastId = nextId;
+    lastId = result.rows[result.rows.length - 1].id;
 
     if (result.rows.length < batchSize) break;
   }
