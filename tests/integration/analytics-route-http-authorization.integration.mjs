@@ -41,6 +41,7 @@ integrationTest(
       otherTeacher: id("other_teacher"),
       student: id("student"),
       otherStudent: id("other_student"),
+      unlinkedStudent: id("unlinked_student"),
       unverifiedStudent: id("unverified_student"),
       parent: id("parent"),
       parentSingle: id("parent_single"),
@@ -147,6 +148,7 @@ integrationTest(
         [ids.otherTeacher, "Other Teacher HTTP Test", `other-teacher-${suffix}@example.test`, "test-only-password", "teacher", null],
         [ids.student, "Student HTTP Test", `student-${suffix}@example.test`, "test-only-password", "student", "Third Secondary"],
         [ids.otherStudent, "Other Student HTTP Test", `other-student-${suffix}@example.test`, "test-only-password", "student", "Third Secondary"],
+        [ids.unlinkedStudent, "Unlinked Student HTTP Test", `unlinked-student-${suffix}@example.test`, "test-only-password", "student", "Third Secondary"],
         [ids.unverifiedStudent, "Unverified Student HTTP Test", `unverified-student-${suffix}@example.test`, "test-only-password", "student", "Third Secondary"],
         [ids.parent, "Parent HTTP Test", `parent-${suffix}@example.test`, "test-only-password", "parent", null],
         [ids.parentSingle, "Single Child Parent HTTP Test", `single-parent-${suffix}@example.test`, "test-only-password", "parent", null],
@@ -297,6 +299,9 @@ integrationTest(
       const parentUnverifiedChild = await requestAnalytics(tokens.parent, ids.unverifiedStudent);
       assert.equal(parentUnverifiedChild.status, 403, "an unverified legacy link must not authorize a report");
 
+      const parentUnlinkedChild = await requestAnalytics(tokens.parent, ids.unlinkedStudent);
+      assert.equal(parentUnlinkedChild.status, 403, "a parent must not access a student who has no linked parent relationship");
+
       const studentOwnReport = await requestAnalytics(tokens.student, ids.student);
       assert.equal(studentOwnReport.status, 200, JSON.stringify(studentOwnReport.body));
       assert.equal(studentOwnReport.body.student?.id, ids.student);
@@ -360,7 +365,7 @@ integrationTest(
           await client.query("DELETE FROM attendance_records WHERE id = $1", [ids.attendanceRecord]);
           await client.query("DELETE FROM enrollments WHERE id = ANY($1::text[])", [[ids.enrollmentOwned, ids.enrollmentOtherStudent, ids.enrollmentStudentOtherCourse, ids.enrollmentCancelled]]);
           await client.query("DELETE FROM courses WHERE id = ANY($1::text[])", [[ids.ownedCourse, ids.otherCourse]]);
-          await client.query("DELETE FROM users WHERE id = ANY($1::text[])", [[ids.teacher, ids.otherTeacher, ids.student, ids.otherStudent, ids.unverifiedStudent, ids.parent, ids.parentSingle, ids.admin]]);
+          await client.query("DELETE FROM users WHERE id = ANY($1::text[])", [[ids.teacher, ids.otherTeacher, ids.student, ids.otherStudent, ids.unlinkedStudent, ids.unverifiedStudent, ids.parent, ids.parentSingle, ids.admin]]);
         } catch {
           // The CI database is disposable; cleanup is best-effort if schema setup failed.
         } finally {
