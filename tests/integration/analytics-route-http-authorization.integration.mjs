@@ -53,6 +53,7 @@ integrationTest(
       enrollmentOwned: id("enrollment_owned"),
       enrollmentOtherStudent: id("enrollment_other_student"),
       enrollmentStudentOtherCourse: id("enrollment_student_other_course"),
+      enrollmentCancelled: id("enrollment_cancelled"),
       linkStudent: id("link_student"),
       linkOtherStudent: id("link_other_student"),
       linkUnverified: id("link_unverified"),
@@ -166,11 +167,12 @@ integrationTest(
       );
       await client.query(
         `INSERT INTO enrollments (id, student_id, course_id, status)
-         VALUES ($1, $2, $3, 'active'), ($4, $5, $6, 'active'), ($7, $2, $6, 'active')`,
+         VALUES ($1, $2, $3, 'active'), ($4, $5, $6, 'active'), ($7, $2, $6, 'active'), ($8, $9, $10, 'cancelled')`,
         [
           ids.enrollmentOwned, ids.student, ids.ownedCourse,
           ids.enrollmentOtherStudent, ids.otherStudent, ids.otherCourse,
           ids.enrollmentStudentOtherCourse,
+          ids.enrollmentCancelled, ids.unverifiedStudent, ids.ownedCourse,
         ],
       );
       // Seed assessment and attendance data from a course the test teacher does not own.
@@ -257,12 +259,24 @@ integrationTest(
       const teacherOtherCourseStudent = await requestAnalytics(tokens.teacher, ids.otherStudent);
       assert.equal(teacherOtherCourseStudent.status, 403, "teacher must not access a student enrolled only in another teacher's course");
 
+      const teacherCancelledEnrollmentStudent = await requestAnalytics(tokens.teacher, ids.unverifiedStudent);
+      assert.equal(
+        teacherCancelledEnrollmentStudent.status,
+        403,
+        "a cancelled enrollment must not authorize a teacher to access a student's report",
+      );
+
       const teacherClass = await requestAnalytics(tokens.teacher);
       assert.equal(teacherClass.status, 200, JSON.stringify(teacherClass.body));
       assert.equal(
         (teacherClass.body.students || []).some((row) => row.id === ids.otherStudent),
         false,
         "teacher roster must exclude students outside the teacher's owned-course enrollments",
+      );
+      assert.equal(
+        (teacherClass.body.students || []).some((row) => row.id === ids.unverifiedStudent),
+        false,
+        "teacher roster must exclude students whose only owned-course enrollment is cancelled",
       );
 
       const parentWithoutSelection = await requestAnalytics(tokens.parent);
@@ -333,7 +347,7 @@ integrationTest(
           await client.query("DELETE FROM quiz_submissions WHERE id = $1", [ids.otherCourseQuizSubmission]);
           await client.query("DELETE FROM quizzes WHERE id = $1", [ids.otherCourseQuiz]);
           await client.query("DELETE FROM attendance_records WHERE id = $1", [ids.attendanceRecord]);
-          await client.query("DELETE FROM enrollments WHERE id = ANY($1::text[])", [[ids.enrollmentOwned, ids.enrollmentOtherStudent, ids.enrollmentStudentOtherCourse]]);
+          await client.query("DELETE FROM enrollments WHERE id = ANY($1::text[])", [[ids.enrollmentOwned, ids.enrollmentOtherStudent, ids.enrollmentStudentOtherCourse, ids.enrollmentCancelled]]);
           await client.query("DELETE FROM courses WHERE id = ANY($1::text[])", [[ids.ownedCourse, ids.otherCourse]]);
           await client.query("DELETE FROM users WHERE id = ANY($1::text[])", [[ids.teacher, ids.otherTeacher, ids.student, ids.otherStudent, ids.unverifiedStudent, ids.parent, ids.parentSingle, ids.admin]]);
         } catch {
