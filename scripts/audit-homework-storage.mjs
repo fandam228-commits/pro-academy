@@ -8,9 +8,21 @@ import {
 
 const connectionString = process.env.DATABASE_URL;
 const allowRemote = process.env.ALLOW_REMOTE_HOMEWORK_STORAGE_AUDIT === "true";
+const batchSizeInput = process.env.HOMEWORK_AUDIT_BATCH_SIZE ?? "500";
+const batchSize = Number(batchSizeInput);
 let databaseScope;
 
 try {
+  // Validate all operator-controlled options before attempting any database connection.
+  // Strict decimal parsing rejects empty strings, signs, fractions, and unsafe values.
+  if (
+    !/^[1-9]\d*$/.test(batchSizeInput) ||
+    !Number.isSafeInteger(batchSize) ||
+    batchSize > 5000
+  ) {
+    throw new Error("HOMEWORK_AUDIT_BATCH_SIZE must be an integer between 1 and 5000.");
+  }
+
   databaseScope = assertSafeHomeworkAuditTarget(connectionString, allowRemote);
 } catch (error) {
   console.error(error instanceof Error ? error.message : "Invalid audit configuration.");
@@ -31,7 +43,7 @@ if (databaseScope) {
     await beginConsistentReadOnlyHomeworkAudit(client);
     readOnlyTransactionStarted = true;
 
-    const summary = await scanHomeworkStorageReferences(client);
+    const summary = await scanHomeworkStorageReferences(client, { batchSize });
 
     await client.query("ROLLBACK");
     readOnlyTransactionStarted = false;
