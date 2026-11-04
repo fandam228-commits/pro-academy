@@ -22,6 +22,7 @@ import { CalendarView } from "@/components/CalendarView";
 import { InfoPages } from "@/components/InfoPages";
 import { GlobalSearch } from "@/components/GlobalSearch";
 import { PwaManager } from "@/components/PwaManager";
+import { AcademyIntro } from "@/components/AcademyIntro";
 import { HomeworkWorkspace } from "@/components/HomeworkWorkspace";
 import { AttendanceWorkspace } from "@/components/AttendanceWorkspace";
 import { NotificationCenter } from "@/components/NotificationCenter";
@@ -450,7 +451,10 @@ function MainAppContent() {
 export default function Home() {
   return (
     <AppProvider>
-      <MainAppContent />
+      <>
+        <MainAppContent />
+        <AcademyIntro />
+      </>
     </AppProvider>
   );
 }
