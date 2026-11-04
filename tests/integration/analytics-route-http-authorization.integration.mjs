@@ -284,6 +284,11 @@ integrationTest(
       const parentWithoutSelection = await requestAnalytics(tokens.parent);
       assert.equal(parentWithoutSelection.status, 400, "parent must explicitly choose when multiple verified children are linked");
 
+      // An explicitly empty studentId is malformed input, not permission to silently
+      // fall back to the first linked child when multiple verified children exist.
+      const parentEmptySelection = await requestAnalytics(tokens.parent, "");
+      assert.equal(parentEmptySelection.status, 400, "parent must not bypass explicit child selection with an empty studentId");
+
       const parentSelectedChild = await requestAnalytics(tokens.parent, ids.student);
       assert.equal(parentSelectedChild.status, 200, JSON.stringify(parentSelectedChild.body));
       assert.equal(parentSelectedChild.body.student?.id, ids.student);
