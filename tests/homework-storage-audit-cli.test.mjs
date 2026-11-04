@@ -38,3 +38,16 @@ test("homework storage audit refuses remote databases by default before attempti
   assert.match(result.stderr, /Refusing a non-local database by default/);
   assert.doesNotMatch(result.stdout + result.stderr, /audit-user|do-not-print|db\.example\.invalid|postgres(?:ql)?:\/\//i);
 });
+
+test("homework storage audit rejects invalid batch sizes before any database connection", () => {
+  const connectionString = "postgresql://audit-user:do-not-print@db.example.invalid/proacademy";
+  const result = runAudit({
+    DATABASE_URL: connectionString,
+    HOMEWORK_AUDIT_BATCH_SIZE: "0",
+  });
+
+  assert.equal(result.error, undefined, result.error?.message);
+  assert.equal(result.status, 1);
+  assert.match(result.stderr, /HOMEWORK_AUDIT_BATCH_SIZE must be an integer between 1 and 5000/);
+  assert.doesNotMatch(result.stdout + result.stderr, /audit-user|do-not-print|db\.example\.invalid|postgres(?:ql)?:\/\//i);
+});
