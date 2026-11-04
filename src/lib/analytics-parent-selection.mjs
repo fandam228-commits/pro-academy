@@ -26,3 +26,24 @@ export function resolveParentAnalyticsStudent(requestedStudentId, linkedStudentI
   if (uniqueIds.length > 1) return { status: "ambiguous" };
   return { status: "selected", studentId: uniqueIds[0] };
 }
+
+
+/**
+ * Keep parent report selection limited to linked IDs that resolve to actual
+ * student accounts. The caller supplies IDs returned by a role-filtered users
+ * query; this helper never treats a parent-link row alone as proof that its
+ * target is a student.
+ */
+export function filterParentLinkedStudentIds(linkedStudentIds = [], studentAccountIds = []) {
+  if (!Array.isArray(linkedStudentIds) || !Array.isArray(studentAccountIds)) return [];
+
+  const validStudentIds = new Set(
+    studentAccountIds.filter((id) => typeof id === "string" && id.trim().length > 0),
+  );
+
+  return [...new Set(
+    linkedStudentIds.filter(
+      (id) => typeof id === "string" && id.trim().length > 0 && validStudentIds.has(id),
+    ),
+  )];
+}
