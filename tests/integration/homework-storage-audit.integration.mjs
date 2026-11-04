@@ -126,7 +126,7 @@ integrationTest("homework audit scans legacy public Blob references and returns 
     });
     assert.doesNotMatch(
       serialized,
-      /audit-test-|synthetic-student-secret|public\\.blob\\.vercel-storage\\.com|example\\.invalid/,
+      /audit-test-|synthetic-student-secret|public\.blob\.vercel-storage\.com|example\.invalid/,
       "the audit result must contain aggregate counts, not row IDs or stored references",
     );
   } finally {
