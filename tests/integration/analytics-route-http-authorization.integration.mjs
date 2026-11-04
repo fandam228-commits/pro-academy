@@ -43,6 +43,7 @@ integrationTest(
       otherStudent: id("other_student"),
       unverifiedStudent: id("unverified_student"),
       parent: id("parent"),
+      parentSingle: id("parent_single"),
       admin: id("admin"),
       ownedCourse: id("owned_course"),
       otherCourse: id("other_course"),
@@ -52,14 +53,17 @@ integrationTest(
       linkStudent: id("link_student"),
       linkOtherStudent: id("link_other_student"),
       linkUnverified: id("link_unverified"),
+      linkSingle: id("link_single"),
       teacherSession: id("session_teacher"),
       studentSession: id("session_student"),
       parentSession: id("session_parent"),
+      parentSingleSession: id("session_parent_single"),
     };
     const tokens = {
       teacher: token("teacher"),
       student: token("student"),
       parent: token("parent"),
+      parentSingle: token("parent_single"),
     };
 
     const port = 31000 + (process.pid % 10000);
@@ -141,6 +145,7 @@ integrationTest(
         [ids.otherStudent, "Other Student HTTP Test", `other-student-${suffix}@example.test`, "test-only-password", "student", "Third Secondary"],
         [ids.unverifiedStudent, "Unverified Student HTTP Test", `unverified-student-${suffix}@example.test`, "test-only-password", "student", "Third Secondary"],
         [ids.parent, "Parent HTTP Test", `parent-${suffix}@example.test`, "test-only-password", "parent", null],
+        [ids.parentSingle, "Single Child Parent HTTP Test", `single-parent-${suffix}@example.test`, "test-only-password", "parent", null],
         [ids.admin, "Admin HTTP Test", `admin-${suffix}@example.test`, "test-only-password", "admin", null],
       ];
       for (const row of fixtureUsers) {
@@ -169,17 +174,20 @@ integrationTest(
         `INSERT INTO parent_links (id, parent_id, student_id, relationship, verified_at, verified_by)
          VALUES ($1, $2, $3, 'Guardian', NOW(), $4),
                 ($5, $2, $6, 'Guardian', NOW(), $4),
-                ($7, $2, $8, 'Guardian', NULL, NULL)`,
+                ($7, $2, $8, 'Guardian', NULL, NULL),
+                ($9, $10, $11, 'Guardian', NOW(), $12)`,
         [
           ids.linkStudent, ids.parent, ids.student, ids.admin,
           ids.linkOtherStudent, ids.otherStudent,
           ids.linkUnverified, ids.unverifiedStudent,
+          ids.linkSingle, ids.parentSingle, ids.student, ids.admin,
         ],
       );
       const sessions = [
         [ids.teacherSession, tokens.teacher, ids.teacher, "teacher"],
         [ids.studentSession, tokens.student, ids.student, "student"],
         [ids.parentSession, tokens.parent, ids.parent, "parent"],
+        [ids.parentSingleSession, tokens.parentSingle, ids.parentSingle, "parent"],
       ];
       for (const [sessionId, sessionToken, userId, role] of sessions) {
         await client.query(
@@ -227,6 +235,14 @@ integrationTest(
       assert.equal(parentSelectedChild.status, 200, JSON.stringify(parentSelectedChild.body));
       assert.equal(parentSelectedChild.body.student?.id, ids.student);
 
+      const parentSingleChildDefault = await requestAnalytics(tokens.parentSingle);
+      assert.equal(parentSingleChildDefault.status, 200, JSON.stringify(parentSingleChildDefault.body));
+      assert.equal(
+        parentSingleChildDefault.body.student?.id,
+        ids.student,
+        "a parent with exactly one verified linked child may default to that child",
+      );
+
       const parentUnverifiedChild = await requestAnalytics(tokens.parent, ids.unverifiedStudent);
       assert.equal(parentUnverifiedChild.status, 403, "an unverified legacy link must not authorize a report");
 
@@ -251,11 +267,11 @@ integrationTest(
       await stopServer(server);
       if (client) {
         try {
-          await client.query("DELETE FROM sessions WHERE id = ANY($1::text[])", [[ids.teacherSession, ids.studentSession, ids.parentSession]]);
-          await client.query("DELETE FROM parent_links WHERE id = ANY($1::text[])", [[ids.linkStudent, ids.linkOtherStudent, ids.linkUnverified]]);
+          await client.query("DELETE FROM sessions WHERE id = ANY($1::text[])", [[ids.teacherSession, ids.studentSession, ids.parentSession, ids.parentSingleSession]]);
+          await client.query("DELETE FROM parent_links WHERE id = ANY($1::text[])", [[ids.linkStudent, ids.linkOtherStudent, ids.linkUnverified, ids.linkSingle]]);
           await client.query("DELETE FROM enrollments WHERE id = ANY($1::text[])", [[ids.enrollmentOwned, ids.enrollmentOtherStudent, ids.enrollmentStudentOtherCourse]]);
           await client.query("DELETE FROM courses WHERE id = ANY($1::text[])", [[ids.ownedCourse, ids.otherCourse]]);
-          await client.query("DELETE FROM users WHERE id = ANY($1::text[])", [[ids.teacher, ids.otherTeacher, ids.student, ids.otherStudent, ids.unverifiedStudent, ids.parent, ids.admin]]);
+          await client.query("DELETE FROM users WHERE id = ANY($1::text[])", [[ids.teacher, ids.otherTeacher, ids.student, ids.otherStudent, ids.unverifiedStudent, ids.parent, ids.parentSingle, ids.admin]]);
         } catch {
           // The CI database is disposable; cleanup is best-effort if schema setup failed.
         } finally {
