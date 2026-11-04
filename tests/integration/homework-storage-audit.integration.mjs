@@ -79,3 +79,63 @@ integrationTest("homework audit transaction keeps a stable snapshot and rejects 
     if (adminConnected) await admin.end();
   }
 });
+
+integrationTest("homework audit scans legacy public Blob references and returns counts without leaking paths", async () => {
+  assertLocalTestDatabase(connectionString);
+
+  const client = new Client({ connectionString });
+  let connected = false;
+  let transactionStarted = false;
+
+  try {
+    await client.connect();
+    connected = true;
+
+    // A session-local temp table shadows any real homework_submissions table.
+    // Synthetic rows only: this test never reads or writes application submissions.
+    await client.query("CREATE TEMP TABLE homework_submissions (id TEXT PRIMARY KEY, storage_path TEXT)");
+    await client.query(
+      "INSERT INTO homework_submissions (id, storage_path) VALUES ($1, $2), ($3, $4), ($5, $6)",
+      [
+        "audit-test-private",
+        "homework/synthetic-private.pdf",
+        "audit-test-public",
+        "https://store-id.public.blob.vercel-storage.com/homework/synthetic-student-secret.pdf",
+        "audit-test-other-url",
+        "https://example.invalid/synthetic-student-secret.pdf",
+      ],
+    );
+
+    await beginConsistentReadOnlyHomeworkAudit(client);
+    transactionStarted = true;
+    const summary = await scanHomeworkStorageReferences(client, { batchSize: 2 });
+    const report = buildHomeworkStorageAuditReport("local", summary);
+    const serialized = JSON.stringify(report);
+
+    assert.deepEqual(summary, {
+      totalRows: 3,
+      empty: 0,
+      privatePath: 1,
+      vercelPublicBlobUrlNeedsReview: 1,
+      absoluteUrlNeedsReview: 1,
+      unknownOrMalformed: 0,
+    });
+    assert.doesNotMatch(
+      serialized,
+      /audit-test-|synthetic-student-secret|public\\.blob\\.vercel-storage\\.com|example\\.invalid/,
+      "the audit result must contain aggregate counts, not row IDs or stored references",
+    );
+  } finally {
+    if (connected) {
+      if (transactionStarted) {
+        try {
+          await client.query("ROLLBACK");
+        } catch {
+          // Preserve the original test failure if rollback is unavailable.
+        }
+      }
+      await client.end();
+    }
+  }
+});
+
