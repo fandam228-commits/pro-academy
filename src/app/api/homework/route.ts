@@ -73,7 +73,16 @@ export async function GET(req: Request) {
       return NextResponse.json({ error: "Forbidden" }, { status: 403 });
     }
 
-    // Students see homework for their grade and their own submission status only.
+    // Students see homework only when their current grade and course enrollment authorize it.
+    const enrollmentRows = await db
+      .select({ courseId: enrollments.courseId })
+      .from(enrollments)
+      .innerJoin(courses, eq(enrollments.courseId, courses.id))
+      .where(and(
+        eq(enrollments.studentId, ctx.user.id),
+        inArray(enrollments.status, ["active", "completed"]),
+      ));
+    const enrolledCourseIds = [...new Set(enrollmentRows.map((row) => row.courseId))];
     let list = await db.select().from(homework);
     list = list.filter((assignment) =>
       canAccessHomeworkGrade({
