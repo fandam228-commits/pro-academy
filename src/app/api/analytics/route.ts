@@ -520,10 +520,10 @@ export async function GET(req: Request) {
           isNotNull(parentLinks.verifiedBy),
         ));
       const linkedParentStudentIds = getVerifiedParentAnalyticsStudentIds(links);
-      if (linkedParentStudentIds.length === 0) {
+      if (!requestedStudent && linkedParentStudentIds.length === 0) {
         return NextResponse.json({ error: "No linked student" }, { status: 404 });
       }
-      if (!requestedStudent && allLinkedStudentIds.length > 1) {
+      if (!requestedStudent && linkedParentStudentIds.length > 0 && allLinkedStudentIds.length > 1) {
         return NextResponse.json({ error: "studentId is required when multiple students are linked" }, { status: 400 });
       }
       const resolution = resolveParentAnalyticsStudentId(requestedStudent, linkedParentStudentIds);
