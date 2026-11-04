@@ -323,6 +323,17 @@ integrationTest(
       assert.equal(parentStaleStudentRole.status, 403, "a link to an account that is no longer a student must fail closed");
       await client.query("UPDATE users SET role = 'student' WHERE id = $1", [ids.otherStudent]);
 
+      // A session must not retain teacher analytics privileges after the account role is downgraded.
+      // getAuthContext must use the current database role rather than the role captured when the session was created.
+      await client.query("UPDATE users SET role = 'student' WHERE id = $1", [ids.teacher]);
+      const staleTeacherRole = await requestAnalytics(tokens.teacher, ids.student);
+      assert.equal(
+        staleTeacherRole.status,
+        403,
+        "a stale teacher session must not retain analytics access after the account role changes",
+      );
+      await client.query("UPDATE users SET role = 'teacher' WHERE id = $1", [ids.teacher]);
+
       await client.query("UPDATE users SET role = 'teacher' WHERE id = $1", [ids.parent]);
       const staleParentRole = await requestAnalytics(tokens.parent, ids.student);
       assert.equal(staleParentRole.status, 403, "a stale parent session must not authorize reports after the account role changes");
