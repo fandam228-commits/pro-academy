@@ -12,11 +12,12 @@ import {
   courses,
   parentLinks,
 } from "@/db/schema";
-import { eq } from "drizzle-orm";
+import { and, eq, inArray } from "drizzle-orm";
 import { NextResponse } from "next/server";
 import { ensureDbSetup } from "@/db/migrate-and-seed";
 import { getAuthContext } from "@/lib/security";
 import { canAccessStudentAnalytics } from "@/lib/analytics-authorization.mjs";
+import { filterParentLinkedStudentIds } from "@/lib/analytics-parent-selection.mjs";
 import { resolveParentAnalyticsStudent } from "@/lib/analytics-parent-selection.mjs";
 import { attendanceRate, calculatePerformanceIndex, homeworkCompletion } from "@/lib/analytics-metrics.mjs";
 
@@ -313,7 +314,17 @@ export async function GET(req: Request) {
     // ---------- PARENT: linked student report ----------
     if (role === "parent") {
       const links = await db.select().from(parentLinks).where(eq(parentLinks.parentId, ctx.user.id));
-      const linkedStudentIds = links.map((link) => link.studentId);
+      const linkedIds = [...new Set(links.map((link) => link.studentId))];
+      const studentAccountRows = linkedIds.length
+        ? await db
+            .select({ id: users.id })
+            .from(users)
+            .where(and(inArray(users.id, linkedIds), eq(users.role, "student")))
+        : [];
+      const linkedStudentIds = filterParentLinkedStudentIds(
+        links.map((link) => link.studentId),
+        studentAccountRows.map((student) => student.id),
+      );
       const selection = resolveParentAnalyticsStudent(requestedStudent, linkedStudentIds);
       if (selection.status === "missing") return NextResponse.json({ error: "No linked student" }, { status: 404 });
       if (selection.status === "ambiguous") {
