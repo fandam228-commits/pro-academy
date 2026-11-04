@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { resolveParentAnalyticsStudent } from "./analytics-parent-selection.mjs";
+import { filterParentLinkedStudentIds, resolveParentAnalyticsStudent } from "./analytics-parent-selection.mjs";
 
 test("one linked student is selected by default", () => {
   assert.deepEqual(resolveParentAnalyticsStudent(null, ["student-1"]), {
@@ -41,4 +41,20 @@ test("malformed link data and empty explicit selections fail closed", () => {
   assert.deepEqual(resolveParentAnalyticsStudent(null, "student-1"), { status: "missing" });
   assert.deepEqual(resolveParentAnalyticsStudent(null, ["student-1", null]), { status: "missing" });
   assert.deepEqual(resolveParentAnalyticsStudent("", ["student-1"]), { status: "missing" });
+});
+
+
+test("parent analytics ignores linked IDs that do not resolve to student accounts", () => {
+  assert.deepEqual(
+    filterParentLinkedStudentIds(
+      ["student-1", "teacher-1", "missing-user", "student-1"],
+      ["student-1"],
+    ),
+    ["student-1"],
+  );
+});
+
+test("parent analytics fails closed on malformed student-account lookup data", () => {
+  assert.deepEqual(filterParentLinkedStudentIds(["student-1"], null), []);
+  assert.deepEqual(filterParentLinkedStudentIds(null, ["student-1"]), []);
 });
