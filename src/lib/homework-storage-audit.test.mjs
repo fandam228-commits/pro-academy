@@ -1,0 +1,275 @@
+import test from "node:test";
+import assert from "node:assert/strict";
+import {
+  assertSafeHomeworkAuditTarget,
+  beginConsistentReadOnlyHomeworkAudit,
+  classifyHomeworkStoragePath,
+  summarizeHomeworkStoragePaths,
+  mergeHomeworkStoragePathSummaries,
+  scanHomeworkStorageReferences,
+  buildHomeworkStorageAuditReport,
+} from "./homework-storage-audit.mjs";
+
+test("storage audit classifies empty and private homework paths without exposing values", () => {
+  assert.equal(classifyHomeworkStoragePath(null), "empty");
+  assert.equal(classifyHomeworkStoragePath("  "), "empty");
+  assert.equal(classifyHomeworkStoragePath("homework/submission-123.pdf"), "private-path");
+  assert.equal(classifyHomeworkStoragePath("homework/nested/submission-123.pdf"), "private-path");
+});
+
+test("known Vercel public Blob hosts are separated from other absolute URLs without exposing values", () => {
+  assert.equal(
+    classifyHomeworkStoragePath("https://store-id.public.blob.vercel-storage.com/homework/file.pdf"),
+    "vercel-public-blob-url-needs-review",
+  );
+  assert.equal(
+    classifyHomeworkStoragePath("https://public.blob.vercel-storage.com/homework/file.pdf"),
+    "vercel-public-blob-url-needs-review",
+  );
+  assert.equal(
+    classifyHomeworkStoragePath("https://store-id.public.blob.vercel-storage.com./homework/file.pdf"),
+    "vercel-public-blob-url-needs-review",
+    "a DNS trailing-dot hostname must not evade the higher-priority public Blob review counter",
+  );
+  assert.equal(
+    classifyHomeworkStoragePath("https://example.invalid/student-file.pdf"),
+    "absolute-url-needs-review",
+  );
+  assert.equal(
+    classifyHomeworkStoragePath("HTTP://example.invalid/student-file.pdf"),
+    "absolute-url-needs-review",
+  );
+  assert.equal(
+    classifyHomeworkStoragePath("https://store-id.blob.vercel-storage.com/file.pdf"),
+    "absolute-url-needs-review",
+    "other hostnames must not be classified as known public Blob hosts",
+  );
+});
+
+test("malformed paths and traversal attempts are never classified as private", () => {
+  for (const value of [
+    "homework/../secrets.pdf",
+    "homework/%2e%2e/secrets.pdf",
+    "homework/%2Fescape.pdf",
+    "homework/%ZZ/file.pdf",
+    "homework//file.pdf",
+    "homework/file.pdf?token=secret",
+    "homework\\file.pdf",
+    "other/file.pdf",
+    "file.pdf",
+  ]) {
+    assert.equal(classifyHomeworkStoragePath(value), "unknown-or-malformed", value);
+  }
+});
+
+test("audit summary reports aggregate counts only", () => {
+  assert.deepEqual(
+    summarizeHomeworkStoragePaths([
+      null,
+      "homework/file.pdf",
+      "https://example.invalid/private.pdf",
+      "https://store-id.public.blob.vercel-storage.com/homework/legacy.pdf",
+      "homework/../escape.pdf",
+      "homework/%2e%2e/escape.pdf",
+      "",
+    ]),
+    {
+      totalRows: 7,
+      empty: 2,
+      privatePath: 1,
+      vercelPublicBlobUrlNeedsReview: 1,
+      absoluteUrlNeedsReview: 1,
+      unknownOrMalformed: 2,
+    },
+  );
+});
+
+
+
+test("audit summaries can be combined across bounded batches without retaining paths", () => {
+  const firstBatch = summarizeHomeworkStoragePaths([
+    null,
+    "homework/first.pdf",
+    "https://example.invalid/legacy.pdf",
+    "https://store-id.public.blob.vercel-storage.com/homework/legacy.pdf",
+  ]);
+  const secondBatch = summarizeHomeworkStoragePaths([
+    "homework/%2e%2e/escape.pdf",
+    "  ",
+  ]);
+
+  assert.deepEqual(
+    mergeHomeworkStoragePathSummaries(firstBatch, secondBatch),
+    {
+      totalRows: 6,
+      empty: 2,
+      privatePath: 1,
+      vercelPublicBlobUrlNeedsReview: 1,
+      absoluteUrlNeedsReview: 1,
+      unknownOrMalformed: 1,
+    },
+  );
+});
+
+test("storage audit scans bounded keyset batches and returns aggregate counts only", async () => {
+  const queries = [];
+  const batches = [
+    {
+      rows: [
+        { id: "submission-a", storage_path: "homework/a.pdf" },
+        { id: "submission-b", storage_path: "https://store-id.public.blob.vercel-storage.com/legacy.pdf" },
+      ],
+    },
+    {
+      rows: [
+        { id: "submission-c", storage_path: "https://example.invalid/legacy.pdf" },
+      ],
+    },
+  ];
+  const client = {
+    async query(statement, params) {
+      queries.push({ statement, params });
+      assert.match(statement, /^SELECT id, storage_path FROM homework_submissions/);
+      const next = batches.shift();
+      return next ?? { rows: [] };
+    },
+  };
+
+  const summary = await scanHomeworkStorageReferences(client, { batchSize: 2 });
+
+  assert.deepEqual(summary, {
+    totalRows: 3,
+    empty: 0,
+    privatePath: 1,
+    vercelPublicBlobUrlNeedsReview: 1,
+    absoluteUrlNeedsReview: 1,
+    unknownOrMalformed: 0,
+  });
+  assert.equal(queries.length, 2, "a short final batch should stop the scan");
+  assert.deepEqual(queries[0].params, [2]);
+  assert.deepEqual(queries[1].params, ["submission-b", 2]);
+  assert.match(queries[1].statement, /WHERE id > \$1 ORDER BY id ASC LIMIT \$2/);
+  assert.deepEqual(Object.keys(summary), [
+    "totalRows",
+    "empty",
+    "privatePath",
+    "vercelPublicBlobUrlNeedsReview",
+    "absoluteUrlNeedsReview",
+    "unknownOrMalformed",
+  ]);
+  assert.doesNotMatch(JSON.stringify(summary), /submission-|legacy\.pdf|example\.invalid/);
+});
+
+test("storage audit scan rejects invalid batch sizes and malformed database results", async () => {
+  const client = { async query() { return { rows: [] }; } };
+  for (const batchSize of [0, -1, 1.5, 5001, Number.MAX_SAFE_INTEGER + 1]) {
+    await assert.rejects(
+      () => scanHomeworkStorageReferences(client, { batchSize }),
+      /batchSize must be a safe integer/,
+    );
+  }
+  await assert.rejects(
+    () => scanHomeworkStorageReferences({ async query() { return {}; } }),
+    /rows array/,
+  );
+  await assert.rejects(
+    () => scanHomeworkStorageReferences({ async query() { return { rows: [{ storage_path: "homework/a.pdf" }] }; } }),
+    /malformed row/,
+  );
+});
+
+test("storage audit fails closed when any batch row is malformed or duplicated", async () => {
+  const malformedBatches = [
+    [{ id: "submission-a", storage_path: "homework/a.pdf" }, { id: "submission-b" }],
+    [{ id: "submission-a", storage_path: "homework/a.pdf" }, { storage_path: "homework/b.pdf" }],
+    [{ id: "submission-a", storage_path: "homework/a.pdf" }, { id: "submission-a", storage_path: "homework/duplicate.pdf" }],
+  ];
+
+  for (const rows of malformedBatches) {
+    const client = {
+      async query() {
+        return { rows };
+      },
+    };
+    await assert.rejects(
+      () => scanHomeworkStorageReferences(client, { batchSize: 2 }),
+      /malformed row|cursor did not advance/,
+    );
+  }
+});
+
+test("audit target requires a PostgreSQL URL and defaults to local databases only", () => {
+  assert.throws(() => assertSafeHomeworkAuditTarget(""), /DATABASE_URL is required/);
+  assert.throws(() => assertSafeHomeworkAuditTarget("https://example.invalid/db"), /postgres/);
+  assert.equal(
+    assertSafeHomeworkAuditTarget("postgresql://audit:password@localhost/proacademy"),
+    "local",
+  );
+  assert.equal(
+    assertSafeHomeworkAuditTarget("postgresql://audit:password@127.0.0.1/proacademy"),
+    "local",
+  );
+  assert.throws(
+    () => assertSafeHomeworkAuditTarget("postgresql://audit:password@db.example.invalid/proacademy"),
+    /Refusing a non-local database/,
+  );
+});
+
+test("remote audit requires explicit opt-in and remains documented as read-only", () => {
+  assert.equal(
+    assertSafeHomeworkAuditTarget("postgresql://audit:password@db.example.invalid/proacademy", true),
+    "remote-read-only-opt-in",
+  );
+});
+
+
+test("read-only storage audit uses one repeatable-read snapshot across batches", async () => {
+  const statements = [];
+  await beginConsistentReadOnlyHomeworkAudit({
+    async query(statement) {
+      statements.push(statement);
+    },
+  });
+  assert.deepEqual(statements, [
+    "BEGIN TRANSACTION ISOLATION LEVEL REPEATABLE READ READ ONLY",
+  ]);
+});
+
+test("read-only storage audit refuses a client without a query method", async () => {
+  await assert.rejects(
+    () => beginConsistentReadOnlyHomeworkAudit(null),
+    /PostgreSQL-compatible client is required/,
+  );
+});
+
+
+test("serialized audit report allowlists aggregate counts and never exposes paths or student identifiers", () => {
+  const privateUrl = "https://blob.example.invalid/private/student-secret-9281.pdf";
+  const knownPublicUrl = "https://store-id.public.blob.vercel-storage.com/homework/student-secret-9281.pdf";
+  const studentPath = "homework/student-secret-9281.pdf";
+  const counts = summarizeHomeworkStoragePaths([privateUrl, knownPublicUrl, studentPath]);
+  const report = buildHomeworkStorageAuditReport("local", {
+    ...counts,
+    rawPath: studentPath,
+    url: privateUrl,
+    studentId: "student-secret-9281",
+  });
+  const serialized = JSON.stringify(report);
+
+  assert.doesNotMatch(serialized, /blob\.example\.invalid|public\.blob\.vercel-storage\.com|student-secret-9281/);
+  assert.deepEqual(Object.keys(report), [
+    "auditMode",
+    "databaseScope",
+    "totalRows",
+    "empty",
+    "privatePath",
+    "vercelPublicBlobUrlNeedsReview",
+    "absoluteUrlNeedsReview",
+    "unknownOrMalformed",
+    "note",
+  ]);
+  assert.equal(report.totalRows, 3);
+  assert.equal(report.privatePath, 1);
+  assert.equal(report.vercelPublicBlobUrlNeedsReview, 1);
+  assert.equal(report.absoluteUrlNeedsReview, 1);
+});
