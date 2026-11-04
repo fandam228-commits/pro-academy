@@ -313,6 +313,17 @@ integrationTest(
       const staleParentRole = await requestAnalytics(tokens.parent, ids.student);
       assert.equal(staleParentRole.status, 403, "a stale parent session must not authorize reports after the account role changes");
       await client.query("UPDATE users SET role = 'parent' WHERE id = $1", [ids.parent]);
+
+      // A verification stamp is not sufficient if its recorded verifier no longer has the admin role.
+      // The report route must revalidate the verifier's current database role on every request.
+      await client.query("UPDATE users SET role = 'teacher' WHERE id = $1", [ids.admin]);
+      const staleVerifierRole = await requestAnalytics(tokens.parent, ids.student);
+      assert.equal(
+        staleVerifierRole.status,
+        403,
+        "a previously verified parent link must fail closed when the verifying account is no longer an admin",
+      );
+      await client.query("UPDATE users SET role = 'admin' WHERE id = $1", [ids.admin]);
     } finally {
       await stopServer(server);
       if (client) {
