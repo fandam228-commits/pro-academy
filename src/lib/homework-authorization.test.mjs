@@ -233,21 +233,37 @@ test("student homework GET and submission routes both enforce course enrollment"
   const studentList = route.slice(studentListStart, studentListEnd);
   assert.match(studentList, /canAccessHomeworkGrade/,
     "grade-specific assignments must use the fail-closed student-grade policy");
-  assert.doesNotMatch(studentList, /!myGrade\s*\|\|/,
+  assert.doesNotMatch(studentList, /!myGrade\\s*\\|\\|/,
     "a missing student grade must not expose every grade-specific assignment");
   assert.match(studentList, /canAccessHomeworkCourse/);
-  assert.match(studentList, /\.from\(enrollments\)/);
-  assert.match(studentList, /inArray\(enrollments\.status, \["active", "completed"\]\)/);
+  assert.match(studentList, /enrolledCourseIds/,
+    "the list filter must use course IDs resolved from enrollment records");
+
+  const listEnrollmentStart = route.indexOf("const enrollmentRows = await db");
+  assert.ok(listEnrollmentStart >= 0 && studentListStart > listEnrollmentStart,
+    "the enrollment lookup must happen before filtering the student homework list");
+  const listEnrollmentQuery = route.slice(listEnrollmentStart, studentListStart);
+  assert.match(listEnrollmentQuery, /\\.from\\(enrollments\\)/);
+  assert.match(listEnrollmentQuery, /\\.innerJoin\\(courses/);
+  assert.match(listEnrollmentQuery, /eq\\(enrollments\\.studentId, ctx\\.user\\.id\\)/);
+  assert.match(listEnrollmentQuery, /inArray\\(enrollments\\.status, \\["active", "completed"\\]\\)/,
+    "only active or completed enrollments may authorize course-specific homework");
 
   const submitStart = route.indexOf('if (contentType.includes("multipart/form-data"))');
   const submitEnd = route.indexOf("// ============ JSON ACTIONS", submitStart);
   assert.ok(submitStart >= 0 && submitEnd > submitStart);
   const submitRoute = route.slice(submitStart, submitEnd);
+  const submissionEnrollmentStart = submitRoute.indexOf("const submissionEnrollmentRows = homeworkCourseId");
   const enrollmentGuard = submitRoute.indexOf("canAccessHomeworkCourse(");
   const upload = submitRoute.indexOf("await put(");
   const persist = submitRoute.indexOf("await db.insert(homeworkSubmissions).values(sub)");
-  assert.ok(enrollmentGuard >= 0 && upload > enrollmentGuard && persist > enrollmentGuard,
-    "course enrollment must be checked before file upload or submission persistence");
+  assert.ok(submissionEnrollmentStart >= 0 && enrollmentGuard > submissionEnrollmentStart &&
+    upload > enrollmentGuard && persist > enrollmentGuard,
+    "course enrollment must be resolved and checked before file upload or submission persistence");
+  assert.match(submitRoute, /\\.from\\(enrollments\\)/);
+  assert.match(submitRoute, /eq\\(enrollments\\.studentId, ctx\\.user\\.id\\)/);
+  assert.match(submitRoute, /eq\\(enrollments\\.courseId, homeworkCourseId\\)/);
+  assert.match(submitRoute, /inArray\\(enrollments\\.status, \\["active", "completed"\\]\\)/);
 });
 
 
