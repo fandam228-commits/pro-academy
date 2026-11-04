@@ -96,6 +96,31 @@ export function getVerifiedParentAnalyticsStudentIds(linkRows) {
   return [...new Set(verifiedIds)];
 }
 
+
+/**
+ * Derive both the ambiguity set and the authorization set from one database
+ * result. Keeping these sets tied to the same query snapshot prevents a link
+ * inserted between two separate reads from silently changing the default child.
+ */
+export function getParentAnalyticsSelectionData(linkRows) {
+  if (!Array.isArray(linkRows)) {
+    return { allLinkedStudentIds: [], verifiedStudentIds: [] };
+  }
+
+  const validRows = linkRows.filter((row) =>
+    row &&
+    typeof row === "object" &&
+    isNonEmptyString(row.studentId)
+  );
+  const allLinkedStudentIds = [...new Set(validRows.map((row) => row.studentId))];
+  const verifiedRows = validRows.filter((row) => row.verifierRole === "admin");
+
+  return {
+    allLinkedStudentIds,
+    verifiedStudentIds: getVerifiedParentAnalyticsStudentIds(verifiedRows),
+  };
+}
+
 /**
  * Resolve the student a parent may view without silently choosing among children.
  * The caller must supply parent-link IDs read from the database.
