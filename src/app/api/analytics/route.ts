@@ -13,7 +13,7 @@ import {
   courses,
   parentLinks,
 } from "@/db/schema";
-import { and, eq, inArray, isNotNull } from "drizzle-orm";
+import { and, eq, inArray } from "drizzle-orm";
 import { alias } from "drizzle-orm/pg-core";
 import { NextResponse } from "next/server";
 import { ensureDbSetup } from "@/db/migrate-and-seed";
@@ -25,7 +25,7 @@ import {
   getTeacherAnalyticsCourseIds,
   isHomeworkGradeVisibleToStudent,
   resolveParentAnalyticsStudentId,
-  getVerifiedParentAnalyticsStudentIds,
+  getParentAnalyticsSelectionData,
 } from "@/lib/analytics-report-scope.mjs";
 
 const verifiedByUser = alias(users, "verified_by_user");
@@ -483,28 +483,37 @@ export async function GET(req: Request) {
 
     // ---------- PARENT: linked student report ----------
     if (role === "parent") {
-      // Only admin-verified links may authorize parent-facing student reports.
-      // Existing legacy links without verification metadata fail closed.
-      const links = await db
+      // Read all current student links and verifier roles in one statement. The
+      // ambiguity set and verified authorization set therefore share one database
+      // snapshot; separate reads could race with a newly inserted legacy link.
+      const parentLinkRows = await db
         .select({
           studentId: parentLinks.studentId,
           verifiedAt: parentLinks.verifiedAt,
           verifiedBy: parentLinks.verifiedBy,
+          verifierRole: verifiedByUser.role,
         })
         .from(parentLinks)
         .innerJoin(parentAccount, eq(parentLinks.parentId, parentAccount.id))
         .innerJoin(users, eq(parentLinks.studentId, users.id))
-        .innerJoin(verifiedByUser, eq(parentLinks.verifiedBy, verifiedByUser.id))
+        .leftJoin(verifiedByUser, eq(parentLinks.verifiedBy, verifiedByUser.id))
         .where(and(
           eq(parentLinks.parentId, ctx.user.id),
-          // Revalidate the parent account in the database; a stale session role is not enough.
+          // Revalidate the parent and student accounts in the database; stale
+          // session roles or malformed legacy relationships must fail closed.
           eq(parentAccount.role, "parent"),
           eq(users.role, "student"),
-          eq(verifiedByUser.role, "admin"),
-          isNotNull(parentLinks.verifiedAt),
-          isNotNull(parentLinks.verifiedBy),
         ));
-      const linkedParentStudentIds = getVerifiedParentAnalyticsStudentIds(links);
+      const {
+        allLinkedStudentIds,
+        verifiedStudentIds: linkedParentStudentIds,
+      } = getParentAnalyticsSelectionData(parentLinkRows);
+      if (!requestedStudent && linkedParentStudentIds.length === 0) {
+        return NextResponse.json({ error: "No linked student" }, { status: 404 });
+      }
+      if (!requestedStudent && linkedParentStudentIds.length > 0 && allLinkedStudentIds.length > 1) {
+        return NextResponse.json({ error: "studentId is required when multiple students are linked" }, { status: 400 });
+      }
       const resolution = resolveParentAnalyticsStudentId(requestedStudent, linkedParentStudentIds);
 
       if (!resolution.ok) {

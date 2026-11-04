@@ -2,6 +2,8 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 
+const analyticsScopeSource = await readFile(new URL("./analytics-report-scope.mjs", import.meta.url), "utf8");
+
 const routeFiles = {
   reports: await readFile(new URL("../app/api/reports/route.ts", import.meta.url), "utf8"),
   attendance: await readFile(new URL("../app/api/attendance/route.ts", import.meta.url), "utf8"),
@@ -132,11 +134,15 @@ test("analytics parent reports require a verified link and explicit selection fo
   assert.ok(parentStart >= 0 && studentStart > parentStart, "parent analytics branch must exist");
   const parentBranch = source.slice(parentStart, studentStart);
 
-  assert.match(parentBranch, /innerJoin\(verifiedByUser, eq\(parentLinks\.verifiedBy, verifiedByUser\.id\)\)/);
-  assert.match(parentBranch, /eq\(verifiedByUser\.role, "admin"\)/);
+  assert.match(parentBranch, /\.leftJoin\(verifiedByUser, eq\(parentLinks\.verifiedBy, verifiedByUser\.id\)\)/);
+  assert.match(parentBranch, /verifierRole:\s*verifiedByUser\.role/);
+  assert.match(parentBranch, /eq\(parentAccount\.role, "parent"\)/);
   assert.match(parentBranch, /eq\(users\.role, "student"\)/);
-  assert.match(parentBranch, /isNotNull\(parentLinks\.verifiedAt\)/);
+  assert.match(parentBranch, /getParentAnalyticsSelectionData\(parentLinkRows\)/);
+  assert.match(parentBranch, /allLinkedStudentIds\.length > 1/);
   assert.match(parentBranch, /resolveParentAnalyticsStudentId\(requestedStudent, linkedParentStudentIds\)/);
+  assert.match(analyticsScopeSource, /row\.verifierRole === "admin"/);
+  assert.match(analyticsScopeSource, /getVerifiedParentAnalyticsStudentIds\(verifiedRows\)/);
   assert.match(parentBranch, /student-id-required/);
   assert.doesNotMatch(parentBranch, /links\s*\[\s*0\s*\]\s*\??\.\s*studentId/,
     "analytics must never silently choose the first linked child");

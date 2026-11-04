@@ -13,6 +13,12 @@ export function isHomeworkGradeVisibleToStudent(homeworkGrade: unknown, studentG
 export function isCourseScopedQuiz(quiz: unknown, allowedCourseIds: unknown): boolean;
 export function getVerifiedParentAnalyticsStudentIds(linkRows: unknown): string[];
 
+export interface ParentAnalyticsSelectionData {
+  allLinkedStudentIds: string[];
+  verifiedStudentIds: string[];
+}
+export function getParentAnalyticsSelectionData(linkRows: unknown): ParentAnalyticsSelectionData;
+
 export type ParentAnalyticsStudentResolution =
   | { ok: true; studentId: string }
   | {

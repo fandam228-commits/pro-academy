@@ -45,6 +45,7 @@ integrationTest(
       unverifiedStudent: id("unverified_student"),
       parent: id("parent"),
       parentSingle: id("parent_single"),
+      parentMixed: id("parent_mixed"),
       admin: id("admin"),
       ownedCourse: id("owned_course"),
       otherCourse: id("other_course"),
@@ -59,16 +60,21 @@ integrationTest(
       linkOtherStudent: id("link_other_student"),
       linkUnverified: id("link_unverified"),
       linkSingle: id("link_single"),
+      linkSingleDuplicate: id("link_single_duplicate"),
+      linkMixedVerified: id("link_mixed_verified"),
+      linkMixedUnverified: id("link_mixed_unverified"),
       teacherSession: id("session_teacher"),
       studentSession: id("session_student"),
       parentSession: id("session_parent"),
       parentSingleSession: id("session_parent_single"),
+      parentMixedSession: id("session_parent_mixed"),
     };
     const tokens = {
       teacher: token("teacher"),
       student: token("student"),
       parent: token("parent"),
       parentSingle: token("parent_single"),
+      parentMixed: token("parent_mixed"),
     };
 
     const port = 31000 + (process.pid % 10000);
@@ -152,6 +158,7 @@ integrationTest(
         [ids.unverifiedStudent, "Unverified Student HTTP Test", `unverified-student-${suffix}@example.test`, "test-only-password", "student", "Third Secondary"],
         [ids.parent, "Parent HTTP Test", `parent-${suffix}@example.test`, "test-only-password", "parent", null],
         [ids.parentSingle, "Single Child Parent HTTP Test", `single-parent-${suffix}@example.test`, "test-only-password", "parent", null],
+        [ids.parentMixed, "Mixed Verification Parent HTTP Test", `mixed-parent-${suffix}@example.test`, "test-only-password", "parent", null],
         [ids.admin, "Admin HTTP Test", `admin-${suffix}@example.test`, "test-only-password", "admin", null],
       ];
       for (const row of fixtureUsers) {
@@ -201,19 +208,30 @@ integrationTest(
          VALUES ($1, $2, $3, 'Guardian', NOW(), $4),
                 ($5, $2, $6, 'Guardian', NOW(), $4),
                 ($7, $2, $8, 'Guardian', NULL, NULL),
-                ($9, $10, $11, 'Guardian', NOW(), $12)`,
+                ($9, $10, $11, 'Guardian', NOW(), $12),
+                ($13, $14, $15, 'Guardian', NOW(), $16),
+                ($17, $14, $18, 'Guardian', NULL, NULL)`,
         [
           ids.linkStudent, ids.parent, ids.student, ids.admin,
           ids.linkOtherStudent, ids.otherStudent,
           ids.linkUnverified, ids.unverifiedStudent,
           ids.linkSingle, ids.parentSingle, ids.student, ids.admin,
+          ids.linkMixedVerified, ids.parentMixed, ids.student, ids.admin,
+          ids.linkMixedUnverified, ids.unverifiedStudent,
         ],
+      );
+      // Duplicate verified rows for the same child must still represent one distinct child.
+      await client.query(
+        `INSERT INTO parent_links (id, parent_id, student_id, relationship, verified_at, verified_by)
+         VALUES ($1, $2, $3, 'Guardian', NOW(), $4)`,
+        [ids.linkSingleDuplicate, ids.parentSingle, ids.student, ids.admin],
       );
       const sessions = [
         [ids.teacherSession, tokens.teacher, ids.teacher, "teacher"],
         [ids.studentSession, tokens.student, ids.student, "student"],
         [ids.parentSession, tokens.parent, ids.parent, "parent"],
         [ids.parentSingleSession, tokens.parentSingle, ids.parentSingle, "parent"],
+        [ids.parentMixedSession, tokens.parentMixed, ids.parentMixed, "parent"],
       ];
       for (const [sessionId, sessionToken, userId, role] of sessions) {
         await client.query(
@@ -298,8 +316,22 @@ integrationTest(
       assert.equal(
         parentSingleChildDefault.body.student?.id,
         ids.student,
-        "a parent with exactly one verified linked child may default to that child",
+        "a parent with exactly one linked child may default to that child",
       );
+
+      // A second legacy link still makes the parent's selection ambiguous even if
+      // only one of the linked children has an admin-verified relationship.
+      const parentMixedWithoutSelection = await requestAnalytics(tokens.parentMixed);
+      assert.equal(
+        parentMixedWithoutSelection.status,
+        400,
+        "parent must explicitly select when multiple children are linked, including an unverified legacy link",
+      );
+      const parentMixedVerifiedChild = await requestAnalytics(tokens.parentMixed, ids.student);
+      assert.equal(parentMixedVerifiedChild.status, 200, JSON.stringify(parentMixedVerifiedChild.body));
+      assert.equal(parentMixedVerifiedChild.body.student?.id, ids.student);
+      const parentMixedUnverifiedChild = await requestAnalytics(tokens.parentMixed, ids.unverifiedStudent);
+      assert.equal(parentMixedUnverifiedChild.status, 403, "explicit selection must still reject an unverified linked child");
 
       const parentUnverifiedChild = await requestAnalytics(tokens.parent, ids.unverifiedStudent);
       assert.equal(parentUnverifiedChild.status, 403, "an unverified legacy link must not authorize a report");
@@ -363,14 +395,14 @@ integrationTest(
       await stopServer(server);
       if (client) {
         try {
-          await client.query("DELETE FROM sessions WHERE id = ANY($1::text[])", [[ids.teacherSession, ids.studentSession, ids.parentSession, ids.parentSingleSession]]);
-          await client.query("DELETE FROM parent_links WHERE id = ANY($1::text[])", [[ids.linkStudent, ids.linkOtherStudent, ids.linkUnverified, ids.linkSingle]]);
+          await client.query("DELETE FROM sessions WHERE id = ANY($1::text[])", [[ids.teacherSession, ids.studentSession, ids.parentSession, ids.parentSingleSession, ids.parentMixedSession]]);
+          await client.query("DELETE FROM parent_links WHERE id = ANY($1::text[])", [[ids.linkStudent, ids.linkOtherStudent, ids.linkUnverified, ids.linkSingle, ids.linkSingleDuplicate, ids.linkMixedVerified, ids.linkMixedUnverified]]);
           await client.query("DELETE FROM quiz_submissions WHERE id = $1", [ids.otherCourseQuizSubmission]);
           await client.query("DELETE FROM quizzes WHERE id = $1", [ids.otherCourseQuiz]);
           await client.query("DELETE FROM attendance_records WHERE id = $1", [ids.attendanceRecord]);
           await client.query("DELETE FROM enrollments WHERE id = ANY($1::text[])", [[ids.enrollmentOwned, ids.enrollmentOtherStudent, ids.enrollmentStudentOtherCourse, ids.enrollmentCancelled]]);
           await client.query("DELETE FROM courses WHERE id = ANY($1::text[])", [[ids.ownedCourse, ids.otherCourse]]);
-          await client.query("DELETE FROM users WHERE id = ANY($1::text[])", [[ids.teacher, ids.otherTeacher, ids.student, ids.otherStudent, ids.unlinkedStudent, ids.unverifiedStudent, ids.parent, ids.parentSingle, ids.admin]]);
+          await client.query("DELETE FROM users WHERE id = ANY($1::text[])", [[ids.teacher, ids.otherTeacher, ids.student, ids.otherStudent, ids.unlinkedStudent, ids.unverifiedStudent, ids.parent, ids.parentSingle, ids.parentMixed, ids.admin]]);
         } catch {
           // The CI database is disposable; cleanup is best-effort if schema setup failed.
         } finally {
