@@ -483,6 +483,21 @@ export async function GET(req: Request) {
 
     // ---------- PARENT: linked student report ----------
     if (role === "parent") {
+      // Count current student links separately from verified links. An unverified
+      // legacy link must not make one verified child silently become the default
+      // when the parent has multiple linked children.
+      const allLinkedRows = await db
+        .select({ studentId: parentLinks.studentId })
+        .from(parentLinks)
+        .innerJoin(parentAccount, eq(parentLinks.parentId, parentAccount.id))
+        .innerJoin(users, eq(parentLinks.studentId, users.id))
+        .where(and(
+          eq(parentLinks.parentId, ctx.user.id),
+          eq(parentAccount.role, "parent"),
+          eq(users.role, "student"),
+        ));
+      const allLinkedStudentIds = [...new Set(allLinkedRows.map((link) => link.studentId))];
+
       // Only admin-verified links may authorize parent-facing student reports.
       // Existing legacy links without verification metadata fail closed.
       const links = await db
@@ -505,6 +520,12 @@ export async function GET(req: Request) {
           isNotNull(parentLinks.verifiedBy),
         ));
       const linkedParentStudentIds = getVerifiedParentAnalyticsStudentIds(links);
+      if (linkedParentStudentIds.length === 0) {
+        return NextResponse.json({ error: "No linked student" }, { status: 404 });
+      }
+      if (!requestedStudent && allLinkedStudentIds.length > 1) {
+        return NextResponse.json({ error: "studentId is required when multiple students are linked" }, { status: 400 });
+      }
       const resolution = resolveParentAnalyticsStudentId(requestedStudent, linkedParentStudentIds);
 
       if (!resolution.ok) {
