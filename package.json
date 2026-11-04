@@ -7,7 +7,8 @@
     "start": "next start",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
-    "test": "node --test"
+    "test": "node --test",
+    "audit:homework-storage": "node scripts/audit-homework-storage.mjs"
   },
   "dependencies": {
     "@types/qrcode": "^1.5.6",
