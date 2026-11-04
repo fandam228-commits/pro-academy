@@ -3,6 +3,7 @@ import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 
 const routeSource = await readFile(new URL("../app/api/analytics/route.ts", import.meta.url), "utf8");
+const analyticsScopeSource = await readFile(new URL("./analytics-report-scope.mjs", import.meta.url), "utf8");
 const verificationRouteSource = await readFile(new URL("../app/api/parent-links/[id]/verify/route.ts", import.meta.url), "utf8");
 const attendanceRouteSource = await readFile(new URL("../app/api/attendance/route.ts", import.meta.url), "utf8");
 const reportsRouteSource = await readFile(new URL("../app/api/reports/route.ts", import.meta.url), "utf8");
@@ -43,13 +44,14 @@ test("parent analytics route requires an admin-verified link to a current studen
   const parentSource = routeSource.slice(parentStart, studentStart);
 
   assert.match(parentSource, /\.innerJoin\(users, eq\(parentLinks\.studentId, users\.id\)\)/);
-  assert.match(parentSource, /\.innerJoin\(verifiedByUser, eq\(parentLinks\.verifiedBy, verifiedByUser\.id\)\)/);
-  assert.match(parentSource, /eq\(verifiedByUser\.role, "admin"\)/);
+  assert.match(parentSource, /\.leftJoin\(verifiedByUser, eq\(parentLinks\.verifiedBy, verifiedByUser\.id\)\)/);
+  assert.match(parentSource, /verifierRole:\s*verifiedByUser\.role/);
   assert.match(parentSource, /eq\(parentLinks\.parentId, ctx\.user\.id\)/);
+  assert.match(parentSource, /eq\(parentAccount\.role, "parent"\)/);
   assert.match(parentSource, /eq\(users\.role, "student"\)/);
-  assert.match(parentSource, /isNotNull\(parentLinks\.verifiedAt\)/);
-  assert.match(parentSource, /isNotNull\(parentLinks\.verifiedBy\)/);
-  assert.match(parentSource, /getVerifiedParentAnalyticsStudentIds\(links\)/);
+  assert.match(parentSource, /getParentAnalyticsSelectionData\(parentLinkRows\)/);
+  assert.match(analyticsScopeSource, /row\.verifierRole === "admin"/);
+  assert.match(analyticsScopeSource, /getVerifiedParentAnalyticsStudentIds\(verifiedRows\)/);
 });
 
 test("student analytics route authorizes the requested ID but only builds the authenticated student's report", () => {
