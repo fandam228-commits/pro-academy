@@ -6,17 +6,21 @@ import { markAcademyIntroSeen, shouldShowAcademyIntro } from "@/lib/academy-intr
 
 const INTRO_DURATION_MS = 5600;
 
+function getSessionStorage(): Storage | undefined {
+  try { return window.sessionStorage; } catch { return undefined; }
+}
+
 export function AcademyIntro() {
   const [visible, setVisible] = useState(false);
   const [soundPlayed, setSoundPlayed] = useState(false);
 
   const finishIntro = useCallback(() => {
-    markAcademyIntroSeen(typeof window === "undefined" ? undefined : window.sessionStorage);
+    markAcademyIntroSeen(typeof window === "undefined" ? undefined : getSessionStorage());
     setVisible(false);
   }, []);
 
   useEffect(() => {
-    if (!shouldShowAcademyIntro(window.sessionStorage)) return;
+    if (!shouldShowAcademyIntro(getSessionStorage())) return;
     setVisible(true);
     const timeout = window.setTimeout(finishIntro, INTRO_DURATION_MS);
     return () => window.clearTimeout(timeout);
