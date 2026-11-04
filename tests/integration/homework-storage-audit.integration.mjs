@@ -2,7 +2,11 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { randomUUID } from "node:crypto";
 import { Client } from "pg";
-import { beginConsistentReadOnlyHomeworkAudit } from "../../src/lib/homework-storage-audit.mjs";
+import {
+  beginConsistentReadOnlyHomeworkAudit,
+  scanHomeworkStorageReferences,
+  buildHomeworkStorageAuditReport,
+} from "../../src/lib/homework-storage-audit.mjs";
 
 const connectionString = process.env.TEST_DATABASE_URL;
 const integrationTest = connectionString ? test : test.skip;
