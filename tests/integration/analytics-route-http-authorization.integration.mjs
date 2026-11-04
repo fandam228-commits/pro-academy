@@ -60,6 +60,7 @@ integrationTest(
       linkOtherStudent: id("link_other_student"),
       linkUnverified: id("link_unverified"),
       linkSingle: id("link_single"),
+      linkSingleDuplicate: id("link_single_duplicate"),
       linkMixedVerified: id("link_mixed_verified"),
       linkMixedUnverified: id("link_mixed_unverified"),
       teacherSession: id("session_teacher"),
@@ -218,6 +219,12 @@ integrationTest(
           ids.linkMixedVerified, ids.parentMixed, ids.student, ids.admin,
           ids.linkMixedUnverified, ids.unverifiedStudent,
         ],
+      );
+      // Duplicate verified rows for the same child must still represent one distinct child.
+      await client.query(
+        `INSERT INTO parent_links (id, parent_id, student_id, relationship, verified_at, verified_by)
+         VALUES ($1, $2, $3, 'Guardian', NOW(), $4)`,
+        [ids.linkSingleDuplicate, ids.parentSingle, ids.student, ids.admin],
       );
       const sessions = [
         [ids.teacherSession, tokens.teacher, ids.teacher, "teacher"],
@@ -389,7 +396,7 @@ integrationTest(
       if (client) {
         try {
           await client.query("DELETE FROM sessions WHERE id = ANY($1::text[])", [[ids.teacherSession, ids.studentSession, ids.parentSession, ids.parentSingleSession, ids.parentMixedSession]]);
-          await client.query("DELETE FROM parent_links WHERE id = ANY($1::text[])", [[ids.linkStudent, ids.linkOtherStudent, ids.linkUnverified, ids.linkSingle, ids.linkMixedVerified, ids.linkMixedUnverified]]);
+          await client.query("DELETE FROM parent_links WHERE id = ANY($1::text[])", [[ids.linkStudent, ids.linkOtherStudent, ids.linkUnverified, ids.linkSingle, ids.linkSingleDuplicate, ids.linkMixedVerified, ids.linkMixedUnverified]]);
           await client.query("DELETE FROM quiz_submissions WHERE id = $1", [ids.otherCourseQuizSubmission]);
           await client.query("DELETE FROM quizzes WHERE id = $1", [ids.otherCourseQuiz]);
           await client.query("DELETE FROM attendance_records WHERE id = $1", [ids.attendanceRecord]);
