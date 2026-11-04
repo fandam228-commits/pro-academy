@@ -5,6 +5,7 @@ import {
   canManageHomework,
   canViewHomeworkSubmissionFile,
   canSubmitHomework,
+  canAccessHomeworkGrade,
   canAccessHomeworkCourse,
   getHomeworkFileAccessDecision,
   canAssignHomeworkToCourse,
@@ -103,9 +104,13 @@ test("parents, unknown roles, and incomplete relationships are denied file acces
 });
 
 test("only student accounts may submit homework answers and only for their recorded grade", () => {
-  assert.equal(canSubmitHomework({ role: "student" }), true);
+  assert.equal(canSubmitHomework({ role: "student" }), true, "grade-agnostic legacy homework remains submittable");
   assert.equal(canSubmitHomework({ role: "student", studentGrade: "Third Secondary", homeworkGrade: "Third Secondary" }), true);
   assert.equal(canSubmitHomework({ role: "student", studentGrade: "First Secondary", homeworkGrade: "Third Secondary" }), false);
+  assert.equal(canSubmitHomework({ role: "student", studentGrade: null, homeworkGrade: "Third Secondary" }), false,
+    "a missing student grade must not authorize submission to grade-specific homework");
+  assert.equal(canSubmitHomework({ role: "student", studentGrade: null, homeworkGrade: null }), true,
+    "blank-grade homework remains grade-agnostic");
   assert.equal(canSubmitHomework({ role: "teacher" }), false);
   assert.equal(canSubmitHomework({ role: "admin" }), false);
   assert.equal(canSubmitHomework({ role: "parent" }), false);
@@ -222,10 +227,14 @@ test("course-linked homework requires an active/completed enrollment", () => {
 
 test("student homework GET and submission routes both enforce course enrollment", async () => {
   const route = await readFile(new URL("../app/api/homework/route.ts", import.meta.url), "utf8");
-  const studentListStart = route.indexOf('const myGrade = ctx.user.grade || ""');
+  const studentListStart = route.indexOf("list = list.filter((assignment) =>");
   const studentListEnd = route.indexOf("const mySubs", studentListStart);
   assert.ok(studentListStart >= 0 && studentListEnd > studentListStart);
   const studentList = route.slice(studentListStart, studentListEnd);
+  assert.match(studentList, /canAccessHomeworkGrade/,
+    "grade-specific assignments must use the fail-closed student-grade policy");
+  assert.doesNotMatch(studentList, /!myGrade\s*\|\|/,
+    "a missing student grade must not expose every grade-specific assignment");
   assert.match(studentList, /canAccessHomeworkCourse/);
   assert.match(studentList, /\.from\(enrollments\)/);
   assert.match(studentList, /inArray\(enrollments\.status, \["active", "completed"\]\)/);
@@ -239,4 +248,29 @@ test("student homework GET and submission routes both enforce course enrollment"
   const persist = submitRoute.indexOf("await db.insert(homeworkSubmissions).values(sub)");
   assert.ok(enrollmentGuard >= 0 && upload > enrollmentGuard && persist > enrollmentGuard,
     "course enrollment must be checked before file upload or submission persistence");
+});
+
+
+test("grade-specific homework fails closed when the student's current grade is missing", () => {
+  assert.equal(canAccessHomeworkGrade({
+    role: "student", studentGrade: "Third Secondary", homeworkGrade: "Third Secondary",
+  }), true);
+  assert.equal(canAccessHomeworkGrade({
+    role: "student", studentGrade: "First Secondary", homeworkGrade: "Third Secondary",
+  }), false);
+  assert.equal(canAccessHomeworkGrade({
+    role: "student", studentGrade: null, homeworkGrade: "Third Secondary",
+  }), false);
+  assert.equal(canAccessHomeworkGrade({
+    role: "student", studentGrade: "  ", homeworkGrade: "Third Secondary",
+  }), false);
+  assert.equal(canAccessHomeworkGrade({
+    role: "student", studentGrade: null, homeworkGrade: null,
+  }), true);
+  assert.equal(canAccessHomeworkGrade({
+    role: "student", studentGrade: null, homeworkGrade: "  ",
+  }), true);
+  assert.equal(canAccessHomeworkGrade({
+    role: "parent", studentGrade: "Third Secondary", homeworkGrade: "Third Secondary",
+  }), false);
 });

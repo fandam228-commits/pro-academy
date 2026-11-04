@@ -18,6 +18,7 @@ export interface HomeworkSubmissionInput {
   studentGrade?: string | null;
   homeworkGrade?: string | null;
 }
+export function canAccessHomeworkGrade(input: HomeworkSubmissionInput): boolean;
 export function canSubmitHomework(input: HomeworkSubmissionInput): boolean;
 
 export interface HomeworkCourseAccessInput {

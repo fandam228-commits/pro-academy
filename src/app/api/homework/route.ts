@@ -8,7 +8,7 @@ import { notifyUser } from "@/lib/push";
 import { del, put } from "@vercel/blob";
 import { getHomeworkPrivateBlobToken } from "@/lib/homework-storage.mjs";
 import { randomUUID } from "node:crypto";
-import { canManageHomework, canSubmitHomework, canAccessHomeworkCourse, canAssignHomeworkToCourse, canReplaceHomeworkSubmission } from "@/lib/homework-authorization.mjs";
+import { canManageHomework, canSubmitHomework, canAccessHomeworkGrade, canAccessHomeworkCourse, canAssignHomeworkToCourse, canReplaceHomeworkSubmission } from "@/lib/homework-authorization.mjs";
 
 const MAX_SIZE_BYTES = 20 * 1024 * 1024; // 20MB
 
@@ -74,19 +74,13 @@ export async function GET(req: Request) {
     }
 
     // Students see homework for their grade and their own submission status only.
-    const myGrade = ctx.user.grade || "";
-    const enrollmentRows = await db
-      .select({ courseId: enrollments.courseId })
-      .from(enrollments)
-      .innerJoin(courses, eq(enrollments.courseId, courses.id))
-      .where(and(
-        eq(enrollments.studentId, ctx.user.id),
-        inArray(enrollments.status, ["active", "completed"]),
-      ));
-    const enrolledCourseIds = [...new Set(enrollmentRows.map((row) => row.courseId))];
     let list = await db.select().from(homework);
     list = list.filter((assignment) =>
-      (!myGrade || assignment.grade === myGrade || !assignment.grade) &&
+      canAccessHomeworkGrade({
+        role,
+        studentGrade: ctx.user.grade,
+        homeworkGrade: assignment.grade,
+      }) &&
       canAccessHomeworkCourse({
         role,
         homeworkCourseId: assignment.courseId,

@@ -29,10 +29,24 @@ export function canReplaceHomeworkSubmission({ status }) {
   return status !== "graded";
 }
 
-export function canSubmitHomework({ role, studentGrade, homeworkGrade }) {
+/**
+ * Grade-specific homework is visible/submittable only when the student's
+ * current grade is known and matches. Blank assignment grades remain
+ * grade-agnostic for legacy assignments.
+ */
+export function canAccessHomeworkGrade({ role, studentGrade, homeworkGrade }) {
   if (role !== "student") return false;
-  if (studentGrade && homeworkGrade && studentGrade !== homeworkGrade) return false;
-  return true;
+
+  const assignmentGrade = typeof homeworkGrade === "string" ? homeworkGrade.trim() : "";
+  const learnerGrade = typeof studentGrade === "string" ? studentGrade.trim() : "";
+
+  if (!assignmentGrade) return true;
+  if (!learnerGrade) return false;
+  return learnerGrade === assignmentGrade;
+}
+
+export function canSubmitHomework(input) {
+  return canAccessHomeworkGrade(input);
 }
 
 /**
