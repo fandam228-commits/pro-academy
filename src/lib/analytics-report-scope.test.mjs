@@ -7,6 +7,7 @@ import {
   isHomeworkGradeVisibleToStudent,
   isCourseScopedQuiz,
   getVerifiedParentAnalyticsStudentIds,
+  getParentAnalyticsSelectionData,
   resolveParentAnalyticsStudentId,
 } from "./analytics-report-scope.mjs";
 
@@ -136,4 +137,34 @@ test("parent analytics defaults to the sole verified linked child when selection
     resolveParentAnalyticsStudentId(null, ["student-only"]),
     { ok: true, studentId: "student-only" }
   );
+});
+
+
+test("parent ambiguity and verified access are derived from the same link snapshot", () => {
+  const selection = getParentAnalyticsSelectionData([
+    { studentId: "student-1", verifiedAt: new Date("2026-11-04T08:00:00Z"), verifiedBy: "admin-1", verifierRole: "admin" },
+    { studentId: "student-2", verifiedAt: null, verifiedBy: null, verifierRole: null },
+    { studentId: "student-3", verifiedAt: new Date("2026-11-04T08:00:00Z"), verifiedBy: "teacher-1", verifierRole: "teacher" },
+    { studentId: "student-1", verifiedAt: new Date("2026-11-04T08:00:00Z"), verifiedBy: "admin-1", verifierRole: "admin" },
+    { studentId: " ", verifiedAt: new Date("2026-11-04T08:00:00Z"), verifiedBy: "admin-1", verifierRole: "admin" },
+    null,
+  ]);
+
+  assert.deepEqual(selection, {
+    allLinkedStudentIds: ["student-1", "student-2", "student-3"],
+    verifiedStudentIds: ["student-1"],
+  });
+});
+
+test("parent selection snapshot fails closed for malformed query results", () => {
+  assert.deepEqual(getParentAnalyticsSelectionData(null), {
+    allLinkedStudentIds: [],
+    verifiedStudentIds: [],
+  });
+  assert.deepEqual(getParentAnalyticsSelectionData([
+    { studentId: null, verifiedAt: new Date(), verifiedBy: "admin-1", verifierRole: "admin" },
+  ]), {
+    allLinkedStudentIds: [],
+    verifiedStudentIds: [],
+  });
 });
