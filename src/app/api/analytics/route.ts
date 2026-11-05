@@ -142,6 +142,14 @@ async function buildStudentReport(studentId: string, scope?: TeacherReportScope)
             eq(homework.teacherId, scope.teacherId),
             eq(courses.teacherId, scope.teacherId),
             inArray(homework.courseId, scope.allowedCourseIds),
+            exists(db
+              .select({ id: enrollments.id })
+              .from(enrollments)
+              .where(and(
+                eq(enrollments.studentId, studentId),
+                eq(enrollments.courseId, homework.courseId),
+                inArray(enrollments.status, ["active", "completed"]),
+              ))),
           ))
     : await db.select({
         id: homework.id,
@@ -170,6 +178,14 @@ async function buildStudentReport(studentId: string, scope?: TeacherReportScope)
             eq(homework.teacherId, scope.teacherId),
             eq(courses.teacherId, scope.teacherId),
             inArray(homeworkSubmissions.homeworkId, [...visibleHomeworkIds]),
+            exists(db
+              .select({ id: enrollments.id })
+              .from(enrollments)
+              .where(and(
+                eq(enrollments.studentId, homeworkSubmissions.studentId),
+                eq(enrollments.courseId, homework.courseId),
+                inArray(enrollments.status, ["active", "completed"]),
+              ))),
           ))
     : await db
         .select({
