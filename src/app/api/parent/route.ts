@@ -7,6 +7,7 @@ import { ensureDbSetup } from "@/db/migrate-and-seed";
 import { getAuthContext } from "@/lib/security";
 import { getParentAnalyticsSelectionData, resolveParentAnalyticsStudentId } from "@/lib/analytics-report-scope.mjs";
 
+const parentAccountUser = alias(users, "parent_route_parent_account");
 const verifiedByUser = alias(users, "parent_route_verified_by_user");
 
 export async function GET(req: Request) {
