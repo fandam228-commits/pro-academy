@@ -87,8 +87,8 @@ integrationTest("parent reports require explicit selection across verified and u
   await withFixture(async ({ db }) => {
     const rows = await getParentSelectionRows(db, "parent-1");
     const selection = getParentAnalyticsSelectionData(rows);
-    assert.deepEqual(selection.allLinkedStudentIds, ["student-1", "student-2", "student-3"]);
-    assert.deepEqual(selection.verifiedStudentIds, ["student-1", "student-3"]);
+    assert.deepEqual([...selection.allLinkedStudentIds].sort(), ["student-1", "student-2", "student-3"]);
+    assert.deepEqual([...selection.verifiedStudentIds].sort(), ["student-1", "student-3"]);
 
     assert.deepEqual(
       resolveParentAnalyticsStudentId(null, selection.allLinkedStudentIds),
