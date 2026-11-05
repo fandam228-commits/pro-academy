@@ -41,6 +41,17 @@ function assertVerifiedParentSelection(source, routeName) {
     routeName + " must not filter unverified children out of the ambiguity set");
   assert.ok(!source.includes("isNotNull(parentLinks.verifiedAt)"));
   assert.ok(!source.includes("isNotNull(parentLinks.verifiedBy)"));
+
+  const verifiedGuard = source.indexOf("if (!verifiedStudentIds.includes(resolution.studentId))");
+  const forbiddenResponse = source.indexOf("status: 403", verifiedGuard);
+  const resolvedTarget = Math.max(
+    source.indexOf("studentId = resolution.studentId", verifiedGuard),
+    source.indexOf("const studentId = resolution.studentId", verifiedGuard),
+  );
+  assert.ok(
+    verifiedGuard >= 0 && forbiddenResponse > verifiedGuard && resolvedTarget > forbiddenResponse,
+    routeName + " must deny an unverified selection before using the target student ID",
+  );
   assert.ok(!/links\s*\[\s*0\s*\]\s*\??\.\s*studentId/.test(source),
     routeName + " must not silently select the first linked child");
 }
