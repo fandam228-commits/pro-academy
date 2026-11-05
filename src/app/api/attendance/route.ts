@@ -5,7 +5,7 @@ import { alias } from "drizzle-orm/pg-core";
 import { NextResponse } from "next/server";
 import { ensureDbSetup } from "@/db/migrate-and-seed";
 import { requireRoles, getAuthContext } from "@/lib/security";
-import { getVerifiedParentAnalyticsStudentIds, resolveParentAnalyticsStudentId } from "@/lib/analytics-report-scope.mjs";
+import { getParentAnalyticsSelectionData, resolveParentAnalyticsStudentId } from "@/lib/analytics-report-scope.mjs";
 
 const verifiedByUser = alias(users, "attendance_verified_by_user");
 const parentAccount = alias(users, "attendance_parent_account");
