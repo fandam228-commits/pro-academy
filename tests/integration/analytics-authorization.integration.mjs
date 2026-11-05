@@ -540,6 +540,13 @@ integrationTest("PostgreSQL teacher Analytics rechecks current ownership and act
           eq(courses.teacherId, "teacher-1"),
           inArray(enrollments.courseId, allowedCourseIds),
           inArray(enrollments.status, ["active", "completed"]),
+          exists(db
+            .select({ id: users.id })
+            .from(users)
+            .where(and(
+              eq(users.id, "student-1"),
+              eq(users.role, "student"),
+            ))),
         ));
 
       const quizRows = await db
@@ -551,6 +558,13 @@ integrationTest("PostgreSQL teacher Analytics rechecks current ownership and act
           eq(quizSubmissions.studentId, "student-1"),
           eq(courses.teacherId, "teacher-1"),
           inArray(quizzes.courseId, allowedCourseIds),
+          exists(db
+            .select({ id: users.id })
+            .from(users)
+            .where(and(
+              eq(users.id, "student-1"),
+              eq(users.role, "student"),
+            ))),
           exists(db
             .select({ id: enrollments.id })
             .from(enrollments)
@@ -569,6 +583,13 @@ integrationTest("PostgreSQL teacher Analytics rechecks current ownership and act
           eq(homework.teacherId, "teacher-1"),
           eq(courses.teacherId, "teacher-1"),
           inArray(homework.courseId, allowedCourseIds),
+          exists(db
+            .select({ id: users.id })
+            .from(users)
+            .where(and(
+              eq(users.id, "student-1"),
+              eq(users.role, "student"),
+            ))),
           exists(db
             .select({ id: enrollments.id })
             .from(enrollments)
@@ -591,6 +612,13 @@ integrationTest("PostgreSQL teacher Analytics rechecks current ownership and act
               eq(homework.teacherId, "teacher-1"),
               eq(courses.teacherId, "teacher-1"),
               inArray(homeworkSubmissions.homeworkId, allowedHomeworkIds),
+              exists(db
+                .select({ id: users.id })
+                .from(users)
+                .where(and(
+                  eq(users.id, homeworkSubmissions.studentId),
+                  eq(users.role, "student"),
+                ))),
               exists(db
                 .select({ id: enrollments.id })
                 .from(enrollments)
@@ -642,5 +670,17 @@ integrationTest("PostgreSQL teacher Analytics rechecks current ownership and act
     assert.deepEqual(afterOwnershipTransfer.allowedHomeworkIds, [], "homework must be rechecked against the current course owner");
     assert.deepEqual(afterOwnershipTransfer.homeworkRows, [], "homework submissions must be rechecked against the current course owner");
     assert.deepEqual(afterOwnershipTransfer.myEnrollments, [], "course counts must exclude enrollment after ownership transfer");
+
+    // Restore course ownership and enrollment, then demote the target account.
+    // Every teacher data query must independently require the current student role.
+    await db.update(courses).set({ teacherId: "teacher-1" }).where(eq(courses.id, "course-a"));
+    await db.update(enrollments).set({ status: "active" }).where(eq(enrollments.id, "enroll-1"));
+    await db.update(users).set({ role: "teacher" }).where(eq(users.id, "student-1"));
+    const afterStudentRoleChange = await readScopedRows();
+    assert.deepEqual(afterStudentRoleChange.profileRows, [], "a non-student account must not expose a teacher report profile");
+    assert.deepEqual(afterStudentRoleChange.quizRows, [], "quiz results must be hidden after the account loses the student role");
+    assert.deepEqual(afterStudentRoleChange.allowedHomeworkIds, [], "homework must be hidden after the account loses the student role");
+    assert.deepEqual(afterStudentRoleChange.homeworkRows, [], "submissions must be hidden after the account loses the student role");
+    assert.deepEqual(afterStudentRoleChange.myEnrollments, [], "course counts must be hidden after the account loses the student role");
   });
 });
