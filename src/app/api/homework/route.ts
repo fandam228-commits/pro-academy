@@ -1,6 +1,6 @@
 import { db } from "@/db";
 import { homework, homeworkSubmissions, users, notifications, courses, enrollments } from "@/db/schema";
-import { eq, and, inArray, isNull, ne, or } from "drizzle-orm";
+import { eq, and, exists, inArray, isNull, ne, or } from "drizzle-orm";
 import { NextResponse } from "next/server";
 import { ensureDbSetup } from "@/db/migrate-and-seed";
 import { requireRoles, getAuthContext } from "@/lib/security";
@@ -428,10 +428,31 @@ export async function POST(req: Request) {
       const maxPts = hw.totalPoints || 50;
       const safeScore = Math.max(0, Math.min(parseInt(score) || 0, maxPts));
 
-      await db
+      // Recheck current homework/course ownership in the UPDATE statement itself.
+      // The preflight read above provides a useful response, but must not be the
+      // final authorization proof if course ownership changes before this write.
+      const gradeUpdateScope = ctx.user.role === "teacher"
+        ? exists(db
+            .select({ id: homework.id })
+            .from(homework)
+            .leftJoin(courses, eq(homework.courseId, courses.id))
+            .where(and(
+              eq(homework.id, homeworkSubmissions.homeworkId),
+              eq(homework.teacherId, ctx.user.id),
+              or(isNull(homework.courseId), eq(courses.teacherId, ctx.user.id)),
+            )))
+        : undefined;
+      const updatedSubmissions = await db
         .update(homeworkSubmissions)
         .set({ status: "graded", score: safeScore, feedback: feedback || "", gradedAt: new Date() })
-        .where(eq(homeworkSubmissions.id, submissionId));
+        .where(gradeUpdateScope
+          ? and(eq(homeworkSubmissions.id, submissionId), gradeUpdateScope)
+          : eq(homeworkSubmissions.id, submissionId))
+        .returning({ id: homeworkSubmissions.id });
+
+      if (updatedSubmissions.length === 0) {
+        return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+      }
 
       // Award partial points in platform gamification + notify student
       await db
@@ -471,7 +492,29 @@ export async function POST(req: Request) {
           return NextResponse.json({ error: "Forbidden" }, { status: 403 });
         }
       }
-      await db.delete(homework).where(eq(homework.id, body.homeworkId));
+      const deleteScope = ctx.user.role === "teacher"
+        ? and(
+            eq(homework.id, body.homeworkId),
+            eq(homework.teacherId, ctx.user.id),
+            or(
+              isNull(homework.courseId),
+              exists(db
+                .select({ id: courses.id })
+                .from(courses)
+                .where(and(
+                  eq(courses.id, homework.courseId),
+                  eq(courses.teacherId, ctx.user.id),
+                ))),
+            ),
+          )
+        : eq(homework.id, body.homeworkId);
+      const deletedRows = await db
+        .delete(homework)
+        .where(deleteScope)
+        .returning({ id: homework.id });
+      if (ctx.user.role === "teacher" && deletedRows.length === 0) {
+        return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+      }
       return NextResponse.json({ success: true });
     }
 
