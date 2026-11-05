@@ -1,6 +1,6 @@
 import { db } from "@/db";
 import { users, parentLinks, attendanceRecords, homeworkSubmissions, homework, quizSubmissions, quizzes, enrollments, courses } from "@/db/schema";
-import { and, eq, inArray, isNotNull } from "drizzle-orm";
+import { and, eq, inArray } from "drizzle-orm";
 import { alias } from "drizzle-orm/pg-core";
 import { NextResponse } from "next/server";
 import { ensureDbSetup } from "@/db/migrate-and-seed";
