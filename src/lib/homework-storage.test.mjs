@@ -148,7 +148,7 @@ test("homework file route authenticates before database setup or private record 
   const authIndex = homeworkFileRouteSource.indexOf("const ctx = await getAuthContext(req)");
   const unauthorizedGuardIndex = homeworkFileRouteSource.indexOf("if (!ctx)");
   const setupIndex = homeworkFileRouteSource.indexOf("await ensureDbSetup()");
-  const submissionReadIndex = homeworkFileRouteSource.indexOf("const subs = await db.select().from(homeworkSubmissions)");
+  const submissionReadIndex = homeworkFileRouteSource.indexOf("const [fileAccessRow] = await db");
 
   assert.ok(authIndex >= 0, "the route must resolve the session before database setup");
   assert.ok(unauthorizedGuardIndex > authIndex, "unauthenticated requests must be rejected");
