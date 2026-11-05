@@ -20,17 +20,23 @@ function assertAuthBeforeSetup(source, routeName) {
 }
 
 function assertVerifiedParentSelection(source, routeName) {
-  assert.match(source, /innerJoin\(verifiedByUser, eq\(parentLinks\.verifiedBy, verifiedByUser\.id\)\)/,
-    routeName + " must join the current verifier account");
-  assert.match(source, /eq\(verifiedByUser\.role, "admin"\)/,
-    routeName + " must require a current admin verifier");
-  assert.match(source, /eq\(users\.role, "student"\)/,
+  assert.match(source, /eq\\((?:parentAccount|parentAccountUser)\\.role, "parent"\\)/,
+    routeName + " must revalidate the current parent account role");
+  assert.match(source, /eq\\(users\\.role, "student"\\)/,
     routeName + " must require a current student account");
-  assert.match(source, /isNotNull\(parentLinks\.verifiedAt\)/);
-  assert.match(source, /isNotNull\(parentLinks\.verifiedBy\)/);
-  assert.match(source, /getVerifiedParentAnalyticsStudentIds\(links\)/);
-  assert.match(source, /resolveParentAnalyticsStudentId\((?:requestedStudent|studentId), linkedStudentIds\)/);
-  assert.doesNotMatch(source, /links\s*\[\s*0\s*\]\s*\??\.\s*studentId/,
+  assert.match(source, /leftJoin\\(verifiedByUser, eq\\(parentLinks\\.verifiedBy, verifiedByUser\\.id\\)\\)/,
+    routeName + " must keep unverified links in the ambiguity query");
+  assert.match(source, /verifierRole: verifiedByUser\\.role/);
+  assert.match(source, /getParentAnalyticsSelectionData\\(links\\)/);
+  assert.match(source, /allLinkedStudentIds:\\s*linkedStudentIds/);
+  assert.match(source, /resolveParentAnalyticsStudentId\\((?:requestedStudent|studentId), linkedStudentIds\\)/);
+  assert.match(source, /verifiedStudentIds\\.includes\\(resolution\\.studentId\\)/,
+    routeName + " must authorize only a selected admin-verified child");
+  assert.doesNotMatch(source, /eq\\(verifiedByUser\\.role, "admin"\\)/,
+    routeName + " must not filter unverified children out of the ambiguity set");
+  assert.doesNotMatch(source, /isNotNull\\(parentLinks\\.verifiedAt\\)/);
+  assert.doesNotMatch(source, /isNotNull\\(parentLinks\\.verifiedBy\\)/);
+  assert.doesNotMatch(source, /links\\s*\\[\\s*0\\s*\\]\\s*\\??\\.\\s*studentId/,
     routeName + " must not silently select the first linked child");
 }
 
