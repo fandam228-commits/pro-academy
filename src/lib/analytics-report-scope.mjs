@@ -83,6 +83,30 @@ export function getVerifiedParentAnalyticsStudentIds(linkRows) {
 }
 
 /**
+ * Derive both the ambiguity set and the authorization set from one database
+ * result. Unverified links still count as linked children for explicit-selection
+ * purposes, but only links with a current admin verifier are authorized.
+ */
+export function getParentAnalyticsSelectionData(linkRows) {
+  if (!Array.isArray(linkRows)) {
+    return { allLinkedStudentIds: [], verifiedStudentIds: [] };
+  }
+
+  const validRows = linkRows.filter((row) =>
+    row &&
+    typeof row === "object" &&
+    isNonEmptyString(row.studentId)
+  );
+  const allLinkedStudentIds = [...new Set(validRows.map((row) => row.studentId))];
+  const verifiedRows = validRows.filter((row) => row.verifierRole === "admin");
+
+  return {
+    allLinkedStudentIds,
+    verifiedStudentIds: getVerifiedParentAnalyticsStudentIds(verifiedRows),
+  };
+}
+
+/**
  * Resolve the student a parent may view without silently choosing among children.
  * The caller must supply parent-link IDs read from the database.
  */

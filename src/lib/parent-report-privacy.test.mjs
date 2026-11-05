@@ -6,6 +6,7 @@ const routeFiles = {
   reports: await readFile(new URL("../app/api/reports/route.ts", import.meta.url), "utf8"),
   attendance: await readFile(new URL("../app/api/attendance/route.ts", import.meta.url), "utf8"),
   parent: await readFile(new URL("../app/api/parent/route.ts", import.meta.url), "utf8"),
+  studentPerformance: await readFile(new URL("../app/api/student-performance/route.ts", import.meta.url), "utf8"),
 };
 
 function assertAuthBeforeSetup(source, routeName) {
@@ -20,6 +21,10 @@ function assertAuthBeforeSetup(source, routeName) {
 }
 
 function assertVerifiedParentSelection(source, routeName) {
+  assert.match(source, /innerJoin\(parentAccountUser, eq\(parentLinks\.parentId, parentAccountUser\.id\)\)/,
+    routeName + " must join the current parent account, not trust a stale session role");
+  assert.match(source, /eq\(parentAccountUser\.role, "parent"\)/,
+    routeName + " must require the linked parent account to still have the parent role");
   assert.match(source, /innerJoin\(verifiedByUser, eq\(parentLinks\.verifiedBy, verifiedByUser\.id\)\)/,
     routeName + " must join the current verifier account");
   assert.match(source, /eq\(verifiedByUser\.role, "admin"\)/,
@@ -240,4 +245,101 @@ test("attendance POST validates action-specific roles before database setup", ()
     "each supported action must enforce its own role and unknown actions must be rejected");
   assert.ok(setup > bulkGuard && setup > checkInGuard && setup > unsupportedGuard,
     "database setup must occur only after action-specific authorization");
+});
+
+
+test("student performance reports enforce role-specific authorization before loading attempts", () => {
+  const source = routeFiles.studentPerformance;
+  const getStart = source.indexOf("export async function GET(req: Request)");
+  assert.notEqual(getStart, -1, "student performance GET handler must exist");
+  const handler = source.slice(getStart);
+  const auth = handler.indexOf("const ctx = await getAuthContext(req)");
+  const unauthorized = handler.indexOf('if (!ctx) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });', auth);
+  const roleGuard = handler.indexOf('if (!["admin", "teacher", "parent", "student"].includes(role))', unauthorized);
+  const teacherGuard = handler.indexOf('if (role === "teacher")', roleGuard);
+  const setup = handler.indexOf("await ensureDbSetup()");
+  const attemptsRead = handler.indexOf("const attempts = await db.select().from(examAttempts)");
+  assert.ok(auth >= 0 && unauthorized > auth && roleGuard > unauthorized && setup > roleGuard,
+    "authentication and role allowlisting must precede schema setup");
+  assert.ok(teacherGuard > roleGuard && setup > teacherGuard && attemptsRead > setup,
+    "teachers must be denied before any unscoped exam history is queried");
+  assert.match(handler.slice(teacherGuard, setup), /status: 403/,
+    "teacher access must fail closed because exam attempts have no reliable course ownership key");
+
+  assert.match(handler, /const actorRows = await db[\s\S]*?eq\(users\.id, ctx\.user\.id\)/,
+    "the current requester role must be revalidated in the database");
+  assert.match(handler, /if \(requestedStudentId !== null && requestedStudentId !== ctx\.user\.id\)/,
+    "students must not choose another student's target ID");
+  assert.match(handler, /studentId = ctx\.user\.id/,
+    "student reports must use the authenticated student's own ID");
+
+  const parentStart = handler.indexOf('else if (role === "parent")');
+  const targetCheck = handler.indexOf("// Only a current student account can be the target", parentStart);
+  assert.ok(parentStart >= 0 && targetCheck > parentStart, "parent access must resolve a verified child before target lookup");
+  const parentSource = handler.slice(parentStart, targetCheck);
+  assert.ok(parentSource.includes("innerJoin(parentAccountUser, eq(parentLinks.parentId, parentAccountUser.id))"));
+  assert.ok(parentSource.includes('eq(parentAccountUser.role, "parent")'));
+  assert.ok(parentSource.includes("innerJoin(linkedStudentUser, eq(parentLinks.studentId, linkedStudentUser.id))"));
+  assert.ok(parentSource.includes('eq(linkedStudentUser.role, "student")'));
+  assert.ok(parentSource.includes("leftJoin(verifiedByUser, eq(parentLinks.verifiedBy, verifiedByUser.id))"));
+  assert.ok(parentSource.includes("verifierRole: verifiedByUser.role"));
+  assert.ok(parentSource.includes("getParentAnalyticsSelectionData(links)"));
+  assert.ok(parentSource.includes("allLinkedStudentIds: linkedStudentIds"));
+  assert.ok(parentSource.includes("resolveParentAnalyticsStudentId(requestedStudentId, linkedStudentIds)"));
+  assert.ok(parentSource.includes("verifiedStudentIds.includes(resolution.studentId)"));
+  assert.ok(!parentSource.includes('eq(verifiedByUser.role, "admin")'),
+    "unverified links must remain visible to the ambiguity calculation");
+
+  const verifiedGuard = parentSource.indexOf("if (!verifiedStudentIds.includes(resolution.studentId))");
+  const verifiedForbidden = parentSource.indexOf(
+    'return NextResponse.json({ error: "Forbidden" }, { status: 403 });',
+    verifiedGuard,
+  );
+  assert.ok(
+    verifiedGuard >= 0 && verifiedForbidden > verifiedGuard,
+    "an explicitly selected but unverified child must be denied before target/report reads",
+  );
+  assert.doesNotMatch(parentSource, /links\s*\[\s*0\s*\]\s*\??\.\s*studentId/,
+    "parent access must not silently choose the first linked child");
+
+  assert.match(handler, /eq\(examAttempts\.studentId, studentId\)/);
+  assert.match(handler, /eq\(generatedExams\.studentId, studentId\)/);
+  assert.match(handler, /eq\(users\.role, "student"\)/,
+    "only a current student account may be used as a report target");
+});
+
+test("student performance revalidates the current actor before target and report reads", () => {
+  const source = routeFiles.studentPerformance;
+  const actorQuery = source.indexOf("const actorRows = await db");
+  const actorMismatchGuard = source.indexOf(
+    'if (!actorRows[0] || actorRows[0].role !== role)',
+    actorQuery,
+  );
+  const forbiddenResponse = source.indexOf(
+    'return NextResponse.json({ error: "Forbidden" }, { status: 403 });',
+    actorMismatchGuard,
+  );
+  const targetQuery = source.indexOf("const targetRows = await db");
+  const attemptsQuery = source.indexOf("const attempts = await db.select().from(examAttempts)");
+  const generatedExamsQuery = source.indexOf("const exams = await db.select().from(generatedExams)");
+
+  assert.ok(
+    actorQuery >= 0 &&
+      actorMismatchGuard > actorQuery &&
+      forbiddenResponse > actorMismatchGuard &&
+      targetQuery > forbiddenResponse &&
+      attemptsQuery > targetQuery &&
+      generatedExamsQuery > attemptsQuery,
+    "the current account role must be revalidated and rejected before target or exam-history data is read",
+  );
+
+  const targetLookup = source.slice(targetQuery, attemptsQuery);
+  assert.match(targetLookup, /eq\(users\.id, studentId\)/);
+  assert.match(targetLookup, /eq\(users\.role, "student"\)/);
+
+  const reportReads = source.slice(attemptsQuery);
+  assert.match(reportReads, /eq\(examAttempts\.studentId, studentId\)/);
+  assert.match(reportReads, /eq\(generatedExams\.studentId, studentId\)/);
+  assert.doesNotMatch(reportReads, /eq\(examAttempts\.studentId, requestedStudentId\)/);
+  assert.doesNotMatch(reportReads, /eq\(generatedExams\.studentId, requestedStudentId\)/);
 });

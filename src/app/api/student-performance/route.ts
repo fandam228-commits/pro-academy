@@ -1,24 +1,105 @@
 import { db } from "@/db";
-import { examAttempts, generatedExams } from "@/db/schema";
-import { eq, desc } from "drizzle-orm";
+import { examAttempts, generatedExams, parentLinks, users } from "@/db/schema";
+import { and, eq, desc } from "drizzle-orm";
+import { alias } from "drizzle-orm/pg-core";
 import { NextResponse } from "next/server";
 import { ensureDbSetup } from "@/db/migrate-and-seed";
 import { getAuthContext } from "@/lib/security";
+import { getParentAnalyticsSelectionData, resolveParentAnalyticsStudentId } from "@/lib/analytics-report-scope.mjs";
+
+const parentAccountUser = alias(users, "student_performance_parent_account");
+const linkedStudentUser = alias(users, "student_performance_linked_student");
+const verifiedByUser = alias(users, "student_performance_verified_by_user");
 
 export async function GET(req: Request) {
-  await ensureDbSetup();
+  // Authenticate and reject unsupported roles before schema setup or any report query.
   const ctx = await getAuthContext(req);
   if (!ctx) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
-  const { searchParams } = new URL(req.url);
-  const requestedStudentId = searchParams.get("studentId");
-  if (ctx.user.role === "student" && requestedStudentId && requestedStudentId !== ctx.user.id) {
+  const role = ctx.user.role as string;
+  if (!["admin", "teacher", "parent", "student"].includes(role)) {
     return NextResponse.json({ error: "Forbidden" }, { status: 403 });
   }
-  const studentId = ctx.user.role === "student" ? ctx.user.id : requestedStudentId;
-  if (!studentId) return NextResponse.json({ error: "studentId is required" }, { status: 400 });
+
+  // Generated exams and attempts have no reliable course ownership key. Do not expose
+  // this unscoped history to teachers; course-scoped Analytics is the safe teacher path.
+  if (role === "teacher") {
+    return NextResponse.json({ error: "Course-scoped performance history is unavailable for this report" }, { status: 403 });
+  }
+
+  await ensureDbSetup();
+
+  const { searchParams } = new URL(req.url);
+  const requestedStudentId = searchParams.get("studentId");
 
   try {
+    // A stale session role must not survive a role change in the current user record.
+    const actorRows = await db
+      .select({ role: users.role })
+      .from(users)
+      .where(eq(users.id, ctx.user.id));
+    if (!actorRows[0] || actorRows[0].role !== role) {
+      return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+    }
+
+    let studentId: string | null = requestedStudentId;
+
+    if (role === "student") {
+      if (requestedStudentId !== null && requestedStudentId !== ctx.user.id) {
+        return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+      }
+      studentId = ctx.user.id;
+    } else if (role === "parent") {
+      const links = await db
+        .select({
+          studentId: parentLinks.studentId,
+          verifiedAt: parentLinks.verifiedAt,
+          verifiedBy: parentLinks.verifiedBy,
+          verifierRole: verifiedByUser.role,
+        })
+        .from(parentLinks)
+        .innerJoin(parentAccountUser, eq(parentLinks.parentId, parentAccountUser.id))
+        .innerJoin(linkedStudentUser, eq(parentLinks.studentId, linkedStudentUser.id))
+        // Keep unverified links in the ambiguity set; they must not grant access.
+        .leftJoin(verifiedByUser, eq(parentLinks.verifiedBy, verifiedByUser.id))
+        .where(and(
+          eq(parentLinks.parentId, ctx.user.id),
+          eq(parentAccountUser.role, "parent"),
+          eq(linkedStudentUser.role, "student"),
+        ));
+
+      const {
+        allLinkedStudentIds: linkedStudentIds,
+        verifiedStudentIds,
+      } = getParentAnalyticsSelectionData(links);
+      const resolution = resolveParentAnalyticsStudentId(requestedStudentId, linkedStudentIds);
+      if (!resolution.ok) {
+        if (resolution.reason === "no-linked-student") {
+          return NextResponse.json({ error: "No verified linked student" }, { status: 404 });
+        }
+        if (resolution.reason === "student-id-required") {
+          return NextResponse.json({ error: "studentId is required when multiple students are linked" }, { status: 400 });
+        }
+        if (resolution.reason === "invalid-student-id") {
+          return NextResponse.json({ error: "Invalid studentId" }, { status: 400 });
+        }
+        return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+      }
+      if (!verifiedStudentIds.includes(resolution.studentId)) {
+        return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+      }
+      studentId = resolution.studentId;
+    }
+
+    if (!studentId) return NextResponse.json({ error: "studentId is required" }, { status: 400 });
+
+    // Only a current student account can be the target of a performance report.
+    const targetRows = await db
+      .select({ id: users.id })
+      .from(users)
+      .where(and(eq(users.id, studentId), eq(users.role, "student")));
+    if (!targetRows[0]) return NextResponse.json({ error: "Student not found" }, { status: 404 });
+
     const attempts = await db.select().from(examAttempts)
       .where(eq(examAttempts.studentId, studentId))
       .orderBy(desc(examAttempts.submittedAt))
