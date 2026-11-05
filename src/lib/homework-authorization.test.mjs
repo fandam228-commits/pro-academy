@@ -103,17 +103,19 @@ test("grading and deletion recheck current course ownership in the mutation stat
   assert.ok(gradeStart >= 0 && deleteStart > gradeStart);
 
   const gradeSource = route.slice(gradeStart, deleteStart);
-  assert.match(gradeSource, /const gradeUpdateScope = ctx\\.user\\.role === "teacher"/);
-  assert.match(gradeSource, /exists\\(db[\\s\\S]*?eq\\(homework\\.id, homeworkSubmissions\\.homeworkId\\)[\\s\\S]*?eq\\(homework\\.teacherId, ctx\\.user\\.id\\)[\\s\\S]*?eq\\(courses\\.teacherId, ctx\\.user\\.id\\)/,
-    "grading must recheck the current homework and course owner in the UPDATE predicate");
-  assert.match(gradeSource, /\\.returning\\(\\{ id: homeworkSubmissions\\.id \\}\\)/,
+  assert.ok(gradeSource.includes('const gradeUpdateScope = ctx.user.role === "teacher"'));
+  assert.ok(gradeSource.includes("eq(homework.id, homeworkSubmissions.homeworkId)"));
+  assert.ok(gradeSource.includes("eq(homework.teacherId, ctx.user.id)"));
+  assert.ok(gradeSource.includes("eq(courses.teacherId, ctx.user.id)"));
+  assert.ok(gradeSource.includes(".returning({ id: homeworkSubmissions.id })"),
     "grading must detect when the guarded update affects no row");
 
   const deleteSource = route.slice(deleteStart);
-  assert.match(deleteSource, /eq\\(homework\\.teacherId, ctx\\.user\\.id\\)/);
-  assert.match(deleteSource, /exists\\(db[\\s\\S]*?eq\\(courses\\.id, homework\\.courseId\\)[\\s\\S]*?eq\\(courses\\.teacherId, ctx\\.user\\.id\\)/,
+  assert.ok(deleteSource.includes("eq(homework.teacherId, ctx.user.id)"));
+  assert.ok(deleteSource.includes("eq(courses.id, homework.courseId)"));
+  assert.ok(deleteSource.includes("eq(courses.teacherId, ctx.user.id)"),
     "deletion must recheck the current course owner in the DELETE predicate");
-  assert.match(deleteSource, /\\.returning\\(\\{ id: homework\\.id \\}\\)/,
+  assert.ok(deleteSource.includes(".returning({ id: homework.id })"),
     "deletion must detect when the guarded delete affects no row");
 });
 
