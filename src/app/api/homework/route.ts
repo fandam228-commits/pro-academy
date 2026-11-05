@@ -1,6 +1,6 @@
 import { db } from "@/db";
 import { homework, homeworkSubmissions, users, notifications, courses, enrollments } from "@/db/schema";
-import { eq, and, inArray, isNull, ne, or } from "drizzle-orm";
+import { eq, and, inArray, isNull, ne, or, exists } from "drizzle-orm";
 import { NextResponse } from "next/server";
 import { ensureDbSetup } from "@/db/migrate-and-seed";
 import { requireRoles, getAuthContext } from "@/lib/security";
@@ -476,20 +476,54 @@ export async function POST(req: Request) {
       const maxPts = hw[0]?.totalPoints || 50;
       const safeScore = Math.max(0, Math.min(parseInt(score) || 0, maxPts));
 
-      await db
+      // The preflight reads above provide display/score metadata only. The UPDATE
+      // itself is the authoritative authorization check: teachers must still own
+      // both the assignment and its current course in this same SQL statement.
+      // The status predicate also prevents a second grading request from awarding
+      // gamification points more than once.
+      const gradeWhere = ctx.user.role === "admin"
+        ? and(
+            eq(homeworkSubmissions.id, submissionId),
+            or(isNull(homeworkSubmissions.status), ne(homeworkSubmissions.status, "graded")),
+          )
+        : and(
+            eq(homeworkSubmissions.id, submissionId),
+            or(isNull(homeworkSubmissions.status), ne(homeworkSubmissions.status, "graded")),
+            exists(
+              db
+                .select({ id: homework.id })
+                .from(homework)
+                .leftJoin(courses, eq(homework.courseId, courses.id))
+                .where(and(
+                  eq(homework.id, homeworkSubmissions.homeworkId),
+                  eq(homework.teacherId, ctx.user.id),
+                  or(isNull(homework.courseId), eq(courses.teacherId, ctx.user.id)),
+                )),
+            ),
+          );
+      const gradedRows = await db
         .update(homeworkSubmissions)
         .set({ status: "graded", score: safeScore, feedback: feedback || "", gradedAt: new Date() })
-        .where(eq(homeworkSubmissions.id, submissionId));
+        .where(gradeWhere)
+        .returning({ studentId: homeworkSubmissions.studentId });
 
-      // Award partial points in platform gamification + notify student
+      if (gradedRows.length === 0) {
+        return NextResponse.json(
+          { error: "Submission is already graded or is no longer accessible." },
+          { status: 409 },
+        );
+      }
+      const gradedStudentId = gradedRows[0].studentId;
+
+      // Award partial points only after the guarded update succeeds.
       await db
         .update(users)
         .set({ points: sql_inc("points", safeScore) })
-        .where(eq(users.id, subs[0].studentId))
+        .where(eq(users.id, gradedStudentId))
         .catch(() => null);
 
       await notifyUser(
-        subs[0].studentId,
+        gradedStudentId,
         "✅ تم تصحيح واجبك",
         `درجتك في "${hw[0]?.title || "الواجب"}": ${safeScore}/${maxPts}${feedback ? ` — ملاحظة المدرس: ${feedback}` : ""}`,
         "quiz",
