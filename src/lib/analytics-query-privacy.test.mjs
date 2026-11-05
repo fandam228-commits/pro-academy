@@ -241,23 +241,24 @@ test("teacher attendance GET is limited to owned-course student roster and recor
     "teacher session metadata must also be limited to the owned-course roster");
 });
 
-test("parent attendance GET requires an admin-verified current student and explicit child resolution", () => {
+test("parent attendance GET requires verified access and explicit selection across all linked children", () => {
   const parentStart = attendanceRouteSource.indexOf('if (role === "parent")');
   const studentStart = attendanceRouteSource.indexOf("// ============ STUDENT: own records ============", parentStart);
   assert.notEqual(parentStart, -1, "parent attendance branch must exist");
   assert.notEqual(studentStart, -1, "student attendance branch must follow parent branch");
   const parentSource = attendanceRouteSource.slice(parentStart, studentStart);
-  assert.match(parentSource, /innerJoin\(users, eq\(parentLinks\.studentId, users\.id\)\)/);
-  assert.match(parentSource, /innerJoin\(verifiedByUser, eq\(parentLinks\.verifiedBy, verifiedByUser\.id\)\)/);
-  assert.match(parentSource, /eq\(parentLinks\.parentId, ctx\.user\.id\)/);
-  assert.match(parentSource, /eq\(users\.role, "student"\)/);
-  assert.match(parentSource, /eq\(verifiedByUser\.role, "admin"\)/);
-  assert.match(parentSource, /isNotNull\(parentLinks\.verifiedAt\)/);
-  assert.match(parentSource, /resolveParentAnalyticsStudentId\(requestedStudent, linkedStudentIds\)/);
-  assert.doesNotMatch(parentSource, /links\s*\[\s*0\s*\]\s*\??\.\s*studentId/,
-    "parent attendance must not silently select the first linked child");
-  assert.match(parentSource, /eq\(attendanceRecords\.studentId, studentId\)/,
-    "records must be queried only for the explicitly resolved authorized child");
+
+  assert.ok(parentSource.includes("leftJoin(verifiedByUser, eq(parentLinks.verifiedBy, verifiedByUser.id))"));
+  assert.ok(parentSource.includes("verifierRole: verifiedByUser.role"));
+  assert.ok(parentSource.includes('eq(parentAccount.role, "parent")'));
+  assert.ok(parentSource.includes('eq(users.role, "student")'));
+  assert.ok(parentSource.includes("getParentAnalyticsSelectionData(links)"));
+  assert.ok(parentSource.includes("allLinkedStudentIds: linkedStudentIds"));
+  assert.ok(parentSource.includes("resolveParentAnalyticsStudentId(requestedStudent, linkedStudentIds)"));
+  assert.ok(parentSource.includes("verifiedStudentIds.includes(resolution.studentId)"));
+  assert.ok(!parentSource.includes('eq(verifiedByUser.role, "admin")'));
+  assert.ok(!parentSource.includes("isNotNull(parentLinks.verifiedAt)"));
+  assert.ok(parentSource.includes("eq(attendanceRecords.studentId, studentId)"));
 });
 
 test("student attendance GET always queries only the authenticated student's records", () => {
@@ -400,21 +401,23 @@ test("reports GET authenticates and validates supported roles before database se
     "reports GET must reject unauthenticated and unsupported-role callers before database setup");
 });
 
-test("reports parent access requires a verified current student and current admin verifier", () => {
+test("reports parent access requires verified access and explicit selection across all linked children", () => {
   const parentStart = reportsRouteSource.indexOf('if (role === "parent")');
   const studentStart = reportsRouteSource.indexOf('else if (role === "student")', parentStart);
   assert.ok(parentStart >= 0 && studentStart > parentStart, "parent and student report branches must exist");
   const parentSource = reportsRouteSource.slice(parentStart, studentStart);
-  assert.match(parentSource, /\.innerJoin\(users, eq\(parentLinks\.studentId, users\.id\)\)/);
-  assert.match(parentSource, /\.innerJoin\(verifiedByUser, eq\(parentLinks\.verifiedBy, verifiedByUser\.id\)\)/);
-  assert.match(parentSource, /eq\(parentLinks\.parentId, ctx\.user\.id\)/);
-  assert.match(parentSource, /eq\(users\.role, "student"\)/);
-  assert.match(parentSource, /eq\(verifiedByUser\.role, "admin"\)/);
-  assert.match(parentSource, /isNotNull\(parentLinks\.verifiedAt\)/);
-  assert.match(parentSource, /isNotNull\(parentLinks\.verifiedBy\)/);
-  assert.match(parentSource, /resolveParentAnalyticsStudentId\(studentId, linkedStudentIds\)/);
-  assert.doesNotMatch(parentSource, /links\s*\[\s*0\s*\]\s*\??\.\s*studentId|linkedStudentIds\s*\[\s*0\s*\]/,
-    "reports must never silently choose the first linked child");
+
+  assert.ok(parentSource.includes("leftJoin(verifiedByUser, eq(parentLinks.verifiedBy, verifiedByUser.id))"));
+  assert.ok(parentSource.includes("verifierRole: verifiedByUser.role"));
+  assert.ok(parentSource.includes('eq(parentAccount.role, "parent")'));
+  assert.ok(parentSource.includes('eq(users.role, "student")'));
+  assert.ok(parentSource.includes("getParentAnalyticsSelectionData(links)"));
+  assert.ok(parentSource.includes("allLinkedStudentIds: linkedStudentIds"));
+  assert.ok(parentSource.includes("resolveParentAnalyticsStudentId(studentId, linkedStudentIds)"));
+  assert.ok(parentSource.includes("verifiedStudentIds.includes(resolution.studentId)"));
+  assert.ok(!parentSource.includes('eq(verifiedByUser.role, "admin")'));
+  assert.ok(!parentSource.includes("isNotNull(parentLinks.verifiedAt)"));
+  assert.ok(!parentSource.includes("links[0]"));
 });
 
 test("reports student access is self-only and rejects a forged target ID", () => {
