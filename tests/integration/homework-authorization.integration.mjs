@@ -2,7 +2,7 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { Client } from "pg";
 import { drizzle } from "drizzle-orm/node-postgres";
-import { and, eq, inArray, isNull, or } from "drizzle-orm";
+import { and, eq, exists, inArray, isNull, or } from "drizzle-orm";
 import { pgTable, text } from "drizzle-orm/pg-core";
 import { canAssignHomeworkToCourse, canAccessHomeworkCourse, canManageHomework } from "../../src/lib/homework-authorization.mjs";
 
@@ -25,6 +25,12 @@ const homework = pgTable("homework", {
   id: text("id").primaryKey(),
   teacherId: text("teacher_id").notNull(),
   courseId: text("course_id"),
+});
+
+const homeworkSubmissions = pgTable("homework_submissions", {
+  id: text("id").primaryKey(),
+  homeworkId: text("homework_id").notNull(),
+  status: text("status"),
 });
 
 function assertLocalTestDatabase(value) {
@@ -66,11 +72,18 @@ async function withFixture(run) {
         ('enroll-completed', 'student-1', 'course-completed', 'completed'),
         ('enroll-cancelled', 'student-1', 'course-cancelled', 'cancelled'),
         ('enroll-other-student', 'student-2', 'course-owned', 'active');
+      CREATE TEMP TABLE homework_submissions (
+        id TEXT PRIMARY KEY,
+        homework_id TEXT NOT NULL,
+        status TEXT
+      );
       INSERT INTO homework (id, teacher_id, course_id) VALUES
         ('homework-owned', 'teacher-1', 'course-owned'),
         ('homework-reassigned', 'teacher-1', 'course-other'),
         ('homework-orphaned', 'teacher-1', 'course-missing'),
         ('homework-grade-only', 'teacher-1', NULL);
+      INSERT INTO homework_submissions (id, homework_id, status)
+      VALUES ('submission-owned', 'homework-owned', 'submitted');
     `);
     await run(drizzle(client));
   } finally {
@@ -171,6 +184,63 @@ integrationTest("PostgreSQL current course ownership revokes stale teacher acces
       ["homework-grade-only", "homework-owned"],
       "teacher homework listings must exclude reassigned and orphaned course records",
     );
+  });
+});
+
+integrationTest("PostgreSQL mutation predicates deny stale teacher grading and deletion after course ownership transfer", async () => {
+  await withFixture(async (db) => {
+    // The teacher passed the earlier ownership preflight, but the course is
+    // reassigned before the final mutation statement executes.
+    await db.update(courses).set({ teacherId: "teacher-2" }).where(eq(courses.id, "course-owned"));
+
+    const graded = await db
+      .update(homeworkSubmissions)
+      .set({ status: "graded" })
+      .where(and(
+        eq(homeworkSubmissions.id, "submission-owned"),
+        exists(db
+          .select({ id: homework.id })
+          .from(homework)
+          .leftJoin(courses, eq(homework.courseId, courses.id))
+          .where(and(
+            eq(homework.id, homeworkSubmissions.homeworkId),
+            eq(homework.teacherId, "teacher-1"),
+            or(isNull(homework.courseId), eq(courses.teacherId, "teacher-1")),
+          ))),
+      ))
+      .returning({ id: homeworkSubmissions.id });
+    assert.deepEqual(graded, [], "the former course owner must not grade after ownership transfer");
+
+    const deleted = await db
+      .delete(homework)
+      .where(and(
+        eq(homework.id, "homework-owned"),
+        eq(homework.teacherId, "teacher-1"),
+        or(
+          isNull(homework.courseId),
+          exists(db
+            .select({ id: courses.id })
+            .from(courses)
+            .where(and(
+              eq(courses.id, homework.courseId),
+              eq(courses.teacherId, "teacher-1"),
+            ))),
+        ),
+      ))
+      .returning({ id: homework.id });
+    assert.deepEqual(deleted, [], "the former course owner must not delete after ownership transfer");
+
+    const submissionRows = await db
+      .select({ status: homeworkSubmissions.status })
+      .from(homeworkSubmissions)
+      .where(eq(homeworkSubmissions.id, "submission-owned"));
+    assert.equal(submissionRows[0]?.status, "submitted", "the denied grading attempt must leave the submission unchanged");
+
+    const homeworkRows = await db
+      .select({ id: homework.id })
+      .from(homework)
+      .where(eq(homework.id, "homework-owned"));
+    assert.equal(homeworkRows.length, 1, "the denied delete attempt must leave the homework unchanged");
   });
 });
 
