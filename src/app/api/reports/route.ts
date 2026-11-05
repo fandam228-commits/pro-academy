@@ -77,6 +77,9 @@ export async function GET(req: Request) {
         }
         return NextResponse.json({ error: "Forbidden" }, { status: 403 });
       }
+      if (!verifiedStudentIds.includes(resolution.studentId)) {
+        return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+      }
       studentId = resolution.studentId;
     } else if (role === "student") {
       // Students may read only their own report. Reject a forged target ID
