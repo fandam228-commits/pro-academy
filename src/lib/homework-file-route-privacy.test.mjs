@@ -8,7 +8,7 @@ const route = await readFile(
 );
 
 test("private homework file route resolves submission and current course ownership in one joined query", () => {
-  const lookupStart = route.indexOf("const fileAccessRows = await db");
+  const lookupStart = route.indexOf("const [fileAccessRow] = await db");
   const decisionStart = route.indexOf("const accessDecision = getHomeworkFileAccessDecision");
   assert.ok(lookupStart >= 0 && decisionStart > lookupStart,
     "the joined authorization lookup must happen before the access decision");
