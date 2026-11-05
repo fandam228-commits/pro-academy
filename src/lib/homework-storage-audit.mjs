@@ -59,6 +59,18 @@ export function assertSafeHomeworkAuditTarget(connectionString, allowRemote = fa
     );
   }
 
+  // A remote audit must verify both the server certificate and hostname.
+  // Do not accept duplicate sslmode parameters, whose interpretation can vary
+  // between URL parsers and PostgreSQL clients.
+  if (!isLocal) {
+    const sslModes = parsed.searchParams.getAll("sslmode").map((mode) => mode.toLowerCase());
+    if (sslModes.length !== 1 || sslModes[0] !== "verify-full") {
+      throw new Error(
+        "Remote homework storage audits require DATABASE_URL sslmode=verify-full to verify the server certificate and hostname."
+      );
+    }
+  }
+
   return isLocal ? "local" : "remote-read-only-opt-in";
 }
 
