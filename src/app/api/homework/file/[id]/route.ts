@@ -44,6 +44,8 @@ export async function GET(req: Request, { params }: { params: Promise<{ id: stri
       requesterId: ctx.user.id,
       submissionStudentId: sub?.studentId,
       homeworkTeacherId: homeworkRow?.teacherId,
+      homeworkCourseId: homeworkRow?.courseId,
+      courseTeacherId: homeworkRow?.courseTeacherId,
     });
     if (!sub || !homeworkRow || accessDecision !== "allowed") {
       // Use the same status and body for missing records and unauthorized callers.
