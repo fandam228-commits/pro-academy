@@ -46,19 +46,43 @@ test("storage audit classifies references without exposing their values", () => 
   );
 });
 
-test("storage audit refuses remote database targets unless explicitly opted in", () => {
+test("storage audit keeps local targets available and fails closed for remote targets without verified TLS", () => {
   assert.throws(() => assertSafeHomeworkAuditTarget(""), /DATABASE_URL is required/);
   assert.throws(
     () => assertSafeHomeworkAuditTarget("https://example.test"),
     (error) => error instanceof Error && error.message.includes("must use the postgres:// or postgresql:// protocol"),
   );
-  assert.equal(assertSafeHomeworkAuditTarget("postgresql://postgres:postgres@127.0.0.1:5432/proacademy_test"), "local");
+  assert.equal(
+    assertSafeHomeworkAuditTarget("postgresql://postgres:postgres@127.0.0.1:5432/proacademy_test"),
+    "local",
+  );
+
+  const remoteWithoutTls = "postgresql://user:pass@db.example.test/prod";
   assert.throws(
-    () => assertSafeHomeworkAuditTarget("postgresql://user:pass@db.example.test/prod"),
+    () => assertSafeHomeworkAuditTarget(remoteWithoutTls),
     /Refusing a non-local database by default/,
   );
+  assert.throws(
+    () => assertSafeHomeworkAuditTarget(remoteWithoutTls, true),
+    /require DATABASE_URL sslmode=verify-full/,
+  );
+
+  for (const sslmode of ["disable", "allow", "prefer", "require", "verify-ca"]) {
+    assert.throws(
+      () => assertSafeHomeworkAuditTarget(`${remoteWithoutTls}?sslmode=${sslmode}`, true),
+      /require DATABASE_URL sslmode=verify-full/,
+    );
+  }
+
+  assert.throws(
+    () => assertSafeHomeworkAuditTarget(
+      `${remoteWithoutTls}?sslmode=verify-full&sslmode=disable`,
+      true,
+    ),
+    /require DATABASE_URL sslmode=verify-full/,
+  );
   assert.equal(
-    assertSafeHomeworkAuditTarget("postgresql://user:pass@db.example.test/prod", true),
+    assertSafeHomeworkAuditTarget(`${remoteWithoutTls}?sslmode=verify-full`, true),
     "remote-read-only-opt-in",
   );
 });
