@@ -408,7 +408,7 @@ test("reports parent access requires a verified current student and current admi
   assert.ok(parentStart >= 0 && studentStart > parentStart, "parent and student report branches must exist");
   const parentSource = reportsRouteSource.slice(parentStart, studentStart);
   assert.match(parentSource, /\.innerJoin\(users, eq\(parentLinks\.studentId, users\.id\)\)/);
-  assert.match(parentSource, /\.innerJoin\(verifiedByUser, eq\(parentLinks\.verifiedBy, verifiedByUser\.id\)\)/);
+  assert.match(parentSource, /\.leftJoin\(verifiedByUser, eq\(parentLinks\.verifiedBy, verifiedByUser\.id\)\)/);
   assert.match(parentSource, /eq\(parentLinks\.parentId, ctx\.user\.id\)/);
   assert.match(parentSource, /eq\(users\.role, "student"\)/);
   assert.match(parentSource, /verifierRole:\s*verifiedByUser\.role/);
