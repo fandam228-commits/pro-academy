@@ -68,13 +68,6 @@ async function buildStudentReport(studentId: string, scope?: TeacherReportScope)
             eq(courses.teacherId, scope.teacherId),
             inArray(enrollments.courseId, scope.allowedCourseIds),
             inArray(enrollments.status, ["active", "completed"]),
-            exists(db
-              .select({ id: users.id })
-              .from(users)
-              .where(and(
-                eq(users.id, studentId),
-                eq(users.role, "student"),
-              ))),
           ))
           .limit(1)
     : await db
@@ -245,6 +238,13 @@ async function buildStudentReport(studentId: string, scope?: TeacherReportScope)
             eq(courses.teacherId, scope.teacherId),
             inArray(enrollments.courseId, scope.allowedCourseIds),
             inArray(enrollments.status, ["active", "completed"]),
+            exists(db
+              .select({ id: users.id })
+              .from(users)
+              .where(and(
+                eq(users.id, studentId),
+                eq(users.role, "student"),
+              ))),
           ))
     : await db.select().from(enrollments).where(eq(enrollments.studentId, studentId));
 
