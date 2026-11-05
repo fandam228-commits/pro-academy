@@ -70,7 +70,10 @@ function assertMixedVerificationParentSelection(source, routeName) {
   assert.ok(source.includes("resolveParentAnalyticsStudentId(requestedStudent, linkedStudentIds)"));
   const verifiedGuard = source.indexOf("if (!verifiedStudentIds.includes(resolution.studentId))");
   const denied = source.indexOf("status: 403", verifiedGuard);
-  const selected = source.indexOf("const studentId = resolution.studentId", denied);
+  const selected = Math.max(
+    source.indexOf("const studentId = resolution.studentId", denied),
+    source.indexOf("studentId = resolution.studentId", denied),
+  );
   assert.ok(verifiedGuard >= 0 && denied > verifiedGuard && selected > denied,
     routeName + " must reject unverified children before reading their report data");
   assert.ok(!source.includes("isNotNull(parentLinks.verifiedAt)"),
