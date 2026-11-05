@@ -64,6 +64,19 @@ test("student analytics route authorizes the requested ID but only builds the au
 });
 
 test("teacher reports always pass an owned-course scope to the report builder", () => {
+  assert.match(reportSource, /exists\(db[\s\S]*?from\(users\)[\s\S]*?eq\(users\.id, quizSubmissions\.studentId\)[\s\S]*?eq\(users\.role, "student"\)/,
+    "quiz reads must revalidate that the target account is still a student");
+  assert.match(reportSource, /exists\(db[\s\S]*?from\(users\)[\s\S]*?eq\(users\.id, studentId\)[\s\S]*?eq\(users\.role, "student"\)/,
+    "teacher homework and enrollment reads must revalidate the current student role");
+  assert.match(reportSource, /exists\(db[\s\S]*?from\(users\)[\s\S]*?eq\(users\.id, homeworkSubmissions\.studentId\)[\s\S]*?eq\(users\.role, "student"\)/,
+    "submission reads must revalidate the submitting account's current student role");
+
+  const enrollmentReadStart = reportSource.indexOf("const myEnrollments = scope");
+  const enrollmentReadEnd = reportSource.indexOf("// ---------- SCORE TIMELINE", enrollmentReadStart);
+  assert.ok(enrollmentReadStart >= 0 && enrollmentReadEnd > enrollmentReadStart);
+  assert.match(reportSource.slice(enrollmentReadStart, enrollmentReadEnd), /eq\(users\.role, "student"\)/,
+    "teacher course counts must not include an account that is no longer a student");
+
   const teacherStart = routeSource.indexOf('if (role === "teacher")');
   const parentStart = routeSource.indexOf('if (role === "parent")', teacherStart);
   assert.notEqual(teacherStart, -1, "teacher analytics branch must exist");
