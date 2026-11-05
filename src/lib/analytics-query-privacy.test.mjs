@@ -483,3 +483,26 @@ test("authorization context uses the current database role rather than a stale s
     "a stored session role must not replace the current database role",
   );
 });
+
+
+test("teacher report queries revalidate current course ownership and active enrollment at each data read", () => {
+  const reportSource = routeSource.slice(reportStart, reportEnd);
+  assert.match(reportSource, /\.innerJoin\(enrollments, eq\(enrollments\.studentId, users\.id\)\)/,
+    "teacher profile reads must recheck a current enrollment");
+  assert.match(reportSource, /\.innerJoin\(courses, eq\(enrollments\.courseId, courses\.id\)\)/,
+    "teacher profile reads must rejoin the current course row");
+  assert.match(reportSource, /eq\(courses\.teacherId, scope\.teacherId\)/,
+    "teacher report data reads must revalidate current course ownership");
+  assert.match(reportSource, /inArray\(enrollments\.status, \[\"active\", \"completed\"\]\)/,
+    "teacher report data reads must revalidate current eligible enrollment status");
+  assert.match(reportSource, /innerJoin\(courses, eq\(quizzes\.courseId, courses\.id\)\)/,
+    "quiz reads must rejoin the current course owner");
+  assert.match(reportSource, /exists\(db[\s\S]*?from\(enrollments\)[\s\S]*?eq\(enrollments\.studentId, quizSubmissions\.studentId\)[\s\S]*?eq\(enrollments\.courseId, quizzes\.courseId\)[\s\S]*?inArray\(enrollments\.status, \[\"active\", \"completed\"\]\)/,
+    "quiz reads must require a current active/completed enrollment for the same student and course");
+  assert.match(reportSource, /innerJoin\(courses, eq\(homework\.courseId, courses\.id\)\)/,
+    "homework reads must rejoin the current course owner");
+  assert.match(reportSource, /innerJoin\(homework, eq\(homeworkSubmissions\.homeworkId, homework\.id\)\)/,
+    "submission reads must revalidate the linked homework and course");
+  assert.match(reportSource, /const visibleStudentRows = teacherStudentIds\.length === 0[\s\S]*?innerJoin\(courses, eq\(enrollments\.courseId, courses\.id\)\)[\s\S]*?eq\(courses\.teacherId, ctx\.user\.id\)[\s\S]*?inArray\(enrollments\.status, \[\"active\", \"completed\"\]\)/,
+    "class roster must revalidate current owner and enrollment before exposing student profile fields");
+});
