@@ -68,6 +68,13 @@ async function buildStudentReport(studentId: string, scope?: TeacherReportScope)
             eq(courses.teacherId, scope.teacherId),
             inArray(enrollments.courseId, scope.allowedCourseIds),
             inArray(enrollments.status, ["active", "completed"]),
+            exists(db
+              .select({ id: users.id })
+              .from(users)
+              .where(and(
+                eq(users.id, studentId),
+                eq(users.role, "student"),
+              ))),
           ))
           .limit(1)
     : await db
@@ -108,6 +115,15 @@ async function buildStudentReport(studentId: string, scope?: TeacherReportScope)
             eq(quizSubmissions.studentId, studentId),
             eq(courses.teacherId, scope.teacherId),
             inArray(quizzes.courseId, scope.allowedCourseIds),
+            // Recheck the target account's current role for every data read; the
+            // earlier roster/profile lookup can become stale during a request.
+            exists(db
+              .select({ id: users.id })
+              .from(users)
+              .where(and(
+                eq(users.id, quizSubmissions.studentId),
+                eq(users.role, "student"),
+              ))),
             exists(db
               .select({ id: enrollments.id })
               .from(enrollments)
@@ -142,6 +158,13 @@ async function buildStudentReport(studentId: string, scope?: TeacherReportScope)
             eq(homework.teacherId, scope.teacherId),
             eq(courses.teacherId, scope.teacherId),
             inArray(homework.courseId, scope.allowedCourseIds),
+            exists(db
+              .select({ id: users.id })
+              .from(users)
+              .where(and(
+                eq(users.id, studentId),
+                eq(users.role, "student"),
+              ))),
             exists(db
               .select({ id: enrollments.id })
               .from(enrollments)
@@ -178,6 +201,13 @@ async function buildStudentReport(studentId: string, scope?: TeacherReportScope)
             eq(homework.teacherId, scope.teacherId),
             eq(courses.teacherId, scope.teacherId),
             inArray(homeworkSubmissions.homeworkId, [...visibleHomeworkIds]),
+            exists(db
+              .select({ id: users.id })
+              .from(users)
+              .where(and(
+                eq(users.id, homeworkSubmissions.studentId),
+                eq(users.role, "student"),
+              ))),
             exists(db
               .select({ id: enrollments.id })
               .from(enrollments)
