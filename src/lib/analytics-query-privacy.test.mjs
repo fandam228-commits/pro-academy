@@ -329,8 +329,8 @@ test("teacher class roster selects only authorized student profile fields", () =
 
   assert.match(
     teacherSource,
-    /const visibleStudents = teacherStudentIds\.length === 0\s*\?\s*\[\]\s*:\s*await db\s*\.select\(\{\s*id: users\.id,\s*name: users\.name,\s*grade: users\.grade\s*\}\)\s*\.from\(users\)\s*\.where\(and\(eq\(users\.role, "student"\), inArray\(users\.id, teacherStudentIds\)\)\)/,
-    "teacher roster SQL must select only id/name/grade and filter by the authorized student-ID allowlist",
+    /const visibleStudentRows = teacherStudentIds\.length === 0\s*\?\s*\[\]\s*:\s*await db\s*\.select\(\{\s*id: users\.id,\s*name: users\.name,\s*grade: users\.grade\s*\}\)\s*\.from\(users\)\s*\.innerJoin\(enrollments, eq\(enrollments\.studentId, users\.id\)\)\s*\.innerJoin\(courses, eq\(enrollments\.courseId, courses\.id\)\)\s*\.where\(and\([\s\S]*?eq\(users\.role, "student"\)[\s\S]*?inArray\(users\.id, teacherStudentIds\)[\s\S]*?eq\(courses\.teacherId, ctx\.user\.id\)[\s\S]*?inArray\(enrollments\.status, \["active", "completed"\]\)[\s\S]*?\)\)/,
+    "teacher roster SQL must select only id/name/grade and revalidate current owner and enrollment",
   );
   assert.doesNotMatch(
     teacherSource,
@@ -351,7 +351,6 @@ test("teacher class roster selects only authorized student profile fields", () =
     "teacher class analytics must not expose account contact, authentication, storage, or parent-link fields",
   );
 });
-
 
 test("parent-link revocation rechecks the current administrator role in the UPDATE predicate", () => {
   const deleteStart = verificationRouteSource.indexOf("export async function DELETE(");
@@ -493,11 +492,11 @@ test("teacher report queries revalidate current course ownership and active enro
     "teacher profile reads must rejoin the current course row");
   assert.match(reportSource, /eq\(courses\.teacherId, scope\.teacherId\)/,
     "teacher report data reads must revalidate current course ownership");
-  assert.match(reportSource, /inArray\(enrollments\.status, \[\"active\", \"completed\"\]\)/,
+  assert.match(reportSource, /inArray\(enrollments\.status, \["active", "completed"\]\)/,
     "teacher report data reads must revalidate current eligible enrollment status");
   assert.match(reportSource, /innerJoin\(courses, eq\(quizzes\.courseId, courses\.id\)\)/,
     "quiz reads must rejoin the current course owner");
-  assert.match(reportSource, /exists\(db[\s\S]*?from\(enrollments\)[\s\S]*?eq\(enrollments\.studentId, quizSubmissions\.studentId\)[\s\S]*?eq\(enrollments\.courseId, quizzes\.courseId\)[\s\S]*?inArray\(enrollments\.status, \[\"active\", \"completed\"\]\)/,
+  assert.match(reportSource, /exists\(db[\s\S]*?from\(enrollments\)[\s\S]*?eq\(enrollments\.studentId, quizSubmissions\.studentId\)[\s\S]*?eq\(enrollments\.courseId, quizzes\.courseId\)[\s\S]*?inArray\(enrollments\.status, \["active", "completed"\]\)/,
     "quiz reads must require a current active/completed enrollment for the same student and course");
   assert.match(reportSource, /innerJoin\(courses, eq\(homework\.courseId, courses\.id\)\)/,
     "homework reads must rejoin the current course owner");
@@ -507,6 +506,12 @@ test("teacher report queries revalidate current course ownership and active enro
     "homework and submission reads must recheck the student enrollment for the exact course");
   assert.match(reportSource, /eq\(enrollments\.studentId, homeworkSubmissions\.studentId\)/,
     "submission reads must tie the current enrollment to the submitting student");
-  assert.match(reportSource, /const visibleStudentRows = teacherStudentIds\.length === 0[\s\S]*?innerJoin\(courses, eq\(enrollments\.courseId, courses\.id\)\)[\s\S]*?eq\(courses\.teacherId, ctx\.user\.id\)[\s\S]*?inArray\(enrollments\.status, \[\"active\", \"completed\"\]\)/,
+
+  const teacherStart = routeSource.indexOf('if (role === "teacher")');
+  const parentStart = routeSource.indexOf('if (role === "parent")', teacherStart);
+  assert.ok(teacherStart >= 0 && parentStart > teacherStart);
+  const teacherSource = routeSource.slice(teacherStart, parentStart);
+  assert.match(teacherSource, /const visibleStudentRows = teacherStudentIds\.length === 0[\s\S]*?innerJoin\(courses, eq\(enrollments\.courseId, courses\.id\)\)[\s\S]*?eq\(courses\.teacherId, ctx\.user\.id\)[\s\S]*?inArray\(enrollments\.status, \["active", "completed"\]\)/,
     "class roster must revalidate current owner and enrollment before exposing student profile fields");
 });
+
