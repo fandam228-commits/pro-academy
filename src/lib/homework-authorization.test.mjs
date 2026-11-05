@@ -47,6 +47,8 @@ test("only the submission owner, owning teacher, or admin can view a submission 
     requesterId: "student-1",
     submissionStudentId: "student-1",
     homeworkTeacherId: "teacher-1",
+    homeworkCourseId: null,
+    courseTeacherId: null,
   };
   assert.equal(canViewHomeworkSubmissionFile({ role: "student", ...context }), true);
   assert.equal(
