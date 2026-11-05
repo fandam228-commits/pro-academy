@@ -2,9 +2,9 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { Client } from "pg";
 import { drizzle } from "drizzle-orm/node-postgres";
-import { and, eq, inArray } from "drizzle-orm";
+import { and, eq, inArray, isNull, or } from "drizzle-orm";
 import { pgTable, text } from "drizzle-orm/pg-core";
-import { canAssignHomeworkToCourse, canAccessHomeworkCourse } from "../../src/lib/homework-authorization.mjs";
+import { canAssignHomeworkToCourse, canAccessHomeworkCourse, canManageHomework } from "../../src/lib/homework-authorization.mjs";
 
 const connectionString = process.env.TEST_DATABASE_URL;
 const integrationTest = connectionString ? test : test.skip;
@@ -19,6 +19,12 @@ const enrollments = pgTable("enrollments", {
   studentId: text("student_id").notNull(),
   courseId: text("course_id").notNull(),
   status: text("status"),
+});
+
+const homework = pgTable("homework", {
+  id: text("id").primaryKey(),
+  teacherId: text("teacher_id").notNull(),
+  courseId: text("course_id"),
 });
 
 function assertLocalTestDatabase(value) {
@@ -45,6 +51,11 @@ async function withFixture(run) {
         course_id TEXT NOT NULL,
         status TEXT
       );
+      CREATE TEMP TABLE homework (
+        id TEXT PRIMARY KEY,
+        teacher_id TEXT NOT NULL,
+        course_id TEXT
+      );
       INSERT INTO courses (id, teacher_id) VALUES
         ('course-owned', 'teacher-1'),
         ('course-completed', 'teacher-1'),
@@ -55,6 +66,11 @@ async function withFixture(run) {
         ('enroll-completed', 'student-1', 'course-completed', 'completed'),
         ('enroll-cancelled', 'student-1', 'course-cancelled', 'cancelled'),
         ('enroll-other-student', 'student-2', 'course-owned', 'active');
+      INSERT INTO homework (id, teacher_id, course_id) VALUES
+        ('homework-owned', 'teacher-1', 'course-owned'),
+        ('homework-reassigned', 'teacher-1', 'course-other'),
+        ('homework-orphaned', 'teacher-1', 'course-missing'),
+        ('homework-grade-only', 'teacher-1', NULL);
     `);
     await run(drizzle(client));
   } finally {
@@ -110,6 +126,53 @@ integrationTest("PostgreSQL course lookup enforces the database-backed homework 
   });
 });
 
+
+integrationTest("PostgreSQL current course ownership revokes stale teacher access to homework", async () => {
+  await withFixture(async (db) => {
+    const rows = await db
+      .select({
+        id: homework.id,
+        teacherId: homework.teacherId,
+        courseId: homework.courseId,
+        courseTeacherId: courses.teacherId,
+      })
+      .from(homework)
+      .leftJoin(courses, eq(homework.courseId, courses.id));
+
+    const decisions = new Map(rows.map((row) => [
+      row.id,
+      canManageHomework({
+        role: "teacher",
+        requesterId: "teacher-1",
+        homeworkTeacherId: row.teacherId,
+        homeworkCourseId: row.courseId,
+        courseTeacherId: row.courseTeacherId,
+      }),
+    ]));
+
+    assert.equal(decisions.get("homework-owned"), true);
+    assert.equal(decisions.get("homework-reassigned"), false,
+      "the former teacher must lose access when the course owner changes");
+    assert.equal(decisions.get("homework-orphaned"), false,
+      "a missing linked course must fail closed");
+    assert.equal(decisions.get("homework-grade-only"), true,
+      "legacy grade-only homework remains scoped to its recorded teacher");
+
+    const visibleRows = await db
+      .select({ id: homework.id })
+      .from(homework)
+      .leftJoin(courses, eq(homework.courseId, courses.id))
+      .where(and(
+        eq(homework.teacherId, "teacher-1"),
+        or(isNull(homework.courseId), eq(courses.teacherId, "teacher-1")),
+      ));
+    assert.deepEqual(
+      visibleRows.map((row) => row.id).sort(),
+      ["homework-grade-only", "homework-owned"],
+      "teacher homework listings must exclude reassigned and orphaned course records",
+    );
+  });
+});
 
 integrationTest("PostgreSQL enrollment scope blocks same-grade students from another course's homework", async () => {
   await withFixture(async (db) => {
