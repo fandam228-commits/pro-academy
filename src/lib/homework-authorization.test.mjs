@@ -303,8 +303,12 @@ test("course-linked homework notifications are limited to active/completed enrol
   assert.ok(recipientsStart >= 0 && recipientsEnd > recipientsStart,
     "notification recipients must be derived after the assignment is created");
   const recipientQuery = createRoute.slice(recipientsStart, recipientsEnd);
-  const courseQuery = recipientQuery.slice(recipientQuery.indexOf("? await db.select"), recipientQuery.indexOf(": await db.select"));
-  const gradeOnlyQuery = recipientQuery.slice(recipientQuery.indexOf(": await db.select"));
+  const courseQueryStart = recipientQuery.indexOf("? await db");
+  const gradeOnlyQueryStart = recipientQuery.indexOf(": await db");
+  assert.ok(courseQueryStart >= 0 && gradeOnlyQueryStart > courseQueryStart,
+    "both course-linked and grade-only notification query branches must be present");
+  const courseQuery = recipientQuery.slice(courseQueryStart, gradeOnlyQueryStart);
+  const gradeOnlyQuery = recipientQuery.slice(gradeOnlyQueryStart);
 
   assert.match(courseQuery, /\.from\(enrollments\)/,
     "course-specific notifications must start from enrollment records");
