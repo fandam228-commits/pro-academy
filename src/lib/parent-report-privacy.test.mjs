@@ -289,6 +289,16 @@ test("student performance reports enforce role-specific authorization before loa
   assert.ok(parentSource.includes("verifiedStudentIds.includes(resolution.studentId)"));
   assert.ok(!parentSource.includes('eq(verifiedByUser.role, "admin")'),
     "unverified links must remain visible to the ambiguity calculation");
+
+  const verifiedGuard = parentSource.indexOf("if (!verifiedStudentIds.includes(resolution.studentId))");
+  const verifiedForbidden = parentSource.indexOf(
+    'return NextResponse.json({ error: "Forbidden" }, { status: 403 });',
+    verifiedGuard,
+  );
+  assert.ok(
+    verifiedGuard >= 0 && verifiedForbidden > verifiedGuard,
+    "an explicitly selected but unverified child must be denied before target/report reads",
+  );
   assert.doesNotMatch(parentSource, /links\s*\[\s*0\s*\]\s*\??\.\s*studentId/,
     "parent access must not silently choose the first linked child");
 
