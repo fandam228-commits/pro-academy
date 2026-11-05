@@ -12,11 +12,19 @@ export function canViewHomeworkSubmissionFile({
   requesterId,
   submissionStudentId,
   homeworkTeacherId,
+  homeworkCourseId,
+  courseTeacherId,
 }) {
   if (!role || !requesterId) return false;
   if (role === "admin") return true;
   if (role === "teacher") {
-    return Boolean(homeworkTeacherId) && requesterId === homeworkTeacherId;
+    if (!homeworkTeacherId || requesterId !== homeworkTeacherId) return false;
+
+    // Course-linked legacy rows can contain inconsistent teacher IDs. Require
+    // the current course owner to match too; only grade-only homework may omit it.
+    if (homeworkCourseId === null) return true;
+    if (typeof homeworkCourseId !== "string" || homeworkCourseId.trim() === "") return false;
+    return Boolean(courseTeacherId) && requesterId === courseTeacherId;
   }
   if (role === "student") {
     return Boolean(submissionStudentId) && requesterId === submissionStudentId;
@@ -80,32 +88,13 @@ export function getHomeworkFileAccessDecision({
   courseTeacherId,
 }) {
   if (submissionFound !== true || homeworkFound !== true) return "not-found";
-
-  // A teacher's homework.teacherId is not sufficient for course-linked files:
-  // verify the current owner of the linked course in the same lookup.
-  if (role === "teacher") {
-    if (homeworkCourseId === undefined) return "not-found";
-    if (homeworkCourseId !== null) {
-      if (
-        typeof homeworkCourseId !== "string" ||
-        homeworkCourseId.trim() === "" ||
-        typeof courseTeacherId !== "string" ||
-        courseTeacherId.trim() === "" ||
-        courseTeacherId !== homeworkTeacherId ||
-        requesterId !== courseTeacherId
-      ) {
-        return "not-found";
-      }
-    } else if (!homeworkTeacherId || requesterId !== homeworkTeacherId) {
-      return "not-found";
-    }
-  }
-
   return canViewHomeworkSubmissionFile({
     role,
     requesterId,
     submissionStudentId,
     homeworkTeacherId,
+    homeworkCourseId,
+    courseTeacherId,
   }) ? "allowed" : "not-found";
 }
 
