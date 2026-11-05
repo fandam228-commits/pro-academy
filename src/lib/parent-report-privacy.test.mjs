@@ -277,13 +277,18 @@ test("student performance reports enforce role-specific authorization before loa
   const targetCheck = handler.indexOf("// Only a current student account can be the target", parentStart);
   assert.ok(parentStart >= 0 && targetCheck > parentStart, "parent access must resolve a verified child before target lookup");
   const parentSource = handler.slice(parentStart, targetCheck);
-  assert.match(parentSource, /innerJoin\(parentAccountUser, eq\(parentLinks\.parentId, parentAccountUser\.id\)\)/);
-  assert.match(parentSource, /eq\(parentAccountUser\.role, "parent"\)/);
-  assert.match(parentSource, /eq\(linkedStudentUser\.role, "student"\)/);
-  assert.match(parentSource, /eq\(verifiedByUser\.role, "admin"\)/);
-  assert.match(parentSource, /isNotNull\(parentLinks\.verifiedAt\)/);
-  assert.match(parentSource, /isNotNull\(parentLinks\.verifiedBy\)/);
-  assert.match(parentSource, /resolveParentAnalyticsStudentId\(requestedStudentId, linkedStudentIds\)/);
+  assert.match(parentSource, /innerJoin\\(parentAccountUser, eq\\(parentLinks\\.parentId, parentAccountUser\\.id\\)\\)/);
+  assert.match(parentSource, /eq\\(parentAccountUser\\.role, "parent"\\)/);
+  assert.match(parentSource, /innerJoin\\(linkedStudentUser, eq\\(parentLinks\\.studentId, linkedStudentUser\\.id\\)\\)/);
+  assert.match(parentSource, /eq\\(linkedStudentUser\\.role, "student"\\)/);
+  assert.match(parentSource, /leftJoin\\(verifiedByUser, eq\\(parentLinks\\.verifiedBy, verifiedByUser\\.id\\)\\)/);
+  assert.match(parentSource, /verifierRole: verifiedByUser\\.role/);
+  assert.match(parentSource, /getParentAnalyticsSelectionData\\(links\\)/);
+  assert.match(parentSource, /allLinkedStudentIds:\\s*linkedStudentIds/);
+  assert.match(parentSource, /resolveParentAnalyticsStudentId\\(requestedStudentId, linkedStudentIds\\)/);
+  assert.match(parentSource, /verifiedStudentIds\\.includes\\(resolution\\.studentId\\)/);
+  assert.doesNotMatch(parentSource, /eq\\(verifiedByUser\\.role, "admin"\\)/,
+    "unverified links must remain visible to the ambiguity calculation");
   assert.doesNotMatch(parentSource, /links\s*\[\s*0\s*\]\s*\??\.\s*studentId/,
     "parent access must not silently choose the first linked child");
 
