@@ -2,7 +2,7 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { Client } from "pg";
 import { drizzle } from "drizzle-orm/node-postgres";
-import { and, eq, inArray } from "drizzle-orm";
+import { and, eq, inArray, isNull, or } from "drizzle-orm";
 import { pgTable, text } from "drizzle-orm/pg-core";
 import { canAssignHomeworkToCourse, canAccessHomeworkCourse } from "../../src/lib/homework-authorization.mjs";
 
@@ -18,6 +18,18 @@ const enrollments = pgTable("enrollments", {
   id: text("id").primaryKey(),
   studentId: text("student_id").notNull(),
   courseId: text("course_id").notNull(),
+  status: text("status"),
+});
+
+const homework = pgTable("homework", {
+  id: text("id").primaryKey(),
+  teacherId: text("teacher_id").notNull(),
+  courseId: text("course_id"),
+});
+
+const homeworkSubmissions = pgTable("homework_submissions", {
+  id: text("id").primaryKey(),
+  homeworkId: text("homework_id").notNull(),
   status: text("status"),
 });
 
@@ -45,6 +57,16 @@ async function withFixture(run) {
         course_id TEXT NOT NULL,
         status TEXT
       );
+      CREATE TEMP TABLE homework (
+        id TEXT PRIMARY KEY,
+        teacher_id TEXT NOT NULL,
+        course_id TEXT
+      );
+      CREATE TEMP TABLE homework_submissions (
+        id TEXT PRIMARY KEY,
+        homework_id TEXT NOT NULL,
+        status TEXT
+      );
       INSERT INTO courses (id, teacher_id) VALUES
         ('course-owned', 'teacher-1'),
         ('course-completed', 'teacher-1'),
@@ -55,6 +77,14 @@ async function withFixture(run) {
         ('enroll-completed', 'student-1', 'course-completed', 'completed'),
         ('enroll-cancelled', 'student-1', 'course-cancelled', 'cancelled'),
         ('enroll-other-student', 'student-2', 'course-owned', 'active');
+      INSERT INTO homework (id, teacher_id, course_id) VALUES
+        ('homework-owned', 'teacher-1', 'course-owned'),
+        ('homework-grade-only', 'teacher-1', NULL),
+        ('homework-other', 'teacher-2', 'course-other');
+      INSERT INTO homework_submissions (id, homework_id, status) VALUES
+        ('submission-owned', 'homework-owned', 'submitted'),
+        ('submission-grade-only', 'homework-grade-only', 'graded'),
+        ('submission-other', 'homework-other', 'submitted');
     `);
     await run(drizzle(client));
   } finally {
@@ -139,5 +169,67 @@ integrationTest("PostgreSQL enrollment scope blocks same-grade students from ano
     assert.equal(canAccessHomeworkCourse({
       role: "student", homeworkCourseId: null, enrolledCourseIds,
     }), true);
+  });
+});
+
+
+integrationTest("PostgreSQL teacher homework detail and list reads scope submission rows to the current course owner in one query", async () => {
+  await withFixture(async (db) => {
+    const readTeacherDetail = async (homeworkId) => db
+      .select({
+        homeworkId: homework.id,
+        submissionId: homeworkSubmissions.id,
+        submissionStatus: homeworkSubmissions.status,
+      })
+      .from(homework)
+      .leftJoin(courses, eq(homework.courseId, courses.id))
+      .leftJoin(homeworkSubmissions, eq(homeworkSubmissions.homeworkId, homework.id))
+      .where(and(
+        eq(homework.id, homeworkId),
+        eq(homework.teacherId, "teacher-1"),
+        or(isNull(homework.courseId), eq(courses.teacherId, "teacher-1")),
+      ));
+
+    const readTeacherList = async () => db
+      .select({
+        homeworkId: homework.id,
+        submissionId: homeworkSubmissions.id,
+        submissionStatus: homeworkSubmissions.status,
+      })
+      .from(homework)
+      .leftJoin(courses, eq(homework.courseId, courses.id))
+      .leftJoin(homeworkSubmissions, eq(homeworkSubmissions.homeworkId, homework.id))
+      .where(and(
+        eq(homework.teacherId, "teacher-1"),
+        or(isNull(homework.courseId), eq(courses.teacherId, "teacher-1")),
+      ));
+
+    const initialDetail = await readTeacherDetail("homework-owned");
+    assert.deepEqual(initialDetail.map((row) => row.submissionId), ["submission-owned"]);
+
+    const initialList = await readTeacherList();
+    assert.ok(initialList.some((row) => row.homeworkId === "homework-owned" && row.submissionId === "submission-owned"));
+    assert.ok(initialList.some((row) => row.homeworkId === "homework-grade-only" && row.submissionId === "submission-grade-only"));
+    assert.equal(initialList.some((row) => row.homeworkId === "homework-other"), false);
+
+    // Ownership changes after an earlier request/preflight. The next single-statement
+    // detail and list reads must not return either the assignment or its submissions.
+    await db.update(courses).set({ teacherId: "teacher-2" }).where(eq(courses.id, "course-owned"));
+
+    assert.deepEqual(
+      await readTeacherDetail("homework-owned"),
+      [],
+      "detail read must deny the former owner and must not return submission rows",
+    );
+    const afterTransferList = await readTeacherList();
+    assert.equal(
+      afterTransferList.some((row) => row.homeworkId === "homework-owned"),
+      false,
+      "list read must exclude the reassigned assignment and its submission counts",
+    );
+    assert.ok(
+      afterTransferList.some((row) => row.homeworkId === "homework-grade-only"),
+      "grade-only homework remains scoped to its recorded teacher",
+    );
   });
 });
