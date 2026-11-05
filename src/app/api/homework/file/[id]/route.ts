@@ -22,32 +22,38 @@ export async function GET(req: Request, { params }: { params: Promise<{ id: stri
   await ensureDbSetup();
   try {
     const { id } = await params;
-    const subs = await db.select().from(homeworkSubmissions).where(eq(homeworkSubmissions.id, id));
-    const sub = subs[0];
-    const homeworkRows = sub
-      ? await db
-          .select({
-            teacherId: homework.teacherId,
-            courseId: homework.courseId,
-            courseTeacherId: courses.teacherId,
-          })
-          .from(homework)
-          .leftJoin(courses, eq(homework.courseId, courses.id))
-          .where(eq(homework.id, sub.homeworkId))
-      : [];
-    const homeworkRow = homeworkRows[0];
 
+    // Resolve the submission, its homework, and the course's current owner in
+    // one SQL statement. A separate homework/course lookup could authorize
+    // against a stale relationship after a concurrent course reassignment.
+    const [fileAccessRow] = await db
+      .select({
+        submission: {
+          studentId: homeworkSubmissions.studentId,
+          storagePath: homeworkSubmissions.storagePath,
+          fileName: homeworkSubmissions.fileName,
+        },
+        homeworkTeacherId: homework.teacherId,
+        homeworkCourseId: homework.courseId,
+        courseTeacherId: courses.teacherId,
+      })
+      .from(homeworkSubmissions)
+      .innerJoin(homework, eq(homeworkSubmissions.homeworkId, homework.id))
+      .leftJoin(courses, eq(homework.courseId, courses.id))
+      .where(eq(homeworkSubmissions.id, id));
+
+    const sub = fileAccessRow?.submission;
     const accessDecision = getHomeworkFileAccessDecision({
-      submissionFound: Boolean(sub),
-      homeworkFound: Boolean(homeworkRow),
+      submissionFound: Boolean(fileAccessRow),
+      homeworkFound: Boolean(fileAccessRow),
       role: ctx.user.role,
       requesterId: ctx.user.id,
       submissionStudentId: sub?.studentId,
-      homeworkTeacherId: homeworkRow?.teacherId,
-      homeworkCourseId: homeworkRow?.courseId,
-      courseTeacherId: homeworkRow?.courseTeacherId,
+      homeworkTeacherId: fileAccessRow?.homeworkTeacherId,
+      homeworkCourseId: fileAccessRow?.homeworkCourseId,
+      courseTeacherId: fileAccessRow?.courseTeacherId,
     });
-    if (!sub || !homeworkRow || accessDecision !== "allowed") {
+    if (!fileAccessRow || !sub || accessDecision !== "allowed") {
       // Use the same status and body for missing records and unauthorized callers.
       return NextResponse.json({ error: "Submission not found" }, { status: 404 });
     }
