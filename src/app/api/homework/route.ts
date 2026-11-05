@@ -36,12 +36,22 @@ export async function GET(req: Request) {
     // Teachers may only read homework and submissions they own; admins may read all.
     if (role === "teacher" || role === "admin") {
       if (homeworkId) {
-        const hwRows = await db.select().from(homework).where(eq(homework.id, homeworkId));
+        const hwRows = await db
+          .select({ homework, courseTeacherId: courses.teacherId })
+          .from(homework)
+          .leftJoin(courses, eq(homework.courseId, courses.id))
+          .where(eq(homework.id, homeworkId));
         if (hwRows.length === 0) {
           return NextResponse.json({ error: "Homework not found" }, { status: 404 });
         }
-        const hw = hwRows[0];
-        if (!canManageHomework({ role, requesterId: ctx.user.id, homeworkTeacherId: hw.teacherId })) {
+        const { homework: hw, courseTeacherId } = hwRows[0];
+        if (!canManageHomework({
+          role,
+          requesterId: ctx.user.id,
+          homeworkTeacherId: hw.teacherId,
+          homeworkCourseId: hw.courseId,
+          courseTeacherId,
+        })) {
           return NextResponse.json({ error: "Forbidden" }, { status: 403 });
         }
         const subs = await db
@@ -56,7 +66,15 @@ export async function GET(req: Request) {
 
       const allHw = role === "admin"
         ? await db.select().from(homework)
-        : await db.select().from(homework).where(eq(homework.teacherId, ctx.user.id));
+        : (await db
+            .select({ homework })
+            .from(homework)
+            .leftJoin(courses, eq(homework.courseId, courses.id))
+            .where(and(
+              eq(homework.teacherId, ctx.user.id),
+              or(isNull(homework.courseId), eq(courses.teacherId, ctx.user.id)),
+            )))
+          .map((row) => row.homework);
       const homeworkIds = allHw.map((assignment) => assignment.id);
       const allSubs = homeworkIds.length
         ? await db.select().from(homeworkSubmissions).where(inArray(homeworkSubmissions.homeworkId, homeworkIds))
@@ -389,14 +407,25 @@ export async function POST(req: Request) {
         return NextResponse.json({ error: "Submission not found" }, { status: 404 });
       }
 
-      const hw = await db.select().from(homework).where(eq(homework.id, subs[0].homeworkId));
-      if (hw.length === 0) {
+      const hwRows = await db
+        .select({ homework, courseTeacherId: courses.teacherId })
+        .from(homework)
+        .leftJoin(courses, eq(homework.courseId, courses.id))
+        .where(eq(homework.id, subs[0].homeworkId));
+      if (hwRows.length === 0) {
         return NextResponse.json({ error: "Homework not found" }, { status: 404 });
       }
-      if (ctx.user.role === "teacher" && hw[0].teacherId !== ctx.user.id) {
+      const { homework: hw, courseTeacherId } = hwRows[0];
+      if (!canManageHomework({
+        role: ctx.user.role,
+        requesterId: ctx.user.id,
+        homeworkTeacherId: hw.teacherId,
+        homeworkCourseId: hw.courseId,
+        courseTeacherId,
+      })) {
         return NextResponse.json({ error: "Forbidden" }, { status: 403 });
       }
-      const maxPts = hw[0]?.totalPoints || 50;
+      const maxPts = hw.totalPoints || 50;
       const safeScore = Math.max(0, Math.min(parseInt(score) || 0, maxPts));
 
       await db
@@ -414,7 +443,7 @@ export async function POST(req: Request) {
       await notifyUser(
         subs[0].studentId,
         "✅ تم تصحيح واجبك",
-        `درجتك في "${hw[0]?.title || "الواجب"}": ${safeScore}/${maxPts}${feedback ? ` — ملاحظة المدرس: ${feedback}` : ""}`,
+        `درجتك في "${hw.title || "الواجب"}": ${safeScore}/${maxPts}${feedback ? ` — ملاحظة المدرس: ${feedback}` : ""}`,
         "quiz",
         "/?tab=homework"
       );
@@ -426,8 +455,21 @@ export async function POST(req: Request) {
       const { denied } = await requireRoles(req, ["admin", "teacher"]);
       if (denied) return denied;
       if (ctx.user.role === "teacher") {
-        const own = await db.select({ id: homework.id }).from(homework).where(and(eq(homework.id, body.homeworkId), eq(homework.teacherId, ctx.user.id)));
-        if (own.length === 0) return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+        const ownedRows = await db
+          .select({ homework, courseTeacherId: courses.teacherId })
+          .from(homework)
+          .leftJoin(courses, eq(homework.courseId, courses.id))
+          .where(eq(homework.id, body.homeworkId));
+        const ownedHomework = ownedRows[0];
+        if (!ownedHomework || !canManageHomework({
+          role: ctx.user.role,
+          requesterId: ctx.user.id,
+          homeworkTeacherId: ownedHomework.homework.teacherId,
+          homeworkCourseId: ownedHomework.homework.courseId,
+          courseTeacherId: ownedHomework.courseTeacherId,
+        })) {
+          return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+        }
       }
       await db.delete(homework).where(eq(homework.id, body.homeworkId));
       return NextResponse.json({ success: true });
