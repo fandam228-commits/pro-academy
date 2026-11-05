@@ -10,6 +10,8 @@ export interface HomeworkSubmissionFileAccessInput {
   requesterId: string | null | undefined;
   submissionStudentId?: string | null;
   homeworkTeacherId?: string | null;
+  homeworkCourseId?: string | null;
+  courseTeacherId?: string | null;
 }
 export function canViewHomeworkSubmissionFile(input: HomeworkSubmissionFileAccessInput): boolean;
 
@@ -31,8 +33,6 @@ export function canAccessHomeworkCourse(input: HomeworkCourseAccessInput): boole
 export interface HomeworkFileAccessDecisionInput extends HomeworkSubmissionFileAccessInput {
   submissionFound: boolean;
   homeworkFound: boolean;
-  homeworkCourseId?: string | null;
-  courseTeacherId?: string | null;
 }
 export function getHomeworkFileAccessDecision(input: HomeworkFileAccessDecisionInput): "allowed" | "not-found";
 
