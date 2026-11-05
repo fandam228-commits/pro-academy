@@ -26,8 +26,13 @@ export async function GET(req: Request, { params }: { params: Promise<{ id: stri
     const sub = subs[0];
     const homeworkRows = sub
       ? await db
-          .select({ teacherId: homework.teacherId })
+          .select({
+            teacherId: homework.teacherId,
+            courseId: homework.courseId,
+            courseTeacherId: courses.teacherId,
+          })
           .from(homework)
+          .leftJoin(courses, eq(homework.courseId, courses.id))
           .where(eq(homework.id, sub.homeworkId))
       : [];
     const homeworkRow = homeworkRows[0];
