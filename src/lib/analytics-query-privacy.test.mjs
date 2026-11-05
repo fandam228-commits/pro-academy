@@ -503,6 +503,10 @@ test("teacher report queries revalidate current course ownership and active enro
     "homework reads must rejoin the current course owner");
   assert.match(reportSource, /innerJoin\(homework, eq\(homeworkSubmissions\.homeworkId, homework\.id\)\)/,
     "submission reads must revalidate the linked homework and course");
+  assert.match(reportSource, /eq\(enrollments\.courseId, homework\.courseId\)/,
+    "homework and submission reads must recheck the student enrollment for the exact course");
+  assert.match(reportSource, /eq\(enrollments\.studentId, homeworkSubmissions\.studentId\)/,
+    "submission reads must tie the current enrollment to the submitting student");
   assert.match(reportSource, /const visibleStudentRows = teacherStudentIds\.length === 0[\s\S]*?innerJoin\(courses, eq\(enrollments\.courseId, courses\.id\)\)[\s\S]*?eq\(courses\.teacherId, ctx\.user\.id\)[\s\S]*?inArray\(enrollments\.status, \[\"active\", \"completed\"\]\)/,
     "class roster must revalidate current owner and enrollment before exposing student profile fields");
 });
