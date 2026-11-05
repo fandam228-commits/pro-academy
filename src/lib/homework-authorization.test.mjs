@@ -96,6 +96,27 @@ test("teacher homework detail, listing, grading, and deletion re-check current c
     "teacher homework lists must exclude reassigned and orphaned course records");
 });
 
+test("grading and deletion recheck current course ownership in the mutation statement", async () => {
+  const route = await readFile(new URL("../app/api/homework/route.ts", import.meta.url), "utf8");
+  const gradeStart = route.indexOf('if (action === "grade")');
+  const deleteStart = route.indexOf('if (action === "delete")', gradeStart);
+  assert.ok(gradeStart >= 0 && deleteStart > gradeStart);
+
+  const gradeSource = route.slice(gradeStart, deleteStart);
+  assert.match(gradeSource, /const gradeUpdateScope = ctx\\.user\\.role === "teacher"/);
+  assert.match(gradeSource, /exists\\(db[\\s\\S]*?eq\\(homework\\.id, homeworkSubmissions\\.homeworkId\\)[\\s\\S]*?eq\\(homework\\.teacherId, ctx\\.user\\.id\\)[\\s\\S]*?eq\\(courses\\.teacherId, ctx\\.user\\.id\\)/,
+    "grading must recheck the current homework and course owner in the UPDATE predicate");
+  assert.match(gradeSource, /\\.returning\\(\\{ id: homeworkSubmissions\\.id \\}\\)/,
+    "grading must detect when the guarded update affects no row");
+
+  const deleteSource = route.slice(deleteStart);
+  assert.match(deleteSource, /eq\\(homework\\.teacherId, ctx\\.user\\.id\\)/);
+  assert.match(deleteSource, /exists\\(db[\\s\\S]*?eq\\(courses\\.id, homework\\.courseId\\)[\\s\\S]*?eq\\(courses\\.teacherId, ctx\\.user\\.id\\)/,
+    "deletion must recheck the current course owner in the DELETE predicate");
+  assert.match(deleteSource, /\\.returning\\(\\{ id: homework\\.id \\}\\)/,
+    "deletion must detect when the guarded delete affects no row");
+});
+
 test("only the submission owner, owning teacher, or admin can view a submission file", () => {
   const context = {
     requesterId: "student-1",
