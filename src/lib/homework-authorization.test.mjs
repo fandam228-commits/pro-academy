@@ -94,6 +94,30 @@ test("teacher homework detail, listing, grading, and deletion re-check current c
     "deletion must use the same current-owner policy");
   assert.match(route, /or\(isNull\(homework\.courseId\), eq\(courses\.teacherId, ctx\.user\.id\)\)/,
     "teacher homework lists must exclude reassigned and orphaned course records");
+
+  const detailStart = route.indexOf("const detailQuery = db");
+  const listStart = route.indexOf("const assignmentQuery = db", detailStart);
+  assert.ok(detailStart >= 0 && listStart > detailStart,
+    "single-homework and list reads must use explicit joined queries");
+  const detailQuerySource = route.slice(detailStart, listStart);
+  assert.match(detailQuerySource, /\.leftJoin\(homeworkSubmissions, eq\(homeworkSubmissions\.homeworkId, homework\.id\)\)/,
+    "homework detail and submissions must be read in the same SQL statement");
+  assert.match(detailQuerySource, /eq\(homework\.teacherId, ctx\.user\.id\)/);
+  assert.match(detailQuerySource, /eq\(courses\.teacherId, ctx\.user\.id\)/,
+    "teacher detail reads must apply current course ownership in the joined statement");
+  assert.doesNotMatch(detailQuerySource, /db\.select\(\)\.from\(homeworkSubmissions\)/,
+    "detail reads must not fetch submissions in a second statement after the owner check");
+
+  const listEnd = route.indexOf("const homeworkList =", listStart);
+  assert.ok(listStart >= 0 && listEnd > listStart);
+  const listQuerySource = route.slice(listStart, listEnd);
+  assert.match(listQuerySource, /\.leftJoin\(homeworkSubmissions, eq\(homeworkSubmissions\.homeworkId, homework\.id\)\)/,
+    "homework list counts and submission rows must share the owner-scoped statement");
+  assert.match(listQuerySource, /eq\(homework\.teacherId, ctx\.user\.id\)/);
+  assert.match(listQuerySource, /eq\(courses\.teacherId, ctx\.user\.id\)/,
+    "list reads must apply current course ownership before exposing submission counts");
+  assert.doesNotMatch(listQuerySource, /const allSubs = await db/,
+    "list reads must not fetch submissions in a second statement using a stale homework ID list");
 });
 
 test("grading and deletion recheck current course ownership in the mutation statement", async () => {
