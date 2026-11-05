@@ -76,8 +76,31 @@ export function getHomeworkFileAccessDecision({
   requesterId,
   submissionStudentId,
   homeworkTeacherId,
+  homeworkCourseId,
+  courseTeacherId,
 }) {
   if (submissionFound !== true || homeworkFound !== true) return "not-found";
+
+  // A teacher's homework.teacherId is not sufficient for course-linked files:
+  // verify the current owner of the linked course in the same lookup.
+  if (role === "teacher") {
+    if (homeworkCourseId === undefined) return "not-found";
+    if (homeworkCourseId !== null) {
+      if (
+        typeof homeworkCourseId !== "string" ||
+        homeworkCourseId.trim() === "" ||
+        typeof courseTeacherId !== "string" ||
+        courseTeacherId.trim() === "" ||
+        courseTeacherId !== homeworkTeacherId ||
+        requesterId !== courseTeacherId
+      ) {
+        return "not-found";
+      }
+    } else if (!homeworkTeacherId || requesterId !== homeworkTeacherId) {
+      return "not-found";
+    }
+  }
+
   return canViewHomeworkSubmissionFile({
     role,
     requesterId,
