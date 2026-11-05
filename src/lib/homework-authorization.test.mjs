@@ -327,3 +327,40 @@ test("course-linked homework notifications are limited to active/completed enrol
     "duplicate enrollment rows must not send duplicate notifications");
   assert.match(createRoute, /for \(const studentId of notificationStudentIds\)/);
 });
+
+test("teacher file access requires the current linked course owner for course-scoped homework", () => {
+  const courseScoped = {
+    submissionFound: true,
+    homeworkFound: true,
+    role: "teacher",
+    requesterId: "teacher-1",
+    submissionStudentId: "student-1",
+    homeworkTeacherId: "teacher-1",
+    homeworkCourseId: "course-1",
+    courseTeacherId: "teacher-1",
+  };
+  assert.equal(getHomeworkFileAccessDecision(courseScoped), "allowed");
+  assert.equal(
+    getHomeworkFileAccessDecision({ ...courseScoped, courseTeacherId: "teacher-2" }),
+    "not-found",
+    "the linked course's current owner must override a stale homework.teacherId",
+  );
+  assert.equal(
+    getHomeworkFileAccessDecision({ ...courseScoped, homeworkTeacherId: "teacher-2" }),
+    "not-found",
+  );
+  assert.equal(
+    getHomeworkFileAccessDecision({ ...courseScoped, courseTeacherId: null }),
+    "not-found",
+  );
+  assert.equal(
+    getHomeworkFileAccessDecision({ ...courseScoped, homeworkCourseId: undefined }),
+    "not-found",
+    "missing course-scope data must fail closed for teacher file reads",
+  );
+  assert.equal(
+    getHomeworkFileAccessDecision({ ...courseScoped, homeworkCourseId: null, courseTeacherId: null }),
+    "allowed",
+    "grade-only legacy homework remains scoped to its recorded teacher",
+  );
+});
