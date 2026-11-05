@@ -639,6 +639,13 @@ integrationTest("PostgreSQL teacher Analytics rechecks current ownership and act
           eq(courses.teacherId, "teacher-1"),
           inArray(enrollments.courseId, allowedCourseIds),
           inArray(enrollments.status, ["active", "completed"]),
+          exists(db
+            .select({ id: users.id })
+            .from(users)
+            .where(and(
+              eq(users.id, "student-1"),
+              eq(users.role, "student"),
+            ))),
         ));
 
       return { profileRows, quizRows, allowedHomeworkIds, homeworkRows, myEnrollments };
