@@ -2,7 +2,7 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { Client } from "pg";
 import { drizzle } from "drizzle-orm/node-postgres";
-import { and, eq, inArray, isNotNull } from "drizzle-orm";
+import { and, eq, exists, inArray, isNotNull } from "drizzle-orm";
 import { alias, integer, pgTable, text, timestamp } from "drizzle-orm/pg-core";
 import { canAccessStudentAnalytics } from "../../src/lib/analytics-authorization.mjs";
 import {
@@ -504,5 +504,103 @@ integrationTest("PostgreSQL Analytics homework scope fails closed for unknown st
 
     assert.deepEqual(knownGradeIds, ["hw-a", "hw-any-grade"]);
     assert.deepEqual(unknownGradeIds, ["hw-any-grade"]);
+  });
+});
+
+
+integrationTest("PostgreSQL teacher Analytics rechecks course ownership and enrollment after initial allowlist resolution", async () => {
+  await withFixture(async ({ db }) => {
+    // Resolve the preliminary scope while teacher-1 owns course-a and student-1 is enrolled.
+    const enrollmentRows = await db
+      .select({
+        studentId: enrollments.studentId,
+        courseId: enrollments.courseId,
+        status: enrollments.status,
+        teacherId: courses.teacherId,
+      })
+      .from(enrollments)
+      .innerJoin(courses, eq(enrollments.courseId, courses.id))
+      .innerJoin(users, eq(enrollments.studentId, users.id))
+      .where(and(
+        eq(courses.teacherId, "teacher-1"),
+        eq(users.role, "student"),
+        inArray(enrollments.status, ["active", "completed"]),
+      ));
+    const allowedCourseIds = getTeacherAnalyticsCourseIds(enrollmentRows, "teacher-1", "student-1");
+    assert.deepEqual(allowedCourseIds, ["course-a"]);
+
+    // Transfer ownership after the allowlist is created, simulating a race between
+    // authorization preflight and report-data queries.
+    await db.update(courses).set({ teacherId: "teacher-2" }).where(eq(courses.id, "course-a"));
+
+    const profileRows = await db
+      .select({ id: users.id, name: users.name, grade: users.grade })
+      .from(users)
+      .innerJoin(enrollments, eq(enrollments.studentId, users.id))
+      .innerJoin(courses, eq(enrollments.courseId, courses.id))
+      .where(and(
+        eq(users.id, "student-1"),
+        eq(users.role, "student"),
+        eq(courses.teacherId, "teacher-1"),
+        inArray(enrollments.courseId, allowedCourseIds),
+        inArray(enrollments.status, ["active", "completed"]),
+      ));
+    assert.deepEqual(profileRows, [], "a transferred course must no longer authorize the student's profile");
+
+    const quizRows = await db
+      .select({ id: quizSubmissions.id })
+      .from(quizSubmissions)
+      .innerJoin(quizzes, eq(quizSubmissions.quizId, quizzes.id))
+      .innerJoin(courses, eq(quizzes.courseId, courses.id))
+      .where(and(
+        eq(quizSubmissions.studentId, "student-1"),
+        eq(courses.teacherId, "teacher-1"),
+        inArray(quizzes.courseId, allowedCourseIds),
+        exists(db
+          .select({ id: enrollments.id })
+          .from(enrollments)
+          .where(and(
+            eq(enrollments.studentId, quizSubmissions.studentId),
+            eq(enrollments.courseId, quizzes.courseId),
+            inArray(enrollments.status, ["active", "completed"]),
+          ))),
+      ));
+    assert.deepEqual(quizRows, [], "quiz scores must not leak after course ownership changes");
+
+    const allowedHomework = await db
+      .select({ id: homework.id })
+      .from(homework)
+      .innerJoin(courses, eq(homework.courseId, courses.id))
+      .where(and(
+        eq(homework.teacherId, "teacher-1"),
+        eq(courses.teacherId, "teacher-1"),
+        inArray(homework.courseId, allowedCourseIds),
+      ));
+    assert.deepEqual(allowedHomework, [], "homework must be rechecked against the current course owner");
+
+    const homeworkRows = await db
+      .select({ id: homeworkSubmissions.id })
+      .from(homeworkSubmissions)
+      .innerJoin(homework, eq(homeworkSubmissions.homeworkId, homework.id))
+      .innerJoin(courses, eq(homework.courseId, courses.id))
+      .where(and(
+        eq(homeworkSubmissions.studentId, "student-1"),
+        eq(homework.teacherId, "teacher-1"),
+        eq(courses.teacherId, "teacher-1"),
+        inArray(homeworkSubmissions.homeworkId, ["hw-a", "hw-any-grade"]),
+      ));
+    assert.deepEqual(homeworkRows, [], "homework submissions must be rechecked against the current course owner");
+
+    const myEnrollments = await db
+      .select({ courseId: enrollments.courseId })
+      .from(enrollments)
+      .innerJoin(courses, eq(enrollments.courseId, courses.id))
+      .where(and(
+        eq(enrollments.studentId, "student-1"),
+        eq(courses.teacherId, "teacher-1"),
+        inArray(enrollments.courseId, allowedCourseIds),
+        inArray(enrollments.status, ["active", "completed"]),
+      ));
+    assert.deepEqual(myEnrollments, [], "course counts must exclude enrollment after ownership transfer");
   });
 });
