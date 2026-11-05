@@ -1,13 +1,14 @@
 import { db } from "@/db";
 import { attendanceRecords, users, parentLinks, enrollments, courses } from "@/db/schema";
-import { eq, and, inArray, isNotNull } from "drizzle-orm";
+import { eq, and, inArray } from "drizzle-orm";
 import { alias } from "drizzle-orm/pg-core";
 import { NextResponse } from "next/server";
 import { ensureDbSetup } from "@/db/migrate-and-seed";
 import { requireRoles, getAuthContext } from "@/lib/security";
-import { getVerifiedParentAnalyticsStudentIds, resolveParentAnalyticsStudentId } from "@/lib/analytics-report-scope.mjs";
+import { getParentAnalyticsSelectionData, resolveParentAnalyticsStudentId } from "@/lib/analytics-report-scope.mjs";
 
 const verifiedByUser = alias(users, "attendance_verified_by_user");
+const parentAccount = alias(users, "attendance_parent_account");
 
 function computeRate(records: any[]) {
   if (records.length === 0) return 100;
@@ -105,23 +106,30 @@ export async function GET(req: Request) {
           studentId: parentLinks.studentId,
           verifiedAt: parentLinks.verifiedAt,
           verifiedBy: parentLinks.verifiedBy,
+          verifierRole: verifiedByUser.role,
         })
         .from(parentLinks)
+        .innerJoin(parentAccount, eq(parentLinks.parentId, parentAccount.id))
         .innerJoin(users, eq(parentLinks.studentId, users.id))
-        .innerJoin(verifiedByUser, eq(parentLinks.verifiedBy, verifiedByUser.id))
+        // Unverified links count for ambiguity, but cannot authorize attendance.
+        .leftJoin(verifiedByUser, eq(parentLinks.verifiedBy, verifiedByUser.id))
         .where(and(
           eq(parentLinks.parentId, ctx.user.id),
+          eq(parentAccount.role, "parent"),
           eq(users.role, "student"),
-          eq(verifiedByUser.role, "admin"),
-          isNotNull(parentLinks.verifiedAt),
-          isNotNull(parentLinks.verifiedBy),
         ));
-      const linkedStudentIds = getVerifiedParentAnalyticsStudentIds(links);
+      const {
+        allLinkedStudentIds: linkedStudentIds,
+        verifiedStudentIds,
+      } = getParentAnalyticsSelectionData(links);
       const resolution = resolveParentAnalyticsStudentId(requestedStudent, linkedStudentIds);
       if (!resolution.ok) {
         if (resolution.reason === "no-linked-student") return NextResponse.json({ error: "No verified linked student" }, { status: 404 });
         if (resolution.reason === "student-id-required") return NextResponse.json({ error: "studentId is required when multiple students are linked" }, { status: 400 });
         if (resolution.reason === "invalid-student-id") return NextResponse.json({ error: "Invalid studentId" }, { status: 400 });
+        return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+      }
+      if (!verifiedStudentIds.includes(resolution.studentId)) {
         return NextResponse.json({ error: "Forbidden" }, { status: 403 });
       }
       const studentId = resolution.studentId;

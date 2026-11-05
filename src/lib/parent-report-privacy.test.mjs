@@ -21,34 +21,42 @@ function assertAuthBeforeSetup(source, routeName) {
     routeName + " must authenticate before database setup");
 }
 
-function assertVerifiedParentSelection(source, routeName) {
-  assert.match(source, /innerJoin\(verifiedByUser, eq\(parentLinks\.verifiedBy, verifiedByUser\.id\)\)/,
-    routeName + " must join the current verifier account");
-  assert.match(source, /eq\(verifiedByUser\.role, "admin"\)/,
-    routeName + " must require a current admin verifier");
-  assert.match(source, /eq\(users\.role, "student"\)/,
+function assertMixedVerificationParentSelection(source, requestedId, routeName) {
+  assert.ok(source.includes("leftJoin(verifiedByUser, eq(parentLinks.verifiedBy, verifiedByUser.id))"),
+    routeName + " must retain unverified links in the ambiguity query");
+  assert.ok(source.includes("verifierRole: verifiedByUser.role"));
+  assert.ok(
+    source.includes('eq(parentAccount.role, "parent")') ||
+    source.includes('eq(parentAccountUser.role, "parent")'),
+    routeName + " must revalidate the current parent role",
+  );
+  assert.ok(source.includes('eq(users.role, "student")'),
     routeName + " must require a current student account");
-  assert.match(source, /isNotNull\(parentLinks\.verifiedAt\)/);
-  assert.match(source, /isNotNull\(parentLinks\.verifiedBy\)/);
-  assert.match(source, /getVerifiedParentAnalyticsStudentIds\(links\)/);
-  assert.match(source, /resolveParentAnalyticsStudentId\((?:requestedStudent|studentId), linkedStudentIds\)/);
+  assert.ok(source.includes("getParentAnalyticsSelectionData(links)"));
+  assert.ok(source.includes("allLinkedStudentIds: linkedStudentIds"));
+  assert.ok(source.includes("resolveParentAnalyticsStudentId(" + requestedId + ", linkedStudentIds)"));
+  assert.ok(source.includes("verifiedStudentIds.includes(resolution.studentId)"));
+  assert.ok(!source.includes('eq(verifiedByUser.role, "admin")'),
+    routeName + " must not filter unverified children out before checking ambiguity");
+  assert.ok(!source.includes("isNotNull(parentLinks.verifiedAt)"));
+  assert.ok(!source.includes("isNotNull(parentLinks.verifiedBy)"));
   assert.doesNotMatch(source, /links\s*\[\s*0\s*\]\s*\??\.\s*studentId/,
     routeName + " must not silently select the first linked child");
 }
 
-test("student reports authenticate before setup and verify parent links", () => {
+test("student reports authenticate before setup and require mixed-verification explicit selection", () => {
   assertAuthBeforeSetup(routeFiles.reports, "reports");
-  assertVerifiedParentSelection(routeFiles.reports, "reports");
+  assertMixedVerificationParentSelection(routeFiles.reports, "studentId", "reports");
 });
 
-test("attendance authenticates before setup and verifies parent links", () => {
+test("attendance authenticates before setup and requires mixed-verification explicit selection", () => {
   assertAuthBeforeSetup(routeFiles.attendance, "attendance");
-  assertVerifiedParentSelection(routeFiles.attendance, "attendance");
+  assertMixedVerificationParentSelection(routeFiles.attendance, "requestedStudent", "attendance");
 });
 
 test("parent overview requires verified explicit child selection and never returns the full users row", () => {
   assertAuthBeforeSetup(routeFiles.parent, "parent overview");
-  assertVerifiedParentSelection(routeFiles.parent, "parent overview");
+  assertMixedVerificationParentSelection(routeFiles.parent, "requestedStudent", "parent overview");
   assert.match(routeFiles.parent, /ctx\.user\.role !== "parent" && ctx\.user\.role !== "admin"/,
     "parent overview must deny teacher access; teachers use course-scoped reports");
   assert.doesNotMatch(routeFiles.parent, /ctx\.user\.role !== "parent" && ctx\.user\.role !== "admin" && ctx\.user\.role !== "teacher"/,
@@ -57,6 +65,11 @@ test("parent overview requires verified explicit child selection and never retur
     "parent overview must not hydrate/return password and unrelated private user columns");
   assert.match(routeFiles.parent, /id:\s*users\.id[\s\S]*name:\s*users\.name[\s\S]*grade:\s*users\.grade/,
     "parent overview must project only an explicit student profile allowlist");
+  const verifiedGuard = routeFiles.parent.indexOf("if (!verifiedStudentIds.includes(resolution.studentId))");
+  const selectedStudent = routeFiles.parent.indexOf("const studentId = resolution.studentId", verifiedGuard);
+  const studentRead = routeFiles.parent.indexOf("const studentList = await db", selectedStudent);
+  assert.ok(verifiedGuard >= 0 && selectedStudent > verifiedGuard && studentRead > selectedStudent,
+    "parent overview must reject unverified children before reading student data");
 });
 
 test("teacher student report scope requires owned-course enrollment and excludes unscopable data", () => {

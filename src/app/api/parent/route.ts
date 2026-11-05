@@ -1,12 +1,13 @@
 import { db } from "@/db";
 import { parentLinks, users, enrollments, quizSubmissions, attendance } from "@/db/schema";
-import { and, eq, isNotNull } from "drizzle-orm";
+import { and, eq } from "drizzle-orm";
 import { alias } from "drizzle-orm/pg-core";
 import { NextResponse } from "next/server";
 import { ensureDbSetup } from "@/db/migrate-and-seed";
 import { getAuthContext } from "@/lib/security";
-import { getVerifiedParentAnalyticsStudentIds, resolveParentAnalyticsStudentId } from "@/lib/analytics-report-scope.mjs";
+import { getParentAnalyticsSelectionData, resolveParentAnalyticsStudentId } from "@/lib/analytics-report-scope.mjs";
 
+const parentAccountUser = alias(users, "parent_route_parent_account");
 const verifiedByUser = alias(users, "parent_route_verified_by_user");
 
 export async function GET(req: Request) {
@@ -25,11 +26,11 @@ export async function GET(req: Request) {
   if (!parentId) return NextResponse.json({ error: "parentId required" }, { status: 400 });
 
   try {
-    const parentAccount = await db
+    const parentAccountRows = await db
       .select({ id: users.id })
       .from(users)
       .where(and(eq(users.id, parentId), eq(users.role, "parent")));
-    if (parentAccount.length === 0) return NextResponse.json({ error: "Parent not found" }, { status: 404 });
+    if (parentAccountRows.length === 0) return NextResponse.json({ error: "Parent not found" }, { status: 404 });
 
     const links = await db
       .select({
@@ -37,18 +38,22 @@ export async function GET(req: Request) {
         relationship: parentLinks.relationship,
         verifiedAt: parentLinks.verifiedAt,
         verifiedBy: parentLinks.verifiedBy,
+        verifierRole: verifiedByUser.role,
       })
       .from(parentLinks)
+      .innerJoin(parentAccountUser, eq(parentLinks.parentId, parentAccountUser.id))
       .innerJoin(users, eq(parentLinks.studentId, users.id))
-      .innerJoin(verifiedByUser, eq(parentLinks.verifiedBy, verifiedByUser.id))
+      // Keep unverified links in the ambiguity set; they must not grant access.
+      .leftJoin(verifiedByUser, eq(parentLinks.verifiedBy, verifiedByUser.id))
       .where(and(
         eq(parentLinks.parentId, parentId),
+        eq(parentAccountUser.role, "parent"),
         eq(users.role, "student"),
-        eq(verifiedByUser.role, "admin"),
-        isNotNull(parentLinks.verifiedAt),
-        isNotNull(parentLinks.verifiedBy),
       ));
-    const linkedStudentIds = getVerifiedParentAnalyticsStudentIds(links);
+    const {
+      allLinkedStudentIds: linkedStudentIds,
+      verifiedStudentIds,
+    } = getParentAnalyticsSelectionData(links);
     const resolution = resolveParentAnalyticsStudentId(requestedStudent, linkedStudentIds);
     if (!resolution.ok) {
       if (resolution.reason === "no-linked-student") {
@@ -63,8 +68,16 @@ export async function GET(req: Request) {
       return NextResponse.json({ error: "Forbidden" }, { status: 403 });
     }
 
+    if (!verifiedStudentIds.includes(resolution.studentId)) {
+      return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+    }
     const studentId = resolution.studentId;
-    const primaryLink = links.find((link) => link.studentId === studentId);
+    const primaryLink = links.find((link) =>
+      link.studentId === studentId &&
+      link.verifierRole === "admin" &&
+      link.verifiedAt &&
+      link.verifiedBy
+    );
     if (!primaryLink) return NextResponse.json({ error: "Forbidden" }, { status: 403 });
 
     // Never return the complete users row: it includes password and other private account fields.
