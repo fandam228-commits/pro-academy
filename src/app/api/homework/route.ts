@@ -347,18 +347,33 @@ export async function POST(req: Request) {
       };
       await db.insert(homework).values(newHw);
 
-      // Broadcast to students of the grade
-      const students = await db.select().from(users).where(eq(users.role, "student"));
-      for (const st of students) {
-        if (st.grade === newHw.grade) {
-          await notifyUser(
-            st.id,
-            "📝 واجب جديد من المدرس",
-            `واجب "${newHw.title}" — موعد التسليم: ${newHw.dueDate}`,
-            "quiz",
-            "/?tab=homework"
-          );
-        }
+      // Notify only students who can actually see this assignment.
+      // Course-linked homework is restricted to current active/completed enrollees;
+      // grade-only homework keeps the existing grade-wide notification behavior.
+      const notificationRows = newHw.courseId
+        ? await db
+            .select({ id: users.id })
+            .from(enrollments)
+            .innerJoin(users, eq(enrollments.studentId, users.id))
+            .where(and(
+              eq(enrollments.courseId, newHw.courseId),
+              eq(users.role, "student"),
+              eq(users.grade, newHw.grade),
+              inArray(enrollments.status, ["active", "completed"]),
+            ))
+        : await db
+            .select({ id: users.id })
+            .from(users)
+            .where(and(eq(users.role, "student"), eq(users.grade, newHw.grade)));
+      const notificationStudentIds = [...new Set(notificationRows.map((row) => row.id))];
+      for (const studentId of notificationStudentIds) {
+        await notifyUser(
+          studentId,
+          "📝 واجب جديد من المدرس",
+          `واجب "${newHw.title}" — موعد التسليم: ${newHw.dueDate}`,
+          "quiz",
+          "/?tab=homework"
+        );
       }
 
       return NextResponse.json({ success: true, homework: newHw });
