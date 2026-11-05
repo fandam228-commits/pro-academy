@@ -323,7 +323,7 @@ test("course-linked homework notifications are limited to active/completed enrol
     "grade-only homework must retain grade-based notifications");
   assert.match(gradeOnlyQuery, /eq\(users\.role, "student"\)/);
   assert.match(gradeOnlyQuery, /eq\(users\.grade, newHw\.grade\)/);
-  assert.match(recipientQuery, /new Set\(notificationRows\.map\(\(row\) => row\.id\)\)/,
+  assert.match(createRoute, /new Set\(notificationRows\.map\(\(row\) => row\.id\)\)/,
     "duplicate enrollment rows must not send duplicate notifications");
   assert.match(createRoute, /for \(const studentId of notificationStudentIds\)/);
 });
