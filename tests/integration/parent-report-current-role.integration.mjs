@@ -44,7 +44,7 @@ async function withFixture(run) {
       "CREATE TEMP TABLE users (id TEXT PRIMARY KEY, role TEXT NOT NULL);" +
       "CREATE TEMP TABLE parent_links (id TEXT PRIMARY KEY, parent_id TEXT NOT NULL, student_id TEXT NOT NULL, verified_at TIMESTAMP, verified_by TEXT);" +
       "INSERT INTO users (id, role) VALUES " +
-      "('admin-1', 'admin'), ('admin-demoted', 'teacher'), ('parent-1', 'parent'), ('parent-2', 'parent'), " +
+      "('admin-1', 'admin'), ('admin-demoted', 'admin'), ('parent-1', 'parent'), ('parent-2', 'parent'), " +
       "('parent-single', 'parent'), ('parent-unverified', 'parent'), ('student-1', 'student'), " +
       "('student-2', 'student'), ('student-3', 'student'), ('student-single', 'student'), ('student-unverified', 'student');" +
       "INSERT INTO parent_links (id, parent_id, student_id, verified_at, verified_by) VALUES " +
@@ -88,7 +88,7 @@ integrationTest("parent reports require explicit selection across verified and u
     const rows = await getParentSelectionRows(db, "parent-1");
     const selection = getParentAnalyticsSelectionData(rows);
     assert.deepEqual(selection.allLinkedStudentIds, ["student-1", "student-2", "student-3"]);
-    assert.deepEqual(selection.verifiedStudentIds, ["student-1"]);
+    assert.deepEqual(selection.verifiedStudentIds, ["student-1", "student-3"]);
 
     assert.deepEqual(
       resolveParentAnalyticsStudentId(null, selection.allLinkedStudentIds),
@@ -99,7 +99,7 @@ integrationTest("parent reports require explicit selection across verified and u
     assert.deepEqual(verified, { ok: true, studentId: "student-1" });
     assert.equal(selection.verifiedStudentIds.includes(verified.studentId), true);
 
-    for (const unverifiedId of ["student-2", "student-3"]) {
+    for (const unverifiedId of ["student-2"]) {
       const selected = resolveParentAnalyticsStudentId(unverifiedId, selection.allLinkedStudentIds);
       assert.equal(selected.ok, true);
       assert.equal(selection.verifiedStudentIds.includes(selected.studentId), false);
@@ -142,10 +142,10 @@ integrationTest("a verifier who loses admin role remains in the ambiguity set bu
   await withFixture(async ({ db }) => {
     const before = getParentAnalyticsSelectionData(await getParentSelectionRows(db, "parent-1"));
     assert.equal(before.allLinkedStudentIds.includes("student-3"), true);
-    assert.equal(before.verifiedStudentIds.includes("student-3"), false);
+    assert.equal(before.verifiedStudentIds.includes("student-3"), true);
 
-    await db.update(users).set({ role: "admin" }).where(eq(users.id, "admin-demoted"));
+    await db.update(users).set({ role: "teacher" }).where(eq(users.id, "admin-demoted"));
     const after = getParentAnalyticsSelectionData(await getParentSelectionRows(db, "parent-1"));
-    assert.equal(after.verifiedStudentIds.includes("student-3"), true);
+    assert.equal(after.verifiedStudentIds.includes("student-3"), false);
   });
 });
