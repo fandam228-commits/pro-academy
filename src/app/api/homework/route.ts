@@ -46,12 +46,29 @@ export async function GET(req: Request) {
     // Teachers may only read homework and submissions they own; admins may read all.
     if (role === "teacher" || role === "admin") {
       if (homeworkId) {
-        const hwRows = await db.select().from(homework).where(eq(homework.id, homeworkId));
-        if (hwRows.length === 0) {
+        // Read the assignment, current course owner, and submissions in one SQL
+        // statement. Authorization and the returned submission rows therefore
+        // share one database snapshot if course ownership changes concurrently.
+        const detailQuery = db
+          .select({
+            homework,
+            courseTeacherId: courses.teacherId,
+            submission: homeworkSubmissions,
+          })
+          .from(homework)
+          .leftJoin(courses, eq(homework.courseId, courses.id))
+          .leftJoin(homeworkSubmissions, eq(homeworkSubmissions.homeworkId, homework.id));
+        const detailRows = role === "admin"
+          ? await detailQuery.where(eq(homework.id, homeworkId))
+          : await detailQuery.where(and(
+              eq(homework.id, homeworkId),
+              eq(homework.teacherId, ctx.user.id),
+              or(isNull(homework.courseId), eq(courses.teacherId, ctx.user.id)),
+            ));
+        if (detailRows.length === 0) {
           return NextResponse.json({ error: "Homework not found" }, { status: 404 });
         }
-        const hw = hwRows[0];
-        const courseTeacherId = await getHomeworkCourseTeacherId(hw.courseId);
+        const { homework: hw, courseTeacherId } = detailRows[0];
         if (!canManageHomework({
           role,
           requesterId: ctx.user.id,
@@ -61,37 +78,62 @@ export async function GET(req: Request) {
         })) {
           return NextResponse.json({ error: "Forbidden" }, { status: 403 });
         }
-        const subs = await db
-          .select()
-          .from(homeworkSubmissions)
-          .where(eq(homeworkSubmissions.homeworkId, homeworkId));
+        const subs = detailRows.flatMap((row) => row.submission ? [row.submission] : []);
         return NextResponse.json({
           homework: hw,
           submissions: subs.map((submission) => withoutStoragePath(submission)),
         });
       }
 
-      const allHw = role === "admin"
-        ? await db.select().from(homework)
-        : (await db
-            .select({ assignment: homework })
-            .from(homework)
-            .leftJoin(courses, eq(homework.courseId, courses.id))
-            .where(and(
-              eq(homework.teacherId, ctx.user.id),
-              or(isNull(homework.courseId), eq(courses.teacherId, ctx.user.id)),
-            )))
-            .map(({ assignment }) => assignment);
-      const homeworkIds = allHw.map((assignment) => assignment.id);
-      const allSubs = homeworkIds.length
-        ? await db.select().from(homeworkSubmissions).where(inArray(homeworkSubmissions.homeworkId, homeworkIds))
-        : [];
-      const withCounts = allHw.map((h) => ({
-        ...h,
-        submissionsCount: allSubs.filter((s) => s.homeworkId === h.id).length,
-        gradedCount: allSubs.filter((s) => s.homeworkId === h.id && s.status === "graded").length,
+      // Load assignment metadata and submission counts in one statement so a
+      // teacher's current course ownership is evaluated with the submitted rows.
+      const assignmentQuery = db
+        .select({
+          homework,
+          courseTeacherId: courses.teacherId,
+          submission: homeworkSubmissions,
+        })
+        .from(homework)
+        .leftJoin(courses, eq(homework.courseId, courses.id))
+        .leftJoin(homeworkSubmissions, eq(homeworkSubmissions.homeworkId, homework.id));
+      const assignmentRows = role === "admin"
+        ? await assignmentQuery
+        : await assignmentQuery.where(and(
+            eq(homework.teacherId, ctx.user.id),
+            or(isNull(homework.courseId), eq(courses.teacherId, ctx.user.id)),
+          ));
+      type AssignmentRow = (typeof assignmentRows)[number];
+      const assignmentCounts = new Map<string, {
+        homework: AssignmentRow["homework"];
+        submissionsCount: number;
+        gradedCount: number;
+      }>();
+      for (const row of assignmentRows) {
+        if (!canManageHomework({
+          role,
+          requesterId: ctx.user.id,
+          homeworkTeacherId: row.homework.teacherId,
+          homeworkCourseId: row.homework.courseId,
+          courseTeacherId: row.courseTeacherId,
+        })) continue;
+
+        const current = assignmentCounts.get(row.homework.id) || {
+          homework: row.homework,
+          submissionsCount: 0,
+          gradedCount: 0,
+        };
+        if (row.submission) {
+          current.submissionsCount += 1;
+          if (row.submission.status === "graded") current.gradedCount += 1;
+        }
+        assignmentCounts.set(row.homework.id, current);
+      }
+      const homeworkList = [...assignmentCounts.values()].map((entry) => ({
+        ...entry.homework,
+        submissionsCount: entry.submissionsCount,
+        gradedCount: entry.gradedCount,
       }));
-      return NextResponse.json({ homeworkList: withCounts, role });
+      return NextResponse.json({ homeworkList, role });
     }
 
     if (role !== "student") {
