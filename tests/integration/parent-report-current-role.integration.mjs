@@ -2,8 +2,12 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { Client } from "pg";
 import { drizzle } from "drizzle-orm/node-postgres";
-import { and, eq, isNotNull } from "drizzle-orm";
+import { and, eq } from "drizzle-orm";
 import { alias, pgTable, text, timestamp } from "drizzle-orm/pg-core";
+import {
+  getParentAnalyticsSelectionData,
+  resolveParentAnalyticsStudentId,
+} from "../../src/lib/analytics-report-scope.mjs";
 
 const connectionString = process.env.TEST_DATABASE_URL;
 const integrationTest = connectionString ? test : test.skip;
@@ -40,10 +44,18 @@ async function withFixture(run) {
       "CREATE TEMP TABLE users (id TEXT PRIMARY KEY, role TEXT NOT NULL);" +
       "CREATE TEMP TABLE parent_links (id TEXT PRIMARY KEY, parent_id TEXT NOT NULL, student_id TEXT NOT NULL, verified_at TIMESTAMP, verified_by TEXT);" +
       "INSERT INTO users (id, role) VALUES " +
-      "('admin-1', 'admin'), ('parent-1', 'parent'), ('parent-2', 'parent'), ('student-1', 'student'), ('student-2', 'student');" +
+      "('admin-1', 'admin'), ('admin-demoted', 'teacher'), ('parent-1', 'parent'), ('parent-2', 'parent'), " +
+      "('parent-single', 'parent'), ('parent-unverified', 'parent'), ('student-1', 'student'), " +
+      "('student-2', 'student'), ('student-3', 'student'), ('student-single', 'student'), ('student-unverified', 'student');" +
       "INSERT INTO parent_links (id, parent_id, student_id, verified_at, verified_by) VALUES " +
       "('link-1', 'parent-1', 'student-1', '2026-11-03 08:00:00', 'admin-1')," +
-      "('link-2', 'parent-2', 'student-2', '2026-11-03 08:00:00', 'admin-1');"
+      "('link-2', 'parent-1', 'student-2', NULL, NULL)," +
+      "('link-3', 'parent-1', 'student-3', '2026-11-03 08:00:00', 'admin-demoted')," +
+      "('link-1-duplicate', 'parent-1', 'student-1', NULL, NULL)," +
+      "('link-4', 'parent-2', 'student-2', '2026-11-03 08:00:00', 'admin-1')," +
+      "('link-single', 'parent-single', 'student-single', '2026-11-03 08:00:00', 'admin-1')," +
+      "('link-single-duplicate', 'parent-single', 'student-single', NULL, NULL)," +
+      "('link-unverified', 'parent-unverified', 'student-unverified', NULL, NULL);"
     );
     await run({ db: drizzle(client) });
   } finally {
@@ -51,48 +63,89 @@ async function withFixture(run) {
   }
 }
 
-async function getVerifiedLinkedStudents(db, parentId) {
+async function getParentSelectionRows(db, parentId) {
   return db
-    .select({ studentId: parentLinks.studentId })
+    .select({
+      studentId: parentLinks.studentId,
+      verifiedAt: parentLinks.verifiedAt,
+      verifiedBy: parentLinks.verifiedBy,
+      verifierRole: verifierAccount.role,
+    })
     .from(parentLinks)
     .innerJoin(parentAccount, eq(parentLinks.parentId, parentAccount.id))
     .innerJoin(studentAccount, eq(parentLinks.studentId, studentAccount.id))
-    .innerJoin(verifierAccount, eq(parentLinks.verifiedBy, verifierAccount.id))
+    // Keep all current parent/student links for ambiguity; only a current admin verifier authorizes.
+    .leftJoin(verifierAccount, eq(parentLinks.verifiedBy, verifierAccount.id))
     .where(and(
       eq(parentLinks.parentId, parentId),
       eq(parentAccount.role, "parent"),
       eq(studentAccount.role, "student"),
-      eq(verifierAccount.role, "admin"),
-      isNotNull(parentLinks.verifiedAt),
-      isNotNull(parentLinks.verifiedBy),
     ));
 }
 
-integrationTest("verified report links are available only while the parent, student, and verifier roles remain current", async () => {
+integrationTest("parent reports require explicit selection across verified and unverified linked children", async () => {
   await withFixture(async ({ db }) => {
-    const valid = await getVerifiedLinkedStudents(db, "parent-1");
-    assert.deepEqual(valid.map((row) => row.studentId), ["student-1"]);
+    const rows = await getParentSelectionRows(db, "parent-1");
+    const selection = getParentAnalyticsSelectionData(rows);
+    assert.deepEqual(selection.allLinkedStudentIds, ["student-1", "student-2", "student-3"]);
+    assert.deepEqual(selection.verifiedStudentIds, ["student-1"]);
 
-    await db.update(users).set({ role: "teacher" }).where(eq(users.id, "parent-1"));
-    const staleParent = await getVerifiedLinkedStudents(db, "parent-1");
-    assert.deepEqual(staleParent, [], "a stale parent session must not authorize reports after the role changes");
+    assert.deepEqual(
+      resolveParentAnalyticsStudentId(null, selection.allLinkedStudentIds),
+      { ok: false, reason: "student-id-required" },
+    );
 
-    await db.update(users).set({ role: "parent" }).where(eq(users.id, "parent-1"));
-    await db.update(users).set({ role: "teacher" }).where(eq(users.id, "student-1"));
-    const staleStudent = await getVerifiedLinkedStudents(db, "parent-1");
-    assert.deepEqual(staleStudent, [], "a linked account that is no longer a student must not be exposed");
+    const verified = resolveParentAnalyticsStudentId("student-1", selection.allLinkedStudentIds);
+    assert.deepEqual(verified, { ok: true, studentId: "student-1" });
+    assert.equal(selection.verifiedStudentIds.includes(verified.studentId), true);
 
-    await db.update(users).set({ role: "student" }).where(eq(users.id, "student-1"));
-    await db.update(users).set({ role: "teacher" }).where(eq(users.id, "admin-1"));
-    const staleVerifier = await getVerifiedLinkedStudents(db, "parent-1");
-    assert.deepEqual(staleVerifier, [], "verification by an account that is no longer an admin must fail closed");
+    for (const unverifiedId of ["student-2", "student-3"]) {
+      const selected = resolveParentAnalyticsStudentId(unverifiedId, selection.allLinkedStudentIds);
+      assert.equal(selected.ok, true);
+      assert.equal(selection.verifiedStudentIds.includes(selected.studentId), false);
+    }
   });
 });
 
-integrationTest("verified report links remain scoped to the authenticated parent ID", async () => {
+integrationTest("parent report selection remains scoped to the authenticated parent and current roles", async () => {
   await withFixture(async ({ db }) => {
-    const rows = await getVerifiedLinkedStudents(db, "parent-1");
-    assert.deepEqual(rows.map((row) => row.studentId), ["student-1"]);
-    assert.ok(!rows.some((row) => row.studentId === "student-2"));
+    const parentTwo = getParentAnalyticsSelectionData(await getParentSelectionRows(db, "parent-2"));
+    assert.deepEqual(parentTwo.allLinkedStudentIds, ["student-2"]);
+    assert.deepEqual(parentTwo.verifiedStudentIds, ["student-2"]);
+
+    await db.update(users).set({ role: "teacher" }).where(eq(users.id, "parent-1"));
+    assert.deepEqual(
+      getParentAnalyticsSelectionData(await getParentSelectionRows(db, "parent-1")),
+      { allLinkedStudentIds: [], verifiedStudentIds: [] },
+    );
+  });
+});
+
+integrationTest("parent report selection rejects one unverified child and deduplicates one verified child", async () => {
+  await withFixture(async ({ db }) => {
+    const single = getParentAnalyticsSelectionData(await getParentSelectionRows(db, "parent-single"));
+    assert.deepEqual(single.allLinkedStudentIds, ["student-single"]);
+    assert.deepEqual(single.verifiedStudentIds, ["student-single"]);
+    assert.deepEqual(
+      resolveParentAnalyticsStudentId(null, single.allLinkedStudentIds),
+      { ok: true, studentId: "student-single" },
+    );
+
+    const unverified = getParentAnalyticsSelectionData(await getParentSelectionRows(db, "parent-unverified"));
+    const resolution = resolveParentAnalyticsStudentId(null, unverified.allLinkedStudentIds);
+    assert.deepEqual(resolution, { ok: true, studentId: "student-unverified" });
+    assert.equal(unverified.verifiedStudentIds.includes(resolution.studentId), false);
+  });
+});
+
+integrationTest("a verifier who loses admin role remains in the ambiguity set but cannot authorize a report", async () => {
+  await withFixture(async ({ db }) => {
+    const before = getParentAnalyticsSelectionData(await getParentSelectionRows(db, "parent-1"));
+    assert.equal(before.allLinkedStudentIds.includes("student-3"), true);
+    assert.equal(before.verifiedStudentIds.includes("student-3"), false);
+
+    await db.update(users).set({ role: "admin" }).where(eq(users.id, "admin-demoted"));
+    const after = getParentAnalyticsSelectionData(await getParentSelectionRows(db, "parent-1"));
+    assert.equal(after.verifiedStudentIds.includes("student-3"), true);
   });
 });
