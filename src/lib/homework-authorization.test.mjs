@@ -466,3 +466,31 @@ test("homework file GET rejects unsupported roles before database setup", async 
     "homework file GET must reject unauthenticated and unsupported-role callers before database setup",
   );
 });
+
+test("homework grading rechecks current course ownership in the final update and cannot award twice", async () => {
+  const route = await readFile(new URL("../app/api/homework/route.ts", import.meta.url), "utf8");
+  const gradeStart = route.indexOf('if (action === "grade")');
+  const deleteStart = route.indexOf('if (action === "delete")', gradeStart);
+  assert.ok(gradeStart >= 0 && deleteStart > gradeStart);
+  const gradeSource = route.slice(gradeStart, deleteStart);
+  const updateStart = gradeSource.indexOf("const gradeWhere");
+  const returningStart = gradeSource.indexOf("const gradedRows", updateStart);
+  const studentIdStart = gradeSource.indexOf("const gradedStudentId", returningStart);
+  assert.ok(updateStart >= 0 && returningStart > updateStart && studentIdStart > returningStart);
+
+  const guardedUpdate = gradeSource.slice(updateStart, studentIdStart);
+  assert.match(route, /import \{ eq, and, inArray, isNull, ne, or, exists \} from "drizzle-orm"/);
+  assert.match(guardedUpdate, /exists\(/, "teacher grading must recheck ownership inside the final UPDATE");
+  assert.match(guardedUpdate, /eq\(homework\.id, homeworkSubmissions\.homeworkId\)/,
+    "the ownership guard must correlate the assignment to the target submission");
+  assert.match(guardedUpdate, /eq\(homework\.teacherId, ctx\.user\.id\)/);
+  assert.match(guardedUpdate, /eq\(courses\.teacherId, ctx\.user\.id\)/,
+    "course-linked grading must use the current course owner");
+  assert.match(guardedUpdate, /ne\(homeworkSubmissions\.status, "graded"\)/,
+    "the final update must reject an already-graded submission");
+  assert.match(guardedUpdate, /returning\(\{ studentId: homeworkSubmissions\.studentId \}\)/);
+  assert.match(gradeSource, /if \(gradedRows\.length === 0\)/);
+  assert.match(gradeSource, /const gradedStudentId = gradedRows\[0\]\.studentId/);
+  assert.match(gradeSource, /eq\(users\.id, gradedStudentId\)/,
+    "points may be awarded only to the student returned by the successful guarded update");
+});
