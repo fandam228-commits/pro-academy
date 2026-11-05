@@ -77,5 +77,5 @@ test("CLI rejects an opted-in remote audit without verified TLS before connectin
   assert.equal(result.error, undefined, result.error?.message);
   assert.equal(result.status, 1);
   assert.match(result.stderr, /require DATABASE_URL sslmode=verify-full/);
-  assert.doesNotMatch(result.stdout + result.stderr, /audit-user|do-not-print|db\\.example\\.invalid|postgres(?:ql)?:\\/\\//i);
+  assert.doesNotMatch(result.stdout + result.stderr, /audit-user|do-not-print|db\.example\.invalid|postgres(?:ql)?:\/\//i);
 });
