@@ -85,6 +85,9 @@ export async function GET(req: Request) {
         }
         return NextResponse.json({ error: "Forbidden" }, { status: 403 });
       }
+      if (!verifiedStudentIds.includes(resolution.studentId)) {
+        return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+      }
       studentId = resolution.studentId;
     }
 
