@@ -31,6 +31,8 @@ export function canAccessHomeworkCourse(input: HomeworkCourseAccessInput): boole
 export interface HomeworkFileAccessDecisionInput extends HomeworkSubmissionFileAccessInput {
   submissionFound: boolean;
   homeworkFound: boolean;
+  homeworkCourseId?: string | null;
+  courseTeacherId?: string | null;
 }
 export function getHomeworkFileAccessDecision(input: HomeworkFileAccessDecisionInput): "allowed" | "not-found";
 
