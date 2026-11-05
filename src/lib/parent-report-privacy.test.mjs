@@ -46,16 +46,43 @@ test("attendance authenticates before setup and verifies parent links", () => {
   assertVerifiedParentSelection(routeFiles.attendance, "attendance");
 });
 
+function assertMixedVerificationParentSelection(source, routeName) {
+  assert.ok(source.includes("leftJoin(verifiedByUser, eq(parentLinks.verifiedBy, verifiedByUser.id))"),
+    routeName + " must retain unverified links in the ambiguity query");
+  assert.ok(source.includes("verifierRole: verifiedByUser.role"));
+  assert.ok(
+    source.includes('eq(parentAccount.role, "parent")') ||
+    source.includes('eq(parentAccountUser.role, "parent")'),
+    routeName + " must revalidate the current parent role",
+  );
+  assert.ok(source.includes('eq(users.role, "student")'),
+    routeName + " must require a current student account");
+  assert.ok(source.includes("getParentAnalyticsSelectionData(links)"));
+  assert.ok(source.includes("allLinkedStudentIds: linkedStudentIds"));
+  assert.ok(source.includes("resolveParentAnalyticsStudentId(requestedStudent, linkedStudentIds)"));
+  const verifiedGuard = source.indexOf("if (!verifiedStudentIds.includes(resolution.studentId))");
+  const denied = source.indexOf("status: 403", verifiedGuard);
+  const selected = source.indexOf("const studentId = resolution.studentId", denied);
+  assert.ok(verifiedGuard >= 0 && denied > verifiedGuard && selected > denied,
+    routeName + " must reject unverified children before reading their report data");
+  assert.ok(!source.includes("isNotNull(parentLinks.verifiedAt)"),
+    routeName + " must keep unverified links in the ambiguity set");
+  assert.ok(!source.includes("isNotNull(parentLinks.verifiedBy)"),
+    routeName + " must keep links without a verifier in the ambiguity set");
+  assert.doesNotMatch(source, /links\\s*\\[\\s*0\\s*\\]\\s*\\??\\.\\s*studentId/,
+    routeName + " must not silently select the first linked child");
+}
+
 test("parent overview requires verified explicit child selection and never returns the full users row", () => {
   assertAuthBeforeSetup(routeFiles.parent, "parent overview");
-  assertVerifiedParentSelection(routeFiles.parent, "parent overview");
-  assert.match(routeFiles.parent, /ctx\.user\.role !== "parent" && ctx\.user\.role !== "admin"/,
+  assertMixedVerificationParentSelection(routeFiles.parent, "parent overview");
+  assert.match(routeFiles.parent, /ctx\\.user\\.role !== "parent" && ctx\\.user\\.role !== "admin"/,
     "parent overview must deny teacher access; teachers use course-scoped reports");
-  assert.doesNotMatch(routeFiles.parent, /ctx\.user\.role !== "parent" && ctx\.user\.role !== "admin" && ctx\.user\.role !== "teacher"/,
+  assert.doesNotMatch(routeFiles.parent, /ctx\\.user\\.role !== "parent" && ctx\\.user\\.role !== "admin" && ctx\\.user\\.role !== "teacher"/,
     "parent overview must not allow teachers to query arbitrary parentId values");
-  assert.doesNotMatch(routeFiles.parent, /db\.select\(\)\.from\(users\)/,
+  assert.doesNotMatch(routeFiles.parent, /db\\.select\\(\\)\\.from\\(users\\)/,
     "parent overview must not hydrate/return password and unrelated private user columns");
-  assert.match(routeFiles.parent, /id:\s*users\.id[\s\S]*name:\s*users\.name[\s\S]*grade:\s*users\.grade/,
+  assert.match(routeFiles.parent, /id:\\s*users\\.id[\\s\\S]*name:\\s*users\\.name[\\s\\S]*grade:\\s*users\\.grade/,
     "parent overview must project only an explicit student profile allowlist");
 });
 
