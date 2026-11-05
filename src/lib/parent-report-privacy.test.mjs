@@ -20,23 +20,28 @@ function assertAuthBeforeSetup(source, routeName) {
 }
 
 function assertVerifiedParentSelection(source, routeName) {
-  assert.match(source, /eq\\((?:parentAccount|parentAccountUser)\\.role, "parent"\\)/,
-    routeName + " must revalidate the current parent account role");
-  assert.match(source, /eq\\(users\\.role, "student"\\)/,
+  const currentParentRole =
+    source.includes('eq(parentAccount.role, "parent")') ||
+    source.includes('eq(parentAccountUser.role, "parent")');
+  assert.ok(currentParentRole, routeName + " must revalidate the current parent account role");
+  assert.ok(source.includes('eq(users.role, "student")'),
     routeName + " must require a current student account");
-  assert.match(source, /leftJoin\\(verifiedByUser, eq\\(parentLinks\\.verifiedBy, verifiedByUser\\.id\\)\\)/,
+  assert.ok(source.includes("leftJoin(verifiedByUser, eq(parentLinks.verifiedBy, verifiedByUser.id))"),
     routeName + " must keep unverified links in the ambiguity query");
-  assert.match(source, /verifierRole: verifiedByUser\\.role/);
-  assert.match(source, /getParentAnalyticsSelectionData\\(links\\)/);
-  assert.match(source, /allLinkedStudentIds:\\s*linkedStudentIds/);
-  assert.match(source, /resolveParentAnalyticsStudentId\\((?:requestedStudent|studentId), linkedStudentIds\\)/);
-  assert.match(source, /verifiedStudentIds\\.includes\\(resolution\\.studentId\\)/,
+  assert.ok(source.includes("verifierRole: verifiedByUser.role"));
+  assert.ok(source.includes("getParentAnalyticsSelectionData(links)"));
+  assert.ok(source.includes("allLinkedStudentIds: linkedStudentIds"));
+  assert.ok(
+    source.includes("resolveParentAnalyticsStudentId(requestedStudent, linkedStudentIds)") ||
+    source.includes("resolveParentAnalyticsStudentId(studentId, linkedStudentIds)"),
+  );
+  assert.ok(source.includes("verifiedStudentIds.includes(resolution.studentId)"),
     routeName + " must authorize only a selected admin-verified child");
-  assert.doesNotMatch(source, /eq\\(verifiedByUser\\.role, "admin"\\)/,
+  assert.ok(!source.includes('eq(verifiedByUser.role, "admin")'),
     routeName + " must not filter unverified children out of the ambiguity set");
-  assert.doesNotMatch(source, /isNotNull\\(parentLinks\\.verifiedAt\\)/);
-  assert.doesNotMatch(source, /isNotNull\\(parentLinks\\.verifiedBy\\)/);
-  assert.doesNotMatch(source, /links\\s*\\[\\s*0\\s*\\]\\s*\\??\\.\\s*studentId/,
+  assert.ok(!source.includes("isNotNull(parentLinks.verifiedAt)"));
+  assert.ok(!source.includes("isNotNull(parentLinks.verifiedBy)"));
+  assert.ok(!/links\s*\[\s*0\s*\]\s*\??\.\s*studentId/.test(source),
     routeName + " must not silently select the first linked child");
 }
 
