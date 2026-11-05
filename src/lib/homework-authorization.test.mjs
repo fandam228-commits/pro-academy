@@ -12,24 +12,65 @@ import {
   canReplaceHomeworkSubmission,
 } from "./homework-authorization.mjs";
 
-test("teachers can manage only homework they own", () => {
+test("teachers can manage only homework whose recorded teacher and current course owner match", () => {
   assert.equal(
-    canManageHomework({ role: "teacher", requesterId: "teacher-1", homeworkTeacherId: "teacher-1" }),
-    true
+    canManageHomework({
+      role: "teacher", requesterId: "teacher-1", homeworkTeacherId: "teacher-1",
+      homeworkCourseId: null, courseTeacherId: null,
+    }),
+    true,
+    "grade-only homework remains scoped to its recorded teacher",
   );
   assert.equal(
-    canManageHomework({ role: "teacher", requesterId: "teacher-1", homeworkTeacherId: "teacher-2" }),
-    false
+    canManageHomework({
+      role: "teacher", requesterId: "teacher-1", homeworkTeacherId: "teacher-2",
+      homeworkCourseId: null, courseTeacherId: null,
+    }),
+    false,
   );
   assert.equal(
-    canManageHomework({ role: "teacher", requesterId: "teacher-1", homeworkTeacherId: null }),
-    false
+    canManageHomework({
+      role: "teacher", requesterId: "teacher-1", homeworkTeacherId: null,
+      homeworkCourseId: null, courseTeacherId: null,
+    }),
+    false,
+  );
+  assert.equal(
+    canManageHomework({
+      role: "teacher", requesterId: "teacher-1", homeworkTeacherId: "teacher-1",
+      homeworkCourseId: "course-1", courseTeacherId: "teacher-1",
+    }),
+    true,
+  );
+  assert.equal(
+    canManageHomework({
+      role: "teacher", requesterId: "teacher-1", homeworkTeacherId: "teacher-1",
+      homeworkCourseId: "course-1", courseTeacherId: "teacher-2",
+    }),
+    false,
+    "a former teacher must lose access when the course is reassigned",
+  );
+  assert.equal(
+    canManageHomework({
+      role: "teacher", requesterId: "teacher-1", homeworkTeacherId: "teacher-1",
+      homeworkCourseId: "course-missing", courseTeacherId: null,
+    }),
+    false,
+    "a missing course owner must fail closed",
+  );
+  assert.equal(
+    canManageHomework({
+      role: "teacher", requesterId: "teacher-1", homeworkTeacherId: "teacher-1",
+      courseTeacherId: "teacher-1",
+    }),
+    false,
+    "missing course-scope data must not be mistaken for grade-only homework",
   );
 });
 
 test("admins can manage homework while students and parents cannot", () => {
   assert.equal(
-    canManageHomework({ role: "admin", requesterId: "admin-1", homeworkTeacherId: "teacher-2" }),
+    canManageHomework({ role: "admin", requesterId: "admin-1", homeworkTeacherId: "teacher-2", homeworkCourseId: "course-2", courseTeacherId: "teacher-2" }),
     true
   );
   assert.equal(
@@ -40,6 +81,19 @@ test("admins can manage homework while students and parents cannot", () => {
     canManageHomework({ role: "parent", requesterId: "parent-1", homeworkTeacherId: "teacher-1" }),
     false
   );
+});
+
+test("teacher homework detail, listing, grading, and deletion re-check current course ownership", async () => {
+  const route = await readFile(new URL("../app/api/homework/route.ts", import.meta.url), "utf8");
+
+  assert.match(route, /\.leftJoin\(courses, eq\(homework\.courseId, courses\.id\)\)/,
+    "teacher management queries must resolve the course's current owner from the database");
+  assert.match(route, /homeworkCourseId: hw\.courseId,\s*courseTeacherId/,
+    "single-homework reads and grading must pass current course ownership to the policy");
+  assert.match(route, /homeworkCourseId: ownedHomework\.homework\.courseId,\s*courseTeacherId: ownedHomework\.courseTeacherId/,
+    "deletion must use the same current-owner policy");
+  assert.match(route, /or\(isNull\(homework\.courseId\), eq\(courses\.teacherId, ctx\.user\.id\)\)/,
+    "teacher homework lists must exclude reassigned and orphaned course records");
 });
 
 test("only the submission owner, owning teacher, or admin can view a submission file", () => {
