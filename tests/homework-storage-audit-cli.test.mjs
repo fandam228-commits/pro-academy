@@ -79,3 +79,17 @@ test("CLI rejects an opted-in remote audit without verified TLS before connectin
   assert.match(result.stderr, /require DATABASE_URL sslmode=verify-full/);
   assert.doesNotMatch(result.stdout + result.stderr, /audit-user|do-not-print|db\.example\.invalid|postgres(?:ql)?:\/\//i);
 });
+
+
+test("remote audit opt-in must be the boolean true, not a truthy string", () => {
+  const remoteDatabaseUrl = "postgresql://audit-user:do-not-print@db.example.invalid/proacademy?sslmode=verify-full";
+
+  assert.throws(
+    () => assertSafeHomeworkAuditTarget(remoteDatabaseUrl, "true"),
+    /Refusing a non-local database by default/,
+  );
+  assert.equal(
+    assertSafeHomeworkAuditTarget(remoteDatabaseUrl, true),
+    "remote-read-only-opt-in",
+  );
+});
