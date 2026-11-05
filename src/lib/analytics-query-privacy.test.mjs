@@ -250,11 +250,11 @@ test("parent attendance GET requires an admin-verified current student and expli
   assert.notEqual(studentStart, -1, "student attendance branch must follow parent branch");
   const parentSource = attendanceRouteSource.slice(parentStart, studentStart);
   assert.match(parentSource, /innerJoin\(users, eq\(parentLinks\.studentId, users\.id\)\)/);
-  assert.match(parentSource, /innerJoin\(verifiedByUser, eq\(parentLinks\.verifiedBy, verifiedByUser\.id\)\)/);
+  assert.match(parentSource, /leftJoin\(verifiedByUser, eq\(parentLinks\.verifiedBy, verifiedByUser\.id\)\)/);
   assert.match(parentSource, /eq\(parentLinks\.parentId, ctx\.user\.id\)/);
   assert.match(parentSource, /eq\(users\.role, "student"\)/);
-  assert.match(parentSource, /eq\(verifiedByUser\.role, "admin"\)/);
-  assert.match(parentSource, /isNotNull\(parentLinks\.verifiedAt\)/);
+  assert.match(parentSource, /verifierRole:\s*verifiedByUser\.role/);
+  assert.match(parentSource, /getParentAnalyticsSelectionData\(links\)/);
   assert.match(parentSource, /resolveParentAnalyticsStudentId\(requestedStudent, linkedStudentIds\)/);
   assert.doesNotMatch(parentSource, /links\s*\[\s*0\s*\]\s*\??\.\s*studentId/,
     "parent attendance must not silently select the first linked child");
@@ -411,9 +411,9 @@ test("reports parent access requires a verified current student and current admi
   assert.match(parentSource, /\.innerJoin\(verifiedByUser, eq\(parentLinks\.verifiedBy, verifiedByUser\.id\)\)/);
   assert.match(parentSource, /eq\(parentLinks\.parentId, ctx\.user\.id\)/);
   assert.match(parentSource, /eq\(users\.role, "student"\)/);
-  assert.match(parentSource, /eq\(verifiedByUser\.role, "admin"\)/);
-  assert.match(parentSource, /isNotNull\(parentLinks\.verifiedAt\)/);
-  assert.match(parentSource, /isNotNull\(parentLinks\.verifiedBy\)/);
+  assert.match(parentSource, /verifierRole:\s*verifiedByUser\.role/);
+  assert.match(parentSource, /getParentAnalyticsSelectionData\(links\)/);
+  assert.match(parentSource, /verifiedStudentIds\.includes\(resolution\.studentId\)/);
   assert.match(parentSource, /resolveParentAnalyticsStudentId\(studentId, linkedStudentIds\)/);
   assert.doesNotMatch(parentSource, /links\s*\[\s*0\s*\]\s*\??\.\s*studentId|linkedStudentIds\s*\[\s*0\s*\]/,
     "reports must never silently choose the first linked child");
