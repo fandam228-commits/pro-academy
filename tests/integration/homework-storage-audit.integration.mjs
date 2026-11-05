@@ -53,12 +53,30 @@ test("storage audit refuses remote database targets unless explicitly opted in",
     (error) => error instanceof Error && error.message.includes("must use the postgres:// or postgresql:// protocol"),
   );
   assert.equal(assertSafeHomeworkAuditTarget("postgresql://postgres:postgres@127.0.0.1:5432/proacademy_test"), "local");
+  const remoteDatabaseUrl = "postgresql://user:pass@db.example.test/prod";
   assert.throws(
-    () => assertSafeHomeworkAuditTarget("postgresql://user:pass@db.example.test/prod"),
+    () => assertSafeHomeworkAuditTarget(remoteDatabaseUrl),
     /Refusing a non-local database by default/,
   );
+  assert.throws(
+    () => assertSafeHomeworkAuditTarget(remoteDatabaseUrl, true),
+    /require DATABASE_URL sslmode=verify-full/,
+  );
+  for (const sslmode of ["prefer", "require", "verify-ca", "disable"]) {
+    assert.throws(
+      () => assertSafeHomeworkAuditTarget(`${remoteDatabaseUrl}?sslmode=${sslmode}`, true),
+      /require DATABASE_URL sslmode=verify-full/,
+    );
+  }
+  assert.throws(
+    () => assertSafeHomeworkAuditTarget(
+      `${remoteDatabaseUrl}?sslmode=verify-full&sslmode=disable`,
+      true,
+    ),
+    /require DATABASE_URL sslmode=verify-full/,
+  );
   assert.equal(
-    assertSafeHomeworkAuditTarget("postgresql://user:pass@db.example.test/prod", true),
+    assertSafeHomeworkAuditTarget(`${remoteDatabaseUrl}?sslmode=verify-full`, true),
     "remote-read-only-opt-in",
   );
 });
