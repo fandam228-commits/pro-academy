@@ -1,5 +1,5 @@
 import { db } from "@/db";
-import { homework, homeworkSubmissions } from "@/db/schema";
+import { courses, homework, homeworkSubmissions } from "@/db/schema";
 import { eq } from "drizzle-orm";
 import { NextResponse } from "next/server";
 import { ensureDbSetup } from "@/db/migrate-and-seed";
