@@ -129,6 +129,9 @@ export async function GET(req: Request) {
         if (resolution.reason === "invalid-student-id") return NextResponse.json({ error: "Invalid studentId" }, { status: 400 });
         return NextResponse.json({ error: "Forbidden" }, { status: 403 });
       }
+      if (!verifiedStudentIds.includes(resolution.studentId)) {
+        return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+      }
       const studentId = resolution.studentId;
       const records = await db.select().from(attendanceRecords).where(eq(attendanceRecords.studentId, studentId));
       const sorted = records.sort((a, b) => (a.sessionDate < b.sessionDate ? 1 : -1));
