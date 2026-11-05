@@ -13,7 +13,7 @@ import {
   courses,
   parentLinks,
 } from "@/db/schema";
-import { and, eq, inArray, isNotNull } from "drizzle-orm";
+import { and, eq, exists, inArray, isNotNull } from "drizzle-orm";
 import { alias } from "drizzle-orm/pg-core";
 import { NextResponse } from "next/server";
 import { ensureDbSetup } from "@/db/migrate-and-seed";
@@ -51,14 +51,25 @@ async function buildStudentReport(studentId: string, scope?: TeacherReportScope)
   // it contains unrelated account data (for example contact/authentication fields).
   // Teacher reports additionally require a current student role in the same query.
   const userRows: AnalyticsStudentProfile[] = scope
-    ? await db
-        .select({
-          id: users.id,
-          name: users.name,
-          grade: users.grade,
-        })
-        .from(users)
-        .where(and(eq(users.id, studentId), eq(users.role, "student")))
+    ? scope.allowedCourseIds.length === 0
+      ? []
+      : await db
+          .select({
+            id: users.id,
+            name: users.name,
+            grade: users.grade,
+          })
+          .from(users)
+          .innerJoin(enrollments, eq(enrollments.studentId, users.id))
+          .innerJoin(courses, eq(enrollments.courseId, courses.id))
+          .where(and(
+            eq(users.id, studentId),
+            eq(users.role, "student"),
+            eq(courses.teacherId, scope.teacherId),
+            inArray(enrollments.courseId, scope.allowedCourseIds),
+            inArray(enrollments.status, ["active", "completed"]),
+          ))
+          .limit(1)
     : await db
         .select({
           id: users.id,
@@ -92,9 +103,19 @@ async function buildStudentReport(studentId: string, scope?: TeacherReportScope)
           })
           .from(quizSubmissions)
           .innerJoin(quizzes, eq(quizSubmissions.quizId, quizzes.id))
+          .innerJoin(courses, eq(quizzes.courseId, courses.id))
           .where(and(
             eq(quizSubmissions.studentId, studentId),
+            eq(courses.teacherId, scope.teacherId),
             inArray(quizzes.courseId, scope.allowedCourseIds),
+            exists(db
+              .select({ id: enrollments.id })
+              .from(enrollments)
+              .where(and(
+                eq(enrollments.studentId, quizSubmissions.studentId),
+                eq(enrollments.courseId, quizzes.courseId),
+                inArray(enrollments.status, ["active", "completed"]),
+              ))),
           ))
     : await db
         .select({
@@ -116,8 +137,10 @@ async function buildStudentReport(studentId: string, scope?: TeacherReportScope)
             totalPoints: homework.totalPoints,
           })
           .from(homework)
+          .innerJoin(courses, eq(homework.courseId, courses.id))
           .where(and(
             eq(homework.teacherId, scope.teacherId),
+            eq(courses.teacherId, scope.teacherId),
             inArray(homework.courseId, scope.allowedCourseIds),
           ))
     : await db.select({
@@ -140,8 +163,12 @@ async function buildStudentReport(studentId: string, scope?: TeacherReportScope)
             status: homeworkSubmissions.status,
           })
           .from(homeworkSubmissions)
+          .innerJoin(homework, eq(homeworkSubmissions.homeworkId, homework.id))
+          .innerJoin(courses, eq(homework.courseId, courses.id))
           .where(and(
             eq(homeworkSubmissions.studentId, studentId),
+            eq(homework.teacherId, scope.teacherId),
+            eq(courses.teacherId, scope.teacherId),
             inArray(homeworkSubmissions.homeworkId, [...visibleHomeworkIds]),
           ))
     : await db
@@ -164,11 +191,14 @@ async function buildStudentReport(studentId: string, scope?: TeacherReportScope)
     ? scope.allowedCourseIds.length === 0
       ? []
       : await db
-          .select()
+          .select({ courseId: enrollments.courseId })
           .from(enrollments)
+          .innerJoin(courses, eq(enrollments.courseId, courses.id))
           .where(and(
             eq(enrollments.studentId, studentId),
+            eq(courses.teacherId, scope.teacherId),
             inArray(enrollments.courseId, scope.allowedCourseIds),
+            inArray(enrollments.status, ["active", "completed"]),
           ))
     : await db.select().from(enrollments).where(eq(enrollments.studentId, studentId));
 
@@ -419,12 +449,22 @@ export async function GET(req: Request) {
       }
 
       // Filter the roster in SQL; do not load every student account into application memory.
-      const visibleStudents = teacherStudentIds.length === 0
+      // Revalidate current course ownership and enrollment status at roster-read time;
+      // the earlier allowlist is only a preliminary gate and may become stale.
+      const visibleStudentRows = teacherStudentIds.length === 0
         ? []
         : await db
             .select({ id: users.id, name: users.name, grade: users.grade })
             .from(users)
-            .where(and(eq(users.role, "student"), inArray(users.id, teacherStudentIds)));
+            .innerJoin(enrollments, eq(enrollments.studentId, users.id))
+            .innerJoin(courses, eq(enrollments.courseId, courses.id))
+            .where(and(
+              eq(users.role, "student"),
+              inArray(users.id, teacherStudentIds),
+              eq(courses.teacherId, ctx.user.id),
+              inArray(enrollments.status, ["active", "completed"]),
+            ));
+      const visibleStudents = [...new Map(visibleStudentRows.map((student) => [student.id, student])).values()];
       const reports = await Promise.all(visibleStudents.map((student) => buildStudentReport(student.id, {
         teacherId: ctx.user.id,
         allowedCourseIds: getTeacherAnalyticsCourseIds(teacherEnrollmentRows, ctx.user.id, student.id),
