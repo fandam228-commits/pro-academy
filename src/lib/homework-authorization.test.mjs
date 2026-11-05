@@ -290,3 +290,36 @@ test("grade-specific homework fails closed when the student's current grade is m
     role: "parent", studentGrade: "Third Secondary", homeworkGrade: "Third Secondary",
   }), false);
 });
+
+test("course-linked homework notifications are limited to active/completed enrolled students", async () => {
+  const route = await readFile(new URL("../app/api/homework/route.ts", import.meta.url), "utf8");
+  const createStart = route.indexOf('if (action === "create")');
+  const gradeStart = route.indexOf('if (action === "grade")', createStart);
+  assert.ok(createStart >= 0 && gradeStart > createStart);
+  const createRoute = route.slice(createStart, gradeStart);
+
+  const recipientsStart = createRoute.indexOf("const notificationRows = newHw.courseId");
+  const recipientsEnd = createRoute.indexOf("const notificationStudentIds", recipientsStart);
+  assert.ok(recipientsStart >= 0 && recipientsEnd > recipientsStart,
+    "notification recipients must be derived after the assignment is created");
+  const recipientQuery = createRoute.slice(recipientsStart, recipientsEnd);
+  const courseQuery = recipientQuery.slice(recipientQuery.indexOf("? await db.select"), recipientQuery.indexOf(": await db.select"));
+  const gradeOnlyQuery = recipientQuery.slice(recipientQuery.indexOf(": await db.select"));
+
+  assert.match(courseQuery, /\.from\(enrollments\)/,
+    "course-specific notifications must start from enrollment records");
+  assert.match(courseQuery, /\.innerJoin\(users, eq\(enrollments\.studentId, users\.id\)\)/);
+  assert.match(courseQuery, /eq\(enrollments\.courseId, newHw\.courseId\)/);
+  assert.match(courseQuery, /eq\(users\.role, "student"\)/);
+  assert.match(courseQuery, /eq\(users\.grade, newHw\.grade\)/);
+  assert.match(courseQuery, /inArray\(enrollments\.status, \["active", "completed"\]\)/,
+    "cancelled or pending enrollments must not receive course-only homework notifications");
+
+  assert.match(gradeOnlyQuery, /\.from\(users\)/,
+    "grade-only homework must retain grade-based notifications");
+  assert.match(gradeOnlyQuery, /eq\(users\.role, "student"\)/);
+  assert.match(gradeOnlyQuery, /eq\(users\.grade, newHw\.grade\)/);
+  assert.match(recipientQuery, /new Set\(notificationRows\.map\(\(row\) => row\.id\)\)/,
+    "duplicate enrollment rows must not send duplicate notifications");
+  assert.match(createRoute, /for \(const studentId of notificationStudentIds\)/);
+});
