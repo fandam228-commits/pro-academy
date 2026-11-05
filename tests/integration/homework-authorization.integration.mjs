@@ -274,3 +274,63 @@ integrationTest("PostgreSQL enrollment scope blocks same-grade students from ano
     }), true);
   });
 });
+
+
+integrationTest("PostgreSQL teacher homework detail and list reads scope submission rows to the current course owner in one query", async () => {
+  await withFixture(async (db) => {
+    const readTeacherDetail = async (homeworkId) => db
+      .select({
+        homeworkId: homework.id,
+        submissionId: homeworkSubmissions.id,
+        submissionStatus: homeworkSubmissions.status,
+      })
+      .from(homework)
+      .leftJoin(courses, eq(homework.courseId, courses.id))
+      .leftJoin(homeworkSubmissions, eq(homeworkSubmissions.homeworkId, homework.id))
+      .where(and(
+        eq(homework.id, homeworkId),
+        eq(homework.teacherId, "teacher-1"),
+        or(isNull(homework.courseId), eq(courses.teacherId, "teacher-1")),
+      ));
+
+    const readTeacherList = async () => db
+      .select({
+        homeworkId: homework.id,
+        submissionId: homeworkSubmissions.id,
+        submissionStatus: homeworkSubmissions.status,
+      })
+      .from(homework)
+      .leftJoin(courses, eq(homework.courseId, courses.id))
+      .leftJoin(homeworkSubmissions, eq(homeworkSubmissions.homeworkId, homework.id))
+      .where(and(
+        eq(homework.teacherId, "teacher-1"),
+        or(isNull(homework.courseId), eq(courses.teacherId, "teacher-1")),
+      ));
+
+    const initialDetail = await readTeacherDetail("homework-owned");
+    assert.deepEqual(initialDetail.map((row) => row.submissionId), ["submission-owned"]);
+
+    const initialList = await readTeacherList();
+    assert.ok(initialList.some((row) => row.homeworkId === "homework-owned" && row.submissionId === "submission-owned"));
+
+    // Ownership changes after an earlier request/preflight. The next single-statement
+    // detail and list reads must not return either the assignment or its submissions.
+    await db.update(courses).set({ teacherId: "teacher-2" }).where(eq(courses.id, "course-owned"));
+
+    assert.deepEqual(
+      await readTeacherDetail("homework-owned"),
+      [],
+      "detail read must deny the former owner and must not return submission rows",
+    );
+    const afterTransferList = await readTeacherList();
+    assert.equal(
+      afterTransferList.some((row) => row.homeworkId === "homework-owned"),
+      false,
+      "list read must exclude the reassigned assignment and its submission counts",
+    );
+    assert.ok(
+      afterTransferList.some((row) => row.homeworkId === "homework-grade-only"),
+      "grade-only homework remains scoped to its recorded teacher",
+    );
+  });
+});
