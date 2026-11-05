@@ -47,6 +47,18 @@ export function isTeacherScopedHomework(item, teacherId, allowedCourseIds) {
   );
 }
 
+/**
+ * Grade-specific homework is hidden when the student's current grade is missing.
+ * Grade-agnostic homework remains visible.
+ */
+export function isHomeworkGradeVisibleToStudent(homeworkGrade, studentGrade) {
+  const normalizedHomeworkGrade = typeof homeworkGrade === "string" ? homeworkGrade.trim() : "";
+  const normalizedStudentGrade = typeof studentGrade === "string" ? studentGrade.trim() : "";
+  if (!normalizedHomeworkGrade) return true;
+  if (!normalizedStudentGrade) return false;
+  return normalizedHomeworkGrade === normalizedStudentGrade;
+}
+
 export function isCourseScopedQuiz(quiz, allowedCourseIds) {
   return Boolean(
     quiz &&
