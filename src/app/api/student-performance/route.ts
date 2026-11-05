@@ -55,21 +55,23 @@ export async function GET(req: Request) {
           studentId: parentLinks.studentId,
           verifiedAt: parentLinks.verifiedAt,
           verifiedBy: parentLinks.verifiedBy,
+          verifierRole: verifiedByUser.role,
         })
         .from(parentLinks)
         .innerJoin(parentAccountUser, eq(parentLinks.parentId, parentAccountUser.id))
         .innerJoin(linkedStudentUser, eq(parentLinks.studentId, linkedStudentUser.id))
-        .innerJoin(verifiedByUser, eq(parentLinks.verifiedBy, verifiedByUser.id))
+        // Keep unverified links in the ambiguity set; they must not grant access.
+        .leftJoin(verifiedByUser, eq(parentLinks.verifiedBy, verifiedByUser.id))
         .where(and(
           eq(parentLinks.parentId, ctx.user.id),
           eq(parentAccountUser.role, "parent"),
           eq(linkedStudentUser.role, "student"),
-          eq(verifiedByUser.role, "admin"),
-          isNotNull(parentLinks.verifiedAt),
-          isNotNull(parentLinks.verifiedBy),
         ));
 
-      const linkedStudentIds = getVerifiedParentAnalyticsStudentIds(links);
+      const {
+        allLinkedStudentIds: linkedStudentIds,
+        verifiedStudentIds,
+      } = getParentAnalyticsSelectionData(links);
       const resolution = resolveParentAnalyticsStudentId(requestedStudentId, linkedStudentIds);
       if (!resolution.ok) {
         if (resolution.reason === "no-linked-student") {
