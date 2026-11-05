@@ -68,8 +68,16 @@ export async function GET(req: Request) {
       return NextResponse.json({ error: "Forbidden" }, { status: 403 });
     }
 
+    if (!verifiedStudentIds.includes(resolution.studentId)) {
+      return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+    }
     const studentId = resolution.studentId;
-    const primaryLink = links.find((link) => link.studentId === studentId);
+    const primaryLink = links.find((link) =>
+      link.studentId === studentId &&
+      link.verifierRole === "admin" &&
+      link.verifiedAt &&
+      link.verifiedBy
+    );
     if (!primaryLink) return NextResponse.json({ error: "Forbidden" }, { status: 403 });
 
     // Never return the complete users row: it includes password and other private account fields.
