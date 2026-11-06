@@ -29,7 +29,7 @@ test("locked current authorization runs before submission rows are read or writt
 });
 
 test("notification failure after commit cannot turn a saved submission into an ambiguous failure", () => {
-  const inserted = routeSource.indexOf('if (persistence.kind === "inserted")');
+  const inserted = routeSource.indexOf("const sub = persistence.submission;");
   const notification = routeSource.indexOf("await notifyUser(", inserted);
   const catchIndex = routeSource.indexOf("Homework submission notification failed; details withheld.", notification);
   const response = routeSource.indexOf("return NextResponse.json({ success: true, submission:", notification);
