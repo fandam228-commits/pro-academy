@@ -282,7 +282,7 @@ export async function POST(req: Request) {
             await del(previousStoragePath, { token: uploadToken });
           } catch {
             // Provider errors may contain object URLs or request metadata; never log them.
-              console.error("Private homework Blob cleanup failed; manual reconciliation may be required.");
+            console.error("Private homework Blob cleanup failed; manual reconciliation may be required.");
           }
         }
 
@@ -308,7 +308,7 @@ export async function POST(req: Request) {
             await del(storagePath, { token: uploadToken });
           } catch {
             // Provider errors may contain object URLs or request metadata; never log them.
-              console.error("Private homework Blob cleanup failed; manual reconciliation may be required.");
+            console.error("Private homework Blob cleanup failed; manual reconciliation may be required.");
           }
         }
         throw insertError;
