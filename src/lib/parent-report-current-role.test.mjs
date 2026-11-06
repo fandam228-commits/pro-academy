@@ -11,7 +11,7 @@ function assertMixedVerificationSelection(source, requestedId, routeName) {
   assert.ok(source.includes("verifierRole: verifiedByUser.role"));
   assert.ok(source.includes('eq(parentAccount.role, "parent")'));
   assert.ok(source.includes('eq(users.role, "student")'));
-  assert.ok(source.includes("getParentAnalyticsSelectionData(links)"));
+  assert.ok(source.includes("getParentAnalyticsSelectionData(parentLinkRows)"));
   assert.ok(source.includes("allLinkedStudentIds: linkedStudentIds"));
   assert.ok(source.includes("resolveParentAnalyticsStudentId(" + requestedId + ", linkedStudentIds)"));
   assert.ok(source.includes("verifiedStudentIds.includes(resolution.studentId)"));
