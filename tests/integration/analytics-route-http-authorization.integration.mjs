@@ -54,6 +54,7 @@ integrationTest(
       otherCourseQuiz: id("other_course_quiz"),
       otherCourseQuizSubmission: id("other_course_quiz_submission"),
       attendanceRecord: id("attendance_record"),
+      otherAttendanceRecord: id("other_attendance_record"),
       enrollmentOwned: id("enrollment_owned"),
       enrollmentOtherStudent: id("enrollment_other_student"),
       enrollmentStudentOtherCourse: id("enrollment_student_other_course"),
@@ -205,9 +206,10 @@ integrationTest(
         [ids.otherCourseQuizSubmission, ids.otherCourseQuiz, ids.student],
       );
       await client.query(
-        `INSERT INTO attendance_records (id, student_id, student_name, session_title, session_date, status, grade)
-         VALUES ($1, $2, 'Student HTTP Test', 'Unscoped attendance fixture', '2026-11-04', 'present', 'Third Secondary')`,
-        [ids.attendanceRecord, ids.student],
+        `INSERT INTO attendance_records (id, student_id, student_name, session_title, session_date, status, grade, marked_by)
+         VALUES ($1, $2, 'Student HTTP Test', 'Owned teacher session', '2026-11-04', 'present', 'Third Secondary', $3),
+                ($4, $5, 'Other Student HTTP Test', 'Out-of-scope teacher session', '2026-11-04', 'present', 'Third Secondary', $6)`,
+        [ids.attendanceRecord, ids.student, ids.teacher, ids.otherAttendanceRecord, ids.otherStudent, ids.teacher],
       );
 
       await client.query(
@@ -265,6 +267,30 @@ integrationTest(
           body = { nonJsonResponse: raw.slice(0, 500) };
         }
         return { status: response.status, body };
+      }
+
+      async function requestApi(path, sessionToken, studentId, method = "GET", body) {
+        const url = new URL(path, baseUrl);
+        if (studentId !== undefined) url.searchParams.set("studentId", studentId);
+        const headers = {
+          authorization: `Bearer ${sessionToken}`,
+          "cache-control": "no-store",
+        };
+        if (body !== undefined) headers["content-type"] = "application/json";
+        const response = await fetch(url, {
+          method,
+          headers,
+          body: body === undefined ? undefined : JSON.stringify(body),
+          signal: AbortSignal.timeout(15000),
+        });
+        const raw = await response.text();
+        let parsed;
+        try {
+          parsed = JSON.parse(raw);
+        } catch {
+          parsed = { nonJsonResponse: raw.slice(0, 500) };
+        }
+        return { status: response.status, body: parsed };
       }
 
       const teacherOwnStudent = await requestAnalytics(tokens.teacher, ids.student);
@@ -382,6 +408,116 @@ integrationTest(
       const studentCrossReport = await requestAnalytics(tokens.student, ids.otherStudent);
       assert.equal(studentCrossReport.status, 403, "student must not access another student's report");
 
+      // The weekly reports endpoint must apply the same course and parent-link
+      // boundaries as Analytics; attendance without a course key is omitted for teachers.
+      const teacherWeeklyReport = await requestApi("/api/reports", tokens.teacher, ids.student);
+      assert.equal(teacherWeeklyReport.status, 200, JSON.stringify(teacherWeeklyReport.body));
+      assert.equal(teacherWeeklyReport.body.report?.student?.id, ids.student);
+      assert.equal(teacherWeeklyReport.body.report?.attendance?.totalSessions, 0,
+        "teacher reports must omit attendance rows without a reliable course ownership key");
+      assert.equal(teacherWeeklyReport.body.report?.attendance?.overallRate, null);
+      assert.equal(teacherWeeklyReport.body.report?.quizzes?.weekAttempts, 0,
+        "teacher reports must exclude quiz attempts from another teacher's course");
+      assert.deepEqual(teacherWeeklyReport.body.report?.courses?.courseNames, ["HTTP test owned course"],
+        "teacher reports must list only currently owned courses");
+      const teacherOtherWeeklyReport = await requestApi("/api/reports", tokens.teacher, ids.otherStudent);
+      assert.equal(teacherOtherWeeklyReport.status, 403,
+        "teacher weekly reports must deny students enrolled only in another teacher's course");
+      const teacherCancelledWeeklyReport = await requestApi("/api/reports", tokens.teacher, ids.unverifiedStudent);
+      assert.equal(teacherCancelledWeeklyReport.status, 403,
+        "cancelled enrollment must not authorize a weekly report");
+
+      const parentWeeklyWithoutSelection = await requestApi("/api/reports", tokens.parent);
+      assert.equal(parentWeeklyWithoutSelection.status, 400,
+        "weekly reports must require explicit selection across all linked children");
+      const parentWeeklySelected = await requestApi("/api/reports", tokens.parent, ids.student);
+      assert.equal(parentWeeklySelected.status, 200, JSON.stringify(parentWeeklySelected.body));
+      assert.equal(parentWeeklySelected.body.report?.student?.id, ids.student);
+      const parentWeeklyUnverified = await requestApi("/api/reports", tokens.parent, ids.unverifiedStudent);
+      assert.equal(parentWeeklyUnverified.status, 403,
+        "weekly reports must reject an explicitly selected unverified child");
+      const parentMixedWeeklyWithoutSelection = await requestApi("/api/reports", tokens.parentMixed);
+      assert.equal(parentMixedWeeklyWithoutSelection.status, 400,
+        "one verified plus one unverified link must still require explicit selection");
+      const parentMixedWeeklyVerified = await requestApi("/api/reports", tokens.parentMixed, ids.student);
+      assert.equal(parentMixedWeeklyVerified.status, 200);
+      const parentMixedWeeklyUnverified = await requestApi("/api/reports", tokens.parentMixed, ids.unverifiedStudent);
+      assert.equal(parentMixedWeeklyUnverified.status, 403);
+      const parentSingleWeekly = await requestApi("/api/reports", tokens.parentSingle);
+      assert.equal(parentSingleWeekly.status, 200,
+        "duplicate links to one distinct verified child must not create false ambiguity");
+      const parentUnverifiedOnlyWeekly = await requestApi("/api/reports", tokens.parentUnverifiedOnly);
+      assert.equal(parentUnverifiedOnlyWeekly.status, 403,
+        "a parent with only an unverified child must not receive a weekly report");
+
+      const studentWeeklyOwn = await requestApi("/api/reports", tokens.student);
+      assert.equal(studentWeeklyOwn.status, 200, JSON.stringify(studentWeeklyOwn.body));
+      assert.equal(studentWeeklyOwn.body.report?.student?.id, ids.student);
+      const studentWeeklyCross = await requestApi("/api/reports", tokens.student, ids.otherStudent);
+      assert.equal(studentWeeklyCross.status, 403,
+        "students must not request another student's weekly report");
+
+      // Attendance GET uses the same parent verification and child-selection rules.
+      const teacherAttendance = await requestApi("/api/attendance", tokens.teacher);
+      assert.equal(teacherAttendance.status, 200, JSON.stringify(teacherAttendance.body));
+      const teacherRosterIds = (teacherAttendance.body.roster || []).map((row) => row.studentId);
+      assert.ok(teacherRosterIds.includes(ids.student));
+      assert.equal(teacherRosterIds.includes(ids.otherStudent), false,
+        "teacher attendance roster must exclude students outside owned courses");
+      assert.equal(teacherRosterIds.includes(ids.unverifiedStudent), false,
+        "teacher attendance roster must exclude cancelled enrollments");
+      const teacherAttendanceRow = (teacherAttendance.body.roster || []).find((row) => row.studentId === ids.student);
+      assert.equal(teacherAttendanceRow?.totalSessions, 1);
+      const parentAttendanceWithoutSelection = await requestApi("/api/attendance", tokens.parent);
+      assert.equal(parentAttendanceWithoutSelection.status, 400);
+      const parentAttendanceSelected = await requestApi("/api/attendance", tokens.parent, ids.student);
+      assert.equal(parentAttendanceSelected.status, 200, JSON.stringify(parentAttendanceSelected.body));
+      assert.equal(parentAttendanceSelected.body.studentId, ids.student);
+      assert.equal(parentAttendanceSelected.body.total, 1);
+      const parentAttendanceUnverified = await requestApi("/api/attendance", tokens.parent, ids.unverifiedStudent);
+      assert.equal(parentAttendanceUnverified.status, 403);
+      const parentMixedAttendanceWithoutSelection = await requestApi("/api/attendance", tokens.parentMixed);
+      assert.equal(parentMixedAttendanceWithoutSelection.status, 400);
+      const parentMixedAttendanceVerified = await requestApi("/api/attendance", tokens.parentMixed, ids.student);
+      assert.equal(parentMixedAttendanceVerified.status, 200);
+      const parentMixedAttendanceUnverified = await requestApi("/api/attendance", tokens.parentMixed, ids.unverifiedStudent);
+      assert.equal(parentMixedAttendanceUnverified.status, 403);
+      const parentSingleAttendance = await requestApi("/api/attendance", tokens.parentSingle);
+      assert.equal(parentSingleAttendance.status, 200);
+      const parentUnverifiedOnlyAttendance = await requestApi("/api/attendance", tokens.parentUnverifiedOnly);
+      assert.equal(parentUnverifiedOnlyAttendance.status, 403);
+
+      const studentAttendanceOwn = await requestApi("/api/attendance", tokens.student);
+      assert.equal(studentAttendanceOwn.status, 200);
+      assert.equal(studentAttendanceOwn.body.studentId, ids.student);
+      const studentAttendanceForged = await requestApi("/api/attendance", tokens.student, ids.otherStudent);
+      assert.equal(studentAttendanceForged.status, 200);
+      assert.equal(studentAttendanceForged.body.studentId, ids.student,
+        "student attendance must ignore a forged target and return only the authenticated student's records");
+
+      const teacherAttendanceSelfCheckIn = await requestApi("/api/attendance", tokens.teacher, undefined, "POST", {
+        action: "check_in",
+      });
+      assert.equal(teacherAttendanceSelfCheckIn.status, 403,
+        "teachers must not use the student self-check-in action");
+      const studentAttendanceBulkMark = await requestApi("/api/attendance", tokens.student, undefined, "POST", {
+        action: "bulk_mark",
+        sessionTitle: "Unauthorized student bulk mark",
+        sessionDate: "2026-11-06",
+        marks: [{ studentId: ids.student, status: "present" }],
+      });
+      assert.equal(studentAttendanceBulkMark.status, 403,
+        "students must not use the teacher/admin bulk-mark action");
+      const teacherAttendanceOutOfScopeMark = await requestApi("/api/attendance", tokens.teacher, undefined, "POST", {
+        action: "bulk_mark",
+        sessionTitle: "Out-of-scope mark",
+        sessionDate: "2026-11-06",
+        marks: [{ studentId: ids.otherStudent, status: "present" }],
+      });
+      assert.equal(teacherAttendanceOutOfScopeMark.status, 403,
+        "teachers must not mark attendance for students outside their owned-course roster");
+
+
       // Revalidate current database roles rather than trusting the role copied into a session.
       await client.query("UPDATE users SET role = 'teacher' WHERE id = $1", [ids.otherStudent]);
       const parentStaleStudentRole = await requestAnalytics(tokens.parent, ids.otherStudent);
@@ -422,7 +558,7 @@ integrationTest(
           await client.query("DELETE FROM parent_links WHERE id = ANY($1::text[])", [[ids.linkStudent, ids.linkOtherStudent, ids.linkUnverified, ids.linkUnverifiedOnly, ids.linkSingle, ids.linkSingleDuplicate, ids.linkMixedVerified, ids.linkMixedUnverified]]);
           await client.query("DELETE FROM quiz_submissions WHERE id = $1", [ids.otherCourseQuizSubmission]);
           await client.query("DELETE FROM quizzes WHERE id = $1", [ids.otherCourseQuiz]);
-          await client.query("DELETE FROM attendance_records WHERE id = $1", [ids.attendanceRecord]);
+          await client.query("DELETE FROM attendance_records WHERE id = ANY($1::text[])", [[ids.attendanceRecord, ids.otherAttendanceRecord]]);
           await client.query("DELETE FROM enrollments WHERE id = ANY($1::text[])", [[ids.enrollmentOwned, ids.enrollmentOtherStudent, ids.enrollmentStudentOtherCourse, ids.enrollmentCancelled]]);
           await client.query("DELETE FROM courses WHERE id = ANY($1::text[])", [[ids.ownedCourse, ids.otherCourse]]);
           await client.query("DELETE FROM users WHERE id = ANY($1::text[])", [[ids.teacher, ids.otherTeacher, ids.student, ids.otherStudent, ids.unlinkedStudent, ids.unverifiedStudent, ids.unverifiedOnlyStudent, ids.parent, ids.parentSingle, ids.parentMixed, ids.parentUnverifiedOnly, ids.admin]]);
