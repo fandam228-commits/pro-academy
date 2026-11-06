@@ -43,7 +43,6 @@ export async function GET(req: Request) {
 
   try {
     if (role === "parent") {
-      const studentId = searchParams.get("studentId");
       // Include all linked student accounts in the ambiguity set, while only
       // admin-verified links authorize access. Recheck parent and verifier roles
       // in the same query snapshot.
@@ -83,7 +82,8 @@ export async function GET(req: Request) {
       if (!verifiedStudentIds.includes(resolution.studentId)) {
         return NextResponse.json({ error: "Forbidden" }, { status: 403 });
       }
-      studentId = resolution.studentId;} else if (role === "student") {
+      studentId = resolution.studentId;
+    } else if (role === "student") {
       // Students may read only their own report. Reject a forged target ID
       // explicitly instead of silently accepting a cross-student selector.
       if (studentId && studentId !== ctx.user.id) {
