@@ -56,8 +56,14 @@ export async function GET(req: Request) {
             return [...new Map(rows.map((row) => [row.id, row])).values()];
           })()
         : allStudents;
+      const visibleStudentIds = visibleStudents.map((student) => student.id);
       const allRecords = role === "teacher"
-        ? await db.select().from(attendanceRecords).where(eq(attendanceRecords.markedBy, ctx.user.id))
+        ? visibleStudentIds.length === 0
+          ? []
+          : await db.select().from(attendanceRecords).where(and(
+              eq(attendanceRecords.markedBy, ctx.user.id),
+              inArray(attendanceRecords.studentId, visibleStudentIds),
+            ))
         : await db.select().from(attendanceRecords);
 
       const roster = visibleStudents.map((st) => {
@@ -155,11 +161,20 @@ export async function POST(req: Request) {
   if (!["teacher", "admin", "student"].includes(ctx.user.role)) {
     return NextResponse.json({ error: "Forbidden" }, { status: 403 });
   }
-  await ensureDbSetup();
-
   try {
     const body = await req.json();
     const { action } = body;
+    // Reject unsupported actions and role mismatches before database setup work.
+    if (action === "bulk_mark" && !["teacher", "admin"].includes(ctx.user.role)) {
+      return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+    }
+    if (action === "check_in" && ctx.user.role !== "student") {
+      return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+    }
+    if (action !== "bulk_mark" && action !== "check_in") {
+      return NextResponse.json({ error: "Unsupported attendance action" }, { status: 400 });
+    }
+    await ensureDbSetup();
 
     // ============ TEACHER: BULK MARK ROSTER FOR A SESSION ============
     if (action === "bulk_mark") {
