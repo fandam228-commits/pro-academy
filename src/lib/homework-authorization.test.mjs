@@ -459,3 +459,28 @@ test("private homework Blob cleanup failures never log raw provider error object
     "provider error objects must never be written to application logs",
   );
 });
+
+test("homework API routes never log raw database or storage error objects", async () => {
+  const homeworkRoute = await readFile(new URL("../app/api/homework/route.ts", import.meta.url), "utf8");
+  const homeworkFileRoute = await readFile(new URL("../app/api/homework/file/[id]/route.ts", import.meta.url), "utf8");
+
+  for (const [routeName, source, expectedMessages] of [
+    ["homework", homeworkRoute, [
+      'console.error("Homework GET failed; details withheld.");',
+      'console.error("Homework submission failed; details withheld.");',
+      'console.error("Homework POST failed; details withheld.");',
+    ]],
+    ["homework file", homeworkFileRoute, [
+      'console.error("Homework file GET failed; details withheld.");',
+    ]],
+  ]) {
+    for (const message of expectedMessages) {
+      assert.ok(source.includes(message), routeName + " route must use a fixed sanitized diagnostic");
+    }
+    assert.doesNotMatch(
+      source,
+      /console\.(?:error|warn)\([^\n]*,\s*(?:error|insertError|cleanupError)\s*\)/,
+      routeName + " route must not serialize raw database or provider error objects",
+    );
+  }
+});
