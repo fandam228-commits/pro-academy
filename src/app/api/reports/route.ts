@@ -82,7 +82,8 @@ export async function GET(req: Request) {
         }
         return NextResponse.json({ error: "Forbidden" }, { status: 403 });
       }
-      studentId = resolution.studentId;    } else if (role === "student") {
+      studentId = resolution.studentId;
+    } else if (role === "student") {
       // Students may read only their own report. Reject a forged target ID
       // explicitly instead of silently accepting a cross-student selector.
       if (studentId && studentId !== ctx.user.id) {
