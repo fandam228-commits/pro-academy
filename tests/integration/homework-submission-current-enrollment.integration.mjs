@@ -92,7 +92,7 @@ integrationTest("submission persistence locks current student role, grade, assig
       INSERT INTO "${homeworkName}" (id, title, grade, course_id, teacher_id)
         VALUES
           ('course-homework', 'Course Homework', 'Third Secondary', 'course-1', 'teacher-1'),
-          ('grade-only-homework', 'Grade-only Homework', 'Third Secondary', NULL, 'teacher-1');
+          ('grade-only-homework', 'Grade-only Homework', 'Second Secondary', NULL, 'teacher-1');
       INSERT INTO "${enrollmentsName}" (id, student_id, course_id, status)
         VALUES ('enrollment-1', 'student-1', 'course-1', 'active');
     `);
