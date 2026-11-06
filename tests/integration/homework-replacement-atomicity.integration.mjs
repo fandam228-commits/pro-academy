@@ -83,3 +83,81 @@ integrationTest("the atomic replacement predicate still permits an ungraded subm
     assert.equal(after.rows[0].answer_text, "replacement answer");
   });
 });
+
+
+integrationTest("duplicate grading requests update a submission and award points only once", async () => {
+  await withFixture(async (client) => {
+    await client.query("CREATE TEMP TABLE users (id TEXT PRIMARY KEY, points INTEGER NOT NULL)");
+    await client.query("INSERT INTO users (id, points) VALUES ('student-1', 0)");
+
+    async function gradeOnce() {
+      const graded = await client.query(
+        `UPDATE homework_submissions
+         SET status = 'graded'
+         WHERE id = $1 AND (status IS NULL OR status <> 'graded')
+         RETURNING id`,
+        ["submission-1"],
+      );
+      if (graded.rowCount === 1) {
+        await client.query("UPDATE users SET points = points + $1 WHERE id = $2", [7, "student-1"]);
+      }
+      return graded.rowCount;
+    }
+
+    assert.equal(await gradeOnce(), 1, "the first grading request must win the transition");
+    assert.equal(await gradeOnce(), 0, "a duplicate grading request must not update an already-graded row");
+
+    const submission = await client.query(
+      "SELECT status FROM homework_submissions WHERE id = $1",
+      ["submission-1"],
+    );
+    const student = await client.query("SELECT points FROM users WHERE id = $1", ["student-1"]);
+    assert.equal(submission.rows[0].status, "graded");
+    assert.equal(student.rows[0].points, 7, "gamification points must be awarded exactly once");
+  });
+});
+
+
+integrationTest("a failed points award rolls back the homework grade transition", async () => {
+  await withFixture(async (client) => {
+    await client.query(`
+      CREATE TEMP TABLE users (
+        id TEXT PRIMARY KEY,
+        points INTEGER NOT NULL CHECK (points < 5)
+      );
+      INSERT INTO users (id, points) VALUES ('student-1', 0);
+    `);
+
+    await client.query("BEGIN");
+    const graded = await client.query(
+      `UPDATE homework_submissions
+       SET status = 'graded'
+       WHERE id = $1 AND (status IS NULL OR status <> 'graded')
+       RETURNING id`,
+      ["submission-1"],
+    );
+    assert.equal(graded.rowCount, 1);
+
+    let awardFailed = false;
+    try {
+      await client.query(
+        "UPDATE users SET points = points + $1 WHERE id = $2",
+        [7, "student-1"],
+      );
+      await client.query("COMMIT");
+    } catch {
+      awardFailed = true;
+      await client.query("ROLLBACK");
+    }
+
+    assert.equal(awardFailed, true, "the synthetic points constraint must reject the award");
+    const submission = await client.query(
+      "SELECT status FROM homework_submissions WHERE id = $1",
+      ["submission-1"],
+    );
+    const student = await client.query("SELECT points FROM users WHERE id = $1", ["student-1"]);
+    assert.equal(submission.rows[0].status, "submitted",
+      "a failed points award must roll the grade transition back");
+    assert.equal(student.rows[0].points, 0, "failed points awards must not partially update the student");
+  });
+});

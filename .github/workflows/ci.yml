@@ -42,6 +42,7 @@ jobs:
           test -f tests/integration/homework-authorization.integration.mjs
           test -f tests/integration/homework-file-access.integration.mjs
           test -f tests/integration/homework-replacement-atomicity.integration.mjs
+          test -f tests/integration/homework-grading-authorization.integration.mjs
           test -f tests/integration/homework-storage-audit.integration.mjs
       - name: PostgreSQL-backed homework course ownership authorization integration tests
         run: |
@@ -78,6 +79,15 @@ jobs:
       - name: PostgreSQL parent-link verification guard integration tests (when present)
         if: ${{ hashFiles('tests/integration/parent-link-verification.integration.mjs') != '' }}
         run: node --test tests/integration/parent-link-verification.integration.mjs
+        env:
+          TEST_DATABASE_URL: postgresql://postgres:postgres@127.0.0.1:5432/proacademy_test
+      - name: PostgreSQL-backed homework grading authorization integration tests
+        run: |
+          if [ -z "${TEST_DATABASE_URL:-}" ]; then
+            echo "::error::TEST_DATABASE_URL is required; homework grading authorization integration tests must not silently skip in CI."
+            exit 1
+          fi
+          node --test tests/integration/homework-grading-authorization.integration.mjs
         env:
           TEST_DATABASE_URL: postgresql://postgres:postgres@127.0.0.1:5432/proacademy_test
       - name: PostgreSQL-backed homework storage audit integration tests
