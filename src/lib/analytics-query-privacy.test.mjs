@@ -533,11 +533,11 @@ test("teacher report queries revalidate current course ownership and active enro
 
 
 test("Analytics and parent report routes never log raw database/provider errors", () => {
-  assert.match(routeSource, /console\\.error\\("Analytics GET failed; details withheld\\."\\);/);
-  assert.doesNotMatch(routeSource, /console\\.error\\([^;]*,\\s*error\\s*\\)/s,
+  assert.match(routeSource, /console\.error\("Analytics GET failed; details withheld\."\);/);
+  assert.doesNotMatch(routeSource, /console\.error\([^;]*,\s*error\s*\)/s,
     "Analytics failures must not serialize raw database or provider error objects");
 
-  assert.match(parentRouteSource, /console\\.error\\("Parent GET failed; details withheld\\."\\);/);
-  assert.doesNotMatch(parentRouteSource, /console\\.error\\([^;]*,\\s*error\\s*\\)/s,
+  assert.match(parentRouteSource, /console\.error\("Parent GET failed; details withheld\."\);/);
+  assert.doesNotMatch(parentRouteSource, /console\.error\([^;]*,\s*error\s*\)/s,
     "parent overview failures must not serialize raw database or provider error objects");
 });
