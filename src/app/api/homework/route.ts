@@ -307,6 +307,7 @@ export async function POST(req: Request) {
                   .update(homeworkSubmissions)
                   .set({
                     answerText,
+                    studentName: currentStudent.name,
                     fileName: fileName ?? current.fileName,
                     storagePath: storagePath ?? current.storagePath,
                     submittedAt: new Date(),
@@ -327,6 +328,7 @@ export async function POST(req: Request) {
                   submission: {
                     ...current,
                     answerText,
+                    studentName: currentStudent.name,
                     fileName: fileName ?? current.fileName,
                     storagePath: storagePath ?? current.storagePath,
                     submittedAt: new Date(),
