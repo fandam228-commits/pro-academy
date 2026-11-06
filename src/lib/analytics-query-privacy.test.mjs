@@ -287,11 +287,17 @@ test("teacher attendance POST rejects students outside owned active/completed en
   assert.match(postSource, /eq\(courses\.teacherId, ctx\.user\.id\)/);
   assert.match(postSource, /eq\(users\.role, "student"\)/);
   assert.match(postSource, /inArray\(enrollments\.status, \["active", "completed"\]\)/);
-  assert.match(postSource, /const allowedStudentIds = new Set\(rows\.map\(\(row\) => row\.studentId\)\)/);
+  assert.match(postSource, /const rosterRows = ctx\.user\.role === "teacher"/);
+  assert.match(postSource, /const rosterById = new Map\(rosterRows\.map\(\(student\) => \[student\.id, student\]\)\)/,
+    "attendance writes must use a canonical current-student roster");
   assert.match(postSource, /requireRoles\(req, \["teacher", "admin"\]\)/,
     "bulk attendance marking must independently restrict writes to teachers and admins");
-  assert.match(postSource, /marks\.some\(\(mark\) => typeof mark\?\.studentId !== "string" \|\| !allowedStudentIds\.has\(mark\.studentId\)\)/,
-    "every teacher-submitted attendance mark must belong to an allowed student");
+  assert.match(postSource, /!rosterById\.has\(mark\.studentId\)/,
+    "every attendance mark must belong to a current student in the authorized roster");
+  assert.match(postSource, /studentName: student\.name/);
+  assert.match(postSource, /grade: student\.grade \|\| ""/);
+  assert.match(postSource, /existing\.find\(\(record\) => record\.markedBy === ctx\.user\.id\)/);
+  assert.match(postSource, /eq\(attendanceRecords\.markedBy, ctx\.user\.id\)/);
 });
 
 

@@ -192,25 +192,44 @@ export async function POST(req: Request) {
         return NextResponse.json({ error: "sessionTitle, sessionDate & marks are required" }, { status: 400 });
       }
 
-      if (ctx.user.role === "teacher") {
-        const rows = await db
-          .select({ studentId: enrollments.studentId })
-          .from(enrollments)
-          .innerJoin(courses, eq(enrollments.courseId, courses.id))
-          .innerJoin(users, eq(enrollments.studentId, users.id))
-          .where(and(
-            eq(courses.teacherId, ctx.user.id),
-            eq(users.role, "student"),
-            inArray(enrollments.status, ["active", "completed"]),
-          ));
-        const allowedStudentIds = new Set(rows.map((row) => row.studentId));
-        if (marks.some((mark) => typeof mark?.studentId !== "string" || !allowedStudentIds.has(mark.studentId))) {
-          return NextResponse.json({ error: "Attendance includes a student outside your owned courses" }, { status: 403 });
-        }
+      // Build a canonical roster from current database rows. Never trust student
+      // names or grades supplied by the caller when writing attendance snapshots.
+      const rosterRows = ctx.user.role === "teacher"
+        ? await db
+            .select({ id: users.id, name: users.name, grade: users.grade })
+            .from(enrollments)
+            .innerJoin(courses, eq(enrollments.courseId, courses.id))
+            .innerJoin(users, eq(enrollments.studentId, users.id))
+            .where(and(
+              eq(courses.teacherId, ctx.user.id),
+              eq(users.role, "student"),
+              inArray(enrollments.status, ["active", "completed"]),
+            ))
+        : await db
+            .select({ id: users.id, name: users.name, grade: users.grade })
+            .from(users)
+            .where(eq(users.role, "student"));
+      const rosterById = new Map(rosterRows.map((student) => [student.id, student]));
+      if (marks.some((mark) => typeof mark?.studentId !== "string" || !rosterById.has(mark.studentId))) {
+        return NextResponse.json({
+          error: ctx.user.role === "teacher"
+            ? "Attendance includes a student outside your owned courses"
+            : "Attendance includes an unknown student",
+        }, { status: 403 });
+      }
+
+      const allowedStatuses = new Set(["present", "absent", "late", "excused"]);
+      if (marks.some((mark) => mark.status != null && !allowedStatuses.has(mark.status))) {
+        return NextResponse.json({ error: "Invalid attendance status" }, { status: 400 });
       }
 
       let saved = 0;
       for (const m of marks) {
+        const student = rosterById.get(m.studentId);
+        if (!student) {
+          return NextResponse.json({ error: "Student not found" }, { status: 404 });
+        }
+        const status = m.status ?? "present";
         const existing = await db
           .select()
           .from(attendanceRecords)
@@ -222,20 +241,40 @@ export async function POST(req: Request) {
             )
           );
 
-        if (existing.length > 0) {
-          await db
+        const ownExisting = ctx.user.role === "teacher"
+          ? existing.find((record) => record.markedBy === ctx.user.id)
+          : null;
+        if (ctx.user.role === "teacher" && existing.length > 0 && !ownExisting) {
+          // A teacher must not overwrite another teacher's or an admin's mark
+          // for the same student/session, even when the student is on their roster.
+          return NextResponse.json({ error: "Attendance for this session is managed by another staff member" }, { status: 409 });
+        }
+        const recordToUpdate = ctx.user.role === "teacher" ? ownExisting : existing[0];
+
+        if (recordToUpdate) {
+          const updateCondition = ctx.user.role === "teacher"
+            ? and(
+                eq(attendanceRecords.id, recordToUpdate.id),
+                eq(attendanceRecords.markedBy, ctx.user.id),
+              )
+            : eq(attendanceRecords.id, recordToUpdate.id);
+          const updated = await db
             .update(attendanceRecords)
-            .set({ status: m.status, markedBy: ctx.user.id })
-            .where(eq(attendanceRecords.id, existing[0].id));
+            .set({ status, markedBy: ctx.user.id })
+            .where(updateCondition)
+            .returning({ id: attendanceRecords.id });
+          if (updated.length === 0) {
+            return NextResponse.json({ error: "Attendance record changed; refresh and retry" }, { status: 409 });
+          }
         } else {
           await db.insert(attendanceRecords).values({
             id: `att_${Date.now()}_${m.studentId}_${Math.random().toString(36).substring(2, 5)}`,
             studentId: m.studentId,
-            studentName: m.studentName || "Student",
+            studentName: student.name,
             sessionTitle,
             sessionDate,
-            status: m.status || "present",
-            grade: m.grade || "",
+            status,
+            grade: student.grade || "",
             markedBy: ctx.user.id,
           });
         }

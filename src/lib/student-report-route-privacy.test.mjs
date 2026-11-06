@@ -112,7 +112,13 @@ test("teacher attendance roster and writes are limited to currently enrolled stu
   assert.match(attendanceSource, /inArray\(enrollments\.status, \["active", "completed"\]\)/);
   assert.match(attendanceSource, /eq\(attendanceRecords\.markedBy, ctx\.user\.id\)/,
     "teacher attendance reads must not expose records marked by other staff");
-  assert.match(attendanceSource, /allowedStudentIds\.has\(mark\.studentId\)/);
+  assert.match(attendanceSource, /const rosterById = new Map/);
+  assert.match(attendanceSource, /!rosterById\.has\(mark\.studentId\)/);
+  assert.match(attendanceSource, /existing\.find\(\(record\) => record\.markedBy === ctx\.user\.id\)/);
+  assert.match(attendanceSource, /eq\(attendanceRecords\.markedBy, ctx\.user\.id\)/);
+  assert.match(attendanceSource, /studentName: student\.name/);
+  assert.match(attendanceSource, /grade: student\.grade \|\| ""/);
+  assert.match(attendanceSource, /new Set\(\["present", "absent", "late", "excused"\]\)/);
   assert.match(attendanceSource, /Attendance includes a student outside your owned courses/);
 });
 

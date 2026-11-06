@@ -95,8 +95,11 @@ test("teacher student report scope requires owned-course enrollment and excludes
 
 test("teacher attendance bulk marking rejects students outside owned-course enrollments", () => {
   assert.match(routeFiles.attendance, /eq\(courses\.teacherId, ctx\.user\.id\)/);
-  assert.match(routeFiles.attendance, /allowedStudentIds\.has\(mark\.studentId\)/);
+  assert.match(routeFiles.attendance, /const rosterById = new Map/);
+  assert.match(routeFiles.attendance, /!rosterById\.has\(mark\.studentId\)/);
   assert.match(routeFiles.attendance, /Attendance includes a student outside your owned courses/);
+  assert.match(routeFiles.attendance, /Attendance for this session is managed by another staff member/);
+  assert.match(routeFiles.attendance, /studentName: student\.name/);
 });
 
 
