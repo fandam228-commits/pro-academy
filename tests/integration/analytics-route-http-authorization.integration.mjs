@@ -351,6 +351,23 @@ integrationTest(
         false,
         "teacher roster must exclude students whose only owned-course enrollment is cancelled",
       );
+      const teacherClassOwnStudent = (teacherClass.body.students || []).find((row) => row.id === ids.student);
+      assert.ok(teacherClassOwnStudent, "teacher class analytics must include the student enrolled in the owned course");
+      assert.equal(
+        teacherClassOwnStudent.hwCompletion,
+        100,
+        "class analytics homework completion must include only the owned-course assignment and exclude other teachers' assignments",
+      );
+      assert.equal(
+        teacherClassOwnStudent.avgScore,
+        0,
+        "class analytics assessment average must not include a quiz result from another teacher's course",
+      );
+      assert.equal(
+        teacherClassOwnStudent.attRate,
+        null,
+        "class analytics must not include attendance records without provable course ownership",
+      );
 
       const parentWithoutSelection = await requestAnalytics(tokens.parent);
       assert.equal(parentWithoutSelection.status, 400, "parent must explicitly choose when multiple verified children are linked");
