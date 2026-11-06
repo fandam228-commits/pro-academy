@@ -131,8 +131,8 @@ export async function GET(req: Request) {
     });
 
     return NextResponse.json({ homeworkList: withStatus, role: "student" });
-  } catch (error) {
-    console.error("Homework GET error:", error);
+  } catch {
+    console.error("Homework GET failed; details withheld.");
     return NextResponse.json({ error: "Failed to load homework" }, { status: 500 });
   }
 }
@@ -324,8 +324,8 @@ export async function POST(req: Request) {
       );
 
       return NextResponse.json({ success: true, submission: withoutStoragePath(sub) });
-    } catch (error) {
-      console.error("Homework submit error:", error);
+    } catch {
+      console.error("Homework submission failed; details withheld.");
       return NextResponse.json({ error: "Submission failed" }, { status: 500 });
     }
   }
@@ -482,8 +482,8 @@ export async function POST(req: Request) {
     }
 
     return NextResponse.json({ error: "Invalid action" }, { status: 400 });
-  } catch (error) {
-    console.error("Homework POST error:", error);
+  } catch {
+    console.error("Homework POST failed; details withheld.");
     return NextResponse.json({ error: "Operation failed" }, { status: 500 });
   }
 }
