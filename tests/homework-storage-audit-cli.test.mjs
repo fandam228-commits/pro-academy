@@ -3,6 +3,7 @@ import assert from "node:assert/strict";
 import { spawnSync } from "node:child_process";
 import { resolve } from "node:path";
 import { assertSafeHomeworkAuditTarget } from "../src/lib/homework-storage-audit.mjs";
+import { runHomeworkStorageAudit } from "../scripts/audit-homework-storage.mjs";
 import { tmpdir } from "node:os";
 
 function runAudit(envOverrides = {}) {
@@ -40,7 +41,6 @@ test("homework storage audit refuses remote databases by default before attempti
   assert.doesNotMatch(result.stdout + result.stderr, /audit-user|do-not-print|db\.example\.invalid|postgres(?:ql)?:\/\//i);
 });
 
-
 test("remote homework storage audits require exactly one sslmode=verify-full", () => {
   const remoteDatabaseUrl = "postgresql://audit-user:do-not-print@db.example.invalid/proacademy";
 
@@ -50,19 +50,19 @@ test("remote homework storage audits require exactly one sslmode=verify-full", (
   );
   for (const sslmode of ["prefer", "require", "verify-ca", "disable"]) {
     assert.throws(
-      () => assertSafeHomeworkAuditTarget(`${remoteDatabaseUrl}?sslmode=${sslmode}`, true),
+      () => assertSafeHomeworkAuditTarget(remoteDatabaseUrl + "?sslmode=" + sslmode, true),
       /require DATABASE_URL sslmode=verify-full/,
     );
   }
   assert.throws(
     () => assertSafeHomeworkAuditTarget(
-      `${remoteDatabaseUrl}?sslmode=verify-full&sslmode=disable`,
+      remoteDatabaseUrl + "?sslmode=verify-full&sslmode=disable",
       true,
     ),
     /require DATABASE_URL sslmode=verify-full/,
   );
   assert.equal(
-    assertSafeHomeworkAuditTarget(`${remoteDatabaseUrl}?sslmode=verify-full`, true),
+    assertSafeHomeworkAuditTarget(remoteDatabaseUrl + "?sslmode=verify-full", true),
     "remote-read-only-opt-in",
   );
 });
@@ -80,7 +80,6 @@ test("CLI rejects an opted-in remote audit without verified TLS before connectin
   assert.doesNotMatch(result.stdout + result.stderr, /audit-user|do-not-print|db\.example\.invalid|postgres(?:ql)?:\/\//i);
 });
 
-
 test("remote audit opt-in must be the boolean true, not a truthy string", () => {
   const remoteDatabaseUrl = "postgresql://audit-user:do-not-print@db.example.invalid/proacademy?sslmode=verify-full";
 
@@ -92,4 +91,173 @@ test("remote audit opt-in must be the boolean true, not a truthy string", () => 
     assertSafeHomeworkAuditTarget(remoteDatabaseUrl, true),
     "remote-read-only-opt-in",
   );
+});
+
+test("successful multi-batch storage audit emits aggregate counts only and redacts database, submission, student, and legacy URL values", async () => {
+  const secrets = {
+    connectionString: "postgresql://audit-user:do-not-print@localhost:5432/proacademy_test",
+    submissionId: "submission-private-123",
+    secondSubmissionId: "submission-private-789",
+    studentId: "student-private-456",
+    legacyUrl: "https://store.public.blob.vercel-storage.com/private-student-answer.pdf",
+    privatePath: "homework/private/answer.pdf",
+  };
+
+  let clientInstance;
+  class FakeClient {
+    constructor({ connectionString }) {
+      this.connectionString = connectionString;
+      this.batchReads = 0;
+      this.batchParameters = [];
+      this.queries = [];
+      clientInstance = this;
+    }
+
+    async connect() {
+      this.connected = true;
+    }
+
+    async query(statement, parameters = []) {
+      const sql = String(statement).trim();
+      this.queries.push(sql);
+      if (sql.startsWith("SELECT current_setting")) {
+        return { rows: [{ read_only: "on", isolation: "repeatable read" }] };
+      }
+      if (sql.includes("FROM homework_submissions")) {
+        this.batchReads += 1;
+        this.batchParameters.push(parameters);
+        if (this.batchReads === 1) {
+          return {
+            rows: [{
+              id: secrets.submissionId,
+              storage_path: secrets.legacyUrl,
+            }],
+          };
+        }
+        if (this.batchReads === 2) {
+          return {
+            rows: [{
+              id: secrets.secondSubmissionId,
+              storage_path: secrets.privatePath,
+            }],
+          };
+        }
+        return { rows: [] };
+      }
+      return { rows: [] };
+    }
+
+    async end() {
+      this.ended = true;
+    }
+  }
+
+  const output = [];
+  const summary = await runHomeworkStorageAudit({
+    connectionString: secrets.connectionString,
+    allowRemote: false,
+    batchSize: 1,
+    ClientClass: FakeClient,
+    write: (line) => output.push(line),
+  });
+
+  assert.deepEqual(summary, {
+    totalRows: 2,
+    empty: 0,
+    privatePath: 1,
+    absoluteUrlNeedsReview: 1,
+    unknownOrMalformed: 0,
+  });
+  assert.equal(output.length, 1);
+  const report = output[0];
+  const parsed = JSON.parse(report);
+  assert.equal(parsed.audit, "homework-storage-reference-inventory");
+  assert.equal(parsed.target, "local");
+  assert.equal(parsed.readOnly, true);
+  assert.equal(parsed.snapshotIsolation, "repeatable read");
+  assert.deepEqual(parsed.counts, summary);
+  assert.doesNotMatch(
+    report,
+    /audit-user|do-not-print|proacademy_test|submission-private-123|submission-private-789|student-private-456|store\.public\.blob\.vercel-storage\.com|private-student-answer\.pdf|homework\/private\/answer\.pdf/,
+    "successful audit output must not expose connection credentials, row identifiers, student IDs, or stored URLs/paths",
+  );
+  const batchQueries = clientInstance.queries.filter((sql) => sql.includes("FROM homework_submissions"));
+  assert.equal(batchQueries.length, 3, "the audit must continue until an empty final batch");
+  for (const sql of batchQueries) {
+    assert.match(sql, /^SELECT id, storage_path\s+FROM homework_submissions/);
+    assert.doesNotMatch(sql, /student_id/i, "the inventory must not select student identifiers");
+  }
+  assert.deepEqual(clientInstance.batchParameters, [
+    [null, 1],
+    [secrets.submissionId, 1],
+    [secrets.secondSubmissionId, 1],
+  ], "keyset pagination must use only the last row ID as an internal cursor");
+  assert.ok(clientInstance.queries.some((sql) => sql.startsWith("BEGIN TRANSACTION ISOLATION LEVEL REPEATABLE READ READ ONLY")));
+  assert.ok(clientInstance.queries.includes("ROLLBACK"), "the audit must roll back its read-only transaction");
+  assert.equal(clientInstance.ended, true, "the client must always be closed");
+});
+
+test("database connection errors are replaced with a safe message before reaching CLI output", async () => {
+  const secrets = {
+    connectionString: "postgresql://audit-user:do-not-print@localhost:5432/proacademy_test",
+    studentId: "student-private-456",
+  };
+  const output = [];
+  class FailingConnectClient {
+    constructor() {}
+    async connect() {
+      throw new Error("connection failed for " + secrets.connectionString + " " + secrets.studentId);
+    }
+  }
+
+  await assert.rejects(
+    () => runHomeworkStorageAudit({
+      connectionString: secrets.connectionString,
+      ClientClass: FailingConnectClient,
+      write: (line) => output.push(line),
+    }),
+    /database operation failed; details withheld/i,
+  );
+  assert.deepEqual(output, []);
+});
+
+test("database query errors are redacted and the read-only transaction is rolled back and closed", async () => {
+  const secrets = {
+    connectionString: "postgresql://audit-user:do-not-print@localhost:5432/proacademy_test",
+    submissionId: "submission-private-123",
+    studentId: "student-private-456",
+  };
+  const output = [];
+  let rolledBack = false;
+  let closed = false;
+  class FailingQueryClient {
+    async connect() {}
+    async query(statement) {
+      const sql = String(statement).trim();
+      if (sql.startsWith("BEGIN TRANSACTION")) return { rows: [] };
+      if (sql.startsWith("SELECT current_setting")) {
+        throw new Error("query failed for " + secrets.submissionId + " " + secrets.studentId + " " + secrets.connectionString);
+      }
+      if (sql === "ROLLBACK") {
+        rolledBack = true;
+        return { rows: [] };
+      }
+      return { rows: [] };
+    }
+    async end() {
+      closed = true;
+    }
+  }
+
+  await assert.rejects(
+    () => runHomeworkStorageAudit({
+      connectionString: secrets.connectionString,
+      ClientClass: FailingQueryClient,
+      write: (line) => output.push(line),
+    }),
+    /database operation failed; details withheld/i,
+  );
+  assert.deepEqual(output, []);
+  assert.equal(rolledBack, true);
+  assert.equal(closed, true);
 });
