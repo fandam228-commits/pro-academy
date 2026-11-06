@@ -559,6 +559,21 @@ integrationTest(
         marked_by: ids.teacher,
       }, "attendance snapshots must use the current student profile, not caller-supplied names or grades");
 
+      const invalidAttendanceStatus = await requestApi("/api/attendance", tokens.teacher, undefined, "POST", {
+        action: "bulk_mark",
+        sessionTitle: "Invalid status session",
+        sessionDate: "2026-11-06",
+        marks: [{ studentId: ids.student, status: "excused-by-teacher" }],
+      });
+      assert.equal(invalidAttendanceStatus.status, 400,
+        "attendance writes must reject status values outside the supported enum");
+      const invalidStatusRows = await client.query(
+        "SELECT id FROM attendance_records WHERE student_id = $1 AND session_title = $2 AND session_date = $3",
+        [ids.student, "Invalid status session", "2026-11-06"],
+      );
+      assert.equal(invalidStatusRows.rowCount, 0,
+        "invalid attendance statuses must not create records");
+
       // The reports and attendance routes must revalidate the verifier's current
       // role on every request, not trust a historical verification stamp.
       await client.query("UPDATE users SET role = 'teacher' WHERE id = $1", [ids.admin]);
