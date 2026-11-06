@@ -517,6 +517,18 @@ integrationTest(
       assert.equal(teacherAttendanceOutOfScopeMark.status, 403,
         "teachers must not mark attendance for students outside their owned-course roster");
 
+      // The reports and attendance routes must revalidate the verifier's current
+      // role on every request, not trust a historical verification stamp.
+      await client.query("UPDATE users SET role = 'teacher' WHERE id = $1", [ids.admin]);
+      const staleVerifierWeeklyReport = await requestApi("/api/reports", tokens.parent, ids.student);
+      assert.equal(staleVerifierWeeklyReport.status, 403,
+        "weekly reports must reject a child whose verifier is no longer an admin");
+      const staleVerifierAttendance = await requestApi("/api/attendance", tokens.parent, ids.student);
+      assert.equal(staleVerifierAttendance.status, 403,
+        "attendance reports must reject a child whose verifier is no longer an admin");
+      await client.query("UPDATE users SET role = 'admin' WHERE id = $1", [ids.admin]);
+
+
 
       // Revalidate current database roles rather than trusting the role copied into a session.
       await client.query("UPDATE users SET role = 'teacher' WHERE id = $1", [ids.otherStudent]);
