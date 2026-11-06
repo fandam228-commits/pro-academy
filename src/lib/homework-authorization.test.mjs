@@ -484,3 +484,21 @@ test("homework API routes never log raw database or storage error objects", asyn
     );
   }
 });
+
+
+test("homework grading is a one-way atomic transition before awarding points", async () => {
+  const route = await readFile(new URL("../app/api/homework/route.ts", import.meta.url), "utf8");
+  const gradeStart = route.indexOf('if (action === "grade")');
+  const deleteStart = route.indexOf('if (action === "delete")', gradeStart);
+  assert.ok(gradeStart >= 0 && deleteStart > gradeStart);
+  const gradeRoute = route.slice(gradeStart, deleteStart);
+  const guardedUpdate = gradeRoute.indexOf("const graded = await db");
+  const noOpGuard = gradeRoute.indexOf("if (graded.length === 0)", guardedUpdate);
+  const pointsAward = gradeRoute.indexOf('.update(users)', noOpGuard);
+  assert.ok(guardedUpdate >= 0 && noOpGuard > guardedUpdate && pointsAward > noOpGuard,
+    "points must be awarded only after the guarded grade transition succeeds");
+  assert.match(gradeRoute, /or\(isNull\(homeworkSubmissions\.status\), ne\(homeworkSubmissions\.status, "graded"\)\)/,
+    "already-graded rows must be excluded atomically from a second grading update");
+  assert.match(gradeRoute, /\.returning\(\{ id: homeworkSubmissions\.id \}\)/);
+  assert.match(gradeRoute, /Submission is already graded[\s\S]*?status:\s*409/);
+});
