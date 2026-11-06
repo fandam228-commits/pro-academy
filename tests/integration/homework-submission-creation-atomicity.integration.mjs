@@ -32,6 +32,9 @@ integrationTest("concurrent first submissions for one student/homework pair crea
   const setup = new Client({ connectionString });
   const clients = [new Client({ connectionString }), new Client({ connectionString })];
   await setup.connect();
+  let connectedClients = 0;
+  let homeworkId;
+  let studentId;
   try {
     await setup.query(`
       CREATE TABLE IF NOT EXISTS homework_submission_lock_test (
@@ -42,10 +45,13 @@ integrationTest("concurrent first submissions for one student/homework pair crea
       )
     `);
 
-    for (const client of clients) await client.connect();
+    for (const client of clients) {
+      await client.connect();
+      connectedClients += 1;
+    }
 
-    const homeworkId = randomUUID();
-    const studentId = randomUUID();
+    homeworkId = randomUUID();
+    studentId = randomUUID();
 
     const submit = (client, answerText) => {
       const database = drizzle(client);
@@ -107,10 +113,16 @@ integrationTest("concurrent first submissions for one student/homework pair crea
       [homeworkId, studentId],
     );
   } finally {
-    for (const client of clients) {
-      if (client._connected) await client.end();
+    if (homeworkId && studentId) {
+      await setup.query(
+        "DELETE FROM homework_submission_lock_test WHERE homework_id = $1 AND student_id = $2",
+        [homeworkId, studentId],
+      ).catch(() => {});
     }
-    await setup.query("DROP TABLE IF EXISTS homework_submission_lock_test");
+    for (let index = 0; index < connectedClients; index += 1) {
+      await clients[index].end();
+    }
+    await setup.query("DROP TABLE IF EXISTS homework_submission_lock_test").catch(() => {});
     await setup.end();
   }
 });
