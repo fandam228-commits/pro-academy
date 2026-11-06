@@ -86,6 +86,16 @@ test("teacher reports are limited to active/completed students in currently owne
     "global gamification values must not be exposed to teachers");
 });
 
+test("parent attendance returns only the explicitly resolved child's records", () => {
+  const parentStart = attendanceSource.indexOf('if (role === "parent")');
+  const studentStart = attendanceSource.indexOf("// ============ STUDENT: own records ============", parentStart);
+  assert.ok(parentStart >= 0 && studentStart > parentStart);
+  const parentBranch = attendanceSource.slice(parentStart, studentStart);
+  assert.match(parentBranch, /const studentId = resolution\.studentId/);
+  assert.match(parentBranch, /eq\(attendanceRecords\.studentId, studentId\)/);
+  assert.match(parentBranch, /return NextResponse\.json\(\{ role: "parent", studentId, records: sorted/);
+});
+
 test("students can request only their own report", () => {
   const studentBranch = reportsSource.indexOf('} else if (role === "student") {');
   assert.notEqual(studentBranch, -1);
