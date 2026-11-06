@@ -164,12 +164,14 @@ export async function GET(req: Request) {
             .from(homeworkSubmissions)
             .innerJoin(homework, eq(homeworkSubmissions.homeworkId, homework.id))
             .innerJoin(courses, eq(homework.courseId, courses.id))
+            .innerJoin(users, eq(homeworkSubmissions.studentId, users.id))
             .innerJoin(enrollments, and(
               eq(enrollments.studentId, homeworkSubmissions.studentId),
               eq(enrollments.courseId, homework.courseId),
             ))
             .where(and(
               eq(homeworkSubmissions.studentId, studentId),
+              eq(users.role, "student"),
               eq(homework.teacherId, ctx.user.id),
               eq(courses.teacherId, ctx.user.id),
               inArray(enrollments.status, ["active", "completed"]),
@@ -210,12 +212,14 @@ export async function GET(req: Request) {
             .from(quizSubmissions)
             .innerJoin(quizzes, eq(quizSubmissions.quizId, quizzes.id))
             .innerJoin(courses, eq(quizzes.courseId, courses.id))
+            .innerJoin(users, eq(quizSubmissions.studentId, users.id))
             .innerJoin(enrollments, and(
               eq(enrollments.studentId, quizSubmissions.studentId),
               eq(enrollments.courseId, quizzes.courseId),
             ))
             .where(and(
               eq(quizSubmissions.studentId, studentId),
+              eq(users.role, "student"),
               eq(courses.teacherId, ctx.user.id),
               inArray(enrollments.status, ["active", "completed"]),
               inArray(quizSubmissions.quizId, visibleQuizIds!),
@@ -238,8 +242,10 @@ export async function GET(req: Request) {
           .select({ courseId: enrollments.courseId })
           .from(enrollments)
           .innerJoin(courses, eq(enrollments.courseId, courses.id))
+          .innerJoin(users, eq(enrollments.studentId, users.id))
           .where(and(
             eq(enrollments.studentId, studentId),
+            eq(users.role, "student"),
             eq(courses.teacherId, ctx.user.id),
             inArray(enrollments.courseId, teacherCourseIds ?? []),
             inArray(enrollments.status, ["active", "completed"]),
