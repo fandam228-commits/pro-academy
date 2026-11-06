@@ -32,7 +32,11 @@ function assertMixedVerificationParentSelection(source, requestedId, routeName) 
   );
   assert.ok(source.includes('eq(users.role, "student")'),
     routeName + " must require a current student account");
-  assert.ok(source.includes("getParentAnalyticsSelectionData(links)"));
+  assert.ok(
+    source.includes("getParentAnalyticsSelectionData(parentLinkRows)") ||
+    source.includes("getParentAnalyticsSelectionData(links)"),
+    routeName + " must derive the ambiguity and verification sets from one query snapshot",
+  );
   assert.ok(source.includes("allLinkedStudentIds: linkedStudentIds"));
   assert.ok(source.includes("resolveParentAnalyticsStudentId(" + requestedId + ", linkedStudentIds)"));
   assert.ok(source.includes("verifiedStudentIds.includes(resolution.studentId)"));
@@ -65,10 +69,11 @@ test("parent overview requires verified explicit child selection and never retur
     "parent overview must not hydrate/return password and unrelated private user columns");
   assert.match(routeFiles.parent, /id:\s*users\.id[\s\S]*name:\s*users\.name[\s\S]*grade:\s*users\.grade/,
     "parent overview must project only an explicit student profile allowlist");
-  const verifiedGuard = routeFiles.parent.indexOf("if (!verifiedStudentIds.includes(resolution.studentId))");
+  const resolver = routeFiles.parent.indexOf("resolveParentAnalyticsStudentId(requestedStudent, linkedStudentIds)");
+  const verifiedGuard = routeFiles.parent.indexOf("if (!verifiedStudentIds.includes(resolution.studentId))", resolver);
   const selectedStudent = routeFiles.parent.indexOf("const studentId = resolution.studentId", verifiedGuard);
   const studentRead = routeFiles.parent.indexOf("const studentList = await db", selectedStudent);
-  assert.ok(verifiedGuard >= 0 && selectedStudent > verifiedGuard && studentRead > selectedStudent,
+  assert.ok(resolver >= 0 && verifiedGuard > resolver && selectedStudent > verifiedGuard && studentRead > selectedStudent,
     "parent overview must reject unverified children before reading student data");
 });
 

@@ -255,8 +255,10 @@ test("parent attendance GET requires an admin-verified current student and expli
   assert.match(parentSource, /eq\(parentLinks\.parentId, ctx\.user\.id\)/);
   assert.match(parentSource, /eq\(users\.role, "student"\)/);
   assert.match(parentSource, /verifierRole:\s*verifiedByUser\.role/);
-  assert.match(parentSource, /getParentAnalyticsSelectionData\(links\)/);
+  assert.match(parentSource, /getParentAnalyticsSelectionData\(parentLinkRows\)/);
+  assert.match(parentSource, /allLinkedStudentIds:\s*linkedStudentIds/);
   assert.match(parentSource, /resolveParentAnalyticsStudentId\(requestedStudent, linkedStudentIds\)/);
+  assert.match(parentSource, /verifiedStudentIds\.includes\(resolution\.studentId\)/);
   assert.doesNotMatch(parentSource, /links\s*\[\s*0\s*\]\s*\??\.\s*studentId/,
     "parent attendance must not silently select the first linked child");
   assert.match(parentSource, /eq\(attendanceRecords\.studentId, studentId\)/,
@@ -412,9 +414,10 @@ test("reports parent access requires a verified current student and current admi
   assert.match(parentSource, /eq\(parentLinks\.parentId, ctx\.user\.id\)/);
   assert.match(parentSource, /eq\(users\.role, "student"\)/);
   assert.match(parentSource, /verifierRole:\s*verifiedByUser\.role/);
-  assert.match(parentSource, /getParentAnalyticsSelectionData\(links\)/);
-  assert.match(parentSource, /verifiedStudentIds\.includes\(resolution\.studentId\)/);
+  assert.match(parentSource, /getParentAnalyticsSelectionData\(parentLinkRows\)/);
+  assert.match(parentSource, /allLinkedStudentIds:\s*linkedStudentIds/);
   assert.match(parentSource, /resolveParentAnalyticsStudentId\(studentId, linkedStudentIds\)/);
+  assert.match(parentSource, /verifiedStudentIds\.includes\(resolution\.studentId\)/);
   assert.doesNotMatch(parentSource, /links\s*\[\s*0\s*\]\s*\??\.\s*studentId|linkedStudentIds\s*\[\s*0\s*\]/,
     "reports must never silently choose the first linked child");
 });

@@ -39,12 +39,12 @@ export async function GET(req: Request) {
     // Attendance rows lack a course ID, so expose only rows they personally marked.
     if (role === "teacher" || role === "admin") {
       const allStudents = role === "admin"
-        ? await db.select().from(users).where(eq(users.role, "student"))
+        ? await db.select({ id: users.id, name: users.name, grade: users.grade }).from(users).where(eq(users.role, "student"))
         : [];
       const visibleStudents = role === "teacher"
         ? await (async () => {
             const rows = await db
-              .select({ studentId: enrollments.studentId })
+              .select({ id: users.id, name: users.name, grade: users.grade })
               .from(enrollments)
               .innerJoin(courses, eq(enrollments.courseId, courses.id))
               .innerJoin(users, eq(enrollments.studentId, users.id))
@@ -53,15 +53,9 @@ export async function GET(req: Request) {
                 eq(users.role, "student"),
                 inArray(enrollments.status, ["active", "completed"]),
               ));
-            const ids = [...new Set(rows.map((row) => row.studentId))];
-            return ids.length
-              ? await db.select().from(users).where(and(eq(users.role, "student"), inArray(users.id, ids)))
-              : [];
+            return [...new Map(rows.map((row) => [row.id, row])).values()];
           })()
         : allStudents;
-      // Restrict the database read to the teacher's current owned-course roster.
-      // Filtering only after loading every record marked by this teacher would still
-      // bring out-of-scope student data into application memory.
       const visibleStudentIds = visibleStudents.map((student) => student.id);
       const allRecords = role === "teacher"
         ? visibleStudentIds.length === 0
@@ -101,7 +95,10 @@ export async function GET(req: Request) {
     // Parent access requires a current student account and an admin-verified relationship.
     if (role === "parent") {
       const requestedStudent = searchParams.get("studentId");
-      const links = await db
+      // Include all linked student accounts in the ambiguity set, while only
+      // admin-verified links authorize access. Recheck parent and verifier roles
+      // in the same query snapshot.
+      const parentLinkRows = await db
         .select({
           studentId: parentLinks.studentId,
           verifiedAt: parentLinks.verifiedAt,
@@ -111,7 +108,6 @@ export async function GET(req: Request) {
         .from(parentLinks)
         .innerJoin(parentAccount, eq(parentLinks.parentId, parentAccount.id))
         .innerJoin(users, eq(parentLinks.studentId, users.id))
-        // Unverified links count for ambiguity, but cannot authorize attendance.
         .leftJoin(verifiedByUser, eq(parentLinks.verifiedBy, verifiedByUser.id))
         .where(and(
           eq(parentLinks.parentId, ctx.user.id),
@@ -121,12 +117,18 @@ export async function GET(req: Request) {
       const {
         allLinkedStudentIds: linkedStudentIds,
         verifiedStudentIds,
-      } = getParentAnalyticsSelectionData(links);
+      } = getParentAnalyticsSelectionData(parentLinkRows);
       const resolution = resolveParentAnalyticsStudentId(requestedStudent, linkedStudentIds);
       if (!resolution.ok) {
-        if (resolution.reason === "no-linked-student") return NextResponse.json({ error: "No verified linked student" }, { status: 404 });
-        if (resolution.reason === "student-id-required") return NextResponse.json({ error: "studentId is required when multiple students are linked" }, { status: 400 });
-        if (resolution.reason === "invalid-student-id") return NextResponse.json({ error: "Invalid studentId" }, { status: 400 });
+        if (resolution.reason === "no-linked-student") {
+          return NextResponse.json({ error: "No verified linked student" }, { status: 404 });
+        }
+        if (resolution.reason === "student-id-required") {
+          return NextResponse.json({ error: "studentId is required when multiple students are linked" }, { status: 400 });
+        }
+        if (resolution.reason === "invalid-student-id") {
+          return NextResponse.json({ error: "Invalid studentId" }, { status: 400 });
+        }
         return NextResponse.json({ error: "Forbidden" }, { status: 403 });
       }
       if (!verifiedStudentIds.includes(resolution.studentId)) {
@@ -151,8 +153,8 @@ export async function GET(req: Request) {
       lateCount: records.filter((r) => r.status === "late").length,
       absentCount: records.filter((r) => r.status === "absent").length,
     });
-  } catch (error) {
-    console.error("Attendance GET error:", error);
+  } catch {
+    console.error("Attendance GET failed; details withheld.");
     return NextResponse.json({ error: "Failed to load attendance" }, { status: 500 });
   }
 }
@@ -168,9 +170,7 @@ export async function POST(req: Request) {
   try {
     const body = await req.json();
     const { action } = body;
-
-    // Reject action/role mismatches before database setup or migration side effects.
-    // A student may use self check-in only; bulk marking is reserved for teachers/admins.
+    // Reject unsupported actions and role mismatches before database setup work.
     if (action === "bulk_mark" && !["teacher", "admin"].includes(ctx.user.role)) {
       return NextResponse.json({ error: "Forbidden" }, { status: 403 });
     }
@@ -180,7 +180,6 @@ export async function POST(req: Request) {
     if (action !== "bulk_mark" && action !== "check_in") {
       return NextResponse.json({ error: "Unsupported attendance action" }, { status: 400 });
     }
-
     await ensureDbSetup();
 
     // ============ TEACHER: BULK MARK ROSTER FOR A SESSION ============
@@ -248,8 +247,6 @@ export async function POST(req: Request) {
 
     // ============ STUDENT: SELF CHECK-IN (today's live session) ============
     if (action === "check_in") {
-      // Teachers and admins may bulk-mark authorized rosters, but must not use
-      // the student self check-in action to create attendance for their own account.
       if (ctx.user.role !== "student") {
         return NextResponse.json({ error: "Forbidden" }, { status: 403 });
       }
@@ -286,8 +283,8 @@ export async function POST(req: Request) {
     }
 
     return NextResponse.json({ error: "Invalid action" }, { status: 400 });
-  } catch (error) {
-    console.error("Attendance POST error:", error);
+  } catch {
+    console.error("Attendance POST failed; details withheld.");
     return NextResponse.json({ error: "Operation failed" }, { status: 500 });
   }
 }
