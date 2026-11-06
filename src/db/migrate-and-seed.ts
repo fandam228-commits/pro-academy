@@ -243,8 +243,12 @@ export async function ensureDbSetup() {
         id TEXT PRIMARY KEY,
         parent_id TEXT NOT NULL,
         student_id TEXT NOT NULL,
-        relationship TEXT DEFAULT 'Guardian'
+        relationship TEXT DEFAULT 'Guardian',
+        verified_at TIMESTAMP,
+        verified_by TEXT
       );
+      ALTER TABLE parent_links ADD COLUMN IF NOT EXISTS verified_at TIMESTAMP;
+      ALTER TABLE parent_links ADD COLUMN IF NOT EXISTS verified_by TEXT;
 
       CREATE TABLE IF NOT EXISTS center_groups (
         id TEXT PRIMARY KEY,
