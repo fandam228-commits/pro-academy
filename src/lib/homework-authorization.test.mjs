@@ -479,7 +479,7 @@ test("homework API routes never log raw database or storage error objects", asyn
     }
     assert.doesNotMatch(
       source,
-      /console\\.(?:error|warn)\\([^\\n]*,\\s*(?:error|insertError|cleanupError)\\s*\\)/,
+      /console\.(?:error|warn)\([^\n]*,\s*(?:error|insertError|cleanupError)\s*\)/,
       routeName + " route must not serialize raw database or provider error objects",
     );
   }
