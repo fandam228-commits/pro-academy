@@ -55,6 +55,7 @@ integrationTest(
       otherCourseQuizSubmission: id("other_course_quiz_submission"),
       attendanceRecord: id("attendance_record"),
       otherAttendanceRecord: id("other_attendance_record"),
+      otherTeacherAttendanceRecord: id("other_teacher_attendance_record"),
       enrollmentOwned: id("enrollment_owned"),
       enrollmentOtherStudent: id("enrollment_other_student"),
       enrollmentStudentOtherCourse: id("enrollment_student_other_course"),
@@ -208,8 +209,9 @@ integrationTest(
       await client.query(
         `INSERT INTO attendance_records (id, student_id, student_name, session_title, session_date, status, grade, marked_by)
          VALUES ($1, $2, 'Student HTTP Test', 'Owned teacher session', '2026-11-04', 'present', 'Third Secondary', $3),
-                ($4, $5, 'Other Student HTTP Test', 'Out-of-scope teacher session', '2026-11-04', 'present', 'Third Secondary', $6)`,
-        [ids.attendanceRecord, ids.student, ids.teacher, ids.otherAttendanceRecord, ids.otherStudent, ids.teacher],
+                ($4, $5, 'Other Student HTTP Test', 'Out-of-scope teacher session', '2026-11-04', 'present', 'Third Secondary', $6),
+                ($7, $2, 'Student HTTP Test', 'Other teacher session', '2026-11-05', 'absent', 'Third Secondary', $8)`,
+        [ids.attendanceRecord, ids.student, ids.teacher, ids.otherAttendanceRecord, ids.otherStudent, ids.teacher, ids.otherTeacherAttendanceRecord, ids.otherTeacher],
       );
 
       await client.query(
@@ -517,6 +519,46 @@ integrationTest(
       assert.equal(teacherAttendanceOutOfScopeMark.status, 403,
         "teachers must not mark attendance for students outside their owned-course roster");
 
+      const teacherCannotOverwriteOtherStaffAttendance = await requestApi("/api/attendance", tokens.teacher, undefined, "POST", {
+        action: "bulk_mark",
+        sessionTitle: "Other teacher session",
+        sessionDate: "2026-11-05",
+        marks: [{ studentId: ids.student, status: "present" }],
+      });
+      assert.equal(teacherCannotOverwriteOtherStaffAttendance.status, 409,
+        "teachers must not overwrite another staff member's attendance row for an in-scope student");
+      const protectedAttendance = await client.query(
+        "SELECT status, marked_by FROM attendance_records WHERE id = $1",
+        [ids.otherTeacherAttendanceRecord],
+      );
+      assert.deepEqual(protectedAttendance.rows[0], {
+        status: "absent",
+        marked_by: ids.otherTeacher,
+      }, "a rejected overwrite must leave the other teacher's attendance unchanged");
+
+      const teacherAttendanceCanonicalSnapshot = await requestApi("/api/attendance", tokens.teacher, undefined, "POST", {
+        action: "bulk_mark",
+        sessionTitle: "Canonical snapshot session",
+        sessionDate: "2026-11-06",
+        marks: [{
+          studentId: ids.student,
+          status: "present",
+          studentName: "Forged Student Name",
+          grade: "Forged Grade",
+        }],
+      });
+      assert.equal(teacherAttendanceCanonicalSnapshot.status, 200,
+        JSON.stringify(teacherAttendanceCanonicalSnapshot.body));
+      const canonicalAttendance = await client.query(
+        "SELECT student_name, grade, marked_by FROM attendance_records WHERE student_id = $1 AND session_title = $2 AND session_date = $3",
+        [ids.student, "Canonical snapshot session", "2026-11-06"],
+      );
+      assert.deepEqual(canonicalAttendance.rows[0], {
+        student_name: "Student HTTP Test",
+        grade: "Third Secondary",
+        marked_by: ids.teacher,
+      }, "attendance snapshots must use the current student profile, not caller-supplied names or grades");
+
       // The reports and attendance routes must revalidate the verifier's current
       // role on every request, not trust a historical verification stamp.
       await client.query("UPDATE users SET role = 'teacher' WHERE id = $1", [ids.admin]);
@@ -570,7 +612,10 @@ integrationTest(
           await client.query("DELETE FROM parent_links WHERE id = ANY($1::text[])", [[ids.linkStudent, ids.linkOtherStudent, ids.linkUnverified, ids.linkUnverifiedOnly, ids.linkSingle, ids.linkSingleDuplicate, ids.linkMixedVerified, ids.linkMixedUnverified]]);
           await client.query("DELETE FROM quiz_submissions WHERE id = $1", [ids.otherCourseQuizSubmission]);
           await client.query("DELETE FROM quizzes WHERE id = $1", [ids.otherCourseQuiz]);
-          await client.query("DELETE FROM attendance_records WHERE id = ANY($1::text[])", [[ids.attendanceRecord, ids.otherAttendanceRecord]]);
+          await client.query(
+            "DELETE FROM attendance_records WHERE id = ANY($1::text[]) OR (student_id = $2 AND session_title = $3)",
+            [[ids.attendanceRecord, ids.otherAttendanceRecord, ids.otherTeacherAttendanceRecord], ids.student, "Canonical snapshot session"],
+          );
           await client.query("DELETE FROM enrollments WHERE id = ANY($1::text[])", [[ids.enrollmentOwned, ids.enrollmentOtherStudent, ids.enrollmentStudentOtherCourse, ids.enrollmentCancelled]]);
           await client.query("DELETE FROM courses WHERE id = ANY($1::text[])", [[ids.ownedCourse, ids.otherCourse]]);
           await client.query("DELETE FROM users WHERE id = ANY($1::text[])", [[ids.teacher, ids.otherTeacher, ids.student, ids.otherStudent, ids.unlinkedStudent, ids.unverifiedStudent, ids.unverifiedOnlyStudent, ids.parent, ids.parentSingle, ids.parentMixed, ids.parentUnverifiedOnly, ids.admin]]);
