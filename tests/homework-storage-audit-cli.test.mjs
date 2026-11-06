@@ -3,6 +3,7 @@ import assert from "node:assert/strict";
 import { spawnSync } from "node:child_process";
 import { resolve } from "node:path";
 import { assertSafeHomeworkAuditTarget } from "../src/lib/homework-storage-audit.mjs";
+import { runHomeworkStorageAudit } from "../scripts/audit-homework-storage.mjs";
 import { tmpdir } from "node:os";
 
 function runAudit(envOverrides = {}) {
@@ -92,4 +93,87 @@ test("remote audit opt-in must be the boolean true, not a truthy string", () => 
     assertSafeHomeworkAuditTarget(remoteDatabaseUrl, true),
     "remote-read-only-opt-in",
   );
+});
+
+
+test("successful storage audit output contains aggregate counts only and redacts database, submission, student, and legacy URL values", async () => {
+  const secrets = {
+    connectionString: "postgresql://audit-user:do-not-print@localhost:5432/proacademy_test",
+    submissionId: "submission-private-123",
+    studentId: "student-private-456",
+    legacyUrl: "https://store.public.blob.vercel-storage.com/private-student-answer.pdf",
+  };
+
+  let clientInstance;
+  class FakeClient {
+    constructor({ connectionString }) {
+      this.connectionString = connectionString;
+      this.batchReads = 0;
+      this.queries = [];
+      clientInstance = this;
+    }
+
+    async connect() {
+      this.connected = true;
+    }
+
+    async query(statement) {
+      const sql = String(statement).trim();
+      this.queries.push(sql);
+      if (sql.startsWith("SELECT current_setting")) {
+        return { rows: [{ read_only: "on", isolation: "repeatable read" }] };
+      }
+      if (sql.includes("FROM homework_submissions")) {
+        this.batchReads += 1;
+        if (this.batchReads === 1) {
+          return {
+            rows: [{
+              id: secrets.submissionId,
+              student_id: secrets.studentId,
+              storage_path: secrets.legacyUrl,
+            }],
+          };
+        }
+        return { rows: [] };
+      }
+      return { rows: [] };
+    }
+
+    async end() {
+      this.ended = true;
+    }
+  }
+
+  const output = [];
+  const summary = await runHomeworkStorageAudit({
+    connectionString: secrets.connectionString,
+    allowRemote: false,
+    batchSize: 10,
+    ClientClass: FakeClient,
+    write: (line) => output.push(line),
+  });
+
+  assert.deepEqual(summary, {
+    totalRows: 1,
+    empty: 0,
+    privatePath: 0,
+    absoluteUrlNeedsReview: 1,
+    unknownOrMalformed: 0,
+  });
+  assert.equal(output.length, 1);
+  const report = output[0];
+  const parsed = JSON.parse(report);
+  assert.equal(parsed.audit, "homework-storage-reference-inventory");
+  assert.equal(parsed.target, "local");
+  assert.equal(parsed.readOnly, true);
+  assert.equal(parsed.snapshotIsolation, "repeatable read");
+  assert.deepEqual(parsed.counts, summary);
+  assert.doesNotMatch(
+    report,
+    /audit-user|do-not-print|proacademy_test|submission-private-123|student-private-456|store\.public\.blob\.vercel-storage\.com|private-student-answer\.pdf/,
+    "successful audit output must not expose connection credentials, row identifiers, student IDs, or stored URLs",
+  );
+  assert.ok(clientInstance.queries.some((sql) => sql.startsWith("BEGIN TRANSACTION ISOLATION LEVEL REPEATABLE READ READ ONLY")));
+  assert.ok(clientInstance.queries.includes("ROLLBACK"), "the audit must roll back its read-only transaction");
+  assert.equal(clientInstance.ended, true, "the client must always be closed");
 });
