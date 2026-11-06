@@ -399,6 +399,18 @@ export async function POST(req: Request) {
         return NextResponse.json({ success: true, updated: true });
       }
 
+      if (
+        persistence.kind !== "inserted" ||
+        !persistence.submission ||
+        typeof persistence.notifyTeacherId !== "string" ||
+        typeof persistence.homeworkTitle !== "string" ||
+        typeof persistence.studentName !== "string"
+      ) {
+        await cleanupUnreferencedUpload();
+        console.error("Homework submission persistence returned an incomplete result.");
+        return NextResponse.json({ error: "Submission failed" }, { status: 500 });
+      }
+
       const sub = persistence.submission;
       // Notify teacher (in-app + device push) after the single submission row commits.
       try {
