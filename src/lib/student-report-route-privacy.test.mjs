@@ -40,16 +40,20 @@ function assertMixedVerificationSelection(source, routeName) {
     routeName + " must never silently choose the first linked child");
 }
 
-test("mixed verified/unverified parent links remain ambiguous but only verified children are authorized", () => {
+test("mixed verified/unverified parent links remain ambiguous and only verified children authorize", () => {
   const selection = getParentAnalyticsSelectionData([
     { studentId: "child-1", verifiedAt: "2026-11-01T10:00:00Z", verifiedBy: "admin-1", verifierRole: "admin" },
     { studentId: "child-2", verifiedAt: null, verifiedBy: null, verifierRole: null },
   ]);
   assert.deepEqual(selection.allLinkedStudentIds, ["child-1", "child-2"]);
   assert.deepEqual(selection.verifiedStudentIds, ["child-1"]);
-  assert.equal(selection.allLinkedStudentIds.length > 1, true);
-  assert.equal(resolveParentAnalyticsStudentId(null, selection.verifiedStudentIds).ok, true);
-  assert.equal(resolveParentAnalyticsStudentId("child-2", selection.verifiedStudentIds).ok, false);
+  assert.equal(resolveParentAnalyticsStudentId(null, selection.allLinkedStudentIds).reason, "student-id-required");
+  const verified = resolveParentAnalyticsStudentId("child-1", selection.allLinkedStudentIds);
+  assert.equal(verified.ok, true);
+  assert.equal(selection.verifiedStudentIds.includes(verified.studentId), true);
+  const unverified = resolveParentAnalyticsStudentId("child-2", selection.allLinkedStudentIds);
+  assert.equal(unverified.ok, true);
+  assert.equal(selection.verifiedStudentIds.includes(unverified.studentId), false);
 });
 
 test("reports require verified explicit parent selection across all linked children", () => {
