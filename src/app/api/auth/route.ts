@@ -4,6 +4,7 @@ import { eq } from "drizzle-orm";
 import { sql } from "drizzle-orm";
 import { NextResponse } from "next/server";
 import { ensureDbSetup } from "@/db/migrate-and-seed";
+import { prepareAuthDatabase } from "@/lib/auth-db-readiness.mjs";
 import {
   hashPassword,
   verifyPassword,
@@ -73,8 +74,14 @@ async function performLogin(loginId: string, password: string, userAgent?: strin
 }
 
 export async function GET(req: Request) {
-  await ensureDbSetup();
   try {
+    const database = await prepareAuthDatabase(ensureDbSetup);
+  if (!database.ready) {
+    return NextResponse.json(
+      { error: "Login service is temporarily unavailable. Please try again shortly.", code: "AUTH_DATABASE_UNAVAILABLE" },
+      { status: 503, headers: { "Retry-After": "15", "Cache-Control": "no-store" } }
+    );
+  }
     const ctx = await getAuthContext(req);
     if (!ctx) {
       return NextResponse.json({ error: "Session expired or not logged in." }, { status: 401 });
@@ -87,8 +94,14 @@ export async function GET(req: Request) {
 }
 
 export async function POST(req: Request) {
-  await ensureDbSetup();
   try {
+    const database = await prepareAuthDatabase(ensureDbSetup);
+  if (!database.ready) {
+    return NextResponse.json(
+      { error: "Login service is temporarily unavailable. Please try again shortly.", code: "AUTH_DATABASE_UNAVAILABLE" },
+      { status: 503, headers: { "Retry-After": "15", "Cache-Control": "no-store" } }
+    );
+  }
     const body = await req.json();
     const { email, username, password, name, role, stage, grade, phone, parentPhone } = body;
     const rawAction = typeof body?.action === "string" ? body.action.trim().toLowerCase() : "";
