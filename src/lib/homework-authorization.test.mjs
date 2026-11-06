@@ -442,3 +442,20 @@ test("homework file GET rejects unsupported roles before database setup", async 
     "homework file GET must reject unauthenticated and unsupported-role callers before database setup",
   );
 });
+
+
+test("private homework Blob cleanup failures never log raw provider error objects", async () => {
+  const route = await readFile(new URL("../app/api/homework/route.ts", import.meta.url), "utf8");
+  const safeCleanupLog = 'console.error("Private homework Blob cleanup failed; manual reconciliation may be required.");';
+
+  assert.equal(
+    route.split(safeCleanupLog).length - 1,
+    3,
+    "all three private Blob cleanup paths must emit the same sanitized diagnostic",
+  );
+  assert.doesNotMatch(
+    route,
+    /console\.error\([^;\n]*,\s*cleanupError/,
+    "provider error objects must never be written to application logs",
+  );
+});

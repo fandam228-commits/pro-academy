@@ -259,8 +259,9 @@ export async function POST(req: Request) {
           if (storagePath && uploadToken) {
             try {
               await del(storagePath, { token: uploadToken });
-            } catch (cleanupError) {
-              console.error("Failed to remove unreferenced homework upload:", cleanupError);
+            } catch {
+              // Provider errors may contain object URLs or request metadata; never log them.
+              console.error("Private homework Blob cleanup failed; manual reconciliation may be required.");
             }
           }
           return NextResponse.json({ error: "This submission is already graded and can't be replaced." }, { status: 400 });
@@ -279,8 +280,9 @@ export async function POST(req: Request) {
         ) {
           try {
             await del(previousStoragePath, { token: uploadToken });
-          } catch (cleanupError) {
-            console.error("Failed to remove replaced private homework upload:", cleanupError);
+          } catch {
+            // Provider errors may contain object URLs or request metadata; never log them.
+            console.error("Private homework Blob cleanup failed; manual reconciliation may be required.");
           }
         }
 
@@ -304,8 +306,9 @@ export async function POST(req: Request) {
         if (storagePath && uploadToken) {
           try {
             await del(storagePath, { token: uploadToken });
-          } catch (cleanupError) {
-            console.error("Failed to remove homework upload after insert failure:", cleanupError);
+          } catch {
+            // Provider errors may contain object URLs or request metadata; never log them.
+            console.error("Private homework Blob cleanup failed; manual reconciliation may be required.");
           }
         }
         throw insertError;
