@@ -43,7 +43,10 @@ export async function GET(req: Request) {
 
   try {
     if (role === "parent") {
-      const links = await db
+      // Include verified and unverified current links in one query. Unverified
+      // links never authorize access, but they still make a multi-child account
+      // ambiguous and therefore require an explicit studentId.
+      const parentLinkRows = await db
         .select({
           studentId: parentLinks.studentId,
           verifiedAt: parentLinks.verifiedAt,
@@ -53,18 +56,20 @@ export async function GET(req: Request) {
         .from(parentLinks)
         .innerJoin(parentAccount, eq(parentLinks.parentId, parentAccount.id))
         .innerJoin(users, eq(parentLinks.studentId, users.id))
-        // Unverified links count for ambiguity, but cannot authorize a report.
         .leftJoin(verifiedByUser, eq(parentLinks.verifiedBy, verifiedByUser.id))
         .where(and(
           eq(parentLinks.parentId, ctx.user.id),
           eq(parentAccount.role, "parent"),
           eq(users.role, "student"),
         ));
-      const {
-        allLinkedStudentIds: linkedStudentIds,
-        verifiedStudentIds,
-      } = getParentAnalyticsSelectionData(links);
-      const resolution = resolveParentAnalyticsStudentId(studentId, linkedStudentIds);
+      const { allLinkedStudentIds, verifiedStudentIds } = getParentAnalyticsSelectionData(parentLinkRows);
+      if (!studentId && verifiedStudentIds.length === 0) {
+        return NextResponse.json({ error: "No verified linked student" }, { status: 404 });
+      }
+      if (!studentId && allLinkedStudentIds.length > 1) {
+        return NextResponse.json({ error: "studentId is required when multiple students are linked" }, { status: 400 });
+      }
+      const resolution = resolveParentAnalyticsStudentId(studentId, verifiedStudentIds);
       if (!resolution.ok) {
         if (resolution.reason === "no-linked-student") {
           return NextResponse.json({ error: "No verified linked student" }, { status: 404 });
@@ -77,11 +82,7 @@ export async function GET(req: Request) {
         }
         return NextResponse.json({ error: "Forbidden" }, { status: 403 });
       }
-      if (!verifiedStudentIds.includes(resolution.studentId)) {
-        return NextResponse.json({ error: "Forbidden" }, { status: 403 });
-      }
-      studentId = resolution.studentId;
-    } else if (role === "student") {
+      studentId = resolution.studentId;    } else if (role === "student") {
       // Students may read only their own report. Reject a forged target ID
       // explicitly instead of silently accepting a cross-student selector.
       if (studentId && studentId !== ctx.user.id) {
@@ -99,8 +100,10 @@ export async function GET(req: Request) {
         .select({ courseId: enrollments.courseId })
         .from(enrollments)
         .innerJoin(courses, eq(enrollments.courseId, courses.id))
+        .innerJoin(users, eq(enrollments.studentId, users.id))
         .where(and(
           eq(enrollments.studentId, studentId),
+          eq(users.role, "student"),
           eq(courses.teacherId, ctx.user.id),
           inArray(enrollments.status, ["active", "completed"]),
         ));
@@ -140,19 +143,46 @@ export async function GET(req: Request) {
 
     // 2. Homework this week
     const visibleHomeworkIds = role === "teacher"
-      ? (await db.select({ id: homework.id }).from(homework).where(and(
-          eq(homework.teacherId, ctx.user.id),
-          inArray(homework.courseId, teacherCourseIds ?? []),
-        ))).map((row) => row.id)
+      ? (await db.select({ id: homework.id })
+          .from(homework)
+          .innerJoin(courses, eq(homework.courseId, courses.id))
+          .where(and(
+            eq(homework.teacherId, ctx.user.id),
+            eq(courses.teacherId, ctx.user.id),
+            inArray(homework.courseId, teacherCourseIds ?? []),
+          ))).map((row) => row.id)
       : null;
     const allHwSubs = role === "teacher"
       ? visibleHomeworkIds!.length === 0
         ? []
-        : await db.select().from(homeworkSubmissions).where(and(
-            eq(homeworkSubmissions.studentId, studentId),
-            inArray(homeworkSubmissions.homeworkId, visibleHomeworkIds!),
-          ))
-      : await db.select().from(homeworkSubmissions).where(eq(homeworkSubmissions.studentId, studentId));
+        : await db
+            .select({
+              submittedAt: homeworkSubmissions.submittedAt,
+              score: homeworkSubmissions.score,
+              status: homeworkSubmissions.status,
+            })
+            .from(homeworkSubmissions)
+            .innerJoin(homework, eq(homeworkSubmissions.homeworkId, homework.id))
+            .innerJoin(courses, eq(homework.courseId, courses.id))
+            .innerJoin(enrollments, and(
+              eq(enrollments.studentId, homeworkSubmissions.studentId),
+              eq(enrollments.courseId, homework.courseId),
+            ))
+            .where(and(
+              eq(homeworkSubmissions.studentId, studentId),
+              eq(homework.teacherId, ctx.user.id),
+              eq(courses.teacherId, ctx.user.id),
+              inArray(enrollments.status, ["active", "completed"]),
+              inArray(homeworkSubmissions.homeworkId, visibleHomeworkIds!),
+            ))
+      : await db
+          .select({
+            submittedAt: homeworkSubmissions.submittedAt,
+            score: homeworkSubmissions.score,
+            status: homeworkSubmissions.status,
+          })
+          .from(homeworkSubmissions)
+          .where(eq(homeworkSubmissions.studentId, studentId));
     const weekHwSubs = allHwSubs.filter((s) => new Date(s.submittedAt) >= week.startDate && new Date(s.submittedAt) <= week.endDate);
     const gradedHw = weekHwSubs.filter((s) => s.status === "graded");
     const avgHwScore = gradedHw.length > 0
@@ -172,11 +202,31 @@ export async function GET(req: Request) {
     const allQuizSubs = role === "teacher"
       ? visibleQuizIds!.length === 0
         ? []
-        : await db.select().from(quizSubmissions).where(and(
-            eq(quizSubmissions.studentId, studentId),
-            inArray(quizSubmissions.quizId, visibleQuizIds!),
-          ))
-      : await db.select().from(quizSubmissions).where(eq(quizSubmissions.studentId, studentId));
+        : await db
+            .select({
+              submittedAt: quizSubmissions.submittedAt,
+              percentage: quizSubmissions.percentage,
+            })
+            .from(quizSubmissions)
+            .innerJoin(quizzes, eq(quizSubmissions.quizId, quizzes.id))
+            .innerJoin(courses, eq(quizzes.courseId, courses.id))
+            .innerJoin(enrollments, and(
+              eq(enrollments.studentId, quizSubmissions.studentId),
+              eq(enrollments.courseId, quizzes.courseId),
+            ))
+            .where(and(
+              eq(quizSubmissions.studentId, studentId),
+              eq(courses.teacherId, ctx.user.id),
+              inArray(enrollments.status, ["active", "completed"]),
+              inArray(quizSubmissions.quizId, visibleQuizIds!),
+            ))
+      : await db
+          .select({
+            submittedAt: quizSubmissions.submittedAt,
+            percentage: quizSubmissions.percentage,
+          })
+          .from(quizSubmissions)
+          .where(eq(quizSubmissions.studentId, studentId));
     const weekQuizSubs = allQuizSubs.filter((s) => new Date(s.submittedAt) >= week.startDate && new Date(s.submittedAt) <= week.endDate);
     const avgQuizScore = weekQuizSubs.length > 0
       ? Math.round(weekQuizSubs.reduce((sum, s) => sum + s.percentage, 0) / weekQuizSubs.length)
@@ -184,11 +234,16 @@ export async function GET(req: Request) {
 
     // 4. Overall stats
     const allEnrollments = role === "teacher"
-      ? await db.select().from(enrollments).where(and(
-          eq(enrollments.studentId, studentId),
-          inArray(enrollments.courseId, teacherCourseIds ?? []),
-          inArray(enrollments.status, ["active", "completed"]),
-        ))
+      ? await db
+          .select({ courseId: enrollments.courseId })
+          .from(enrollments)
+          .innerJoin(courses, eq(enrollments.courseId, courses.id))
+          .where(and(
+            eq(enrollments.studentId, studentId),
+            eq(courses.teacherId, ctx.user.id),
+            inArray(enrollments.courseId, teacherCourseIds ?? []),
+            inArray(enrollments.status, ["active", "completed"]),
+          ))
       : await db.select().from(enrollments).where(eq(enrollments.studentId, studentId));
     const allCourses = role === "teacher"
       ? (teacherCourseIds?.length
@@ -257,8 +312,8 @@ export async function GET(req: Request) {
     };
 
     return NextResponse.json({ success: true, report });
-  } catch (error) {
-    console.error("Reports GET error:", error);
+  } catch {
+    console.error("Reports GET failed; details withheld.");
     return NextResponse.json({ error: "Failed to generate report" }, { status: 500 });
   }
 }
