@@ -20,7 +20,7 @@ function assertAuthBeforeSetup(source, routeName, method = "GET") {
     routeName + " must authenticate before database setup");
 }
 
-function assertMixedVerificationSelection(source, routeName) {
+function assertMixedVerificationSelection(source, requestedId, routeName) {
   assert.match(source, /innerJoin\(parentAccount, eq\(parentLinks\.parentId, parentAccount\.id\)\)/,
     routeName + " must revalidate the current parent account");
   assert.match(source, /eq\(parentAccount\.role, "parent"\)/,
@@ -32,12 +32,12 @@ function assertMixedVerificationSelection(source, routeName) {
     routeName + " must include unverified links in the ambiguity set");
   assert.match(source, /verifierRole: verifiedByUser\.role/);
   assert.match(source, /getParentAnalyticsSelectionData\(parentLinkRows\)/);
-  assert.match(source, /if \(!(?:studentId|requestedStudent) && allLinkedStudentIds\.length > 1\)/,
-    routeName + " must require explicit selection across all linked children, including unverified links");
-  assert.match(source, /resolveParentAnalyticsStudentId\((?:studentId|requestedStudent), verifiedStudentIds\)/,
+  assert.match(source, /allLinkedStudentIds:\s*linkedStudentIds/);
+  assert.match(source, new RegExp("resolveParentAnalyticsStudentId\\(" + requestedId + ", linkedStudentIds\\)"));
+  assert.match(source, /verifiedStudentIds\.includes\(resolution\.studentId\)/,
     routeName + " must authorize only admin-verified children");
   assert.doesNotMatch(source, /links\s*\[\s*0\s*\]\s*\??\.\s*studentId/,
-    routeName + " must never silently choose the first linked child");
+    routeName + " must never choose the first linked child");
 }
 
 test("mixed verified/unverified parent links remain ambiguous and only verified children authorize", () => {
@@ -58,12 +58,12 @@ test("mixed verified/unverified parent links remain ambiguous and only verified 
 
 test("reports require verified explicit parent selection across all linked children", () => {
   assertAuthBeforeSetup(reportsSource, "reports");
-  assertMixedVerificationSelection(reportsSource, "reports");
+  assertMixedVerificationSelection(reportsSource, "studentId", "reports");
 });
 
 test("attendance requires verified explicit parent selection across all linked children", () => {
   assertAuthBeforeSetup(attendanceSource, "attendance");
-  assertMixedVerificationSelection(attendanceSource, "attendance");
+  assertMixedVerificationSelection(attendanceSource, "requestedStudent", "attendance");
 });
 
 test("teacher reports are limited to active/completed students in currently owned courses", () => {
