@@ -34,11 +34,13 @@ export async function runHomeworkStorageAudit({
   write = (line) => console.log(line),
 } = {}) {
   const target = assertSafeHomeworkAuditTarget(connectionString, allowRemote);
-  const client = new ClientClass({ connectionString });
+  let client;
   let connected = false;
   let transactionStarted = false;
+  let operationFailed = false;
 
   try {
+    client = new ClientClass({ connectionString });
     await client.connect();
     connected = true;
     await beginConsistentReadOnlyHomeworkAudit(client);
@@ -84,15 +86,28 @@ export async function runHomeworkStorageAudit({
       note: "absoluteUrlNeedsReview is not proof that a URL is publicly accessible; verify URLs with the storage provider through an approved process.",
     }, null, 2));
     return summary;
+  } catch {
+    operationFailed = true;
+    // PostgreSQL/client errors can contain host, database, role, or row metadata.
+    // Never forward their raw messages to CLI stderr.
+    throw new Error("Homework storage audit database operation failed; details withheld.");
   } finally {
     if (connected && transactionStarted) {
       try {
         await client.query("ROLLBACK");
       } catch {
-        // Preserve the original failure and guarantee the audit never commits writes.
+        // Preserve the sanitized operation error and guarantee the audit never commits writes.
       }
     }
-    if (connected) await client.end();
+    if (connected) {
+      try {
+        await client.end();
+      } catch {
+        if (!operationFailed) {
+          throw new Error("Homework storage audit cleanup failed; details withheld.");
+        }
+      }
+    }
   }
 }
 
