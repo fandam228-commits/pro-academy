@@ -123,3 +123,25 @@ test("report and attendance failures never log raw database error objects", () =
 test("attendance POST authenticates before database setup", () => {
   assertAuthBeforeSetup(attendanceSource, "attendance POST", "POST");
 });
+
+test("teacher report reads revalidate the current student role for homework, quizzes, and enrollments", () => {
+  assert.match(reportsSource, /innerJoin\(users, eq\(homeworkSubmissions\.studentId, users\.id\)\)/);
+  assert.match(reportsSource, /innerJoin\(users, eq\(quizSubmissions\.studentId, users\.id\)\)/);
+  assert.match(reportsSource, /eq\(users\.role, "student"\)/);
+});
+
+test("teacher attendance rows are filtered by both current owned-course roster and marking teacher in SQL", () => {
+  assert.match(attendanceSource, /const visibleStudentIds = visibleStudents\.map\(\(student\) => student\.id\)/);
+  assert.match(attendanceSource, /eq\(attendanceRecords\.markedBy, ctx\.user\.id\)[\s\S]*?inArray\(attendanceRecords\.studentId, visibleStudentIds\)/);
+});
+
+test("attendance action and role guards run before database setup", () => {
+  const postStart = attendanceSource.indexOf("export async function POST(req: Request)");
+  const postSource = attendanceSource.slice(postStart);
+  const bodyRead = postSource.indexOf("const body = await req.json()");
+  const bulkGuard = postSource.indexOf('action === "bulk_mark" && !["teacher", "admin"].includes(ctx.user.role)');
+  const checkInGuard = postSource.indexOf('action === "check_in" && ctx.user.role !== "student"');
+  const unsupportedGuard = postSource.indexOf('action !== "bulk_mark" && action !== "check_in"');
+  const setup = postSource.indexOf("await ensureDbSetup()");
+  assert.ok(bodyRead >= 0 && bulkGuard > bodyRead && checkInGuard > bulkGuard && unsupportedGuard > checkInGuard && setup > unsupportedGuard);
+});
