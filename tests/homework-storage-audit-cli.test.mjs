@@ -27,7 +27,7 @@ test("homework storage audit refuses to run without DATABASE_URL and emits no da
   assert.equal(result.error, undefined, result.error?.message);
   assert.equal(result.status, 1);
   assert.match(result.stderr, /DATABASE_URL is required/);
-  assert.doesNotMatch(result.stdout + result.stderr, /postgres(?:ql)?:\\/\\//i);
+  assert.doesNotMatch(result.stdout + result.stderr, /postgres(?:ql)?:\/\//i);
   assert.doesNotMatch(result.stdout + result.stderr, /student_id|storage_path|homework_submissions/i);
 });
 
@@ -38,9 +38,8 @@ test("homework storage audit refuses remote databases by default before attempti
   assert.equal(result.error, undefined, result.error?.message);
   assert.equal(result.status, 1);
   assert.match(result.stderr, /Refusing a non-local database by default/);
-  assert.doesNotMatch(result.stdout + result.stderr, /audit-user|do-not-print|db\\.example\\.invalid|postgres(?:ql)?:\\/\\//i);
+  assert.doesNotMatch(result.stdout + result.stderr, /audit-user|do-not-print|db\.example\.invalid|postgres(?:ql)?:\/\//i);
 });
-
 
 test("remote homework storage audits require exactly one sslmode=verify-full", () => {
   const remoteDatabaseUrl = "postgresql://audit-user:do-not-print@db.example.invalid/proacademy";
@@ -51,19 +50,19 @@ test("remote homework storage audits require exactly one sslmode=verify-full", (
   );
   for (const sslmode of ["prefer", "require", "verify-ca", "disable"]) {
     assert.throws(
-      () => assertSafeHomeworkAuditTarget(`${remoteDatabaseUrl}?sslmode=${sslmode}`, true),
+      () => assertSafeHomeworkAuditTarget(remoteDatabaseUrl + "?sslmode=" + sslmode, true),
       /require DATABASE_URL sslmode=verify-full/,
     );
   }
   assert.throws(
     () => assertSafeHomeworkAuditTarget(
-      `${remoteDatabaseUrl}?sslmode=verify-full&sslmode=disable`,
+      remoteDatabaseUrl + "?sslmode=verify-full&sslmode=disable",
       true,
     ),
     /require DATABASE_URL sslmode=verify-full/,
   );
   assert.equal(
-    assertSafeHomeworkAuditTarget(`${remoteDatabaseUrl}?sslmode=verify-full`, true),
+    assertSafeHomeworkAuditTarget(remoteDatabaseUrl + "?sslmode=verify-full", true),
     "remote-read-only-opt-in",
   );
 });
@@ -78,9 +77,8 @@ test("CLI rejects an opted-in remote audit without verified TLS before connectin
   assert.equal(result.error, undefined, result.error?.message);
   assert.equal(result.status, 1);
   assert.match(result.stderr, /require DATABASE_URL sslmode=verify-full/);
-  assert.doesNotMatch(result.stdout + result.stderr, /audit-user|do-not-print|db\\.example\\.invalid|postgres(?:ql)?:\\/\\//i);
+  assert.doesNotMatch(result.stdout + result.stderr, /audit-user|do-not-print|db\.example\.invalid|postgres(?:ql)?:\/\//i);
 });
-
 
 test("remote audit opt-in must be the boolean true, not a truthy string", () => {
   const remoteDatabaseUrl = "postgresql://audit-user:do-not-print@db.example.invalid/proacademy?sslmode=verify-full";
@@ -94,7 +92,6 @@ test("remote audit opt-in must be the boolean true, not a truthy string", () => 
     "remote-read-only-opt-in",
   );
 });
-
 
 test("successful multi-batch storage audit emits aggregate counts only and redacts database, submission, student, and legacy URL values", async () => {
   const secrets = {
@@ -181,13 +178,13 @@ test("successful multi-batch storage audit emits aggregate counts only and redac
   assert.deepEqual(parsed.counts, summary);
   assert.doesNotMatch(
     report,
-    /audit-user|do-not-print|proacademy_test|submission-private-123|submission-private-789|student-private-456|store\\.public\\.blob\\.vercel-storage\\.com|private-student-answer\\.pdf|homework\\/private\\/answer\\.pdf/,
+    /audit-user|do-not-print|proacademy_test|submission-private-123|submission-private-789|student-private-456|store\.public\.blob\.vercel-storage\.com|private-student-answer\.pdf|homework\/private\/answer\.pdf/,
     "successful audit output must not expose connection credentials, row identifiers, student IDs, or stored URLs/paths",
   );
   const batchQueries = clientInstance.queries.filter((sql) => sql.includes("FROM homework_submissions"));
   assert.equal(batchQueries.length, 3, "the audit must continue until an empty final batch");
   for (const sql of batchQueries) {
-    assert.match(sql, /^SELECT id, storage_path\\s+FROM homework_submissions/);
+    assert.match(sql, /^SELECT id, storage_path\s+FROM homework_submissions/);
     assert.doesNotMatch(sql, /student_id/i, "the inventory must not select student identifiers");
   }
   assert.deepEqual(clientInstance.batchParameters, [
