@@ -574,6 +574,13 @@ integrationTest(
       assert.equal(invalidStatusRows.rowCount, 0,
         "invalid attendance statuses must not create records");
 
+      // Remove only the two temporary rows used by these write-regression checks
+      // before the remaining student/parent read assertions run.
+      await client.query(
+        "DELETE FROM attendance_records WHERE id = $1 OR (student_id = $2 AND session_title = $3)",
+        [ids.otherTeacherAttendanceRecord, ids.student, "Canonical snapshot session"],
+      );
+
       // The reports and attendance routes must revalidate the verifier's current
       // role on every request, not trust a historical verification stamp.
       await client.query("UPDATE users SET role = 'teacher' WHERE id = $1", [ids.admin]);
