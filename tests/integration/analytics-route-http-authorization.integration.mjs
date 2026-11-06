@@ -53,6 +53,12 @@ integrationTest(
       otherCourse: id("other_course"),
       otherCourseQuiz: id("other_course_quiz"),
       otherCourseQuizSubmission: id("other_course_quiz_submission"),
+      ownedCourseHomework: id("owned_course_homework"),
+      otherTeacherHomework: id("other_teacher_homework"),
+      staleOwnerHomework: id("stale_owner_homework"),
+      ownedCourseHomeworkSubmission: id("owned_course_homework_submission"),
+      otherTeacherHomeworkSubmission: id("other_teacher_homework_submission"),
+      staleOwnerHomeworkSubmission: id("stale_owner_homework_submission"),
       attendanceRecord: id("attendance_record"),
       enrollmentOwned: id("enrollment_owned"),
       enrollmentOtherStudent: id("enrollment_other_student"),
@@ -191,6 +197,33 @@ integrationTest(
           ids.enrollmentCancelled, ids.unverifiedStudent, ids.ownedCourse,
         ],
       );
+      // Seed one valid owned-course homework and two out-of-scope assignments.
+      // The student is enrolled in both courses, so enrollment alone must not expose
+      // another teacher's work. The stale-owner row simulates a course transfer where
+      // homework.teacher_id was not updated; current course ownership must still win.
+      await client.query(
+        `INSERT INTO homework (id, title, description, teacher_id, teacher_name, stage, grade, course_id, unit, due_date, total_points)
+         VALUES ($1, 'Owned course homework', 'Disposable integration fixture', $2, 'Teacher HTTP Test', 'Secondary', 'Third Secondary', $3, 'Unit 1', '2026-11-20', 50),
+                ($4, 'Other teacher homework', 'Disposable integration fixture', $5, 'Other Teacher HTTP Test', 'Secondary', 'Third Secondary', $6, 'Unit 1', '2026-11-20', 50),
+                ($7, 'Stale owner homework', 'Disposable integration fixture', $2, 'Teacher HTTP Test', 'Secondary', 'Third Secondary', $6, 'Unit 1', '2026-11-20', 50)`,
+        [
+          ids.ownedCourseHomework, ids.teacher, ids.ownedCourse,
+          ids.otherTeacherHomework, ids.otherTeacher, ids.otherCourse,
+          ids.staleOwnerHomework,
+        ],
+      );
+      await client.query(
+        `INSERT INTO homework_submissions (id, homework_id, student_id, student_name, answer_text, status, score, feedback)
+         VALUES ($1, $2, $3, 'Student HTTP Test', 'owned-course answer', 'graded', 40, 'owned-course fixture'),
+                ($4, $5, $3, 'Student HTTP Test', 'other-teacher answer', 'graded', 50, 'other-teacher fixture'),
+                ($6, $7, $3, 'Student HTTP Test', 'stale-owner answer', 'graded', 50, 'stale-owner fixture')`,
+        [
+          ids.ownedCourseHomeworkSubmission, ids.ownedCourseHomework, ids.student,
+          ids.otherTeacherHomeworkSubmission, ids.otherTeacherHomework,
+          ids.staleOwnerHomeworkSubmission, ids.staleOwnerHomework,
+        ],
+      );
+
       // Seed assessment and attendance data from a course the test teacher does not own.
       // The same student is also enrolled in the teacher's owned course; these rows must
       // still be excluded from that teacher's report because their scope is unrelated.
@@ -270,6 +303,16 @@ integrationTest(
       const teacherOwnStudent = await requestAnalytics(tokens.teacher, ids.student);
       assert.equal(teacherOwnStudent.status, 200, JSON.stringify(teacherOwnStudent.body));
       assert.equal(teacherOwnStudent.body.student?.id, ids.student);
+      assert.equal(
+        teacherOwnStudent.body.kpis?.totalHomework,
+        1,
+        "teacher report must include only the submission from the teacher-owned course, not submissions from another teacher or a transferred course",
+      );
+      assert.equal(
+        teacherOwnStudent.body.kpis?.hwAvg,
+        80,
+        "teacher homework average must use only the 40/50 result from the owned course and exclude out-of-scope 50/50 results",
+      );
       assert.equal(
         teacherOwnStudent.body.kpis?.totalExams,
         0,
@@ -420,6 +463,8 @@ integrationTest(
         try {
           await client.query("DELETE FROM sessions WHERE id = ANY($1::text[])", [[ids.teacherSession, ids.studentSession, ids.parentSession, ids.parentSingleSession, ids.parentMixedSession, ids.parentUnverifiedOnlySession]]);
           await client.query("DELETE FROM parent_links WHERE id = ANY($1::text[])", [[ids.linkStudent, ids.linkOtherStudent, ids.linkUnverified, ids.linkUnverifiedOnly, ids.linkSingle, ids.linkSingleDuplicate, ids.linkMixedVerified, ids.linkMixedUnverified]]);
+          await client.query("DELETE FROM homework_submissions WHERE id = ANY($1::text[])", [[ids.ownedCourseHomeworkSubmission, ids.otherTeacherHomeworkSubmission, ids.staleOwnerHomeworkSubmission]]);
+          await client.query("DELETE FROM homework WHERE id = ANY($1::text[])", [[ids.ownedCourseHomework, ids.otherTeacherHomework, ids.staleOwnerHomework]]);
           await client.query("DELETE FROM quiz_submissions WHERE id = $1", [ids.otherCourseQuizSubmission]);
           await client.query("DELETE FROM quizzes WHERE id = $1", [ids.otherCourseQuiz]);
           await client.query("DELETE FROM attendance_records WHERE id = $1", [ids.attendanceRecord]);
