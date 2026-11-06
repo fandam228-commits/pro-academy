@@ -134,7 +134,13 @@ export async function GET(req: Request) {
       if (!verifiedStudentIds.includes(resolution.studentId)) {
         return NextResponse.json({ error: "Forbidden" }, { status: 403 });
       }
-      const studentId = resolution.studentId;// ============ STUDENT: own records ============
+      const studentId = resolution.studentId;
+      const records = await db.select().from(attendanceRecords).where(eq(attendanceRecords.studentId, studentId));
+      const sorted = records.sort((a, b) => (a.sessionDate < b.sessionDate ? 1 : -1));
+      return NextResponse.json({ role: "parent", studentId, records: sorted, rate: computeRate(records), total: records.length });
+    }
+
+    // ============ STUDENT: own records ============
     const records = await db.select().from(attendanceRecords).where(eq(attendanceRecords.studentId, ctx.user.id));
     const sorted = records.sort((a, b) => (a.sessionDate < b.sessionDate ? 1 : -1));
     return NextResponse.json({
