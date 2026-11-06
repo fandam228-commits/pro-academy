@@ -476,7 +476,8 @@ integrationTest(
       const parentAttendanceSelected = await requestApi("/api/attendance", tokens.parent, ids.student);
       assert.equal(parentAttendanceSelected.status, 200, JSON.stringify(parentAttendanceSelected.body));
       assert.equal(parentAttendanceSelected.body.studentId, ids.student);
-      assert.equal(parentAttendanceSelected.body.total, 1);
+      assert.equal(parentAttendanceSelected.body.total, 2,
+        "a parent may see both attendance rows belonging to the selected child, regardless of which teacher marked them");
       const parentAttendanceUnverified = await requestApi("/api/attendance", tokens.parent, ids.unverifiedStudent);
       assert.equal(parentAttendanceUnverified.status, 403);
       const parentMixedAttendanceWithoutSelection = await requestApi("/api/attendance", tokens.parentMixed);
