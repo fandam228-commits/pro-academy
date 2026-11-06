@@ -492,9 +492,9 @@ test("homework grading is a one-way atomic transition before awarding points", a
   const deleteStart = route.indexOf('if (action === "delete")', gradeStart);
   assert.ok(gradeStart >= 0 && deleteStart > gradeStart);
   const gradeRoute = route.slice(gradeStart, deleteStart);
-  const guardedUpdate = gradeRoute.search(/const graded = await tx\\s*\\.update\\(homeworkSubmissions\\)/);
+  const guardedUpdate = gradeRoute.search(/const graded = await tx\s*\.update\(homeworkSubmissions\)/);
   const noOpGuard = gradeRoute.indexOf("if (graded.length === 0)", guardedUpdate);
-  const pointsAward = gradeRoute.search(/await tx\\s*\\.update\\(users\\)/, noOpGuard);
+  const pointsAward = gradeRoute.search(/await tx\s*\.update\(users\)/, noOpGuard);
   assert.ok(guardedUpdate >= 0 && noOpGuard > guardedUpdate && pointsAward > noOpGuard,
     "points must be awarded only after the guarded grade transition succeeds");
   assert.match(gradeRoute, /or\(isNull\(homeworkSubmissions\.status\), ne\(homeworkSubmissions\.status, "graded"\)\)/,
@@ -512,8 +512,8 @@ test("grading points commit in the same database transaction and notification fa
   const gradeRoute = route.slice(gradeStart, deleteStart);
 
   const transactionStart = gradeRoute.indexOf("const didGrade = await db.transaction(async (tx) =>");
-  const submissionUpdate = gradeRoute.search(/await tx\\s*\\.update\\(homeworkSubmissions\\)/, transactionStart);
-  const pointsUpdate = gradeRoute.search(/await tx\\s*\\.update\\(users\\)/, submissionUpdate);
+  const submissionUpdate = gradeRoute.search(/await tx\s*\.update\(homeworkSubmissions\)/, transactionStart);
+  const pointsUpdate = gradeRoute.search(/await tx\s*\.update\(users\)/, submissionUpdate);
   const alreadyGradedGuard = gradeRoute.indexOf("if (!didGrade)", pointsUpdate);
   const notification = gradeRoute.indexOf("await notifyUser(", alreadyGradedGuard);
 
