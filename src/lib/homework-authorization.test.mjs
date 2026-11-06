@@ -502,3 +502,29 @@ test("homework grading is a one-way atomic transition before awarding points", a
   assert.match(gradeRoute, /\.returning\(\{ id: homeworkSubmissions\.id \}\)/);
   assert.match(gradeRoute, /Submission is already graded[\s\S]*?status:\s*409/);
 });
+
+
+test("grading points commit in the same database transaction and notification failure is non-fatal", async () => {
+  const route = await readFile(new URL("../app/api/homework/route.ts", import.meta.url), "utf8");
+  const gradeStart = route.indexOf('if (action === "grade")');
+  const deleteStart = route.indexOf('if (action === "delete")', gradeStart);
+  assert.ok(gradeStart >= 0 && deleteStart > gradeStart);
+  const gradeRoute = route.slice(gradeStart, deleteStart);
+
+  const transactionStart = gradeRoute.indexOf("const didGrade = await db.transaction(async (tx) =>");
+  const submissionUpdate = gradeRoute.indexOf("tx.update(homeworkSubmissions)", transactionStart);
+  const pointsUpdate = gradeRoute.indexOf("tx.update(users)", submissionUpdate);
+  const alreadyGradedGuard = gradeRoute.indexOf("if (!didGrade)", pointsUpdate);
+  const notification = gradeRoute.indexOf("await notifyUser(", alreadyGradedGuard);
+
+  assert.ok(transactionStart >= 0 && submissionUpdate > transactionStart && pointsUpdate > submissionUpdate,
+    "the submission transition and points award must run inside the same transaction");
+  assert.match(gradeRoute, /if \(awarded\.length === 0\)\s*\{\s*throw new Error\(/,
+    "a missing student row must abort the transaction instead of silently losing points");
+  assert.doesNotMatch(gradeRoute, /\.catch\(\(\) => null\)/,
+    "points-award failures must not be swallowed");
+  assert.ok(alreadyGradedGuard > pointsUpdate && notification > alreadyGradedGuard,
+    "notifications must happen only after the grade-and-points transaction commits");
+  assert.match(gradeRoute, /try \{\s*await notifyUser\([\s\S]*?catch \{\s*console\.error\("Homework grading notification failed; details withheld\."\)/,
+    "notification failures must be logged safely without changing the committed grade response");
+});
