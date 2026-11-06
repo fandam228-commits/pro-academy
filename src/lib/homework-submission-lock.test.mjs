@@ -23,7 +23,8 @@ test("homework submission lock is acquired before persistence callback", async (
   );
 
   assert.equal(result, "persisted");
-  assert.deepEqual(events.map((event) => event.kind), ["lock", "callback"]);
+  assert.deepEqual(events.map((event) => event.kind), ["lock", "lock", "callback"],
+    "the transaction must set READ COMMITTED, acquire the advisory lock, then read/write");
 });
 
 test("homework submission lock rejects incomplete identity before executing SQL", async () => {
