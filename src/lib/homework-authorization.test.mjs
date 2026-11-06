@@ -455,7 +455,7 @@ test("private homework Blob cleanup failures never log raw provider error object
   );
   assert.doesNotMatch(
     route,
-    /console\\.error\\([^;\\n]*,\\s*cleanupError/,
+    /console\.error\([^;\n]*,\s*cleanupError/,
     "provider error objects must never be written to application logs",
   );
 });
