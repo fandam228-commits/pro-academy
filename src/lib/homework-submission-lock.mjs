@@ -15,6 +15,9 @@ export async function withHomeworkSubmissionLock(tx, { homeworkId, studentId }, 
   }
 
   const lockKey = `homework-submission:${homeworkId}:${studentId}`;
+  // READ COMMITTED gives the post-lock SELECT a fresh snapshot after any prior
+  // transaction holding this key commits, even if the session default differs.
+  await tx.execute(sql`SET TRANSACTION ISOLATION LEVEL READ COMMITTED`);
   await tx.execute(sql`SELECT pg_advisory_xact_lock(hashtextextended(${lockKey}, 0))`);
   return callback(tx);
 }
