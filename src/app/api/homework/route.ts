@@ -10,6 +10,7 @@ import { getHomeworkPrivateBlobToken, isPrivateHomeworkBlobPath } from "@/lib/ho
 import { randomUUID } from "node:crypto";
 import { canManageHomework, canSubmitHomework, canAccessHomeworkCourse, canAssignHomeworkToCourse, canReplaceHomeworkSubmission } from "@/lib/homework-authorization.mjs";
 import { withHomeworkSubmissionLock } from "@/lib/homework-submission-lock.mjs";
+import { lockCurrentHomeworkSubmissionAccess } from "@/lib/homework-submission-authorization.mjs";
 
 const MAX_SIZE_BYTES = 20 * 1024 * 1024; // 20MB
 
@@ -261,6 +262,24 @@ export async function POST(req: Request) {
             tx,
             { homeworkId, studentId: ctx.user.id },
             async (lockedTx) => {
+              // The preflight check can become stale while a file is uploading.
+              // Lock the current student, assignment, and eligible enrollment rows
+              // before persisting so role/grade/enrollment revocation is serialized.
+              const currentAccess = await lockCurrentHomeworkSubmissionAccess(
+                lockedTx,
+                { homeworkId, studentId: ctx.user.id },
+                { users, homework, enrollments },
+              );
+              if (!currentAccess.allowed) {
+                return {
+                  kind: currentAccess.reason === "homework-not-found" ? "not-found" as const : "forbidden" as const,
+                  previousStoragePath: null,
+                  submission: null,
+                };
+              }
+              const currentHomework = currentAccess.homework;
+              const currentStudent = currentAccess.student;
+
               const lockedExisting = await lockedTx
                 .select()
                 .from(homeworkSubmissions)
@@ -319,14 +338,21 @@ export async function POST(req: Request) {
                 id: `hws_${randomUUID()}`,
                 homeworkId,
                 studentId: ctx.user.id,
-                studentName: ctx.user.name,
+                studentName: currentStudent.name,
                 answerText,
                 fileName,
                 storagePath,
                 status: "submitted",
               };
               await lockedTx.insert(homeworkSubmissions).values(sub);
-              return { kind: "inserted" as const, previousStoragePath: null, submission: sub };
+              return {
+                kind: "inserted" as const,
+                previousStoragePath: null,
+                submission: sub,
+                notifyTeacherId: currentHomework.teacherId,
+                homeworkTitle: currentHomework.title,
+                studentName: currentStudent.name,
+              };
             },
           )
         );
@@ -340,6 +366,14 @@ export async function POST(req: Request) {
         return NextResponse.json(
           { error: "A submission already exists or was graded while this request was being processed." },
           { status: 409 }
+        );
+      }
+
+      if (persistence.kind === "not-found" || persistence.kind === "forbidden") {
+        await cleanupUnreferencedUpload();
+        return NextResponse.json(
+          { error: persistence.kind === "not-found" ? "Homework not found" : "You are no longer authorized to submit this homework." },
+          { status: persistence.kind === "not-found" ? 404 : 403 }
         );
       }
 
@@ -365,13 +399,19 @@ export async function POST(req: Request) {
 
       const sub = persistence.submission;
       // Notify teacher (in-app + device push) after the single submission row commits.
-      await notifyUser(
-        hw[0].teacherId,
-        "📥 تسليم واجب جديد",
-        `${ctx.user.name} سلّم واجب: ${hw[0].title}`,
-        "info",
-        "/?tab=homework"
-      );
+      try {
+        await notifyUser(
+          persistence.notifyTeacherId,
+          "📥 تسليم واجب جديد",
+          `${persistence.studentName} سلّم واجب: ${persistence.homeworkTitle}`,
+          "info",
+          "/?tab=homework"
+        );
+      } catch {
+        // The submission is already committed; notification failure must not
+        // turn a successful write into an ambiguous response that invites retries.
+        console.error("Homework submission notification failed; details withheld.");
+      }
 
       return NextResponse.json({ success: true, submission: withoutStoragePath(sub) });
     } catch {
