@@ -96,8 +96,8 @@ export async function GET(req: Request) {
     if (role === "parent") {
       const requestedStudent = searchParams.get("studentId");
       // Include all linked student accounts in the ambiguity set, while only
-      // admin-verified links authorize a report. Recheck parent and verifier
-      // roles in the same query snapshot.
+      // admin-verified links authorize access. Recheck parent and verifier roles
+      // in the same query snapshot.
       const parentLinkRows = await db
         .select({
           studentId: parentLinks.studentId,
@@ -114,27 +114,27 @@ export async function GET(req: Request) {
           eq(parentAccount.role, "parent"),
           eq(users.role, "student"),
         ));
-      const { allLinkedStudentIds, verifiedStudentIds } = getParentAnalyticsSelectionData(parentLinkRows);
-      if (!requestedStudent && verifiedStudentIds.length === 0) {
-        return NextResponse.json({ error: "No verified linked student" }, { status: 404 });
-      }
-      if (!requestedStudent && allLinkedStudentIds.length > 1) {
-        return NextResponse.json({ error: "studentId is required when multiple students are linked" }, { status: 400 });
-      }
-      const resolution = resolveParentAnalyticsStudentId(requestedStudent, verifiedStudentIds);
+      const {
+        allLinkedStudentIds: linkedStudentIds,
+        verifiedStudentIds,
+      } = getParentAnalyticsSelectionData(parentLinkRows);
+      const resolution = resolveParentAnalyticsStudentId(requestedStudent, linkedStudentIds);
       if (!resolution.ok) {
-        if (resolution.reason === "no-linked-student") return NextResponse.json({ error: "No verified linked student" }, { status: 404 });
-        if (resolution.reason === "student-id-required") return NextResponse.json({ error: "studentId is required when multiple students are linked" }, { status: 400 });
-        if (resolution.reason === "invalid-student-id") return NextResponse.json({ error: "Invalid studentId" }, { status: 400 });
+        if (resolution.reason === "no-linked-student") {
+          return NextResponse.json({ error: "No verified linked student" }, { status: 404 });
+        }
+        if (resolution.reason === "student-id-required") {
+          return NextResponse.json({ error: "studentId is required when multiple students are linked" }, { status: 400 });
+        }
+        if (resolution.reason === "invalid-student-id") {
+          return NextResponse.json({ error: "Invalid studentId" }, { status: 400 });
+        }
         return NextResponse.json({ error: "Forbidden" }, { status: 403 });
       }
-      const studentId = resolution.studentId;
-      const records = await db.select().from(attendanceRecords).where(eq(attendanceRecords.studentId, studentId));
-      const sorted = records.sort((a, b) => (a.sessionDate < b.sessionDate ? 1 : -1));
-      return NextResponse.json({ role: "parent", studentId, records: sorted, rate: computeRate(records), total: records.length });
-    }
-
-    // ============ STUDENT: own records ============
+      if (!verifiedStudentIds.includes(resolution.studentId)) {
+        return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+      }
+      const studentId = resolution.studentId;// ============ STUDENT: own records ============
     const records = await db.select().from(attendanceRecords).where(eq(attendanceRecords.studentId, ctx.user.id));
     const sorted = records.sort((a, b) => (a.sessionDate < b.sessionDate ? 1 : -1));
     return NextResponse.json({
