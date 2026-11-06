@@ -4,6 +4,7 @@ import { randomUUID } from "node:crypto";
 import { Client } from "pg";
 import { drizzle } from "drizzle-orm/node-postgres";
 import { pgTable, text } from "drizzle-orm/pg-core";
+import { eq } from "drizzle-orm";
 import { withHomeworkSubmissionLock } from "../../src/lib/homework-submission-lock.mjs";
 import { lockCurrentHomeworkSubmissionAccess } from "../../src/lib/homework-submission-authorization.mjs";
 
@@ -131,7 +132,7 @@ integrationTest("submission persistence locks current student role, grade, assig
     const revocationPromise = revokerDb
       .update(enrollments)
       .set({ status: "cancelled" })
-      .where((await import("drizzle-orm")).eq(enrollments.id, "enrollment-1"))
+      .where(eq(enrollments.id, "enrollment-1"))
       .then(() => { revocationFinished = true; });
 
     await delay(100);
