@@ -347,11 +347,16 @@ test("student homework GET and submission routes both enforce course enrollment"
   const submitRoute = route.slice(submitStart, submitEnd);
   const enrollmentGuard = submitRoute.indexOf("canAccessHomeworkCourse(");
   const upload = submitRoute.indexOf("await put(");
-  const persist = submitRoute.indexOf("await db.insert(homeworkSubmissions).values(sub)");
-  assert.ok(enrollmentGuard >= 0 && upload > enrollmentGuard && persist > enrollmentGuard,
-    "course enrollment must be checked before file upload or submission persistence");
+  const transaction = submitRoute.indexOf("persistence = await db.transaction(");
+  const lock = submitRoute.indexOf("withHomeworkSubmissionLock(", transaction);
+  const lockedRead = submitRoute.indexOf("const lockedExisting = await lockedTx", lock);
+  const insert = submitRoute.indexOf("await lockedTx.insert(homeworkSubmissions).values(sub)");
+  assert.ok(
+    enrollmentGuard >= 0 && upload > enrollmentGuard && transaction > enrollmentGuard &&
+      lock > transaction && lockedRead > lock && insert > lockedRead,
+    "course enrollment must be checked before upload, then persistence must recheck the pair under the transaction lock",
+  );
 });
-
 
 test("homework GET and POST authenticate before database setup", async () => {
   const route = await readFile(new URL("../app/api/homework/route.ts", import.meta.url), "utf8");
@@ -404,24 +409,29 @@ test("homework POST authorizes role and action before database setup", async () 
 });
 
 
-test("successful submission replacement deletes only a prior validated private Blob path after the guarded update", async () => {
+test("successful submission replacement deletes only a prior validated private Blob path after the locked update commits", async () => {
   const route = await readFile(new URL("../app/api/homework/route.ts", import.meta.url), "utf8");
-  const updateStart = route.indexOf("const updated = await db");
+  const transactionStart = route.indexOf("persistence = await db.transaction(");
+  const updateStart = route.indexOf("const updated = await lockedTx", transactionStart);
   const failedUpdateGuard = route.indexOf("if (updated.length === 0)", updateStart);
-  const previousPathRead = route.indexOf("const previousStoragePath = existing[0].storagePath", failedUpdateGuard);
+  const updatedResult = route.indexOf('kind: "updated"', failedUpdateGuard);
+  const postCommitCleanup = route.indexOf('if (persistence.kind === "updated")', transactionStart);
+  const previousPathRead = route.indexOf("const previousStoragePath = persistence.previousStoragePath", postCommitCleanup);
   const cleanupCall = route.indexOf("await del(previousStoragePath, { token: uploadToken })", previousPathRead);
   const successResponse = route.indexOf("return NextResponse.json({ success: true, updated: true })", cleanupCall);
 
-  assert.ok(updateStart >= 0, "the atomic guarded database update must exist");
-  assert.ok(failedUpdateGuard > updateStart, "failed guarded updates must be handled before old-file cleanup");
-  assert.ok(previousPathRead > failedUpdateGuard, "the old path may be cleaned up only after the guarded update succeeds");
-  assert.ok(cleanupCall > previousPathRead && successResponse > cleanupCall);
+  assert.ok(transactionStart >= 0 && updateStart > transactionStart,
+    "replacement must be persisted inside the submission transaction");
+  assert.ok(failedUpdateGuard > updateStart && updatedResult > failedUpdateGuard,
+    "a failed guarded update must return a conflict before reporting a replacement");
+  assert.ok(postCommitCleanup > updatedResult,
+    "old-file cleanup must occur only after the transaction returns successfully");
+  assert.ok(previousPathRead > postCommitCleanup && cleanupCall > previousPathRead && successResponse > cleanupCall);
   const cleanupBlock = route.slice(previousPathRead, successResponse);
   assert.match(cleanupBlock, /previousStoragePath !== storagePath/);
   assert.match(cleanupBlock, /isPrivateHomeworkBlobPath\(previousStoragePath\)/,
     "legacy absolute URLs and malformed paths must never be sent to private Blob deletion");
 });
-
 
 test("homework file GET rejects unsupported roles before database setup", async () => {
   const route = await readFile(new URL("../app/api/homework/file/[id]/route.ts", import.meta.url), "utf8");
@@ -447,17 +457,24 @@ test("homework file GET rejects unsupported roles before database setup", async 
 test("private homework Blob cleanup failures never log raw provider error objects", async () => {
   const route = await readFile(new URL("../app/api/homework/route.ts", import.meta.url), "utf8");
   const safeCleanupLog = 'console.error("Private homework Blob cleanup failed; manual reconciliation may be required.");';
-
+  const cleanupFunctionStart = route.indexOf("const cleanupUnreferencedUpload = async () =>");
+  const cleanupFunctionEnd = route.indexOf("let persistence;", cleanupFunctionStart);
+  assert.ok(cleanupFunctionStart >= 0 && cleanupFunctionEnd > cleanupFunctionStart);
+  const unreferencedCleanup = route.slice(cleanupFunctionStart, cleanupFunctionEnd);
+  assert.match(unreferencedCleanup, /if \(!storagePath \|\| !uploadToken \|\| !isPrivateHomeworkBlobPath\(storagePath\)\) return/);
+  assert.match(unreferencedCleanup, /await del\(storagePath, \{ token: uploadToken \}\)/);
+  assert.match(unreferencedCleanup, /Private homework Blob cleanup failed; manual reconciliation may be required/);
+  assert.ok(
+    (route.split(safeCleanupLog).length - 1) >= 2,
+    "both unreferenced-upload and previous-private-file cleanup paths must use a sanitized diagnostic",
+  );
   assert.equal(
-    route.split(safeCleanupLog).length - 1,
-    3,
-    "all three private Blob cleanup paths must emit the same sanitized diagnostic",
+    route.split("await cleanupUnreferencedUpload();").length - 1,
+    2,
+    "transaction failure and conflict paths must both clean up an unreferenced upload",
   );
-  assert.doesNotMatch(
-    route,
-    /console\.error\([^;\n]*,\s*cleanupError/,
-    "provider error objects must never be written to application logs",
-  );
+  assert.doesNotMatch(route, /console\.error\([^;\n]*,\s*(?:cleanupError|error)/,
+    "provider and database error objects must never be written to application logs");
 });
 
 test("homework API routes never log raw database or storage error objects", async () => {
