@@ -1,6 +1,6 @@
 import { db } from "@/db";
 import { homework, homeworkSubmissions, users, notifications, courses, enrollments } from "@/db/schema";
-import { eq, and, inArray, isNull, ne, or } from "drizzle-orm";
+import { eq, and, inArray, isNull, ne, or, exists } from "drizzle-orm";
 import { NextResponse } from "next/server";
 import { ensureDbSetup } from "@/db/migrate-and-seed";
 import { requireRoles, getAuthContext } from "@/lib/security";
@@ -437,41 +437,65 @@ export async function POST(req: Request) {
       const maxPts = hw[0]?.totalPoints || 50;
       const safeScore = Math.max(0, Math.min(parseInt(score) || 0, maxPts));
 
+      // The preflight ownership check above is an early denial only. Recheck
+      // current assignment and course ownership in the final guarded UPDATE.
+      const gradeWhere = ctx.user.role === "admin"
+        ? and(
+            eq(homeworkSubmissions.id, submissionId),
+            or(isNull(homeworkSubmissions.status), ne(homeworkSubmissions.status, "graded")),
+          )
+        : and(
+            eq(homeworkSubmissions.id, submissionId),
+            or(isNull(homeworkSubmissions.status), ne(homeworkSubmissions.status, "graded")),
+            exists(
+              db
+                .select({ id: homework.id })
+                .from(homework)
+                .leftJoin(courses, eq(homework.courseId, courses.id))
+                .where(and(
+                  eq(homework.id, homeworkSubmissions.homeworkId),
+                  eq(homework.teacherId, ctx.user.id),
+                  or(isNull(homework.courseId), eq(courses.teacherId, ctx.user.id)),
+                )),
+            ),
+          );
+
       // Commit the grade transition and gamification points together. If the
       // student row cannot be updated, the transaction rolls the grade back too.
-      const didGrade = await db.transaction(async (tx) => {
+      const gradedStudentId = await db.transaction(async (tx) => {
         const graded = await tx
           .update(homeworkSubmissions)
           .set({ status: "graded", score: safeScore, feedback: feedback || "", gradedAt: new Date() })
-          .where(and(
-            eq(homeworkSubmissions.id, submissionId),
-            or(isNull(homeworkSubmissions.status), ne(homeworkSubmissions.status, "graded")),
-          ))
-          .returning({ id: homeworkSubmissions.id });
+          .where(gradeWhere)
+          .returning({ studentId: homeworkSubmissions.studentId });
 
-        if (graded.length === 0) return false;
+        if (graded.length === 0) return null;
+        const studentId = graded[0].studentId;
 
         const awarded = await tx
           .update(users)
           .set({ points: sql_inc("points", safeScore) })
-          .where(eq(users.id, subs[0].studentId))
+          .where(eq(users.id, studentId))
           .returning({ id: users.id });
 
         if (awarded.length === 0) {
           throw new Error("Student account is unavailable during homework grading");
         }
-        return true;
+        return studentId;
       });
 
-      if (!didGrade) {
-        return NextResponse.json({ error: "Submission is already graded" }, { status: 409 });
+      if (!gradedStudentId) {
+        return NextResponse.json(
+          { error: "Submission is already graded or is no longer accessible." },
+          { status: 409 },
+        );
       }
 
       // Notifications are an external side effect: do not turn a committed grade
       // into an ambiguous 500 response if the notification provider is unavailable.
       try {
         await notifyUser(
-          subs[0].studentId,
+          gradedStudentId,
           "✅ تم تصحيح واجبك",
           `درجتك في "${hw[0]?.title || "الواجب"}": ${safeScore}/${maxPts}${feedback ? ` — ملاحظة المدرس: ${feedback}` : ""}`,
           "quiz",
