@@ -76,12 +76,12 @@ async function performLogin(loginId: string, password: string, userAgent?: strin
 export async function GET(req: Request) {
   try {
     const database = await prepareAuthDatabase(ensureDbSetup);
-  if (!database.ready) {
-    return NextResponse.json(
-      { error: "Login service is temporarily unavailable. Please try again shortly.", code: "AUTH_DATABASE_UNAVAILABLE" },
-      { status: 503, headers: { "Retry-After": "15", "Cache-Control": "no-store" } }
-    );
-  }
+    if (!database.ready) {
+      return NextResponse.json(
+        { error: "Login service is temporarily unavailable. Please try again shortly.", code: "AUTH_DATABASE_UNAVAILABLE" },
+        { status: 503, headers: { "Retry-After": "15", "Cache-Control": "no-store" } }
+      );
+    }
     const ctx = await getAuthContext(req);
     if (!ctx) {
       return NextResponse.json({ error: "Session expired or not logged in." }, { status: 401 });
