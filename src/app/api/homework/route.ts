@@ -437,12 +437,22 @@ export async function POST(req: Request) {
       const maxPts = hw[0]?.totalPoints || 50;
       const safeScore = Math.max(0, Math.min(parseInt(score) || 0, maxPts));
 
-      await db
+      // Grading must be a one-way transition. The conditional UPDATE is the
+      // atomic guard against duplicate requests/retries and concurrent graders.
+      const graded = await db
         .update(homeworkSubmissions)
         .set({ status: "graded", score: safeScore, feedback: feedback || "", gradedAt: new Date() })
-        .where(eq(homeworkSubmissions.id, submissionId));
+        .where(and(
+          eq(homeworkSubmissions.id, submissionId),
+          or(isNull(homeworkSubmissions.status), ne(homeworkSubmissions.status, "graded")),
+        ))
+        .returning({ id: homeworkSubmissions.id });
 
-      // Award partial points in platform gamification + notify student
+      if (graded.length === 0) {
+        return NextResponse.json({ error: "Submission is already graded" }, { status: 409 });
+      }
+
+      // Award partial points only after this request wins the guarded transition.
       await db
         .update(users)
         .set({ points: sql_inc("points", safeScore) })
