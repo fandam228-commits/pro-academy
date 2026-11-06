@@ -638,8 +638,8 @@ export async function GET(req: Request) {
     }
     const report = await buildStudentReport(ctx.user.id);
     return NextResponse.json({ scope: "student", ...report });
-  } catch (error) {
-    console.error("Analytics GET error:", error);
+  } catch {
+    console.error("Analytics GET failed; details withheld.");
     return NextResponse.json({ error: "Failed to build analytics" }, { status: 500 });
   }
 }

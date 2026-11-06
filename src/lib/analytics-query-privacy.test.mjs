@@ -4,6 +4,7 @@ import { readFile } from "node:fs/promises";
 
 const routeSource = await readFile(new URL("../app/api/analytics/route.ts", import.meta.url), "utf8");
 const analyticsScopeSource = await readFile(new URL("./analytics-report-scope.mjs", import.meta.url), "utf8");
+const parentRouteSource = await readFile(new URL("../app/api/parent/route.ts", import.meta.url), "utf8");
 const verificationRouteSource = await readFile(new URL("../app/api/parent-links/[id]/verify/route.ts", import.meta.url), "utf8");
 const attendanceRouteSource = await readFile(new URL("../app/api/attendance/route.ts", import.meta.url), "utf8");
 const reportsRouteSource = await readFile(new URL("../app/api/reports/route.ts", import.meta.url), "utf8");
@@ -529,3 +530,14 @@ test("teacher report queries revalidate current course ownership and active enro
     "class roster must revalidate current owner and enrollment before exposing student profile fields");
 });
 
+
+
+test("Analytics and parent report routes never log raw database/provider errors", () => {
+  assert.match(routeSource, /console\.error\("Analytics GET failed; details withheld\."\);/);
+  assert.doesNotMatch(routeSource, /console\.error\([^;]*,\s*error\s*\)/s,
+    "Analytics failures must not serialize raw database or provider error objects");
+
+  assert.match(parentRouteSource, /console\.error\("Parent GET failed; details withheld\."\);/);
+  assert.doesNotMatch(parentRouteSource, /console\.error\([^;]*,\s*error\s*\)/s,
+    "parent overview failures must not serialize raw database or provider error objects");
+});

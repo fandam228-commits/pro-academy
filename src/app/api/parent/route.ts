@@ -112,8 +112,8 @@ export async function GET(req: Request) {
       averageScore: avgScore,
       attendanceRate: "98%",
     });
-  } catch (error) {
-    console.error("Parent GET error:", error);
+  } catch {
+    console.error("Parent GET failed; details withheld.");
     return NextResponse.json({ error: "Failed to fetch parent data" }, { status: 500 });
   }
 }
