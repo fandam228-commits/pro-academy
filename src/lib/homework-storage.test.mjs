@@ -128,21 +128,28 @@ test("homework API strips storagePath from teacher, student, and submit response
   );
 });
 
-test("failed homework submission inserts clean up the newly uploaded private Blob", () => {
+test("failed locked homework persistence cleans up the newly uploaded private Blob", () => {
   const upload = homeworkApiRouteSource.indexOf("const blob = await put(");
-  const insert = homeworkApiRouteSource.indexOf("await db.insert(homeworkSubmissions).values(sub);");
-  assert.ok(upload !== -1 && insert > upload, "the private upload must precede the database insert");
+  const transaction = homeworkApiRouteSource.indexOf("persistence = await db.transaction(");
+  const lock = homeworkApiRouteSource.indexOf("withHomeworkSubmissionLock(", transaction);
+  const insert = homeworkApiRouteSource.indexOf("await lockedTx.insert(homeworkSubmissions).values(sub)");
+  const cleanupFunctionStart = homeworkApiRouteSource.indexOf("const cleanupUnreferencedUpload = async () =>");
+  const cleanupFunctionEnd = homeworkApiRouteSource.indexOf("let persistence;", cleanupFunctionStart);
+  const transactionCatch = homeworkApiRouteSource.indexOf("} catch (error) {", transaction);
+  const cleanupCall = homeworkApiRouteSource.indexOf("await cleanupUnreferencedUpload();", transactionCatch);
+  const rethrow = homeworkApiRouteSource.indexOf("throw error;", cleanupCall);
 
-  const guardStart = homeworkApiRouteSource.lastIndexOf("try {", insert);
-  const guardEnd = homeworkApiRouteSource.indexOf("throw insertError;", insert);
-  assert.ok(guardStart !== -1 && guardEnd > insert, "the insert must have a failure cleanup guard");
-  const guardedInsert = homeworkApiRouteSource.slice(guardStart, guardEnd + "throw insertError;".length);
-
-  assert.match(guardedInsert, /if \(storagePath && uploadToken\)/);
-  assert.match(guardedInsert, /await del\(storagePath, \{ token: uploadToken \}\)/);
-  assert.match(guardedInsert, /Private homework Blob cleanup failed; manual reconciliation may be required/);
-  assert.doesNotMatch(guardedInsert, /console\.error\([^;]*,\s*cleanupError/);
-  assert.match(guardedInsert, /throw insertError;/);
+  assert.ok(upload >= 0 && transaction > upload && lock > transaction && insert > lock,
+    "private upload must precede the locked database insert");
+  assert.ok(cleanupFunctionStart > upload && cleanupFunctionEnd > cleanupFunctionStart);
+  const cleanup = homeworkApiRouteSource.slice(cleanupFunctionStart, cleanupFunctionEnd);
+  assert.match(cleanup, /if \(!storagePath \|\| !uploadToken \|\| !isPrivateHomeworkBlobPath\(storagePath\)\) return/);
+  assert.match(cleanup, /await del\(storagePath, \{ token: uploadToken \}\)/);
+  assert.match(cleanup, /Private homework Blob cleanup failed; manual reconciliation may be required/);
+  assert.ok(transactionCatch > insert && cleanupCall > transactionCatch && rethrow > cleanupCall,
+    "a failed transaction must clean the unreferenced upload and then rethrow the original failure");
+  assert.match(homeworkApiRouteSource, /if \(persistence\.kind === "conflict"\)[\s\S]*?await cleanupUnreferencedUpload\(\)/);
+  assert.doesNotMatch(cleanup, /console\.error\([^;]*,\s*cleanupError/);
 });
 
 test("teacher file access resolves the current course owner from the database", () => {
@@ -173,8 +180,8 @@ test("homework file route authenticates before database setup or private record 
 test("new homework submissions upload only to the private Blob store with the dedicated token", () => {
   const tokenHelperIndex = homeworkApiRouteSource.indexOf("const privateBlobToken = getHomeworkPrivateBlobToken()");
   const missingTokenGuardIndex = homeworkApiRouteSource.indexOf("if (!privateBlobToken)", tokenHelperIndex);
-  const uploadStart = homeworkApiRouteSource.indexOf("const blob = await put(");
-  const uploadEnd = homeworkApiRouteSource.indexOf("if (existing.length > 0)", uploadStart);
+  const uploadStart = homeworkApiRouteSource.indexOf("const blob = await put(", missingTokenGuardIndex);
+  const uploadEnd = homeworkApiRouteSource.indexOf("const cleanupUnreferencedUpload", uploadStart);
 
   assert.ok(tokenHelperIndex >= 0, "uploads must use the dedicated private-store token helper");
   assert.ok(missingTokenGuardIndex > tokenHelperIndex, "the missing-token guard must follow token lookup");
@@ -183,22 +190,9 @@ test("new homework submissions upload only to the private Blob store with the de
 
   const tokenGuardSource = homeworkApiRouteSource.slice(tokenHelperIndex, uploadStart);
   const uploadSource = homeworkApiRouteSource.slice(uploadStart, uploadEnd);
-
-  assert.match(
-    tokenGuardSource,
-    /if \(!privateBlobToken\)[\s\S]*?status:\s*503/,
-    "file uploads must fail closed when the private-store token is missing",
-  );
-  assert.match(
-    uploadSource,
-    /await put\([\s\S]*?access:\s*"private"[\s\S]*?token:\s*privateBlobToken/,
-    "the Blob provider must receive private access and the dedicated token",
-  );
-  assert.match(
-    uploadSource,
-    /storagePath = blob\.pathname/,
-    "the database must store the private pathname, not a public download URL",
-  );
+  assert.match(tokenGuardSource, /if \(!privateBlobToken\)[\s\S]*?status:\s*503/);
+  assert.match(uploadSource, /await put\([\s\S]*?access:\s*"private"[\s\S]*?token:\s*privateBlobToken/);
+  assert.match(uploadSource, /storagePath = blob\.pathname/);
   assert.doesNotMatch(uploadSource, /access:\s*"public"/);
   assert.doesNotMatch(uploadSource, /storagePath\s*=\s*blob\.url/);
 });
