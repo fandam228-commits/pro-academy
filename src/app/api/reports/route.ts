@@ -43,9 +43,10 @@ export async function GET(req: Request) {
 
   try {
     if (role === "parent") {
-      // Include verified and unverified current links in one query. Unverified
-      // links never authorize access, but they still make a multi-child account
-      // ambiguous and therefore require an explicit studentId.
+      const studentId = searchParams.get("studentId");
+      // Include all linked student accounts in the ambiguity set, while only
+      // admin-verified links authorize access. Recheck parent and verifier roles
+      // in the same query snapshot.
       const parentLinkRows = await db
         .select({
           studentId: parentLinks.studentId,
@@ -62,14 +63,11 @@ export async function GET(req: Request) {
           eq(parentAccount.role, "parent"),
           eq(users.role, "student"),
         ));
-      const { allLinkedStudentIds, verifiedStudentIds } = getParentAnalyticsSelectionData(parentLinkRows);
-      if (!studentId && verifiedStudentIds.length === 0) {
-        return NextResponse.json({ error: "No verified linked student" }, { status: 404 });
-      }
-      if (!studentId && allLinkedStudentIds.length > 1) {
-        return NextResponse.json({ error: "studentId is required when multiple students are linked" }, { status: 400 });
-      }
-      const resolution = resolveParentAnalyticsStudentId(studentId, verifiedStudentIds);
+      const {
+        allLinkedStudentIds: linkedStudentIds,
+        verifiedStudentIds,
+      } = getParentAnalyticsSelectionData(parentLinkRows);
+      const resolution = resolveParentAnalyticsStudentId(studentId, linkedStudentIds);
       if (!resolution.ok) {
         if (resolution.reason === "no-linked-student") {
           return NextResponse.json({ error: "No verified linked student" }, { status: 404 });
@@ -82,8 +80,10 @@ export async function GET(req: Request) {
         }
         return NextResponse.json({ error: "Forbidden" }, { status: 403 });
       }
-      studentId = resolution.studentId;
-    } else if (role === "student") {
+      if (!verifiedStudentIds.includes(resolution.studentId)) {
+        return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+      }
+      studentId = resolution.studentId;} else if (role === "student") {
       // Students may read only their own report. Reject a forged target ID
       // explicitly instead of silently accepting a cross-student selector.
       if (studentId && studentId !== ctx.user.id) {
