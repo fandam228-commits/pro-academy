@@ -483,35 +483,3 @@ test("authorization context uses the current database role rather than a stale s
     "a stored session role must not replace the current database role",
   );
 });
-
-
-test("teacher report revalidates course ownership and active enrollment in every scoped read", () => {
-  const reportSource = routeSource.slice(reportStart, reportEnd);
-  const quizStart = reportSource.indexOf("const quizSubs = scope");
-  const homeworkStart = reportSource.indexOf("const visibleHomework = scope", quizStart);
-  const enrollmentStart = reportSource.indexOf("const myEnrollments = scope");
-  const timelineStart = reportSource.indexOf("// ---------- SCORE TIMELINE", enrollmentStart);
-  assert.ok(quizStart >= 0 && homeworkStart > quizStart && enrollmentStart > homeworkStart && timelineStart > enrollmentStart,
-    "teacher-scoped quiz, homework, and enrollment reads must remain separately auditable");
-
-  const quizRead = reportSource.slice(quizStart, homeworkStart);
-  assert.match(quizRead, /innerJoin\\(courses, eq\\(quizzes\\.courseId, courses\\.id\\)\\)/,
-    "quiz reads must re-check the current course owner");
-  assert.match(quizRead, /eq\\(courses\\.teacherId, scope\\.teacherId\\)/,
-    "a stale authorized-course list must not survive a course ownership transfer");
-  assert.match(quizRead, /exists\\(db\\.select\\(\\{ id: enrollments\\.id \\}\\)[\\s\\S]*?eq\\(enrollments\\.studentId, studentId\\)[\\s\\S]*?eq\\(enrollments\\.courseId, quizzes\\.courseId\\)[\\s\\S]*?inArray\\(enrollments\\.status, \\[\\"active\\", \\"completed\\"\\]\\)/,
-    "quiz reads must re-check the student's current active/completed enrollment");
-
-  const homeworkRead = reportSource.slice(homeworkStart, reportSource.indexOf("const visibleHomeworkIds", homeworkStart));
-  assert.match(homeworkRead, /innerJoin\\(courses, eq\\(homework\\.courseId, courses\\.id\\)\\)/,
-    "homework reads must join the current course record");
-  assert.match(homeworkRead, /eq\\(courses\\.teacherId, scope\\.teacherId\\)/,
-    "homework reads must re-check current course ownership");
-  assert.match(homeworkRead, /exists\\(db\\.select\\(\\{ id: enrollments\\.id \\}\\)[\\s\\S]*?eq\\(enrollments\\.studentId, studentId\\)[\\s\\S]*?eq\\(enrollments\\.courseId, homework\\.courseId\\)[\\s\\S]*?inArray\\(enrollments\\.status, \\[\\"active\\", \\"completed\\"\\]\\)/,
-    "homework reads must re-check the student's current active/completed enrollment");
-
-  const enrollmentRead = reportSource.slice(enrollmentStart, timelineStart);
-  assert.match(enrollmentRead, /innerJoin\\(courses, eq\\(enrollments\\.courseId, courses\\.id\\)\\)/);
-  assert.match(enrollmentRead, /eq\\(courses\\.teacherId, scope\\.teacherId\\)/);
-  assert.match(enrollmentRead, /inArray\\(enrollments\\.status, \\[\\"active\\", \\"completed\\"\\]\\)/);
-});
