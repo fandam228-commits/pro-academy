@@ -394,7 +394,8 @@ integrationTest(
       assert.equal(studentOwnReport.status, 200, JSON.stringify(studentOwnReport.body));
       assert.equal(studentOwnReport.body.student?.id, ids.student);
       assert.equal(studentOwnReport.body.kpis?.totalExams, 1, "the student can still see their own quiz result");
-      assert.equal(studentOwnReport.body.kpis?.totalSessions, 1, "the student can still see their own attendance record");
+      assert.equal(studentOwnReport.body.kpis?.totalSessions, 2,
+        "the student can see all of their own attendance records, including one marked by another teacher");
 
       // Omitting studentId for a student session must resolve only to that session's owner,
       // never to a class-wide response or another student's report.
@@ -403,7 +404,7 @@ integrationTest(
       assert.equal(studentImplicitOwnReport.body.scope, "student");
       assert.equal(studentImplicitOwnReport.body.student?.id, ids.student);
       assert.equal(studentImplicitOwnReport.body.kpis?.totalExams, 1);
-      assert.equal(studentImplicitOwnReport.body.kpis?.totalSessions, 1);
+      assert.equal(studentImplicitOwnReport.body.kpis?.totalSessions, 2);
       assert.equal(Object.hasOwn(studentImplicitOwnReport.body, "students"), false,
         "a student request without studentId must not return a class roster");
 
