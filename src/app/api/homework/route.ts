@@ -437,35 +437,49 @@ export async function POST(req: Request) {
       const maxPts = hw[0]?.totalPoints || 50;
       const safeScore = Math.max(0, Math.min(parseInt(score) || 0, maxPts));
 
-      // Grading must be a one-way transition. The conditional UPDATE is the
-      // atomic guard against duplicate requests/retries and concurrent graders.
-      const graded = await db
-        .update(homeworkSubmissions)
-        .set({ status: "graded", score: safeScore, feedback: feedback || "", gradedAt: new Date() })
-        .where(and(
-          eq(homeworkSubmissions.id, submissionId),
-          or(isNull(homeworkSubmissions.status), ne(homeworkSubmissions.status, "graded")),
-        ))
-        .returning({ id: homeworkSubmissions.id });
+      // Commit the grade transition and gamification points together. If the
+      // student row cannot be updated, the transaction rolls the grade back too.
+      const didGrade = await db.transaction(async (tx) => {
+        const graded = await tx
+          .update(homeworkSubmissions)
+          .set({ status: "graded", score: safeScore, feedback: feedback || "", gradedAt: new Date() })
+          .where(and(
+            eq(homeworkSubmissions.id, submissionId),
+            or(isNull(homeworkSubmissions.status), ne(homeworkSubmissions.status, "graded")),
+          ))
+          .returning({ id: homeworkSubmissions.id });
 
-      if (graded.length === 0) {
+        if (graded.length === 0) return false;
+
+        const awarded = await tx
+          .update(users)
+          .set({ points: sql_inc("points", safeScore) })
+          .where(eq(users.id, subs[0].studentId))
+          .returning({ id: users.id });
+
+        if (awarded.length === 0) {
+          throw new Error("Student account is unavailable during homework grading");
+        }
+        return true;
+      });
+
+      if (!didGrade) {
         return NextResponse.json({ error: "Submission is already graded" }, { status: 409 });
       }
 
-      // Award partial points only after this request wins the guarded transition.
-      await db
-        .update(users)
-        .set({ points: sql_inc("points", safeScore) })
-        .where(eq(users.id, subs[0].studentId))
-        .catch(() => null);
-
-      await notifyUser(
-        subs[0].studentId,
-        "✅ تم تصحيح واجبك",
-        `درجتك في "${hw[0]?.title || "الواجب"}": ${safeScore}/${maxPts}${feedback ? ` — ملاحظة المدرس: ${feedback}` : ""}`,
-        "quiz",
-        "/?tab=homework"
-      );
+      // Notifications are an external side effect: do not turn a committed grade
+      // into an ambiguous 500 response if the notification provider is unavailable.
+      try {
+        await notifyUser(
+          subs[0].studentId,
+          "✅ تم تصحيح واجبك",
+          `درجتك في "${hw[0]?.title || "الواجب"}": ${safeScore}/${maxPts}${feedback ? ` — ملاحظة المدرس: ${feedback}` : ""}`,
+          "quiz",
+          "/?tab=homework"
+        );
+      } catch {
+        console.error("Homework grading notification failed; details withheld.");
+      }
 
       return NextResponse.json({ success: true });
     }
