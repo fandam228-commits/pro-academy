@@ -39,7 +39,6 @@ function assertMixedVerificationSelection(source, requestedId, routeName) {
   assert.doesNotMatch(source, /links\s*\[\s*0\s*\]\s*\??\.\s*studentId/,
     routeName + " must never choose the first linked child");
 }
-
 test("mixed verified/unverified parent links remain ambiguous and only verified children authorize", () => {
   const selection = getParentAnalyticsSelectionData([
     { studentId: "child-1", verifiedAt: "2026-11-01T10:00:00Z", verifiedBy: "admin-1", verifierRole: "admin" },
