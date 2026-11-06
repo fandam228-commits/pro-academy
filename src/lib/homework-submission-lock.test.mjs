@@ -5,9 +5,11 @@ import { withHomeworkSubmissionLock } from "./homework-submission-lock.mjs";
 
 test("homework submission lock is acquired before persistence callback", async () => {
   const events = [];
+  let queryCount = 0;
   const tx = {
     async execute(statement) {
-      events.push({ kind: "lock", statement });
+      queryCount += 1;
+      events.push({ kind: queryCount === 1 ? "isolation" : "advisory-lock", statement });
       return { rows: [] };
     },
   };
@@ -23,7 +25,7 @@ test("homework submission lock is acquired before persistence callback", async (
   );
 
   assert.equal(result, "persisted");
-  assert.deepEqual(events.map((event) => event.kind), ["lock", "lock", "callback"],
+  assert.deepEqual(events.map((event) => event.kind), ["isolation", "advisory-lock", "callback"],
     "the transaction must set READ COMMITTED, acquire the advisory lock, then read/write");
 });
 
