@@ -44,6 +44,7 @@ jobs:
           test -f tests/integration/homework-replacement-atomicity.integration.mjs
           test -f tests/integration/homework-grading-authorization.integration.mjs
           test -f tests/integration/homework-submission-creation-atomicity.integration.mjs
+          test -f tests/integration/homework-submission-current-enrollment.integration.mjs
           test -f tests/integration/homework-storage-audit.integration.mjs
       - name: PostgreSQL-backed homework course ownership authorization integration tests
         run: |
@@ -98,6 +99,15 @@ jobs:
             exit 1
           fi
           node --test tests/integration/homework-submission-creation-atomicity.integration.mjs
+        env:
+          TEST_DATABASE_URL: postgresql://postgres:postgres@127.0.0.1:5432/proacademy_test
+      - name: PostgreSQL-backed current homework submission authorization integration tests
+        run: |
+          if [ -z "${TEST_DATABASE_URL:-}" ]; then
+            echo "::error::TEST_DATABASE_URL is required; current homework submission authorization tests must not silently skip in CI."
+            exit 1
+          fi
+          node --test tests/integration/homework-submission-current-enrollment.integration.mjs
         env:
           TEST_DATABASE_URL: postgresql://postgres:postgres@127.0.0.1:5432/proacademy_test
       - name: PostgreSQL-backed homework storage audit integration tests

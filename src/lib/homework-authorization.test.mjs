@@ -470,8 +470,13 @@ test("private homework Blob cleanup failures never log raw provider error object
   );
   assert.equal(
     route.split("await cleanupUnreferencedUpload();").length - 1,
-    2,
-    "transaction failure and conflict paths must both clean up an unreferenced upload",
+    4,
+    "transaction failure, persistence conflict, revoked-current-access, and incomplete-result paths must clean up an unreferenced upload",
+  );
+  assert.match(
+    route,
+    /persistence\.kind === "not-found" \|\| persistence\.kind === "forbidden"[\s\S]*?await cleanupUnreferencedUpload\(\)/,
+    "a private upload must be removed when current role, grade, assignment, or enrollment authorization fails inside the transaction",
   );
   assert.doesNotMatch(route, /console\.error\([^;\n]*,\s*(?:cleanupError|error)/,
     "provider and database error objects must never be written to application logs");
