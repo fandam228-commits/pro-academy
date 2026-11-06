@@ -196,3 +196,68 @@ test("successful multi-batch storage audit emits aggregate counts only and redac
   assert.ok(clientInstance.queries.includes("ROLLBACK"), "the audit must roll back its read-only transaction");
   assert.equal(clientInstance.ended, true, "the client must always be closed");
 });
+
+test("database connection errors are replaced with a safe message before reaching CLI output", async () => {
+  const secrets = {
+    connectionString: "postgresql://audit-user:do-not-print@localhost:5432/proacademy_test",
+    studentId: "student-private-456",
+  };
+  const output = [];
+  class FailingConnectClient {
+    constructor() {}
+    async connect() {
+      throw new Error("connection failed for " + secrets.connectionString + " " + secrets.studentId);
+    }
+  }
+
+  await assert.rejects(
+    () => runHomeworkStorageAudit({
+      connectionString: secrets.connectionString,
+      ClientClass: FailingConnectClient,
+      write: (line) => output.push(line),
+    }),
+    /database operation failed; details withheld/i,
+  );
+  assert.deepEqual(output, []);
+});
+
+test("database query errors are redacted and the read-only transaction is rolled back and closed", async () => {
+  const secrets = {
+    connectionString: "postgresql://audit-user:do-not-print@localhost:5432/proacademy_test",
+    submissionId: "submission-private-123",
+    studentId: "student-private-456",
+  };
+  const output = [];
+  let rolledBack = false;
+  let closed = false;
+  class FailingQueryClient {
+    async connect() {}
+    async query(statement) {
+      const sql = String(statement).trim();
+      if (sql.startsWith("BEGIN TRANSACTION")) return { rows: [] };
+      if (sql.startsWith("SELECT current_setting")) {
+        throw new Error("query failed for " + secrets.submissionId + " " + secrets.studentId + " " + secrets.connectionString);
+      }
+      if (sql === "ROLLBACK") {
+        rolledBack = true;
+        return { rows: [] };
+      }
+      return { rows: [] };
+    }
+    async end() {
+      closed = true;
+    }
+  }
+
+  await assert.rejects(
+    () => runHomeworkStorageAudit({
+      connectionString: secrets.connectionString,
+      ClientClass: FailingQueryClient,
+      write: (line) => output.push(line),
+    }),
+    /database operation failed; details withheld/i,
+  );
+  assert.deepEqual(output, []);
+  assert.equal(rolledBack, true);
+  assert.equal(closed, true);
+});
