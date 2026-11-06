@@ -22,10 +22,11 @@ async function withFixture(run) {
       CREATE TEMP TABLE homework_submissions (
         id TEXT PRIMARY KEY,
         status TEXT,
-        answer_text TEXT NOT NULL
+        answer_text TEXT NOT NULL,
+        storage_path TEXT
       );
-      INSERT INTO homework_submissions (id, status, answer_text)
-      VALUES ('submission-1', 'submitted', 'original answer');
+      INSERT INTO homework_submissions (id, status, answer_text, storage_path)
+      VALUES ('submission-1', 'submitted', 'original answer', 'homework/original.pdf');
     `);
     await run(client);
   } finally {
@@ -81,5 +82,47 @@ integrationTest("the atomic replacement predicate still permits an ungraded subm
     );
     assert.equal(after.rows[0].status, "submitted");
     assert.equal(after.rows[0].answer_text, "replacement answer");
+  });
+});
+
+integrationTest("concurrent replacements cannot overwrite a storage path read from stale preflight state", async () => {
+  await withFixture(async (client) => {
+    const preflight = await client.query(
+      "SELECT storage_path FROM homework_submissions WHERE id = $1",
+      ["submission-1"],
+    );
+    const originalPath = preflight.rows[0].storage_path;
+    assert.equal(originalPath, "homework/original.pdf");
+
+    const firstReplacement = await client.query(
+      `UPDATE homework_submissions
+       SET answer_text = $1, storage_path = $2
+       WHERE id = $3
+         AND (status IS NULL OR status <> 'graded')
+         AND storage_path = $4
+       RETURNING id`,
+      ["first replacement", "homework/first.pdf", "submission-1", originalPath],
+    );
+    assert.equal(firstReplacement.rowCount, 1);
+
+    // A competing request that read the same original path must lose its
+    // compare-and-swap update instead of overwriting the first replacement.
+    const staleReplacement = await client.query(
+      `UPDATE homework_submissions
+       SET answer_text = $1, storage_path = $2
+       WHERE id = $3
+         AND (status IS NULL OR status <> 'graded')
+         AND storage_path = $4
+       RETURNING id`,
+      ["stale replacement", "homework/stale.pdf", "submission-1", originalPath],
+    );
+    assert.equal(staleReplacement.rowCount, 0);
+
+    const after = await client.query(
+      "SELECT answer_text, storage_path FROM homework_submissions WHERE id = $1",
+      ["submission-1"],
+    );
+    assert.equal(after.rows[0].answer_text, "first replacement");
+    assert.equal(after.rows[0].storage_path, "homework/first.pdf");
   });
 });
