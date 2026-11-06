@@ -470,8 +470,8 @@ test("private homework Blob cleanup failures never log raw provider error object
   );
   assert.equal(
     route.split("await cleanupUnreferencedUpload();").length - 1,
-    3,
-    "transaction failure, persistence conflict, and revoked-current-access paths must clean up an unreferenced upload",
+    4,
+    "transaction failure, persistence conflict, revoked-current-access, and incomplete-result paths must clean up an unreferenced upload",
   );
   assert.match(
     route,
