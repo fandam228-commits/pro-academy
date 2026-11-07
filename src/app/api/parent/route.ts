@@ -77,7 +77,7 @@ export async function GET(req: Request) {
     }
 
     const studentId = resolution.studentId;
-    const primaryLink = links.find((link) => link.studentId === studentId && link.studentRole === "student" && link.verifierRole === "admin" && Boolean(link.verifiedAt) && Boolean(link.verifiedBy));
+    const primaryLink = links.find((link) => link.studentId === studentId && getParentAnalyticsSelectionData([link]).verifiedStudentIds.includes(studentId));
     if (!primaryLink) return NextResponse.json({ error: "Forbidden" }, { status: 403 });
 
     // Never return the complete users row: it includes password and other private account fields.
