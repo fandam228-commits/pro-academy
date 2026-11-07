@@ -56,6 +56,9 @@ test("storage audit classifies references without exposing their values", () => 
       unknownOrMalformed: 2,
     },
   );
+  const serialized = JSON.stringify(summary);
+  assert.doesNotMatch(serialized, /store-id|legacy\.pdf|blob\.example|submission\.pdf/,
+    "audit summaries must never retain source URLs or file paths");
 });
 
 test("storage audit keeps local targets available and fails closed for remote targets without verified TLS", () => {
