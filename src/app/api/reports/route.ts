@@ -1,13 +1,14 @@
 import { db } from "@/db";
 import { users, parentLinks, attendanceRecords, homeworkSubmissions, homework, quizSubmissions, quizzes, enrollments, courses } from "@/db/schema";
-import { and, eq, inArray, isNotNull } from "drizzle-orm";
+import { and, eq, inArray } from "drizzle-orm";
 import { alias } from "drizzle-orm/pg-core";
 import { NextResponse } from "next/server";
 import { ensureDbSetup } from "@/db/migrate-and-seed";
 import { getAuthContext } from "@/lib/security";
-import { getVerifiedParentAnalyticsStudentIds, resolveParentAnalyticsStudentId } from "@/lib/analytics-report-scope.mjs";
+import { getParentAnalyticsSelectionData, resolveParentAnalyticsStudentId } from "@/lib/analytics-report-scope.mjs";
 
 const verifiedByUser = alias(users, "reports_verified_by_user");
+const parentAccount = alias(users, "reports_parent_account");
 
 function getWeekRange() {
   const now = new Date();
@@ -42,24 +43,33 @@ export async function GET(req: Request) {
 
   try {
     if (role === "parent") {
+      // Count all current student links for ambiguity, but authorize only admin-verified links.
       const links = await db
         .select({
           studentId: parentLinks.studentId,
           verifiedAt: parentLinks.verifiedAt,
           verifiedBy: parentLinks.verifiedBy,
+          studentRole: users.role,
+          verifierRole: verifiedByUser.role,
         })
         .from(parentLinks)
-        .innerJoin(users, eq(parentLinks.studentId, users.id))
-        .innerJoin(verifiedByUser, eq(parentLinks.verifiedBy, verifiedByUser.id))
+        .innerJoin(parentAccount, eq(parentLinks.parentId, parentAccount.id))
+        .leftJoin(users, eq(parentLinks.studentId, users.id))
+        .leftJoin(verifiedByUser, eq(parentLinks.verifiedBy, verifiedByUser.id))
         .where(and(
           eq(parentLinks.parentId, ctx.user.id),
-          eq(users.role, "student"),
-          eq(verifiedByUser.role, "admin"),
-          isNotNull(parentLinks.verifiedAt),
-          isNotNull(parentLinks.verifiedBy),
+          eq(parentAccount.role, "parent"),
         ));
-      const linkedStudentIds = getVerifiedParentAnalyticsStudentIds(links);
-      const resolution = resolveParentAnalyticsStudentId(studentId, linkedStudentIds);
+      const selectionData = getParentAnalyticsSelectionData(
+        links.filter((link) => link.studentRole === "student"),
+      );
+      if (selectionData.verifiedStudentIds.length === 0) {
+        return NextResponse.json({ error: "No verified linked student" }, { status: 404 });
+      }
+      const resolution = resolveParentAnalyticsStudentId(
+        studentId,
+        selectionData.allLinkedStudentIds,
+      );
       if (!resolution.ok) {
         if (resolution.reason === "no-linked-student") {
           return NextResponse.json({ error: "No verified linked student" }, { status: 404 });
@@ -70,6 +80,9 @@ export async function GET(req: Request) {
         if (resolution.reason === "invalid-student-id") {
           return NextResponse.json({ error: "Invalid studentId" }, { status: 400 });
         }
+        return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+      }
+      if (!selectionData.verifiedStudentIds.includes(resolution.studentId)) {
         return NextResponse.json({ error: "Forbidden" }, { status: 403 });
       }
       studentId = resolution.studentId;
