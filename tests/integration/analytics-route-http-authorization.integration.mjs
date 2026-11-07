@@ -201,7 +201,7 @@ integrationTest(
           ids.enrollmentStudentOtherCourse,
           ids.enrollmentCancelled, ids.unverifiedStudent, ids.ownedCourse,
           ids.enrollmentSecondOwned, ids.secondOwnedStudent,
-          ids.enrollmentSecondOtherCourse, ids.secondOwnedStudent,
+          ids.enrollmentSecondOtherCourse,
         ],
       );
       // Seed one valid owned-course homework and two out-of-scope assignments.
