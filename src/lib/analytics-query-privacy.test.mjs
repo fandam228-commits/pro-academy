@@ -120,7 +120,7 @@ test("teacher reports always pass an owned-course scope to the report builder", 
   );
 });
 
-test("parent analytics route requires explicit selection when multiple verified children are linked", () => {
+test("parent analytics route requires explicit selection across every linked current student and rejects unverified choices", () => {
   const parentStart = routeSource.indexOf('if (role === "parent")');
   const studentStart = routeSource.indexOf("// ---------- STUDENT: own report only ----------", parentStart);
   assert.notEqual(parentStart, -1, "parent analytics branch must exist");
@@ -129,8 +129,13 @@ test("parent analytics route requires explicit selection when multiple verified 
 
   assert.match(
     parentSource,
-    /resolveParentAnalyticsStudentId\(requestedStudent,\s*linkedParentStudentIds\)/,
-    "the route must resolve the requested child against verified linked IDs",
+    /resolveParentAnalyticsStudentId\(\s*requestedStudent,\s*selectionData\.allLinkedStudentIds,\s*\)/,
+    "the route must require selection when any current student child is linked",
+  );
+  assert.match(
+    parentSource,
+    /selectionData\.verifiedStudentIds\.includes\(studentId\)/,
+    "the selected child must also belong to the independently verified authorization set",
   );
   assert.match(
     parentSource,
