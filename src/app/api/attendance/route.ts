@@ -1,6 +1,6 @@
 import { db } from "@/db";
 import { attendanceRecords, users, parentLinks, enrollments, courses } from "@/db/schema";
-import { eq, and, inArray } from "drizzle-orm";
+import { eq, and, inArray, sql } from "drizzle-orm";
 import { alias } from "drizzle-orm/pg-core";
 import { NextResponse } from "next/server";
 import { ensureDbSetup } from "@/db/migrate-and-seed";
@@ -221,6 +221,17 @@ export async function POST(req: Request) {
       // Preflight inside one transaction also prevents partial writes when a later
       // mark conflicts with another teacher's record.
       const result = await db.transaction(async (tx) => {
+        // Row locks cannot protect a key that does not exist yet. Serialize each
+        // student/session/date key with a transaction-scoped advisory lock so two
+        // teachers cannot both observe an empty slot and insert duplicate records.
+        // Sort keys before locking to keep overlapping bulk requests in a stable order.
+        const lockKeys = [...new Set(
+          marks.map((mark) => JSON.stringify([mark.studentId, sessionTitle, sessionDate])),
+        )].sort();
+        for (const lockKey of lockKeys) {
+          await tx.execute(sql`SELECT pg_advisory_xact_lock(hashtextextended(${lockKey}, 0))`);
+        }
+
         const existingByStudent = new Map<string, typeof attendanceRecords.$inferSelect | null>();
 
         for (const mark of marks) {
