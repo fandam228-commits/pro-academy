@@ -73,11 +73,16 @@ test("parent overview requires verified explicit child selection and never retur
 });
 
 test("teacher student report scope requires owned-course enrollment and excludes unscopable data", () => {
-  assert.match(routeFiles.reports, /eq\(courses\.teacherId, ctx\.user\.id\)/);
-  assert.match(routeFiles.reports, /inArray\(enrollments\.status, \["active", "completed"\]\)/);
-  assert.match(routeFiles.reports, /eq\(homework\.teacherId, ctx\.user\.id\)/);
-  assert.match(routeFiles.reports, /inArray\(homeworkSubmissions\.homeworkId, visibleHomeworkIds!\)/);
-  assert.match(routeFiles.reports, /inArray\(quizSubmissions\.quizId, visibleQuizIds!\)/);
+  assert.match(routeFiles.reports,
+    /\.innerJoin\(homework, eq\(homeworkSubmissions\.homeworkId, homework\.id\)\)[\s\S]*?\.innerJoin\(courses, eq\(homework\.courseId, courses\.id\)\)[\s\S]*?eq\(homework\.teacherId, ctx\.user\.id\)[\s\S]*?eq\(courses\.teacherId, ctx\.user\.id\)[\s\S]*?eq\(enrollments\.courseId, homework\.courseId\)[\s\S]*?inArray\(enrollments\.status, \["active", "completed"\]\)/,
+    "homework submissions must be scoped to the live owned course and current enrollment in one query");
+  assert.match(routeFiles.reports,
+    /\.innerJoin\(quizzes, eq\(quizSubmissions\.quizId, quizzes\.id\)\)[\s\S]*?\.innerJoin\(courses, eq\(quizzes\.courseId, courses\.id\)\)[\s\S]*?eq\(courses\.teacherId, ctx\.user\.id\)[\s\S]*?eq\(enrollments\.courseId, quizzes\.courseId\)[\s\S]*?inArray\(enrollments\.status, \["active", "completed"\]\)/,
+    "quiz submissions must be scoped to the live owned course and current enrollment in one query");
+  assert.match(routeFiles.reports, /eq\(users\.role, "student"\)/,
+    "report reads must require the target account to remain a student");
+  assert.doesNotMatch(routeFiles.reports, /visibleHomeworkIds|visibleQuizIds/,
+    "weekly report result reads must not use stale precomputed homework or quiz allowlists");
   assert.match(routeFiles.reports, /const overallRate = role === "teacher" \? null :/,
     "teacher reports must not fabricate a 100% attendance rate when attendance cannot be scoped");
   assert.match(routeFiles.reports, /role === "teacher" \? \[\] : await db\.select\(\)\.from\(attendanceRecords\)/,
