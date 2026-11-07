@@ -294,7 +294,7 @@ test("weekly parent reports revalidate verified links for every data source and 
   assert.ok(helper.includes("isNotNull(parentLinks.verifiedAt)"));
   assert.ok(helper.includes("isNotNull(parentLinks.verifiedBy)"));
 
-  const guardUses = [...source.matchAll(/hasVerifiedParentLink\\(ctx\\.user\\.id, studentId\\)/g)].length;
+  const guardUses = source.split("hasVerifiedParentLink(ctx.user.id, studentId)").length - 1;
   assert.equal(guardUses, 5,
     "attendance, homework, quizzes, enrollments, and the final response guard must all revalidate the verified link");
 
