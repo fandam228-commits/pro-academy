@@ -8,6 +8,7 @@ const routeFiles = {
   reports: await readFile(new URL("../app/api/reports/route.ts", import.meta.url), "utf8"),
   attendance: await readFile(new URL("../app/api/attendance/route.ts", import.meta.url), "utf8"),
   parent: await readFile(new URL("../app/api/parent/route.ts", import.meta.url), "utf8"),
+  parentDashboard: await readFile(new URL("../components/ParentDashboard.tsx", import.meta.url), "utf8"),
 };
 
 function assertAuthBeforeSetup(source, routeName) {
@@ -264,4 +265,55 @@ test("attendance POST validates action-specific roles before database setup", ()
     "each supported action must enforce its own role and unknown actions must be rejected");
   assert.ok(setup > bulkGuard && setup > checkInGuard && setup > unsupportedGuard,
     "database setup must occur only after action-specific authorization");
+});
+
+
+test("parent overview exposes only verified child choices and minimized activity fields", () => {
+  const source = routeFiles.parent;
+  const selectionStart = source.indexOf('if (resolution.reason === "student-id-required")');
+  const selectionEnd = source.indexOf('if (resolution.reason === "invalid-student-id")', selectionStart);
+  assert.ok(selectionStart >= 0 && selectionEnd > selectionStart,
+    "multiple linked children must produce a dedicated explicit-selection response");
+  const selection = source.slice(selectionStart, selectionEnd);
+  assert.match(selection, /selectDistinct/);
+  assert.match(selection, /eq\(parentAccountUser\.role, "parent"\)/);
+  assert.match(selection, /eq\(verifiedByUser\.role, "admin"\)/);
+  assert.match(selection, /eq\(users\.role, "student"\)/);
+  assert.match(selection, /requiresStudentSelection: true/);
+  assert.match(selection, /students: selectableStudents/);
+  assert.doesNotMatch(selection, /email|password|phone|parentPhone/,
+    "the selection list must expose only a minimal verified student identity");
+
+  const enrollmentStart = source.indexOf("const studentEnrs = await db");
+  const submissionsStart = source.indexOf("const studentSubs = await db", enrollmentStart);
+  const attendanceStart = source.indexOf("const studentAtt = await db", submissionsStart);
+  const metricStart = source.indexOf("const avgScore =", attendanceStart);
+  assert.ok(enrollmentStart >= 0 && submissionsStart > enrollmentStart &&
+    attendanceStart > submissionsStart && metricStart > attendanceStart);
+  const enrollmentProjection = source.slice(enrollmentStart, submissionsStart);
+  const submissionProjection = source.slice(submissionsStart, attendanceStart);
+  const attendanceProjection = source.slice(attendanceStart, metricStart);
+  assert.match(enrollmentProjection, /courseId: enrollments\.courseId/);
+  const enrollmentSelectedColumns = enrollmentProjection.slice(0, enrollmentProjection.indexOf("})") + 2);
+  assert.doesNotMatch(enrollmentSelectedColumns, /paymentMethod|studentId:/,
+    "parent overview must not select enrollment payment metadata or redundant student identifiers");
+  assert.match(submissionProjection, /percentage: quizSubmissions\.percentage/);
+  assert.doesNotMatch(submissionProjection, /answers:|feedback:/,
+    "parent overview must not expose raw quiz answers or internal feedback fields");
+  assert.match(attendanceProjection, /status: attendance\.status/);
+  assert.doesNotMatch(attendanceProjection, /studentId:/,
+    "parent overview must not repeat the child identifier in every activity row");
+  assert.match(source, /: null;\s*\/\/|: null;/,
+    "empty assessment history must not be replaced with a fabricated score");
+  assert.match(source, /attendanceRate: null/,
+    "parent overview must not return a fabricated attendance rate");
+
+  const dashboard = routeFiles.parentDashboard;
+  assert.match(dashboard, /if \(selectionRequired\)/);
+  assert.match(dashboard, /linkedStudents\.map/);
+  assert.match(dashboard, /fetchParentData\(selectedStudentId\)/);
+  assert.doesNotMatch(dashboard, /api\/parent\?parentId=/,
+    "the parent dashboard must rely on the authenticated parent session, not a caller-supplied parent ID");
+  assert.doesNotMatch(dashboard, /student\?\.phone/,
+    "the dashboard must not expect or expose a child phone number");
 });

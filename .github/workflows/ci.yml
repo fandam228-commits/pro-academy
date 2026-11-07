@@ -75,6 +75,16 @@ jobs:
           node --test tests/integration/parent-overview-final-revalidation.integration.mjs
         env:
           TEST_DATABASE_URL: postgresql://postgres:postgres@127.0.0.1:5432/proacademy_test
+      - name: PostgreSQL parent overview verified child selection options integration tests
+        run: |
+          if [ -z "${TEST_DATABASE_URL:-}" ]; then
+            echo "::error::TEST_DATABASE_URL is required; parent selection options tests must not silently skip in CI."
+            exit 1
+          fi
+          test -f tests/integration/parent-overview-selection-options.integration.mjs
+          node --test tests/integration/parent-overview-selection-options.integration.mjs
+        env:
+          TEST_DATABASE_URL: postgresql://postgres:postgres@127.0.0.1:5432/proacademy_test
       - name: PostgreSQL-backed Analytics HTTP route authorization tests
         run: |
           if [ -z "${TEST_DATABASE_URL:-}" ]; then
