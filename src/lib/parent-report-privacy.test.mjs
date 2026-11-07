@@ -47,7 +47,7 @@ function assertMixedParentSelection(source, routeName, requestedIdName) {
     routeName + " must derive both all-linked and verified child sets");
   assert.match(source, /selectionData\.allLinkedStudentIds/,
     routeName + " must require explicit choice across all current linked students");
-  assert.match(source, new RegExp("resolveParentAnalyticsStudentId\\\\(\\\\s*" + requestedIdName + ",\\\\s*selectionData\\\\.allLinkedStudentIds\\\\s*\\\\)"),
+  assert.match(source, new RegExp("resolveParentAnalyticsStudentId\\(\\s*" + requestedIdName + ",\\s*selectionData\\.allLinkedStudentIds\\s*\\)"),
     routeName + " must resolve the requested child against every linked student");
   assert.match(source, /selectionData\.verifiedStudentIds\.includes\(/,
     routeName + " must deny explicitly selected but unverified children");
