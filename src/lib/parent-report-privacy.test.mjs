@@ -32,7 +32,7 @@ function assertMixedParentSelection(source, routeName, requestedIdName) {
     routeName + " must derive both all-linked and verified child sets");
   assert.match(source, /selectionData\.allLinkedStudentIds/,
     routeName + " must require explicit choice across all current linked students");
-  assert.match(source, new RegExp("resolveParentAnalyticsStudentId\\(\\s*" + requestedIdName + ",\\s*selectionData\\.allLinkedStudentIds\\s*\\)"),
+  assert.match(source, new RegExp("resolveParentAnalyticsStudentId\\(\\s*" + requestedIdName + ",\\s*selectionData\\.allLinkedStudentIds,?\\s*\\)"),
     routeName + " must resolve the requested child against every linked student");
   assert.match(source, /selectionData\.verifiedStudentIds\.includes\(/,
     routeName + " must deny explicitly selected but unverified children");
@@ -141,7 +141,7 @@ test("analytics parent reports require a verified link and explicit selection fo
   assert.match(parentBranch, /leftJoin\(users, eq\(parentLinks\.studentId, users\.id\)\)/);
   assert.match(parentBranch, /leftJoin\(verifiedByUser, eq\(parentLinks\.verifiedBy, verifiedByUser\.id\)\)/);
   assert.match(parentBranch, /getParentAnalyticsSelectionData\(/);
-  assert.match(parentBranch, /resolveParentAnalyticsStudentId\(\s*requestedStudent,\s*selectionData\.allLinkedStudentIds\s*\)/);
+  assert.match(parentBranch, /resolveParentAnalyticsStudentId\(\s*requestedStudent,\s*selectionData\.allLinkedStudentIds,?\s*\)/);
   assert.match(parentBranch, /linkedParentStudentIds\.includes\(studentId\)/);
   assert.match(parentBranch, /student-id-required/);
   assert.doesNotMatch(parentBranch, /links\s*\[\s*0\s*\]\s*\??\.\s*studentId/,
