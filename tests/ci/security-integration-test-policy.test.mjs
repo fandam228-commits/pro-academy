@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { getRequiredSecurityIntegrationTests } from "../../scripts/ci/security-integration-test-policy.mjs";
+import { getRequiredSecurityIntegrationTests } from "../../scripts/ci/require-security-integration-tests.mjs";
 
 test("Analytics route and policy changes require all authorization integration suites", () => {
   assert.deepEqual(
