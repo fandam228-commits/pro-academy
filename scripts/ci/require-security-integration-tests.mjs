@@ -1,5 +1,5 @@
 import { execFileSync } from "node:child_process";
-import { existsSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { resolve } from "node:path";
 
@@ -64,6 +64,29 @@ export function getRequiredSecurityIntegrationTests(changedPaths) {
   return [...required];
 }
 
+/**
+ * Confirm every required integration suite is actually invoked by the workflow.
+ * File existence alone is insufficient: a workflow can accidentally omit its
+ * execution step while the guard still reports success.
+ */
+export function getMissingSecurityIntegrationTestSteps(requiredTests, workflowContent) {
+  if (!Array.isArray(requiredTests)) {
+    throw new TypeError("requiredTests must be an array");
+  }
+  if (typeof workflowContent !== "string") {
+    throw new TypeError("workflowContent must be a string");
+  }
+
+  const workflowLines = workflowContent.split(/\\r?\\n/).map((line) => line.trim());
+  return requiredTests.filter((testPath) => {
+    if (typeof testPath !== "string" || !testPath.trim()) return true;
+    return !workflowLines.some((line) =>
+      line === `run: node --test ${testPath}` ||
+      line === `node --test ${testPath}`
+    );
+  });
+}
+
 function main() {
   const baseSha = process.env.PR_BASE_SHA;
   const headSha = process.env.PR_HEAD_SHA;
@@ -83,6 +106,17 @@ function main() {
   if (missing.length > 0) {
     for (const path of missing) {
       console.error(`::error::Required security integration test is missing: ${path}`);
+    }
+    process.exitCode = 1;
+    return;
+  }
+
+  const workflowPath = resolve(process.cwd(), ".github/workflows/ci.yml");
+  const workflowContent = readFileSync(workflowPath, "utf8");
+  const missingSteps = getMissingSecurityIntegrationTestSteps(required, workflowContent);
+  if (missingSteps.length > 0) {
+    for (const path of missingSteps) {
+      console.error(`::error::Required security integration test is not executed by CI: ${path}`);
     }
     process.exitCode = 1;
     return;
