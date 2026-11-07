@@ -77,7 +77,7 @@ export function getMissingSecurityIntegrationTestSteps(requiredTests, workflowCo
     throw new TypeError("workflowContent must be a string");
   }
 
-  const workflowLines = workflowContent.split(/\\r?\\n/).map((line) => line.trim());
+  const workflowLines = workflowContent.split(/\r?\n/).map((line) => line.trim());
   return requiredTests.filter((testPath) => {
     if (typeof testPath !== "string" || !testPath.trim()) return true;
     return !workflowLines.some((line) =>
