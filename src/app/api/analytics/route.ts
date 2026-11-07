@@ -27,9 +27,11 @@ import {
   resolveParentAnalyticsStudentId,
   getParentAnalyticsSelectionData,
 } from "@/lib/analytics-report-scope.mjs";
+import { buildVerifiedParentLinkPredicate } from "@/lib/parent-report-authorization.mjs";
 
 const verifiedByUser = alias(users, "verified_by_user");
 const parentAccount = alias(users, "parent_account");
+const analyticsVerifiedStudent = alias(users, "analytics_verified_student");
 
 type TeacherReportScope = {
   teacherId: string;
@@ -629,6 +631,32 @@ export async function GET(req: Request) {
       if (!allowed) return NextResponse.json({ error: "Forbidden" }, { status: 403 });
       const report = await buildStudentReport(studentId);
       if (!report.student) return NextResponse.json({ error: "Student not found" }, { status: 404 });
+
+      // A parent link may be revoked or an account role changed while the report
+      // queries are running. Revalidate the complete relationship immediately
+      // before returning any student data; the shared predicate is also covered
+      // by the PostgreSQL weekly-report authorization integration suite.
+      const parentAccessStillValid = await db
+        .select({ id: users.id })
+        .from(users)
+        .where(and(
+          eq(users.id, studentId),
+          eq(users.role, "student"),
+          buildVerifiedParentLinkPredicate({
+            db,
+            parentLinks,
+            parentAccount,
+            studentAccount: analyticsVerifiedStudent,
+            verifiedByUser,
+            parentId: ctx.user.id,
+            studentId,
+          }),
+        ))
+        .limit(1);
+      if (parentAccessStillValid.length === 0) {
+        return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+      }
+
       return NextResponse.json({ scope: "parent", ...report });
     }
 
