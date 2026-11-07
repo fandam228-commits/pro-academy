@@ -19,6 +19,8 @@ import {
   Clock,
   ShieldAlert,
   Database,
+  Youtube,
+  Plus,
 } from "lucide-react";
 
 interface CourseDetailProps {
@@ -36,6 +38,14 @@ export const CourseDetailView: React.FC<CourseDetailProps> = ({ courseId, onBack
   const [activeQuizId, setActiveQuizId] = useState<string | null>(null);
   const [showPaymentModal, setShowPaymentModal] = useState(false);
   const [attachedPdfs, setAttachedPdfs] = useState<any[]>([]);
+  const [lessonTitle, setLessonTitle] = useState("");
+  const [lessonUrl, setLessonUrl] = useState("");
+  const [lessonDescription, setLessonDescription] = useState("");
+  const [lessonUnitId, setLessonUnitId] = useState("");
+  const [lessonDuration, setLessonDuration] = useState("25 mins");
+  const [lessonIsFree, setLessonIsFree] = useState(false);
+  const [savingLesson, setSavingLesson] = useState(false);
+  const [lessonMessage, setLessonMessage] = useState("");
 
   const fetchDetails = async () => {
     setLoading(true);
@@ -71,6 +81,47 @@ export const CourseDetailView: React.FC<CourseDetailProps> = ({ courseId, onBack
   }
 
   const { course, units: unitsList, isEnrolled } = data || {};
+  const canManageLessons = user?.role === "admin" || user?.role === "teacher";
+
+  const handleAddLesson = async () => {
+    if (!lessonUnitId || !lessonTitle.trim() || !lessonUrl.trim()) {
+      setLessonMessage(lang === "ar" ? "اختر الوحدة واكتب عنوان المحاضرة ورابط YouTube." : "Choose a unit and enter a lesson title and YouTube URL.");
+      return;
+    }
+    setSavingLesson(true);
+    setLessonMessage("");
+    try {
+      const response = await fetch("/api/courses", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          action: "create_lesson",
+          lessonData: {
+            unitId: lessonUnitId,
+            title: lessonTitle.trim(),
+            description: lessonDescription.trim(),
+            videoUrl: lessonUrl.trim(),
+            duration: lessonDuration.trim() || "25 mins",
+            isFree: lessonIsFree,
+          },
+        }),
+      });
+      const result = await response.json();
+      if (!response.ok || !result.success) throw new Error(result.error || "تعذر حفظ المحاضرة.");
+      setLessonMessage(lang === "ar" ? "تمت إضافة المحاضرة بنجاح." : "Lesson added successfully.");
+      setLessonTitle("");
+      setLessonUrl("");
+      setLessonDescription("");
+      setLessonDuration("25 mins");
+      setLessonIsFree(false);
+      await fetchDetails();
+      if (result.lesson) setSelectedLesson(result.lesson);
+    } catch (error) {
+      setLessonMessage(error instanceof Error ? error.message : "تعذر حفظ المحاضرة.");
+    } finally {
+      setSavingLesson(false);
+    }
+  };
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-8 space-y-8">
@@ -233,6 +284,28 @@ export const CourseDetailView: React.FC<CourseDetailProps> = ({ courseId, onBack
 
         {/* RIGHT COLUMN: UNITS & LESSONS LIST */}
         <div className="space-y-4">
+          {canManageLessons && (
+            <div className="bg-white dark:bg-slate-900 rounded-3xl border border-blue-200 dark:border-blue-900 p-4 shadow-md space-y-3">
+              <div className="flex items-center gap-2 text-blue-700 dark:text-blue-300 font-black text-sm">
+                <Youtube className="w-5 h-5" />
+                {lang === "ar" ? "إضافة محاضرة من YouTube" : "Add YouTube Lesson"}
+              </div>
+              <select value={lessonUnitId || unitsList?.[0]?.id || ""} onChange={(e) => setLessonUnitId(e.target.value)} className="w-full p-3 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs text-slate-900 dark:text-white">
+                <option value="">{lang === "ar" ? "اختر الوحدة" : "Select unit"}</option>
+                {unitsList?.map((unit: any) => <option key={unit.id} value={unit.id}>{unit.title}</option>)}
+              </select>
+              <input value={lessonTitle} onChange={(e) => setLessonTitle(e.target.value)} placeholder={lang === "ar" ? "عنوان المحاضرة" : "Lesson title"} className="w-full p-3 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs text-slate-900 dark:text-white" />
+              <input value={lessonUrl} onChange={(e) => setLessonUrl(e.target.value)} placeholder="https://www.youtube.com/watch?v=..." className="w-full p-3 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs text-slate-900 dark:text-white" />
+              <textarea value={lessonDescription} onChange={(e) => setLessonDescription(e.target.value)} placeholder={lang === "ar" ? "وصف مختصر (اختياري)" : "Short description (optional)"} rows={2} className="w-full p-3 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs text-slate-900 dark:text-white" />
+              <div className="flex gap-2">
+                <input value={lessonDuration} onChange={(e) => setLessonDuration(e.target.value)} placeholder="25 mins" className="min-w-0 flex-1 p-3 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs text-slate-900 dark:text-white" />
+                <label className="flex items-center gap-2 text-xs font-bold text-slate-700 dark:text-slate-300"><input type="checkbox" checked={lessonIsFree} onChange={(e) => setLessonIsFree(e.target.checked)} />{lang === "ar" ? "محاضرة مجانية" : "Free lesson"}</label>
+              </div>
+              {lessonMessage && <p role="status" className="text-xs font-bold text-blue-700 dark:text-blue-300">{lessonMessage}</p>}
+              <button type="button" onClick={handleAddLesson} disabled={savingLesson || !unitsList?.length} className="w-full py-3 rounded-xl bg-blue-600 hover:bg-blue-700 disabled:opacity-50 text-white text-xs font-black flex items-center justify-center gap-2"><Plus className="w-4 h-4" />{savingLesson ? (lang === "ar" ? "جارٍ الحفظ..." : "Saving...") : (lang === "ar" ? "حفظ المحاضرة" : "Save Lesson")}</button>
+            </div>
+          )}
+
           <h3 className="font-extrabold text-sm text-slate-900 dark:text-white uppercase tracking-wider">
             {lang === "ar" ? "محتويات ومنهج الكورس:" : "Course Curriculum Units:"}
           </h3>
@@ -247,7 +320,7 @@ export const CourseDetailView: React.FC<CourseDetailProps> = ({ courseId, onBack
                 <div className="space-y-2">
                   {u.lessons?.map((lsn: any) => {
                     const isSelected = selectedLesson?.id === lsn.id;
-                    const canAccess = lsn.isFree || isEnrolled;
+                    const canAccess = canManageLessons || lsn.isFree || isEnrolled;
 
                     return (
                       <button
