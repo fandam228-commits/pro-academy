@@ -680,8 +680,8 @@ integrationTest(
           await client.query("DELETE FROM quiz_submissions WHERE id = $1", [ids.otherCourseQuizSubmission]);
           await client.query("DELETE FROM quizzes WHERE id = $1", [ids.otherCourseQuiz]);
           await client.query(
-            "DELETE FROM attendance_records WHERE id = $1 OR (student_id = $2 AND session_date = $3 AND (session_title = $4 OR session_title LIKE $5))",
-            [ids.attendanceRecord, ids.secondOwnedStudent, "2026-11-04", "Unscoped attendance fixture", "Concurrent attendance lock %"],
+            "DELETE FROM attendance_records WHERE id = $1 OR (student_id = $2 AND (session_title = $3 OR session_title LIKE $4))",
+            [ids.attendanceRecord, ids.secondOwnedStudent, "Unscoped attendance fixture", "Concurrent attendance lock %"],
           );
           await client.query("DELETE FROM enrollments WHERE id = ANY($1::text[])", [[ids.enrollmentOwned, ids.enrollmentSecondOwned, ids.enrollmentSecondOtherCourse, ids.enrollmentOtherStudent, ids.enrollmentStudentOtherCourse, ids.enrollmentCancelled]]);
           await client.query("DELETE FROM courses WHERE id = ANY($1::text[])", [[ids.ownedCourse, ids.otherCourse]]);
