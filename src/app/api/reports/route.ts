@@ -1,6 +1,6 @@
 import { db } from "@/db";
 import { users, parentLinks, attendanceRecords, homeworkSubmissions, homework, quizSubmissions, quizzes, enrollments, courses } from "@/db/schema";
-import { and, eq, inArray } from "drizzle-orm";
+import { and, eq, exists, inArray } from "drizzle-orm";
 import { alias } from "drizzle-orm/pg-core";
 import { NextResponse } from "next/server";
 import { ensureDbSetup } from "@/db/migrate-and-seed";
@@ -139,18 +139,38 @@ export async function GET(req: Request) {
       : 100;
 
     // 2. Homework this week
-    const visibleHomeworkIds = role === "teacher"
-      ? (await db.select({ id: homework.id }).from(homework).where(and(
-          eq(homework.teacherId, ctx.user.id),
-          inArray(homework.courseId, teacherCourseIds ?? []),
-        ))).map((row) => row.id)
-      : null;
+    // Revalidate course ownership, current student role, and eligible enrollment in
+    // the same statement that reads submissions. Do not rely on the earlier course-ID
+    // allowlist: ownership or enrollment can change between separate report queries.
     const allHwSubs = role === "teacher"
-      ? visibleHomeworkIds!.length === 0
-        ? []
-        : await db.select().from(homeworkSubmissions).where(and(
+      ? await db
+          .select({
+            submittedAt: homeworkSubmissions.submittedAt,
+            status: homeworkSubmissions.status,
+            score: homeworkSubmissions.score,
+          })
+          .from(homeworkSubmissions)
+          .innerJoin(homework, eq(homeworkSubmissions.homeworkId, homework.id))
+          .innerJoin(courses, eq(homework.courseId, courses.id))
+          .where(and(
             eq(homeworkSubmissions.studentId, studentId),
-            inArray(homeworkSubmissions.homeworkId, visibleHomeworkIds!),
+            eq(homework.teacherId, ctx.user.id),
+            eq(courses.teacherId, ctx.user.id),
+            exists(db
+              .select({ id: users.id })
+              .from(users)
+              .where(and(
+                eq(users.id, studentId),
+                eq(users.role, "student"),
+              ))),
+            exists(db
+              .select({ id: enrollments.id })
+              .from(enrollments)
+              .where(and(
+                eq(enrollments.studentId, studentId),
+                eq(enrollments.courseId, homework.courseId),
+                inArray(enrollments.status, ["active", "completed"]),
+              ))),
           ))
       : await db.select().from(homeworkSubmissions).where(eq(homeworkSubmissions.studentId, studentId));
     const weekHwSubs = allHwSubs.filter((s) => new Date(s.submittedAt) >= week.startDate && new Date(s.submittedAt) <= week.endDate);
@@ -160,21 +180,35 @@ export async function GET(req: Request) {
       : null;
 
     // 3. Quiz/Exam submissions this week
-    const visibleQuizIds = role === "teacher"
-      ? (await db.select({ id: quizzes.id })
-          .from(quizzes)
+    // Keep quiz visibility tied to the live course owner and current enrollment
+    // in the same query that reads the student's result rows.
+    const allQuizSubs = role === "teacher"
+      ? await db
+          .select({
+            submittedAt: quizSubmissions.submittedAt,
+            percentage: quizSubmissions.percentage,
+          })
+          .from(quizSubmissions)
+          .innerJoin(quizzes, eq(quizSubmissions.quizId, quizzes.id))
           .innerJoin(courses, eq(quizzes.courseId, courses.id))
           .where(and(
-            eq(courses.teacherId, ctx.user.id),
-            inArray(quizzes.courseId, teacherCourseIds ?? []),
-          ))).map((row) => row.id)
-      : null;
-    const allQuizSubs = role === "teacher"
-      ? visibleQuizIds!.length === 0
-        ? []
-        : await db.select().from(quizSubmissions).where(and(
             eq(quizSubmissions.studentId, studentId),
-            inArray(quizSubmissions.quizId, visibleQuizIds!),
+            eq(courses.teacherId, ctx.user.id),
+            exists(db
+              .select({ id: users.id })
+              .from(users)
+              .where(and(
+                eq(users.id, studentId),
+                eq(users.role, "student"),
+              ))),
+            exists(db
+              .select({ id: enrollments.id })
+              .from(enrollments)
+              .where(and(
+                eq(enrollments.studentId, studentId),
+                eq(enrollments.courseId, quizzes.courseId),
+                inArray(enrollments.status, ["active", "completed"]),
+              ))),
           ))
       : await db.select().from(quizSubmissions).where(eq(quizSubmissions.studentId, studentId));
     const weekQuizSubs = allQuizSubs.filter((s) => new Date(s.submittedAt) >= week.startDate && new Date(s.submittedAt) <= week.endDate);
