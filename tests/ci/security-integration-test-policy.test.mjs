@@ -59,14 +59,18 @@ test("homework authorization helper changes require ownership integration covera
   );
 });
 
-
-test("reports, attendance, and parent route changes require shared HTTP authorization coverage", () => {
+test("reports, attendance, and parent route changes require all Analytics authorization integration suites", () => {
   assert.deepEqual(
     getRequiredSecurityIntegrationTests([
       "src/app/api/reports/route.ts",
       "src/app/api/attendance/route.ts",
       "src/app/api/parent/route.ts",
     ]),
-    ["tests/integration/analytics-route-http-authorization.integration.mjs"],
+    [
+      "tests/integration/analytics-authorization.integration.mjs",
+      "tests/integration/parent-link-verification.integration.mjs",
+      "tests/integration/parent-report-current-role.integration.mjs",
+      "tests/integration/analytics-route-http-authorization.integration.mjs",
+    ],
   );
 });
