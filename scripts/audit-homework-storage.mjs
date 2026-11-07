@@ -24,7 +24,8 @@ function getBatchSize(value) {
 /**
  * Read-only inventory of homework file references. It reports aggregate counts
  * only: never prints stored paths, submission IDs, student IDs, or connection data.
- * Absolute URLs are flagged for review, not asserted to be publicly accessible.
+ * Known Vercel public Blob host references receive a separate priority-review
+ * counter; neither that counter nor other absolute URLs proves object accessibility.
  */
 export async function runHomeworkStorageAudit({
   connectionString = process.env.DATABASE_URL,
@@ -70,7 +71,7 @@ export async function runHomeworkStorageAudit({
       snapshotIsolation: "repeatable read",
       batchSize,
       counts: summary,
-      note: "absoluteUrlNeedsReview is not proof that a URL is publicly accessible; verify URLs with the storage provider through an approved process.",
+      note: "vercelPublicBlobUrlNeedsReview prioritizes known Vercel public Blob hosts for provider review but does not prove an object exists or is accessible; absoluteUrlNeedsReview also requires approved provider review.",
     }, null, 2));
     return summary;
   } finally {
