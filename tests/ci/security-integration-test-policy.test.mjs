@@ -41,3 +41,20 @@ test("unrelated changes do not force unrelated security integration suites", () 
     [],
   );
 });
+
+test("private homework file route and storage changes require file-access integration coverage", () => {
+  assert.deepEqual(
+    getRequiredSecurityIntegrationTests([
+      "src/app/api/homework/file/[id]/route.ts",
+      "src/lib/homework-storage.mjs",
+    ]),
+    ["tests/integration/homework-file-access.integration.mjs"],
+  );
+});
+
+test("homework authorization helper changes require ownership integration coverage", () => {
+  assert.deepEqual(
+    getRequiredSecurityIntegrationTests(["src/lib/homework-authorization.mjs"]),
+    ["tests/integration/homework-authorization.integration.mjs"],
+  );
+});
