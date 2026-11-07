@@ -2,6 +2,7 @@
 
 import React, { useState, useRef, useEffect } from "react";
 import { useApp } from "@/context/AppContext";
+import { toYouTubeEmbedUrl } from "@/lib/youtube-url.js";
 import {
   Play,
   Pause,
@@ -28,6 +29,7 @@ interface VideoPlayerProps {
 export const VideoPlayer: React.FC<VideoPlayerProps> = ({ videoUrl, title, lessonId, onCompleted }) => {
   const { user, lang } = useApp();
   const videoRef = useRef<HTMLVideoElement>(null);
+  const youtubeEmbedUrl = toYouTubeEmbedUrl(videoUrl);
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
@@ -121,18 +123,29 @@ export const VideoPlayer: React.FC<VideoPlayerProps> = ({ videoUrl, title, lesso
 
       {/* VIDEO CONTAINER & WATERMARK */}
       <div className="relative group bg-black aspect-video flex items-center justify-center select-none" onContextMenu={(e) => e.preventDefault()}>
-        <video
-          ref={videoRef}
-          src={videoUrl}
-          className="w-full h-full object-contain"
-          onTimeUpdate={handleTimeUpdate}
-          onEnded={() => {
-            setIsPlaying(false);
-            if (onCompleted) onCompleted();
-          }}
-          controlsList="nodownload"
-          disablePictureInPicture
-        />
+        {youtubeEmbedUrl ? (
+          <iframe
+            src={youtubeEmbedUrl}
+            title={title}
+            className="w-full h-full"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            referrerPolicy="strict-origin-when-cross-origin"
+            allowFullScreen
+          />
+        ) : (
+          <video
+            ref={videoRef}
+            src={videoUrl}
+            className="w-full h-full object-contain"
+            onTimeUpdate={handleTimeUpdate}
+            onEnded={() => {
+              setIsPlaying(false);
+              if (onCompleted) onCompleted();
+            }}
+            controlsList="nodownload"
+            disablePictureInPicture
+          />
+        )}
 
         {/* DYNAMIC ANTI-RECORDING WATERMARK */}
         <div
