@@ -10,6 +10,7 @@ import {
   getTeacherAnalyticsCourseIds,
   isHomeworkGradeVisibleToStudent,
   getVerifiedParentAnalyticsStudentIds,
+  getParentAnalyticsSelectionData,
   resolveParentAnalyticsStudentId,
 } from "../../src/lib/analytics-report-scope.mjs";
 
@@ -504,5 +505,61 @@ integrationTest("PostgreSQL Analytics homework scope fails closed for unknown st
 
     assert.deepEqual(knownGradeIds, ["hw-a", "hw-any-grade"]);
     assert.deepEqual(unknownGradeIds, ["hw-any-grade"]);
+  });
+});
+
+integrationTest("PostgreSQL parent selection counts unverified current-student links for ambiguity but never authorizes them", async () => {
+  await withFixture(async ({ db }) => {
+    const rows = await db
+      .select({
+        studentId: parentLinks.studentId,
+        verifiedAt: parentLinks.verifiedAt,
+        verifiedBy: parentLinks.verifiedBy,
+        studentRole: users.role,
+        verifierRole: verifiedByUser.role,
+      })
+      .from(parentLinks)
+      .innerJoin(parentAccount, eq(parentLinks.parentId, parentAccount.id))
+      .leftJoin(users, eq(parentLinks.studentId, users.id))
+      .leftJoin(verifiedByUser, eq(parentLinks.verifiedBy, verifiedByUser.id))
+      .where(and(
+        eq(parentLinks.parentId, "parent-1"),
+        eq(parentAccount.role, "parent"),
+      ));
+
+    const selectionData = getParentAnalyticsSelectionData(
+      rows.filter((row) => row.studentRole === "student"),
+    );
+
+    assert.deepEqual(
+      selectionData.allLinkedStudentIds,
+      ["student-1", "student-2", "student-4", "student-5", "student-6"],
+      "all current student links, including unverified and non-admin-verified links, must count toward explicit selection",
+    );
+    assert.deepEqual(
+      selectionData.verifiedStudentIds,
+      ["student-1", "student-2"],
+      "only links with a current admin verifier and valid verification metadata may authorize a report",
+    );
+    assert.deepEqual(
+      resolveParentAnalyticsStudentId(null, selectionData.allLinkedStudentIds),
+      { ok: false, reason: "student-id-required" },
+      "one verified child must not be auto-selected while other children are linked",
+    );
+
+    const verifiedChoice = resolveParentAnalyticsStudentId("student-1", selectionData.allLinkedStudentIds);
+    assert.deepEqual(verifiedChoice, { ok: true, studentId: "student-1" });
+    assert.equal(selectionData.verifiedStudentIds.includes(verifiedChoice.studentId), true);
+
+    const unverifiedChoice = resolveParentAnalyticsStudentId("student-4", selectionData.allLinkedStudentIds);
+    assert.deepEqual(unverifiedChoice, { ok: true, studentId: "student-4" });
+    assert.equal(
+      selectionData.verifiedStudentIds.includes(unverifiedChoice.studentId),
+      false,
+      "explicit selection of an unverified linked child must still be denied",
+    );
+
+    assert.equal(selectionData.allLinkedStudentIds.includes("teacher-2"), false,
+      "a malformed link to a non-student account must not count as a child");
   });
 });
