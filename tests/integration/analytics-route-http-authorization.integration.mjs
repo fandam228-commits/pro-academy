@@ -408,6 +408,19 @@ integrationTest(
       assert.equal(reportsParentUnverifiedChild.status, 403,
         "weekly reports must not authorize an unverified legacy parent link");
 
+      // Weekly reports must treat every current linked child as part of the
+      // ambiguity set, even when one legacy link is unverified. Verification
+      // is checked again after an explicit choice; selection alone is not access.
+      const reportsParentMixedNoSelection = await requestReports(tokens.parentMixed);
+      assert.equal(reportsParentMixedNoSelection.status, 400,
+        "weekly reports must require explicit selection when verified and unverified child links coexist");
+      const reportsParentMixedVerifiedChild = await requestReports(tokens.parentMixed, ids.student);
+      assert.equal(reportsParentMixedVerifiedChild.status, 200,
+        "weekly reports must allow the explicitly selected verified child");
+      const reportsParentMixedUnverifiedChild = await requestReports(tokens.parentMixed, ids.unverifiedStudent);
+      assert.equal(reportsParentMixedUnverifiedChild.status, 403,
+        "weekly reports must reject an explicitly selected unverified child");
+
       const reportsStudentOwn = await requestReports(tokens.student);
       assert.equal(reportsStudentOwn.status, 200, JSON.stringify(reportsStudentOwn.body));
       assert.equal(reportsStudentOwn.body.report?.student?.id, ids.student);
