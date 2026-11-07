@@ -1,6 +1,6 @@
 import { db } from "@/db";
 import { parentLinks, users, enrollments, quizSubmissions, attendance } from "@/db/schema";
-import { and, eq, isNotNull } from "drizzle-orm";
+import { and, eq, inArray, isNotNull } from "drizzle-orm";
 import { alias } from "drizzle-orm/pg-core";
 import { NextResponse } from "next/server";
 import { ensureDbSetup } from "@/db/migrate-and-seed";
@@ -61,7 +61,40 @@ export async function GET(req: Request) {
         return NextResponse.json({ error: "No verified linked student found" }, { status: 404 });
       }
       if (resolution.reason === "student-id-required") {
-        return NextResponse.json({ error: "studentId is required when multiple students are linked" }, { status: 400 });
+        // Return only currently verified children as safe choices. Unverified links
+        // still count toward ambiguity, but must never appear as selectable students.
+        const selectableStudents = verifiedStudentIds.length > 0
+          ? await db
+              .selectDistinct({
+                id: users.id,
+                name: users.name,
+                grade: users.grade,
+              })
+              .from(users)
+              .innerJoin(parentLinks, and(
+                eq(parentLinks.studentId, users.id),
+                eq(parentLinks.parentId, parentId),
+                isNotNull(parentLinks.verifiedAt),
+                isNotNull(parentLinks.verifiedBy),
+              ))
+              .innerJoin(parentAccountUser, and(
+                eq(parentLinks.parentId, parentAccountUser.id),
+                eq(parentAccountUser.role, "parent"),
+              ))
+              .innerJoin(verifiedByUser, and(
+                eq(parentLinks.verifiedBy, verifiedByUser.id),
+                eq(verifiedByUser.role, "admin"),
+              ))
+              .where(and(
+                inArray(users.id, verifiedStudentIds),
+                eq(users.role, "student"),
+              ))
+          : [];
+        return NextResponse.json({
+          error: "studentId is required when multiple students are linked",
+          requiresStudentSelection: true,
+          students: selectableStudents,
+        }, { status: 400 });
       }
       if (resolution.reason === "invalid-student-id") {
         return NextResponse.json({ error: "Invalid studentId" }, { status: 400 });
@@ -96,9 +129,41 @@ export async function GET(req: Request) {
     const student = studentList[0];
     if (!student) return NextResponse.json({ error: "Student not found" }, { status: 404 });
 
-    const studentEnrs = await db.select().from(enrollments).where(eq(enrollments.studentId, student.id));
-    const studentSubs = await db.select().from(quizSubmissions).where(eq(quizSubmissions.studentId, student.id));
-    const studentAtt = await db.select().from(attendance).where(eq(attendance.studentId, student.id));
+    // Return only fields used by the parent overview. In particular, never expose
+    // enrollment payment metadata or students' raw quiz answers/feedback here.
+    const studentEnrs = await db
+      .select({
+        id: enrollments.id,
+        courseId: enrollments.courseId,
+        status: enrollments.status,
+        progress: enrollments.progress,
+        completedLessonIds: enrollments.completedLessonIds,
+        activatedAt: enrollments.activatedAt,
+      })
+      .from(enrollments)
+      .where(eq(enrollments.studentId, student.id));
+    const studentSubs = await db
+      .select({
+        id: quizSubmissions.id,
+        quizId: quizSubmissions.quizId,
+        score: quizSubmissions.score,
+        totalQuestions: quizSubmissions.totalQuestions,
+        percentage: quizSubmissions.percentage,
+        passed: quizSubmissions.passed,
+        submittedAt: quizSubmissions.submittedAt,
+      })
+      .from(quizSubmissions)
+      .where(eq(quizSubmissions.studentId, student.id));
+    const studentAtt = await db
+      .select({
+        id: attendance.id,
+        courseId: attendance.courseId,
+        lessonId: attendance.lessonId,
+        status: attendance.status,
+        date: attendance.date,
+      })
+      .from(attendance)
+      .where(eq(attendance.studentId, student.id));
 
     const avgScore = studentSubs.length > 0
       ? Math.round(studentSubs.reduce((acc, curr) => acc + curr.percentage, 0) / studentSubs.length)
