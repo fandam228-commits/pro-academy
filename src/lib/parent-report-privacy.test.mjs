@@ -19,21 +19,6 @@ function assertAuthBeforeSetup(source, routeName) {
     routeName + " must authenticate before database setup");
 }
 
-function assertVerifiedParentSelection(source, routeName) {
-  assert.match(source, /innerJoin\(verifiedByUser, eq\(parentLinks\.verifiedBy, verifiedByUser\.id\)\)/,
-    routeName + " must join the current verifier account");
-  assert.match(source, /eq\(verifiedByUser\.role, "admin"\)/,
-    routeName + " must require a current admin verifier");
-  assert.match(source, /eq\(users\.role, "student"\)/,
-    routeName + " must require a current student account");
-  assert.match(source, /isNotNull\(parentLinks\.verifiedAt\)/);
-  assert.match(source, /isNotNull\(parentLinks\.verifiedBy\)/);
-  assert.match(source, /getVerifiedParentAnalyticsStudentIds\(links\)/);
-  assert.match(source, /resolveParentAnalyticsStudentId\((?:requestedStudent|studentId), linkedStudentIds\)/);
-  assert.doesNotMatch(source, /links\s*\[\s*0\s*\]\s*\??\.\s*studentId/,
-    routeName + " must not silently select the first linked child");
-}
-
 function assertMixedParentSelection(source, routeName, requestedIdName) {
   assert.match(source, /innerJoin\(parentAccount, eq\(parentLinks\.parentId, parentAccount\.id\)\)/,
     routeName + " must verify the current parent account");
@@ -62,7 +47,7 @@ test("student reports authenticate before setup and verify parent links", () => 
 
 test("attendance authenticates before setup and verifies parent links", () => {
   assertAuthBeforeSetup(routeFiles.attendance, "attendance");
-  assertVerifiedParentSelection(routeFiles.attendance, "attendance");
+  assertMixedParentSelection(routeFiles.attendance, "attendance", "requestedStudent");
 });
 
 test("parent overview requires verified explicit child selection and never returns the full users row", () => {
