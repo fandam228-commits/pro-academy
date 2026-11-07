@@ -545,7 +545,7 @@ integrationTest(
       assert.equal(parentWeeklyReportWithoutSelection.status, 400,
         "weekly reports must require explicit selection when multiple children are linked");
       const parentWeeklyReport = await requestRoute("/api/reports", tokens.parent, ids.student);
-      assert.equal(parentWeeklyReport.status, 200, JSON.stringify(parentWeeklyReport.body));
+      assert.equal(parentWeeklyReport.status, 200, `${JSON.stringify(parentWeeklyReport.body)}\n${serverLog}`);
       assert.equal(parentWeeklyReport.body.report?.student?.id, ids.student);
       const parentWeeklyReportUnverified = await requestRoute("/api/reports", tokens.parent, ids.unverifiedStudent);
       assert.equal(parentWeeklyReportUnverified.status, 403,
