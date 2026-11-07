@@ -436,12 +436,17 @@ test("reports teacher data is scoped to owned courses and active/completed enrol
   assert.match(teacherScope, /eq\(courses\.teacherId, ctx\.user\.id\)/);
   assert.match(teacherScope, /inArray\(enrollments\.status, \["active", "completed"\]\)/);
   assert.match(teacherScope, /if\s*\(teacherCourseIds\.length === 0\)[\s\S]*?status:\s*403/);
-  assert.match(reportsRouteSource, /eq\(homework\.teacherId, ctx\.user\.id\)/);
-  assert.match(reportsRouteSource, /inArray\(homework\.courseId, teacherCourseIds \?\? \[\]\)/);
-  assert.match(reportsRouteSource, /inArray\(homeworkSubmissions\.homeworkId, visibleHomeworkIds!\)/);
-  assert.match(reportsRouteSource, /inArray\(quizzes\.courseId, teacherCourseIds \?\? \[\]\)/);
-  assert.match(reportsRouteSource, /inArray\(quizSubmissions\.quizId, visibleQuizIds!\)/);
-  assert.match(reportsRouteSource, /inArray\(enrollments\.courseId, teacherCourseIds \?\? \[\]\)/);
+
+  assert.match(reportsRouteSource,
+    /\.innerJoin\(homework, eq\(homeworkSubmissions\.homeworkId, homework\.id\)\)[\s\S]*?\.innerJoin\(courses, eq\(homework\.courseId, courses\.id\)\)[\s\S]*?eq\(homework\.teacherId, ctx\.user\.id\)[\s\S]*?eq\(courses\.teacherId, ctx\.user\.id\)[\s\S]*?eq\(enrollments\.courseId, homework\.courseId\)[\s\S]*?inArray\(enrollments\.status, \["active", "completed"\]\)/,
+    "homework rows must be joined to the current course owner and current eligible enrollment in the same SQL query");
+  assert.match(reportsRouteSource,
+    /\.innerJoin\(quizzes, eq\(quizSubmissions\.quizId, quizzes\.id\)\)[\s\S]*?\.innerJoin\(courses, eq\(quizzes\.courseId, courses\.id\)\)[\s\S]*?eq\(courses\.teacherId, ctx\.user\.id\)[\s\S]*?eq\(enrollments\.courseId, quizzes\.courseId\)[\s\S]*?inArray\(enrollments\.status, \["active", "completed"\]\)/,
+    "quiz rows must be joined to the current course owner and current eligible enrollment in the same SQL query");
+  assert.match(reportsRouteSource, /eq\(users\.role, "student"\)/,
+    "report data must not be authorized for a stale non-student account");
+  assert.doesNotMatch(reportsRouteSource, /visibleHomeworkIds|visibleQuizIds/,
+    "teacher homework and quiz reads must not depend on separately precomputed allowlists");
 });
 
 test("reports do not expose unscoped attendance or global gamification values to teachers", () => {
