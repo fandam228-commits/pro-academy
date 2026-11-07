@@ -69,7 +69,7 @@ test("weekly reports require explicit parent selection across verified and unver
 
 test("parent overview requires explicit selection across all linked students and rejects unverified choices", () => {
   const parentStart = parentOverviewRouteSource.indexOf("const links = await db");
-  const resolutionStart = parentOverviewRouteSource.indexOf("const studentId = resolution.studentId;", parentStart);
+  const resolutionStart = parentOverviewRouteSource.indexOf("const primaryLink = links.find", parentStart);
   assert.notEqual(parentStart, -1, "parent overview link query must exist");
   assert.notEqual(resolutionStart, -1, "parent overview must resolve a selected student");
   const parentSource = parentOverviewRouteSource.slice(parentStart, resolutionStart);
