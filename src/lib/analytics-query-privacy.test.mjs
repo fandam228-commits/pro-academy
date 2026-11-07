@@ -450,18 +450,43 @@ test("reports teacher data is scoped to owned courses and active/completed enrol
 });
 
 test("weekly report profile lookup revalidates live teacher enrollment and parent verification", () => {
-  const profileStart = reportsRouteSource.indexOf("const stList = role === \\"teacher\\"");
+  const profileStart = reportsRouteSource.indexOf('const stList = role === "teacher"');
   const profileEnd = reportsRouteSource.indexOf("if (stList.length === 0)", profileStart);
   assert.ok(profileStart >= 0 && profileEnd > profileStart,
     "weekly report must have a role-specific profile lookup");
   const profileSource = reportsRouteSource.slice(profileStart, profileEnd);
 
-  assert.match(profileSource,
-    /role === "teacher"[\\s\\S]*?\\.innerJoin\\(enrollments, eq\\(enrollments\\.studentId, users\\.id\\)\\)[\\s\\S]*?\\.innerJoin\\(courses, eq\\(enrollments\\.courseId, courses\\.id\\)\\)[\\s\\S]*?eq\\(users\\.role, "student"\\)[\\s\\S]*?eq\\(courses\\.teacherId, ctx\\.user\\.id\\)[\\s\\S]*?inArray\\(enrollments\\.status, \\["active", "completed"\\]\\)/,
-    "teacher profile fields must be read only while a current owned-course enrollment exists");
-  assert.match(profileSource,
-    /role === "parent"[\\s\\S]*?\\.innerJoin\\(parentLinks,[\\s\\S]*?\\.innerJoin\\(parentAccount,[\\s\\S]*?eq\\(parentAccount\\.role, "parent"\\)[\\s\\S]*?\\.innerJoin\\(verifiedByUser,[\\s\\S]*?eq\\(verifiedByUser\\.role, "admin"\\)[\\s\\S]*?eq\\(users\\.role, "student"\\)[\\s\\S]*?isNotNull\\(parentLinks\\.verifiedAt\\)[\\s\\S]*?isNotNull\\(parentLinks\\.verifiedBy\\)/,
-    "parent profile fields must revalidate the live parent, student, admin verifier, and verification stamp in the same query");
+  const parentStart = profileSource.indexOf(': role === "parent"');
+  const fallbackStart = profileSource.indexOf(": await db", parentStart);
+  assert.ok(parentStart > 0 && fallbackStart > parentStart,
+    "teacher and parent profile lookups must be separate branches");
+  const teacherProfile = profileSource.slice(0, parentStart);
+  const parentProfile = profileSource.slice(parentStart, fallbackStart);
+
+  for (const required of [
+    ".innerJoin(enrollments, eq(enrollments.studentId, users.id))",
+    ".innerJoin(courses, eq(enrollments.courseId, courses.id))",
+    'eq(users.role, "student")',
+    "eq(courses.teacherId, ctx.user.id)",
+    'inArray(enrollments.status, ["active", "completed"])',
+  ]) {
+    assert.ok(teacherProfile.includes(required),
+      "teacher profile query must include current authorization predicate: " + required);
+  }
+
+  for (const required of [
+    ".innerJoin(parentLinks, and(",
+    ".innerJoin(parentAccount, and(",
+    'eq(parentAccount.role, "parent")',
+    ".innerJoin(verifiedByUser, and(",
+    'eq(verifiedByUser.role, "admin")',
+    'eq(users.role, "student")',
+    "isNotNull(parentLinks.verifiedAt)",
+    "isNotNull(parentLinks.verifiedBy)",
+  ]) {
+    assert.ok(parentProfile.includes(required),
+      "parent profile query must revalidate the verified relationship: " + required);
+  }
 });
 
 test("reports do not expose unscoped attendance or global gamification values to teachers", () => {
