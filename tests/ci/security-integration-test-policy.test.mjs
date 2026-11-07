@@ -84,7 +84,7 @@ test("required security integration suites must have executable CI steps", () =>
   const workflow = [
     "node --test tests/integration/analytics-authorization.integration.mjs",
     "node --test tests/integration/parent-link-verification.integration.mjs",
-  ].join("\\n");
+  ].join("\n");
 
   assert.deepEqual(getMissingSecurityIntegrationTestSteps(required, workflow), []);
 });
