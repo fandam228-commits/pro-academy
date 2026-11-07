@@ -1,6 +1,6 @@
 import { db } from "@/db";
 import { users, parentLinks, attendanceRecords, homeworkSubmissions, homework, quizSubmissions, quizzes, enrollments, courses } from "@/db/schema";
-import { and, eq, exists, inArray } from "drizzle-orm";
+import { and, eq, exists, inArray, isNotNull } from "drizzle-orm";
 import { alias } from "drizzle-orm/pg-core";
 import { NextResponse } from "next/server";
 import { ensureDbSetup } from "@/db/migrate-and-seed";
@@ -110,17 +110,58 @@ export async function GET(req: Request) {
       }
     }
 
-    const stList = await db
-      .select({
-        id: users.id,
-        name: users.name,
-        grade: users.grade,
-        level: users.level,
-        streak: users.streak,
-        points: users.points,
-      })
-      .from(users)
-      .where(and(eq(users.id, studentId), eq(users.role, "student")));
+    // Revalidate the target relationship at the exact point the profile is read.
+    // The earlier allowlist/parent-link lookup is only a preliminary decision and may
+    // become stale if course ownership, enrollment, verification, or account roles change.
+    const profileSelection = {
+      id: users.id,
+      name: users.name,
+      grade: users.grade,
+      level: users.level,
+      streak: users.streak,
+      points: users.points,
+    };
+    const stList = role === "teacher"
+      ? await db
+          .select(profileSelection)
+          .from(users)
+          .innerJoin(enrollments, eq(enrollments.studentId, users.id))
+          .innerJoin(courses, eq(enrollments.courseId, courses.id))
+          .where(and(
+            eq(users.id, studentId),
+            eq(users.role, "student"),
+            eq(courses.teacherId, ctx.user.id),
+            inArray(enrollments.status, ["active", "completed"]),
+          ))
+          .limit(1)
+      : role === "parent"
+        ? await db
+            .select(profileSelection)
+            .from(users)
+            .innerJoin(parentLinks, and(
+              eq(parentLinks.studentId, users.id),
+              eq(parentLinks.parentId, ctx.user.id),
+            ))
+            .innerJoin(parentAccount, and(
+              eq(parentAccount.id, parentLinks.parentId),
+              eq(parentAccount.role, "parent"),
+            ))
+            .innerJoin(verifiedByUser, and(
+              eq(verifiedByUser.id, parentLinks.verifiedBy),
+              eq(verifiedByUser.role, "admin"),
+            ))
+            .where(and(
+              eq(users.id, studentId),
+              eq(users.role, "student"),
+              isNotNull(parentLinks.verifiedAt),
+              isNotNull(parentLinks.verifiedBy),
+            ))
+            .limit(1)
+        : await db
+            .select(profileSelection)
+            .from(users)
+            .where(and(eq(users.id, studentId), eq(users.role, "student")))
+            .limit(1);
     if (stList.length === 0) return NextResponse.json({ error: "Student not found" }, { status: 404 });
     const student = stList[0];
 
