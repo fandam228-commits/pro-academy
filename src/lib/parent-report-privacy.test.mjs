@@ -8,6 +8,7 @@ const routeFiles = {
   reports: await readFile(new URL("../app/api/reports/route.ts", import.meta.url), "utf8"),
   attendance: await readFile(new URL("../app/api/attendance/route.ts", import.meta.url), "utf8"),
   parent: await readFile(new URL("../app/api/parent/route.ts", import.meta.url), "utf8"),
+  parentReportAuthorization: await readFile(new URL("./parent-report-authorization.mjs", import.meta.url), "utf8"),
 };
 
 function assertAuthBeforeSetup(source, routeName) {
@@ -279,12 +280,14 @@ test("attendance POST validates action-specific roles before database setup", ()
 
 test("weekly parent reports revalidate verified links for every data source and before responding", () => {
   const source = routeFiles.reports;
-  const helperStart = source.indexOf("function hasVerifiedParentLink(");
-  const helperEnd = source.indexOf("function getWeekRange()", helperStart);
-  assert.ok(helperStart >= 0 && helperEnd > helperStart,
-    "weekly reports must define a reusable verified-parent predicate");
+  const routeHelperStart = source.indexOf("function hasVerifiedParentLink(");
+  const routeHelperEnd = source.indexOf("function getWeekRange()", routeHelperStart);
+  assert.ok(routeHelperStart >= 0 && routeHelperEnd > routeHelperStart,
+    "weekly reports must wire a reusable verified-parent predicate");
+  assert.match(source.slice(routeHelperStart, routeHelperEnd), /buildVerifiedParentLinkPredicate/,
+    "the route must use the shared predicate covered by PostgreSQL integration tests");
 
-  const helper = source.slice(helperStart, helperEnd);
+  const helper = routeFiles.parentReportAuthorization;
   assert.ok(helper.includes('eq(parentAccount.role, "parent")'),
     "the linked account must still have the parent role");
   assert.ok(helper.includes('eq(users.role, "student")'),

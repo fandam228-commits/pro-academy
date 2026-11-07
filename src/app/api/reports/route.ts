@@ -1,43 +1,29 @@
 import { db } from "@/db";
 import { users, parentLinks, attendanceRecords, homeworkSubmissions, homework, quizSubmissions, quizzes, enrollments, courses } from "@/db/schema";
-import { and, eq, exists, inArray, isNotNull } from "drizzle-orm";
+import { and, eq, exists, inArray } from "drizzle-orm";
 import { alias } from "drizzle-orm/pg-core";
 import { NextResponse } from "next/server";
 import { ensureDbSetup } from "@/db/migrate-and-seed";
 import { getAuthContext } from "@/lib/security";
 import { getParentAnalyticsSelectionData, resolveParentAnalyticsStudentId } from "@/lib/analytics-report-scope.mjs";
+import { buildVerifiedParentLinkPredicate } from "@/lib/parent-report-authorization.mjs";
 
 const verifiedByUser = alias(users, "reports_verified_by_user");
 const parentAccount = alias(users, "reports_parent_account");
+const verifiedStudentAccount = alias(users, "reports_verified_student_account");
 
-// Re-check the parent's current role, the student's current role, and the
-// administrator's current role at every read of parent-visible report data.
-// This prevents a link revoked after initial child selection from authorizing
-// later attendance, homework, quiz, or enrollment reads.
+// Keep the route's authorization predicate aligned with the independently
+// PostgreSQL-tested helper used by the weekly report integration suite.
 function hasVerifiedParentLink(parentId: string, studentId: string) {
-  return exists(
-    db
-      .select({ id: parentLinks.id })
-      .from(parentLinks)
-      .innerJoin(parentAccount, and(
-        eq(parentAccount.id, parentLinks.parentId),
-        eq(parentAccount.role, "parent"),
-      ))
-      .innerJoin(users, and(
-        eq(users.id, parentLinks.studentId),
-        eq(users.role, "student"),
-      ))
-      .innerJoin(verifiedByUser, and(
-        eq(verifiedByUser.id, parentLinks.verifiedBy),
-        eq(verifiedByUser.role, "admin"),
-      ))
-      .where(and(
-        eq(parentLinks.parentId, parentId),
-        eq(parentLinks.studentId, studentId),
-        isNotNull(parentLinks.verifiedAt),
-        isNotNull(parentLinks.verifiedBy),
-      )),
-  );
+  return buildVerifiedParentLinkPredicate({
+    db,
+    parentLinks,
+    parentAccount,
+    studentAccount: verifiedStudentAccount,
+    verifiedByUser,
+    parentId,
+    studentId,
+  });
 }
 
 function getWeekRange() {
