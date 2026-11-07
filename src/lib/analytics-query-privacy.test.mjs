@@ -134,7 +134,7 @@ test("parent analytics route requires explicit selection across every linked cur
   );
   assert.match(
     parentSource,
-    /selectionData\.verifiedStudentIds\.includes\(studentId\)/,
+    /linkedParentStudentIds\.includes\(studentId\)/,
     "the selected child must also belong to the independently verified authorization set",
   );
   assert.match(
@@ -434,19 +434,19 @@ test("reports GET authenticates and validates supported roles before database se
     "reports GET must reject unauthenticated and unsupported-role callers before database setup");
 });
 
-test("reports parent access requires a verified current student and current admin verifier", () => {
+test("reports parent access requires explicit selection across all linked students and current admin verification", () => {
   const parentStart = reportsRouteSource.indexOf('if (role === "parent")');
   const studentStart = reportsRouteSource.indexOf('else if (role === "student")', parentStart);
   assert.ok(parentStart >= 0 && studentStart > parentStart, "parent and student report branches must exist");
   const parentSource = reportsRouteSource.slice(parentStart, studentStart);
-  assert.match(parentSource, /\.innerJoin\(users, eq\(parentLinks\.studentId, users\.id\)\)/);
-  assert.match(parentSource, /\.innerJoin\(verifiedByUser, eq\(parentLinks\.verifiedBy, verifiedByUser\.id\)\)/);
+  assert.match(parentSource, /\.innerJoin\(parentAccount, eq\(parentLinks\.parentId, parentAccount\.id\)\)/);
+  assert.match(parentSource, /eq\(parentAccount\.role, "parent"\)/);
+  assert.match(parentSource, /\.leftJoin\(users, eq\(parentLinks\.studentId, users\.id\)\)/);
+  assert.match(parentSource, /\.leftJoin\(verifiedByUser, eq\(parentLinks\.verifiedBy, verifiedByUser\.id\)\)/);
   assert.match(parentSource, /eq\(parentLinks\.parentId, ctx\.user\.id\)/);
-  assert.match(parentSource, /eq\(users\.role, "student"\)/);
-  assert.match(parentSource, /eq\(verifiedByUser\.role, "admin"\)/);
-  assert.match(parentSource, /isNotNull\(parentLinks\.verifiedAt\)/);
-  assert.match(parentSource, /isNotNull\(parentLinks\.verifiedBy\)/);
-  assert.match(parentSource, /resolveParentAnalyticsStudentId\(studentId, linkedStudentIds\)/);
+  assert.match(parentSource, /getParentAnalyticsSelectionData\(/);
+  assert.match(parentSource, /resolveParentAnalyticsStudentId\(\s*studentId,\s*selectionData\.allLinkedStudentIds,\s*\)/);
+  assert.match(parentSource, /selectionData\.verifiedStudentIds\.includes\(resolution\.studentId\)/);
   assert.doesNotMatch(parentSource, /links\s*\[\s*0\s*\]\s*\??\.\s*studentId|linkedStudentIds\s*\[\s*0\s*\]/,
     "reports must never silently choose the first linked child");
 });
