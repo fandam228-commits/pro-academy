@@ -10,6 +10,7 @@ import {
   getTeacherAnalyticsCourseIds,
   isHomeworkGradeVisibleToStudent,
   getVerifiedParentAnalyticsStudentIds,
+  getParentAnalyticsSelectionData,
   resolveParentAnalyticsStudentId,
 } from "../../src/lib/analytics-report-scope.mjs";
 
@@ -409,6 +410,47 @@ integrationTest("PostgreSQL parent links require explicit choice for multiple ch
         isNotNull(parentLinks.verifiedBy),
       ));
     assert.deepEqual(staleRoleRows, [], "a stale parent session must not authorize reports after the parent role changes");
+  });
+});
+
+integrationTest("PostgreSQL parent selection counts all linked children for ambiguity but authorizes only verified children", async () => {
+  await withFixture(async ({ db }) => {
+    const selectionRows = await db
+      .select({
+        studentId: parentLinks.studentId,
+        verifiedAt: parentLinks.verifiedAt,
+        verifiedBy: parentLinks.verifiedBy,
+        verifierRole: verifiedByUser.role,
+      })
+      .from(parentLinks)
+      .innerJoin(parentAccount, eq(parentLinks.parentId, parentAccount.id))
+      .innerJoin(users, eq(parentLinks.studentId, users.id))
+      .leftJoin(verifiedByUser, eq(parentLinks.verifiedBy, verifiedByUser.id))
+      .where(and(
+        eq(parentLinks.parentId, "parent-1"),
+        eq(parentAccount.role, "parent"),
+        eq(users.role, "student"),
+      ));
+
+    const { allLinkedStudentIds, verifiedStudentIds } = getParentAnalyticsSelectionData(selectionRows);
+    assert.deepEqual(allLinkedStudentIds, ["student-1", "student-2", "student-4", "student-5", "student-6"]);
+    assert.deepEqual(verifiedStudentIds, ["student-1", "student-2"]);
+
+    // Any second current linked child, even an unverified one, requires explicit selection.
+    assert.deepEqual(
+      resolveParentAnalyticsStudentId(null, allLinkedStudentIds),
+      { ok: false, reason: "student-id-required" },
+    );
+
+    // Explicitly selecting an unverified child still cannot authorize a report.
+    assert.deepEqual(
+      resolveParentAnalyticsStudentId("student-4", verifiedStudentIds),
+      { ok: false, reason: "forbidden" },
+    );
+    assert.deepEqual(
+      resolveParentAnalyticsStudentId("student-2", verifiedStudentIds),
+      { ok: true, studentId: "student-2" },
+    );
   });
 });
 

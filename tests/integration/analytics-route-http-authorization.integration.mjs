@@ -250,8 +250,8 @@ integrationTest(
         );
       }
 
-      async function requestAnalytics(sessionToken, studentId) {
-        const url = new URL("/api/analytics", baseUrl);
+      async function requestRoute(path, sessionToken, studentId) {
+        const url = new URL(path, baseUrl);
         if (studentId !== undefined) url.searchParams.set("studentId", studentId);
         const response = await fetch(url, {
           headers: { authorization: `Bearer ${sessionToken}`, "cache-control": "no-store" },
@@ -266,6 +266,12 @@ integrationTest(
         }
         return { status: response.status, body };
       }
+      const requestAnalytics = (sessionToken, studentId) =>
+        requestRoute("/api/analytics", sessionToken, studentId);
+      const requestReports = (sessionToken, studentId) =>
+        requestRoute("/api/reports", sessionToken, studentId);
+      const requestParentOverview = (sessionToken, studentId) =>
+        requestRoute("/api/parent", sessionToken, studentId);
 
       const teacherOwnStudent = await requestAnalytics(tokens.teacher, ids.student);
       assert.equal(teacherOwnStudent.status, 200, JSON.stringify(teacherOwnStudent.body));
@@ -381,6 +387,67 @@ integrationTest(
 
       const studentCrossReport = await requestAnalytics(tokens.student, ids.otherStudent);
       assert.equal(studentCrossReport.status, 403, "student must not access another student's report");
+
+      // Apply the same role and relationship guarantees to the weekly reports endpoint.
+      const reportsTeacherOwn = await requestReports(tokens.teacher, ids.student);
+      assert.equal(reportsTeacherOwn.status, 200, JSON.stringify(reportsTeacherOwn.body));
+      assert.equal(reportsTeacherOwn.body.report?.student?.id, ids.student);
+      assert.equal(reportsTeacherOwn.body.report?.attendance?.totalSessions, 0,
+        "weekly teacher reports must omit attendance rows that have no course ownership key");
+      const reportsTeacherOtherCourse = await requestReports(tokens.teacher, ids.otherStudent);
+      assert.equal(reportsTeacherOtherCourse.status, 403,
+        "weekly teacher reports must reject students without an active enrollment in a teacher-owned course");
+
+      const reportsParentNoSelection = await requestReports(tokens.parent);
+      assert.equal(reportsParentNoSelection.status, 400,
+        "weekly reports must require explicit selection when a parent has multiple linked children");
+      const reportsParentVerifiedChild = await requestReports(tokens.parent, ids.student);
+      assert.equal(reportsParentVerifiedChild.status, 200, JSON.stringify(reportsParentVerifiedChild.body));
+      assert.equal(reportsParentVerifiedChild.body.report?.student?.id, ids.student);
+      const reportsParentUnverifiedChild = await requestReports(tokens.parent, ids.unverifiedStudent);
+      assert.equal(reportsParentUnverifiedChild.status, 403,
+        "weekly reports must not authorize an unverified legacy parent link");
+
+      // Weekly reports must treat every current linked child as part of the
+      // ambiguity set, even when one legacy link is unverified. Verification
+      // is checked again after an explicit choice; selection alone is not access.
+      const reportsParentMixedNoSelection = await requestReports(tokens.parentMixed);
+      assert.equal(reportsParentMixedNoSelection.status, 400,
+        "weekly reports must require explicit selection when verified and unverified child links coexist");
+      const reportsParentMixedVerifiedChild = await requestReports(tokens.parentMixed, ids.student);
+      assert.equal(reportsParentMixedVerifiedChild.status, 200,
+        "weekly reports must allow the explicitly selected verified child");
+      const reportsParentMixedUnverifiedChild = await requestReports(tokens.parentMixed, ids.unverifiedStudent);
+      assert.equal(reportsParentMixedUnverifiedChild.status, 403,
+        "weekly reports must reject an explicitly selected unverified child");
+
+      const reportsStudentOwn = await requestReports(tokens.student);
+      assert.equal(reportsStudentOwn.status, 200, JSON.stringify(reportsStudentOwn.body));
+      assert.equal(reportsStudentOwn.body.report?.student?.id, ids.student);
+      const reportsStudentCross = await requestReports(tokens.student, ids.otherStudent);
+      assert.equal(reportsStudentCross.status, 403,
+        "weekly reports must reject a student-supplied ID belonging to another student");
+
+      // The parent overview is a separate endpoint and must enforce the same verified-link
+      // and explicit-selection rules instead of trusting the Analytics route's guard.
+      const parentOverviewNoSelection = await requestParentOverview(tokens.parent);
+      assert.equal(parentOverviewNoSelection.status, 400,
+        "parent overview must require explicit selection when multiple children are linked");
+      const parentOverviewVerifiedChild = await requestParentOverview(tokens.parent, ids.student);
+      assert.equal(parentOverviewVerifiedChild.status, 200, JSON.stringify(parentOverviewVerifiedChild.body));
+      assert.equal(parentOverviewVerifiedChild.body.student?.id, ids.student);
+      const parentOverviewUnverifiedChild = await requestParentOverview(tokens.parent, ids.unverifiedStudent);
+      assert.equal(parentOverviewUnverifiedChild.status, 403,
+        "parent overview must reject a selected child whose link is not admin-verified");
+      const parentOverviewMixedNoSelection = await requestParentOverview(tokens.parentMixed);
+      assert.equal(parentOverviewMixedNoSelection.status, 400,
+        "parent overview must count unverified links when deciding whether selection is ambiguous");
+      const parentOverviewMixedVerifiedChild = await requestParentOverview(tokens.parentMixed, ids.student);
+      assert.equal(parentOverviewMixedVerifiedChild.status, 200,
+        "parent overview must allow an explicitly selected admin-verified child");
+      const parentOverviewMixedUnverifiedChild = await requestParentOverview(tokens.parentMixed, ids.unverifiedStudent);
+      assert.equal(parentOverviewMixedUnverifiedChild.status, 403,
+        "parent overview must not treat explicit selection as a substitute for verification");
 
       // Revalidate current database roles rather than trusting the role copied into a session.
       await client.query("UPDATE users SET role = 'teacher' WHERE id = $1", [ids.otherStudent]);
