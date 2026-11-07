@@ -290,7 +290,7 @@ test("weekly parent reports revalidate verified links for every data source and 
   const helper = routeFiles.parentReportAuthorization;
   assert.ok(helper.includes('eq(parentAccount.role, "parent")'),
     "the linked account must still have the parent role");
-  assert.ok(helper.includes('eq(users.role, "student")'),
+  assert.ok(helper.includes('eq(studentAccount.role, "student")'),
     "the linked account must still have the student role");
   assert.ok(helper.includes('eq(verifiedByUser.role, "admin")'),
     "the verifier must still have the admin role");
