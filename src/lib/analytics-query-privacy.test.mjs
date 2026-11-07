@@ -49,7 +49,7 @@ test("parent analytics route requires explicit selection across all current stud
   assert.match(parentSource, /eq\(parentAccount\.role, "parent"\)/);
   assert.match(parentSource, /getParentAnalyticsSelectionData\(\s*links\.filter\(\(link\) => link\.studentRole === "student"\),\s*\)/);
   assert.match(parentSource, /resolveParentAnalyticsStudentId\(\s*requestedStudent,\s*selectionData\.allLinkedStudentIds,\s*\)/);
-  assert.match(parentSource, /selectionData\.verifiedStudentIds\.includes\(studentId\)/);
+  assert.match(parentSource, /linkedParentStudentIds\.includes\(studentId\)/);
   assert.match(parentSource, /linkedParentStudentIds = selectionData\.verifiedStudentIds/);
   assert.doesNotMatch(parentSource, /getVerifiedParentAnalyticsStudentIds\(links\)/);
 });
