@@ -285,14 +285,14 @@ test("weekly parent reports revalidate verified links for every data source and 
     "weekly reports must define a reusable verified-parent predicate");
 
   const helper = source.slice(helperStart, helperEnd);
-  assert.match(helper, /eq\\(parentAccount\\.role, "parent"\\)/,
+  assert.ok(helper.includes('eq(parentAccount.role, "parent")'),
     "the linked account must still have the parent role");
-  assert.match(helper, /eq\\(users\\.role, "student"\\)/,
+  assert.ok(helper.includes('eq(users.role, "student")'),
     "the linked account must still have the student role");
-  assert.match(helper, /eq\\(verifiedByUser\\.role, "admin"\\)/,
+  assert.ok(helper.includes('eq(verifiedByUser.role, "admin")'),
     "the verifier must still have the admin role");
-  assert.match(helper, /isNotNull\\(parentLinks\\.verifiedAt\\)/);
-  assert.match(helper, /isNotNull\\(parentLinks\\.verifiedBy\\)/);
+  assert.ok(helper.includes("isNotNull(parentLinks.verifiedAt)"));
+  assert.ok(helper.includes("isNotNull(parentLinks.verifiedBy)"));
 
   const guardUses = [...source.matchAll(/hasVerifiedParentLink\\(ctx\\.user\\.id, studentId\\)/g)].length;
   assert.equal(guardUses, 5,
@@ -304,7 +304,7 @@ test("weekly parent reports revalidate verified links for every data source and 
     "the final parent-link check must occur after all report data reads");
   assert.ok(finalResponse > finalGuard,
     "the report must be denied if the verified relationship was revoked during report generation");
-  assert.match(source.slice(finalGuard, finalResponse),
-    /if \\(role === "parent" && \\(!parentAccessStillValid \\|\\| parentAccessStillValid\\.length === 0\\)\\)/,
-    "a revoked or invalid parent link must fail closed before returning the report");
+  assert.ok(source.slice(finalGuard, finalResponse).includes(
+    'if (role === "parent" && (!parentAccessStillValid || parentAccessStillValid.length === 0))',
+  ), "a revoked or invalid parent link must fail closed before returning the report");
 });
