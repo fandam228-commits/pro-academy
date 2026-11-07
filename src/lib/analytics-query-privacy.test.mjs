@@ -6,6 +6,7 @@ const routeSource = await readFile(new URL("../app/api/analytics/route.ts", impo
 const verificationRouteSource = await readFile(new URL("../app/api/parent-links/[id]/verify/route.ts", import.meta.url), "utf8");
 const attendanceRouteSource = await readFile(new URL("../app/api/attendance/route.ts", import.meta.url), "utf8");
 const reportsRouteSource = await readFile(new URL("../app/api/reports/route.ts", import.meta.url), "utf8");
+const parentOverviewRouteSource = await readFile(new URL("../app/api/parent/route.ts", import.meta.url), "utf8");
 const reportStart = routeSource.indexOf("async function buildStudentReport(");
 const reportEnd = routeSource.indexOf("function buildClassAnalyticsResponse", reportStart);
 
@@ -35,21 +36,48 @@ test("teacher-scoped report profile query verifies the account role in SQL", () 
     "teacher-scoped profile lookup must fail closed for non-student or stale accounts",
   );
 });
-test("parent analytics route requires an admin-verified link to a current student account", () => {
+test("parent analytics route requires explicit selection across all current student links and authorizes only admin-verified children", () => {
   const parentStart = routeSource.indexOf('if (role === "parent")');
   const studentStart = routeSource.indexOf("// ---------- STUDENT: own report only ----------", parentStart);
   assert.notEqual(parentStart, -1, "parent analytics branch must exist");
   assert.notEqual(studentStart, -1, "student branch must follow the parent branch");
   const parentSource = routeSource.slice(parentStart, studentStart);
 
-  assert.match(parentSource, /\.innerJoin\(users, eq\(parentLinks\.studentId, users\.id\)\)/);
-  assert.match(parentSource, /\.innerJoin\(verifiedByUser, eq\(parentLinks\.verifiedBy, verifiedByUser\.id\)\)/);
-  assert.match(parentSource, /eq\(verifiedByUser\.role, "admin"\)/);
-  assert.match(parentSource, /eq\(parentLinks\.parentId, ctx\.user\.id\)/);
-  assert.match(parentSource, /eq\(users\.role, "student"\)/);
-  assert.match(parentSource, /isNotNull\(parentLinks\.verifiedAt\)/);
-  assert.match(parentSource, /isNotNull\(parentLinks\.verifiedBy\)/);
-  assert.match(parentSource, /getVerifiedParentAnalyticsStudentIds\(links\)/);
+  assert.match(parentSource, /\.innerJoin\(parentAccount, eq\(parentLinks\.parentId, parentAccount\.id\)\)/);
+  assert.match(parentSource, /\.leftJoin\(users, eq\(parentLinks\.studentId, users\.id\)\)/);
+  assert.match(parentSource, /\.leftJoin\(verifiedByUser, eq\(parentLinks\.verifiedBy, verifiedByUser\.id\)\)/);
+  assert.match(parentSource, /eq\(parentAccount\.role, "parent"\)/);
+  assert.match(parentSource, /getParentAnalyticsSelectionData\(\s*links\.filter\(\(link\) => link\.studentRole === "student"\),\s*\)/);
+  assert.match(parentSource, /resolveParentAnalyticsStudentId\(\s*requestedStudent,\s*selectionData\.allLinkedStudentIds,\s*\)/);
+  assert.match(parentSource, /selectionData\.verifiedStudentIds\.includes\(studentId\)/);
+  assert.match(parentSource, /linkedParentStudentIds = selectionData\.verifiedStudentIds/);
+  assert.doesNotMatch(parentSource, /getVerifiedParentAnalyticsStudentIds\(links\)/);
+});
+
+test("weekly reports require explicit parent selection across verified and unverified current student links", () => {
+  const parentStart = reportsRouteSource.indexOf('if (role === "parent")');
+  const studentStart = reportsRouteSource.indexOf('} else if (role === "student")', parentStart);
+  assert.notEqual(parentStart, -1, "weekly reports parent branch must exist");
+  assert.notEqual(studentStart, -1, "weekly reports student branch must follow parent branch");
+  const parentSource = reportsRouteSource.slice(parentStart, studentStart);
+
+  assert.match(parentSource, /\.leftJoin\(users, eq\(parentLinks\.studentId, users\.id\)\)/);
+  assert.match(parentSource, /\.leftJoin\(verifiedByUser, eq\(parentLinks\.verifiedBy, verifiedByUser\.id\)\)/);
+  assert.match(parentSource, /selectionData\.allLinkedStudentIds/);
+  assert.match(parentSource, /selectionData\.verifiedStudentIds\.includes\(resolution\.studentId\)/);
+});
+
+test("parent overview requires explicit selection across all linked students and rejects unverified choices", () => {
+  const parentStart = parentOverviewRouteSource.indexOf("const links = await db");
+  const resolutionStart = parentOverviewRouteSource.indexOf("const studentId = resolution.studentId;", parentStart);
+  assert.notEqual(parentStart, -1, "parent overview link query must exist");
+  assert.notEqual(resolutionStart, -1, "parent overview must resolve a selected student");
+  const parentSource = parentOverviewRouteSource.slice(parentStart, resolutionStart);
+
+  assert.match(parentSource, /\.leftJoin\(users, eq\(parentLinks\.studentId, users\.id\)\)/);
+  assert.match(parentSource, /\.leftJoin\(verifiedByUser, eq\(parentLinks\.verifiedBy, verifiedByUser\.id\)\)/);
+  assert.match(parentSource, /selectionData\.allLinkedStudentIds/);
+  assert.match(parentSource, /selectionData\.verifiedStudentIds\.includes/);
 });
 
 test("student analytics route authorizes the requested ID but only builds the authenticated student's report", () => {
