@@ -22,28 +22,38 @@ function assertAuthBeforeSetup(source, routeName) {
 }
 
 function assertMixedVerificationParentSelection(source, requestedId, routeName) {
-  assert.ok(source.includes("leftJoin(verifiedByUser, eq(parentLinks.verifiedBy, verifiedByUser.id))"),
+  const roleBranchStart = source.indexOf('if (role === "parent")');
+  const parentBranchStart = roleBranchStart >= 0 ? roleBranchStart : source.indexOf("const links = await db");
+  assert.notEqual(parentBranchStart, -1, routeName + " parent branch must exist");
+  const laterDataReads = [
+    source.indexOf('const stList = role === "teacher"', parentBranchStart),
+    source.indexOf("const studentList = await db", parentBranchStart),
+    source.indexOf("const records = await db.select().from(attendanceRecords)", parentBranchStart),
+  ].filter((index) => index > parentBranchStart);
+  const selectionEnd = laterDataReads.length ? Math.min(...laterDataReads) : source.length;
+  const selectionSource = source.slice(parentBranchStart, selectionEnd);
+
+  assert.ok(selectionSource.includes("leftJoin(verifiedByUser, eq(parentLinks.verifiedBy, verifiedByUser.id))"),
     routeName + " must retain unverified links in the ambiguity query");
-  assert.ok(source.includes("verifierRole: verifiedByUser.role"));
+  assert.ok(selectionSource.includes("verifierRole: verifiedByUser.role"));
   assert.ok(
-    source.includes('eq(parentAccount.role, "parent")') ||
-    source.includes('eq(parentAccountUser.role, "parent")'),
+    selectionSource.includes('eq(parentAccount.role, "parent")') ||
+    selectionSource.includes('eq(parentAccountUser.role, "parent")'),
     routeName + " must revalidate the current parent role",
   );
-  assert.ok(source.includes('eq(users.role, "student")'),
+  assert.ok(selectionSource.includes('eq(users.role, "student")'),
     routeName + " must require a current student account");
-  assert.ok(source.includes("getParentAnalyticsSelectionData(links)"));
-  assert.ok(source.includes("allLinkedStudentIds: linkedStudentIds"));
-  assert.ok(source.includes("resolveParentAnalyticsStudentId(" + requestedId + ", linkedStudentIds)"));
-  assert.ok(source.includes("verifiedStudentIds.includes(resolution.studentId)"));
-  assert.ok(!source.includes('eq(verifiedByUser.role, "admin")'),
+  assert.ok(selectionSource.includes("getParentAnalyticsSelectionData(links)"));
+  assert.ok(selectionSource.includes("allLinkedStudentIds: linkedStudentIds"));
+  assert.ok(selectionSource.includes("resolveParentAnalyticsStudentId(" + requestedId + ", linkedStudentIds)"));
+  assert.ok(selectionSource.includes("verifiedStudentIds.includes(resolution.studentId)"));
+  assert.ok(!selectionSource.includes('eq(verifiedByUser.role, "admin")'),
     routeName + " must not filter unverified children out before checking ambiguity");
-  assert.ok(!source.includes("isNotNull(parentLinks.verifiedAt)"));
-  assert.ok(!source.includes("isNotNull(parentLinks.verifiedBy)"));
-  assert.doesNotMatch(source, /links\s*\[\s*0\s*\]\s*\??\.\s*studentId/,
+  assert.ok(!selectionSource.includes("isNotNull(parentLinks.verifiedAt)"));
+  assert.ok(!selectionSource.includes("isNotNull(parentLinks.verifiedBy)"));
+  assert.doesNotMatch(selectionSource, /links\s*\[\s*0\s*\]\s*\??\.\s*studentId/,
     routeName + " must not silently select the first linked child");
 }
-
 test("student reports authenticate before setup and require mixed-verification explicit selection", () => {
   assertAuthBeforeSetup(routeFiles.reports, "reports");
   assertMixedVerificationParentSelection(routeFiles.reports, "studentId", "reports");
@@ -73,11 +83,16 @@ test("parent overview requires verified explicit child selection and never retur
 });
 
 test("teacher student report scope requires owned-course enrollment and excludes unscopable data", () => {
-  assert.match(routeFiles.reports, /eq\(courses\.teacherId, ctx\.user\.id\)/);
-  assert.match(routeFiles.reports, /inArray\(enrollments\.status, \["active", "completed"\]\)/);
-  assert.match(routeFiles.reports, /eq\(homework\.teacherId, ctx\.user\.id\)/);
-  assert.match(routeFiles.reports, /inArray\(homeworkSubmissions\.homeworkId, visibleHomeworkIds!\)/);
-  assert.match(routeFiles.reports, /inArray\(quizSubmissions\.quizId, visibleQuizIds!\)/);
+  assert.match(routeFiles.reports,
+    /\.innerJoin\(homework, eq\(homeworkSubmissions\.homeworkId, homework\.id\)\)[\s\S]*?\.innerJoin\(courses, eq\(homework\.courseId, courses\.id\)\)[\s\S]*?eq\(homework\.teacherId, ctx\.user\.id\)[\s\S]*?eq\(courses\.teacherId, ctx\.user\.id\)[\s\S]*?eq\(enrollments\.courseId, homework\.courseId\)[\s\S]*?inArray\(enrollments\.status, \["active", "completed"\]\)/,
+    "homework submissions must be scoped to the live owned course and current enrollment in one query");
+  assert.match(routeFiles.reports,
+    /\.innerJoin\(quizzes, eq\(quizSubmissions\.quizId, quizzes\.id\)\)[\s\S]*?\.innerJoin\(courses, eq\(quizzes\.courseId, courses\.id\)\)[\s\S]*?eq\(courses\.teacherId, ctx\.user\.id\)[\s\S]*?eq\(enrollments\.courseId, quizzes\.courseId\)[\s\S]*?inArray\(enrollments\.status, \["active", "completed"\]\)/,
+    "quiz submissions must be scoped to the live owned course and current enrollment in one query");
+  assert.match(routeFiles.reports, /eq\(users\.role, "student"\)/,
+    "report reads must require the target account to remain a student");
+  assert.doesNotMatch(routeFiles.reports, /visibleHomeworkIds|visibleQuizIds/,
+    "weekly report result reads must not use stale precomputed homework or quiz allowlists");
   assert.match(routeFiles.reports, /const overallRate = role === "teacher" \? null :/,
     "teacher reports must not fabricate a 100% attendance rate when attendance cannot be scoped");
   assert.match(routeFiles.reports, /role === "teacher" \? \[\] : await db\.select\(\)\.from\(attendanceRecords\)/,
@@ -101,7 +116,7 @@ test("student report endpoint rejects attempts to select another student", () =>
   assert.notEqual(studentBranch, -1, "student report branch must exist");
   const forbiddenGuard = source.indexOf('if (studentId && studentId !== ctx.user.id)', studentBranch);
   const selfAssignment = source.indexOf("studentId = ctx.user.id;", forbiddenGuard);
-  const studentLookup = source.indexOf("const stList = await db", selfAssignment);
+  const studentLookup = source.indexOf('const stList = role === "teacher"', selfAssignment);
   assert.ok(
     forbiddenGuard > studentBranch && selfAssignment > forbiddenGuard && studentLookup > selfAssignment,
     "a student-supplied target ID must be rejected before report data is queried, then the authenticated ID is used",
