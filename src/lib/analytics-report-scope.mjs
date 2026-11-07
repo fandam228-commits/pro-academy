@@ -48,17 +48,15 @@ export function isTeacherScopedHomework(item, teacherId, allowedCourseIds) {
 }
 
 /**
- * Grade-specific homework is visible only when the student's current grade is
- * known and matches. A blank/null assignment grade is intentionally grade-agnostic.
- * Missing student grade must never disable grade filtering.
+ * Grade-specific homework is hidden when the student's current grade is missing.
+ * Grade-agnostic homework remains visible.
  */
 export function isHomeworkGradeVisibleToStudent(homeworkGrade, studentGrade) {
-  const assignmentGrade = typeof homeworkGrade === "string" ? homeworkGrade.trim() : "";
-  const learnerGrade = typeof studentGrade === "string" ? studentGrade.trim() : "";
-
-  if (!assignmentGrade) return true;
-  if (!learnerGrade) return false;
-  return assignmentGrade === learnerGrade;
+  const normalizedHomeworkGrade = typeof homeworkGrade === "string" ? homeworkGrade.trim() : "";
+  const normalizedStudentGrade = typeof studentGrade === "string" ? studentGrade.trim() : "";
+  if (!normalizedHomeworkGrade) return true;
+  if (!normalizedStudentGrade) return false;
+  return normalizedHomeworkGrade === normalizedStudentGrade;
 }
 
 export function isCourseScopedQuiz(quiz, allowedCourseIds) {
@@ -94,6 +92,30 @@ export function getVerifiedParentAnalyticsStudentIds(linkRows) {
     .map((row) => row.studentId);
 
   return [...new Set(verifiedIds)];
+}
+
+/**
+ * Derive both the ambiguity set and the authorization set from one database
+ * result. Unverified links still count as linked children for explicit-selection
+ * purposes, but only links with a current admin verifier are authorized.
+ */
+export function getParentAnalyticsSelectionData(linkRows) {
+  if (!Array.isArray(linkRows)) {
+    return { allLinkedStudentIds: [], verifiedStudentIds: [] };
+  }
+
+  const validRows = linkRows.filter((row) =>
+    row &&
+    typeof row === "object" &&
+    isNonEmptyString(row.studentId)
+  );
+  const allLinkedStudentIds = [...new Set(validRows.map((row) => row.studentId))];
+  const verifiedRows = validRows.filter((row) => row.verifierRole === "admin");
+
+  return {
+    allLinkedStudentIds,
+    verifiedStudentIds: getVerifiedParentAnalyticsStudentIds(verifiedRows),
+  };
 }
 
 /**

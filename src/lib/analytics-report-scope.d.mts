@@ -8,10 +8,15 @@ export interface TeacherAnalyticsEnrollmentRow {
 export function getTeacherAnalyticsStudentIds(enrollmentRows: unknown, teacherId: string): string[];
 export function getTeacherAnalyticsCourseIds(enrollmentRows: unknown, teacherId: string, studentId: string): string[];
 export function isTeacherScopedHomework(item: unknown, teacherId: string, allowedCourseIds: unknown): boolean;
-/** Grade-specific homework requires a known matching student grade; ungraded assignments are grade-agnostic. */
 export function isHomeworkGradeVisibleToStudent(homeworkGrade: unknown, studentGrade: unknown): boolean;
 export function isCourseScopedQuiz(quiz: unknown, allowedCourseIds: unknown): boolean;
 export function getVerifiedParentAnalyticsStudentIds(linkRows: unknown): string[];
+
+export interface ParentAnalyticsSelectionData {
+  allLinkedStudentIds: string[];
+  verifiedStudentIds: string[];
+}
+export function getParentAnalyticsSelectionData(linkRows: unknown): ParentAnalyticsSelectionData;
 
 export type ParentAnalyticsStudentResolution =
   | { ok: true; studentId: string }
