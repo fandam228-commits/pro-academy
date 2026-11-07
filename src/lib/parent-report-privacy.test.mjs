@@ -36,10 +36,15 @@ function assertMixedVerificationParentSelection(source, requestedId, routeName) 
   assert.ok(source.includes("allLinkedStudentIds: linkedStudentIds"));
   assert.ok(source.includes("resolveParentAnalyticsStudentId(" + requestedId + ", linkedStudentIds)"));
   assert.ok(source.includes("verifiedStudentIds.includes(resolution.studentId)"));
-  assert.ok(!source.includes('eq(verifiedByUser.role, "admin")'),
+  const selectionEnd = source.indexOf("getParentAnalyticsSelectionData(links)");
+  assert.ok(selectionEnd >= 0, routeName + " must derive ambiguity before filtering verified links");
+  const selectionQuery = source.slice(0, selectionEnd);
+  assert.ok(!selectionQuery.includes('eq(verifiedByUser.role, "admin")'),
     routeName + " must not filter unverified children out before checking ambiguity");
-  assert.ok(!source.includes("isNotNull(parentLinks.verifiedAt)"));
-  assert.ok(!source.includes("isNotNull(parentLinks.verifiedBy)"));
+  assert.ok(!selectionQuery.includes("isNotNull(parentLinks.verifiedAt)"),
+    routeName + " must keep unverified links in the ambiguity set");
+  assert.ok(!selectionQuery.includes("isNotNull(parentLinks.verifiedBy)"),
+    routeName + " must keep missing verifier links in the ambiguity set");
   assert.doesNotMatch(source, /links\s*\[\s*0\s*\]\s*\??\.\s*studentId/,
     routeName + " must not silently select the first linked child");
 }
