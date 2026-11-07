@@ -587,8 +587,8 @@ integrationTest(
       const teacherAttendance = await requestRoute("/api/attendance", tokens.teacher);
       assert.equal(teacherAttendance.status, 200, JSON.stringify(teacherAttendance.body));
       assert.deepEqual(
-        (teacherAttendance.body.roster || []).map((row) => row.studentId),
-        [ids.student],
+        (teacherAttendance.body.roster || []).map((row) => row.studentId).sort(),
+        [ids.student, ids.secondOwnedStudent].sort(),
         "teacher attendance roster must contain only active students in courses owned by that teacher",
       );
       assert.equal(
@@ -644,7 +644,10 @@ integrationTest(
           await client.query("DELETE FROM homework WHERE id = ANY($1::text[])", [[ids.ownedCourseHomework, ids.otherTeacherHomework, ids.staleOwnerHomework]]);
           await client.query("DELETE FROM quiz_submissions WHERE id = $1", [ids.otherCourseQuizSubmission]);
           await client.query("DELETE FROM quizzes WHERE id = $1", [ids.otherCourseQuiz]);
-          await client.query("DELETE FROM attendance_records WHERE id = $1", [ids.attendanceRecord]);
+          await client.query(
+            "DELETE FROM attendance_records WHERE id = $1 OR (student_id = $2 AND session_title = $3 AND session_date = $4)",
+            [ids.attendanceRecord, ids.secondOwnedStudent, "Unscoped attendance fixture", "2026-11-04"],
+          );
           await client.query("DELETE FROM enrollments WHERE id = ANY($1::text[])", [[ids.enrollmentOwned, ids.enrollmentSecondOwned, ids.enrollmentOtherStudent, ids.enrollmentStudentOtherCourse, ids.enrollmentCancelled]]);
           await client.query("DELETE FROM courses WHERE id = ANY($1::text[])", [[ids.ownedCourse, ids.otherCourse]]);
           await client.query("DELETE FROM users WHERE id = ANY($1::text[])", [[ids.teacher, ids.otherTeacher, ids.student, ids.secondOwnedStudent, ids.otherStudent, ids.unlinkedStudent, ids.unverifiedStudent, ids.unverifiedOnlyStudent, ids.parent, ids.parentSingle, ids.parentMixed, ids.parentUnverifiedOnly, ids.admin]]);
