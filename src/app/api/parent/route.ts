@@ -1,6 +1,6 @@
 import { db } from "@/db";
 import { parentLinks, users, enrollments, quizSubmissions, attendance } from "@/db/schema";
-import { and, eq } from "drizzle-orm";
+import { and, eq, isNotNull } from "drizzle-orm";
 import { alias } from "drizzle-orm/pg-core";
 import { NextResponse } from "next/server";
 import { ensureDbSetup } from "@/db/migrate-and-seed";
@@ -9,6 +9,7 @@ import { getParentAnalyticsSelectionData, resolveParentAnalyticsStudentId } from
 
 const parentAccountUser = alias(users, "parent_route_parent_account");
 const verifiedByUser = alias(users, "parent_route_verified_by_user");
+const studentAccountUser = alias(users, "parent_route_student_account");
 
 export async function GET(req: Request) {
   const ctx = await getAuthContext(req);
@@ -102,6 +103,36 @@ export async function GET(req: Request) {
     const avgScore = studentSubs.length > 0
       ? Math.round(studentSubs.reduce((acc, curr) => acc + curr.percentage, 0) / studentSubs.length)
       : 85;
+
+    // Revalidate the complete relationship after all student-data reads. The
+    // parent, student, and verifier roles may change while the overview is built.
+    // Requiring the link and verifier in the final SQL statement makes revocation
+    // or verifier demotion fail closed before any student data is returned.
+    const parentAccessStillValid = await db
+      .select({ id: studentAccountUser.id })
+      .from(studentAccountUser)
+      .innerJoin(parentLinks, and(
+        eq(parentLinks.studentId, studentAccountUser.id),
+        eq(parentLinks.parentId, parentId),
+        isNotNull(parentLinks.verifiedAt),
+        isNotNull(parentLinks.verifiedBy),
+      ))
+      .innerJoin(parentAccountUser, and(
+        eq(parentLinks.parentId, parentAccountUser.id),
+        eq(parentAccountUser.role, "parent"),
+      ))
+      .innerJoin(verifiedByUser, and(
+        eq(parentLinks.verifiedBy, verifiedByUser.id),
+        eq(verifiedByUser.role, "admin"),
+      ))
+      .where(and(
+        eq(studentAccountUser.id, studentId),
+        eq(studentAccountUser.role, "student"),
+      ))
+      .limit(1);
+    if (parentAccessStillValid.length === 0) {
+      return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+    }
 
     return NextResponse.json({
       student,
