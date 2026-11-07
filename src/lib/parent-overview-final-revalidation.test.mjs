@@ -9,13 +9,15 @@ test("parent overview revalidates parent, student, and admin verifier after ever
   const submissionRead = route.indexOf("const studentSubs = await db");
   const attendanceRead = route.indexOf("const studentAtt = await db");
   const finalCheck = route.indexOf("const parentAccessStillValid = await db");
-  const response = route.indexOf("return NextResponse.json({", finalCheck);
+  const denyGuard = route.indexOf("if (parentAccessStillValid.length === 0)", finalCheck);
+  const successResponse = route.indexOf("return NextResponse.json({\n      student,", denyGuard);
 
   assert.ok(enrollmentRead >= 0 && submissionRead > enrollmentRead && attendanceRead > submissionRead);
   assert.ok(finalCheck > attendanceRead, "the final relationship check must follow all student-data reads");
-  assert.ok(response > finalCheck, "student data must not be returned before final authorization");
+  assert.ok(denyGuard > finalCheck, "the final relationship check must be evaluated before the response");
+  assert.ok(successResponse > denyGuard, "student data must be returned only after the final authorization guard");
 
-  const finalQuery = route.slice(finalCheck, response);
+  const finalQuery = route.slice(finalCheck, denyGuard);
   for (const required of [
     'eq(parentAccountUser.role, "parent")',
     'eq(studentAccountUser.role, "student")',
