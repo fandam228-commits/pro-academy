@@ -25,7 +25,7 @@ import {
   getTeacherAnalyticsCourseIds,
   isHomeworkGradeVisibleToStudent,
   resolveParentAnalyticsStudentId,
-  getVerifiedParentAnalyticsStudentIds,
+  getParentAnalyticsSelectionData,
 } from "@/lib/analytics-report-scope.mjs";
 
 const verifiedByUser = alias(users, "verified_by_user");
@@ -483,29 +483,34 @@ export async function GET(req: Request) {
 
     // ---------- PARENT: linked student report ----------
     if (role === "parent") {
-      // Only admin-verified links may authorize parent-facing student reports.
-      // Existing legacy links without verification metadata fail closed.
+      // Build ambiguity from every current linked student, including unverified links.
+      // A single verified child must not be auto-selected when another child is linked.
       const links = await db
         .select({
           studentId: parentLinks.studentId,
           verifiedAt: parentLinks.verifiedAt,
           verifiedBy: parentLinks.verifiedBy,
+          studentRole: users.role,
+          verifierRole: verifiedByUser.role,
         })
         .from(parentLinks)
         .innerJoin(parentAccount, eq(parentLinks.parentId, parentAccount.id))
-        .innerJoin(users, eq(parentLinks.studentId, users.id))
-        .innerJoin(verifiedByUser, eq(parentLinks.verifiedBy, verifiedByUser.id))
+        .leftJoin(users, eq(parentLinks.studentId, users.id))
+        .leftJoin(verifiedByUser, eq(parentLinks.verifiedBy, verifiedByUser.id))
         .where(and(
           eq(parentLinks.parentId, ctx.user.id),
-          // Revalidate the parent account in the database; a stale session role is not enough.
           eq(parentAccount.role, "parent"),
-          eq(users.role, "student"),
-          eq(verifiedByUser.role, "admin"),
-          isNotNull(parentLinks.verifiedAt),
-          isNotNull(parentLinks.verifiedBy),
         ));
-      const linkedParentStudentIds = getVerifiedParentAnalyticsStudentIds(links);
-      const resolution = resolveParentAnalyticsStudentId(requestedStudent, linkedParentStudentIds);
+      const selectionData = getParentAnalyticsSelectionData(
+        links.filter((link) => link.studentRole === "student"),
+      );
+      if (selectionData.verifiedStudentIds.length === 0) {
+        return NextResponse.json({ error: "No verified linked student" }, { status: 404 });
+      }
+      const resolution = resolveParentAnalyticsStudentId(
+        requestedStudent,
+        selectionData.allLinkedStudentIds,
+      );
 
       if (!resolution.ok) {
         if (resolution.reason === "no-linked-student") {
@@ -524,7 +529,12 @@ export async function GET(req: Request) {
       }
 
       const studentId = resolution.studentId;
-      // Keep the role policy as a second authorization check after selection.
+      // Selection and authorization are separate: an unverified linked child
+      // may trigger explicit selection, but can never receive a report.
+      const linkedParentStudentIds = selectionData.verifiedStudentIds;
+      if (!linkedParentStudentIds.includes(studentId)) {
+        return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+      }
       const allowed = canAccessStudentAnalytics({
         role,
         requesterId: ctx.user.id,
