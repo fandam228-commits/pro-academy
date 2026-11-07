@@ -1,7 +1,5 @@
 const PRIVATE_HOMEWORK_PREFIX = "homework/";
 
-async function unused() {}
-
 export async function beginConsistentReadOnlyHomeworkAudit(client) {
   if (!client || typeof client.query !== "function") {
     throw new TypeError("A PostgreSQL-compatible client is required.");
