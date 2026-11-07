@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { getRequiredSecurityIntegrationTests } from "../../scripts/ci/require-security-integration-tests.mjs";
+import { getMissingSecurityIntegrationTestSteps, getRequiredSecurityIntegrationTests } from "../../scripts/ci/require-security-integration-tests.mjs";
 
 test("Analytics route and policy changes require all authorization integration suites", () => {
   assert.deepEqual(
@@ -72,5 +72,32 @@ test("reports, attendance, and parent route changes require all Analytics author
       "tests/integration/parent-report-current-role.integration.mjs",
       "tests/integration/analytics-route-http-authorization.integration.mjs",
     ],
+  );
+});
+
+
+test("required security integration suites must have executable CI steps", () => {
+  const required = [
+    "tests/integration/analytics-authorization.integration.mjs",
+    "tests/integration/parent-link-verification.integration.mjs",
+  ];
+  const workflow = [
+    "node --test tests/integration/analytics-authorization.integration.mjs",
+    "node --test tests/integration/parent-link-verification.integration.mjs",
+  ].join("\\n");
+
+  assert.deepEqual(getMissingSecurityIntegrationTestSteps(required, workflow), []);
+});
+
+test("security guard reports required suites that CI does not execute", () => {
+  const required = [
+    "tests/integration/analytics-authorization.integration.mjs",
+    "tests/integration/parent-link-verification.integration.mjs",
+  ];
+  const workflow = "node --test tests/integration/analytics-authorization.integration.mjs";
+
+  assert.deepEqual(
+    getMissingSecurityIntegrationTestSteps(required, workflow),
+    ["tests/integration/parent-link-verification.integration.mjs"],
   );
 });
