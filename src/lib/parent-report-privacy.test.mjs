@@ -157,7 +157,7 @@ test("analytics parent reports require a verified link and explicit selection fo
   assert.match(parentBranch, /leftJoin\(verifiedByUser, eq\(parentLinks\.verifiedBy, verifiedByUser\.id\)\)/);
   assert.match(parentBranch, /getParentAnalyticsSelectionData\(/);
   assert.match(parentBranch, /resolveParentAnalyticsStudentId\(\s*requestedStudent,\s*selectionData\.allLinkedStudentIds\s*\)/);
-  assert.match(parentBranch, /selectionData\.verifiedStudentIds\.includes\(studentId\)/);
+  assert.match(parentBranch, /linkedParentStudentIds\.includes\(studentId\)/);
   assert.match(parentBranch, /student-id-required/);
   assert.doesNotMatch(parentBranch, /links\s*\[\s*0\s*\]\s*\??\.\s*studentId/,
     "analytics must never silently choose the first linked child");
