@@ -12,8 +12,16 @@ test("parent analytics revalidates the parent's current database role before tru
   const parentSource = routeSource.slice(parentStart, studentStart);
 
   assert.match(parentSource, /\.innerJoin\(parentAccount, eq\(parentLinks\.parentId, parentAccount\.id\)\)/);
-  assert.match(parentSource, /eq\(parentAccount\.role, "parent"\)/);
+  assert.match(parentSource, /eq\(parentAccount\.role, "parent"\)/,
+    "the parent account must still have the parent role in the database");
   assert.match(parentSource, /eq\(parentLinks\.parentId, ctx\.user\.id\)/);
-  assert.match(parentSource, /eq\(verifiedByUser\.role, "admin"\)/);
-  assert.match(parentSource, /eq\(users\.role, "student"\)/);
+  assert.match(parentSource, /\.leftJoin\(users, eq\(parentLinks\.studentId, users\.id\)\)/,
+    "unverified current student links must remain visible for ambiguity detection");
+  assert.match(parentSource, /\.leftJoin\(verifiedByUser, eq\(parentLinks\.verifiedBy, verifiedByUser\.id\)\)/);
+  assert.match(parentSource, /getParentAnalyticsSelectionData\(/,
+    "authorization must derive a separate admin-verified allowlist");
+  assert.match(parentSource, /selectionData\.allLinkedStudentIds/,
+    "all linked current students must be considered when requiring explicit selection");
+  assert.match(parentSource, /linkedParentStudentIds = selectionData\.verifiedStudentIds/,
+    "only verified links may authorize the selected child");
 });
