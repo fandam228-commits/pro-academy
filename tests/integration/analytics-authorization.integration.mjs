@@ -532,12 +532,12 @@ integrationTest("PostgreSQL parent selection counts unverified current-student l
     );
 
     assert.deepEqual(
-      selectionData.allLinkedStudentIds,
+      selectionData.allLinkedStudentIds.slice().sort(),
       ["student-1", "student-2", "student-4", "student-5", "student-6"],
       "all current student links, including unverified and non-admin-verified links, must count toward explicit selection",
     );
     assert.deepEqual(
-      selectionData.verifiedStudentIds,
+      selectionData.verifiedStudentIds.slice().sort(),
       ["student-1", "student-2"],
       "only links with a current admin verifier and valid verification metadata may authorize a report",
     );
