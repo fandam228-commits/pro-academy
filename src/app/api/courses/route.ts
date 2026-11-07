@@ -4,6 +4,7 @@ import { eq, and, inArray } from "drizzle-orm";
 import { NextResponse } from "next/server";
 import { ensureDbSetup } from "@/db/migrate-and-seed";
 import { requireRoles, getAuthContext } from "@/lib/security";
+import { toYouTubeEmbedUrl } from "@/lib/youtube-url.js";
 
 export async function GET(req: Request) {
   await ensureDbSetup();
@@ -136,13 +137,13 @@ export async function POST(req: Request) {
         unitId: lessonData.unitId,
         title: String(lessonData.title || "").trim(),
         description: lessonData.description || "",
-        videoUrl: String(lessonData.videoUrl || "").trim(),
+        videoUrl: toYouTubeEmbedUrl(String(lessonData.videoUrl || "").trim()) || "",
         duration: lessonData.duration || "25 mins",
         pdfUrl: lessonData.pdfUrl || "",
         orderIndex: Number(lessonData.orderIndex) || 1,
         isFree: Boolean(lessonData.isFree),
       };
-      if (!newLesson.title || !newLesson.videoUrl) return NextResponse.json({ error: "Lesson title and video URL are required." }, { status: 400 });
+      if (!newLesson.title || !newLesson.videoUrl) return NextResponse.json({ error: "عنوان المحاضرة ورابط YouTube صحيح مطلوبان." }, { status: 400 });
       await db.insert(lessons).values(newLesson);
       return NextResponse.json({ success: true, lesson: newLesson });
     }
