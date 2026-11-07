@@ -34,9 +34,30 @@ function assertVerifiedParentSelection(source, routeName) {
     routeName + " must not silently select the first linked child");
 }
 
+function assertMixedParentSelection(source, routeName, requestedIdName) {
+  assert.match(source, /innerJoin\(parentAccount, eq\(parentLinks\.parentId, parentAccount\.id\)\)/,
+    routeName + " must verify the current parent account");
+  assert.match(source, /eq\(parentAccount\.role, "parent"\)/,
+    routeName + " must require the current parent role");
+  assert.match(source, /leftJoin\(users, eq\(parentLinks\.studentId, users\.id\)\)/,
+    routeName + " must retain unverified current-student links for ambiguity detection");
+  assert.match(source, /leftJoin\(verifiedByUser, eq\(parentLinks\.verifiedBy, verifiedByUser\.id\)\)/,
+    routeName + " must resolve the current verifier role");
+  assert.match(source, /getParentAnalyticsSelectionData\(/,
+    routeName + " must derive both all-linked and verified child sets");
+  assert.match(source, /selectionData\.allLinkedStudentIds/,
+    routeName + " must require explicit choice across all current linked students");
+  assert.match(source, new RegExp("resolveParentAnalyticsStudentId\\\\(\\\\s*" + requestedIdName + ",\\\\s*selectionData\\\\.allLinkedStudentIds\\\\s*\\\\)"),
+    routeName + " must resolve the requested child against every linked student");
+  assert.match(source, /selectionData\.verifiedStudentIds\.includes\(/,
+    routeName + " must deny explicitly selected but unverified children");
+  assert.doesNotMatch(source, /links\s*\[\s*0\s*\]\s*\??\.\s*studentId/,
+    routeName + " must not silently select the first linked child");
+}
+
 test("student reports authenticate before setup and verify parent links", () => {
   assertAuthBeforeSetup(routeFiles.reports, "reports");
-  assertVerifiedParentSelection(routeFiles.reports, "reports");
+  assertMixedParentSelection(routeFiles.reports, "reports", "studentId");
 });
 
 test("attendance authenticates before setup and verifies parent links", () => {
@@ -46,7 +67,7 @@ test("attendance authenticates before setup and verifies parent links", () => {
 
 test("parent overview requires verified explicit child selection and never returns the full users row", () => {
   assertAuthBeforeSetup(routeFiles.parent, "parent overview");
-  assertVerifiedParentSelection(routeFiles.parent, "parent overview");
+  assertMixedParentSelection(routeFiles.parent, "parent overview", "requestedStudent");
   assert.match(routeFiles.parent, /ctx\.user\.role !== "parent" && ctx\.user\.role !== "admin"/,
     "parent overview must deny teacher access; teachers use course-scoped reports");
   assert.doesNotMatch(routeFiles.parent, /ctx\.user\.role !== "parent" && ctx\.user\.role !== "admin" && ctx\.user\.role !== "teacher"/,
@@ -132,11 +153,11 @@ test("analytics parent reports require a verified link and explicit selection fo
   assert.ok(parentStart >= 0 && studentStart > parentStart, "parent analytics branch must exist");
   const parentBranch = source.slice(parentStart, studentStart);
 
-  assert.match(parentBranch, /innerJoin\(verifiedByUser, eq\(parentLinks\.verifiedBy, verifiedByUser\.id\)\)/);
-  assert.match(parentBranch, /eq\(verifiedByUser\.role, "admin"\)/);
-  assert.match(parentBranch, /eq\(users\.role, "student"\)/);
-  assert.match(parentBranch, /isNotNull\(parentLinks\.verifiedAt\)/);
-  assert.match(parentBranch, /resolveParentAnalyticsStudentId\(requestedStudent, linkedParentStudentIds\)/);
+  assert.match(parentBranch, /leftJoin\(users, eq\(parentLinks\.studentId, users\.id\)\)/);
+  assert.match(parentBranch, /leftJoin\(verifiedByUser, eq\(parentLinks\.verifiedBy, verifiedByUser\.id\)\)/);
+  assert.match(parentBranch, /getParentAnalyticsSelectionData\(/);
+  assert.match(parentBranch, /resolveParentAnalyticsStudentId\(\s*requestedStudent,\s*selectionData\.allLinkedStudentIds\s*\)/);
+  assert.match(parentBranch, /selectionData\.verifiedStudentIds\.includes\(studentId\)/);
   assert.match(parentBranch, /student-id-required/);
   assert.doesNotMatch(parentBranch, /links\s*\[\s*0\s*\]\s*\??\.\s*studentId/,
     "analytics must never silently choose the first linked child");
