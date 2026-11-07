@@ -3,6 +3,7 @@ import assert from "node:assert/strict";
 import { spawnSync } from "node:child_process";
 import { resolve } from "node:path";
 import { assertSafeHomeworkAuditTarget } from "../src/lib/homework-storage-audit.mjs";
+import { runHomeworkStorageAudit } from "../scripts/audit-homework-storage.mjs";
 import { tmpdir } from "node:os";
 
 function runAudit(envOverrides = {}) {
@@ -92,4 +93,112 @@ test("remote audit opt-in must be the boolean true, not a truthy string", () => 
     assertSafeHomeworkAuditTarget(remoteDatabaseUrl, true),
     "remote-read-only-opt-in",
   );
+});
+
+
+test("successful audit keyset-paginates in a read-only snapshot and emits aggregate counts only", async () => {
+  class FakeAuditClient {
+    constructor() {
+      this.calls = [];
+      this.batches = [
+        [
+          { id: "submission-secret-001", storage_path: "https://store-secret.public.blob.vercel-storage.com/student-secret.pdf" },
+          { id: "submission-secret-002", storage_path: "homework/private/student-secret.pdf" },
+        ],
+        [
+          { id: "submission-secret-003", storage_path: "https://legacy-secret.example/student-secret.pdf" },
+        ],
+      ];
+      this.ended = false;
+    }
+
+    async connect() {}
+
+    async query(sql, params) {
+      this.calls.push({ sql, params });
+      if (sql.includes("current_setting('transaction_read_only')")) {
+        return { rows: [{ read_only: "on", isolation: "repeatable read" }] };
+      }
+      if (sql.includes("FROM homework_submissions")) {
+        return { rows: this.batches.shift() ?? [] };
+      }
+      return { rows: [] };
+    }
+
+    async end() {
+      this.ended = true;
+    }
+  }
+
+  const client = new FakeAuditClient();
+  const output = [];
+  const summary = await runHomeworkStorageAudit({
+    connectionString: "postgresql://audit:audit@127.0.0.1:5432/proacademy_test",
+    allowRemote: false,
+    batchSize: 2,
+    ClientClass: class {
+      constructor() { return client; }
+    },
+    write: (line) => output.push(line),
+  });
+
+  assert.deepEqual(summary, {
+    totalRows: 3,
+    empty: 0,
+    privatePath: 1,
+    vercelPublicBlobUrlNeedsReview: 1,
+    absoluteUrlNeedsReview: 1,
+    unknownOrMalformed: 0,
+  });
+
+  const batchQueries = client.calls.filter((call) => call.sql.includes("FROM homework_submissions"));
+  assert.deepEqual(batchQueries.map((call) => call.params), [
+    [null, 2],
+    ["submission-secret-002", 2],
+  ], "the next bounded batch must continue after the last ID from the previous batch");
+
+  assert.ok(client.calls.some((call) => call.sql === "BEGIN TRANSACTION ISOLATION LEVEL REPEATABLE READ READ ONLY"));
+  assert.equal(client.calls.filter((call) => call.sql === "ROLLBACK").length, 1);
+  assert.equal(client.calls.some((call) => /\\bCOMMIT\\b/i.test(call.sql)), false);
+  assert.equal(client.ended, true);
+
+  const serialized = output.join("\\n");
+  assert.equal(output.length, 1);
+  assert.match(serialized, /"readOnly": true/);
+  assert.match(serialized, /"vercelPublicBlobUrlNeedsReview": 1/);
+  assert.doesNotMatch(serialized, /store-secret|legacy-secret|student-secret|submission-secret|\.pdf/);
+});
+
+test("audit rolls back and closes the client when a batch read fails", async () => {
+  class FailingAuditClient {
+    constructor() { this.calls = []; this.ended = false; }
+    async connect() {}
+    async query(sql, params) {
+      this.calls.push({ sql, params });
+      if (sql.includes("current_setting('transaction_read_only')")) {
+        return { rows: [{ read_only: "on", isolation: "repeatable read" }] };
+      }
+      if (sql.includes("FROM homework_submissions")) {
+        throw new Error("synthetic audit read failure");
+      }
+      return { rows: [] };
+    }
+    async end() { this.ended = true; }
+  }
+
+  const client = new FailingAuditClient();
+  await assert.rejects(
+    runHomeworkStorageAudit({
+      connectionString: "postgresql://audit:audit@127.0.0.1:5432/proacademy_test",
+      allowRemote: false,
+      ClientClass: class {
+        constructor() { return client; }
+      },
+      write: () => assert.fail("failed audits must not emit a partial inventory"),
+    }),
+    /synthetic audit read failure/,
+  );
+
+  assert.equal(client.calls.filter((call) => call.sql === "ROLLBACK").length, 1);
+  assert.equal(client.ended, true);
 });
