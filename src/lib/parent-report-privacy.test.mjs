@@ -22,7 +22,8 @@ function assertAuthBeforeSetup(source, routeName) {
 }
 
 function assertMixedVerificationParentSelection(source, requestedId, routeName) {
-  const parentBranchStart = source.indexOf('if (role === "parent")');
+  const roleBranchStart = source.indexOf('if (role === "parent")');
+  const parentBranchStart = roleBranchStart >= 0 ? roleBranchStart : source.indexOf("const links = await db");
   assert.notEqual(parentBranchStart, -1, routeName + " parent branch must exist");
   const laterDataReads = [
     source.indexOf('const stList = role === "teacher"', parentBranchStart),
