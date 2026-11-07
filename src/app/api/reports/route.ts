@@ -8,7 +8,6 @@ import { getAuthContext } from "@/lib/security";
 import { getParentAnalyticsSelectionData, resolveParentAnalyticsStudentId } from "@/lib/analytics-report-scope.mjs";
 
 const verifiedByUser = alias(users, "reports_verified_by_user");
-const verifiedByUser = alias(users, "reports_verified_by_user");
 const parentAccount = alias(users, "reports_parent_account");
 
 // Re-check the parent's current role, the student's current role, and the
