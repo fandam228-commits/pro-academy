@@ -167,7 +167,7 @@ export async function GET(req: Request) {
 
     const avgScore = studentSubs.length > 0
       ? Math.round(studentSubs.reduce((acc, curr) => acc + curr.percentage, 0) / studentSubs.length)
-      : 85;
+      : null;
 
     // Revalidate the complete relationship after all student-data reads. The
     // parent, student, and verifier roles may change while the overview is built.
@@ -206,7 +206,7 @@ export async function GET(req: Request) {
       submissions: studentSubs,
       attendance: studentAtt,
       averageScore: avgScore,
-      attendanceRate: "98%",
+      attendanceRate: null,
     });
   } catch (error) {
     console.error("Parent GET error:", error);
