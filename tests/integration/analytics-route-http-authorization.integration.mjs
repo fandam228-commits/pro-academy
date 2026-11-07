@@ -40,6 +40,7 @@ integrationTest(
       teacher: id("teacher"),
       otherTeacher: id("other_teacher"),
       student: id("student"),
+      secondOwnedStudent: id("second_owned_student"),
       otherStudent: id("other_student"),
       unlinkedStudent: id("unlinked_student"),
       unverifiedStudent: id("unverified_student"),
@@ -61,6 +62,7 @@ integrationTest(
       staleOwnerHomeworkSubmission: id("stale_owner_homework_submission"),
       attendanceRecord: id("attendance_record"),
       enrollmentOwned: id("enrollment_owned"),
+      enrollmentSecondOwned: id("enrollment_second_owned"),
       enrollmentOtherStudent: id("enrollment_other_student"),
       enrollmentStudentOtherCourse: id("enrollment_student_other_course"),
       enrollmentCancelled: id("enrollment_cancelled"),
@@ -164,6 +166,7 @@ integrationTest(
         [ids.teacher, "Teacher HTTP Test", `teacher-${suffix}@example.test`, "test-only-password", "teacher", null],
         [ids.otherTeacher, "Other Teacher HTTP Test", `other-teacher-${suffix}@example.test`, "test-only-password", "teacher", null],
         [ids.student, "Student HTTP Test", `student-${suffix}@example.test`, "test-only-password", "student", "Third Secondary"],
+        [ids.secondOwnedStudent, "Second Owned Student HTTP Test", `second-owned-student-${suffix}@example.test`, "test-only-password", "student", "Third Secondary"],
         [ids.otherStudent, "Other Student HTTP Test", `other-student-${suffix}@example.test`, "test-only-password", "student", "Third Secondary"],
         [ids.unlinkedStudent, "Unlinked Student HTTP Test", `unlinked-student-${suffix}@example.test`, "test-only-password", "student", "Third Secondary"],
         [ids.unverifiedStudent, "Unverified Student HTTP Test", `unverified-student-${suffix}@example.test`, "test-only-password", "student", "Third Secondary"],
@@ -189,12 +192,13 @@ integrationTest(
       );
       await client.query(
         `INSERT INTO enrollments (id, student_id, course_id, status)
-         VALUES ($1, $2, $3, 'active'), ($4, $5, $6, 'active'), ($7, $2, $6, 'active'), ($8, $9, $10, 'cancelled')`,
+         VALUES ($1, $2, $3, 'active'), ($4, $5, $6, 'active'), ($7, $2, $6, 'active'), ($8, $9, $10, 'cancelled'), ($11, $12, $3, 'active')`,
         [
           ids.enrollmentOwned, ids.student, ids.ownedCourse,
           ids.enrollmentOtherStudent, ids.otherStudent, ids.otherCourse,
           ids.enrollmentStudentOtherCourse,
           ids.enrollmentCancelled, ids.unverifiedStudent, ids.ownedCourse,
+          ids.enrollmentSecondOwned, ids.secondOwnedStudent,
         ],
       );
       // Seed one valid owned-course homework and two out-of-scope assignments.
@@ -238,9 +242,9 @@ integrationTest(
         [ids.otherCourseQuizSubmission, ids.otherCourseQuiz, ids.student],
       );
       await client.query(
-        `INSERT INTO attendance_records (id, student_id, student_name, session_title, session_date, status, grade)
-         VALUES ($1, $2, 'Student HTTP Test', 'Unscoped attendance fixture', '2026-11-04', 'present', 'Third Secondary')`,
-        [ids.attendanceRecord, ids.student],
+        `INSERT INTO attendance_records (id, student_id, student_name, session_title, session_date, status, grade, marked_by)
+         VALUES ($1, $2, 'Student HTTP Test', 'Unscoped attendance fixture', '2026-11-04', 'present', 'Third Secondary', $3)`,
+        [ids.attendanceRecord, ids.student, ids.otherTeacher],
       );
 
       await client.query(
@@ -305,6 +309,27 @@ integrationTest(
         if (studentId !== undefined) url.searchParams.set("studentId", studentId);
         const response = await fetch(url, {
           headers: { authorization: `Bearer ${sessionToken}`, "cache-control": "no-store" },
+          signal: AbortSignal.timeout(15000),
+        });
+        const raw = await response.text();
+        let body;
+        try {
+          body = JSON.parse(raw);
+        } catch {
+          body = { nonJsonResponse: raw.slice(0, 500) };
+        }
+        return { status: response.status, body };
+      }
+
+      async function requestPost(path, sessionToken, payload) {
+        const response = await fetch(new URL(path, baseUrl), {
+          method: "POST",
+          headers: {
+            authorization: `Bearer ${sessionToken}`,
+            "cache-control": "no-store",
+            "content-type": "application/json",
+          },
+          body: JSON.stringify(payload),
           signal: AbortSignal.timeout(15000),
         });
         const raw = await response.text();
@@ -534,11 +559,36 @@ integrationTest(
       assert.equal(studentCrossWeeklyReport.status, 403,
         "student weekly reports must reject a forged studentId for another student");
 
+      const crossTeacherAttendanceWrite = await requestPost("/api/attendance", tokens.teacher, {
+        action: "bulk_mark",
+        sessionTitle: "Unscoped attendance fixture",
+        sessionDate: "2026-11-04",
+        marks: [
+          { studentId: ids.secondOwnedStudent, status: "present" },
+          { studentId: ids.student, status: "absent" },
+        ],
+      });
+      assert.equal(crossTeacherAttendanceWrite.status, 409,
+        "a teacher must not overwrite an attendance record created by another teacher");
+      const partialAttendanceWrite = await client.query(
+        "SELECT id FROM attendance_records WHERE student_id = $1 AND session_title = $2 AND session_date = $3",
+        [ids.secondOwnedStudent, "Unscoped attendance fixture", "2026-11-04"],
+      );
+      assert.equal(partialAttendanceWrite.rowCount, 0,
+        "a rejected bulk mark must not partially create records for earlier marks");
+      const originalAttendance = await client.query(
+        "SELECT status, marked_by FROM attendance_records WHERE id = $1",
+        [ids.attendanceRecord],
+      );
+      assert.equal(originalAttendance.rows[0]?.status, "present");
+      assert.equal(originalAttendance.rows[0]?.marked_by, ids.otherTeacher,
+        "a rejected request must preserve the other teacher's attendance record");
+
       const teacherAttendance = await requestRoute("/api/attendance", tokens.teacher);
       assert.equal(teacherAttendance.status, 200, JSON.stringify(teacherAttendance.body));
       assert.deepEqual(
-        (teacherAttendance.body.roster || []).map((row) => row.studentId),
-        [ids.student],
+        (teacherAttendance.body.roster || []).map((row) => row.studentId).sort(),
+        [ids.student, ids.secondOwnedStudent].sort(),
         "teacher attendance roster must contain only active students in courses owned by that teacher",
       );
       assert.equal(
@@ -594,10 +644,13 @@ integrationTest(
           await client.query("DELETE FROM homework WHERE id = ANY($1::text[])", [[ids.ownedCourseHomework, ids.otherTeacherHomework, ids.staleOwnerHomework]]);
           await client.query("DELETE FROM quiz_submissions WHERE id = $1", [ids.otherCourseQuizSubmission]);
           await client.query("DELETE FROM quizzes WHERE id = $1", [ids.otherCourseQuiz]);
-          await client.query("DELETE FROM attendance_records WHERE id = $1", [ids.attendanceRecord]);
-          await client.query("DELETE FROM enrollments WHERE id = ANY($1::text[])", [[ids.enrollmentOwned, ids.enrollmentOtherStudent, ids.enrollmentStudentOtherCourse, ids.enrollmentCancelled]]);
+          await client.query(
+            "DELETE FROM attendance_records WHERE id = $1 OR (student_id = $2 AND session_title = $3 AND session_date = $4)",
+            [ids.attendanceRecord, ids.secondOwnedStudent, "Unscoped attendance fixture", "2026-11-04"],
+          );
+          await client.query("DELETE FROM enrollments WHERE id = ANY($1::text[])", [[ids.enrollmentOwned, ids.enrollmentSecondOwned, ids.enrollmentOtherStudent, ids.enrollmentStudentOtherCourse, ids.enrollmentCancelled]]);
           await client.query("DELETE FROM courses WHERE id = ANY($1::text[])", [[ids.ownedCourse, ids.otherCourse]]);
-          await client.query("DELETE FROM users WHERE id = ANY($1::text[])", [[ids.teacher, ids.otherTeacher, ids.student, ids.otherStudent, ids.unlinkedStudent, ids.unverifiedStudent, ids.unverifiedOnlyStudent, ids.parent, ids.parentSingle, ids.parentMixed, ids.parentUnverifiedOnly, ids.admin]]);
+          await client.query("DELETE FROM users WHERE id = ANY($1::text[])", [[ids.teacher, ids.otherTeacher, ids.student, ids.secondOwnedStudent, ids.otherStudent, ids.unlinkedStudent, ids.unverifiedStudent, ids.unverifiedOnlyStudent, ids.parent, ids.parentSingle, ids.parentMixed, ids.parentUnverifiedOnly, ids.admin]]);
         } catch {
           // The CI database is disposable; cleanup is best-effort if schema setup failed.
         } finally {
