@@ -25,6 +25,16 @@ const SECURITY_TEST_RULES = [
     ],
   },
   {
+    matches: (path) =>
+      path === "src/app/api/homework/file/[id]/route.ts" ||
+      path === "src/lib/homework-storage.mjs",
+    required: ["tests/integration/homework-file-access.integration.mjs"],
+  },
+  {
+    matches: (path) => path === "src/lib/homework-authorization.mjs",
+    required: ["tests/integration/homework-authorization.integration.mjs"],
+  },
+  {
     matches: (path) => path === "src/lib/homework-replacement.mjs",
     required: ["tests/integration/homework-replacement-atomicity.integration.mjs"],
   },
