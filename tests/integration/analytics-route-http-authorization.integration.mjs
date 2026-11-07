@@ -300,6 +300,23 @@ integrationTest(
         return { status: response.status, body };
       }
 
+      async function requestRoute(path, sessionToken, studentId) {
+        const url = new URL(path, baseUrl);
+        if (studentId !== undefined) url.searchParams.set("studentId", studentId);
+        const response = await fetch(url, {
+          headers: { authorization: `Bearer ${sessionToken}`, "cache-control": "no-store" },
+          signal: AbortSignal.timeout(15000),
+        });
+        const raw = await response.text();
+        let body;
+        try {
+          body = JSON.parse(raw);
+        } catch {
+          body = { nonJsonResponse: raw.slice(0, 500) };
+        }
+        return { status: response.status, body };
+      }
+
       const teacherOwnStudent = await requestAnalytics(tokens.teacher, ids.student);
       assert.equal(teacherOwnStudent.status, 200, JSON.stringify(teacherOwnStudent.body));
       assert.equal(teacherOwnStudent.body.student?.id, ids.student);
@@ -474,6 +491,99 @@ integrationTest(
         "a previously verified parent link must fail closed when the verifying account is no longer an admin",
       );
       await client.query("UPDATE users SET role = 'admin' WHERE id = $1", [ids.admin]);
+
+      // Exercise the other student-facing report surfaces through real HTTP requests.
+      // These assertions share the same isolated PostgreSQL fixtures and session tokens.
+      const teacherWeeklyReport = await requestRoute("/api/reports", tokens.teacher, ids.student);
+      assert.equal(teacherWeeklyReport.status, 200, JSON.stringify(teacherWeeklyReport.body));
+      assert.equal(teacherWeeklyReport.body.success, true);
+      assert.equal(teacherWeeklyReport.body.report?.student?.id, ids.student);
+      assert.equal(teacherWeeklyReport.body.report?.homework?.weekSubmissions, 1,
+        "teacher weekly report must include only homework from the teacher-owned course");
+      assert.equal(teacherWeeklyReport.body.report?.homework?.avgScore, 40,
+        "teacher weekly report must exclude the other teacher's and stale-owner homework scores");
+      assert.equal(teacherWeeklyReport.body.report?.quizzes?.weekAttempts, 0,
+        "teacher weekly report must not expose quiz attempts from another teacher's course");
+      assert.equal(teacherWeeklyReport.body.report?.attendance?.totalSessions, 0,
+        "teacher weekly report must omit attendance without a provable owned-course scope");
+      assert.deepEqual(teacherWeeklyReport.body.report?.courses?.courseNames, ["HTTP test owned course"]);
+
+      const teacherOtherWeeklyReport = await requestRoute("/api/reports", tokens.teacher, ids.otherStudent);
+      assert.equal(teacherOtherWeeklyReport.status, 403,
+        "teacher weekly reports must reject a student enrolled only in another teacher's course");
+
+      const parentWeeklyReportWithoutSelection = await requestRoute("/api/reports", tokens.parent);
+      assert.equal(parentWeeklyReportWithoutSelection.status, 400,
+        "weekly reports must require explicit selection when multiple children are linked");
+      const parentWeeklyReport = await requestRoute("/api/reports", tokens.parent, ids.student);
+      assert.equal(parentWeeklyReport.status, 200, JSON.stringify(parentWeeklyReport.body));
+      assert.equal(parentWeeklyReport.body.report?.student?.id, ids.student);
+      const parentWeeklyReportUnverified = await requestRoute("/api/reports", tokens.parent, ids.unverifiedStudent);
+      assert.equal(parentWeeklyReportUnverified.status, 403,
+        "weekly reports must reject a linked child whose relationship is not admin-verified");
+      const parentSingleWeeklyReport = await requestRoute("/api/reports", tokens.parentSingle);
+      assert.equal(parentSingleWeeklyReport.status, 200, JSON.stringify(parentSingleWeeklyReport.body));
+      assert.equal(parentSingleWeeklyReport.body.report?.student?.id, ids.student,
+        "a parent with one distinct linked child may resolve that child without a selector");
+
+      const studentWeeklyReport = await requestRoute("/api/reports", tokens.student);
+      assert.equal(studentWeeklyReport.status, 200, JSON.stringify(studentWeeklyReport.body));
+      assert.equal(studentWeeklyReport.body.report?.student?.id, ids.student,
+        "student weekly reports must default only to the authenticated student");
+      const studentCrossWeeklyReport = await requestRoute("/api/reports", tokens.student, ids.otherStudent);
+      assert.equal(studentCrossWeeklyReport.status, 403,
+        "student weekly reports must reject a forged studentId for another student");
+
+      const teacherAttendance = await requestRoute("/api/attendance", tokens.teacher);
+      assert.equal(teacherAttendance.status, 200, JSON.stringify(teacherAttendance.body));
+      assert.deepEqual(
+        (teacherAttendance.body.roster || []).map((row) => row.studentId),
+        [ids.student],
+        "teacher attendance roster must contain only active students in courses owned by that teacher",
+      );
+      assert.equal(
+        (teacherAttendance.body.roster || []).some((row) => row.studentId === ids.otherStudent || row.studentId === ids.unverifiedStudent),
+        false,
+        "teacher attendance must exclude other-course and cancelled-enrollment students",
+      );
+
+      const parentAttendanceWithoutSelection = await requestRoute("/api/attendance", tokens.parent);
+      assert.equal(parentAttendanceWithoutSelection.status, 400,
+        "parent attendance must require explicit selection when multiple children are linked");
+      const parentAttendance = await requestRoute("/api/attendance", tokens.parent, ids.student);
+      assert.equal(parentAttendance.status, 200, JSON.stringify(parentAttendance.body));
+      assert.equal(parentAttendance.body.studentId, ids.student);
+      assert.equal(parentAttendance.body.total, 1);
+      const parentAttendanceUnverified = await requestRoute("/api/attendance", tokens.parent, ids.unverifiedStudent);
+      assert.equal(parentAttendanceUnverified.status, 403,
+        "parent attendance must reject an unverified linked child");
+      const studentAttendanceWithForgedSelector = await requestRoute("/api/attendance", tokens.student, ids.otherStudent);
+      assert.equal(studentAttendanceWithForgedSelector.status, 200, JSON.stringify(studentAttendanceWithForgedSelector.body));
+      assert.equal(studentAttendanceWithForgedSelector.body.studentId, ids.student,
+        "attendance requests must resolve a student session to its own account, never a query-string target");
+
+      const parentOverviewWithoutSelection = await requestRoute("/api/parent", tokens.parent);
+      assert.equal(parentOverviewWithoutSelection.status, 400,
+        "parent overview must require explicit selection when multiple children are linked");
+      const parentOverview = await requestRoute("/api/parent", tokens.parent, ids.student);
+      assert.equal(parentOverview.status, 200, JSON.stringify(parentOverview.body));
+      assert.equal(parentOverview.body.student?.id, ids.student);
+      for (const privateField of ["email", "password", "phone", "parentPhone", "username"]) {
+        assert.equal(Object.hasOwn(parentOverview.body.student || {}, privateField), false,
+          `parent overview must not expose the student's ${privateField} field`);
+      }
+      const parentOverviewUnverified = await requestRoute("/api/parent", tokens.parent, ids.unverifiedStudent);
+      assert.equal(parentOverviewUnverified.status, 403,
+        "parent overview must reject an unverified linked child");
+      const parentSingleOverview = await requestRoute("/api/parent", tokens.parentSingle);
+      assert.equal(parentSingleOverview.status, 200, JSON.stringify(parentSingleOverview.body));
+      assert.equal(parentSingleOverview.body.student?.id, ids.student);
+      const studentParentOverview = await requestRoute("/api/parent", tokens.student, ids.student);
+      assert.equal(studentParentOverview.status, 403,
+        "students must not access the parent overview endpoint");
+      const teacherParentOverview = await requestRoute("/api/parent", tokens.teacher, ids.student);
+      assert.equal(teacherParentOverview.status, 403,
+        "teachers must not use the parent overview endpoint to bypass course-scoped reports");
     } finally {
       await stopServer(server);
       if (client) {
