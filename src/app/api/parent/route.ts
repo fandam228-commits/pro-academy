@@ -1,13 +1,14 @@
 import { db } from "@/db";
 import { parentLinks, users, enrollments, quizSubmissions, attendance } from "@/db/schema";
-import { and, eq, isNotNull } from "drizzle-orm";
+import { and, eq } from "drizzle-orm";
 import { alias } from "drizzle-orm/pg-core";
 import { NextResponse } from "next/server";
 import { ensureDbSetup } from "@/db/migrate-and-seed";
 import { getAuthContext } from "@/lib/security";
-import { getVerifiedParentAnalyticsStudentIds, resolveParentAnalyticsStudentId } from "@/lib/analytics-report-scope.mjs";
+import { getParentAnalyticsSelectionData, resolveParentAnalyticsStudentId } from "@/lib/analytics-report-scope.mjs";
 
 const verifiedByUser = alias(users, "parent_route_verified_by_user");
+const parentAccount = alias(users, "parent_route_parent_account");
 
 export async function GET(req: Request) {
   const ctx = await getAuthContext(req);
@@ -37,22 +38,30 @@ export async function GET(req: Request) {
         relationship: parentLinks.relationship,
         verifiedAt: parentLinks.verifiedAt,
         verifiedBy: parentLinks.verifiedBy,
+        studentRole: users.role,
+        verifierRole: verifiedByUser.role,
       })
       .from(parentLinks)
-      .innerJoin(users, eq(parentLinks.studentId, users.id))
-      .innerJoin(verifiedByUser, eq(parentLinks.verifiedBy, verifiedByUser.id))
+      .innerJoin(parentAccount, eq(parentLinks.parentId, parentAccount.id))
+      .leftJoin(users, eq(parentLinks.studentId, users.id))
+      .leftJoin(verifiedByUser, eq(parentLinks.verifiedBy, verifiedByUser.id))
       .where(and(
         eq(parentLinks.parentId, parentId),
-        eq(users.role, "student"),
-        eq(verifiedByUser.role, "admin"),
-        isNotNull(parentLinks.verifiedAt),
-        isNotNull(parentLinks.verifiedBy),
+        eq(parentAccount.role, "parent"),
       ));
-    const linkedStudentIds = getVerifiedParentAnalyticsStudentIds(links);
-    const resolution = resolveParentAnalyticsStudentId(requestedStudent, linkedStudentIds);
+    const selectionData = getParentAnalyticsSelectionData(
+      links.filter((link) => link.studentRole === "student"),
+    );
+    if (selectionData.verifiedStudentIds.length === 0) {
+      return NextResponse.json({ error: "No verified linked student found" }, { status: 404 });
+    }
+    const resolution = resolveParentAnalyticsStudentId(
+      requestedStudent,
+      selectionData.allLinkedStudentIds,
+    );
     if (!resolution.ok) {
       if (resolution.reason === "no-linked-student") {
-        return NextResponse.json({ error: "No verified linked student found" }, { status: 404 });
+        return NextResponse.json({ error: "No linked student found" }, { status: 404 });
       }
       if (resolution.reason === "student-id-required") {
         return NextResponse.json({ error: "studentId is required when multiple students are linked" }, { status: 400 });
@@ -62,9 +71,13 @@ export async function GET(req: Request) {
       }
       return NextResponse.json({ error: "Forbidden" }, { status: 403 });
     }
+    const studentId = resolution.studentId;
+    if (!selectionData.verifiedStudentIds.includes(studentId)) {
+      return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+    }
 
     const studentId = resolution.studentId;
-    const primaryLink = links.find((link) => link.studentId === studentId);
+    const primaryLink = links.find((link) => link.studentId === studentId && link.studentRole === "student" && link.verifierRole === "admin" && Boolean(link.verifiedAt) && Boolean(link.verifiedBy));
     if (!primaryLink) return NextResponse.json({ error: "Forbidden" }, { status: 403 });
 
     // Never return the complete users row: it includes password and other private account fields.
