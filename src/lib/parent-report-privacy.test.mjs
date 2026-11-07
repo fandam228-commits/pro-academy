@@ -8,6 +8,7 @@ const routeFiles = {
   reports: await readFile(new URL("../app/api/reports/route.ts", import.meta.url), "utf8"),
   attendance: await readFile(new URL("../app/api/attendance/route.ts", import.meta.url), "utf8"),
   parent: await readFile(new URL("../app/api/parent/route.ts", import.meta.url), "utf8"),
+  parentReportAuthorization: await readFile(new URL("./parent-report-authorization.mjs", import.meta.url), "utf8"),
 };
 
 function assertAuthBeforeSetup(source, routeName) {
@@ -95,7 +96,7 @@ test("teacher student report scope requires owned-course enrollment and excludes
     "weekly report result reads must not use stale precomputed homework or quiz allowlists");
   assert.match(routeFiles.reports, /const overallRate = role === "teacher" \? null :/,
     "teacher reports must not fabricate a 100% attendance rate when attendance cannot be scoped");
-  assert.match(routeFiles.reports, /role === "teacher" \? \[\] : await db\.select\(\)\.from\(attendanceRecords\)/,
+  assert.match(routeFiles.reports, /const allAttendance = role === "teacher"\s*\?\s*\[\]\s*:/,
     "attendance has no course ownership key and must be omitted from teacher reports");
   assert.match(routeFiles.reports, /role === "teacher" \? null : \(student\.points \|\| 0\)/,
     "global gamification values must not be exposed in teacher reports");
@@ -274,4 +275,39 @@ test("attendance POST validates action-specific roles before database setup", ()
     "each supported action must enforce its own role and unknown actions must be rejected");
   assert.ok(setup > bulkGuard && setup > checkInGuard && setup > unsupportedGuard,
     "database setup must occur only after action-specific authorization");
+});
+
+
+test("weekly parent reports revalidate verified links for every data source and before responding", () => {
+  const source = routeFiles.reports;
+  const routeHelperStart = source.indexOf("function hasVerifiedParentLink(");
+  const routeHelperEnd = source.indexOf("function getWeekRange()", routeHelperStart);
+  assert.ok(routeHelperStart >= 0 && routeHelperEnd > routeHelperStart,
+    "weekly reports must wire a reusable verified-parent predicate");
+  assert.match(source.slice(routeHelperStart, routeHelperEnd), /buildVerifiedParentLinkPredicate/,
+    "the route must use the shared predicate covered by PostgreSQL integration tests");
+
+  const helper = routeFiles.parentReportAuthorization;
+  assert.ok(helper.includes('eq(parentAccount.role, "parent")'),
+    "the linked account must still have the parent role");
+  assert.ok(helper.includes('eq(studentAccount.role, "student")'),
+    "the linked account must still have the student role");
+  assert.ok(helper.includes('eq(verifiedByUser.role, "admin")'),
+    "the verifier must still have the admin role");
+  assert.ok(helper.includes("isNotNull(parentLinks.verifiedAt)"));
+  assert.ok(helper.includes("isNotNull(parentLinks.verifiedBy)"));
+
+  const guardUses = source.split("hasVerifiedParentLink(ctx.user.id, studentId)").length - 1;
+  assert.equal(guardUses, 5,
+    "attendance, homework, quizzes, enrollments, and the final response guard must all revalidate the verified link");
+
+  const finalGuard = source.indexOf('const parentAccessStillValid = role === "parent"');
+  const finalResponse = source.indexOf("return NextResponse.json({ success: true, report });", finalGuard);
+  assert.ok(finalGuard > source.indexOf("const allEnrollments ="),
+    "the final parent-link check must occur after all report data reads");
+  assert.ok(finalResponse > finalGuard,
+    "the report must be denied if the verified relationship was revoked during report generation");
+  assert.ok(source.slice(finalGuard, finalResponse).includes(
+    'if (role === "parent" && (!parentAccessStillValid || parentAccessStillValid.length === 0))',
+  ), "a revoked or invalid parent link must fail closed before returning the report");
 });

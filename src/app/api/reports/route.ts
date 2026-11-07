@@ -6,9 +6,25 @@ import { NextResponse } from "next/server";
 import { ensureDbSetup } from "@/db/migrate-and-seed";
 import { getAuthContext } from "@/lib/security";
 import { getParentAnalyticsSelectionData, resolveParentAnalyticsStudentId } from "@/lib/analytics-report-scope.mjs";
+import { buildVerifiedParentLinkPredicate } from "@/lib/parent-report-authorization.mjs";
 
 const verifiedByUser = alias(users, "reports_verified_by_user");
 const parentAccount = alias(users, "reports_parent_account");
+const verifiedStudentAccount = alias(users, "reports_verified_student_account");
+
+// Keep the route's authorization predicate aligned with the independently
+// PostgreSQL-tested helper used by the weekly report integration suite.
+function hasVerifiedParentLink(parentId: string, studentId: string) {
+  return buildVerifiedParentLinkPredicate({
+    db,
+    parentLinks,
+    parentAccount,
+    studentAccount: verifiedStudentAccount,
+    verifiedByUser,
+    parentId,
+    studentId,
+  });
+}
 
 function getWeekRange() {
   const now = new Date();
@@ -169,7 +185,14 @@ export async function GET(req: Request) {
 
     // 1. Attendance this week
     // Attendance rows have no course ownership key; omit them from teacher reports rather than leaking cross-course data.
-    const allAttendance = role === "teacher" ? [] : await db.select().from(attendanceRecords).where(eq(attendanceRecords.studentId, studentId));
+    const allAttendance = role === "teacher"
+      ? []
+      : role === "parent"
+        ? await db.select().from(attendanceRecords).where(and(
+            eq(attendanceRecords.studentId, studentId),
+            hasVerifiedParentLink(ctx.user.id, studentId),
+          ))
+        : await db.select().from(attendanceRecords).where(eq(attendanceRecords.studentId, studentId));
     const weekAttendance = allAttendance.filter((a) => a.sessionDate >= week.start && a.sessionDate <= week.end);
     const totalAttendance = allAttendance.length;
     const weekPresent = weekAttendance.filter((a) => a.status === "present").length;
@@ -213,7 +236,12 @@ export async function GET(req: Request) {
                 inArray(enrollments.status, ["active", "completed"]),
               ))),
           ))
-      : await db.select().from(homeworkSubmissions).where(eq(homeworkSubmissions.studentId, studentId));
+      : role === "parent"
+        ? await db.select().from(homeworkSubmissions).where(and(
+            eq(homeworkSubmissions.studentId, studentId),
+            hasVerifiedParentLink(ctx.user.id, studentId),
+          ))
+        : await db.select().from(homeworkSubmissions).where(eq(homeworkSubmissions.studentId, studentId));
     const weekHwSubs = allHwSubs.filter((s) => new Date(s.submittedAt) >= week.startDate && new Date(s.submittedAt) <= week.endDate);
     const gradedHw = weekHwSubs.filter((s) => s.status === "graded");
     const avgHwScore = gradedHw.length > 0
@@ -251,7 +279,12 @@ export async function GET(req: Request) {
                 inArray(enrollments.status, ["active", "completed"]),
               ))),
           ))
-      : await db.select().from(quizSubmissions).where(eq(quizSubmissions.studentId, studentId));
+      : role === "parent"
+        ? await db.select().from(quizSubmissions).where(and(
+            eq(quizSubmissions.studentId, studentId),
+            hasVerifiedParentLink(ctx.user.id, studentId),
+          ))
+        : await db.select().from(quizSubmissions).where(eq(quizSubmissions.studentId, studentId));
     const weekQuizSubs = allQuizSubs.filter((s) => new Date(s.submittedAt) >= week.startDate && new Date(s.submittedAt) <= week.endDate);
     const avgQuizScore = weekQuizSubs.length > 0
       ? Math.round(weekQuizSubs.reduce((sum, s) => sum + s.percentage, 0) / weekQuizSubs.length)
@@ -264,7 +297,12 @@ export async function GET(req: Request) {
           inArray(enrollments.courseId, teacherCourseIds ?? []),
           inArray(enrollments.status, ["active", "completed"]),
         ))
-      : await db.select().from(enrollments).where(eq(enrollments.studentId, studentId));
+      : role === "parent"
+        ? await db.select().from(enrollments).where(and(
+            eq(enrollments.studentId, studentId),
+            hasVerifiedParentLink(ctx.user.id, studentId),
+          ))
+        : await db.select().from(enrollments).where(eq(enrollments.studentId, studentId));
     const allCourses = role === "teacher"
       ? (teacherCourseIds?.length
           ? await db.select().from(courses).where(and(
@@ -272,7 +310,11 @@ export async function GET(req: Request) {
               inArray(courses.id, teacherCourseIds),
             ))
           : [])
-      : await db.select().from(courses);
+      : role === "parent"
+        ? allEnrollments.length > 0
+          ? await db.select().from(courses).where(inArray(courses.id, [...new Set(allEnrollments.map((row) => row.courseId))]))
+          : []
+        : await db.select().from(courses);
     const enrolledCourses = allCourses.filter((course) => allEnrollments.some((enrollment) => enrollment.courseId === course.id));
 
     // 5. Streak & Points
@@ -330,6 +372,23 @@ export async function GET(req: Request) {
       analysis: { strengths, weaknesses },
       generatedAt: new Date().toISOString(),
     };
+
+    // Revalidate the verified parent link after all report reads as a final
+    // fail-closed check. Each parent data query above also checks the link.
+    const parentAccessStillValid = role === "parent"
+      ? await db
+          .select({ id: users.id })
+          .from(users)
+          .where(and(
+            eq(users.id, studentId),
+            eq(users.role, "student"),
+            hasVerifiedParentLink(ctx.user.id, studentId),
+          ))
+          .limit(1)
+      : null;
+    if (role === "parent" && (!parentAccessStillValid || parentAccessStillValid.length === 0)) {
+      return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+    }
 
     return NextResponse.json({ success: true, report });
   } catch (error) {

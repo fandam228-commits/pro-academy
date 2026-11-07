@@ -65,6 +65,15 @@ jobs:
           node --test tests/integration/parent-report-current-role.integration.mjs
         env:
           TEST_DATABASE_URL: postgresql://postgres:postgres@127.0.0.1:5432/proacademy_test
+      - name: PostgreSQL weekly parent report authorization predicate integration tests
+        run: |
+          if [ -z "${TEST_DATABASE_URL:-}" ]; then
+            echo "::error::TEST_DATABASE_URL is required; weekly parent report authorization tests must not silently skip in CI."
+            exit 1
+          fi
+          node --test tests/integration/parent-weekly-report-authorization.integration.mjs
+        env:
+          TEST_DATABASE_URL: postgresql://postgres:postgres@127.0.0.1:5432/proacademy_test
       - name: PostgreSQL-backed Analytics HTTP route authorization tests
         run: |
           if [ -z "${TEST_DATABASE_URL:-}" ]; then
