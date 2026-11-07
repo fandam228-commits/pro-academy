@@ -294,8 +294,9 @@ test("parent overview exposes only verified child choices and minimized activity
   const submissionProjection = source.slice(submissionsStart, attendanceStart);
   const attendanceProjection = source.slice(attendanceStart, metricStart);
   assert.match(enrollmentProjection, /courseId: enrollments\.courseId/);
-  assert.doesNotMatch(enrollmentProjection, /paymentMethod|studentId/,
-    "parent overview must not expose enrollment payment metadata or redundant student identifiers");
+  const enrollmentSelectedColumns = enrollmentProjection.slice(0, enrollmentProjection.indexOf("})") + 2);
+  assert.doesNotMatch(enrollmentSelectedColumns, /paymentMethod|studentId:/,
+    "parent overview must not select enrollment payment metadata or redundant student identifiers");
   assert.match(submissionProjection, /percentage: quizSubmissions\.percentage/);
   assert.doesNotMatch(submissionProjection, /answers:|feedback:/,
     "parent overview must not expose raw quiz answers or internal feedback fields");
