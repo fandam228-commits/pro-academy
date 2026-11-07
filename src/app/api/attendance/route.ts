@@ -210,40 +210,71 @@ export async function POST(req: Request) {
         }
       }
 
-      let saved = 0;
-      for (const m of marks) {
-        const existing = await db
-          .select()
-          .from(attendanceRecords)
-          .where(
-            and(
-              eq(attendanceRecords.studentId, m.studentId),
-              eq(attendanceRecords.sessionTitle, sessionTitle),
-              eq(attendanceRecords.sessionDate, sessionDate)
-            )
-          );
-
-        if (existing.length > 0) {
-          await db
-            .update(attendanceRecords)
-            .set({ status: m.status, markedBy: ctx.user.id })
-            .where(eq(attendanceRecords.id, existing[0].id));
-        } else {
-          await db.insert(attendanceRecords).values({
-            id: `att_${Date.now()}_${m.studentId}_${Math.random().toString(36).substring(2, 5)}`,
-            studentId: m.studentId,
-            studentName: m.studentName || "Student",
-            sessionTitle,
-            sessionDate,
-            status: m.status || "present",
-            grade: m.grade || "",
-            markedBy: ctx.user.id,
-          });
-        }
-        saved++;
+      if (marks.some((mark) => !mark || typeof mark.studentId !== "string" || !mark.studentId) ||
+          new Set(marks.map((mark) => mark.studentId)).size !== marks.length) {
+        return NextResponse.json({ error: "Each attendance mark must contain a unique studentId" }, { status: 400 });
       }
 
-      return NextResponse.json({ success: true, saved });
+      // Resolve and lock every matching record before writing anything. A teacher
+      // may update only records they originally marked; otherwise a bulk request
+      // could overwrite another teacher's attendance for a shared student/session.
+      // Preflight inside one transaction also prevents partial writes when a later
+      // mark conflicts with another teacher's record.
+      const result = await db.transaction(async (tx) => {
+        const existingByStudent = new Map<string, typeof attendanceRecords.$inferSelect | null>();
+
+        for (const mark of marks) {
+          const existing = await tx
+            .select()
+            .from(attendanceRecords)
+            .where(and(
+              eq(attendanceRecords.studentId, mark.studentId),
+              eq(attendanceRecords.sessionTitle, sessionTitle),
+              eq(attendanceRecords.sessionDate, sessionDate),
+            ))
+            .for("update");
+
+          if (existing.length > 1 ||
+              (ctx.user.role === "teacher" && existing.length === 1 && existing[0].markedBy !== ctx.user.id)) {
+            return { conflict: true as const, saved: 0 };
+          }
+          existingByStudent.set(mark.studentId, existing[0] ?? null);
+        }
+
+        let saved = 0;
+        for (const mark of marks) {
+          const existing = existingByStudent.get(mark.studentId);
+          if (existing) {
+            await tx
+              .update(attendanceRecords)
+              .set({ status: mark.status, markedBy: ctx.user.id })
+              .where(eq(attendanceRecords.id, existing.id));
+          } else {
+            await tx.insert(attendanceRecords).values({
+              id: `att_${Date.now()}_${mark.studentId}_${Math.random().toString(36).substring(2, 5)}`,
+              studentId: mark.studentId,
+              studentName: mark.studentName || "Student",
+              sessionTitle,
+              sessionDate,
+              status: mark.status || "present",
+              grade: mark.grade || "",
+              markedBy: ctx.user.id,
+            });
+          }
+          saved++;
+        }
+
+        return { conflict: false as const, saved };
+      });
+
+      if (result.conflict) {
+        return NextResponse.json(
+          { error: "Attendance record is owned by another teacher or has ambiguous duplicates" },
+          { status: 409 },
+        );
+      }
+
+      return NextResponse.json({ success: true, saved: result.saved });
     }
 
     // ============ STUDENT: SELF CHECK-IN (today's live session) ============
