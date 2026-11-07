@@ -275,3 +275,36 @@ test("attendance POST validates action-specific roles before database setup", ()
   assert.ok(setup > bulkGuard && setup > checkInGuard && setup > unsupportedGuard,
     "database setup must occur only after action-specific authorization");
 });
+
+
+test("weekly parent reports revalidate verified links for every data source and before responding", () => {
+  const source = routeFiles.reports;
+  const helperStart = source.indexOf("function hasVerifiedParentLink(");
+  const helperEnd = source.indexOf("function getWeekRange()", helperStart);
+  assert.ok(helperStart >= 0 && helperEnd > helperStart,
+    "weekly reports must define a reusable verified-parent predicate");
+
+  const helper = source.slice(helperStart, helperEnd);
+  assert.match(helper, /eq\\(parentAccount\\.role, "parent"\\)/,
+    "the linked account must still have the parent role");
+  assert.match(helper, /eq\\(users\\.role, "student"\\)/,
+    "the linked account must still have the student role");
+  assert.match(helper, /eq\\(verifiedByUser\\.role, "admin"\\)/,
+    "the verifier must still have the admin role");
+  assert.match(helper, /isNotNull\\(parentLinks\\.verifiedAt\\)/);
+  assert.match(helper, /isNotNull\\(parentLinks\\.verifiedBy\\)/);
+
+  const guardUses = [...source.matchAll(/hasVerifiedParentLink\\(ctx\\.user\\.id, studentId\\)/g)].length;
+  assert.equal(guardUses, 5,
+    "attendance, homework, quizzes, enrollments, and the final response guard must all revalidate the verified link");
+
+  const finalGuard = source.indexOf('const parentAccessStillValid = role === "parent"');
+  const finalResponse = source.indexOf("return NextResponse.json({ success: true, report });", finalGuard);
+  assert.ok(finalGuard > source.indexOf("const allEnrollments ="),
+    "the final parent-link check must occur after all report data reads");
+  assert.ok(finalResponse > finalGuard,
+    "the report must be denied if the verified relationship was revoked during report generation");
+  assert.match(source.slice(finalGuard, finalResponse),
+    /if \\(role === "parent" && \\(!parentAccessStillValid \\|\\| parentAccessStillValid\\.length === 0\\)\\)/,
+    "a revoked or invalid parent link must fail closed before returning the report");
+});
