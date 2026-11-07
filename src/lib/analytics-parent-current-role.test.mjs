@@ -36,14 +36,20 @@ test("parent Analytics revalidates the verified relationship after report reads 
   const response = parentSource.indexOf('return NextResponse.json({ scope: "parent", ...report });', finalGuard);
   assert.ok(reportBuild >= 0 && finalGuard > reportBuild && response > finalGuard,
     "the relationship must be checked again after report reads and before student data is returned");
-  assert.match(parentSource.slice(finalGuard, response), /eq\\(users\\.role, "student"\\)/);
-  assert.match(parentSource.slice(finalGuard, response), /buildVerifiedParentLinkPredicate\\(/);
-  assert.match(parentSource.slice(finalGuard, response), /parentId: ctx\\.user\\.id/);
-  assert.match(parentSource.slice(finalGuard, response), /studentId,/);
-  assert.match(parentSource.slice(finalGuard, response), /parentAccessStillValid\\.length === 0/);
-  assert.match(parentSource.slice(finalGuard, response), /status: 403/);
-  assert.match(routeSource, /analyticsVerifiedStudent = alias\\(users,/);
-  assert.match(parentAuthorizationSource, /eq\\(verifiedByUser\\.role, "admin"\\)/);
-  assert.match(parentAuthorizationSource, /isNotNull\\(parentLinks\\.verifiedAt\\)/);
-  assert.match(parentAuthorizationSource, /isNotNull\\(parentLinks\\.verifiedBy\\)/);
+
+  const guardSource = parentSource.slice(finalGuard, response);
+  for (const required of [
+    'eq(users.role, "student")',
+    "buildVerifiedParentLinkPredicate({",
+    "parentId: ctx.user.id",
+    "studentId,",
+    "parentAccessStillValid.length === 0",
+    "status: 403",
+  ]) {
+    assert.ok(guardSource.includes(required), "final parent Analytics guard must include " + required);
+  }
+  assert.ok(routeSource.includes('analyticsVerifiedStudent = alias(users, "analytics_verified_student")'));
+  assert.ok(parentAuthorizationSource.includes('eq(verifiedByUser.role, "admin")'));
+  assert.ok(parentAuthorizationSource.includes("isNotNull(parentLinks.verifiedAt)"));
+  assert.ok(parentAuthorizationSource.includes("isNotNull(parentLinks.verifiedBy)"));
 });
