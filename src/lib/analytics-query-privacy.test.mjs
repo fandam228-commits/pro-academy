@@ -286,7 +286,7 @@ test("parent attendance GET requires explicit choice across all linked students 
   assert.match(parentSource, /leftJoin\(verifiedByUser, eq\(parentLinks\.verifiedBy, verifiedByUser\.id\)\)/);
   assert.match(parentSource, /getParentAnalyticsSelectionData\(/);
   assert.match(parentSource, /selectionData\.allLinkedStudentIds/);
-  assert.match(parentSource, /resolveParentAnalyticsStudentId\(\s*requestedStudent,\s*selectionData\.allLinkedStudentIds\s*\)/);
+  assert.match(parentSource, /resolveParentAnalyticsStudentId\(\s*requestedStudent,\s*selectionData\.allLinkedStudentIds,?\s*\)/);
   assert.match(parentSource, /selectionData\.verifiedStudentIds\.includes\(studentId\)/);
   assert.doesNotMatch(parentSource, /links\s*\[\s*0\s*\]\s*\??\.\s*studentId/,
     "parent attendance must not silently select the first linked child");
