@@ -51,6 +51,8 @@ integrationTest(
       admin: id("admin"),
       ownedCourse: id("owned_course"),
       otherCourse: id("other_course"),
+      ownedCourseQuiz: id("owned_course_quiz"),
+      ownedCourseQuizSubmission: id("owned_course_quiz_submission"),
       otherCourseQuiz: id("other_course_quiz"),
       otherCourseQuizSubmission: id("other_course_quiz_submission"),
       attendanceRecord: id("attendance_record"),
@@ -196,13 +198,15 @@ integrationTest(
       // still be excluded from that teacher's report because their scope is unrelated.
       await client.query(
         `INSERT INTO quizzes (id, course_id, title, stage)
-         VALUES ($1, $2, 'Other teacher private quiz', 'Secondary')`,
-        [ids.otherCourseQuiz, ids.otherCourse],
+         VALUES ($1, $2, 'Owned teacher quiz', 'Secondary'),
+                ($3, $4, 'Other teacher private quiz', 'Secondary')`,
+        [ids.ownedCourseQuiz, ids.ownedCourse, ids.otherCourseQuiz, ids.otherCourse],
       );
       await client.query(
         `INSERT INTO quiz_submissions (id, quiz_id, student_id, score, total_questions, percentage, passed, answers)
-         VALUES ($1, $2, $3, 9, 10, 90, true, '{}'::jsonb)`,
-        [ids.otherCourseQuizSubmission, ids.otherCourseQuiz, ids.student],
+         VALUES ($1, $2, $3, 7, 10, 70, true, '{}'::jsonb),
+                ($4, $5, $3, 9, 10, 90, true, '{}'::jsonb)`,
+        [ids.ownedCourseQuizSubmission, ids.ownedCourseQuiz, ids.student, ids.otherCourseQuizSubmission, ids.otherCourseQuiz],
       );
       await client.query(
         `INSERT INTO attendance_records (id, student_id, student_name, session_title, session_date, status, grade)
@@ -278,10 +282,14 @@ integrationTest(
       assert.equal(teacherOwnStudent.body.student?.id, ids.student);
       assert.equal(
         teacherOwnStudent.body.kpis?.totalExams,
-        0,
-        "teacher report must exclude quiz results from another teacher's course even when the student is also enrolled in an owned course",
+        1,
+        "teacher report must include the owned-course quiz but exclude the other teacher's quiz",
       );
-      assert.deepEqual(teacherOwnStudent.body.timeline, [], "unscoped assessment history must not appear in a teacher report");
+      assert.deepEqual(
+        (teacherOwnStudent.body.timeline || []).map((entry) => entry.percentage),
+        [70],
+        "teacher timeline must contain only the owned-course assessment result",
+      );
       assert.equal(teacherOwnStudent.body.kpis?.totalSessions, 0, "attendance without course ownership metadata must be excluded from teacher reports");
       assert.equal(teacherOwnStudent.body.kpis?.attRate, null, "unscoped attendance must not contribute an attendance rate");
       for (const privateField of ["email", "password", "phone", "parentPhone", "username"]) {
@@ -371,7 +379,7 @@ integrationTest(
       const studentOwnReport = await requestAnalytics(tokens.student, ids.student);
       assert.equal(studentOwnReport.status, 200, JSON.stringify(studentOwnReport.body));
       assert.equal(studentOwnReport.body.student?.id, ids.student);
-      assert.equal(studentOwnReport.body.kpis?.totalExams, 1, "the student can still see their own quiz result");
+      assert.equal(studentOwnReport.body.kpis?.totalExams, 2, "the student can see both of their own quiz results across enrolled courses");
       assert.equal(studentOwnReport.body.kpis?.totalSessions, 1, "the student can still see their own attendance record");
 
       // Omitting studentId for a student session must resolve only to that session's owner,
@@ -380,7 +388,7 @@ integrationTest(
       assert.equal(studentImplicitOwnReport.status, 200, JSON.stringify(studentImplicitOwnReport.body));
       assert.equal(studentImplicitOwnReport.body.scope, "student");
       assert.equal(studentImplicitOwnReport.body.student?.id, ids.student);
-      assert.equal(studentImplicitOwnReport.body.kpis?.totalExams, 1);
+      assert.equal(studentImplicitOwnReport.body.kpis?.totalExams, 2);
       assert.equal(studentImplicitOwnReport.body.kpis?.totalSessions, 1);
       assert.equal(Object.hasOwn(studentImplicitOwnReport.body, "students"), false,
         "a student request without studentId must not return a class roster");
@@ -394,9 +402,27 @@ integrationTest(
       assert.equal(reportsTeacherOwn.body.report?.student?.id, ids.student);
       assert.equal(reportsTeacherOwn.body.report?.attendance?.totalSessions, 0,
         "weekly teacher reports must omit attendance rows that have no course ownership key");
+      assert.equal(reportsTeacherOwn.body.report?.quizzes?.weekAttempts, 1,
+        "weekly teacher reports must include only the quiz from the teacher-owned course");
+      assert.equal(reportsTeacherOwn.body.report?.quizzes?.avgPercentage, 70,
+        "weekly teacher reports must not include the other teacher's 90% quiz result");
       const reportsTeacherOtherCourse = await requestReports(tokens.teacher, ids.otherStudent);
       assert.equal(reportsTeacherOtherCourse.status, 403,
         "weekly teacher reports must reject students without an active enrollment in a teacher-owned course");
+
+      // Authorization must be recalculated from current ownership and enrollment,
+      // not retained from an earlier successful report request.
+      await client.query("UPDATE enrollments SET status = 'cancelled' WHERE id = $1", [ids.enrollmentOwned]);
+      const reportsAfterEnrollmentRevocation = await requestReports(tokens.teacher, ids.student);
+      assert.equal(reportsAfterEnrollmentRevocation.status, 403,
+        "weekly reports must deny access immediately after the owned-course enrollment is revoked");
+      await client.query("UPDATE enrollments SET status = 'active' WHERE id = $1", [ids.enrollmentOwned]);
+
+      await client.query("UPDATE courses SET teacher_id = $1 WHERE id = $2", [ids.otherTeacher, ids.ownedCourse]);
+      const reportsAfterOwnershipTransfer = await requestReports(tokens.teacher, ids.student);
+      assert.equal(reportsAfterOwnershipTransfer.status, 403,
+        "weekly reports must deny access immediately after the course is transferred to another teacher");
+      await client.query("UPDATE courses SET teacher_id = $1 WHERE id = $2", [ids.teacher, ids.ownedCourse]);
 
       const reportsParentNoSelection = await requestReports(tokens.parent);
       assert.equal(reportsParentNoSelection.status, 400,
@@ -487,8 +513,8 @@ integrationTest(
         try {
           await client.query("DELETE FROM sessions WHERE id = ANY($1::text[])", [[ids.teacherSession, ids.studentSession, ids.parentSession, ids.parentSingleSession, ids.parentMixedSession, ids.parentUnverifiedOnlySession]]);
           await client.query("DELETE FROM parent_links WHERE id = ANY($1::text[])", [[ids.linkStudent, ids.linkOtherStudent, ids.linkUnverified, ids.linkUnverifiedOnly, ids.linkSingle, ids.linkSingleDuplicate, ids.linkMixedVerified, ids.linkMixedUnverified]]);
-          await client.query("DELETE FROM quiz_submissions WHERE id = $1", [ids.otherCourseQuizSubmission]);
-          await client.query("DELETE FROM quizzes WHERE id = $1", [ids.otherCourseQuiz]);
+          await client.query("DELETE FROM quiz_submissions WHERE id = ANY($1::text[])", [[ids.ownedCourseQuizSubmission, ids.otherCourseQuizSubmission]]);
+          await client.query("DELETE FROM quizzes WHERE id = ANY($1::text[])", [[ids.ownedCourseQuiz, ids.otherCourseQuiz]]);
           await client.query("DELETE FROM attendance_records WHERE id = $1", [ids.attendanceRecord]);
           await client.query("DELETE FROM enrollments WHERE id = ANY($1::text[])", [[ids.enrollmentOwned, ids.enrollmentOtherStudent, ids.enrollmentStudentOtherCourse, ids.enrollmentCancelled]]);
           await client.query("DELETE FROM courses WHERE id = ANY($1::text[])", [[ids.ownedCourse, ids.otherCourse]]);
