@@ -544,12 +544,29 @@ integrationTest(
       const parentWeeklyReportWithoutSelection = await requestRoute("/api/reports", tokens.parent);
       assert.equal(parentWeeklyReportWithoutSelection.status, 400,
         "weekly reports must require explicit selection when multiple children are linked");
+      const parentWeeklyReportEmptySelection = await requestRoute("/api/reports", tokens.parent, "");
+      assert.equal(parentWeeklyReportEmptySelection.status, 400,
+        "an empty studentId must not bypass explicit selection for weekly reports");
       const parentWeeklyReport = await requestRoute("/api/reports", tokens.parent, ids.student);
       assert.equal(parentWeeklyReport.status, 200, `${JSON.stringify(parentWeeklyReport.body)}\n${serverLog}`);
       assert.equal(parentWeeklyReport.body.report?.student?.id, ids.student);
       const parentWeeklyReportUnverified = await requestRoute("/api/reports", tokens.parent, ids.unverifiedStudent);
       assert.equal(parentWeeklyReportUnverified.status, 403,
         "weekly reports must reject a linked child whose relationship is not admin-verified");
+
+      // An unverified legacy child still counts toward ambiguity, but selecting
+      // that child must never authorize the weekly report.
+      const parentMixedWeeklyReportWithoutSelection = await requestRoute("/api/reports", tokens.parentMixed);
+      assert.equal(parentMixedWeeklyReportWithoutSelection.status, 400,
+        "weekly reports must require explicit selection when one verified and one unverified child are linked");
+      const parentMixedWeeklyReportVerifiedChild = await requestRoute("/api/reports", tokens.parentMixed, ids.student);
+      assert.equal(parentMixedWeeklyReportVerifiedChild.status, 200,
+        JSON.stringify(parentMixedWeeklyReportVerifiedChild.body));
+      assert.equal(parentMixedWeeklyReportVerifiedChild.body.report?.student?.id, ids.student);
+      const parentMixedWeeklyReportUnverifiedChild = await requestRoute("/api/reports", tokens.parentMixed, ids.unverifiedStudent);
+      assert.equal(parentMixedWeeklyReportUnverifiedChild.status, 403,
+        "explicit selection must not authorize an unverified child in weekly reports");
+
       const parentSingleWeeklyReport = await requestRoute("/api/reports", tokens.parentSingle);
       assert.equal(parentSingleWeeklyReport.status, 200, JSON.stringify(parentSingleWeeklyReport.body));
       assert.equal(parentSingleWeeklyReport.body.report?.student?.id, ids.student,
