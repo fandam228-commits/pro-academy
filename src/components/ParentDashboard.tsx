@@ -7,7 +7,7 @@ import { Users, CheckCircle, BarChart3, Clock, MessageSquare, Phone, ShieldCheck
 // BarChart3 powers the new "Full Performance Report" action
 
 export const ParentDashboard: React.FC<{ onOpenReport?: () => void }> = ({ onOpenReport }) => {
-  const { lang, user } = useApp();
+  const { lang } = useApp();
   const [data, setData] = useState<any>(null);
   const [attendance, setAttendance] = useState<{ rate: number; total: number; records: any[] } | null>(null);
   const [loading, setLoading] = useState(true);
