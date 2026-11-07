@@ -7,6 +7,9 @@ const SECURITY_TEST_RULES = [
   {
     matches: (path) =>
       path === "src/app/api/analytics/route.ts" ||
+      path === "src/app/api/reports/route.ts" ||
+      path === "src/app/api/attendance/route.ts" ||
+      path === "src/app/api/parent/route.ts" ||
       path === "src/lib/analytics-authorization.mjs" ||
       path === "src/lib/analytics-report-scope.mjs",
     required: [
