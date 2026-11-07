@@ -19,6 +19,23 @@ function isSafePrivateHomeworkPath(value) {
 }
 
 /**
+ * Recognize Vercel's public Blob hostname without logging or returning the URL.
+ * This is a high-priority provider-review signal, not proof the object still exists.
+ */
+function isKnownVercelPublicBlobUrl(value) {
+  try {
+    const parsed = new URL(value);
+    // DNS permits a trailing dot on a fully qualified hostname; normalize it so a
+    // legacy public Blob URL cannot evade the higher-priority review counter.
+    const host = parsed.hostname.toLowerCase().replace(/\.$/, "");
+    return (parsed.protocol === "https:" || parsed.protocol === "http:") &&
+      (host === "public.blob.vercel-storage.com" || host.endsWith(".public.blob.vercel-storage.com"));
+  } catch {
+    return false;
+  }
+}
+
+/**
  * Classifies a stored homework file reference without exposing the reference itself.
  * An absolute URL is flagged for review; this does not claim that the URL is public.
  */
@@ -26,7 +43,11 @@ export function classifyHomeworkStoragePath(value) {
   if (typeof value !== "string" || value.trim() === "") return "empty";
   const normalized = value.trim();
 
-  if (/^https?:\/\//i.test(normalized)) return "absolute-url-needs-review";
+  if (/^https?:\/\//i.test(normalized)) {
+    return isKnownVercelPublicBlobUrl(normalized)
+      ? "vercel-public-blob-url-needs-review"
+      : "absolute-url-needs-review";
+  }
   if (isSafePrivateHomeworkPath(normalized)) return "private-path";
   return "unknown-or-malformed";
 }
@@ -79,6 +100,7 @@ export function summarizeHomeworkStoragePaths(values) {
     totalRows: 0,
     empty: 0,
     privatePath: 0,
+    vercelPublicBlobUrlNeedsReview: 0,
     absoluteUrlNeedsReview: 0,
     unknownOrMalformed: 0,
   };
@@ -91,6 +113,9 @@ export function summarizeHomeworkStoragePaths(values) {
         break;
       case "private-path":
         summary.privatePath += 1;
+        break;
+      case "vercel-public-blob-url-needs-review":
+        summary.vercelPublicBlobUrlNeedsReview += 1;
         break;
       case "absolute-url-needs-review":
         summary.absoluteUrlNeedsReview += 1;

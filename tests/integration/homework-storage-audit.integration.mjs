@@ -18,6 +18,10 @@ test("storage audit classifies references without exposing their values", () => 
   assert.equal(classifyHomeworkStoragePath("  "), "empty");
   assert.equal(classifyHomeworkStoragePath("homework/submission.pdf"), "private-path");
   assert.equal(classifyHomeworkStoragePath("https://blob.example/file.pdf"), "absolute-url-needs-review");
+  assert.equal(classifyHomeworkStoragePath("https://store-id.public.blob.vercel-storage.com/homework/file.pdf"), "vercel-public-blob-url-needs-review");
+  assert.equal(classifyHomeworkStoragePath("https://public.blob.vercel-storage.com/homework/file.pdf"), "vercel-public-blob-url-needs-review");
+  assert.equal(classifyHomeworkStoragePath("https://store-id.public.blob.vercel-storage.com./homework/file.pdf"), "vercel-public-blob-url-needs-review");
+  assert.equal(classifyHomeworkStoragePath("https://store-id.blob.vercel-storage.com/file.pdf"), "absolute-url-needs-review");
   assert.equal(classifyHomeworkStoragePath("homework/../secrets.pdf"), "unknown-or-malformed");
   assert.equal(classifyHomeworkStoragePath("homework/%2e%2e/secrets.pdf"), "unknown-or-malformed");
 
@@ -25,25 +29,36 @@ test("storage audit classifies references without exposing their values", () => 
     null,
     "homework/a.pdf",
     "https://blob.example/old.pdf",
+    "https://store-id.public.blob.vercel-storage.com/homework/legacy.pdf",
     "homework/../bad.pdf",
+    "homework/%2e%2e/bad.pdf",
   ]);
   assert.deepEqual(summary, {
-    totalRows: 4,
+    totalRows: 6,
     empty: 1,
     privatePath: 1,
+    vercelPublicBlobUrlNeedsReview: 1,
     absoluteUrlNeedsReview: 1,
-    unknownOrMalformed: 1,
+    unknownOrMalformed: 2,
   });
   assert.deepEqual(
-    mergeHomeworkStoragePathSummaries(summary, { totalRows: 1, absoluteUrlNeedsReview: 1 }),
+    mergeHomeworkStoragePathSummaries(summary, {
+      totalRows: 2,
+      absoluteUrlNeedsReview: 1,
+      vercelPublicBlobUrlNeedsReview: 1,
+    }),
     {
-      totalRows: 5,
+      totalRows: 8,
       empty: 1,
       privatePath: 1,
+      vercelPublicBlobUrlNeedsReview: 2,
       absoluteUrlNeedsReview: 2,
-      unknownOrMalformed: 1,
+      unknownOrMalformed: 2,
     },
   );
+  const serialized = JSON.stringify(summary);
+  assert.doesNotMatch(serialized, /store-id|legacy\.pdf|blob\.example|submission\.pdf/,
+    "audit summaries must never retain source URLs or file paths");
 });
 
 test("storage audit keeps local targets available and fails closed for remote targets without verified TLS", () => {
