@@ -63,6 +63,7 @@ integrationTest(
       attendanceRecord: id("attendance_record"),
       enrollmentOwned: id("enrollment_owned"),
       enrollmentSecondOwned: id("enrollment_second_owned"),
+      enrollmentSecondOtherCourse: id("enrollment_second_other_course"),
       enrollmentOtherStudent: id("enrollment_other_student"),
       enrollmentStudentOtherCourse: id("enrollment_student_other_course"),
       enrollmentCancelled: id("enrollment_cancelled"),
@@ -83,6 +84,7 @@ integrationTest(
     };
     const tokens = {
       teacher: token("teacher"),
+      otherTeacher: token("other_teacher"),
       student: token("student"),
       parent: token("parent"),
       parentSingle: token("parent_single"),
@@ -192,13 +194,14 @@ integrationTest(
       );
       await client.query(
         `INSERT INTO enrollments (id, student_id, course_id, status)
-         VALUES ($1, $2, $3, 'active'), ($4, $5, $6, 'active'), ($7, $2, $6, 'active'), ($8, $9, $10, 'cancelled'), ($11, $12, $3, 'active')`,
+         VALUES ($1, $2, $3, 'active'), ($4, $5, $6, 'active'), ($7, $2, $6, 'active'), ($8, $9, $10, 'cancelled'), ($11, $12, $3, 'active'), ($13, $12, $6, 'active')`,
         [
           ids.enrollmentOwned, ids.student, ids.ownedCourse,
           ids.enrollmentOtherStudent, ids.otherStudent, ids.otherCourse,
           ids.enrollmentStudentOtherCourse,
           ids.enrollmentCancelled, ids.unverifiedStudent, ids.ownedCourse,
           ids.enrollmentSecondOwned, ids.secondOwnedStudent,
+          ids.enrollmentSecondOtherCourse,
         ],
       );
       // Seed one valid owned-course homework and two out-of-scope assignments.
@@ -274,6 +277,7 @@ integrationTest(
       );
       const sessions = [
         [ids.teacherSession, tokens.teacher, ids.teacher, "teacher"],
+        [id("session_other_teacher"), tokens.otherTeacher, ids.otherTeacher, "teacher"],
         [ids.studentSession, tokens.student, ids.student, "student"],
         [ids.parentSession, tokens.parent, ids.parent, "parent"],
         [ids.parentSingleSession, tokens.parentSingle, ids.parentSingle, "parent"],
@@ -584,6 +588,37 @@ integrationTest(
       assert.equal(originalAttendance.rows[0]?.marked_by, ids.otherTeacher,
         "a rejected request must preserve the other teacher's attendance record");
 
+      // The second student is enrolled in both teachers' courses. With no existing
+      // attendance row, concurrent requests must still serialize: exactly one
+      // teacher creates the row and the other receives a conflict.
+      for (let attempt = 0; attempt < 6; attempt += 1) {
+        const sessionTitle = `Concurrent attendance lock ${attempt}`;
+        const payload = (status) => ({
+          action: "bulk_mark",
+          sessionTitle,
+          sessionDate: "2026-11-05",
+          marks: [{ studentId: ids.secondOwnedStudent, status }],
+        });
+        const [teacherWrite, otherTeacherWrite] = await Promise.all([
+          requestPost("/api/attendance", tokens.teacher, payload("present")),
+          requestPost("/api/attendance", tokens.otherTeacher, payload("absent")),
+        ]);
+        assert.deepEqual(
+          [teacherWrite.status, otherTeacherWrite.status].sort(),
+          [200, 409],
+          "concurrent teachers must not both create the same attendance key",
+        );
+        const rows = await client.query(
+          "SELECT marked_by FROM attendance_records WHERE student_id = $1 AND session_title = $2 AND session_date = $3",
+          [ids.secondOwnedStudent, sessionTitle, "2026-11-05"],
+        );
+        assert.equal(rows.rowCount, 1, "concurrent marking must leave exactly one attendance row");
+        assert.ok(
+          [ids.teacher, ids.otherTeacher].includes(rows.rows[0].marked_by),
+          "the winning attendance row must retain the authenticated teacher as its owner",
+        );
+      }
+
       const teacherAttendance = await requestRoute("/api/attendance", tokens.teacher);
       assert.equal(teacherAttendance.status, 200, JSON.stringify(teacherAttendance.body));
       assert.deepEqual(
@@ -645,10 +680,10 @@ integrationTest(
           await client.query("DELETE FROM quiz_submissions WHERE id = $1", [ids.otherCourseQuizSubmission]);
           await client.query("DELETE FROM quizzes WHERE id = $1", [ids.otherCourseQuiz]);
           await client.query(
-            "DELETE FROM attendance_records WHERE id = $1 OR (student_id = $2 AND session_title = $3 AND session_date = $4)",
-            [ids.attendanceRecord, ids.secondOwnedStudent, "Unscoped attendance fixture", "2026-11-04"],
+            "DELETE FROM attendance_records WHERE id = $1 OR (student_id = $2 AND (session_title = $3 OR session_title LIKE $4))",
+            [ids.attendanceRecord, ids.secondOwnedStudent, "Unscoped attendance fixture", "Concurrent attendance lock %"],
           );
-          await client.query("DELETE FROM enrollments WHERE id = ANY($1::text[])", [[ids.enrollmentOwned, ids.enrollmentSecondOwned, ids.enrollmentOtherStudent, ids.enrollmentStudentOtherCourse, ids.enrollmentCancelled]]);
+          await client.query("DELETE FROM enrollments WHERE id = ANY($1::text[])", [[ids.enrollmentOwned, ids.enrollmentSecondOwned, ids.enrollmentSecondOtherCourse, ids.enrollmentOtherStudent, ids.enrollmentStudentOtherCourse, ids.enrollmentCancelled]]);
           await client.query("DELETE FROM courses WHERE id = ANY($1::text[])", [[ids.ownedCourse, ids.otherCourse]]);
           await client.query("DELETE FROM users WHERE id = ANY($1::text[])", [[ids.teacher, ids.otherTeacher, ids.student, ids.secondOwnedStudent, ids.otherStudent, ids.unlinkedStudent, ids.unverifiedStudent, ids.unverifiedOnlyStudent, ids.parent, ids.parentSingle, ids.parentMixed, ids.parentUnverifiedOnly, ids.admin]]);
         } catch {
