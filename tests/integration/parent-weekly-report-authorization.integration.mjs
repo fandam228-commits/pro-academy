@@ -2,6 +2,7 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { Client } from "pg";
 import { drizzle } from "drizzle-orm/node-postgres";
+import { eq } from "drizzle-orm";
 import { alias, pgTable, text, timestamp } from "drizzle-orm/pg-core";
 import { buildVerifiedParentLinkPredicate } from "../../src/lib/parent-report-authorization.mjs";
 
@@ -53,7 +54,7 @@ integrationTest("weekly parent report predicate requires a live verified link an
         verifiedByUser,
         parentId: "parent-1",
         studentId: "student-1",
-      }) });
+      }) }).from(users).where(eq(users.id, "parent-1")).limit(1);
       return rows[0]?.allowed === true;
     };
 
