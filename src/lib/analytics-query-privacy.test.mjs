@@ -274,19 +274,20 @@ test("teacher attendance GET is limited to owned-course student roster and recor
     "teacher session metadata must also be limited to the owned-course roster");
 });
 
-test("parent attendance GET requires an admin-verified current student and explicit child resolution", () => {
+test("parent attendance GET requires explicit choice across all linked students and authorizes only admin-verified children", () => {
   const parentStart = attendanceRouteSource.indexOf('if (role === "parent")');
   const studentStart = attendanceRouteSource.indexOf("// ============ STUDENT: own records ============", parentStart);
   assert.notEqual(parentStart, -1, "parent attendance branch must exist");
   assert.notEqual(studentStart, -1, "student attendance branch must follow parent branch");
   const parentSource = attendanceRouteSource.slice(parentStart, studentStart);
-  assert.match(parentSource, /innerJoin\(users, eq\(parentLinks\.studentId, users\.id\)\)/);
-  assert.match(parentSource, /innerJoin\(verifiedByUser, eq\(parentLinks\.verifiedBy, verifiedByUser\.id\)\)/);
-  assert.match(parentSource, /eq\(parentLinks\.parentId, ctx\.user\.id\)/);
-  assert.match(parentSource, /eq\(users\.role, "student"\)/);
-  assert.match(parentSource, /eq\(verifiedByUser\.role, "admin"\)/);
-  assert.match(parentSource, /isNotNull\(parentLinks\.verifiedAt\)/);
-  assert.match(parentSource, /resolveParentAnalyticsStudentId\(requestedStudent, linkedStudentIds\)/);
+  assert.match(parentSource, /innerJoin\(parentAccount, eq\(parentLinks\.parentId, parentAccount\.id\)\)/);
+  assert.match(parentSource, /eq\(parentAccount\.role, "parent"\)/);
+  assert.match(parentSource, /leftJoin\(users, eq\(parentLinks\.studentId, users\.id\)\)/);
+  assert.match(parentSource, /leftJoin\(verifiedByUser, eq\(parentLinks\.verifiedBy, verifiedByUser\.id\)\)/);
+  assert.match(parentSource, /getParentAnalyticsSelectionData\(/);
+  assert.match(parentSource, /selectionData\.allLinkedStudentIds/);
+  assert.match(parentSource, /resolveParentAnalyticsStudentId\(\s*requestedStudent,\s*selectionData\.allLinkedStudentIds\s*\)/);
+  assert.match(parentSource, /selectionData\.verifiedStudentIds\.includes\(studentId\)/);
   assert.doesNotMatch(parentSource, /links\s*\[\s*0\s*\]\s*\??\.\s*studentId/,
     "parent attendance must not silently select the first linked child");
   assert.match(parentSource, /eq\(attendanceRecords\.studentId, studentId\)/,
