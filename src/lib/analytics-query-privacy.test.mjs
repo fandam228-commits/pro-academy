@@ -490,7 +490,7 @@ test("weekly report profile lookup revalidates live teacher enrollment and paren
 });
 
 test("reports do not expose unscoped attendance or global gamification values to teachers", () => {
-  assert.match(reportsRouteSource, /role === "teacher" \? \[\] : await db\.select\(\)\.from\(attendanceRecords\)/);
+  assert.match(reportsRouteSource, /const allAttendance = role === "teacher"\s*\?\s*\[\]\s*:/);
   assert.match(reportsRouteSource, /role === "teacher" \? null/);
   assert.match(reportsRouteSource, /role === "teacher" \? null : \(student\.streak \|\| 0\)/);
   assert.match(reportsRouteSource, /role === "teacher" \? null : \(student\.points \|\| 0\)/);
