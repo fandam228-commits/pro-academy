@@ -140,7 +140,7 @@ test("failed homework submission inserts clean up the newly uploaded private Blo
 
   assert.match(guardedInsert, /if \(storagePath && uploadToken\)/);
   assert.match(guardedInsert, /await del\(storagePath, \{ token: uploadToken \}\)/);
-  assert.match(guardedInsert, /Failed to remove homework upload after insert failure/);
+  assert.match(guardedInsert, /Private homework Blob cleanup failed; manual reconciliation may be required/);
   assert.match(guardedInsert, /throw insertError;/);
 });
 
