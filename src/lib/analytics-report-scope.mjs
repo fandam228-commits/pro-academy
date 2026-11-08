@@ -97,6 +97,32 @@ export function getVerifiedParentAnalyticsStudentIds(linkRows) {
 }
 
 /**
+ * Separate the set used to detect ambiguous parent-child relationships from the
+ * smaller set that is actually authorized for report access.
+ *
+ * Every current student link counts toward explicit selection, even when it is
+ * unverified or was verified by a non-admin. Only links with an admin verifier
+ * and valid verification metadata enter verifiedStudentIds.
+ */
+export function getParentAnalyticsSelectionData(linkRows) {
+  if (!Array.isArray(linkRows)) {
+    return { allLinkedStudentIds: [], verifiedStudentIds: [] };
+  }
+
+  const validRows = linkRows.filter((row) =>
+    row &&
+    typeof row === "object" &&
+    isNonEmptyString(row.studentId)
+  );
+  const allLinkedStudentIds = [...new Set(validRows.map((row) => row.studentId))];
+  const verifiedStudentIds = getVerifiedParentAnalyticsStudentIds(
+    validRows.filter((row) => row.verifierRole === "admin"),
+  );
+
+  return { allLinkedStudentIds, verifiedStudentIds };
+}
+
+/**
  * Resolve the student a parent may view without silently choosing among children.
  * The caller must supply parent-link IDs read from the database.
  */
