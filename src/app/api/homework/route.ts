@@ -9,6 +9,7 @@ import { del, put } from "@vercel/blob";
 import { getHomeworkPrivateBlobToken, isPrivateHomeworkBlobPath } from "@/lib/homework-storage.mjs";
 import { randomUUID } from "node:crypto";
 import { canManageHomework, canSubmitHomework, canAccessHomeworkCourse, canAssignHomeworkToCourse, canReplaceHomeworkSubmission } from "@/lib/homework-authorization.mjs";
+import { lockHomeworkDeletionAuthorization } from "@/lib/homework-delete-authorization.mjs";
 
 const MAX_SIZE_BYTES = 20 * 1024 * 1024; // 20MB
 
@@ -511,21 +512,34 @@ export async function POST(req: Request) {
     if (action === "delete") {
       const { denied } = await requireRoles(req, ["admin", "teacher"]);
       if (denied) return denied;
-      if (ctx.user.role === "teacher") {
-        const ownRows = await db.select().from(homework).where(eq(homework.id, body.homeworkId));
-        const own = ownRows[0];
-        const courseTeacherId = own ? await getHomeworkCourseTeacherId(own.courseId) : null;
-        if (!own || !canManageHomework({
-          role: ctx.user.role as string,
-          requesterId: ctx.user.id,
-          homeworkTeacherId: own.teacherId,
-          homeworkCourseId: own.courseId,
-          courseTeacherId,
-        })) {
-          return NextResponse.json({ error: "Forbidden" }, { status: 403 });
-        }
+
+      // Lock the live account, assignment, and current course owner in one
+      // transaction. A concurrent role demotion or course transfer must wait
+      // until this authorization decision and deletion commit or roll back.
+      const deletion = await db.transaction(async (tx) => {
+        const access = await lockHomeworkDeletionAuthorization(
+          tx,
+          {
+            homeworkId: body.homeworkId,
+            requesterId: ctx.user.id,
+            sessionRole: ctx.user.role as string,
+          },
+          { users, homework, courses },
+        );
+        if (!access.allowed) return access;
+
+        const deleted = await tx
+          .delete(homework)
+          .where(eq(homework.id, access.homeworkId))
+          .returning({ id: homework.id });
+        return deleted.length === 1
+          ? { allowed: true as const, homeworkId: deleted[0].id }
+          : { allowed: false as const, reason: "homework-not-found" as const };
+      });
+
+      if (!deletion.allowed) {
+        return NextResponse.json({ error: "Homework not found or access denied" }, { status: 404 });
       }
-      await db.delete(homework).where(eq(homework.id, body.homeworkId));
       return NextResponse.json({ success: true });
     }
 
