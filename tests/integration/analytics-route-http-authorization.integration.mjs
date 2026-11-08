@@ -739,6 +739,47 @@ integrationTest(
       );
       await client.query("UPDATE users SET role = 'admin' WHERE id = $1", [ids.admin]);
 
+      // The /api/analytics parent path must also revalidate the relationship after
+      // report reads. The overview route has its own race tests above; this guards
+      // against a regression limited to the analytics endpoint.
+      await lockClient.query("BEGIN");
+      await lockClient.query("LOCK TABLE quiz_submissions IN ACCESS EXCLUSIVE MODE");
+      const analyticsLinkRevocationInFlight = requestAnalytics(tokens.parent, ids.student)
+        .catch((error) => ({ status: 0, body: { error: String(error) } }));
+      await waitForBlockedQuery(observerClient, "quiz_submissions");
+      await client.query(
+        "UPDATE parent_links SET verified_at = NULL, verified_by = NULL WHERE id = $1",
+        [ids.linkStudent],
+      );
+      await lockClient.query("COMMIT");
+      const analyticsLinkRevokedDuringReport = await analyticsLinkRevocationInFlight;
+      assert.equal(
+        analyticsLinkRevokedDuringReport.status,
+        403,
+        "parent Analytics must deny the report when its verified link is revoked during report reads",
+      );
+      await client.query(
+        "UPDATE parent_links SET verified_at = NOW(), verified_by = $2 WHERE id = $1",
+        [ids.linkStudent, ids.admin],
+      );
+
+      // A previously verified relationship is not sufficient if its verifier loses
+      // admin privileges while /api/analytics is assembling the report.
+      await lockClient.query("BEGIN");
+      await lockClient.query("LOCK TABLE quiz_submissions IN ACCESS EXCLUSIVE MODE");
+      const analyticsVerifierDemotionInFlight = requestAnalytics(tokens.parent, ids.student)
+        .catch((error) => ({ status: 0, body: { error: String(error) } }));
+      await waitForBlockedQuery(observerClient, "quiz_submissions");
+      await client.query("UPDATE users SET role = 'teacher' WHERE id = $1", [ids.admin]);
+      await lockClient.query("COMMIT");
+      const analyticsVerifierDemotedDuringReport = await analyticsVerifierDemotionInFlight;
+      assert.equal(
+        analyticsVerifierDemotedDuringReport.status,
+        403,
+        "parent Analytics must deny the report when the link verifier loses admin role during report reads",
+      );
+      await client.query("UPDATE users SET role = 'admin' WHERE id = $1", [ids.admin]);
+
       for (const privateField of ["email", "password", "phone", "parentPhone", "username"]) {
         assert.equal(Object.hasOwn(parentOverview.body.student || {}, privateField), false,
           `parent overview must not expose the student's ${privateField} field`);
