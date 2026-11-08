@@ -118,5 +118,5 @@ test("homework file route revalidates the exact authorization context after Blob
   assert.match(routeSource, /latest\\.submission!\\.studentId !== sub\\.studentId/);
   assert.match(routeSource, /latest\\.submission!\\.storagePath !== sub\\.storagePath/);
   assert.match(routeSource, /context\\.requesterRole !== sessionRole/);
-  assert.doesNotMatch(routeSource, /NextResponse\\.redirect\\s*\\(/);
+  assert.doesNotMatch(routeSource, /NextResponse\.redirect\s*\(/);
 });
