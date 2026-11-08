@@ -755,6 +755,57 @@ integrationTest(
       const teacherParentOverview = await requestRoute("/api/parent", tokens.teacher, ids.student);
       assert.equal(teacherParentOverview.status, 403,
         "teachers must not use the parent overview endpoint to bypass course-scoped reports");
+
+      // Revoke the student's only teacher-owned enrollment after the initial
+      // allowlist/profile reads but while the report's quiz query is blocked.
+      await lockClient.query("BEGIN");
+      await lockClient.query("LOCK TABLE quiz_submissions IN ACCESS EXCLUSIVE MODE");
+      const teacherEnrollmentRevocationInFlight = requestAnalytics(tokens.teacher, ids.student)
+        .catch((error) => ({ status: 0, body: { error: String(error) } }));
+      await waitForBlockedQuery(observerClient, "quiz_submissions");
+      await client.query("UPDATE enrollments SET status = 'cancelled' WHERE id = $1", [ids.enrollmentOwned]);
+      await lockClient.query("COMMIT");
+      const teacherEnrollmentRevokedDuringReport = await teacherEnrollmentRevocationInFlight;
+      assert.equal(
+        teacherEnrollmentRevokedDuringReport.status,
+        403,
+        "teacher Analytics must deny a report when its owned-course enrollment is revoked during report reads",
+      );
+      await client.query("UPDATE enrollments SET status = 'active' WHERE id = $1", [ids.enrollmentOwned]);
+
+      // A class aggregate must fail closed if a course is transferred while
+      // any student's report is being assembled.
+      await lockClient.query("BEGIN");
+      await lockClient.query("LOCK TABLE quiz_submissions IN ACCESS EXCLUSIVE MODE");
+      const teacherClassOwnershipTransferInFlight = requestAnalytics(tokens.teacher)
+        .catch((error) => ({ status: 0, body: { error: String(error) } }));
+      await waitForBlockedQuery(observerClient, "quiz_submissions");
+      await client.query("UPDATE courses SET teacher_id = $2 WHERE id = $1", [ids.ownedCourse, ids.otherTeacher]);
+      await lockClient.query("COMMIT");
+      const teacherClassAfterOwnershipTransfer = await teacherClassOwnershipTransferInFlight;
+      assert.equal(
+        teacherClassAfterOwnershipTransfer.status,
+        403,
+        "teacher class Analytics must fail closed when a course is transferred during report reads",
+      );
+      await client.query("UPDATE courses SET teacher_id = $2 WHERE id = $1", [ids.ownedCourse, ids.teacher]);
+
+      // A session that was valid at request start must not retain report access
+      // if the teacher account is demoted before the final scope check.
+      await lockClient.query("BEGIN");
+      await lockClient.query("LOCK TABLE quiz_submissions IN ACCESS EXCLUSIVE MODE");
+      const teacherRoleDemotionInFlight = requestAnalytics(tokens.teacher, ids.student)
+        .catch((error) => ({ status: 0, body: { error: String(error) } }));
+      await waitForBlockedQuery(observerClient, "quiz_submissions");
+      await client.query("UPDATE users SET role = 'student' WHERE id = $1", [ids.teacher]);
+      await lockClient.query("COMMIT");
+      const teacherRoleDemotedDuringReport = await teacherRoleDemotionInFlight;
+      assert.equal(
+        teacherRoleDemotedDuringReport.status,
+        403,
+        "teacher Analytics must revalidate the current teacher role before returning student data",
+      );
+      await client.query("UPDATE users SET role = 'teacher' WHERE id = $1", [ids.teacher]);
     } finally {
       if (lockClient) {
         await lockClient.query("ROLLBACK").catch(() => {});

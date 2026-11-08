@@ -574,3 +574,31 @@ test("teacher report queries revalidate current course ownership and active enro
     "class roster must revalidate current owner and enrollment before exposing student profile fields");
 });
 
+test("teacher Analytics revalidates the current teacher, student, course owner, and enrollment before returning reports", () => {
+  const helperStart = routeSource.indexOf("async function getCurrentTeacherCourseScopes(");
+  const helperEnd = routeSource.indexOf("function retainsCurrentTeacherCourseScope", helperStart);
+  assert.ok(helperStart >= 0 && helperEnd > helperStart, "final teacher scope helper must exist");
+  const helperSource = routeSource.slice(helperStart, helperEnd);
+
+  assert.match(helperSource, /\.from\(enrollments\)/);
+  assert.match(helperSource, /innerJoin\(courses, eq\(enrollments\.courseId, courses\.id\)\)/,
+    "the final scope must use current course ownership");
+  assert.match(helperSource, /innerJoin\(analyticsTeacherAccount, and\([\s\S]*?eq\(analyticsTeacherAccount\.role, "teacher"\)/,
+    "the current teacher role must be checked in the same SQL statement as the final scope");
+  assert.match(helperSource, /inArray\(enrollments\.status, \["active", "completed"\]\)/,
+    "the final scope must require a currently eligible enrollment");
+  assert.match(helperSource, /eq\(analyticsTeacherStudent\.role, "student"\)/,
+    "the final scope must require a current student account");
+  assert.match(helperSource, /inArray\(enrollments\.studentId, uniqueStudentIds\)/);
+
+  const teacherStart = routeSource.indexOf('if (role === "teacher")');
+  const parentStart = routeSource.indexOf('if (role === "parent")', teacherStart);
+  assert.ok(teacherStart >= 0 && parentStart > teacherStart);
+  const teacherSource = routeSource.slice(teacherStart, parentStart);
+  assert.match(teacherSource, /getCurrentTeacherCourseScopes\(ctx\.user\.id, \[requestedStudent\]\)/,
+    "individual teacher reports must revalidate after building the report");
+  assert.match(teacherSource, /getCurrentTeacherCourseScopes\(\s*ctx\.user\.id,\s*visibleStudents\.map/,
+    "class reports must revalidate the complete roster after building reports");
+  assert.match(teacherSource, /retainsCurrentTeacherCourseScope/,
+    "both response paths must compare the final scope with the scope used to build the report");
+});
