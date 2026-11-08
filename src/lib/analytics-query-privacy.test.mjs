@@ -363,8 +363,8 @@ test("teacher class roster selects only authorized student profile fields", () =
 
   assert.match(
     teacherSource,
-    /const visibleStudents = teacherStudentIds\.length === 0\s*\?\s*\[\]\s*:\s*await db\s*\.select\(\{\s*id: users\.id,\s*name: users\.name,\s*grade: users\.grade\s*\}\)\s*\.from\(users\)\s*\.where\(and\(eq\(users\.role, "student"\), inArray\(users\.id, teacherStudentIds\)\)\)/,
-    "teacher roster SQL must select only id/name/grade and filter by the authorized student-ID allowlist",
+    /const visibleStudentRows = teacherStudentIds\.length === 0\s*\?\s*\[\]\s*:\s*await db\s*\.select\(\{\s*id: users\.id,\s*name: users\.name,\s*grade: users\.grade\s*\}\)\s*\.from\(users\)\s*\.innerJoin\(enrollments, eq\(enrollments\.studentId, users\.id\)\)\s*\.innerJoin\(courses, eq\(enrollments\.courseId, courses\.id\)\)\s*\.where\(and\([\s\S]*?eq\(users\.role, "student"\)[\s\S]*?inArray\(users\.id, teacherStudentIds\)[\s\S]*?eq\(courses\.teacherId, ctx\.user\.id\)[\s\S]*?inArray\(enrollments\.status, \["active", "completed"\]\)[\s\S]*?\)\)/,
+    "teacher roster SQL must select only id/name/grade and revalidate current owner and enrollment",
   );
   assert.doesNotMatch(
     teacherSource,
@@ -385,7 +385,6 @@ test("teacher class roster selects only authorized student profile fields", () =
     "teacher class analytics must not expose account contact, authentication, storage, or parent-link fields",
   );
 });
-
 
 test("parent-link revocation rechecks the current administrator role in the UPDATE predicate", () => {
   const deleteStart = verificationRouteSource.indexOf("export async function DELETE(");
