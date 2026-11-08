@@ -11,7 +11,6 @@ test("Analytics route and policy changes require all authorization integration s
     [
       "tests/integration/analytics-authorization.integration.mjs",
       "tests/integration/parent-link-verification.integration.mjs",
-      "tests/integration/parent-report-current-role.integration.mjs",
       "tests/integration/analytics-route-http-authorization.integration.mjs",
     ],
   );
@@ -69,7 +68,6 @@ test("reports, attendance, and parent route changes require all Analytics author
     [
       "tests/integration/analytics-authorization.integration.mjs",
       "tests/integration/parent-link-verification.integration.mjs",
-      "tests/integration/parent-report-current-role.integration.mjs",
       "tests/integration/analytics-route-http-authorization.integration.mjs",
     ],
   );
@@ -80,10 +78,12 @@ test("required security integration suites must have executable CI steps", () =>
   const required = [
     "tests/integration/analytics-authorization.integration.mjs",
     "tests/integration/parent-link-verification.integration.mjs",
+    "tests/integration/analytics-route-http-authorization.integration.mjs",
   ];
   const workflow = [
     "node --test tests/integration/analytics-authorization.integration.mjs",
     "node --test tests/integration/parent-link-verification.integration.mjs",
+    "node --test tests/integration/analytics-route-http-authorization.integration.mjs",
   ].join("\n");
 
   assert.deepEqual(getMissingSecurityIntegrationTestSteps(required, workflow), []);
