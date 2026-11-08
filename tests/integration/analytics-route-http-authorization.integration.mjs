@@ -37,6 +37,18 @@ async function waitForBlockedQuery(observerClient, tableName, timeoutMs = 10000)
   throw new Error(`Timed out waiting for a PostgreSQL query blocked on ${tableName}`);
 }
 
+async function waitForBlockedAdvisoryLock(observerClient, timeoutMs = 10000) {
+  const deadline = Date.now() + timeoutMs;
+  while (Date.now() < deadline) {
+    const result = await observerClient.query(
+      "SELECT pid FROM pg_stat_activity WHERE datname = current_database() AND pid <> pg_backend_pid() AND state = 'active' AND wait_event_type = 'Lock' AND query ILIKE '%pg_advisory_xact_lock%' LIMIT 1",
+    );
+    if (result.rowCount > 0) return;
+    await delay(50);
+  }
+  throw new Error("Timed out waiting for the attendance transaction advisory lock");
+}
+
 async function stopServer(server) {
   if (!server || server.exitCode !== null) return;
   server.kill("SIGTERM");
@@ -122,6 +134,10 @@ integrationTest(
     let observerClient;
     let reportLockClient;
     let reportObserverClient;
+    let attendanceLockClient;
+    let attendanceObserverClient;
+    const attendanceOwnershipRaceSession = "Course ownership transfer " + suffix;
+    const attendanceOwnershipRaceDate = "2026-11-06";
     let serverError = "";
 
     try {
@@ -699,6 +715,53 @@ integrationTest(
       assert.equal(originalAttendance.rows[0]?.marked_by, ids.otherTeacher,
         "a rejected request must preserve the other teacher's attendance record");
 
+      // Pause a teacher request after its preliminary enrollment check but before
+      // the write transaction can acquire its advisory lock. Transfer the only
+      // course owned by this teacher while the request is paused; the transaction
+      // must revalidate and reject instead of using the stale preflight result.
+      attendanceLockClient = new Client({ connectionString });
+      attendanceObserverClient = new Client({ connectionString });
+      await Promise.all([attendanceLockClient.connect(), attendanceObserverClient.connect()]);
+      const attendanceRaceKey = JSON.stringify([
+        ids.student,
+        attendanceOwnershipRaceSession,
+        attendanceOwnershipRaceDate,
+      ]);
+      await attendanceLockClient.query("BEGIN");
+      await attendanceLockClient.query(
+        "SELECT pg_advisory_xact_lock(hashtextextended($1, 0))",
+        [attendanceRaceKey],
+      );
+      const attendanceOwnershipRaceRequest = requestPost("/api/attendance", tokens.teacher, {
+        action: "bulk_mark",
+        sessionTitle: attendanceOwnershipRaceSession,
+        sessionDate: attendanceOwnershipRaceDate,
+        marks: [{ studentId: ids.student, status: "present" }],
+      }).catch((error) => ({ status: 0, body: { error: String(error) } }));
+      await waitForBlockedAdvisoryLock(attendanceObserverClient);
+      await client.query("UPDATE courses SET teacher_id = $1 WHERE id = $2", [ids.otherTeacher, ids.ownedCourse]);
+      await attendanceLockClient.query("COMMIT");
+      const attendanceOwnershipRaceResponse = await attendanceOwnershipRaceRequest;
+      assert.equal(
+        attendanceOwnershipRaceResponse.status,
+        403,
+        "attendance bulk marking must revalidate live course ownership inside the write transaction",
+      );
+      const attendanceOwnershipRaceRows = await client.query(
+        "SELECT id FROM attendance_records WHERE student_id = $1 AND session_title = $2 AND session_date = $3",
+        [ids.student, attendanceOwnershipRaceSession, attendanceOwnershipRaceDate],
+      );
+      assert.equal(
+        attendanceOwnershipRaceRows.rowCount,
+        0,
+        "a course transfer during the request must not create an attendance record using stale authorization",
+      );
+      await client.query("UPDATE courses SET teacher_id = $1 WHERE id = $2", [ids.teacher, ids.ownedCourse]);
+      await attendanceObserverClient.end();
+      attendanceObserverClient = null;
+      await attendanceLockClient.end();
+      attendanceLockClient = null;
+
       // The second student is enrolled in both teachers' courses. With no existing
       // attendance row, concurrent requests must still serialize: exactly one
       // teacher creates the row and the other receives a conflict.
@@ -845,6 +908,11 @@ integrationTest(
       assert.equal(teacherParentOverview.status, 403,
         "teachers must not use the parent overview endpoint to bypass course-scoped reports");
     } finally {
+      if (attendanceLockClient) {
+        await attendanceLockClient.query("ROLLBACK").catch(() => {});
+        await attendanceLockClient.end().catch(() => {});
+      }
+      if (attendanceObserverClient) await attendanceObserverClient.end().catch(() => {});
       if (reportLockClient) {
         await reportLockClient.query("ROLLBACK").catch(() => {});
         await reportLockClient.end().catch(() => {});
@@ -865,8 +933,16 @@ integrationTest(
           await client.query("DELETE FROM quiz_submissions WHERE id = $1", [ids.otherCourseQuizSubmission]);
           await client.query("DELETE FROM quizzes WHERE id = $1", [ids.otherCourseQuiz]);
           await client.query(
-            "DELETE FROM attendance_records WHERE id = $1 OR (student_id = $2 AND (session_title = $3 OR session_title LIKE $4))",
-            [ids.attendanceRecord, ids.secondOwnedStudent, "Unscoped attendance fixture", "Concurrent attendance lock %"],
+            "DELETE FROM attendance_records WHERE id = $1 OR (student_id = $2 AND (session_title = $3 OR session_title LIKE $4)) OR (student_id = $5 AND session_title = $6 AND session_date = $7)",
+            [
+              ids.attendanceRecord,
+              ids.secondOwnedStudent,
+              "Unscoped attendance fixture",
+              "Concurrent attendance lock %",
+              ids.student,
+              attendanceOwnershipRaceSession,
+              attendanceOwnershipRaceDate,
+            ],
           );
           await client.query("DELETE FROM enrollments WHERE id = ANY($1::text[])", [[ids.enrollmentOwned, ids.enrollmentSecondOwned, ids.enrollmentSecondOtherCourse, ids.enrollmentOtherStudent, ids.enrollmentStudentOtherCourse, ids.enrollmentCancelled]]);
           await client.query("DELETE FROM courses WHERE id = ANY($1::text[])", [[ids.ownedCourse, ids.otherCourse]]);
