@@ -36,46 +36,44 @@ const analyticsTeacherAccount = alias(users, "analytics_teacher_account");
 const analyticsTeacherStudent = alias(users, "analytics_teacher_student");
 
 async function getCurrentTeacherCourseScopes(teacherId: string, studentIds: string[]) {
-  const teacherRows = await db
-    .select({ id: analyticsTeacherAccount.id })
+  const uniqueStudentIds = [...new Set(studentIds)];
+  // One SQL statement makes the final role/ownership/enrollment check use a
+  // single database snapshot. A separate role lookup followed by an enrollment
+  // lookup could itself race with a teacher demotion.
+  const rows = await db
+    .select({
+      studentId: analyticsTeacherStudent.id,
+      courseId: courses.id,
+    })
     .from(analyticsTeacherAccount)
+    .leftJoin(courses, eq(courses.teacherId, analyticsTeacherAccount.id))
+    .leftJoin(enrollments, and(
+      eq(enrollments.courseId, courses.id),
+      inArray(enrollments.status, ["active", "completed"]),
+      inArray(enrollments.studentId, uniqueStudentIds),
+    ))
+    .leftJoin(analyticsTeacherStudent, and(
+      eq(enrollments.studentId, analyticsTeacherStudent.id),
+      eq(analyticsTeacherStudent.role, "student"),
+    ))
     .where(and(
       eq(analyticsTeacherAccount.id, teacherId),
       eq(analyticsTeacherAccount.role, "teacher"),
-    ))
-    .limit(1);
-  if (teacherRows.length === 0) return null;
-
-  const uniqueStudentIds = [...new Set(studentIds)];
-  const scopes = new Map<string, string[]>();
-  if (uniqueStudentIds.length === 0) return scopes;
-
-  const currentEnrollmentRows = await db
-    .select({
-      studentId: enrollments.studentId,
-      courseId: enrollments.courseId,
-      status: enrollments.status,
-      teacherId: courses.teacherId,
-    })
-    .from(enrollments)
-    .innerJoin(courses, eq(enrollments.courseId, courses.id))
-    .innerJoin(analyticsTeacherStudent, eq(enrollments.studentId, analyticsTeacherStudent.id))
-    .where(and(
-      eq(courses.teacherId, teacherId),
-      eq(analyticsTeacherStudent.role, "student"),
-      inArray(enrollments.studentId, uniqueStudentIds),
-      inArray(enrollments.status, ["active", "completed"]),
     ));
 
-  for (const studentId of uniqueStudentIds) {
-    scopes.set(
-      studentId,
-      getTeacherAnalyticsCourseIds(currentEnrollmentRows, teacherId, studentId),
-    );
+  // A teacher with no eligible enrollments still produces a left-join row.
+  // No row means the requesting account is no longer a teacher.
+  if (rows.length === 0) return null;
+
+  const scopes = new Map<string, string[]>();
+  for (const studentId of uniqueStudentIds) scopes.set(studentId, []);
+  for (const row of rows) {
+    if (!row.studentId || !row.courseId) continue;
+    const courseIds = scopes.get(row.studentId);
+    if (courseIds && !courseIds.includes(row.courseId)) courseIds.push(row.courseId);
   }
   return scopes;
 }
-
 function retainsCurrentTeacherCourseScope(expectedCourseIds: string[], currentCourseIds: string[]) {
   return expectedCourseIds.length > 0 &&
     expectedCourseIds.every((courseId) => currentCourseIds.includes(courseId));
