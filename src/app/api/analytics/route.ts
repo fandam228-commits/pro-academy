@@ -4,6 +4,7 @@ import {
   examAttempts,
   generatedExams,
   quizSubmissions,
+  quizzes,
   homework,
   homeworkSubmissions,
   attendanceRecords,
@@ -12,29 +13,164 @@ import {
   courses,
   parentLinks,
 } from "@/db/schema";
-import { eq } from "drizzle-orm";
+import { and, eq, inArray } from "drizzle-orm";
+import { alias } from "drizzle-orm/pg-core";
 import { NextResponse } from "next/server";
 import { ensureDbSetup } from "@/db/migrate-and-seed";
 import { getAuthContext } from "@/lib/security";
 import { canAccessStudentAnalytics } from "@/lib/analytics-authorization.mjs";
 import { attendanceRate, calculatePerformanceIndex, homeworkCompletion } from "@/lib/analytics-metrics.mjs";
+import {
+  getTeacherAnalyticsStudentIds,
+  getTeacherAnalyticsCourseIds,
+  isHomeworkGradeVisibleToStudent,
+  resolveParentAnalyticsStudentId,
+  getParentAnalyticsSelectionData,
+} from "@/lib/analytics-report-scope.mjs";
 
-/** Builds a full learning profile for one student. */
-async function buildStudentReport(studentId: string) {
-  const userRows = await db.select().from(users).where(eq(users.id, studentId));
+const verifiedByUser = alias(users, "verified_by_user");
+const parentAccount = alias(users, "parent_account");
+
+type TeacherReportScope = {
+  teacherId: string;
+  allowedCourseIds: string[];
+};
+
+type AnalyticsStudentProfile = {
+  id: string;
+  name: string;
+  grade: string | null;
+  points?: number | null;
+  streak?: number | null;
+  level?: string | null;
+};
+
+/** Builds a learning profile; teacher calls receive only explicitly course-scoped data. */
+async function buildStudentReport(studentId: string, scope?: TeacherReportScope) {
+  // Reports only need the profile fields below. Never hydrate the full user row here:
+  // it contains unrelated account data (for example contact/authentication fields).
+  // Teacher reports additionally require a current student role in the same query.
+  const userRows: AnalyticsStudentProfile[] = scope
+    ? await db
+        .select({
+          id: users.id,
+          name: users.name,
+          grade: users.grade,
+        })
+        .from(users)
+        .where(and(eq(users.id, studentId), eq(users.role, "student")))
+    : await db
+        .select({
+          id: users.id,
+          name: users.name,
+          grade: users.grade,
+          points: users.points,
+          streak: users.streak,
+          level: users.level,
+        })
+        .from(users)
+        .where(and(eq(users.id, studentId), eq(users.role, "student")));
   const student = userRows[0];
 
-  const attempts = (await db.select().from(examAttempts).where(eq(examAttempts.studentId, studentId))).sort(
-    (a, b) => new Date(a.submittedAt).getTime() - new Date(b.submittedAt).getTime()
-  );
-  const quizSubs = (await db.select().from(quizSubmissions).where(eq(quizSubmissions.studentId, studentId))).sort(
-    (a, b) => new Date(a.submittedAt).getTime() - new Date(b.submittedAt).getTime()
-  );
-  const hwSubs = await db.select().from(homeworkSubmissions).where(eq(homeworkSubmissions.studentId, studentId));
-  const allHw = await db.select().from(homework);
-  const attendance = await db.select().from(attendanceRecords).where(eq(attendanceRecords.studentId, studentId));
-  const bank = await db.select().from(questionBank);
-  const myEnrollments = await db.select().from(enrollments).where(eq(enrollments.studentId, studentId));
+  // Generated exams/attempts have no reliable course foreign key. Exclude them
+  // from teacher reports rather than exposing performance from other courses.
+  const attempts = scope
+    ? []
+    : (await db.select().from(examAttempts).where(eq(examAttempts.studentId, studentId))).sort(
+        (a, b) => new Date(a.submittedAt).getTime() - new Date(b.submittedAt).getTime()
+      );
+
+  // For teacher reports, constrain database reads to the authorized course IDs.
+  // Avoid loading unrelated teachers' quiz/homework records and filtering afterward.
+  const quizSubs = (scope
+    ? scope.allowedCourseIds.length === 0
+      ? []
+      : await db
+          .select({
+            percentage: quizSubmissions.percentage,
+            submittedAt: quizSubmissions.submittedAt,
+          })
+          .from(quizSubmissions)
+          .innerJoin(quizzes, eq(quizSubmissions.quizId, quizzes.id))
+          .where(and(
+            eq(quizSubmissions.studentId, studentId),
+            inArray(quizzes.courseId, scope.allowedCourseIds),
+          ))
+    : await db
+        .select({
+          percentage: quizSubmissions.percentage,
+          submittedAt: quizSubmissions.submittedAt,
+        })
+        .from(quizSubmissions)
+        .where(eq(quizSubmissions.studentId, studentId)))
+    .sort((a, b) => new Date(a.submittedAt).getTime() - new Date(b.submittedAt).getTime());
+
+  const visibleHomework = scope
+    ? scope.allowedCourseIds.length === 0
+      ? []
+      : await db
+          .select({
+            id: homework.id,
+            courseId: homework.courseId,
+            grade: homework.grade,
+            totalPoints: homework.totalPoints,
+          })
+          .from(homework)
+          .where(and(
+            eq(homework.teacherId, scope.teacherId),
+            inArray(homework.courseId, scope.allowedCourseIds),
+          ))
+    : await db.select({
+        id: homework.id,
+        courseId: homework.courseId,
+        grade: homework.grade,
+        totalPoints: homework.totalPoints,
+      }).from(homework);
+
+  const visibleHomeworkIds = new Set(visibleHomework
+    .filter((item) => isHomeworkGradeVisibleToStudent(item.grade, student?.grade))
+    .map((item) => item.id));
+  const hwSubs = scope
+    ? visibleHomeworkIds.size === 0
+      ? []
+      : await db
+          .select({
+            homeworkId: homeworkSubmissions.homeworkId,
+            score: homeworkSubmissions.score,
+            status: homeworkSubmissions.status,
+          })
+          .from(homeworkSubmissions)
+          .where(and(
+            eq(homeworkSubmissions.studentId, studentId),
+            inArray(homeworkSubmissions.homeworkId, [...visibleHomeworkIds]),
+          ))
+    : await db
+        .select({
+          homeworkId: homeworkSubmissions.homeworkId,
+          score: homeworkSubmissions.score,
+          status: homeworkSubmissions.status,
+        })
+        .from(homeworkSubmissions)
+        .where(eq(homeworkSubmissions.studentId, studentId));
+
+  // Attendance records currently have no course/teacher ownership key, so a
+  // teacher report must not include attendance that cannot be scoped safely.
+  const attendance = scope
+    ? []
+    : await db.select().from(attendanceRecords).where(eq(attendanceRecords.studentId, studentId));
+  const bank = scope ? [] : await db.select().from(questionBank);
+
+  const myEnrollments = scope
+    ? scope.allowedCourseIds.length === 0
+      ? []
+      : await db
+          .select()
+          .from(enrollments)
+          .where(and(
+            eq(enrollments.studentId, studentId),
+            inArray(enrollments.courseId, scope.allowedCourseIds),
+          ))
+    : await db.select().from(enrollments).where(eq(enrollments.studentId, studentId));
 
   // ---------- SCORE TIMELINE (exams + quizzes merged chronologically) ----------
   const timeline = [
@@ -87,8 +223,8 @@ async function buildStudentReport(studentId: string) {
   const avgScore = allScores.length ? Math.round(allScores.reduce((s, v) => s + v, 0) / allScores.length) : 0;
 
   const enrolledCourseIds = new Set(myEnrollments.map((enrollment) => enrollment.courseId));
-  const relevantHw = allHw.filter(
-    (h) => (!student?.grade || h.grade === student.grade) && (!h.courseId || enrolledCourseIds.has(h.courseId))
+  const relevantHw = visibleHomework.filter(
+    (h) => isHomeworkGradeVisibleToStudent(h.grade, student?.grade) && (!h.courseId || enrolledCourseIds.has(h.courseId))
   );
   const relevantHomeworkIds = new Set(relevantHw.map((h) => h.id));
   const relevantHwSubs = hwSubs.filter((submission) => relevantHomeworkIds.has(submission.homeworkId));
@@ -132,7 +268,14 @@ async function buildStudentReport(studentId: string) {
   if (recommendations.length === 0) recommendations.push("ابدأ بحل امتحان من بنك الأسئلة الذكي ليتم بناء تحليل دقيق لمستواك.");
 
   return {
-    student: student ? { id: student.id, name: student.name, grade: student.grade, points: student.points, streak: student.streak, level: student.level } : null,
+    student: student ? {
+      id: student.id,
+      name: student.name,
+      grade: student.grade,
+      points: scope ? null : student.points,
+      streak: scope ? null : student.streak,
+      level: scope ? null : student.level,
+    } : null,
     kpis: {
       avgScore,
       hwAvg,
@@ -141,7 +284,7 @@ async function buildStudentReport(studentId: string) {
       performanceIndex,
       trend,
       totalExams: attempts.length + quizSubs.length,
-      totalHomework: hwSubs.length,
+      totalHomework: relevantHwSubs.length,
       coursesEnrolled: myEnrollments.length,
       totalSessions: attendance.length,
     },
@@ -209,13 +352,18 @@ function buildClassAnalyticsResponse(reports: Awaited<ReturnType<typeof buildStu
 }
 
 export async function GET(req: Request) {
-  await ensureDbSetup();
+  // Authenticate and validate the role before database setup or migration work.
   const ctx = await getAuthContext(req);
   if (!ctx) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
+  const role = ctx.user.role as string;
+  if (!["admin", "teacher", "parent", "student"].includes(role)) {
+    return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+  }
+
+  await ensureDbSetup();
   const { searchParams } = new URL(req.url);
   const requestedStudent = searchParams.get("studentId");
-  const role = ctx.user.role as string;
 
   try {
     // ---------- ADMIN: unrestricted analytics ----------
@@ -226,7 +374,7 @@ export async function GET(req: Request) {
         return NextResponse.json({ scope: "student", ...report });
       }
 
-      const students = await db.select().from(users).where(eq(users.role, "student"));
+      const students = await db.select({ id: users.id }).from(users).where(eq(users.role, "student"));
       const reports = await Promise.all(students.map((s) => buildStudentReport(s.id)));
 
       return buildClassAnalyticsResponse(reports);
@@ -234,12 +382,24 @@ export async function GET(req: Request) {
 
     // ---------- TEACHER: only students enrolled in courses owned by this teacher ----------
     if (role === "teacher") {
-      const teacherEnrollments = await db
-        .select({ studentId: enrollments.studentId })
+      const teacherEnrollmentRows = await db
+        .select({
+          studentId: enrollments.studentId,
+          courseId: enrollments.courseId,
+          status: enrollments.status,
+          teacherId: courses.teacherId,
+        })
         .from(enrollments)
         .innerJoin(courses, eq(enrollments.courseId, courses.id))
-        .where(eq(courses.teacherId, ctx.user.id));
-      const teacherStudentIds = [...new Set(teacherEnrollments.map((row) => row.studentId))];
+        // Enforce the target account's current role in SQL as well as the enrollment scope.
+        // A malformed legacy enrollment must never authorize a report for a teacher/admin account.
+        .innerJoin(users, eq(enrollments.studentId, users.id))
+        .where(and(
+          eq(courses.teacherId, ctx.user.id),
+          eq(users.role, "student"),
+          inArray(enrollments.status, ["active", "completed"]),
+        ));
+      const teacherStudentIds = getTeacherAnalyticsStudentIds(teacherEnrollmentRows, ctx.user.id);
 
       if (requestedStudent) {
         const allowed = canAccessStudentAnalytics({
@@ -249,14 +409,26 @@ export async function GET(req: Request) {
           teacherStudentIds,
         });
         if (!allowed) return NextResponse.json({ error: "Forbidden" }, { status: 403 });
-        const report = await buildStudentReport(requestedStudent);
+        const allowedCourseIds = getTeacherAnalyticsCourseIds(teacherEnrollmentRows, ctx.user.id, requestedStudent);
+        const report = await buildStudentReport(requestedStudent, {
+          teacherId: ctx.user.id,
+          allowedCourseIds,
+        });
         if (!report.student || report.student.id === undefined) return NextResponse.json({ error: "Student not found" }, { status: 404 });
         return NextResponse.json({ scope: "student", ...report });
       }
 
-      const students = await db.select().from(users).where(eq(users.role, "student"));
-      const visibleStudents = students.filter((student) => teacherStudentIds.includes(student.id));
-      const reports = await Promise.all(visibleStudents.map((s) => buildStudentReport(s.id)));
+      // Filter the roster in SQL; do not load every student account into application memory.
+      const visibleStudents = teacherStudentIds.length === 0
+        ? []
+        : await db
+            .select({ id: users.id, name: users.name, grade: users.grade })
+            .from(users)
+            .where(and(eq(users.role, "student"), inArray(users.id, teacherStudentIds)));
+      const reports = await Promise.all(visibleStudents.map((student) => buildStudentReport(student.id, {
+        teacherId: ctx.user.id,
+        allowedCourseIds: getTeacherAnalyticsCourseIds(teacherEnrollmentRows, ctx.user.id, student.id),
+      })));
 
       const classRows = reports
         .map((r) => ({
@@ -272,21 +444,21 @@ export async function GET(req: Request) {
         }))
         .sort((a, b) => b.performanceIndex - a.performanceIndex);
 
-      // Aggregate weakest topics across the whole class
+      // Aggregate only the course-scoped topic data returned by each report.
       const topicAgg: Record<string, { correct: number; total: number }> = {};
-      for (const r of reports) {
-        for (const t of r.topicMastery) {
-          if (!topicAgg[t.topic]) topicAgg[t.topic] = { correct: 0, total: 0 };
-          topicAgg[t.topic].correct += t.correct;
-          topicAgg[t.topic].total += t.total;
+      for (const report of reports) {
+        for (const topic of report.topicMastery) {
+          if (!topicAgg[topic.topic]) topicAgg[topic.topic] = { correct: 0, total: 0 };
+          topicAgg[topic.topic].correct += topic.correct;
+          topicAgg[topic.topic].total += topic.total;
         }
       }
       const classTopics = Object.entries(topicAgg)
-        .map(([topic, s]) => ({ topic, mastery: Math.round((s.correct / (s.total || 1)) * 100), total: s.total }))
+        .map(([topic, stats]) => ({ topic, mastery: Math.round((stats.correct / (stats.total || 1)) * 100), total: stats.total }))
         .sort((a, b) => a.mastery - b.mastery);
 
       const classAvg = classRows.length
-        ? Math.round(classRows.reduce((s, r) => s + r.avgScore, 0) / classRows.length)
+        ? Math.round(classRows.reduce((sum, row) => sum + row.avgScore, 0) / classRows.length)
         : 0;
       const reportedAttendance = classRows
         .map((row) => row.attRate)
@@ -301,7 +473,7 @@ export async function GET(req: Request) {
           totalStudents: classRows.length,
           classAvg,
           classAtt,
-          atRiskCount: classRows.filter((r) => r.performanceIndex < 60).length,
+          atRiskCount: classRows.filter((row) => row.performanceIndex < 60).length,
           topPerformer: classRows[0]?.name || "-",
         },
         students: classRows,
@@ -311,18 +483,63 @@ export async function GET(req: Request) {
 
     // ---------- PARENT: linked student report ----------
     if (role === "parent") {
-      let studentId = requestedStudent;
-      if (!studentId) {
-        const links = await db.select().from(parentLinks).where(eq(parentLinks.parentId, ctx.user.id));
-        studentId = links[0]?.studentId || null;
+      // Build ambiguity from every current linked student, including unverified links.
+      // A single verified child must not be auto-selected when another child is linked.
+      const links = await db
+        .select({
+          studentId: parentLinks.studentId,
+          verifiedAt: parentLinks.verifiedAt,
+          verifiedBy: parentLinks.verifiedBy,
+          studentRole: users.role,
+          verifierRole: verifiedByUser.role,
+        })
+        .from(parentLinks)
+        .innerJoin(parentAccount, eq(parentLinks.parentId, parentAccount.id))
+        .leftJoin(users, eq(parentLinks.studentId, users.id))
+        .leftJoin(verifiedByUser, eq(parentLinks.verifiedBy, verifiedByUser.id))
+        .where(and(
+          eq(parentLinks.parentId, ctx.user.id),
+          eq(parentAccount.role, "parent"),
+        ));
+      const selectionData = getParentAnalyticsSelectionData(
+        links.filter((link) => link.studentRole === "student"),
+      );
+      if (selectionData.verifiedStudentIds.length === 0) {
+        return NextResponse.json({ error: "No verified linked student" }, { status: 404 });
       }
-      if (!studentId) return NextResponse.json({ error: "No linked student" }, { status: 404 });
-      const links = await db.select().from(parentLinks).where(eq(parentLinks.parentId, ctx.user.id));
+      const resolution = resolveParentAnalyticsStudentId(
+        requestedStudent,
+        selectionData.allLinkedStudentIds,
+      );
+
+      if (!resolution.ok) {
+        if (resolution.reason === "no-linked-student") {
+          return NextResponse.json({ error: "No linked student" }, { status: 404 });
+        }
+        if (resolution.reason === "student-id-required") {
+          return NextResponse.json({ error: "studentId is required when multiple students are linked" }, { status: 400 });
+        }
+        if (resolution.reason === "invalid-links") {
+          return NextResponse.json({ error: "Unable to verify linked student" }, { status: 403 });
+        }
+        if (resolution.reason === "invalid-student-id") {
+          return NextResponse.json({ error: "Invalid studentId" }, { status: 400 });
+        }
+        return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+      }
+
+      const studentId = resolution.studentId;
+      // Selection and authorization are separate: an unverified linked child
+      // may trigger explicit selection, but can never receive a report.
+      const linkedParentStudentIds = selectionData.verifiedStudentIds;
+      if (!linkedParentStudentIds.includes(studentId)) {
+        return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+      }
       const allowed = canAccessStudentAnalytics({
         role,
         requesterId: ctx.user.id,
         studentId,
-        linkedParentStudentIds: links.map((link) => link.studentId),
+        linkedParentStudentIds,
       });
       if (!allowed) return NextResponse.json({ error: "Forbidden" }, { status: 403 });
       const report = await buildStudentReport(studentId);
