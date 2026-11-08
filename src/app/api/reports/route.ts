@@ -11,6 +11,8 @@ import { buildVerifiedParentLinkPredicate } from "@/lib/parent-report-authorizat
 const verifiedByUser = alias(users, "reports_verified_by_user");
 const parentAccount = alias(users, "reports_parent_account");
 const verifiedStudentAccount = alias(users, "reports_verified_student_account");
+const teacherAccount = alias(users, "reports_teacher_account");
+const teacherStudentAccount = alias(users, "reports_teacher_student_account");
 
 // Keep the route's authorization predicate aligned with the independently
 // PostgreSQL-tested helper used by the weekly report integration suite.
@@ -390,7 +392,58 @@ export async function GET(req: Request) {
       return NextResponse.json({ error: "Forbidden" }, { status: 403 });
     }
 
-    return NextResponse.json({ success: true, report });
+    // A teacher's initial course allowlist is only a snapshot. Homework may have
+    // been read before ownership/enrollment changed, so revalidate the complete
+    // original scope after every report read and before returning any aggregate.
+    const teacherAccessStillValid = role === "teacher"
+      ? await db
+          .select({ courseId: enrollments.courseId })
+          .from(enrollments)
+          .innerJoin(courses, eq(enrollments.courseId, courses.id))
+          .innerJoin(teacherAccount, and(
+            eq(teacherAccount.id, ctx.user.id),
+            eq(teacherAccount.role, "teacher"),
+          ))
+          .innerJoin(teacherStudentAccount, and(
+            eq(teacherStudentAccount.id, enrollments.studentId),
+            eq(teacherStudentAccount.role, "student"),
+          ))
+          .where(and(
+            eq(enrollments.studentId, studentId),
+            eq(courses.teacherId, ctx.user.id),
+            inArray(enrollments.status, ["active", "completed"]),
+          ))
+      : null;
+    if (role === "teacher") {
+      const currentCourseIds = new Set((teacherAccessStillValid ?? []).map((row) => row.courseId));
+      const originalCourseIds = teacherCourseIds ?? [];
+      if (
+        originalCourseIds.length === 0 ||
+        originalCourseIds.some((courseId) => !currentCourseIds.has(courseId))
+      ) {
+        return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+      }
+    }
+
+    // Student sessions can also become stale while the report queries run.
+    // Never return a report if the account is no longer a student at response time.
+    const studentAccessStillValid = role === "student"
+      ? await db
+          .select({ id: users.id })
+          .from(users)
+          .where(and(
+            eq(users.id, ctx.user.id),
+            eq(users.role, "student"),
+          ))
+          .limit(1)
+      : null;
+    if (role === "student" && (!studentAccessStillValid || studentAccessStillValid.length === 0)) {
+      return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+    }
+
+    const response = NextResponse.json({ success: true, report });
+    response.headers.set("Cache-Control", "private, no-store");
+    return response;
   } catch (error) {
     console.error("Reports GET error:", error);
     return NextResponse.json({ error: "Failed to generate report" }, { status: 500 });
