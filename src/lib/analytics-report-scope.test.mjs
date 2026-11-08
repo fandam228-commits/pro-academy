@@ -7,6 +7,7 @@ import {
   isHomeworkGradeVisibleToStudent,
   isCourseScopedQuiz,
   getVerifiedParentAnalyticsStudentIds,
+  getParentAnalyticsSelectionData,
   resolveParentAnalyticsStudentId,
 } from "./analytics-report-scope.mjs";
 
@@ -129,4 +130,29 @@ test("homework grade scope fails closed for missing student grade but keeps grad
   assert.equal(isHomeworkGradeVisibleToStudent(null, null), true);
   assert.equal(isHomeworkGradeVisibleToStudent("   ", undefined), true);
   assert.equal(isHomeworkGradeVisibleToStudent(null, "Third Secondary"), true);
+});
+
+test("parent selection counts every linked student for ambiguity but only current admin-verified links for access", () => {
+  const selection = getParentAnalyticsSelectionData([
+    { studentId: "student-1", studentRole: "student", verifierRole: "admin", verifiedAt: new Date("2026-10-29T08:00:00Z"), verifiedBy: "admin-1" },
+    { studentId: "student-2", studentRole: "student", verifierRole: null, verifiedAt: null, verifiedBy: null },
+    { studentId: "student-3", studentRole: "student", verifierRole: "teacher", verifiedAt: new Date("2026-10-29T08:00:00Z"), verifiedBy: "teacher-1" },
+    { studentId: "student-1", studentRole: "student", verifierRole: "admin", verifiedAt: new Date("2026-10-29T08:00:00Z"), verifiedBy: "admin-1" },
+    { studentId: "teacher-1", studentRole: "teacher", verifierRole: "admin", verifiedAt: new Date("2026-10-29T08:00:00Z"), verifiedBy: "admin-1" },
+    { studentId: "", studentRole: "student", verifierRole: "admin", verifiedAt: new Date("2026-10-29T08:00:00Z"), verifiedBy: "admin-1" },
+  ]);
+
+  assert.deepEqual(selection.allLinkedStudentIds, ["student-1", "student-2", "student-3", "teacher-1"]);
+  assert.deepEqual(selection.verifiedStudentIds, ["student-1"]);
+  assert.deepEqual(
+    resolveParentAnalyticsStudentId(null, selection.allLinkedStudentIds),
+    { ok: false, reason: "student-id-required" },
+  );
+  const unverified = resolveParentAnalyticsStudentId("student-2", selection.allLinkedStudentIds);
+  assert.equal(unverified.ok, true);
+  assert.equal(selection.verifiedStudentIds.includes(unverified.studentId), false);
+  assert.deepEqual(getParentAnalyticsSelectionData(null), {
+    allLinkedStudentIds: [],
+    verifiedStudentIds: [],
+  });
 });
