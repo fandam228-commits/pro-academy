@@ -735,6 +735,20 @@ export async function GET(req: Request) {
       return NextResponse.json({ error: "Forbidden" }, { status: 403 });
     }
     const report = await buildStudentReport(ctx.user.id);
+    if (!report.student) return NextResponse.json({ error: "Student not found" }, { status: 404 });
+
+    // A session's initial role is not sufficient for a long-running report. Recheck
+    // the current account role after all report reads so a demoted/deleted account
+    // cannot keep using a stale student session to retrieve analytics.
+    const currentStudentAccount = await db
+      .select({ id: users.id })
+      .from(users)
+      .where(and(eq(users.id, ctx.user.id), eq(users.role, "student")))
+      .limit(1);
+    if (currentStudentAccount.length === 0) {
+      return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+    }
+
     return NextResponse.json({ scope: "student", ...report });
   } catch (error) {
     console.error("Analytics GET error:", error);
