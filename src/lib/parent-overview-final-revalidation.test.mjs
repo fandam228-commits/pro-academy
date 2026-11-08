@@ -17,9 +17,10 @@ test("parent overview revalidates the verified parent/student relationship after
   assert.ok(finalCheck > attendanceRead && response > finalCheck,
     "the final authorization check must run after report reads and before the response");
 
-  assert.match(routeSource.slice(finalCheck, response), /buildVerifiedParentLinkPredicate\(/,
+  const finalAuthorizationBlock = routeSource.slice(finalCheck);
+  assert.match(finalAuthorizationBlock, /buildVerifiedParentLinkPredicate\(/,
     "the final check must use the shared verified-link SQL predicate");
-  assert.match(routeSource.slice(finalCheck, response), /status: 403/,
+  assert.match(finalAuthorizationBlock, /status:\s*403/,
     "a revoked or stale relationship must fail closed");
 
   assert.match(authorizationSource, /eq\(parentAccount\.role, "parent"\)/);
