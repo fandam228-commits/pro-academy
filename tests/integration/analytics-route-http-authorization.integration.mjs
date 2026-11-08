@@ -49,7 +49,7 @@ async function stopServer(server) {
 }
 
 integrationTest(
-  "Analytics HTTP route enforces owned-course teacher scope, verified parent selection, and student self-only access",
+  "Analytics and student-performance HTTP routes enforce role-scoped student report access",
   async () => {
     assertLocalTestDatabase(connectionString);
 
@@ -603,6 +603,22 @@ integrationTest(
       assert.equal(studentCrossWeeklyReport.status, 403,
         "student weekly reports must reject a forged studentId for another student");
 
+      // The personal student-performance endpoint has no course foreign key on
+      // generated exams, so only the authenticated student may use it. Teachers
+      // and parents must use their separately authorized report endpoints.
+      const studentOwnPerformance = await requestRoute("/api/student-performance", tokens.student);
+      assert.equal(studentOwnPerformance.status, 200, JSON.stringify(studentOwnPerformance.body));
+      assert.equal(studentOwnPerformance.body.success, true);
+      const studentCrossPerformance = await requestRoute("/api/student-performance", tokens.student, ids.otherStudent);
+      assert.equal(studentCrossPerformance.status, 403,
+        "student performance must reject a forged studentId for another student");
+      const teacherStudentPerformance = await requestRoute("/api/student-performance", tokens.teacher, ids.student);
+      assert.equal(teacherStudentPerformance.status, 403,
+        "teacher access must not bypass course-scoped Analytics through the unscoped student-performance endpoint");
+      const parentStudentPerformance = await requestRoute("/api/student-performance", tokens.parent, ids.student);
+      assert.equal(parentStudentPerformance.status, 403,
+        "parent access must use verified linked-student selection on the parent Analytics endpoint");
+
       const crossTeacherAttendanceWrite = await requestPost("/api/attendance", tokens.teacher, {
         action: "bulk_mark",
         sessionTitle: "Unscoped attendance fixture",
@@ -700,6 +716,23 @@ integrationTest(
       lockClient = new Client({ connectionString });
       observerClient = new Client({ connectionString });
       await Promise.all([lockClient.connect(), observerClient.connect()]);
+
+      // A student role revoked while the personal performance query is blocked
+      // must be rechecked before the report is returned.
+      await lockClient.query("BEGIN");
+      await lockClient.query("LOCK TABLE exam_attempts IN ACCESS EXCLUSIVE MODE");
+      const studentPerformanceRoleDemotionInFlight = requestRoute("/api/student-performance", tokens.student)
+        .catch((error) => ({ status: 0, body: { error: String(error) } }));
+      await waitForBlockedQuery(observerClient, "exam_attempts");
+      await client.query("UPDATE users SET role = 'teacher' WHERE id = $1", [ids.student]);
+      await lockClient.query("COMMIT");
+      const studentPerformanceAfterRoleDemotion = await studentPerformanceRoleDemotionInFlight;
+      assert.equal(studentPerformanceAfterRoleDemotion.status, 403,
+        "student performance must be denied if the account loses the student role while report data is being read");
+      assert.equal(Object.hasOwn(studentPerformanceAfterRoleDemotion.body || {}, "history"), false,
+        "a demoted student must not receive exam history assembled under the previous role");
+      await client.query("UPDATE users SET role = 'student' WHERE id = $1", [ids.student]);
+
       await lockClient.query("BEGIN");
       await lockClient.query("LOCK TABLE quiz_submissions IN ACCESS EXCLUSIVE MODE");
       const parentOverviewInFlight = requestRoute("/api/parent", tokens.parent, ids.student)
