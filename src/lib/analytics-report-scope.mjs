@@ -112,6 +112,7 @@ export function getParentAnalyticsSelectionData(linkRows) {
   const validRows = linkRows.filter((row) =>
     row &&
     typeof row === "object" &&
+    row.studentRole === "student" &&
     isNonEmptyString(row.studentId)
   );
   const allLinkedStudentIds = [...new Set(validRows.map((row) => row.studentId))];
