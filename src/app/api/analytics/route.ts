@@ -528,6 +528,14 @@ export async function GET(req: Request) {
         return NextResponse.json({ error: "Forbidden" }, { status: 403 });
       }
 
+      // Preserve the existing not-found response for a sole unverified link
+      // when no child was explicitly requested. With multiple links, resolution
+      // above still requires explicit selection; explicitly selecting an
+      // unverified child is denied below with 403.
+      if (!requestedStudent && selectionData.verifiedStudentIds.length === 0) {
+        return NextResponse.json({ error: "No verified linked student" }, { status: 404 });
+      }
+
       const studentId = resolution.studentId;
       // Selection and authorization are separate: an unverified linked child
       // may trigger explicit selection, but can never receive a report.
