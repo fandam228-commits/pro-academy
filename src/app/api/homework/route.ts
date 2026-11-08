@@ -5,7 +5,6 @@ import { NextResponse } from "next/server";
 import { ensureDbSetup } from "@/db/migrate-and-seed";
 import { requireRoles, getAuthContext } from "@/lib/security";
 import { notifyUser } from "@/lib/push";
-import { put } from "@vercel/blob";
 
 const MAX_SIZE_BYTES = 20 * 1024 * 1024; // 20MB
 
@@ -81,6 +80,19 @@ export async function POST(req: Request) {
       const answerText = String(form.get("answerText") || "");
       const file = form.get("file") as File | null;
 
+      // Fail closed while main still lacks the authenticated private-Blob upload/read path.
+      // Text-only submissions remain available; file attachments are disabled rather than
+      // creating new publicly readable homework objects.
+      if (file && file.size > 0) {
+        if (file.size > MAX_SIZE_BYTES) {
+          return NextResponse.json({ error: "File exceeds 20MB limit." }, { status: 400 });
+        }
+        return NextResponse.json(
+          { error: "File attachments are temporarily unavailable until private homework storage is enabled." },
+          { status: 503, headers: { "Cache-Control": "no-store" } }
+        );
+      }
+
       if (!homeworkId) {
         return NextResponse.json({ error: "Missing homeworkId" }, { status: 400 });
       }
@@ -100,21 +112,6 @@ export async function POST(req: Request) {
 
       let fileName: string | null = null;
       let storagePath: string | null = null;
-
-      if (file && file.size > 0) {
-        if (file.size > MAX_SIZE_BYTES) {
-          return NextResponse.json({ error: "File exceeds 20MB limit." }, { status: 400 });
-        }
-        const subId = `hws_${Date.now()}_${Math.random().toString(36).substring(2, 6)}`;
-        const safeName = file.name.replace(/[^a-zA-Z0-9._-]/g, "_");
-        // Upload to Vercel Blob (cloud storage)
-        const blob = await put(`homework/${subId}_${safeName}`, file, {
-          access: "public",
-          addRandomSuffix: false,
-        });
-        fileName = file.name;
-        storagePath = blob.url; // store Blob URL instead of local path
-      }
 
       if (existing.length > 0) {
         if (existing[0].status === "graded") {
