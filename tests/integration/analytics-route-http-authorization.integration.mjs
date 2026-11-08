@@ -773,6 +773,28 @@ integrationTest(
       );
       await client.query("UPDATE enrollments SET status = 'active' WHERE id = $1", [ids.enrollmentOwned]);
 
+      // A single-student report must also fail closed if its only authorized
+      // course is transferred after the report query starts but before the response.
+      await lockClient.query("BEGIN");
+      await lockClient.query("LOCK TABLE quiz_submissions IN ACCESS EXCLUSIVE MODE");
+      const teacherStudentOwnershipTransferInFlight = requestAnalytics(tokens.teacher, ids.student)
+        .catch((error) => ({ status: 0, body: { error: String(error) } }));
+      await waitForBlockedQuery(observerClient, "quiz_submissions");
+      await client.query("UPDATE courses SET teacher_id = $2 WHERE id = $1", [ids.ownedCourse, ids.otherTeacher]);
+      await lockClient.query("COMMIT");
+      const teacherStudentAfterOwnershipTransfer = await teacherStudentOwnershipTransferInFlight;
+      assert.equal(
+        teacherStudentAfterOwnershipTransfer.status,
+        403,
+        "teacher student Analytics must deny a report when its course is transferred during report reads",
+      );
+      assert.equal(
+        Object.hasOwn(teacherStudentAfterOwnershipTransfer.body || {}, "student"),
+        false,
+        "a report assembled under the previous course owner must not disclose student data",
+      );
+      await client.query("UPDATE courses SET teacher_id = $2 WHERE id = $1", [ids.ownedCourse, ids.teacher]);
+
       // A class aggregate must fail closed if a course is transferred while
       // any student's report is being assembled.
       await lockClient.query("BEGIN");
