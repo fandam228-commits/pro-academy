@@ -6,9 +6,11 @@ import { NextResponse } from "next/server";
 import { ensureDbSetup } from "@/db/migrate-and-seed";
 import { getAuthContext } from "@/lib/security";
 import { getParentAnalyticsSelectionData, resolveParentAnalyticsStudentId } from "@/lib/analytics-report-scope.mjs";
+import { buildVerifiedParentLinkPredicate } from "@/lib/parent-report-authorization.mjs";
 
 const parentAccountUser = alias(users, "parent_route_parent_account");
 const verifiedByUser = alias(users, "parent_route_verified_by_user");
+const studentAccountUser = alias(users, "parent_route_student_account");
 
 export async function GET(req: Request) {
   const ctx = await getAuthContext(req);
@@ -102,6 +104,29 @@ export async function GET(req: Request) {
     const avgScore = studentSubs.length > 0
       ? Math.round(studentSubs.reduce((acc, curr) => acc + curr.percentage, 0) / studentSubs.length)
       : 85;
+
+    // Revalidate the complete relationship after all report reads. The link,
+    // parent/student roles, or verifier role may change while those reads run.
+    const parentAccessStillValid = await db
+      .select({ id: users.id })
+      .from(users)
+      .where(and(
+        eq(users.id, studentId),
+        eq(users.role, "student"),
+        buildVerifiedParentLinkPredicate({
+          db,
+          parentLinks,
+          parentAccount: parentAccountUser,
+          studentAccount: studentAccountUser,
+          verifiedByUser,
+          parentId,
+          studentId,
+        }),
+      ))
+      .limit(1);
+    if (parentAccessStillValid.length === 0) {
+      return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+    }
 
     return NextResponse.json({
       student,

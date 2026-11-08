@@ -16,6 +16,27 @@ function assertLocalTestDatabase(value) {
 
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
+async function waitForBlockedQuery(observerClient, tableName, timeoutMs = 10000) {
+  const deadline = Date.now() + timeoutMs;
+  while (Date.now() < deadline) {
+    const result = await observerClient.query(
+      `SELECT pid
+       FROM pg_stat_activity
+       WHERE datname = current_database()
+         AND pid <> pg_backend_pid()
+         AND state = 'active'
+         AND wait_event_type = 'Lock'
+         AND query ~* '^\\s*select'
+         AND query ILIKE $1
+       LIMIT 1`,
+      [`%${tableName}%`],
+    );
+    if (result.rowCount > 0) return;
+    await delay(50);
+  }
+  throw new Error(`Timed out waiting for a PostgreSQL query blocked on ${tableName}`);
+}
+
 async function stopServer(server) {
   if (!server || server.exitCode !== null) return;
   server.kill("SIGTERM");
@@ -97,6 +118,8 @@ integrationTest(
     let server;
     let serverLog = "";
     let client;
+    let lockClient;
+    let observerClient;
     let serverError = "";
 
     try {
@@ -670,6 +693,52 @@ integrationTest(
       const parentOverview = await requestRoute("/api/parent", tokens.parent, ids.student);
       assert.equal(parentOverview.status, 200, JSON.stringify(parentOverview.body));
       assert.equal(parentOverview.body.student?.id, ids.student);
+
+      // Pause the overview after its initial relationship check, revoke the link
+      // while the quiz-submission read is blocked, then prove the final guard denies
+      // the response instead of returning data authorized by a stale link.
+      lockClient = new Client({ connectionString });
+      observerClient = new Client({ connectionString });
+      await Promise.all([lockClient.connect(), observerClient.connect()]);
+      await lockClient.query("BEGIN");
+      await lockClient.query("LOCK TABLE quiz_submissions IN ACCESS EXCLUSIVE MODE");
+      const parentOverviewInFlight = requestRoute("/api/parent", tokens.parent, ids.student)
+        .catch((error) => ({ status: 0, body: { error: String(error) } }));
+      await waitForBlockedQuery(observerClient, "quiz_submissions");
+      await client.query(
+        "UPDATE parent_links SET verified_at = NULL, verified_by = NULL WHERE id = $1",
+        [ids.linkStudent],
+      );
+      await lockClient.query("COMMIT");
+      const revokedDuringOverview = await parentOverviewInFlight;
+      assert.equal(
+        revokedDuringOverview.status,
+        403,
+        "parent overview must revalidate the verified link after report reads and deny a link revoked in flight",
+      );
+      await client.query(
+        "UPDATE parent_links SET verified_at = NOW(), verified_by = $2 WHERE id = $1",
+        [ids.linkStudent, ids.admin],
+      );
+
+      // The link may remain verified while its administrator verifier loses
+      // the admin role during the report reads. The final predicate must deny
+      // the response just as it does when the link itself is revoked.
+      await lockClient.query("BEGIN");
+      await lockClient.query("LOCK TABLE quiz_submissions IN ACCESS EXCLUSIVE MODE");
+      const verifierDemotionInFlight = requestRoute("/api/parent", tokens.parent, ids.student)
+        .catch((error) => ({ status: 0, body: { error: String(error) } }));
+      await waitForBlockedQuery(observerClient, "quiz_submissions");
+      await client.query("UPDATE users SET role = 'teacher' WHERE id = $1", [ids.admin]);
+      await lockClient.query("COMMIT");
+      const verifierDemotedDuringOverview = await verifierDemotionInFlight;
+      assert.equal(
+        verifierDemotedDuringOverview.status,
+        403,
+        "parent overview must revalidate that the link's verifier is still an admin before returning student data",
+      );
+      await client.query("UPDATE users SET role = 'admin' WHERE id = $1", [ids.admin]);
+
       for (const privateField of ["email", "password", "phone", "parentPhone", "username"]) {
         assert.equal(Object.hasOwn(parentOverview.body.student || {}, privateField), false,
           `parent overview must not expose the student's ${privateField} field`);
@@ -687,6 +756,11 @@ integrationTest(
       assert.equal(teacherParentOverview.status, 403,
         "teachers must not use the parent overview endpoint to bypass course-scoped reports");
     } finally {
+      if (lockClient) {
+        await lockClient.query("ROLLBACK").catch(() => {});
+        await lockClient.end().catch(() => {});
+      }
+      if (observerClient) await observerClient.end().catch(() => {});
       await stopServer(server);
       if (client) {
         try {
