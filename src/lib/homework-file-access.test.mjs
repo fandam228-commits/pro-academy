@@ -113,10 +113,10 @@ test("homework file route revalidates the exact authorization context after Blob
   assert.ok(revalidation > blobLookup, "authorization must be re-read after the provider lookup");
   assert.ok(response > revalidation, "the stream must not be returned before final authorization");
 
-  assert.match(routeSource, /isAuthorizedFileContext\\(latest, ctx\\.user\\.role, ctx\\.user\\.id\\)/);
-  assert.match(routeSource, /latest\\.submission!\\.homeworkId !== sub\\.homeworkId/);
-  assert.match(routeSource, /latest\\.submission!\\.studentId !== sub\\.studentId/);
-  assert.match(routeSource, /latest\\.submission!\\.storagePath !== sub\\.storagePath/);
-  assert.match(routeSource, /context\\.requesterRole !== sessionRole/);
+  assert.match(routeSource, /isAuthorizedFileContext\(latest, ctx\.user\.role, ctx\.user\.id\)/);
+  assert.match(routeSource, /latest\.submission!\.homeworkId !== sub\.homeworkId/);
+  assert.match(routeSource, /latest\.submission!\.studentId !== sub\.studentId/);
+  assert.match(routeSource, /latest\.submission!\.storagePath !== sub\.storagePath/);
+  assert.match(routeSource, /context\.requesterRole !== sessionRole/);
   assert.doesNotMatch(routeSource, /NextResponse\.redirect\s*\(/);
 });
