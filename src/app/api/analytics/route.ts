@@ -32,6 +32,54 @@ import { buildVerifiedParentLinkPredicate } from "@/lib/parent-report-authorizat
 const verifiedByUser = alias(users, "verified_by_user");
 const parentAccount = alias(users, "parent_account");
 const analyticsVerifiedStudent = alias(users, "analytics_verified_student");
+const analyticsTeacherAccount = alias(users, "analytics_teacher_account");
+const analyticsTeacherStudent = alias(users, "analytics_teacher_student");
+
+async function getCurrentTeacherCourseScopes(teacherId: string, studentIds: string[]) {
+  const teacherRows = await db
+    .select({ id: analyticsTeacherAccount.id })
+    .from(analyticsTeacherAccount)
+    .where(and(
+      eq(analyticsTeacherAccount.id, teacherId),
+      eq(analyticsTeacherAccount.role, "teacher"),
+    ))
+    .limit(1);
+  if (teacherRows.length === 0) return null;
+
+  const uniqueStudentIds = [...new Set(studentIds)];
+  const scopes = new Map<string, string[]>();
+  if (uniqueStudentIds.length === 0) return scopes;
+
+  const currentEnrollmentRows = await db
+    .select({
+      studentId: enrollments.studentId,
+      courseId: enrollments.courseId,
+      status: enrollments.status,
+      teacherId: courses.teacherId,
+    })
+    .from(enrollments)
+    .innerJoin(courses, eq(enrollments.courseId, courses.id))
+    .innerJoin(analyticsTeacherStudent, eq(enrollments.studentId, analyticsTeacherStudent.id))
+    .where(and(
+      eq(courses.teacherId, teacherId),
+      eq(analyticsTeacherStudent.role, "student"),
+      inArray(enrollments.studentId, uniqueStudentIds),
+      inArray(enrollments.status, ["active", "completed"]),
+    ));
+
+  for (const studentId of uniqueStudentIds) {
+    scopes.set(
+      studentId,
+      getTeacherAnalyticsCourseIds(currentEnrollmentRows, teacherId, studentId),
+    );
+  }
+  return scopes;
+}
+
+function retainsCurrentTeacherCourseScope(expectedCourseIds: string[], currentCourseIds: string[]) {
+  return expectedCourseIds.length > 0 &&
+    expectedCourseIds.every((courseId) => currentCourseIds.includes(courseId));
+}
 
 type TeacherReportScope = {
   teacherId: string;
@@ -492,6 +540,18 @@ export async function GET(req: Request) {
           teacherId: ctx.user.id,
           allowedCourseIds,
         });
+
+        // Revalidate the teacher role, student role, course ownership, and eligible
+        // enrollment after all report reads. A scope revoked while queries are running
+        // must never authorize a response built from the earlier allowlist.
+        const currentTeacherScopes = await getCurrentTeacherCourseScopes(ctx.user.id, [requestedStudent]);
+        const currentCourseIds = currentTeacherScopes?.get(requestedStudent) ?? [];
+        if (
+          !currentTeacherScopes ||
+          !retainsCurrentTeacherCourseScope(allowedCourseIds, currentCourseIds)
+        ) {
+          return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+        }
         if (!report.student || report.student.id === undefined) return NextResponse.json({ error: "Student not found" }, { status: 404 });
         return NextResponse.json({ scope: "student", ...report });
       }
@@ -513,10 +573,34 @@ export async function GET(req: Request) {
               inArray(enrollments.status, ["active", "completed"]),
             ));
       const visibleStudents = [...new Map(visibleStudentRows.map((student) => [student.id, student])).values()];
+      const expectedCourseScopes = new Map<string, string[]>();
+      for (const student of visibleStudents) {
+        expectedCourseScopes.set(
+          student.id,
+          getTeacherAnalyticsCourseIds(teacherEnrollmentRows, ctx.user.id, student.id),
+        );
+      }
       const reports = await Promise.all(visibleStudents.map((student) => buildStudentReport(student.id, {
         teacherId: ctx.user.id,
-        allowedCourseIds: getTeacherAnalyticsCourseIds(teacherEnrollmentRows, ctx.user.id, student.id),
+        allowedCourseIds: expectedCourseScopes.get(student.id) ?? [],
       })));
+
+      // Class aggregates are sensitive too: fail the whole response if any student
+      // loses an eligible enrollment, course ownership, or current student role while
+      // reports are being assembled, or if the requester is no longer a teacher.
+      const currentTeacherScopes = await getCurrentTeacherCourseScopes(
+        ctx.user.id,
+        visibleStudents.map((student) => student.id),
+      );
+      if (
+        !currentTeacherScopes ||
+        visibleStudents.some((student) => !retainsCurrentTeacherCourseScope(
+          expectedCourseScopes.get(student.id) ?? [],
+          currentTeacherScopes.get(student.id) ?? [],
+        ))
+      ) {
+        return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+      }
 
       const classRows = reports
         .map((r) => ({
