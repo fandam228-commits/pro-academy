@@ -1,6 +1,6 @@
 import { db } from "@/db";
 import { attendanceRecords, users, parentLinks, enrollments, courses } from "@/db/schema";
-import { eq, and, inArray } from "drizzle-orm";
+import { eq, and, inArray, sql } from "drizzle-orm";
 import { alias } from "drizzle-orm/pg-core";
 import { NextResponse } from "next/server";
 import { ensureDbSetup } from "@/db/migrate-and-seed";
@@ -215,40 +215,74 @@ export async function POST(req: Request) {
         }
       }
 
-      let saved = 0;
-      for (const m of marks) {
-        const existing = await db
-          .select()
-          .from(attendanceRecords)
-          .where(
-            and(
-              eq(attendanceRecords.studentId, m.studentId),
-              eq(attendanceRecords.sessionTitle, sessionTitle),
-              eq(attendanceRecords.sessionDate, sessionDate)
-            )
-          );
-
-        if (existing.length > 0) {
-          await db
-            .update(attendanceRecords)
-            .set({ status: m.status, markedBy: ctx.user.id })
-            .where(eq(attendanceRecords.id, existing[0].id));
-        } else {
-          await db.insert(attendanceRecords).values({
-            id: `att_${Date.now()}_${m.studentId}_${Math.random().toString(36).substring(2, 5)}`,
-            studentId: m.studentId,
-            studentName: m.studentName || "Student",
-            sessionTitle,
-            sessionDate,
-            status: m.status || "present",
-            grade: m.grade || "",
-            markedBy: ctx.user.id,
-          });
-        }
-        saved++;
+      // Serialize writes by the logical attendance key. A row lock alone cannot
+      // protect the "no row exists yet" case, so use a transaction-scoped advisory
+      // lock before checking or creating each (student, session, date) record.
+      const lockKeys = marks
+        .map((mark) => JSON.stringify([mark.studentId, sessionTitle, sessionDate]))
+        .sort();
+      if (new Set(lockKeys).size !== lockKeys.length) {
+        return NextResponse.json({ error: "Duplicate attendance entries are not allowed" }, { status: 400 });
       }
 
-      return NextResponse.json({ success: true, saved });
+      const result = await db.transaction(async (tx) => {
+        for (const lockKey of lockKeys) {
+          await tx.execute(sql`SELECT pg_advisory_xact_lock(hashtextextended(${lockKey}, 0))`);
+        }
+
+        // Preflight every record before writing any of them. This prevents a
+        // rejected bulk request from partially creating earlier marks.
+        const existingByKey = new Map<string, { id: string; markedBy: string } | null>();
+        for (const mark of marks) {
+          const key = JSON.stringify([mark.studentId, sessionTitle, sessionDate]);
+          const existing = await tx
+            .select({
+              id: attendanceRecords.id,
+              markedBy: attendanceRecords.markedBy,
+            })
+            .from(attendanceRecords)
+            .where(and(
+              eq(attendanceRecords.studentId, mark.studentId),
+              eq(attendanceRecords.sessionTitle, sessionTitle),
+              eq(attendanceRecords.sessionDate, sessionDate),
+            ));
+          const current = existing[0] ?? null;
+
+          if (ctx.user.role === "teacher" && current && current.markedBy !== ctx.user.id) {
+            return { conflict: true, saved: 0 };
+          }
+          existingByKey.set(key, current);
+        }
+
+        for (const mark of marks) {
+          const key = JSON.stringify([mark.studentId, sessionTitle, sessionDate]);
+          const current = existingByKey.get(key);
+          if (current) {
+            await tx
+              .update(attendanceRecords)
+              .set({ status: mark.status, markedBy: ctx.user.id })
+              .where(eq(attendanceRecords.id, current.id));
+          } else {
+            await tx.insert(attendanceRecords).values({
+              id: `att_${Date.now()}_${mark.studentId}_${Math.random().toString(36).substring(2, 5)}`,
+              studentId: mark.studentId,
+              studentName: mark.studentName || "Student",
+              sessionTitle,
+              sessionDate,
+              status: mark.status || "present",
+              grade: mark.grade || "",
+              markedBy: ctx.user.id,
+            });
+          }
+        }
+
+        return { conflict: false, saved: marks.length };
+      });
+
+      if (result.conflict) {
+        return NextResponse.json({ error: "Attendance record is owned by another teacher" }, { status: 409 });
+      }
+      return NextResponse.json({ success: true, saved: result.saved });
     }
 
     // ============ STUDENT: SELF CHECK-IN (today's live session) ============
