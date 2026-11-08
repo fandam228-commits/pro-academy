@@ -571,16 +571,9 @@ export async function GET(req: Request) {
               inArray(enrollments.status, ["active", "completed"]),
             ));
       const visibleStudents = [...new Map(visibleStudentRows.map((student) => [student.id, student])).values()];
-      const expectedCourseScopes = new Map<string, string[]>();
-      for (const student of visibleStudents) {
-        expectedCourseScopes.set(
-          student.id,
-          getTeacherAnalyticsCourseIds(teacherEnrollmentRows, ctx.user.id, student.id),
-        );
-      }
       const reports = await Promise.all(visibleStudents.map((student) => buildStudentReport(student.id, {
         teacherId: ctx.user.id,
-        allowedCourseIds: expectedCourseScopes.get(student.id) ?? [],
+        allowedCourseIds: getTeacherAnalyticsCourseIds(teacherEnrollmentRows, ctx.user.id, student.id),
       })));
 
       // Class aggregates are sensitive too: fail the whole response if any student
@@ -593,7 +586,7 @@ export async function GET(req: Request) {
       if (
         !currentTeacherScopes ||
         visibleStudents.some((student) => !retainsCurrentTeacherCourseScope(
-          expectedCourseScopes.get(student.id) ?? [],
+          getTeacherAnalyticsCourseIds(teacherEnrollmentRows, ctx.user.id, student.id),
           currentTeacherScopes.get(student.id) ?? [],
         ))
       ) {
