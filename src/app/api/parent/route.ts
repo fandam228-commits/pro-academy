@@ -26,11 +26,11 @@ export async function GET(req: Request) {
   if (!parentId) return NextResponse.json({ error: "parentId required" }, { status: 400 });
 
   try {
-    const parentAccount = await db
+    const parentAccountRows = await db
       .select({ id: users.id })
       .from(users)
       .where(and(eq(users.id, parentId), eq(users.role, "parent")));
-    if (parentAccount.length === 0) return NextResponse.json({ error: "Parent not found" }, { status: 404 });
+    if (parentAccountRows.length === 0) return NextResponse.json({ error: "Parent not found" }, { status: 404 });
 
     const links = await db
       .select({
@@ -75,8 +75,6 @@ export async function GET(req: Request) {
     if (!selectionData.verifiedStudentIds.includes(studentId)) {
       return NextResponse.json({ error: "Forbidden" }, { status: 403 });
     }
-
-    const studentId = resolution.studentId;
     const primaryLink = links.find((link) => link.studentId === studentId && getParentAnalyticsSelectionData([link]).verifiedStudentIds.includes(studentId));
     if (!primaryLink) return NextResponse.json({ error: "Forbidden" }, { status: 403 });
 
