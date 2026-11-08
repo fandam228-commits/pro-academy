@@ -580,11 +580,11 @@ test("teacher Analytics revalidates the current teacher, student, course owner, 
   assert.ok(helperStart >= 0 && helperEnd > helperStart, "final teacher scope helper must exist");
   const helperSource = routeSource.slice(helperStart, helperEnd);
 
-  assert.match(helperSource, /\.from\(analyticsTeacherAccount\)/);
-  assert.match(helperSource, /eq\(analyticsTeacherAccount\.role, "teacher"\)/,
-    "the current teacher role must be checked in the same SQL statement as the final scope");
-  assert.match(helperSource, /leftJoin\(courses, eq\(courses\.teacherId, analyticsTeacherAccount\.id\)\)/,
+  assert.match(helperSource, /\.from\(enrollments\)/);
+  assert.match(helperSource, /innerJoin\(courses, eq\(enrollments\.courseId, courses\.id\)\)/,
     "the final scope must use current course ownership");
+  assert.match(helperSource, /innerJoin\(analyticsTeacherAccount, and\([\s\S]*?eq\(analyticsTeacherAccount\.role, "teacher"\)/,
+    "the current teacher role must be checked in the same SQL statement as the final scope");
   assert.match(helperSource, /inArray\(enrollments\.status, \["active", "completed"\]\)/,
     "the final scope must require a currently eligible enrollment");
   assert.match(helperSource, /eq\(analyticsTeacherStudent\.role, "student"\)/,
