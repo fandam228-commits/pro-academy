@@ -15,7 +15,7 @@ function getLogCalls(source) {
   return source
     .split("\n")
     .map((line) => line.trim())
-    .filter((line) => /^console\\.(?:error|warn|log)\\(/.test(line));
+    .filter((line) => line.startsWith("console."));
 }
 
 test("homework routes never log raw database or private Blob provider errors", () => {
