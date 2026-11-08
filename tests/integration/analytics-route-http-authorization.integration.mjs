@@ -720,6 +720,25 @@ integrationTest(
         "UPDATE parent_links SET verified_at = NOW(), verified_by = $2 WHERE id = $1",
         [ids.linkStudent, ids.admin],
       );
+
+      // The link may remain verified while its administrator verifier loses
+      // the admin role during the report reads. The final predicate must deny
+      // the response just as it does when the link itself is revoked.
+      await lockClient.query("BEGIN");
+      await lockClient.query("LOCK TABLE quiz_submissions IN ACCESS EXCLUSIVE MODE");
+      const verifierDemotionInFlight = requestRoute("/api/parent", tokens.parent, ids.student)
+        .catch((error) => ({ status: 0, body: { error: String(error) } }));
+      await waitForBlockedQuery(observerClient, "quiz_submissions");
+      await client.query("UPDATE users SET role = 'teacher' WHERE id = $1", [ids.admin]);
+      await lockClient.query("COMMIT");
+      const verifierDemotedDuringOverview = await verifierDemotionInFlight;
+      assert.equal(
+        verifierDemotedDuringOverview.status,
+        403,
+        "parent overview must revalidate that the link's verifier is still an admin before returning student data",
+      );
+      await client.query("UPDATE users SET role = 'admin' WHERE id = $1", [ids.admin]);
+
       for (const privateField of ["email", "password", "phone", "parentPhone", "username"]) {
         assert.equal(Object.hasOwn(parentOverview.body.student || {}, privateField), false,
           `parent overview must not expose the student's ${privateField} field`);
