@@ -70,6 +70,7 @@ test("private Blob storage fails closed for legacy URLs, malformed paths, and mi
   assert.equal(isPrivateHomeworkBlobPath("homework/submission.pdf"), true);
   assert.equal(isPrivateHomeworkBlobPath("homework/../secret.pdf"), false);
   assert.equal(isPrivateHomeworkBlobPath("homework/%2e%2e/secret.pdf"), false);
+  assert.equal(isPrivateHomeworkBlobPath("homework/" + String.fromCharCode(92) + "secret.pdf"), false);
   assert.equal(isPrivateHomeworkBlobPath("homework/file.pdf?download=1"), false);
   assert.equal(isPrivateHomeworkBlobPath("other/file.pdf"), false);
 
