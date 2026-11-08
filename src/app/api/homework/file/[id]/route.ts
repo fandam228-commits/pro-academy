@@ -90,7 +90,7 @@ export async function GET(req: Request, { params }: { params: Promise<{ id: stri
       },
     });
   } catch (error) {
-    console.error("Homework file error:", error);
+    console.error("Homework file GET failed; details withheld.");
     return NextResponse.json({ error: "Failed to stream file" }, { status: 500 });
   }
 }
