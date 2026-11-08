@@ -810,6 +810,24 @@ integrationTest(
       );
       await client.query("UPDATE users SET role = 'admin' WHERE id = $1", [ids.admin]);
 
+      // A parent session can become stale while the overview is reading student data.
+      // Revoke the parent's current database role during the blocked read and require
+      // the route's final relationship predicate to reject the response.
+      await lockClient.query("BEGIN");
+      await lockClient.query("LOCK TABLE quiz_submissions IN ACCESS EXCLUSIVE MODE");
+      const parentRoleDemotionInFlight = requestRoute("/api/parent", tokens.parent, ids.student)
+        .catch((error) => ({ status: 0, body: { error: String(error) } }));
+      await waitForBlockedQuery(observerClient, "quiz_submissions");
+      await client.query("UPDATE users SET role = 'teacher' WHERE id = $1", [ids.parent]);
+      await lockClient.query("COMMIT");
+      const parentDemotedDuringOverview = await parentRoleDemotionInFlight;
+      assert.equal(
+        parentDemotedDuringOverview.status,
+        403,
+        "parent overview must revalidate the parent's current role after report reads",
+      );
+      await client.query("UPDATE users SET role = 'parent' WHERE id = $1", [ids.parent]);
+
       for (const privateField of ["email", "password", "phone", "parentPhone", "username"]) {
         assert.equal(Object.hasOwn(parentOverview.body.student || {}, privateField), false,
           `parent overview must not expose the student's ${privateField} field`);
