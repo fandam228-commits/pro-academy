@@ -273,11 +273,16 @@ test("homework create route verifies course existence and ownership before inser
 
 test("teacher homework reads, grading, and deletion enforce linked course ownership", async () => {
   const route = await readFile(new URL("../app/api/homework/route.ts", import.meta.url), "utf8");
+  const deletionAuthorization = await readFile(new URL("./homework-delete-authorization.mjs", import.meta.url), "utf8");
   assert.match(route, /\.leftJoin\(courses, eq\(homework\.courseId, courses\.id\)\)/);
   assert.match(route, /or\(isNull\(homework\.courseId\), eq\(courses\.teacherId, ctx\.user\.id\)\)/);
   assert.match(route, /homeworkCourseId:\s*hw\.courseId[\s\S]*?courseTeacherId/);
   assert.match(route, /homeworkCourseId:\s*hw\[0\]\.courseId[\s\S]*?courseTeacherId/);
-  assert.match(route, /homeworkCourseId:\s*own\.courseId[\s\S]*?courseTeacherId/);
+  assert.match(route, /lockHomeworkDeletionAuthorization\(/,
+    "deletion must use the dedicated transactional ownership lock rather than a preflight-only check");
+  assert.match(deletionAuthorization, /homeworkCourseId:\s*assignment\.courseId[\s\S]*?courseTeacherId/);
+  assert.match(deletionAuthorization, /\.for\("share"\)/,
+    "the live assignment and current course owner must remain locked through deletion");
   assert.match(route, /async function getHomeworkCourseTeacherId\(/);
 });
 
