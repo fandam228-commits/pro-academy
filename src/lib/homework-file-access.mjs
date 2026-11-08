@@ -1,6 +1,6 @@
 /**
  * Authorization and storage policy for homework submission file reads.
- * Database ownership must be resolved by the route before calling these helpers.
+ * Database ownership must be resolved by the caller before invoking these rules.
  */
 export function getHomeworkFileAccessDecision({
   submissionFound,
@@ -42,13 +42,15 @@ export function getHomeworkPrivateBlobToken(env = process.env) {
 }
 
 export function isLegacyPublicHomeworkBlobUrl(value) {
-  return typeof value === "string" && /^https?:\\/\\//i.test(value);
+  if (typeof value !== "string") return false;
+  const normalized = value.toLowerCase();
+  return normalized.startsWith("http://") || normalized.startsWith("https://");
 }
 
 /** Accept only pathnames in the homework namespace; never fetch arbitrary URLs. */
 export function isPrivateHomeworkBlobPath(value) {
   if (typeof value !== "string" || !value.startsWith("homework/")) return false;
-  if (value.includes("\\\\") || value.includes("?") || value.includes("#") || value.includes("%")) return false;
+  if (value.includes(String.fromCharCode(92)) || value.includes("?") || value.includes("#") || value.includes("%")) return false;
   const segments = value.split("/");
   return segments.every((segment) => segment !== "" && segment !== "." && segment !== "..");
 }
