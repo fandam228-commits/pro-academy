@@ -120,6 +120,8 @@ integrationTest(
     let client;
     let lockClient;
     let observerClient;
+    let reportLockClient;
+    let reportObserverClient;
     let serverError = "";
 
     try {
@@ -345,7 +347,7 @@ integrationTest(
         } catch {
           body = { nonJsonResponse: raw.slice(0, 500) };
         }
-        return { status: response.status, body };
+        return { status: response.status, body, cacheControl: response.headers.get("cache-control") };
       }
 
       async function requestPost(path, sessionToken, payload) {
@@ -549,6 +551,8 @@ integrationTest(
       const teacherWeeklyReport = await requestRoute("/api/reports", tokens.teacher, ids.student);
       assert.equal(teacherWeeklyReport.status, 200, JSON.stringify(teacherWeeklyReport.body));
       assert.equal(teacherWeeklyReport.body.success, true);
+      assert.match(teacherWeeklyReport.cacheControl || "", /private.*no-store/i,
+        "weekly student reports must not be stored in shared caches");
       assert.equal(teacherWeeklyReport.body.report?.student?.id, ids.student);
       assert.equal(teacherWeeklyReport.body.report?.homework?.weekSubmissions, 1,
         "teacher weekly report must include only homework from the teacher-owned course");
@@ -563,6 +567,49 @@ integrationTest(
       const teacherOtherWeeklyReport = await requestRoute("/api/reports", tokens.teacher, ids.otherStudent);
       assert.equal(teacherOtherWeeklyReport.status, 403,
         "teacher weekly reports must reject a student enrolled only in another teacher's course");
+
+      // The weekly report reads homework before quiz submissions. Pause the quiz
+      // read, transfer the owned course, then ensure the final scope check rejects
+      // the already-assembled homework aggregate instead of returning stale access.
+      reportLockClient = new Client({ connectionString });
+      reportObserverClient = new Client({ connectionString });
+      await Promise.all([reportLockClient.connect(), reportObserverClient.connect()]);
+      await reportLockClient.query("BEGIN");
+      await reportLockClient.query("LOCK TABLE quiz_submissions IN ACCESS EXCLUSIVE MODE");
+      const teacherWeeklyReportInFlight = requestRoute("/api/reports", tokens.teacher, ids.student)
+        .catch((error) => ({ status: 0, body: { error: String(error) }, cacheControl: null }));
+      await waitForBlockedQuery(reportObserverClient, "quiz_submissions");
+      await client.query("UPDATE courses SET teacher_id = $2 WHERE id = $1", [ids.ownedCourse, ids.otherTeacher]);
+      await reportLockClient.query("COMMIT");
+      const transferredDuringWeeklyReport = await teacherWeeklyReportInFlight;
+      assert.equal(transferredDuringWeeklyReport.status, 403,
+        "weekly reports must deny the response when an owned course transfers after homework was read");
+      await client.query("UPDATE courses SET teacher_id = $2 WHERE id = $1", [ids.ownedCourse, ids.teacher]);
+      await reportLockClient.end();
+      await reportObserverClient.end();
+      reportLockClient = null;
+      reportObserverClient = null;
+
+      // A student's session may also become stale during report generation.
+      // The route must re-check the current database role before returning data.
+      reportLockClient = new Client({ connectionString });
+      reportObserverClient = new Client({ connectionString });
+      await Promise.all([reportLockClient.connect(), reportObserverClient.connect()]);
+      await reportLockClient.query("BEGIN");
+      await reportLockClient.query("LOCK TABLE quiz_submissions IN ACCESS EXCLUSIVE MODE");
+      const studentWeeklyReportInFlight = requestRoute("/api/reports", tokens.student, ids.student)
+        .catch((error) => ({ status: 0, body: { error: String(error) }, cacheControl: null }));
+      await waitForBlockedQuery(reportObserverClient, "quiz_submissions");
+      await client.query("UPDATE users SET role = 'teacher' WHERE id = $1", [ids.student]);
+      await reportLockClient.query("COMMIT");
+      const demotedDuringWeeklyReport = await studentWeeklyReportInFlight;
+      assert.equal(demotedDuringWeeklyReport.status, 403,
+        "weekly reports must reject a student whose account role changes while report reads are in flight");
+      await client.query("UPDATE users SET role = 'student' WHERE id = $1", [ids.student]);
+      await reportLockClient.end();
+      await reportObserverClient.end();
+      reportLockClient = null;
+      reportObserverClient = null;
 
       const parentWeeklyReportWithoutSelection = await requestRoute("/api/reports", tokens.parent);
       assert.equal(parentWeeklyReportWithoutSelection.status, 400,
@@ -756,6 +803,11 @@ integrationTest(
       assert.equal(teacherParentOverview.status, 403,
         "teachers must not use the parent overview endpoint to bypass course-scoped reports");
     } finally {
+      if (reportLockClient) {
+        await reportLockClient.query("ROLLBACK").catch(() => {});
+        await reportLockClient.end().catch(() => {});
+      }
+      if (reportObserverClient) await reportObserverClient.end().catch(() => {});
       if (lockClient) {
         await lockClient.query("ROLLBACK").catch(() => {});
         await lockClient.end().catch(() => {});
