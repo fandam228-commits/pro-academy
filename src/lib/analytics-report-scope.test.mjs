@@ -142,7 +142,7 @@ test("parent selection counts every linked student for ambiguity but only curren
     { studentId: "", studentRole: "student", verifierRole: "admin", verifiedAt: new Date("2026-10-29T08:00:00Z"), verifiedBy: "admin-1" },
   ]);
 
-  assert.deepEqual(selection.allLinkedStudentIds, ["student-1", "student-2", "student-3", "teacher-1"]);
+  assert.deepEqual(selection.allLinkedStudentIds, ["student-1", "student-2", "student-3"]);
   assert.deepEqual(selection.verifiedStudentIds, ["student-1"]);
   assert.deepEqual(
     resolveParentAnalyticsStudentId(null, selection.allLinkedStudentIds),
