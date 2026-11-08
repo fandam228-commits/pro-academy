@@ -102,3 +102,21 @@ test("homework file route revalidates database ownership after private Blob look
   assert.match(routeSource, /legacy-public-url/);
   assert.match(routeSource, /details withheld/);
 });
+
+
+test("homework file route revalidates the exact authorization context after Blob lookup before streaming", () => {
+  const blobLookup = routeSource.indexOf("const blob = await get(");
+  const revalidation = routeSource.indexOf("const latest = await loadHomeworkFileContext", blobLookup);
+  const response = routeSource.indexOf("return new Response(blob.stream", revalidation);
+
+  assert.ok(blobLookup >= 0, "private Blob lookup must be present");
+  assert.ok(revalidation > blobLookup, "authorization must be re-read after the provider lookup");
+  assert.ok(response > revalidation, "the stream must not be returned before final authorization");
+
+  assert.match(routeSource, /isAuthorizedFileContext\\(latest, ctx\\.user\\.role, ctx\\.user\\.id\\)/);
+  assert.match(routeSource, /latest\\.submission!\\.homeworkId !== sub\\.homeworkId/);
+  assert.match(routeSource, /latest\\.submission!\\.studentId !== sub\\.studentId/);
+  assert.match(routeSource, /latest\\.submission!\\.storagePath !== sub\\.storagePath/);
+  assert.match(routeSource, /context\\.requesterRole !== sessionRole/);
+  assert.doesNotMatch(routeSource, /NextResponse\\.redirect\\s*\\(/);
+});
