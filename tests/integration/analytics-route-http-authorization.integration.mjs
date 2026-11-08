@@ -26,6 +26,7 @@ async function waitForBlockedQuery(observerClient, tableName, timeoutMs = 10000)
          AND pid <> pg_backend_pid()
          AND state = 'active'
          AND wait_event_type = 'Lock'
+         AND query ~* '^\\s*select'
          AND query ILIKE $1
        LIMIT 1`,
       [`%${tableName}%`],
