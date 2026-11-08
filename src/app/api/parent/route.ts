@@ -6,9 +6,11 @@ import { NextResponse } from "next/server";
 import { ensureDbSetup } from "@/db/migrate-and-seed";
 import { getAuthContext } from "@/lib/security";
 import { getParentAnalyticsSelectionData, resolveParentAnalyticsStudentId } from "@/lib/analytics-report-scope.mjs";
+import { buildVerifiedParentLinkPredicate } from "@/lib/parent-report-authorization.mjs";
 
+const parentAccountUser = alias(users, "parent_route_parent_account");
 const verifiedByUser = alias(users, "parent_route_verified_by_user");
-const parentAccount = alias(users, "parent_route_parent_account");
+const studentAccountUser = alias(users, "parent_route_student_account");
 
 export async function GET(req: Request) {
   const ctx = await getAuthContext(req);
@@ -38,30 +40,26 @@ export async function GET(req: Request) {
         relationship: parentLinks.relationship,
         verifiedAt: parentLinks.verifiedAt,
         verifiedBy: parentLinks.verifiedBy,
-        studentRole: users.role,
         verifierRole: verifiedByUser.role,
       })
       .from(parentLinks)
-      .innerJoin(parentAccount, eq(parentLinks.parentId, parentAccount.id))
-      .leftJoin(users, eq(parentLinks.studentId, users.id))
+      .innerJoin(parentAccountUser, eq(parentLinks.parentId, parentAccountUser.id))
+      .innerJoin(users, eq(parentLinks.studentId, users.id))
+      // Keep unverified links in the ambiguity set; they must not grant access.
       .leftJoin(verifiedByUser, eq(parentLinks.verifiedBy, verifiedByUser.id))
       .where(and(
         eq(parentLinks.parentId, parentId),
-        eq(parentAccount.role, "parent"),
+        eq(parentAccountUser.role, "parent"),
+        eq(users.role, "student"),
       ));
-    const selectionData = getParentAnalyticsSelectionData(
-      links.filter((link) => link.studentRole === "student"),
-    );
-    if (selectionData.verifiedStudentIds.length === 0) {
-      return NextResponse.json({ error: "No verified linked student found" }, { status: 404 });
-    }
-    const resolution = resolveParentAnalyticsStudentId(
-      requestedStudent,
-      selectionData.allLinkedStudentIds,
-    );
+    const {
+      allLinkedStudentIds: linkedStudentIds,
+      verifiedStudentIds,
+    } = getParentAnalyticsSelectionData(links);
+    const resolution = resolveParentAnalyticsStudentId(requestedStudent, linkedStudentIds);
     if (!resolution.ok) {
       if (resolution.reason === "no-linked-student") {
-        return NextResponse.json({ error: "No linked student found" }, { status: 404 });
+        return NextResponse.json({ error: "No verified linked student found" }, { status: 404 });
       }
       if (resolution.reason === "student-id-required") {
         return NextResponse.json({ error: "studentId is required when multiple students are linked" }, { status: 400 });
@@ -71,11 +69,17 @@ export async function GET(req: Request) {
       }
       return NextResponse.json({ error: "Forbidden" }, { status: 403 });
     }
-    const studentId = resolution.studentId;
-    if (!selectionData.verifiedStudentIds.includes(studentId)) {
+
+    if (!verifiedStudentIds.includes(resolution.studentId)) {
       return NextResponse.json({ error: "Forbidden" }, { status: 403 });
     }
-    const primaryLink = links.find((link) => link.studentId === studentId && getParentAnalyticsSelectionData([link]).verifiedStudentIds.includes(studentId));
+    const studentId = resolution.studentId;
+    const primaryLink = links.find((link) =>
+      link.studentId === studentId &&
+      link.verifierRole === "admin" &&
+      link.verifiedAt &&
+      link.verifiedBy
+    );
     if (!primaryLink) return NextResponse.json({ error: "Forbidden" }, { status: 403 });
 
     // Never return the complete users row: it includes password and other private account fields.
@@ -100,6 +104,29 @@ export async function GET(req: Request) {
     const avgScore = studentSubs.length > 0
       ? Math.round(studentSubs.reduce((acc, curr) => acc + curr.percentage, 0) / studentSubs.length)
       : 85;
+
+    // Revalidate the complete relationship after all report reads. The link,
+    // parent/student roles, or verifier role may change while those reads run.
+    const parentAccessStillValid = await db
+      .select({ id: users.id })
+      .from(users)
+      .where(and(
+        eq(users.id, studentId),
+        eq(users.role, "student"),
+        buildVerifiedParentLinkPredicate({
+          db,
+          parentLinks,
+          parentAccount: parentAccountUser,
+          studentAccount: studentAccountUser,
+          verifiedByUser,
+          parentId,
+          studentId,
+        }),
+      ))
+      .limit(1);
+    if (parentAccessStillValid.length === 0) {
+      return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+    }
 
     return NextResponse.json({
       student,
