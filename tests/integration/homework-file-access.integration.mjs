@@ -33,7 +33,8 @@ integrationTest("database-derived homework file authorization denies unrelated t
       );
       INSERT INTO users VALUES
         ('teacher-1', 'teacher'), ('teacher-2', 'teacher'),
-        ('student-1', 'student'), ('student-2', 'student'), ('admin-1', 'admin');
+        ('student-1', 'student'), ('student-2', 'student'),
+        ('admin-1', 'admin'), ('parent-1', 'parent');
       INSERT INTO courses VALUES ('course-owned', 'teacher-1'), ('course-other', 'teacher-2');
       INSERT INTO homework VALUES
         ('hw-owned', 'teacher-1', 'course-owned'),
