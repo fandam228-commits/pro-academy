@@ -232,6 +232,40 @@ export async function POST(req: Request) {
           await tx.execute(sql`SELECT pg_advisory_xact_lock(hashtextextended(${lockKey}, 0))`);
         }
 
+        // Revalidate the teacher account and every student's current owned-course
+        // enrollment inside the write transaction. Lock the actor, student, enrollment,
+        // and course rows until commit so a role demotion, enrollment revocation, or
+        // course transfer cannot race between authorization and attendance writes.
+        if (ctx.user.role === "teacher") {
+          const currentTeacher = await tx
+            .select({ id: users.id })
+            .from(users)
+            .where(and(eq(users.id, ctx.user.id), eq(users.role, "teacher")))
+            .for("share");
+          if (currentTeacher.length === 0) {
+            return { denied: true as const, conflict: false as const, saved: 0 };
+          }
+
+          const currentEnrollmentRows = marks.length === 0
+            ? []
+            : await tx
+                .select({ studentId: enrollments.studentId })
+                .from(enrollments)
+                .innerJoin(courses, eq(enrollments.courseId, courses.id))
+                .innerJoin(users, eq(enrollments.studentId, users.id))
+                .where(and(
+                  inArray(enrollments.studentId, marks.map((mark) => mark.studentId)),
+                  eq(courses.teacherId, ctx.user.id),
+                  eq(users.role, "student"),
+                  inArray(enrollments.status, ["active", "completed"]),
+                ))
+                .for("share");
+          const currentAllowedStudentIds = new Set(currentEnrollmentRows.map((row) => row.studentId));
+          if (marks.some((mark) => !currentAllowedStudentIds.has(mark.studentId))) {
+            return { denied: true as const, conflict: false as const, saved: 0 };
+          }
+        }
+
         const existingByStudent = new Map<string, typeof attendanceRecords.$inferSelect | null>();
 
         for (const mark of marks) {
@@ -247,7 +281,7 @@ export async function POST(req: Request) {
 
           if (existing.length > 1 ||
               (ctx.user.role === "teacher" && existing.length === 1 && existing[0].markedBy !== ctx.user.id)) {
-            return { conflict: true as const, saved: 0 };
+            return { denied: false as const, conflict: true as const, saved: 0 };
           }
           existingByStudent.set(mark.studentId, existing[0] ?? null);
         }
@@ -275,9 +309,15 @@ export async function POST(req: Request) {
           saved++;
         }
 
-        return { conflict: false as const, saved };
+        return { denied: false as const, conflict: false as const, saved };
       });
 
+      if (result.denied) {
+        return NextResponse.json(
+          { error: "Attendance includes a student outside your currently owned courses or eligible enrollment" },
+          { status: 403 },
+        );
+      }
       if (result.conflict) {
         return NextResponse.json(
           { error: "Attendance record is owned by another teacher or has ambiguous duplicates" },
