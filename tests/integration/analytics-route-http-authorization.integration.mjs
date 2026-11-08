@@ -611,6 +611,30 @@ integrationTest(
       reportLockClient = null;
       reportObserverClient = null;
 
+      // A parent session must not retain weekly-report access if the parent account
+      // loses its current role after report reads have started.
+      reportLockClient = new Client({ connectionString });
+      reportObserverClient = new Client({ connectionString });
+      await Promise.all([reportLockClient.connect(), reportObserverClient.connect()]);
+      await reportLockClient.query("BEGIN");
+      await reportLockClient.query("LOCK TABLE quiz_submissions IN ACCESS EXCLUSIVE MODE");
+      const parentWeeklyReportInFlight = requestRoute("/api/reports", tokens.parent, ids.student)
+        .catch((error) => ({ status: 0, body: { error: String(error) }, cacheControl: null }));
+      await waitForBlockedQuery(reportObserverClient, "quiz_submissions");
+      await client.query("UPDATE users SET role = 'teacher' WHERE id = $1", [ids.parent]);
+      await reportLockClient.query("COMMIT");
+      const demotedParentDuringWeeklyReport = await parentWeeklyReportInFlight;
+      assert.equal(
+        demotedParentDuringWeeklyReport.status,
+        403,
+        "weekly reports must reject a parent whose account role changes while report reads are in flight",
+      );
+      await client.query("UPDATE users SET role = 'parent' WHERE id = $1", [ids.parent]);
+      await reportLockClient.end();
+      await reportObserverClient.end();
+      reportLockClient = null;
+      reportObserverClient = null;
+
       const parentWeeklyReportWithoutSelection = await requestRoute("/api/reports", tokens.parent);
       assert.equal(parentWeeklyReportWithoutSelection.status, 400,
         "weekly reports must require explicit selection when multiple children are linked");
