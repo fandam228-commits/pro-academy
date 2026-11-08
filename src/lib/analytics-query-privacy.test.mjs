@@ -517,3 +517,90 @@ test("authorization context uses the current database role rather than a stale s
     "a stored session role must not replace the current database role",
   );
 });
+
+test("teacher report queries revalidate current course ownership and active enrollment at each data read", () => {
+  const reportSource = routeSource.slice(reportStart, reportEnd);
+  assert.match(reportSource, /\.innerJoin\(enrollments, eq\(enrollments\.studentId, users\.id\)\)/,
+    "teacher profile reads must recheck a current enrollment");
+  assert.match(reportSource, /\.innerJoin\(courses, eq\(enrollments\.courseId, courses\.id\)\)/,
+    "teacher profile reads must rejoin the current course row");
+  assert.match(reportSource, /eq\(courses\.teacherId, scope\.teacherId\)/,
+    "teacher report data reads must revalidate current course ownership");
+  assert.match(reportSource, /inArray\(enrollments\.status, \["active", "completed"\]\)/,
+    "teacher report data reads must revalidate current eligible enrollment status");
+  assert.match(reportSource, /innerJoin\(courses, eq\(quizzes\.courseId, courses\.id\)\)/,
+    "quiz reads must rejoin the current course owner");
+  assert.match(reportSource, /exists\(db[\s\S]*?from\(enrollments\)[\s\S]*?eq\(enrollments\.studentId, quizSubmissions\.studentId\)[\s\S]*?eq\(enrollments\.courseId, quizzes\.courseId\)[\s\S]*?inArray\(enrollments\.status, \["active", "completed"\]\)/,
+    "quiz reads must require a current active/completed enrollment for the same student and course");
+  assert.match(reportSource, /innerJoin\(courses, eq\(homework\.courseId, courses\.id\)\)/,
+    "homework reads must rejoin the current course owner");
+  assert.match(reportSource, /innerJoin\(homework, eq\(homeworkSubmissions\.homeworkId, homework\.id\)\)/,
+    "submission reads must revalidate the linked homework and course");
+  assert.match(reportSource, /eq\(enrollments\.courseId, homework\.courseId\)/,
+    "homework and submission reads must recheck the student enrollment for the exact course");
+  assert.match(reportSource, /eq\(enrollments\.studentId, homeworkSubmissions\.studentId\)/,
+    "submission reads must tie the current enrollment to the submitting student");
+
+  assert.match(reportSource, /exists\(db[\s\S]*?from\(users\)[\s\S]*?eq\(users\.id, quizSubmissions\.studentId\)[\s\S]*?eq\(users\.role, "student"\)/,
+    "quiz reads must revalidate that the target account is still a student");
+  assert.match(reportSource, /exists\(db[\s\S]*?from\(users\)[\s\S]*?eq\(users\.id, studentId\)[\s\S]*?eq\(users\.role, "student"\)/,
+    "teacher homework and enrollment reads must revalidate the current student role");
+  assert.match(reportSource, /exists\(db[\s\S]*?from\(users\)[\s\S]*?eq\(users\.id, homeworkSubmissions\.studentId\)[\s\S]*?eq\(users\.role, "student"\)/,
+    "submission reads must revalidate the submitting account's current student role");
+
+  const enrollmentReadStart = reportSource.indexOf("const myEnrollments = scope");
+  const enrollmentReadEnd = reportSource.indexOf("// ---------- SCORE TIMELINE", enrollmentReadStart);
+  assert.ok(enrollmentReadStart >= 0 && enrollmentReadEnd > enrollmentReadStart);
+  assert.match(reportSource.slice(enrollmentReadStart, enrollmentReadEnd), /eq\(users\.role, "student"\)/,
+    "teacher course counts must not include an account that is no longer a student");
+
+  const teacherStart = routeSource.indexOf('if (role === "teacher")');
+  const parentStart = routeSource.indexOf('if (role === "parent")', teacherStart);
+  assert.ok(teacherStart >= 0 && parentStart > teacherStart);
+  const teacherSource = routeSource.slice(teacherStart, parentStart);
+  assert.match(teacherSource, /const visibleStudentRows = teacherStudentIds\.length === 0[\s\S]*?innerJoin\(courses, eq\(enrollments\.courseId, courses\.id\)\)[\s\S]*?eq\(courses\.teacherId, ctx\.user\.id\)[\s\S]*?inArray\(enrollments\.status, \["active", "completed"\]\)/,
+    "class roster must revalidate current owner and enrollment before exposing student profile fields");
+});
+
+test("teacher Analytics revalidates the current teacher, student, course owner, and enrollment before returning reports", () => {
+  const helperStart = routeSource.indexOf("async function getCurrentTeacherCourseScopes(");
+  const helperEnd = routeSource.indexOf("function retainsCurrentTeacherCourseScope", helperStart);
+  assert.ok(helperStart >= 0 && helperEnd > helperStart, "final teacher scope helper must exist");
+  const helperSource = routeSource.slice(helperStart, helperEnd);
+
+  assert.match(helperSource, /\.from\(enrollments\)/);
+  assert.match(helperSource, /innerJoin\(courses, eq\(enrollments\.courseId, courses\.id\)\)/,
+    "the final scope must use current course ownership");
+  assert.match(helperSource, /innerJoin\(analyticsTeacherAccount, and\([\s\S]*?eq\(analyticsTeacherAccount\.role, "teacher"\)/,
+    "the current teacher role must be checked in the same SQL statement as the final scope");
+  assert.match(helperSource, /inArray\(enrollments\.status, \["active", "completed"\]\)/,
+    "the final scope must require a currently eligible enrollment");
+  assert.match(helperSource, /eq\(analyticsTeacherStudent\.role, "student"\)/,
+    "the final scope must require a current student account");
+  assert.match(helperSource, /inArray\(enrollments\.studentId, uniqueStudentIds\)/);
+
+  const teacherStart = routeSource.indexOf('if (role === "teacher")');
+  const parentStart = routeSource.indexOf('if (role === "parent")', teacherStart);
+  assert.ok(teacherStart >= 0 && parentStart > teacherStart);
+  const teacherSource = routeSource.slice(teacherStart, parentStart);
+  assert.match(teacherSource, /getCurrentTeacherCourseScopes\(ctx\.user\.id, \[requestedStudent\]\)/,
+    "individual teacher reports must revalidate after building the report");
+  assert.match(teacherSource, /getCurrentTeacherCourseScopes\(\s*ctx\.user\.id,\s*visibleStudents\.map/,
+    "class reports must revalidate the complete roster after building reports");
+  assert.match(teacherSource, /retainsCurrentTeacherCourseScope/,
+    "both response paths must compare the final scope with the scope used to build the report");
+});
+
+test("parent Analytics revalidates the verified relationship after report reads", () => {
+  const parentStart = routeSource.indexOf('if (role === "parent")');
+  const studentStart = routeSource.indexOf("// ---------- STUDENT: own report only ----------", parentStart);
+  assert.ok(parentStart >= 0 && studentStart > parentStart, "parent Analytics branch must exist");
+  const parentSource = routeSource.slice(parentStart, studentStart);
+  const reportBuild = parentSource.indexOf("const report = await buildStudentReport(studentId)");
+  const finalCheck = parentSource.indexOf("const parentAccessStillValid = await db", reportBuild);
+  const response = parentSource.indexOf('return NextResponse.json({ scope: "parent", ...report });', finalCheck);
+  assert.ok(reportBuild >= 0 && finalCheck > reportBuild && response > finalCheck,
+    "parent link and current account roles must be revalidated after report reads and before returning student data");
+  assert.match(parentSource, /buildVerifiedParentLinkPredicate/,
+    "final parent authorization must use the shared verified-link predicate");
+});
