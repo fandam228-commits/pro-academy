@@ -504,9 +504,9 @@ export async function GET(req: Request) {
       const selectionData = getParentAnalyticsSelectionData(
         links.filter((link) => link.studentRole === "student"),
       );
-      if (selectionData.verifiedStudentIds.length === 0) {
-        return NextResponse.json({ error: "No verified linked student" }, { status: 404 });
-      }
+      // Resolve against every linked student first so ambiguity is explicit even
+      // when none of the linked students is currently verified. Verification is
+      // enforced immediately after resolution and never grants report access by itself.
       const resolution = resolveParentAnalyticsStudentId(
         requestedStudent,
         selectionData.allLinkedStudentIds,
