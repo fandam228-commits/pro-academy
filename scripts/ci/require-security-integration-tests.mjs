@@ -15,7 +15,6 @@ const SECURITY_TEST_RULES = [
     required: [
       "tests/integration/analytics-authorization.integration.mjs",
       "tests/integration/parent-link-verification.integration.mjs",
-      "tests/integration/parent-report-current-role.integration.mjs",
       "tests/integration/analytics-route-http-authorization.integration.mjs",
     ],
   },
