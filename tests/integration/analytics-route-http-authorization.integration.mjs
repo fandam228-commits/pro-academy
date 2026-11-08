@@ -869,6 +869,30 @@ integrationTest(
         "teacher Analytics must revalidate the current teacher role before returning student data",
       );
       await client.query("UPDATE users SET role = 'teacher' WHERE id = $1", [ids.teacher]);
+
+      // A student session must not retain access if the account loses its student
+      // role while the report is being assembled. Block the quiz read, demote the
+      // account, then verify the route rechecks the current database role before
+      // sending the already-built report.
+      await lockClient.query("BEGIN");
+      await lockClient.query("LOCK TABLE quiz_submissions IN ACCESS EXCLUSIVE MODE");
+      const studentRoleDemotionInFlight = requestAnalytics(tokens.student)
+        .catch((error) => ({ status: 0, body: { error: String(error) } }));
+      await waitForBlockedQuery(observerClient, "quiz_submissions");
+      await client.query("UPDATE users SET role = 'teacher' WHERE id = $1", [ids.student]);
+      await lockClient.query("COMMIT");
+      const studentRoleDemotedDuringReport = await studentRoleDemotionInFlight;
+      assert.equal(
+        studentRoleDemotedDuringReport.status,
+        403,
+        "student Analytics must deny a report when the account loses its student role during report reads",
+      );
+      assert.equal(
+        Object.hasOwn(studentRoleDemotedDuringReport.body || {}, "student"),
+        false,
+        "a report assembled under a stale student role must not disclose student data",
+      );
+      await client.query("UPDATE users SET role = 'student' WHERE id = $1", [ids.student]);
     } finally {
       if (lockClient) {
         await lockClient.query("ROLLBACK").catch(() => {});
