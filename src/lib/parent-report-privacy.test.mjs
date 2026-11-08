@@ -278,7 +278,7 @@ test("attendance POST validates action-specific roles before database setup", ()
 });
 
 
-test("weekly parent reports revalidate verified links for every data source and before responding", () => {
+test("weekly reports revalidate parent, teacher, and student access before responding", () => {
   const source = routeFiles.reports;
   const routeHelperStart = source.indexOf("function hasVerifiedParentLink(");
   const routeHelperEnd = source.indexOf("function getWeekRange()", routeHelperStart);
@@ -302,7 +302,19 @@ test("weekly parent reports revalidate verified links for every data source and 
     "attendance, homework, quizzes, enrollments, and the final response guard must all revalidate the verified link");
 
   const finalGuard = source.indexOf('const parentAccessStillValid = role === "parent"');
-  const finalResponse = source.indexOf("return NextResponse.json({ success: true, report });", finalGuard);
+  const teacherGuard = source.indexOf('const teacherAccessStillValid = role === "teacher"');
+  const studentGuard = source.indexOf('const studentAccessStillValid = role === "student"');
+  const finalResponse = source.indexOf("const response = NextResponse.json({ success: true, report });", finalGuard);
+  assert.ok(teacherGuard > finalGuard && studentGuard > teacherGuard,
+    "weekly reports must revalidate teacher course scope and student role after all data reads");
+  assert.ok(source.slice(teacherGuard, studentGuard).includes(
+    "originalCourseIds.some((courseId) => !currentCourseIds.has(courseId))",
+  ), "a teacher report must fail closed when any originally authorized course is no longer in scope");
+  assert.ok(source.slice(studentGuard, finalResponse).includes(
+    'if (role === "student" && (!studentAccessStillValid || studentAccessStillValid.length === 0))',
+  ), "a student report must fail closed when the account no longer has the student role");
+  assert.ok(source.slice(finalResponse).includes('response.headers.set("Cache-Control", "private, no-store")'),
+    "weekly report responses must not be stored in shared caches");
   assert.ok(finalGuard > source.indexOf("const allEnrollments ="),
     "the final parent-link check must occur after all report data reads");
   assert.ok(finalResponse > finalGuard,
