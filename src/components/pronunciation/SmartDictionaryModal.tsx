@@ -321,7 +321,7 @@ export const SmartDictionaryModal: React.FC<SmartDictionaryModalProps> = ({
               {lang === "ar" ? "التعريف بالإنجليزية" : "English Definition"}
             </span>
             <p className="text-xs text-slate-700 dark:text-slate-200 bg-slate-50 dark:bg-[#1a233b]/60 p-3 rounded-2xl border border-slate-200 dark:border-slate-800 leading-relaxed italic">
-              "{wordDetail.definitionEn}"
+              &ldquo;{wordDetail.definitionEn}&rdquo;
             </p>
           </div>
         )}

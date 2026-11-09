@@ -37,26 +37,16 @@ export const PronunciationPracticeModal: React.FC<PronunciationPracticeModalProp
   const [isPlayingRecording, setIsPlayingRecording] = useState(false);
   const [isTeacherSpeaking, setIsTeacherSpeaking] = useState(false);
   const [micError, setMicError] = useState<string | null>(null);
-  const [mediaRecorderSupported, setMediaRecorderSupported] = useState(true);
+  const [mediaRecorderSupported] = useState<boolean>(() => {
+    if (typeof window === "undefined") return true;
+    return !!(navigator.mediaDevices && window.MediaRecorder);
+  });
 
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const mediaStreamRef = useRef<MediaStream | null>(null);
   const audioChunksRef = useRef<Blob[]>([]);
   const timerIntervalRef = useRef<any>(null);
   const audioPlayerRef = useRef<HTMLAudioElement | null>(null);
-
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      const supported = !!(navigator.mediaDevices && window.MediaRecorder);
-      setMediaRecorderSupported(supported);
-    }
-  }, []);
-
-  useEffect(() => {
-    if (!isOpen) {
-      cleanupResources();
-    }
-  }, [isOpen]);
 
   const cleanupResources = () => {
     // Stop recording timer
@@ -91,6 +81,12 @@ export const PronunciationPracticeModal: React.FC<PronunciationPracticeModalProp
     setRecordDuration(0);
     setMicError(null);
   };
+
+  useEffect(() => {
+    return () => {
+      cleanupResources();
+    };
+  }, []);
 
   const handleClose = () => {
     cleanupResources();

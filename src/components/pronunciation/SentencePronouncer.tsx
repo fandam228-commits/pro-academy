@@ -44,7 +44,7 @@ export const SentencePronouncer: React.FC<SentencePronouncerProps> = ({
     <div className="bg-white/80 dark:bg-slate-900/60 p-3 rounded-2xl border border-slate-200 dark:border-purple-900/40 space-y-2 text-xs">
       {/* SENTENCE TEXT (PRESERVES PUNCTUATION & TEXT SELECTION) */}
       <p className="font-medium text-slate-800 dark:text-slate-100 leading-relaxed select-text">
-        "{sentence}"
+        &ldquo;{sentence}&rdquo;
       </p>
 
       {/* CONTROLS TOOLBAR */}

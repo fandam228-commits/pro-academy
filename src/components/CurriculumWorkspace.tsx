@@ -567,7 +567,7 @@ export const CurriculumWorkspace: React.FC<{
                               </div>
 
                               <p className="text-xs text-slate-600 dark:text-slate-300 italic">
-                                "{w.definitionEn}"
+                                &ldquo;{w.definitionEn}&rdquo;
                               </p>
 
                               {/* SYNONYMS & ANTONYMS */}
@@ -1087,7 +1087,7 @@ export const CurriculumWorkspace: React.FC<{
                         </div>
                         <p className="text-[11px] text-slate-500">{v.definitionEn}</p>
                         {v.example && (
-                          <p className="text-[10px] text-slate-400 italic mt-1">"{v.example}"</p>
+                          <p className="text-[10px] text-slate-400 italic mt-1">&ldquo;{v.example}&rdquo;</p>
                         )}
                       </div>
                     ))}
@@ -1129,7 +1129,7 @@ export const CurriculumWorkspace: React.FC<{
                     {chapterDetails.importantQuotes.map((q: any, idx: number) => (
                       <div key={idx} className="bg-gradient-to-br from-amber-50/60 to-purple-50/40 dark:from-amber-950/20 dark:to-purple-950/30 p-5 rounded-3xl border border-amber-300/40 shadow-md space-y-2">
                         <p className="text-sm font-black text-slate-900 dark:text-amber-200 italic font-serif">
-                          "{q.quote}"
+                          &ldquo;{q.quote}&rdquo;
                         </p>
                         <div className="text-xs text-slate-600 dark:text-slate-300 space-y-1 pt-1 border-t border-amber-200/50 dark:border-amber-900/40">
                           <p><span className="font-bold text-purple-600">{lang === "ar" ? "القائل والمستمع:" : "Speaker/Listener:"}</span> {q.speaker} → {q.listener}</p>

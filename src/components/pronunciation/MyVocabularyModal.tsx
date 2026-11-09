@@ -296,7 +296,7 @@ export const MyVocabularyModal: React.FC<MyVocabularyModalProps> = ({
 
                 {item.exampleSentence && (
                   <p className="text-xs text-slate-600 dark:text-slate-300 italic border-t border-slate-200 dark:border-slate-800 pt-1.5">
-                    "{item.exampleSentence}"
+                    &ldquo;{item.exampleSentence}&rdquo;
                   </p>
                 )}
               </div>

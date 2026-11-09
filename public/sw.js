@@ -1,8 +1,13 @@
 /* Professional Academy PWA Service Worker */
-const isLocalEnv = typeof self !== "undefined" && (self.location.hostname === "localhost" || self.location.hostname === "127.0.0.1");
+const isLocalEnv =
+  typeof self !== "undefined" &&
+  (self.location.hostname === "localhost" || self.location.hostname === "127.0.0.1");
 
 if (isLocalEnv) {
-  self.addEventListener("install", () => self.skipWaiting());
+  // In development / localhost, self-destruct and purge caches to avoid any stale bundle freezes
+  self.addEventListener("install", () => {
+    self.skipWaiting();
+  });
   self.addEventListener("activate", (event) => {
     event.waitUntil(
       caches
@@ -16,92 +21,85 @@ if (isLocalEnv) {
         })
     );
   });
+} else {
+  // Production PWA Service Worker
+  const CACHE_VERSION = "pro-academy-v2";
+  const STATIC_CACHE = `${CACHE_VERSION}-static`;
+  const RUNTIME_CACHE = `${CACHE_VERSION}-runtime`;
+
+  const PRECACHE_URLS = ["/manifest.webmanifest"];
+
+  self.addEventListener("install", (event) => {
+    event.waitUntil(
+      caches.open(STATIC_CACHE).then((cache) => cache.addAll(PRECACHE_URLS)).catch(() => null)
+    );
+    self.skipWaiting();
+  });
+
+  self.addEventListener("activate", (event) => {
+    event.waitUntil(
+      caches.keys().then((keys) =>
+        Promise.all(keys.filter((k) => !k.startsWith(CACHE_VERSION)).map((k) => caches.delete(k)))
+      ).then(() => self.clients.claim())
+    );
+  });
+
+  self.addEventListener("fetch", (event) => {
+    const { request } = event;
+    if (request.method !== "GET") return;
+
+    const url = new URL(request.url);
+
+    // HTML page navigations: Network-first with cache fallback (never serve stale shell on nav)
+    if (request.mode === "navigate") {
+      event.respondWith(
+        fetch(request)
+          .then((response) => {
+            if (response.ok) {
+              const clone = response.clone();
+              caches.open(STATIC_CACHE).then((cache) => cache.put(request, clone));
+            }
+            return response;
+          })
+          .catch(() => caches.match(request).then((cached) => cached || caches.match("/")))
+      );
+      return;
+    }
+
+    if (url.pathname.startsWith("/api/")) {
+      event.respondWith(
+        fetch(request)
+          .then((response) => {
+            if (response.ok) {
+              const clone = response.clone();
+              caches.open(RUNTIME_CACHE).then((cache) => cache.put(request, clone));
+            }
+            return response;
+          })
+          .catch(() => caches.match(request).then((cached) => cached || Response.error()))
+      );
+      return;
+    }
+
+    // Static assets (images, fonts, CSS, chunks): cache with network revalidate
+    event.respondWith(
+      caches.match(request).then((cached) => {
+        const networkFetch = fetch(request)
+          .then((response) => {
+            if (response.ok && url.origin === self.location.origin) {
+              const clone = response.clone();
+              caches.open(RUNTIME_CACHE).then((cache) => cache.put(request, clone));
+            }
+            return response;
+          })
+          .catch(() => cached);
+        return cached || networkFetch;
+      })
+    );
+  });
 }
 
-const CACHE_VERSION = "pro-academy-v2";
-const STATIC_CACHE = `${CACHE_VERSION}-static`;
-const RUNTIME_CACHE = `${CACHE_VERSION}-runtime`;
-
-const PRECACHE_URLS = ["/manifest.webmanifest"];
-
-// Install: precache shell & skip waiting immediately
-self.addEventListener("install", (event) => {
-  event.waitUntil(
-    caches.open(STATIC_CACHE).then((cache) => cache.addAll(PRECACHE_URLS)).catch(() => null)
-  );
-  self.skipWaiting();
-});
-
-// Activate: clean all old caches completely & claim clients immediately
-self.addEventListener("activate", (event) => {
-  event.waitUntil(
-    caches.keys().then((keys) =>
-      Promise.all(keys.filter((k) => !k.startsWith(CACHE_VERSION)).map((k) => caches.delete(k)))
-    ).then(() => self.clients.claim())
-  );
-});
-
-// Fetch strategy:
-self.addEventListener("fetch", (event) => {
-  const { request } = event;
-  if (request.method !== "GET") return;
-
-  const url = new URL(request.url);
-
-  // On localhost/development, never intercept - allow live Turbopack / Next.js updates
-  if (url.hostname === "localhost" || url.hostname === "127.0.0.1") {
-    return;
-  }
-
-  // HTML page navigations: Network-first with cache fallback (never serve stale shell on nav)
-  if (request.mode === "navigate") {
-    event.respondWith(
-      fetch(request)
-        .then((response) => {
-          if (response.ok) {
-            const clone = response.clone();
-            caches.open(STATIC_CACHE).then((cache) => cache.put(request, clone));
-          }
-          return response;
-        })
-        .catch(() => caches.match(request).then((cached) => cached || caches.match("/")))
-    );
-    return;
-  }
-
-  if (url.pathname.startsWith("/api/")) {
-    event.respondWith(
-      fetch(request)
-        .then((response) => {
-          if (response.ok) {
-            const clone = response.clone();
-            caches.open(RUNTIME_CACHE).then((cache) => cache.put(request, clone));
-          }
-          return response;
-        })
-        .catch(() => caches.match(request).then((cached) => cached || Response.error()))
-    );
-    return;
-  }
-
-  // Static assets (images, fonts, CSS, chunks): cache with network revalidate
-  event.respondWith(
-    caches.match(request).then((cached) => {
-      const networkFetch = fetch(request)
-        .then((response) => {
-          if (response.ok && url.origin === self.location.origin) {
-            const clone = response.clone();
-            caches.open(RUNTIME_CACHE).then((cache) => cache.put(request, clone));
-          }
-          return response;
-        })
-        .catch(() => cached);
-      return cached || networkFetch;
-    })
-  );
-});
-
-// Real Web Push notifications
+// Push notifications always active
 self.addEventListener("push", (event) => {
   let data = {
     title: "Professional Academy",
