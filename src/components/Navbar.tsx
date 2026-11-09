@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useState } from "react";
-import Link from "next/link";
 import { useApp } from "@/context/AppContext";
 import {
   GraduationCap,
@@ -20,6 +19,7 @@ import {
   Database,
   FileText,
   LogOut,
+  LogIn,
   Trophy,
   CalendarDays,
   Search,
@@ -27,6 +27,8 @@ import {
   ClipboardCheck,
   BarChart3,
   Smartphone,
+  BookMarked,
+  FileCheck,
 } from "lucide-react";
 
 export const Navbar: React.FC<{ activeTab?: string; setActiveTab?: (tab: string) => void }> = ({
@@ -38,19 +40,29 @@ export const Navbar: React.FC<{ activeTab?: string; setActiveTab?: (tab: string)
 
 
   return (
-    <header className="sticky top-0 z-50 backdrop-blur-xl bg-white/80 dark:bg-slate-900/80 border-b border-slate-200/80 dark:border-slate-800 transition-colors">
+    <header className="sticky top-0 z-50 backdrop-blur-xl bg-white/85 dark:bg-[#0d071d]/85 border-b border-purple-100/60 dark:border-purple-900/40 transition-colors">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-20">
           
           {/* LOGO */}
-          <Link href="/" className="flex items-center gap-3 group">
-            <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-blue-600 via-indigo-600 to-sky-500 flex items-center justify-center text-white shadow-lg shadow-blue-500/25 group-hover:scale-105 transition-transform">
+          <div
+            role="button"
+            tabIndex={0}
+            onClick={() => {
+              if (setActiveTab) setActiveTab("home");
+            }}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" && setActiveTab) setActiveTab("home");
+            }}
+            className="flex items-center gap-3 group cursor-pointer select-none"
+          >
+            <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-purple-600 via-indigo-600 to-sky-400 flex items-center justify-center text-white shadow-lg shadow-purple-500/25 group-hover:scale-105 transition-transform">
               <GraduationCap className="w-7 h-7" />
             </div>
             <div>
               <div className="font-extrabold text-xl tracking-tight text-slate-900 dark:text-white flex items-center gap-1.5">
                 <span>{lang === "ar" ? "أكاديمية المستر" : "Professional Academy"}</span>
-                <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-blue-100 dark:bg-blue-900/60 text-blue-700 dark:text-blue-300 border border-blue-200 dark:border-blue-700">
+                <span className="text-[11px] font-black px-2 py-0.5 rounded-full bg-gradient-to-r from-amber-400 to-yellow-400 text-slate-950 border border-amber-300 shadow-sm">
                   PRO
                 </span>
               </div>
@@ -58,14 +70,14 @@ export const Navbar: React.FC<{ activeTab?: string; setActiveTab?: (tab: string)
                 {lang === "ar" ? "مع مستر حبيب الرحمن" : "Mr. Habib El Rahman Platform"}
               </p>
             </div>
-          </Link>
+          </div>
 
           {/* DESKTOP NAVIGATION */}
           <nav className="hidden md:flex items-center gap-1 text-sm font-medium text-slate-700 dark:text-slate-200">
             <button
               onClick={() => setActiveTab && setActiveTab("home")}
               className={`px-3.5 py-2 rounded-xl transition-all ${
-                activeTab === "home" ? "bg-blue-50 dark:bg-slate-800 text-blue-600 dark:text-blue-400 font-semibold" : "hover:bg-slate-100 dark:hover:bg-slate-800"
+                activeTab === "home" ? "bg-purple-100/80 dark:bg-purple-950/60 text-purple-700 dark:text-purple-300 font-bold shadow-sm" : "hover:bg-slate-100 dark:hover:bg-slate-800"
               }`}
             >
               {lang === "ar" ? "الرئيسية" : "Home"}
@@ -74,36 +86,56 @@ export const Navbar: React.FC<{ activeTab?: string; setActiveTab?: (tab: string)
             <button
               onClick={() => setActiveTab && setActiveTab("courses")}
               className={`px-3.5 py-2 rounded-xl transition-all ${
-                activeTab === "courses" ? "bg-blue-50 dark:bg-slate-800 text-blue-600 dark:text-blue-400 font-semibold" : "hover:bg-slate-100 dark:hover:bg-slate-800"
+                activeTab === "courses" ? "bg-purple-100/80 dark:bg-purple-950/60 text-purple-700 dark:text-purple-300 font-bold shadow-sm" : "hover:bg-slate-100 dark:hover:bg-slate-800"
               }`}
             >
               {lang === "ar" ? "الكورسات والصفوف" : "Courses & Stages"}
             </button>
 
             <button
-              onClick={() => setActiveTab && setActiveTab("homework")}
+              onClick={() => setActiveTab && setActiveTab("curriculum")}
               className={`px-3.5 py-2 rounded-xl transition-all flex items-center gap-1.5 ${
-                activeTab === "homework" ? "bg-blue-50 dark:bg-slate-800 text-emerald-600 dark:text-emerald-400 font-semibold" : "hover:bg-slate-100 dark:hover:bg-slate-800"
+                activeTab === "curriculum" ? "bg-purple-100/80 dark:bg-purple-950/60 text-purple-700 dark:text-purple-300 font-bold shadow-sm" : "hover:bg-slate-100 dark:hover:bg-slate-800"
               }`}
             >
-              <NotebookPen className="w-4 h-4 text-emerald-500" />
+              <BookMarked className="w-4 h-4 text-purple-500" />
+              <span>{lang === "ar" ? "المناهج والقصة" : "Curriculum & Story"}</span>
+            </button>
+
+            <button
+              onClick={() => setActiveTab && setActiveTab("ministry_assessments")}
+              className={`px-3.5 py-2 rounded-xl transition-all flex items-center gap-1.5 ${
+                activeTab === "ministry_assessments" ? "bg-amber-100/90 dark:bg-amber-950/70 text-amber-800 dark:text-amber-300 font-black shadow-sm border border-amber-300/40" : "hover:bg-slate-100 dark:hover:bg-slate-800"
+              }`}
+            >
+              <FileCheck className="w-4 h-4 text-amber-500" />
+              <span>{lang === "ar" ? "تقييمات الوزارة" : "Ministry Assessments"}</span>
+            </button>
+
+            <button
+              onClick={() => setActiveTab && setActiveTab("homework")}
+              className={`px-3.5 py-2 rounded-xl transition-all flex items-center gap-1.5 ${
+                activeTab === "homework" ? "bg-sky-100/80 dark:bg-sky-950/60 text-sky-700 dark:text-sky-300 font-bold shadow-sm" : "hover:bg-slate-100 dark:hover:bg-slate-800"
+              }`}
+            >
+              <NotebookPen className="w-4 h-4 text-sky-500" />
               <span>{lang === "ar" ? "الواجبات" : "Homework"}</span>
             </button>
 
             <button
               onClick={() => setActiveTab && setActiveTab("attendance")}
               className={`px-3.5 py-2 rounded-xl transition-all flex items-center gap-1.5 ${
-                activeTab === "attendance" ? "bg-blue-50 dark:bg-slate-800 text-teal-600 dark:text-teal-400 font-semibold" : "hover:bg-slate-100 dark:hover:bg-slate-800"
+                activeTab === "attendance" ? "bg-purple-100/80 dark:bg-purple-950/60 text-purple-700 dark:text-purple-300 font-bold shadow-sm" : "hover:bg-slate-100 dark:hover:bg-slate-800"
               }`}
             >
-              <ClipboardCheck className="w-4 h-4 text-teal-500" />
+              <ClipboardCheck className="w-4 h-4 text-purple-500" />
               <span>{lang === "ar" ? "الحضور" : "Attendance"}</span>
             </button>
 
             <button
               onClick={() => setActiveTab && setActiveTab("question_bank")}
               className={`px-3.5 py-2 rounded-xl transition-all flex items-center gap-1.5 ${
-                activeTab === "question_bank" ? "bg-blue-50 dark:bg-slate-800 text-blue-600 dark:text-blue-400 font-semibold" : "hover:bg-slate-100 dark:hover:bg-slate-800"
+                activeTab === "question_bank" ? "bg-amber-100/80 dark:bg-amber-950/60 text-amber-700 dark:text-amber-400 font-bold shadow-sm" : "hover:bg-slate-100 dark:hover:bg-slate-800"
               }`}
             >
               <Database className="w-4 h-4 text-amber-500" />
@@ -113,7 +145,7 @@ export const Navbar: React.FC<{ activeTab?: string; setActiveTab?: (tab: string)
             <button
               onClick={() => setActiveTab && setActiveTab("pdfs")}
               className={`px-3.5 py-2 rounded-xl transition-all flex items-center gap-1.5 ${
-                activeTab === "pdfs" ? "bg-blue-50 dark:bg-slate-800 text-blue-600 dark:text-blue-400 font-semibold" : "hover:bg-slate-100 dark:hover:bg-slate-800"
+                activeTab === "pdfs" ? "bg-sky-100/80 dark:bg-sky-950/60 text-sky-700 dark:text-sky-400 font-bold shadow-sm" : "hover:bg-slate-100 dark:hover:bg-slate-800"
               }`}
             >
               <FileText className="w-4 h-4 text-sky-500" />
@@ -121,16 +153,16 @@ export const Navbar: React.FC<{ activeTab?: string; setActiveTab?: (tab: string)
             </button>
             <button
               onClick={() => setActiveTab && setActiveTab("grammar")}
-              className={"px-3.5 py-2 rounded-xl transition-all flex items-center gap-1.5 " + (activeTab === "grammar" ? "bg-blue-50 dark:bg-slate-800 text-blue-600 dark:text-blue-400 font-semibold" : "hover:bg-slate-100 dark:hover:bg-slate-800")}
+              className={"px-3.5 py-2 rounded-xl transition-all flex items-center gap-1.5 " + (activeTab === "grammar" ? "bg-purple-100/80 dark:bg-purple-950/60 text-purple-700 dark:text-purple-300 font-bold shadow-sm" : "hover:bg-slate-100 dark:hover:bg-slate-800")}
             >
-              <BookOpen className="w-4 h-4 text-violet-500" />
+              <BookOpen className="w-4 h-4 text-purple-500" />
               <span>{lang === "ar" ? "شرح القواعد" : "Grammar Library"}</span>
             </button>
 
             <button
               onClick={() => setActiveTab && setActiveTab("placement")}
               className={`px-3.5 py-2 rounded-xl transition-all flex items-center gap-1.5 ${
-                activeTab === "placement" ? "bg-blue-50 dark:bg-slate-800 text-blue-600 dark:text-blue-400 font-semibold" : "hover:bg-slate-100 dark:hover:bg-slate-800"
+                activeTab === "placement" ? "bg-amber-100/80 dark:bg-amber-950/60 text-amber-700 dark:text-amber-300 font-bold shadow-sm" : "hover:bg-slate-100 dark:hover:bg-slate-800"
               }`}
             >
               <Sparkles className="w-4 h-4 text-amber-500 animate-pulse" />
@@ -140,17 +172,17 @@ export const Navbar: React.FC<{ activeTab?: string; setActiveTab?: (tab: string)
             <button
               onClick={() => setActiveTab && setActiveTab("ai_assistant")}
               className={`px-3.5 py-2 rounded-xl transition-all flex items-center gap-1.5 ${
-                activeTab === "ai_assistant" ? "bg-blue-50 dark:bg-slate-800 text-blue-600 dark:text-blue-400 font-semibold" : "hover:bg-slate-100 dark:hover:bg-slate-800"
+                activeTab === "ai_assistant" ? "bg-purple-100/80 dark:bg-purple-950/60 text-purple-700 dark:text-purple-300 font-bold shadow-sm" : "hover:bg-slate-100 dark:hover:bg-slate-800"
               }`}
             >
-              <BrainCircuit className="w-4 h-4 text-indigo-500" />
+              <BrainCircuit className="w-4 h-4 text-purple-500" />
               <span>{lang === "ar" ? "الذكاء الاصطناعي" : "AI Tutor"}</span>
             </button>
 
             <button
               onClick={() => setActiveTab && setActiveTab("dashboard")}
               className={`px-3.5 py-2 rounded-xl transition-all ${
-                activeTab === "dashboard" ? "bg-blue-50 dark:bg-slate-800 text-blue-600 dark:text-blue-400 font-semibold" : "hover:bg-slate-100 dark:hover:bg-slate-800"
+                activeTab === "dashboard" ? "bg-purple-100/80 dark:bg-purple-950/60 text-purple-700 dark:text-purple-300 font-bold shadow-sm" : "hover:bg-slate-100 dark:hover:bg-slate-800"
               }`}
             >
               {lang === "ar" ? "لوحة التحكم" : "Dashboard"}
@@ -159,7 +191,7 @@ export const Navbar: React.FC<{ activeTab?: string; setActiveTab?: (tab: string)
             <button
               onClick={() => setActiveTab && setActiveTab("blog")}
               className={`px-3.5 py-2 rounded-xl transition-all ${
-                activeTab === "blog" ? "bg-blue-50 dark:bg-slate-800 text-blue-600 dark:text-blue-400 font-semibold" : "hover:bg-slate-100 dark:hover:bg-slate-800"
+                activeTab === "blog" ? "bg-purple-100/80 dark:bg-purple-950/60 text-purple-700 dark:text-purple-300 font-bold shadow-sm" : "hover:bg-slate-100 dark:hover:bg-slate-800"
               }`}
             >
               {lang === "ar" ? "المدونة والنصائح" : "Blog & Tips"}
@@ -170,47 +202,47 @@ export const Navbar: React.FC<{ activeTab?: string; setActiveTab?: (tab: string)
           <div className="flex items-center gap-2 sm:gap-3">
 
             {/* QUICK ACCESS: SEARCH / GAMIFICATION / CALENDAR */}
-            <div className="hidden md:flex items-center gap-1 bg-slate-100 dark:bg-slate-800 p-1 rounded-2xl border border-slate-200 dark:border-slate-700">
+            <div className="hidden md:flex items-center gap-1 bg-slate-100 dark:bg-slate-800/80 p-1 rounded-2xl border border-slate-200 dark:border-slate-700">
               <button
                 onClick={() => setActiveTab && setActiveTab("search")}
-                className={`p-2 rounded-xl transition-all ${activeTab === "search" ? "bg-white dark:bg-slate-900 text-blue-600 shadow-sm" : "text-slate-500 hover:text-slate-800 dark:hover:text-slate-200"}`}
+                className={`p-2 rounded-xl transition-all ${activeTab === "search" ? "bg-white dark:bg-slate-900 text-sky-500 shadow-sm" : "text-slate-500 hover:text-slate-800 dark:hover:text-slate-200"}`}
                 title={lang === "ar" ? "البحث الشامل" : "Global Search"}
               >
                 <Search className="w-4 h-4" />
               </button>
               <button
                 onClick={() => setActiveTab && setActiveTab("gamification")}
-                className={`p-2 rounded-xl transition-all ${activeTab === "gamification" ? "bg-white dark:bg-slate-900 text-amber-600 shadow-sm" : "text-slate-500 hover:text-slate-800 dark:hover:text-slate-200"}`}
+                className={`p-2 rounded-xl transition-all ${activeTab === "gamification" ? "bg-white dark:bg-slate-900 text-amber-500 shadow-sm" : "text-slate-500 hover:text-slate-800 dark:hover:text-slate-200"}`}
                 title={lang === "ar" ? "الأوسمة والمتصدرون" : "Leaderboard & Badges"}
               >
                 <Trophy className="w-4 h-4" />
               </button>
               <button
                 onClick={() => setActiveTab && setActiveTab("calendar")}
-                className={`p-2 rounded-xl transition-all ${activeTab === "calendar" ? "bg-white dark:bg-slate-900 text-indigo-600 shadow-sm" : "text-slate-500 hover:text-slate-800 dark:hover:text-slate-200"}`}
+                className={`p-2 rounded-xl transition-all ${activeTab === "calendar" ? "bg-white dark:bg-slate-900 text-purple-500 shadow-sm" : "text-slate-500 hover:text-slate-800 dark:hover:text-slate-200"}`}
                 title={lang === "ar" ? "التقويم والحصص المباشرة" : "Calendar & Live Sessions"}
               >
                 <CalendarDays className="w-4 h-4" />
               </button>
               <button
                 onClick={() => setActiveTab && setActiveTab("analytics")}
-                className={`p-2 rounded-xl transition-all ${activeTab === "analytics" ? "bg-white dark:bg-slate-900 text-violet-600 shadow-sm" : "text-slate-500 hover:text-slate-800 dark:hover:text-slate-200"}`}
+                className={`p-2 rounded-xl transition-all ${activeTab === "analytics" ? "bg-white dark:bg-slate-900 text-purple-500 shadow-sm" : "text-slate-500 hover:text-slate-800 dark:hover:text-slate-200"}`}
                 title={lang === "ar" ? "التقارير والتحليلات" : "Analytics & Reports"}
               >
                 <BarChart3 className="w-4 h-4" />
               </button>
             </div>
 
-            {/* STREAK & POINTS */}
+            {/* STREAK & POINTS (Gold Flame & Sky Points) */}
             {user && (
-              <div className="hidden lg:flex items-center gap-2 bg-gradient-to-r from-amber-500/10 via-orange-500/10 to-emerald-500/10 dark:from-amber-950/30 dark:to-emerald-950/30 border border-amber-200 dark:border-amber-800/40 px-3 py-1.5 rounded-full text-xs font-semibold">
+              <div className="hidden lg:flex items-center gap-2 bg-gradient-to-r from-amber-500/15 via-purple-500/10 to-sky-500/15 dark:from-amber-950/30 dark:to-purple-950/30 border border-amber-300/40 dark:border-amber-700/40 px-3 py-1.5 rounded-full text-xs font-semibold">
                 <div className="flex items-center gap-1 text-amber-600 dark:text-amber-400" title="Daily Streak">
                   <Flame className="w-4 h-4 fill-amber-500 text-amber-500" />
                   <span>{user.streak || 1}d</span>
                 </div>
                 <div className="w-px h-3 bg-amber-300 dark:bg-amber-700" />
-                <div className="flex items-center gap-1 text-emerald-600 dark:text-emerald-400" title="Gamification Points">
-                  <Award className="w-4 h-4 text-emerald-500" />
+                <div className="flex items-center gap-1 text-sky-600 dark:text-sky-400" title="Gamification Points">
+                  <Award className="w-4 h-4 text-sky-500" />
                   <span>{user.points || 150} pts</span>
                 </div>
               </div>
@@ -220,8 +252,8 @@ export const Navbar: React.FC<{ activeTab?: string; setActiveTab?: (tab: string)
               onClick={() => setActiveTab && setActiveTab("download")}
               className={`hidden sm:flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-extrabold shadow-lg transition-all ${
                 activeTab === "download"
-                  ? "bg-emerald-700 text-white"
-                  : "bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 text-white shadow-emerald-500/25"
+                  ? "bg-purple-700 text-white"
+                  : "bg-gradient-to-r from-purple-600 via-indigo-600 to-sky-500 hover:from-purple-500 hover:to-sky-400 text-white shadow-purple-500/25"
               }`}
               title={lang === "ar" ? "تحميل التطبيق على الموبايل" : "Install mobile app"}
             >
@@ -235,7 +267,7 @@ export const Navbar: React.FC<{ activeTab?: string; setActiveTab?: (tab: string)
               className="p-2 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 transition-all flex items-center gap-1 text-xs font-bold"
               title="Toggle Language (AR/EN)"
             >
-              <Globe className="w-4 h-4 text-blue-600 dark:text-blue-400" />
+              <Globe className="w-4 h-4 text-purple-600 dark:text-purple-400" />
               <span>{lang === "ar" ? "English" : "عربي"}</span>
             </button>
 
@@ -260,27 +292,37 @@ export const Navbar: React.FC<{ activeTab?: string; setActiveTab?: (tab: string)
               )}
             </button>
 
-            {/* LOGGED-IN USER CHIP + LOGOUT */}
-            {user && (
-              <div className="hidden xl:flex items-center gap-2 pr-1 border-r border-slate-200 dark:border-slate-700 mr-1">
-                <div className="max-w-[120px] text-end">
-                  <p className="text-[11px] font-extrabold text-slate-800 dark:text-slate-100 truncate">{user.name}</p>
-                  <p className="text-[9px] font-bold text-blue-600 dark:text-blue-400 uppercase tracking-wide">{user.role}</p>
+            {/* USER CONTROLS: LOGGED-IN BADGE + LOGOUT OR SIGN-IN CTA */}
+            {user ? (
+              <>
+                <div className="hidden xl:flex items-center gap-2 pr-1 border-r border-slate-200 dark:border-slate-700 mr-1">
+                  <div className="max-w-[120px] text-end">
+                    <p className="text-[11px] font-extrabold text-slate-800 dark:text-slate-100 truncate">{user.name}</p>
+                    <p className="text-[9px] font-bold text-purple-600 dark:text-purple-400 uppercase tracking-wide">{user.role}</p>
+                  </div>
                 </div>
-              </div>
+                <button
+                  onClick={async () => {
+                    setMobileMenuOpen(false);
+                    await logout();
+                  }}
+                  className="inline-flex shrink-0 items-center justify-center gap-2 px-3 py-2 rounded-xl bg-red-50 dark:bg-red-950/60 hover:bg-red-100 dark:hover:bg-red-900/60 text-red-700 dark:text-red-300 border border-red-200 dark:border-red-900/60 transition-all font-bold text-xs whitespace-nowrap cursor-pointer"
+                  title={lang === "ar" ? "تسجيل الخروج" : "Log Out"}
+                  aria-label={lang === "ar" ? "تسجيل الخروج" : "Log Out"}
+                >
+                  <LogOut className="w-4 h-4" />
+                  <span>{lang === "ar" ? "خروج" : "Log out"}</span>
+                </button>
+              </>
+            ) : (
+              <button
+                onClick={() => setActiveTab && setActiveTab("auth")}
+                className="inline-flex shrink-0 items-center justify-center gap-2 px-3.5 py-2 rounded-xl bg-gradient-to-r from-purple-600 via-purple-700 to-sky-600 hover:from-purple-500 hover:to-sky-500 text-white shadow-md shadow-purple-600/20 font-extrabold text-xs whitespace-nowrap transition-all cursor-pointer"
+              >
+                <LogIn className="w-4 h-4" />
+                <span>{lang === "ar" ? "تسجيل الدخول" : "Sign In"}</span>
+              </button>
             )}
-            <button
-              onClick={async () => {
-                setMobileMenuOpen(false);
-                await logout();
-              }}
-              className="inline-flex shrink-0 items-center justify-center gap-2 px-3 py-2 rounded-xl bg-red-50 dark:bg-red-950/60 hover:bg-red-100 dark:hover:bg-red-900/60 text-red-700 dark:text-red-300 border border-red-200 dark:border-red-900/60 transition-all font-bold text-xs whitespace-nowrap"
-              title={lang === "ar" ? "تسجيل الخروج" : "Log Out"}
-              aria-label={lang === "ar" ? "تسجيل الخروج" : "Log Out"}
-            >
-              <LogOut className="w-4 h-4" />
-              <span>{lang === "ar" ? "خروج" : "Log out"}</span>
-            </button>
 
             {/* MOBILE MENU TRIGGER */}
             <button
@@ -297,29 +339,42 @@ export const Navbar: React.FC<{ activeTab?: string; setActiveTab?: (tab: string)
       {/* MOBILE MENU DROPDOWN */}
       {mobileMenuOpen && (
         <div className="md:hidden border-t border-slate-200 dark:border-slate-800 bg-white/95 dark:bg-slate-900/95 backdrop-blur-lg px-4 pt-3 pb-6 space-y-2">
-          <div className="flex items-center justify-between gap-3 rounded-xl border border-slate-200 dark:border-slate-700 px-3 py-3 mb-3">
-            <div className="min-w-0">
-              <p className="font-extrabold text-sm text-slate-900 dark:text-white truncate">{user?.name || (lang === "ar" ? "المستخدم" : "User")}</p>
-              <p className="text-xs text-slate-500 dark:text-slate-400">{user?.role || ""}</p>
+          {user ? (
+            <div className="flex items-center justify-between gap-3 rounded-xl border border-slate-200 dark:border-slate-700 px-3 py-3 mb-3">
+              <div className="min-w-0">
+                <p className="font-extrabold text-sm text-slate-900 dark:text-white truncate">{user.name}</p>
+                <p className="text-xs text-slate-500 dark:text-slate-400">{user.role}</p>
+              </div>
+              <button
+                onClick={async () => {
+                  setMobileMenuOpen(false);
+                  await logout();
+                }}
+                className="inline-flex shrink-0 items-center justify-center gap-2 px-3 py-2 rounded-xl bg-red-50 dark:bg-red-950/60 hover:bg-red-100 dark:hover:bg-red-900/60 text-red-700 dark:text-red-300 border border-red-200 dark:border-red-900/60 transition-all font-bold text-xs"
+                aria-label={lang === "ar" ? "تسجيل الخروج" : "Log Out"}
+              >
+                <LogOut className="w-4 h-4" />
+                <span>{lang === "ar" ? "تسجيل الخروج" : "Log out"}</span>
+              </button>
             </div>
+          ) : (
             <button
-              onClick={async () => {
+              onClick={() => {
+                setActiveTab && setActiveTab("auth");
                 setMobileMenuOpen(false);
-                await logout();
               }}
-              className="inline-flex shrink-0 items-center justify-center gap-2 px-3 py-2 rounded-xl bg-red-50 dark:bg-red-950/60 hover:bg-red-100 dark:hover:bg-red-900/60 text-red-700 dark:text-red-300 border border-red-200 dark:border-red-900/60 transition-all font-bold text-xs"
-              aria-label={lang === "ar" ? "تسجيل الخروج" : "Log Out"}
+              className="w-full px-4 py-3 rounded-xl bg-gradient-to-r from-purple-600 via-purple-700 to-sky-600 hover:from-purple-500 hover:to-sky-500 text-white font-black text-sm flex items-center justify-center gap-2 shadow-lg mb-3 cursor-pointer"
             >
-              <LogOut className="w-4 h-4" />
-              <span>{lang === "ar" ? "تسجيل الخروج" : "Log out"}</span>
+              <LogIn className="w-4 h-4" />
+              <span>{lang === "ar" ? "تسجيل الدخول / إنشاء حساب جديد" : "Sign In / Register"}</span>
             </button>
-          </div>
+          )}
           <button
             onClick={() => {
               setActiveTab && setActiveTab("download");
               setMobileMenuOpen(false);
             }}
-            className="w-full px-4 py-3 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 text-white font-extrabold text-sm flex items-center justify-center gap-2 shadow-lg"
+            className="w-full px-4 py-3 rounded-xl bg-gradient-to-r from-purple-600 via-indigo-600 to-sky-500 text-white font-extrabold text-sm flex items-center justify-center gap-2 shadow-lg"
           >
             <Smartphone className="w-4 h-4" />
             <span>{lang === "ar" ? "📱 تحميل التطبيق على تليفونك" : "📱 Install Mobile App"}</span>
@@ -335,12 +390,32 @@ export const Navbar: React.FC<{ activeTab?: string; setActiveTab?: (tab: string)
           </button>
           <button
             onClick={() => {
+              setActiveTab && setActiveTab("curriculum");
+              setMobileMenuOpen(false);
+            }}
+            className="w-full text-start px-4 py-2.5 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 font-medium text-slate-800 dark:text-slate-200 flex items-center gap-2"
+          >
+            <BookMarked className="w-4 h-4 text-purple-500" />
+            <span>{lang === "ar" ? "المناهج والقصة المقررة" : "Curriculum & Story"}</span>
+          </button>
+          <button
+            onClick={() => {
+              setActiveTab && setActiveTab("ministry_assessments");
+              setMobileMenuOpen(false);
+            }}
+            className="w-full text-start px-4 py-2.5 rounded-xl bg-amber-500/10 hover:bg-amber-500/20 font-bold text-amber-700 dark:text-amber-300 flex items-center gap-2 border border-amber-400/30"
+          >
+            <FileCheck className="w-4 h-4 text-amber-500" />
+            <span>{lang === "ar" ? "تقييمات الوزارة الرسمية 2026/2027" : "Official Ministry Assessments"}</span>
+          </button>
+          <button
+            onClick={() => {
               setActiveTab && setActiveTab("homework");
               setMobileMenuOpen(false);
             }}
             className="w-full text-start px-4 py-2.5 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 font-medium text-slate-800 dark:text-slate-200 flex items-center gap-2"
           >
-            <NotebookPen className="w-4 h-4 text-emerald-500" />
+            <NotebookPen className="w-4 h-4 text-sky-500" />
             <span>{lang === "ar" ? "الواجبات والتسليم" : "Homework"}</span>
           </button>
           <button
@@ -350,7 +425,7 @@ export const Navbar: React.FC<{ activeTab?: string; setActiveTab?: (tab: string)
             }}
             className="w-full text-start px-4 py-2.5 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 font-medium text-slate-800 dark:text-slate-200 flex items-center gap-2"
           >
-            <ClipboardCheck className="w-4 h-4 text-teal-500" />
+            <ClipboardCheck className="w-4 h-4 text-purple-500" />
             <span>{lang === "ar" ? "الحضور والغياب" : "Attendance"}</span>
           </button>
           <button
@@ -360,7 +435,7 @@ export const Navbar: React.FC<{ activeTab?: string; setActiveTab?: (tab: string)
             }}
             className="w-full text-start px-4 py-2.5 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 font-medium text-slate-800 dark:text-slate-200 flex items-center gap-2"
           >
-            <BarChart3 className="w-4 h-4 text-violet-500" />
+            <BarChart3 className="w-4 h-4 text-purple-500" />
             <span>{lang === "ar" ? "التقارير والتحليلات" : "Analytics & Reports"}</span>
           </button>
           <button
@@ -390,7 +465,7 @@ export const Navbar: React.FC<{ activeTab?: string; setActiveTab?: (tab: string)
             }}
             className="w-full text-start px-4 py-2.5 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 font-medium text-slate-800 dark:text-slate-200 flex items-center gap-2"
           >
-            <BookOpen className="w-4 h-4 text-violet-500" />
+            <BookOpen className="w-4 h-4 text-purple-500" />
             <span>{lang === "ar" ? "شرح القواعد" : "Grammar Library"}</span>
           </button>
           <button
@@ -410,7 +485,7 @@ export const Navbar: React.FC<{ activeTab?: string; setActiveTab?: (tab: string)
             }}
             className="w-full text-start px-4 py-2.5 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 font-medium text-slate-800 dark:text-slate-200 flex items-center gap-2"
           >
-            <CalendarDays className="w-4 h-4 text-indigo-500" />
+            <CalendarDays className="w-4 h-4 text-purple-500" />
             <span>{lang === "ar" ? "التقويم والحصص المباشرة" : "Calendar & Live Sessions"}</span>
           </button>
           <button
@@ -420,7 +495,7 @@ export const Navbar: React.FC<{ activeTab?: string; setActiveTab?: (tab: string)
             }}
             className="w-full text-start px-4 py-2.5 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 font-medium text-slate-800 dark:text-slate-200 flex items-center gap-2"
           >
-            <Search className="w-4 h-4 text-blue-500" />
+            <Search className="w-4 h-4 text-sky-500" />
             <span>{lang === "ar" ? "البحث الشامل" : "Global Search"}</span>
           </button>
           <button
@@ -438,7 +513,7 @@ export const Navbar: React.FC<{ activeTab?: string; setActiveTab?: (tab: string)
               setActiveTab && setActiveTab("placement");
               setMobileMenuOpen(false);
             }}
-            className="w-full text-start px-4 py-2.5 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 font-medium text-slate-800 dark:text-slate-200 flex items-center gap-2 text-blue-600 dark:text-blue-400"
+            className="w-full text-start px-4 py-2.5 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 font-medium text-slate-800 dark:text-slate-200 flex items-center gap-2 text-amber-600 dark:text-amber-400"
           >
             <Sparkles className="w-4 h-4 text-amber-500" />
             <span>{lang === "ar" ? "اختبار تحديد المستوى" : "Placement Test"}</span>
@@ -450,7 +525,7 @@ export const Navbar: React.FC<{ activeTab?: string; setActiveTab?: (tab: string)
             }}
             className="w-full text-start px-4 py-2.5 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 font-medium text-slate-800 dark:text-slate-200 flex items-center gap-2"
           >
-            <BrainCircuit className="w-4 h-4 text-indigo-500" />
+            <BrainCircuit className="w-4 h-4 text-purple-500" />
             <span>{lang === "ar" ? "مساعد الذكاء الاصطناعي" : "AI Study Assistant"}</span>
           </button>
           <button

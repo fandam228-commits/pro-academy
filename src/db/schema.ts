@@ -459,3 +459,426 @@ export const pushSubscriptions = pgTable(
   },
   (table) => [index("idx_push_user").on(table.userId)]
 );
+
+// =========================================================================
+// PARENT CONNECT SYSTEM TABLES (Meta WhatsApp Cloud API & Telegram Bot)
+// =========================================================================
+
+// 1. PARENT PROFILES
+export const parentProfiles = pgTable(
+  "parent_profiles",
+  {
+    id: text("id").primaryKey(),
+    userId: text("user_id"), // Optional link to users table if parent has a web account
+    fullName: text("full_name").notNull(),
+    primaryPhone: text("primary_phone").notNull(), // E.164 formatted (+201012345678)
+    secondaryPhone: text("secondary_phone"),
+    email: text("email"),
+    preferredChannel: text("preferred_channel").notNull().default("whatsapp"), // 'whatsapp' | 'telegram' | 'both' | 'none'
+    isPhoneVerified: boolean("is_phone_verified").default(false),
+    verificationCode: text("verification_code"),
+    consentGiven: boolean("consent_given").default(true),
+    consentGivenAt: timestamp("consent_given_at").defaultNow(),
+    optedOut: boolean("opted_out").default(false),
+    optedOutAt: timestamp("opted_out_at"),
+    notes: text("notes"),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+    updatedAt: timestamp("updated_at").defaultNow().notNull(),
+  },
+  (table) => [
+    index("idx_prt_phone").on(table.primaryPhone),
+    index("idx_prt_user").on(table.userId),
+  ]
+);
+
+// 2. PARENT-STUDENT N:M LINKS
+export const parentStudentLinks = pgTable(
+  "parent_student_links",
+  {
+    id: text("id").primaryKey(),
+    parentId: text("parent_id").notNull(),
+    studentId: text("student_id").notNull(),
+    relationship: text("relationship").notNull().default("Father"), // 'Father' | 'Mother' | 'Guardian' | 'Other'
+    isPrimaryContact: boolean("is_primary_contact").default(true),
+    canReceiveAttendance: boolean("can_receive_attendance").default(true),
+    canReceiveGrades: boolean("can_receive_grades").default(true),
+    canReceiveReports: boolean("can_receive_reports").default(true),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+  },
+  (table) => [
+    index("idx_psl_parent").on(table.parentId),
+    index("idx_psl_student").on(table.studentId),
+  ]
+);
+
+// 3. TELEGRAM BOT ACCOUNTS & SECURE PAIRING
+export const telegramAccounts = pgTable(
+  "telegram_accounts",
+  {
+    id: text("id").primaryKey(),
+    parentId: text("parent_id").notNull(),
+    chatId: text("chat_id"), // Telegram numeric chat id
+    telegramUsername: text("telegram_username"),
+    telegramFirstName: text("telegram_first_name"),
+    pairingCode: text("pairing_code"), // Temporary unique pairing code (e.g. LINK-9X2KQ8)
+    pairingExpiresAt: timestamp("pairing_expires_at"),
+    isVerified: boolean("is_verified").default(false),
+    notificationsMuted: boolean("notifications_muted").default(false),
+    linkedAt: timestamp("linked_at"),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+  },
+  (table) => [
+    index("idx_tg_parent").on(table.parentId),
+    index("idx_tg_chat").on(table.chatId),
+    index("idx_tg_pair_code").on(table.pairingCode),
+  ]
+);
+
+// 4. PARENT NOTIFICATION PREFERENCES
+export const parentNotificationPreferences = pgTable(
+  "parent_notification_preferences",
+  {
+    id: text("id").primaryKey(),
+    parentId: text("parent_id").notNull(),
+    notifyOnAbsent: boolean("notify_on_absent").default(true),
+    notifyOnPresent: boolean("notify_on_present").default(true),
+    notifyOnLate: boolean("notify_on_late").default(true),
+    notifyOnDeparture: boolean("notify_on_departure").default(false),
+    notifyOnExamResult: boolean("notify_on_exam_result").default(true),
+    notifyOnHomework: boolean("notify_on_homework").default(true),
+    notifyOnLowGradeWarning: boolean("notify_on_low_grade_warning").default(true),
+    notifyWeeklyReport: boolean("notify_weekly_report").default(true),
+    notifyMonthlyReport: boolean("notify_monthly_report").default(true),
+    quietHoursStart: text("quiet_hours_start").default("22:00"),
+    quietHoursEnd: text("quiet_hours_end").default("08:00"),
+    updatedAt: timestamp("updated_at").defaultNow().notNull(),
+  },
+  (table) => [index("idx_pnp_parent").on(table.parentId)]
+);
+
+// 5. NOTIFICATION TEMPLATES
+export const notificationTemplates = pgTable(
+  "notification_templates",
+  {
+    id: text("id").primaryKey(),
+    code: text("code").notNull().unique(), // 'att_absent', 'att_present', 'att_late', 'exam_result', 'weekly_report', etc.
+    name: text("name").notNull(),
+    channel: text("channel").notNull().default("all"), // 'whatsapp' | 'telegram' | 'all'
+    metaTemplateName: text("meta_template_name"), // Meta Cloud API template identifier
+    metaTemplateLang: text("meta_template_lang").default("ar"),
+    bodyTextAr: text("body_text_ar").notNull(),
+    bodyTextEn: text("body_text_en"),
+    variables: jsonb("variables").default([]),
+    isActive: boolean("is_active").default(true),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+  },
+  (table) => [index("idx_nt_code").on(table.code)]
+);
+
+// 6. NOTIFICATION QUEUE (Reliable Background Dispatching with Retry & Idempotency)
+export const notificationQueue = pgTable(
+  "notification_queue",
+  {
+    id: text("id").primaryKey(),
+    parentId: text("parent_id").notNull(),
+    studentId: text("student_id"),
+    channel: text("channel").notNull(), // 'whatsapp' | 'telegram'
+    templateCode: text("template_code"),
+    recipient: text("recipient").notNull(), // Phone (+20...) or Telegram Chat ID
+    payload: jsonb("payload").notNull(),
+    status: text("status").notNull().default("pending"), // 'pending' | 'processing' | 'sent' | 'delivered' | 'read' | 'failed' | 'cancelled'
+    attempts: integer("attempts").default(0),
+    maxAttempts: integer("max_attempts").default(3),
+    lastError: text("last_error"),
+    idempotencyKey: text("idempotency_key"), // Guarantees zero duplicate sends
+    scheduledFor: timestamp("scheduled_for").defaultNow(),
+    sentAt: timestamp("sent_at"),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+  },
+  (table) => [
+    index("idx_nq_status").on(table.status),
+    index("idx_nq_idempotency").on(table.idempotencyKey),
+    index("idx_nq_parent").on(table.parentId),
+  ]
+);
+
+// 7. NOTIFICATION LOGS & AUDIT TRAIL
+export const notificationLogs = pgTable(
+  "notification_logs",
+  {
+    id: text("id").primaryKey(),
+    queueId: text("queue_id"),
+    parentId: text("parent_id"),
+    studentId: text("student_id"),
+    channel: text("channel").notNull(), // 'whatsapp' | 'telegram'
+    recipient: text("recipient").notNull(),
+    messageType: text("message_type").notNull(), // 'attendance_absent', 'exam_result', etc.
+    contentSummary: text("content_summary").notNull(),
+    status: text("status").notNull().default("sent"), // 'sent' | 'delivered' | 'read' | 'failed'
+    externalMessageId: text("external_message_id"), // Meta wamid or Telegram message_id
+    rawResponse: jsonb("raw_response"),
+    errorMessage: text("error_message"),
+    sentByUserId: text("sent_by_user_id"),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+  },
+  (table) => [
+    index("idx_nl_parent").on(table.parentId),
+    index("idx_nl_student").on(table.studentId),
+    index("idx_nl_channel").on(table.channel),
+    index("idx_nl_status").on(table.status),
+    index("idx_nl_date").on(table.createdAt),
+  ]
+);
+
+// 8. ATTENDANCE NOTIFICATION EVENTS (Anti-Duplication Guard)
+export const attendanceNotificationEvents = pgTable(
+  "attendance_notification_events",
+  {
+    id: text("id").primaryKey(),
+    attendanceRecordId: text("attendance_record_id").notNull(),
+    studentId: text("student_id").notNull(),
+    parentId: text("parent_id").notNull(),
+    sessionDate: text("session_date").notNull(), // YYYY-MM-DD
+    statusMarked: text("status_marked").notNull(), // 'present' | 'absent' | 'late' | 'departure'
+    notificationId: text("notification_id"),
+    dispatchedAt: timestamp("dispatched_at").defaultNow().notNull(),
+  },
+  (table) => [
+    index("idx_ane_record").on(table.attendanceRecordId),
+    index("idx_ane_student").on(table.studentId),
+  ]
+);
+
+// ==========================================
+// SMART CURRICULUM ORGANIZATION SYSTEM TABLES
+// ==========================================
+
+// 9. CURRICULUM GRADES (First Prep -> Third Secondary + dynamic tracks)
+export const curriculumGrades = pgTable(
+  "curriculum_grades",
+  {
+    id: text("id").primaryKey(),
+    code: text("code").notNull().unique(), // 'prep_1', 'prep_2', 'prep_3', 'sec_1', 'sec_2', 'sec_3'
+    titleAr: text("title_ar").notNull(),
+    titleEn: text("title_en").notNull(),
+    stage: text("stage").notNull(), // 'Preparatory', 'Secondary', 'General'
+    descriptionAr: text("description_ar"),
+    descriptionEn: text("description_en"),
+    storyTitleAr: text("story_title_ar"),
+    storyTitleEn: text("story_title_en"),
+    storyAuthor: text("story_author"),
+    storyDescriptionAr: text("story_description_ar"),
+    storyDescriptionEn: text("story_description_en"),
+    storyCover: text("story_cover"),
+    courseId: text("course_id"),
+    orderIndex: integer("order_index").notNull().default(1),
+    isActive: boolean("is_active").notNull().default(true),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+  },
+  (table) => [
+    index("idx_cg_code").on(table.code),
+    index("idx_cg_stage").on(table.stage),
+    index("idx_cg_active").on(table.isActive),
+  ]
+);
+
+// 10. CURRICULUM UNITS & REVIEWS (6 Units + Review 1 & Review 2)
+export const curriculumUnits = pgTable(
+  "curriculum_units",
+  {
+    id: text("id").primaryKey(),
+    gradeId: text("grade_id").notNull().references(() => curriculumGrades.id, { onDelete: "cascade" }),
+    unitNumber: integer("unit_number").notNull(), // 1..6 or 0 for reviews
+    type: text("type").notNull().default("unit"), // 'unit' | 'review'
+    titleAr: text("title_ar").notNull(),
+    titleEn: text("title_en").notNull(),
+    reviewScope: text("review_scope"), // 'Units 1–3' or 'Units 4–6'
+    descriptionAr: text("description_ar"),
+    descriptionEn: text("description_en"),
+    orderIndex: integer("order_index").notNull().default(1),
+    isPublished: boolean("is_published").notNull().default(true),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+  },
+  (table) => [
+    index("idx_cu_grade").on(table.gradeId),
+    index("idx_cu_type").on(table.type),
+    index("idx_cu_order").on(table.orderIndex),
+  ]
+);
+
+// 11. CURRICULUM SECTIONS (Vocabulary, Grammar, Writing Skills, Reviews)
+export const curriculumSections = pgTable(
+  "curriculum_sections",
+  {
+    id: text("id").primaryKey(),
+    unitId: text("unit_id").notNull().references(() => curriculumUnits.id, { onDelete: "cascade" }),
+    gradeId: text("grade_id").notNull(),
+    sectionType: text("section_type").notNull(), // 'vocabulary' | 'grammar' | 'writing' | 'mixed_exercises' | 'comprehensive_test'
+    titleAr: text("title_ar").notNull(),
+    titleEn: text("title_en").notNull(),
+    videoUrl: text("video_url"),
+    videoDuration: text("video_duration").default("25 mins"),
+    pdfUrl: text("pdf_url"),
+    pdfTitle: text("pdf_title"),
+    contentData: jsonb("content_data"), // Vocab lists, grammar rules, writing templates, exercises
+    quizId: text("quiz_id"), // Linked test from quizzes or question bank
+    orderIndex: integer("order_index").notNull().default(1),
+    isPublished: boolean("is_published").notNull().default(true),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+    updatedAt: timestamp("updated_at").defaultNow().notNull(),
+  },
+  (table) => [
+    index("idx_cs_unit").on(table.unitId),
+    index("idx_cs_grade").on(table.gradeId),
+    index("idx_cs_type").on(table.sectionType),
+  ]
+);
+
+// 12. STORY CHAPTERS (Dynamic Chapters per Grade with Vocab, Characters, Events, Quotes, Q&A, Tests)
+export const storyChapters = pgTable(
+  "story_chapters",
+  {
+    id: text("id").primaryKey(),
+    gradeId: text("grade_id").notNull().references(() => curriculumGrades.id, { onDelete: "cascade" }),
+    chapterNumber: integer("chapter_number").notNull(),
+    titleAr: text("title_ar").notNull(),
+    titleEn: text("title_en").notNull(),
+    explanation: text("explanation"), // Detailed summary & analysis
+    videoUrl: text("video_url"),
+    pdfUrl: text("pdf_url"),
+    vocabulary: jsonb("vocabulary").default([]), // [{ word, meaningAr, definitionEn, example }]
+    characters: jsonb("characters").default([]), // [{ name, role, descriptionAr, significance }]
+    events: jsonb("events").default([]), // [{ order, titleAr, titleEn, description }]
+    importantQuotes: jsonb("important_quotes").default([]), // [{ quote, speaker, listener, situation, significance }]
+    questionsAndAnswers: jsonb("questions_and_answers").default([]), // [{ question, answer, type }]
+    mcqQuestions: jsonb("mcq_questions").default([]), // [{ question, options, correctAnswer, explanation }]
+    chapterTestQuizId: text("chapter_test_quiz_id"),
+    orderIndex: integer("order_index").notNull().default(1),
+    isPublished: boolean("is_published").notNull().default(true),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+  },
+  (table) => [
+    index("idx_sc_grade").on(table.gradeId),
+    index("idx_sc_chapter").on(table.chapterNumber),
+    index("idx_sc_order").on(table.orderIndex),
+  ]
+);
+
+// 13. STUDENT CURRICULUM PROGRESS (Per-section & per-unit completion tracking)
+export const studentCurriculumProgress = pgTable(
+  "student_curriculum_progress",
+  {
+    id: text("id").primaryKey(),
+    studentId: text("student_id").notNull(),
+    gradeId: text("grade_id").notNull(),
+    unitId: text("unit_id"),
+    sectionId: text("section_id"),
+    chapterId: text("chapter_id"),
+    itemType: text("item_type").notNull(), // 'section' | 'chapter' | 'review' | 'quiz'
+    isCompleted: boolean("is_completed").notNull().default(false),
+    score: integer("score"),
+    maxScore: integer("max_score"),
+    percentage: integer("percentage"),
+    completedAt: timestamp("completed_at"),
+    updatedAt: timestamp("updated_at").defaultNow().notNull(),
+  },
+  (table) => [
+    index("idx_scp_student").on(table.studentId),
+    index("idx_scp_grade").on(table.gradeId),
+    index("idx_scp_unit").on(table.unitId),
+    index("idx_scp_section").on(table.sectionId),
+    index("idx_scp_chapter").on(table.chapterId),
+  ]
+);
+
+// 14. STUDENT SAVED VOCABULARY (My Vocabulary personalized word lists)
+export const studentSavedVocabulary = pgTable(
+  "student_saved_vocabulary",
+  {
+    id: text("id").primaryKey(),
+    studentId: text("student_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+    word: text("word").notNull(),
+    arabicMeaning: text("arabic_meaning"),
+    partOfSpeech: text("part_of_speech"),
+    ipaUk: text("ipa_uk"),
+    ipaUs: text("ipa_us"),
+    exampleSentence: text("example_sentence"),
+    unitId: text("unit_id"),
+    gradeId: text("grade_id"),
+    notes: text("notes"),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+  },
+  (table) => [
+    index("idx_ssv_student").on(table.studentId),
+    index("idx_ssv_word").on(table.word),
+    index("idx_ssv_unit").on(table.unitId),
+  ]
+);
+
+// 15. STUDENT PRONUNCIATION SETTINGS
+export const studentPronunciationSettings = pgTable(
+  "student_pronunciation_settings",
+  {
+    id: text("id").primaryKey(), // studentId
+    studentId: text("student_id").notNull().references(() => users.id, { onDelete: "cascade" }).unique(),
+    enabled: boolean("enabled").default(true).notNull(),
+    accent: text("accent").default("uk").notNull(), // 'uk' | 'us'
+    speed: text("speed").default("normal").notNull(), // 'normal' | 'slow'
+    hoverEnabled: boolean("hover_enabled").default(true).notNull(),
+    touchEnabled: boolean("touch_enabled").default(true).notNull(),
+    updatedAt: timestamp("updated_at").defaultNow().notNull(),
+  },
+  (table) => [
+    index("idx_sps_student").on(table.studentId),
+  ]
+);
+
+// 16. OFFICIAL MINISTRY ASSESSMENTS (2026/2027 Egyptian MOE Assessments Library)
+export const ministryAssessments = pgTable(
+  "ministry_assessments",
+  {
+    id: text("id").primaryKey(),
+    title: text("title").notNull(),
+    titleEn: text("title_en"),
+    stage: text("stage").notNull(), // 'Preparatory' | 'Secondary'
+    grade: text("grade").notNull(), // 'First Prep', 'Second Prep', 'Third Prep', 'First Secondary', 'Second Secondary', 'Third Secondary'
+    gradeCode: text("grade_code").notNull(), // 'prep_1', 'prep_2', 'prep_3', 'sec_1', 'sec_2', 'sec_3'
+    term: text("term").notNull().default("First"), // 'First' | 'Second'
+    subject: text("subject").notNull().default("English"),
+    assessmentType: text("assessment_type").notNull(), // 'weekly' | 'classroom_performance' | 'homework_performance' | 'monthly' | 'other'
+    weekNumber: integer("week_number").notNull().default(1),
+    fileUrl: text("file_url"), // direct PDF path or link
+    fileSize: text("file_size").default("1.8 MB"),
+    officialSourceUrl: text("official_source_url").notNull().default("https://studentbooks.moe.gov.eg/Performance_Assessments/"),
+    alternativeSourceUrl: text("alternative_source_url").default("https://moe.gov.eg/elearningenterypage/e-learning/"),
+    verifiedDate: timestamp("verified_date").defaultNow().notNull(),
+    isPublished: boolean("is_published").notNull().default(true),
+    downloadCount: integer("download_count").notNull().default(0),
+    createdBy: text("created_by"),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+    updatedAt: timestamp("updated_at").defaultNow().notNull(),
+  },
+  (table) => [
+    index("idx_ma_grade_code").on(table.gradeCode),
+    index("idx_ma_stage").on(table.stage),
+    index("idx_ma_type").on(table.assessmentType),
+    index("idx_ma_term").on(table.term),
+    index("idx_ma_week").on(table.weekNumber),
+    index("idx_ma_published").on(table.isPublished),
+  ]
+);
+
+// 17. STUDENT ASSESSMENT DOWNLOADS (History tracking)
+export const studentAssessmentDownloads = pgTable(
+  "student_assessment_downloads",
+  {
+    id: text("id").primaryKey(),
+    studentId: text("student_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+    assessmentId: text("assessment_id").notNull().references(() => ministryAssessments.id, { onDelete: "cascade" }),
+    downloadedAt: timestamp("downloaded_at").defaultNow().notNull(),
+  },
+  (table) => [
+    index("idx_sad_student").on(table.studentId),
+    index("idx_sad_assessment").on(table.assessmentId),
+  ]
+);

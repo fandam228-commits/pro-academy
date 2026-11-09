@@ -1,11 +1,22 @@
 /* Professional Academy PWA Service Worker */
-const CACHE_VERSION = "pro-academy-v1";
+const isLocalEnv = typeof self !== "undefined" && (self.location.hostname === "localhost" || self.location.hostname === "127.0.0.1");
+
+if (isLocalEnv) {
+  self.addEventListener("install", () => self.skipWaiting());
+  self.addEventListener("activate", (event) => {
+    event.waitUntil(
+      caches.keys().then((keys) => Promise.all(keys.map((k) => caches.delete(k)))).then(() => self.registration.unregister())
+    );
+  });
+}
+
+const CACHE_VERSION = "pro-academy-v2";
 const STATIC_CACHE = `${CACHE_VERSION}-static`;
 const RUNTIME_CACHE = `${CACHE_VERSION}-runtime`;
 
-const PRECACHE_URLS = ["/", "/manifest.webmanifest"];
+const PRECACHE_URLS = ["/manifest.webmanifest"];
 
-// Install: precache shell
+// Install: precache shell & skip waiting immediately
 self.addEventListener("install", (event) => {
   event.waitUntil(
     caches.open(STATIC_CACHE).then((cache) => cache.addAll(PRECACHE_URLS)).catch(() => null)
@@ -13,27 +24,44 @@ self.addEventListener("install", (event) => {
   self.skipWaiting();
 });
 
-// Activate: clean old caches
+// Activate: clean all old caches completely & claim clients immediately
 self.addEventListener("activate", (event) => {
   event.waitUntil(
     caches.keys().then((keys) =>
       Promise.all(keys.filter((k) => !k.startsWith(CACHE_VERSION)).map((k) => caches.delete(k)))
-    )
+    ).then(() => self.clients.claim())
   );
-  self.clients.claim();
 });
 
 // Fetch strategy:
-// - API calls: network-first (fresh data), offline fallback with cached JSON
-// - Static/navigations: stale-while-revalidate
 self.addEventListener("fetch", (event) => {
   const { request } = event;
   if (request.method !== "GET") return;
 
   const url = new URL(request.url);
 
+  // On localhost/development, never intercept - allow live Turbopack / Next.js updates
+  if (url.hostname === "localhost" || url.hostname === "127.0.0.1") {
+    return;
+  }
+
+  // HTML page navigations: Network-first with cache fallback (never serve stale shell on nav)
+  if (request.mode === "navigate") {
+    event.respondWith(
+      fetch(request)
+        .then((response) => {
+          if (response.ok) {
+            const clone = response.clone();
+            caches.open(STATIC_CACHE).then((cache) => cache.put(request, clone));
+          }
+          return response;
+        })
+        .catch(() => caches.match(request).then((cached) => cached || caches.match("/")))
+    );
+    return;
+  }
+
   if (url.pathname.startsWith("/api/")) {
-    // Health/auth mutations should never stall offline logic
     event.respondWith(
       fetch(request)
         .then((response) => {
@@ -48,7 +76,7 @@ self.addEventListener("fetch", (event) => {
     return;
   }
 
-  // Stale-while-revalidate for everything else
+  // Static assets (images, fonts, CSS, chunks): cache with network revalidate
   event.respondWith(
     caches.match(request).then((cached) => {
       const networkFetch = fetch(request)
@@ -97,14 +125,14 @@ self.addEventListener("notificationclick", (event) => {
 
   event.waitUntil(
     clients.matchAll({ type: "window", includeUncontrolled: true }).then((windowClients) => {
-      // Focus an already-open tab when possible
       for (const client of windowClients) {
-        if ("focus" in client) {
-          client.navigate(targetUrl).catch(() => null);
+        if (client.url === targetUrl && "focus" in client) {
           return client.focus();
         }
       }
-      return clients.openWindow(targetUrl);
+      if (clients.openWindow) {
+        return clients.openWindow(targetUrl);
+      }
     })
   );
 });
