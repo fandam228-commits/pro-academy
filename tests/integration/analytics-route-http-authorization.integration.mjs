@@ -345,7 +345,7 @@ integrationTest(
         } catch {
           body = { nonJsonResponse: raw.slice(0, 500) };
         }
-        return { status: response.status, body };
+        return { status: response.status, body, headers: response.headers };
       }
 
       async function requestPost(path, sessionToken, payload) {
@@ -690,9 +690,13 @@ integrationTest(
       const parentOverviewWithoutSelection = await requestRoute("/api/parent", tokens.parent);
       assert.equal(parentOverviewWithoutSelection.status, 400,
         "parent overview must require explicit selection when multiple children are linked");
+      assert.equal(parentOverviewWithoutSelection.headers.get("cache-control"), "private, no-store",
+        "ambiguous parent overview responses must never be cached");
       const parentOverview = await requestRoute("/api/parent", tokens.parent, ids.student);
       assert.equal(parentOverview.status, 200, JSON.stringify(parentOverview.body));
       assert.equal(parentOverview.body.student?.id, ids.student);
+      assert.equal(parentOverview.headers.get("cache-control"), "private, no-store",
+        "parent overview responses containing student data must never be cached");
 
       // Pause the overview after its initial relationship check, revoke the link
       // while the quiz-submission read is blocked, then prove the final guard denies
