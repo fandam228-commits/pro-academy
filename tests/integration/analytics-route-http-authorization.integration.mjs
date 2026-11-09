@@ -853,6 +853,29 @@ integrationTest(
       );
       await client.query("UPDATE courses SET teacher_id = $2 WHERE id = $1", [ids.ownedCourse, ids.teacher]);
 
+      // Class-level analytics must revalidate the teacher account too, not just
+      // each student's enrollment and course ownership. Demote the actor while
+      // one student's report query is blocked and require the aggregate to fail closed.
+      await lockClient.query("BEGIN");
+      await lockClient.query("LOCK TABLE quiz_submissions IN ACCESS EXCLUSIVE MODE");
+      const teacherClassRoleDemotionInFlight = requestAnalytics(tokens.teacher)
+        .catch((error) => ({ status: 0, body: { error: String(error) } }));
+      await waitForBlockedQuery(observerClient, "quiz_submissions");
+      await client.query("UPDATE users SET role = 'student' WHERE id = $1", [ids.teacher]);
+      await lockClient.query("COMMIT");
+      const teacherClassRoleDemotedDuringReport = await teacherClassRoleDemotionInFlight;
+      assert.equal(
+        teacherClassRoleDemotedDuringReport.status,
+        403,
+        "teacher class Analytics must reject the aggregate when the actor loses the teacher role during report reads",
+      );
+      assert.equal(
+        Object.hasOwn(teacherClassRoleDemotedDuringReport.body || {}, "students"),
+        false,
+        "a class aggregate built under a stale teacher role must not disclose student rows",
+      );
+      await client.query("UPDATE users SET role = 'teacher' WHERE id = $1", [ids.teacher]);
+
       // A session that was valid at request start must not retain report access
       // if the teacher account is demoted before the final scope check.
       await lockClient.query("BEGIN");
