@@ -10,12 +10,15 @@ test("parent overview revalidates the verified parent/student relationship after
   const submissionRead = routeSource.indexOf("const studentSubs = await db");
   const attendanceRead = routeSource.indexOf("const studentAtt = await db");
   const finalCheck = routeSource.indexOf("const parentAccessStillValid = await db");
-  const response = routeSource.indexOf("return NextResponse.json({", finalCheck);
+  const response = routeSource.indexOf("return privateJson({", finalCheck);
 
   assert.ok(enrollmentRead >= 0 && submissionRead > enrollmentRead && attendanceRead > submissionRead,
     "all report data reads must be completed before the final authorization check");
   assert.ok(finalCheck > attendanceRead && response > finalCheck,
     "the final authorization check must run after report reads and before the response");
+
+  assert.match(routeSource, /headers\.set\("Cache-Control", "private, no-store"\)/,
+    "parent overview responses must explicitly disable caching of student data");
 
   const finalAuthorizationBlock = routeSource.slice(finalCheck);
   assert.match(finalAuthorizationBlock, /buildVerifiedParentLinkPredicate\(/,
