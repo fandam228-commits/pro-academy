@@ -313,14 +313,26 @@ test("teacher attendance POST rejects students outside owned active/completed en
   const setup = postSource.indexOf("await ensureDbSetup()");
   assert.ok(auth >= 0 && unauthorized > auth && roleGuard > unauthorized && setup > roleGuard,
     "attendance POST must authorize the role before database setup");
-  assert.match(postSource, /eq\(courses\.teacherId, ctx\.user\.id\)/);
-  assert.match(postSource, /eq\(users\.role, "student"\)/);
-  assert.match(postSource, /inArray\(enrollments\.status, \["active", "completed"\]\)/);
-  assert.match(postSource, /const allowedStudentIds = new Set\(rows\.map\(\(row\) => row\.studentId\)\)/);
   assert.match(postSource, /requireRoles\(req, \["teacher", "admin"\]\)/,
     "bulk attendance marking must independently restrict writes to teachers and admins");
-  assert.match(postSource, /marks\.some\(\(mark\) => typeof mark\?\.studentId !== "string" \|\| !allowedStudentIds\.has\(mark\.studentId\)\)/,
-    "every teacher-submitted attendance mark must belong to an allowed student");
+  assert.match(attendanceRouteSource, /const attendanceTeacherAccount = alias\(users, "attendance_teacher_account"\)/);
+  const transactionStart = postSource.indexOf("const result = await db.transaction");
+  assert.ok(transactionStart >= 0, "bulk attendance writes must use a transaction");
+  const transactionSource = postSource.slice(transactionStart);
+  assert.match(transactionSource, /innerJoin\(attendanceTeacherAccount, eq\(attendanceTeacherAccount\.id, ctx\.user\.id\)\)/);
+  assert.match(transactionSource, /eq\(attendanceTeacherAccount\.role, "teacher"\)/);
+  assert.match(transactionSource, /eq\(courses\.teacherId, ctx\.user\.id\)/);
+  assert.match(transactionSource, /eq\(users\.role, "student"\)/);
+  assert.match(transactionSource, /inArray\(enrollments\.status, \["active", "completed"\]\)/);
+  assert.match(transactionSource, /\.for\("share"\)/,
+    "teacher, student, course, and enrollment rows must be locked through the attendance write");
+  assert.match(transactionSource, /currentlyAuthorizedStudentIds/);
+  assert.match(transactionSource, /requestedStudentIds\.some\(\(studentId\) => !currentlyAuthorizedStudentIds\.has\(studentId\)\)/,
+    "the transaction must reject a student whose owned-course enrollment is no longer valid");
+  assert.doesNotMatch(postSource, /allowedStudentIds/,
+    "a pre-transaction allowlist must not be the final authorization boundary");
+  assert.match(transactionSource, /if \(result\.forbidden\)/,
+    "unauthorized bulk marks must return before any attendance writes");
 });
 
 

@@ -63,6 +63,40 @@ async function waitForBlockedQuery(observerClient, blockerPid, tableName, timeou
   );
 }
 
+async function waitForBlockedRowLock(observerClient, blockerPid, queryFragment, timeoutMs = 15000) {
+  const deadline = Date.now() + timeoutMs;
+  while (Date.now() < deadline) {
+    const result = await observerClient.query(
+      `SELECT activity.pid
+       FROM pg_stat_activity AS activity
+       WHERE activity.datname = current_database()
+         AND activity.pid <> pg_backend_pid()
+         AND activity.state = 'active'
+         AND activity.wait_event_type = 'Lock'
+         AND $1 = ANY(pg_blocking_pids(activity.pid))
+         AND activity.query ILIKE $2
+       LIMIT 1`,
+      [blockerPid, `%${queryFragment}%`],
+    );
+    if (result.rowCount > 0) return;
+    await delay(50);
+  }
+  const blocked = await observerClient.query(
+    `SELECT activity.pid, activity.wait_event_type, left(activity.query, 500) AS query
+     FROM pg_stat_activity AS activity
+     WHERE activity.datname = current_database()
+       AND activity.pid <> pg_backend_pid()
+       AND activity.state = 'active'
+       AND activity.wait_event_type = 'Lock'
+       AND $1 = ANY(pg_blocking_pids(activity.pid))
+     LIMIT 10`,
+    [blockerPid],
+  );
+  throw new Error(
+    `Timed out waiting for a row-locking authorization query containing ${queryFragment}; blocked queries: ${JSON.stringify(blocked.rows)}`,
+  );
+}
+
 async function stopServer(server) {
   if (!server || server.exitCode !== null) return;
   server.kill("SIGTERM");
@@ -873,6 +907,42 @@ integrationTest(
       await Promise.all([lockClient.connect(), observerClient.connect()]);
       const lockBackend = await lockClient.query("SELECT pg_backend_pid() AS pid");
       const lockBackendPid = Number(lockBackend.rows[0].pid);
+      // Hold an enrollment cancellation uncommitted while a teacher request starts.
+      // The route's in-transaction FOR SHARE authorization must wait, observe the
+      // committed cancellation, and reject without writing an attendance row.
+      await lockClient.query("BEGIN");
+      await lockClient.query(
+        "UPDATE enrollments SET status = 'cancelled' WHERE id = $1",
+        [ids.enrollmentOwned],
+      );
+      const attendanceAfterConcurrentRevocationInFlight = requestPost("/api/attendance", tokens.teacher, {
+        action: "bulk_mark",
+        sessionTitle: "Enrollment revoked during attendance authorization",
+        sessionDate: "2026-11-06",
+        marks: [{ studentId: ids.student, status: "present" }],
+      }).catch((error) => ({ status: 0, body: { error: String(error) } }));
+      await waitForBlockedRowLock(observerClient, lockBackendPid, "for share");
+      await lockClient.query("COMMIT");
+      const attendanceAfterConcurrentRevocation = await attendanceAfterConcurrentRevocationInFlight;
+      assert.equal(
+        attendanceAfterConcurrentRevocation.status,
+        403,
+        "a teacher must be denied when the student's owned-course enrollment is cancelled before the transactional authorization lock is acquired",
+      );
+      const revokedEnrollmentAttendanceRows = await client.query(
+        "SELECT id FROM attendance_records WHERE student_id = $1 AND session_title = $2 AND session_date = $3",
+        [ids.student, "Enrollment revoked during attendance authorization", "2026-11-06"],
+      );
+      assert.equal(
+        revokedEnrollmentAttendanceRows.rowCount,
+        0,
+        "a concurrent enrollment cancellation must not leave an attendance row",
+      );
+      await client.query(
+        "UPDATE enrollments SET status = 'active' WHERE id = $1",
+        [ids.enrollmentOwned],
+      );
+
       await lockClient.query("BEGIN");
       await lockClient.query("LOCK TABLE attendance_records IN ACCESS EXCLUSIVE MODE");
       const parentAttendanceInFlight = requestRoute("/api/attendance", tokens.parent, ids.student, 30000)
