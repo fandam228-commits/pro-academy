@@ -8,7 +8,8 @@ import { notifyUser } from "@/lib/push";
 import { del, put } from "@vercel/blob";
 import { getHomeworkPrivateBlobToken, isPrivateHomeworkBlobPath } from "@/lib/homework-storage.mjs";
 import { randomUUID } from "node:crypto";
-import { canManageHomework, canSubmitHomework, canAccessHomeworkCourse, canAssignHomeworkToCourse, canReplaceHomeworkSubmission } from "@/lib/homework-authorization.mjs";
+import { canManageHomework, canAssignHomeworkToCourse, canReplaceHomeworkSubmission } from "@/lib/homework-authorization.mjs";
+import { lockHomeworkSubmissionAuthorization } from "@/lib/homework-submission-authorization.mjs";
 
 const MAX_SIZE_BYTES = 20 * 1024 * 1024; // 20MB
 
@@ -25,6 +26,16 @@ async function getHomeworkCourseTeacherId(courseId: string | null | undefined): 
 
 function withoutStoragePath(record: object) {
   return Object.fromEntries(Object.entries(record).filter(([key]) => key !== "storagePath"));
+}
+
+async function removeUnreferencedPrivateHomeworkUpload(storagePath: string | null, token: string | null) {
+  if (!storagePath || !token) return;
+  try {
+    await del(storagePath, { token });
+  } catch {
+    // Provider errors may include object URLs or request metadata; do not log them.
+    console.error("Private homework Blob cleanup failed; manual reconciliation may be required.");
+  }
 }
 
 export async function GET(req: Request) {
@@ -150,10 +161,14 @@ export async function POST(req: Request) {
 
   // ============ STUDENT SUBMIT ANSWER (multipart, optional file) ============
   if (contentType.includes("multipart/form-data")) {
-    if (!canSubmitHomework({ role: ctx.user.role })) {
+    if (ctx.user.role !== "student") {
       return NextResponse.json({ error: "Forbidden" }, { status: 403 });
     }
     await ensureDbSetup();
+
+    let uploadedStoragePath: string | null = null;
+    let uploadToken: string | null = null;
+
     try {
       const form = await req.formData();
       const homeworkId = String(form.get("homeworkId") || "");
@@ -164,54 +179,36 @@ export async function POST(req: Request) {
         return NextResponse.json({ error: "Missing homeworkId" }, { status: 400 });
       }
 
-      const hw = await db.select().from(homework).where(eq(homework.id, homeworkId));
-      if (hw.length === 0) {
-        return NextResponse.json({ error: "Homework not found" }, { status: 404 });
-      }
-      if (!canSubmitHomework({ role: ctx.user.role, studentGrade: ctx.user.grade, homeworkGrade: hw[0].grade })) {
-        return NextResponse.json({ error: "You cannot submit homework assigned to another grade." }, { status: 403 });
-      }
-
-      // A matching grade is not enough for course-specific assignments. Resolve
-      // enrollment from the database and fail closed for non-enrolled students.
-      const homeworkCourseId = hw[0].courseId;
-      const submissionEnrollmentRows = homeworkCourseId
-        ? await db
-            .select({ courseId: enrollments.courseId })
-            .from(enrollments)
-            .innerJoin(courses, eq(enrollments.courseId, courses.id))
-            .where(and(
-              eq(enrollments.studentId, ctx.user.id),
-              eq(enrollments.courseId, homeworkCourseId),
-              inArray(enrollments.status, ["active", "completed"]),
-            ))
-        : [];
-      const submissionEnrolledCourseIds = [...new Set(submissionEnrollmentRows.map((row) => row.courseId))];
-      if (!canAccessHomeworkCourse({
-        role: ctx.user.role as string,
-        homeworkCourseId,
-        enrolledCourseIds: submissionEnrolledCourseIds,
-      })) {
-        return NextResponse.json({ error: "You must be enrolled in this course to submit this homework." }, { status: 403 });
+      // Preflight against current database role, grade, homework, and enrollment.
+      // The same checks are repeated under row locks in the write transaction below.
+      const preflight = await db.transaction((tx) =>
+        lockHomeworkSubmissionAuthorization(
+          tx,
+          { homeworkId, studentId: ctx.user.id, sessionRole: ctx.user.role },
+          { users, homework, courses, enrollments },
+        ),
+      );
+      if (!preflight.allowed) {
+        const notFound = preflight.reason === "homework-not-found" || preflight.reason === "course-not-found";
+        return NextResponse.json(
+          { error: notFound ? "Homework not found" : "Forbidden" },
+          { status: notFound ? 404 : 403 },
+        );
       }
 
-      // One submission per student — replace an existing ungraded one
+      // Avoid uploading a private object when the current submission is already graded.
       const existing = await db
         .select()
         .from(homeworkSubmissions)
         .where(
           and(eq(homeworkSubmissions.homeworkId, homeworkId), eq(homeworkSubmissions.studentId, ctx.user.id))
         );
-
-      // Reject graded replacements before uploading a private file. The later SQL predicate
-      // is still required because a teacher may grade the submission after this preflight read.
       if (existing.length > 0 && !canReplaceHomeworkSubmission({ status: existing[0].status })) {
         return NextResponse.json({ error: "This submission is already graded and can't be replaced." }, { status: 400 });
       }
 
       let fileName: string | null = null;
       let storagePath: string | null = null;
-      let uploadToken: string | null = null;
 
       if (file && file.size > 0) {
         if (file.size > MAX_SIZE_BYTES) {
@@ -224,7 +221,7 @@ export async function POST(req: Request) {
         if (!privateBlobToken) {
           return NextResponse.json(
             { error: "Private homework file storage is not configured. Text-only submissions remain available." },
-            { status: 503 }
+            { status: 503, headers: { "Cache-Control": "no-store" } },
           );
         }
         uploadToken = privateBlobToken;
@@ -234,95 +231,122 @@ export async function POST(req: Request) {
           addRandomSuffix: true,
         });
         fileName = file.name;
-        storagePath = blob.pathname; // Store only the private Blob pathname, never a public URL.
+        storagePath = blob.pathname;
+        uploadedStoragePath = storagePath;
       }
 
-      if (existing.length > 0) {
-        // The SQL predicate is the final atomic guard if grading wins after the preflight read.
-        const updated = await db
-          .update(homeworkSubmissions)
-          .set({
-            answerText,
-            fileName: fileName ?? existing[0].fileName,
-            storagePath: storagePath ?? existing[0].storagePath,
-            submittedAt: new Date(),
-          })
-          .where(and(
-            eq(homeworkSubmissions.id, existing[0].id),
-            or(isNull(homeworkSubmissions.status), ne(homeworkSubmissions.status, "graded")),
-          ))
-          .returning({ id: homeworkSubmissions.id });
-
-        if (updated.length === 0) {
-          // The upload is private but unreferenced; remove only this new object if the
-          // submission became graded between the preflight read and the guarded update.
-          if (storagePath && uploadToken) {
-            try {
-              await del(storagePath, { token: uploadToken });
-            } catch (cleanupError) {
-              console.error("Failed to remove unreferenced homework upload:", cleanupError);
-            }
-          }
-          return NextResponse.json({ error: "This submission is already graded and can't be replaced." }, { status: 400 });
+      // Revalidate the live account role, grade, assignment, and enrollment in the
+      // same transaction as the submission write. FOR SHARE locks prevent role
+      // demotion, enrollment revocation, or homework/course changes from racing it.
+      const saveResult = await db.transaction(async (tx) => {
+        const authorization = await lockHomeworkSubmissionAuthorization(
+          tx,
+          { homeworkId, studentId: ctx.user.id, sessionRole: ctx.user.role },
+          { users, homework, courses, enrollments },
+        );
+        if (!authorization.allowed) {
+          return { kind: "forbidden" as const, reason: authorization.reason };
         }
 
-        // After the database points at the new upload, clean up the previous object
-        // only when it is a validated private pathname. Never pass legacy public URLs
-        // or malformed database values to the private Blob delete API.
-        const previousStoragePath = existing[0].storagePath;
+        // Serialize concurrent first submissions and replacements for this student/homework pair.
+        await tx.execute(sql`SELECT pg_advisory_xact_lock(hashtext(${homeworkId}), hashtext(${ctx.user.id}))`);
+
+        const currentRows = await tx
+          .select()
+          .from(homeworkSubmissions)
+          .where(
+            and(eq(homeworkSubmissions.homeworkId, homeworkId), eq(homeworkSubmissions.studentId, ctx.user.id))
+          )
+          .for("update");
+
+        if (currentRows.length > 0 && !canReplaceHomeworkSubmission({ status: currentRows[0].status })) {
+          return { kind: "graded" as const };
+        }
+
+        if (currentRows.length > 0) {
+          const current = currentRows[0];
+          const updated = await tx
+            .update(homeworkSubmissions)
+            .set({
+              answerText,
+              fileName: fileName ?? current.fileName,
+              storagePath: storagePath ?? current.storagePath,
+              submittedAt: new Date(),
+            })
+            .where(and(
+              eq(homeworkSubmissions.id, current.id),
+              or(isNull(homeworkSubmissions.status), ne(homeworkSubmissions.status, "graded")),
+            ))
+            .returning({ id: homeworkSubmissions.id });
+
+          if (updated.length === 0) return { kind: "graded" as const };
+          return {
+            kind: "updated" as const,
+            previousStoragePath: current.storagePath,
+            homeworkTeacherId: authorization.homeworkTeacherId,
+            homeworkTitle: authorization.homeworkTitle,
+          };
+        }
+
+        const submission = {
+          id: `hws_${randomUUID()}`,
+          homeworkId,
+          studentId: ctx.user.id,
+          studentName: ctx.user.name,
+          answerText,
+          fileName,
+          storagePath,
+          status: "submitted",
+        };
+        await tx.insert(homeworkSubmissions).values(submission);
+        return {
+          kind: "created" as const,
+          submission,
+          homeworkTeacherId: authorization.homeworkTeacherId,
+          homeworkTitle: authorization.homeworkTitle,
+        };
+      });
+
+      if (saveResult.kind === "forbidden") {
+        await removeUnreferencedPrivateHomeworkUpload(uploadedStoragePath, uploadToken);
+        uploadedStoragePath = null;
+        return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+      }
+      if (saveResult.kind === "graded") {
+        await removeUnreferencedPrivateHomeworkUpload(uploadedStoragePath, uploadToken);
+        uploadedStoragePath = null;
+        return NextResponse.json({ error: "This submission is already graded and can't be replaced." }, { status: 400 });
+      }
+
+      // The new path is now referenced by the committed row; never clean it up in
+      // a later notification/error handler.
+      uploadedStoragePath = null;
+
+      if (saveResult.kind === "updated") {
         if (
           storagePath &&
           uploadToken &&
-          previousStoragePath &&
-          previousStoragePath !== storagePath &&
-          isPrivateHomeworkBlobPath(previousStoragePath)
+          saveResult.previousStoragePath &&
+          saveResult.previousStoragePath !== storagePath &&
+          isPrivateHomeworkBlobPath(saveResult.previousStoragePath)
         ) {
-          try {
-            await del(previousStoragePath, { token: uploadToken });
-          } catch (cleanupError) {
-            console.error("Failed to remove replaced private homework upload:", cleanupError);
-          }
+          await removeUnreferencedPrivateHomeworkUpload(saveResult.previousStoragePath, uploadToken);
         }
-
         return NextResponse.json({ success: true, updated: true });
       }
 
-      const sub = {
-        id: `hws_${randomUUID()}`,
-        homeworkId,
-        studentId: ctx.user.id,
-        studentName: ctx.user.name,
-        answerText,
-        fileName,
-        storagePath,
-        status: "submitted",
-      };
-      try {
-        await db.insert(homeworkSubmissions).values(sub);
-      } catch (insertError) {
-        // The private upload succeeded but the database insert failed; avoid leaving an orphaned Blob.
-        if (storagePath && uploadToken) {
-          try {
-            await del(storagePath, { token: uploadToken });
-          } catch (cleanupError) {
-            console.error("Failed to remove homework upload after insert failure:", cleanupError);
-          }
-        }
-        throw insertError;
-      }
-
-      // Notify teacher (in-app + device push)
       await notifyUser(
-        hw[0].teacherId,
+        saveResult.homeworkTeacherId,
         "📥 تسليم واجب جديد",
-        `${ctx.user.name} سلّم واجب: ${hw[0].title}`,
+        `${ctx.user.name} سلّم واجب: ${saveResult.homeworkTitle}`,
         "info",
         "/?tab=homework"
       );
 
-      return NextResponse.json({ success: true, submission: withoutStoragePath(sub) });
-    } catch (error) {
-      console.error("Homework submit error:", error);
+      return NextResponse.json({ success: true, submission: withoutStoragePath(saveResult.submission) });
+    } catch {
+      await removeUnreferencedPrivateHomeworkUpload(uploadedStoragePath, uploadToken);
+      console.error("Homework submission failed; details withheld.");
       return NextResponse.json({ error: "Submission failed" }, { status: 500 });
     }
   }
