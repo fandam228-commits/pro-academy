@@ -81,9 +81,13 @@ test("teacher student report scope requires owned-course enrollment and excludes
 });
 
 test("teacher attendance bulk marking rejects students outside owned-course enrollments", () => {
-  assert.match(routeFiles.attendance, /eq\(courses\.teacherId, ctx\.user\.id\)/);
-  assert.match(routeFiles.attendance, /allowedStudentIds\.has\(mark\.studentId\)/);
-  assert.match(routeFiles.attendance, /Attendance includes a student outside your owned courses/);
+  assert.match(routeFiles.attendance, /innerJoin\(attendanceTeacherAccount, eq\(attendanceTeacherAccount\.id, ctx\.user\.id\)\)/);
+  assert.match(routeFiles.attendance, /eq\(attendanceTeacherAccount\.role, "teacher"\)/);
+  assert.match(routeFiles.attendance, /\.for\("share"\)/,
+    "attendance writes must lock current teacher/student/course/enrollment authorization rows in the transaction");
+  assert.match(routeFiles.attendance, /currentlyAuthorizedStudentIds/);
+  assert.match(routeFiles.attendance, /Attendance includes a student outside your currently owned courses/);
+  assert.match(routeFiles.attendance, /if \(result\.forbidden\)/);
 });
 
 
