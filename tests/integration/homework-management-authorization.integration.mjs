@@ -1,5 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
+import { randomUUID } from "node:crypto";
 import { Client } from "pg";
 import { drizzle } from "drizzle-orm/node-postgres";
 import { pgTable, text, integer, timestamp } from "drizzle-orm/pg-core";
@@ -48,26 +49,31 @@ const homeworkSubmissions = pgTable("homework_submissions", {
 async function withFixture(run) {
   assertLocalTestDatabase(connectionString);
   const client = new Client({ connectionString });
+  const schemaName = `homework_management_${randomUUID().replaceAll("-", "")}`;
   await client.connect();
   try {
+    // Concurrency tests use independent PostgreSQL connections, so their fixture
+    // tables must live in an isolated schema rather than a connection-local TEMP schema.
+    await client.query(`CREATE SCHEMA "${schemaName}"`);
+    await client.query(`SET search_path TO "${schemaName}"`);
     await client.query(`
-      CREATE TEMP TABLE users (
+      CREATE TABLE users (
         id TEXT PRIMARY KEY,
         role TEXT NOT NULL,
         points INTEGER NOT NULL DEFAULT 0
       );
-      CREATE TEMP TABLE courses (
+      CREATE TABLE courses (
         id TEXT PRIMARY KEY,
         teacher_id TEXT NOT NULL
       );
-      CREATE TEMP TABLE homework (
+      CREATE TABLE homework (
         id TEXT PRIMARY KEY,
         title TEXT NOT NULL,
         teacher_id TEXT NOT NULL,
         course_id TEXT,
         total_points INTEGER
       );
-      CREATE TEMP TABLE homework_submissions (
+      CREATE TABLE homework_submissions (
         id TEXT PRIMARY KEY,
         homework_id TEXT NOT NULL,
         student_id TEXT NOT NULL,
@@ -95,8 +101,9 @@ async function withFixture(run) {
         ('sub-other', 'hw-other', 'student-1', 'submitted'),
         ('sub-grade-only', 'hw-grade-only', 'student-1', 'submitted');
     `);
-    await run({ client, database: drizzle(client) });
+    await run({ client, database: drizzle(client), schemaName });
   } finally {
+    try { await client.query(`DROP SCHEMA IF EXISTS "${schemaName}" CASCADE`); } catch { /* Preserve the original test failure. */ }
     await client.end();
   }
 }
@@ -189,6 +196,10 @@ integrationTest("PostgreSQL grading fails closed when the actor role changes whi
     const blocker = new Client({ connectionString });
     const observer = new Client({ connectionString });
     await Promise.all([blocker.connect(), observer.connect()]);
+    await Promise.all([
+      blocker.query(`SET search_path TO "${schemaName}"`),
+      observer.query(`SET search_path TO "${schemaName}"`),
+    ]);
     try {
       await blocker.query("BEGIN");
       await blocker.query("SELECT id FROM users WHERE id = 'teacher-1' FOR UPDATE");
