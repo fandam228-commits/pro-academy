@@ -24,9 +24,15 @@ import {
   Send,
   Play,
   Settings,
+  Loader2,
+  AlertCircle,
+  CheckCircle,
+  FileText,
+  Trash2,
 } from "lucide-react";
 import { isOptionCorrect } from "@/lib/question-grading.mjs";
 import { getCurriculumUnits } from "@/config/curriculum-2026";
+import { parseQuestions } from "@/lib/question-importer";
 
 export const QuestionBankWorkspace: React.FC<{ onExamGenerated?: (exam: any) => void }> = ({ onExamGenerated }) => {
   const { lang, user } = useApp();
@@ -75,7 +81,19 @@ export const QuestionBankWorkspace: React.FC<{ onExamGenerated?: (exam: any) => 
 
   // Question Importer state
   const [importRawText, setImportRawText] = useState("");
-  const [importStatus, setImportStatus] = useState<any>(null);
+  const [importLoading, setImportLoading] = useState(false);
+  const [importStatus, setImportStatus] = useState<{
+    type: "success" | "error" | "warning";
+    message: string;
+    count?: number;
+    duplicates?: number;
+    errors?: string[];
+  } | null>(null);
+  const [importStage, setImportStage] = useState("Secondary");
+  const [importGrade, setImportGrade] = useState("Third Secondary (Baccalaureate)");
+  const [importUnit, setImportUnit] = useState("Unit 1");
+  const [importDifficulty, setImportDifficulty] = useState<"Easy" | "Medium" | "Hard">("Medium");
+  const [importDomain, setImportDomain] = useState<"Vocabulary" | "Grammar">("Vocabulary");
 
   // New Question Form state
   const [showAddModal, setShowAddModal] = useState(false);
@@ -269,52 +287,132 @@ export const QuestionBankWorkspace: React.FC<{ onExamGenerated?: (exam: any) => 
     }
   };
 
+  const loadTemplate = (type: "pipe" | "csv" | "excel" | "word" | "five") => {
+    setImportStatus(null);
+    if (type === "pipe") {
+      setImportRawText(
+        "Hardly had he arrived | had he, did he, he had, has he | had he\n" +
+        "No sooner had she started | than, when, that, then | than"
+      );
+    } else if (type === "excel") {
+      setImportRawText(
+        "What is the antonym of abundant?\tscarce\tplentiful\tample\thuge\tscarce\n" +
+        "Which planet is closest to the sun?\tMercury\tVenus\tMars\tEarth\tMercury"
+      );
+    } else if (type === "csv") {
+      setImportRawText(
+        "\"The weather is nice\", sunny, rainy, cold, windy, sunny\n" +
+        "\"He succeeded ______ his effort\", because of, despite, although, in spite of, because of"
+      );
+    } else if (type === "word") {
+      setImportRawText(
+        "1. Which planet is known as the Red Planet?\n" +
+        "A) Venus\n" +
+        "B) Mars\n" +
+        "C) Jupiter\n" +
+        "D) Saturn\n" +
+        "Answer: B\n\n" +
+        "2. What is the synonym of enormous?\n" +
+        "A) tiny\n" +
+        "B) huge\n" +
+        "C) narrow\n" +
+        "D) weak\n" +
+        "Answer: huge"
+      );
+    } else if (type === "five") {
+      setImportRawText(
+        "Question 1: If he had trained hard, he ______ won. | would have, will have, had, has | would have\n" +
+        "Question 2: She apologized ______ being late. | for, about, on, with | for\n" +
+        "Question 3: By next month, they ______ the project. | will have finished, finished, finish, have finished | will have finished\n" +
+        "Question 4: Neither the teacher nor the students ______ present. | were, was, is, be | were\n" +
+        "Question 5: I wish I ______ that car yesterday. | had bought, bought, have bought, buy | had bought"
+      );
+    }
+  };
+
   const handleImportText = async () => {
-    if (!importRawText.trim()) return;
+    setImportStatus(null);
 
-    // Parse CSV or plain text line format: QuestionText | Option1,Option2,Option3,Option4 | CorrectAnswer
-    const lines = importRawText.split("\n").filter((l) => l.trim().length > 0);
-    const parsedItems: any[] = [];
-
-    for (const l of lines) {
-      const parts = l.split("|");
-      if (parts.length >= 2) {
-        const qText = (parts[0] || "").trim();
-        const opts = parts[1] ? parts[1].split(",").map((o) => o.trim()).filter(Boolean) : [];
-        const corr = (parts[2] || "").trim() || (opts[0] || "");
-        if (!qText || !corr) continue;
-
-        parsedItems.push({
-          questionText: qText,
-          options: opts,
-          correctAnswer: corr,
-          domainCategory: qText.toLowerCase().includes("had") ? "Grammar" : "Vocabulary",
-          grammarTopic: "Tense",
-          difficulty: difficultyFilter === "All" ? "Medium" : difficultyFilter,
-          stage: stageFilter === "All" ? "Secondary" : stageFilter,
-          grade: gradeFilter === "All" ? "Third Secondary (Baccalaureate)" : gradeFilter,
-          curriculum: curriculumFilter === "All" ? "Ministry" : curriculumFilter,
-          term: termFilter === "All" ? "First" : termFilter,
-          unit: unitFilter === "All" ? "Unit 1" : unitFilter,
-          source: sourceFilter === "All" ? "External Source" : sourceFilter,
-          lesson: lessonFilter === "All" ? "Lesson 1" : lessonFilter,
-          section: sectionFilter === "All" ? null : sectionFilter,
-        });
-      }
+    // 1. Validation: check empty input
+    const cleanRaw = importRawText.trim();
+    if (!cleanRaw) {
+      setImportStatus({
+        type: "error",
+        message: lang === "ar"
+          ? "حقل الأسئلة فارغ! يرجى إدخال أو لصق الأسئلة أولاً أو استخدام أحد النماذج التجريبية أدناه."
+          : "The questions input is empty. Please paste your questions or click one of the quick templates below.",
+      });
+      return;
     }
 
+    // 2. Authorization check: Require teacher or admin session
+    const isTeacherOrAdmin = user && (user.role === "admin" || user.role === "teacher");
+    if (!isTeacherOrAdmin) {
+      setImportStatus({
+        type: "error",
+        message: lang === "ar"
+          ? "تنبيه صلاحيات: استيراد وتعديل الأسئلة متاح فقط لحسابات المعلمين والمسؤولين. يرجى تسجيل الدخول بحساب معلم أو مسؤول أولاً."
+          : "Permission Denied: Importing questions into the Question Bank requires a Teacher or Admin account. Please sign in first.",
+      });
+      return;
+    }
+
+    // 3. Multi-format parsing
+    const parseResult = parseQuestions(cleanRaw, {
+      stage: importStage,
+      grade: importGrade,
+      unit: importUnit,
+      difficulty: importDifficulty,
+      domainCategory: importDomain,
+    });
+
+    if (parseResult.items.length === 0) {
+      setImportStatus({
+        type: "error",
+        message: lang === "ar"
+          ? "تعذر التعرف على أي أسئلة صالحة من النص المدخل. يرجى مراجعة التنسيق (سؤال | خيارات | إجابة)."
+          : "No valid questions could be detected. Please verify the format.",
+        errors: parseResult.errors.length > 0 ? parseResult.errors : undefined,
+      });
+      return;
+    }
+
+    // 4. API Request with Loading feedback
+    setImportLoading(true);
     try {
       const res = await fetch("/api/question-bank", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ action: "import_questions", items: parsedItems }),
+        body: JSON.stringify({ action: "import_questions", items: parseResult.items }),
       });
       const json = await res.json();
-      setImportStatus(json);
-      setImportRawText("");
-      fetchQuestions();
-    } catch (e) {
-      console.error(e);
+
+      if (res.ok && json.success) {
+        setImportStatus({
+          type: "success",
+          message: json.message || (lang === "ar"
+            ? `🎉 تم بنجاح استيراد وحفظ ${json.importedCount} سؤال جديد في بنك الأسئلة!`
+            : `Successfully imported ${json.importedCount} questions!`),
+          count: json.importedCount,
+          duplicates: json.duplicateCount,
+          errors: parseResult.errors.length > 0 ? parseResult.errors : undefined,
+        });
+        setImportRawText("");
+        fetchQuestions();
+      } else {
+        setImportStatus({
+          type: "error",
+          message: json.error || (lang === "ar" ? "فشلت عملية الاستيراد من الخادم." : "Import failed on server."),
+          errors: parseResult.errors.length > 0 ? parseResult.errors : undefined,
+        });
+      }
+    } catch (e: any) {
+      setImportStatus({
+        type: "error",
+        message: lang === "ar" ? `حدث خطأ في الاتصال بالخادم: ${e?.message || ""}` : `Network error: ${e?.message || ""}`,
+      });
+    } finally {
+      setImportLoading(false);
     }
   };
 
@@ -749,32 +847,247 @@ export const QuestionBankWorkspace: React.FC<{ onExamGenerated?: (exam: any) => 
 
       {/* TAB 4: BULK IMPORTER */}
       {activeTab === "importer" && (
-        <div className="bg-white dark:bg-slate-900 p-8 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-2xl max-w-3xl mx-auto space-y-4">
-          <h2 className="text-lg font-black text-slate-900 dark:text-white">
-            {lang === "ar" ? "استيراد أسئلة من CSV / Excel / Word" : "Bulk Questions Importer"}
-          </h2>
-          <p className="text-xs text-slate-500 dark:text-slate-400">
-            Paste line-separated items in format: <code className="font-mono bg-slate-100 dark:bg-slate-800 px-1 py-0.5 rounded">Question Text | Option1,Option2,Option3,Option4 | CorrectAnswer</code>
-          </p>
+        <div className="bg-white dark:bg-slate-900 p-6 sm:p-8 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-2xl max-w-3xl mx-auto space-y-5">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-slate-100 dark:border-slate-800">
+            <div>
+              <h2 className="text-lg font-black text-slate-900 dark:text-white flex items-center gap-2">
+                <Upload className="w-5 h-5 text-emerald-500" />
+                <span>{lang === "ar" ? "استيراد أسئلة من CSV / Excel / Word" : "Bulk Questions Importer"}</span>
+              </h2>
+              <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
+                {lang === "ar"
+                  ? "يدعم استيراد الأسئلة بعدة صيغ: الفاصل العمودي (|)، جداول الإكسل (Tab)، ملفات CSV، وصيغة أسئلة الوورد المرقمة (A/B/C/D)."
+                  : "Supports Pipe (|), Excel (Tab), CSV commas, and multi-line Word exam question papers."}
+              </p>
+            </div>
 
-          <textarea
-            rows={8}
-            value={importRawText}
-            onChange={(e) => setImportRawText(e.target.value)}
-            placeholder="Hardly had he arrived | had he,did he,he had,has he | had he"
-            className="w-full p-4 rounded-2xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs font-mono text-slate-900 dark:text-white focus:outline-none"
-          />
+            {/* Quick clean button */}
+            {importRawText && (
+              <button
+                type="button"
+                onClick={() => {
+                  setImportRawText("");
+                  setImportStatus(null);
+                }}
+                className="inline-flex items-center gap-1 px-3 py-1.5 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-red-50 hover:text-red-600 dark:hover:bg-red-950/50 text-xs font-bold text-slate-600 dark:text-slate-400 transition-all self-start sm:self-auto"
+              >
+                <Trash2 className="w-3.5 h-3.5" />
+                <span>{lang === "ar" ? "مسح الحقل" : "Clear"}</span>
+              </button>
+            )}
+          </div>
 
+          {/* Teacher/Admin Role Guard Notification */}
+          {!user || (user.role !== "admin" && user.role !== "teacher") ? (
+            <div className="p-4 rounded-2xl bg-amber-50 dark:bg-amber-950/60 border border-amber-300 dark:border-amber-700/50 text-amber-900 dark:text-amber-200 text-xs flex items-start gap-3">
+              <AlertTriangle className="w-5 h-5 text-amber-600 shrink-0 mt-0.5" />
+              <div>
+                <p className="font-extrabold">
+                  {lang === "ar" ? "تنبيه الصلاحيات (معلم / مسؤول)" : "Staff Permission Notice"}
+                </p>
+                <p className="mt-1 leading-relaxed text-amber-800 dark:text-amber-300">
+                  {lang === "ar"
+                    ? "أنت غير مسجل حالياً بحساب معلم أو مسؤول. يمكنك تجربة وتفقد الواجهة وتحميل النماذج، ولكن لحفظ الأسئلة في قاعدة البيانات يجب تسجيل الدخول بحساب المعلم (Sarah Ahmed أو Mr. Habib)."
+                    : "You are not logged in with a teacher or admin session. To save questions directly to the database, please sign in with your staff account."}
+                </p>
+              </div>
+            </div>
+          ) : null}
+
+          {/* TARGET METADATA SELECTORS */}
+          <div className="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700/70 space-y-3">
+            <span className="text-[11px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 block">
+              {lang === "ar" ? "البيانات الأكاديمية المستهدفة للأسئلة المستوردة:" : "Target Academic Scope for Imported Questions:"}
+            </span>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-2.5 text-xs font-bold">
+              <div>
+                <label className="block text-[10px] text-slate-500 dark:text-slate-400 mb-1">{lang === "ar" ? "المرحلة الدراسية" : "Stage"}</label>
+                <select
+                  value={importStage}
+                  onChange={(e) => setImportStage(e.target.value)}
+                  className="w-full p-2.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white"
+                >
+                  <option value="Preparatory">{lang === "ar" ? "المرحلة الإعدادية" : "Preparatory"}</option>
+                  <option value="Secondary">{lang === "ar" ? "المرحلة الثانوية" : "Secondary"}</option>
+                </select>
+              </div>
+
+              <div>
+                <label className="block text-[10px] text-slate-500 dark:text-slate-400 mb-1">{lang === "ar" ? "الصف الدراسي" : "Grade"}</label>
+                <select
+                  value={importGrade}
+                  onChange={(e) => setImportGrade(e.target.value)}
+                  className="w-full p-2.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white"
+                >
+                  <option value="Third Secondary (Baccalaureate)">Third Secondary (Baccalaureate)</option>
+                  <option value="Second Year Egyptian Baccalaureate">Second Year Egyptian Baccalaureate 2026/2027</option>
+                  <option value="Second Secondary">Second Secondary</option>
+                  <option value="First Secondary">First Secondary</option>
+                  <option value="Third Prep">Third Prep</option>
+                  <option value="Second Prep">Second Prep</option>
+                  <option value="First Prep">First Prep</option>
+                </select>
+              </div>
+
+              <div>
+                <label className="block text-[10px] text-slate-500 dark:text-slate-400 mb-1">{lang === "ar" ? "الوحدة" : "Unit"}</label>
+                <select
+                  value={importUnit}
+                  onChange={(e) => setImportUnit(e.target.value)}
+                  className="w-full p-2.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white"
+                >
+                  <option value="Unit 1">Unit 1</option>
+                  <option value="Unit 2">Unit 2</option>
+                  <option value="Unit 3">Unit 3</option>
+                  <option value="Unit 4">Unit 4</option>
+                  <option value="Unit 5">Unit 5</option>
+                  <option value="Unit 6">Unit 6</option>
+                  <option value="Review 1">Review 1</option>
+                  <option value="Review 2">Review 2</option>
+                </select>
+              </div>
+
+              <div>
+                <label className="block text-[10px] text-slate-500 dark:text-slate-400 mb-1">{lang === "ar" ? "مستوى الصعوبة" : "Difficulty"}</label>
+                <select
+                  value={importDifficulty}
+                  onChange={(e) => setImportDifficulty(e.target.value as any)}
+                  className="w-full p-2.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white"
+                >
+                  <option value="Easy">{lang === "ar" ? "سهل (Easy)" : "Easy"}</option>
+                  <option value="Medium">{lang === "ar" ? "متوسط (Medium)" : "Medium"}</option>
+                  <option value="Hard">{lang === "ar" ? "صعب وتحدي (Hard)" : "Hard"}</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          {/* QUICK TEMPLATE PILLS */}
+          <div className="space-y-1.5">
+            <span className="text-[11px] font-bold text-slate-600 dark:text-slate-400 flex items-center gap-1">
+              <FileText className="w-3.5 h-3.5 text-indigo-500" />
+              <span>{lang === "ar" ? "نماذج اختبار سريعة للتجربة بنقرة واحدة:" : "Quick Test Templates (1-Click Fill):"}</span>
+            </span>
+            <div className="flex flex-wrap gap-2 text-xs font-bold">
+              <button
+                type="button"
+                onClick={() => loadTemplate("pipe")}
+                className="px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-purple-100 text-purple-700 dark:bg-slate-800 dark:hover:bg-purple-950 dark:text-purple-300 border border-purple-200 dark:border-purple-800 transition-all cursor-pointer"
+              >
+                {lang === "ar" ? "نموذج 1: فاصل عمودي (Pipe |)" : "Template 1: Pipe (|)"}
+              </button>
+              <button
+                type="button"
+                onClick={() => loadTemplate("excel")}
+                className="px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-emerald-100 text-emerald-700 dark:bg-slate-800 dark:hover:bg-emerald-950 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800 transition-all cursor-pointer"
+              >
+                {lang === "ar" ? "نموذج 2: جدول إكسل (Tab)" : "Template 2: Excel (Tab)"}
+              </button>
+              <button
+                type="button"
+                onClick={() => loadTemplate("word")}
+                className="px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-sky-100 text-sky-700 dark:bg-slate-800 dark:hover:bg-sky-950 dark:text-sky-300 border border-sky-200 dark:border-sky-800 transition-all cursor-pointer"
+              >
+                {lang === "ar" ? "نموذج 3: ملف وورد (Word Q&A)" : "Template 3: Word Exam"}
+              </button>
+              <button
+                type="button"
+                onClick={() => loadTemplate("five")}
+                className="px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-amber-100 text-amber-700 dark:bg-slate-800 dark:hover:bg-amber-950 dark:text-amber-300 border border-amber-200 dark:border-amber-800 transition-all cursor-pointer"
+              >
+                {lang === "ar" ? "نموذج 4: دفعة 5 أسئلة" : "Template 4: 5 Questions"}
+              </button>
+            </div>
+          </div>
+
+          {/* TEXTAREA INPUT */}
+          <div>
+            <textarea
+              rows={8}
+              value={importRawText}
+              onChange={(e) => {
+                setImportRawText(e.target.value);
+                if (importStatus?.type === "error") setImportStatus(null);
+              }}
+              placeholder={
+                lang === "ar"
+                  ? "ألصق الأسئلة هنا بأي صيغة:\n• مثال Pipe: سؤال | خيار1, خيار2, خيار3, خيار4 | الإجابة الصحيحة\n• مثال Excel: انسخ من عمود السؤال والخيارات والإجابة والصق مباشرة\n• مثال Word:\n1. Question text here?\nA) Option 1\nB) Option 2\nAnswer: A"
+                  : "Paste your questions here in any format (Pipe, Excel Tab, CSV, or Word Q&A)..."
+              }
+              className="w-full p-4 rounded-2xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs font-mono text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-emerald-500/40 transition-all leading-relaxed"
+            />
+          </div>
+
+          {/* MAIN IMPORT BUTTON */}
           <button
+            type="button"
             onClick={handleImportText}
-            className="w-full py-3.5 rounded-2xl bg-emerald-600 hover:bg-emerald-500 text-white font-extrabold text-xs shadow-lg shadow-emerald-500/25 transition-all"
+            disabled={importLoading}
+            className="w-full py-3.5 rounded-2xl bg-emerald-600 hover:bg-emerald-500 disabled:opacity-60 disabled:cursor-not-allowed text-white font-black text-sm shadow-xl shadow-emerald-500/25 transition-all flex items-center justify-center gap-2 cursor-pointer"
           >
-            {lang === "ar" ? "معالجة واستيراد الأسئلة" : "Process & Import Questions"}
+            {importLoading ? (
+              <>
+                <Loader2 className="w-4 h-4 animate-spin" />
+                <span>{lang === "ar" ? "جاري معالجة وفحص وحفظ الأسئلة..." : "Processing & Saving Questions..."}</span>
+              </>
+            ) : (
+              <>
+                <Upload className="w-4 h-4" />
+                <span>{lang === "ar" ? "معالجة واستيراد الأسئلة" : "Process & Import Questions"}</span>
+              </>
+            )}
           </button>
 
+          {/* FEEDBACK BANNER */}
           {importStatus && (
-            <div className="p-4 bg-blue-50 dark:bg-blue-950 text-blue-900 dark:text-blue-200 rounded-2xl text-xs font-bold border border-blue-200">
-              {importStatus.message}
+            <div
+              className={`p-4 rounded-2xl border text-xs font-bold space-y-2 transition-all ${
+                importStatus.type === "success"
+                  ? "bg-emerald-50 dark:bg-emerald-950/80 text-emerald-900 dark:text-emerald-200 border-emerald-300 dark:border-emerald-700"
+                  : importStatus.type === "warning"
+                  ? "bg-amber-50 dark:bg-amber-950/80 text-amber-900 dark:text-amber-200 border-amber-300 dark:border-amber-700"
+                  : "bg-red-50 dark:bg-red-950/80 text-red-900 dark:text-red-200 border-red-300 dark:border-red-700"
+              }`}
+            >
+              <div className="flex items-start gap-2.5">
+                {importStatus.type === "success" ? (
+                  <CheckCircle className="w-5 h-5 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5" />
+                ) : (
+                  <AlertCircle className="w-5 h-5 text-red-600 dark:text-red-400 shrink-0 mt-0.5" />
+                )}
+                <div className="flex-1">
+                  <p className="font-extrabold text-sm leading-snug">{importStatus.message}</p>
+
+                  {/* Summary badges */}
+                  {importStatus.count !== undefined && (
+                    <div className="mt-2 flex flex-wrap gap-2 text-[11px]">
+                      <span className="px-2.5 py-1 rounded-lg bg-emerald-200/80 dark:bg-emerald-900 text-emerald-900 dark:text-emerald-100">
+                        {lang === "ar" ? `تم حفظ ${importStatus.count} سؤال جديد` : `Saved ${importStatus.count} new questions`}
+                      </span>
+                      {importStatus.duplicates ? (
+                        <span className="px-2.5 py-1 rounded-lg bg-amber-200/80 dark:bg-amber-900 text-amber-900 dark:text-amber-100">
+                          {lang === "ar" ? `تم تخطي ${importStatus.duplicates} سؤال مكرر` : `Skipped ${importStatus.duplicates} duplicates`}
+                        </span>
+                      ) : null}
+                    </div>
+                  )}
+
+                  {/* Line errors if any */}
+                  {importStatus.errors && importStatus.errors.length > 0 && (
+                    <div className="mt-3 pt-2 border-t border-red-200 dark:border-red-800 text-[11px] font-normal space-y-1">
+                      <p className="font-bold text-red-800 dark:text-red-300">
+                        {lang === "ar" ? "تفاصيل الأسطر التي تم تخطيها:" : "Details of skipped lines:"}
+                      </p>
+                      <ul className="list-disc list-inside space-y-0.5 max-h-36 overflow-y-auto">
+                        {importStatus.errors.map((err, i) => (
+                          <li key={i}>{err}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+                </div>
+              </div>
             </div>
           )}
         </div>

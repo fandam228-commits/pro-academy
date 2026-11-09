@@ -193,34 +193,44 @@ export async function POST(req: Request) {
       return NextResponse.json({ success: true, question: updated[0] });
     }
 
-    // 2. BULK IMPORT (CSV / EXCEL / WORD PARSER SIMULATION)
+    // 2. BULK IMPORT (CSV / EXCEL / WORD PARSER)
     if (action === "import_questions") {
       const { items } = body; // Array of question objects
+      if (!Array.isArray(items) || items.length === 0) {
+        return NextResponse.json(
+          { success: false, error: "قائمة الأسئلة فارغة. يرجى توفير سؤال واحد على الأقل مع الإجابة الصحيحة." },
+          { status: 400 }
+        );
+      }
+
       const existing = await db.select({ questionText: questionBank.questionText }).from(questionBank);
       
       let importedCount = 0;
       let duplicateCount = 0;
+      const importedIds: string[] = [];
 
       for (const item of items) {
-        if (!String(item?.questionText || "").trim() || !String(item?.correctAnswer || "").trim()) continue;
+        const qText = String(item?.questionText || "").trim();
+        const corr = String(item?.correctAnswer || "").trim();
+        if (!qText || !corr) continue;
 
-        if (isDuplicateQuestion(item.questionText, existing)) {
+        if (isDuplicateQuestion(qText, existing)) {
           duplicateCount++;
           continue;
         }
 
-        const qId = `imp_${Date.now()}_${Math.random().toString(36).substring(2, 6)}`;
+        const qId = `imp_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`;
         const qVal = {
           id: qId,
           domainCategory: item.domainCategory || (item.grammarTopic ? "Grammar" : "Vocabulary"),
-          questionText: item.questionText,
+          questionText: qText,
           questionType: item.questionType || "mcq",
           stage: item.stage || "Secondary",
           grade: item.grade || "Third Secondary (Baccalaureate)",
           curriculum: item.curriculum || "Ministry",
           term: item.term || "First",
-          source: item.source || null,
-          tags: item.tags || [],
+          source: item.source || "Bulk Importer",
+          tags: Array.isArray(item.tags) ? item.tags : [],
           unit: item.unit || "Unit 1",
           lesson: item.lesson || "Lesson 1",
           section: item.section || null,
@@ -230,22 +240,44 @@ export async function POST(req: Request) {
           topic: item.topic || "General Practice",
           bloomLevel: item.bloomLevel || "Understand",
           grammarTopic: item.grammarTopic || null,
-          options: item.options || [],
-          correctAnswer: item.correctAnswer,
+          options: Array.isArray(item.options) ? item.options : [],
+          correctAnswer: corr,
           explanation: item.explanation || "Imported question",
           points: item.points || 10,
         };
 
         await db.insert(questionBank).values(qVal);
-        existing.push({ questionText: item.questionText });
+        existing.push({ questionText: qText });
+        importedIds.push(qId);
         importedCount++;
+      }
+
+      if (importedCount === 0 && duplicateCount === 0) {
+        return NextResponse.json(
+          {
+            success: false,
+            error: "لم يتم حفظ أي أسئلة: يرجى التأكد من احتواء كل عنصر على نص السؤال والإجابة الصحيحة.",
+          },
+          { status: 400 }
+        );
+      }
+
+      if (importedCount === 0 && duplicateCount > 0) {
+        return NextResponse.json({
+          success: true,
+          importedCount: 0,
+          duplicateCount,
+          importedIds: [],
+          message: `جميع الأسئلة المدخلة (${duplicateCount}) موجودة ومسجلة بالفعل في بنك الأسئلة ولم يتم تكرارها.`,
+        });
       }
 
       return NextResponse.json({
         success: true,
         importedCount,
         duplicateCount,
-        message: `Successfully imported ${importedCount} unique questions. Skipped ${duplicateCount} duplicates.`,
+        importedIds,
+        message: `تم بنجاح استيراد وحفظ ${importedCount} سؤال جديد في بنك الأسئلة.${duplicateCount > 0 ? ` (تم تخطي ${duplicateCount} سؤال مكرر مسبقاً)` : ""}`,
       });
     }
 
