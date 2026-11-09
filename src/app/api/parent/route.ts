@@ -1,6 +1,6 @@
 import { db } from "@/db";
 import { parentLinks, users, enrollments, quizSubmissions, attendance } from "@/db/schema";
-import { and, eq } from "drizzle-orm";
+import { and, eq, inArray, isNotNull } from "drizzle-orm";
 import { alias } from "drizzle-orm/pg-core";
 import { NextResponse } from "next/server";
 import { ensureDbSetup } from "@/db/migrate-and-seed";
@@ -72,7 +72,40 @@ export async function GET(req: Request) {
         return privateJson({ error: "No linked student found" }, { status: 404 });
       }
       if (resolution.reason === "student-id-required") {
-        return privateJson({ error: "studentId is required when multiple students are linked" }, { status: 400 });
+        // Return only currently verified children as safe choices. Unverified links
+        // remain part of the ambiguity check but must never be selectable.
+        const selectableStudents = selectionData.verifiedStudentIds.length > 0
+          ? await db
+              .selectDistinct({
+                id: users.id,
+                name: users.name,
+                grade: users.grade,
+              })
+              .from(users)
+              .innerJoin(parentLinks, and(
+                eq(parentLinks.studentId, users.id),
+                eq(parentLinks.parentId, parentId),
+                isNotNull(parentLinks.verifiedAt),
+                isNotNull(parentLinks.verifiedBy),
+              ))
+              .innerJoin(parentAccount, and(
+                eq(parentLinks.parentId, parentAccount.id),
+                eq(parentAccount.role, "parent"),
+              ))
+              .innerJoin(verifiedByUser, and(
+                eq(parentLinks.verifiedBy, verifiedByUser.id),
+                eq(verifiedByUser.role, "admin"),
+              ))
+              .where(and(
+                inArray(users.id, selectionData.verifiedStudentIds),
+                eq(users.role, "student"),
+              ))
+          : [];
+        return privateJson({
+          error: "studentId is required when multiple students are linked",
+          requiresStudentSelection: true,
+          students: selectableStudents,
+        }, { status: 400 });
       }
       if (resolution.reason === "invalid-student-id") {
         return privateJson({ error: "Invalid studentId" }, { status: 400 });
@@ -134,7 +167,7 @@ export async function GET(req: Request) {
 
     const avgScore = studentSubs.length > 0
       ? Math.round(studentSubs.reduce((acc, curr) => acc + curr.percentage, 0) / studentSubs.length)
-      : 85;
+      : null;
 
     // Revalidate the complete relationship after all report reads. The link,
     // parent/student roles, or verifier role may change while those reads run.
@@ -166,7 +199,7 @@ export async function GET(req: Request) {
       submissions: studentSubs,
       attendance: studentAtt,
       averageScore: avgScore,
-      attendanceRate: "98%",
+      attendanceRate: null,
     });
   } catch (error) {
     console.error("Parent GET error:", error);
