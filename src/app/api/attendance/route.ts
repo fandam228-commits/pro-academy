@@ -6,9 +6,17 @@ import { NextResponse } from "next/server";
 import { ensureDbSetup } from "@/db/migrate-and-seed";
 import { requireRoles, getAuthContext } from "@/lib/security";
 import { getParentAnalyticsSelectionData, resolveParentAnalyticsStudentId } from "@/lib/analytics-report-scope.mjs";
+import { buildVerifiedParentLinkPredicate } from "@/lib/parent-report-authorization.mjs";
 
 const verifiedByUser = alias(users, "attendance_verified_by_user");
 const parentAccount = alias(users, "attendance_parent_account");
+const attendanceStudentAccount = alias(users, "attendance_student_account");
+
+function privateJson(body: unknown, init?: ResponseInit) {
+  const headers = new Headers(init?.headers);
+  headers.set("Cache-Control", "private, no-store");
+  return NextResponse.json(body, { ...init, headers });
+}
 
 function computeRate(records: any[]) {
   if (records.length === 0) return 100;
@@ -122,25 +130,65 @@ export async function GET(req: Request) {
         links.filter((link) => link.studentRole === "student"),
       );
       if (selectionData.verifiedStudentIds.length === 0) {
-        return NextResponse.json({ error: "No verified linked student" }, { status: 404 });
+        return privateJson({ error: "No verified linked student" }, { status: 404 });
       }
       const resolution = resolveParentAnalyticsStudentId(
         requestedStudent,
         selectionData.allLinkedStudentIds,
       );
       if (!resolution.ok) {
-        if (resolution.reason === "no-linked-student") return NextResponse.json({ error: "No linked student" }, { status: 404 });
-        if (resolution.reason === "student-id-required") return NextResponse.json({ error: "studentId is required when multiple students are linked" }, { status: 400 });
-        if (resolution.reason === "invalid-student-id") return NextResponse.json({ error: "Invalid studentId" }, { status: 400 });
-        return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+        if (resolution.reason === "no-linked-student") return privateJson({ error: "No linked student" }, { status: 404 });
+        if (resolution.reason === "student-id-required") return privateJson({ error: "studentId is required when multiple students are linked" }, { status: 400 });
+        if (resolution.reason === "invalid-student-id") return privateJson({ error: "Invalid studentId" }, { status: 400 });
+        return privateJson({ error: "Forbidden" }, { status: 403 });
       }
       const studentId = resolution.studentId;
       if (!selectionData.verifiedStudentIds.includes(studentId)) {
-        return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+        return privateJson({ error: "Forbidden" }, { status: 403 });
       }
-      const records = await db.select().from(attendanceRecords).where(eq(attendanceRecords.studentId, studentId));
+      // The parent dashboard needs only the visible attendance summary fields.
+      // Never serialize student names, student IDs, marker IDs, or grade metadata per row.
+      const records = await db
+        .select({
+          id: attendanceRecords.id,
+          sessionTitle: attendanceRecords.sessionTitle,
+          sessionDate: attendanceRecords.sessionDate,
+          status: attendanceRecords.status,
+        })
+        .from(attendanceRecords)
+        .where(eq(attendanceRecords.studentId, studentId));
       const sorted = records.sort((a, b) => (a.sessionDate < b.sessionDate ? 1 : -1));
-      return NextResponse.json({ role: "parent", studentId, records: sorted, rate: computeRate(records), total: records.length });
+
+      // A verified relationship can be revoked while attendance rows are being read.
+      // Re-check the current parent, student, and Admin verifier before returning them.
+      const parentAccessStillValid = await db
+        .select({ id: users.id })
+        .from(users)
+        .where(and(
+          eq(users.id, studentId),
+          eq(users.role, "student"),
+          buildVerifiedParentLinkPredicate({
+            db,
+            parentLinks,
+            parentAccount,
+            studentAccount: attendanceStudentAccount,
+            verifiedByUser,
+            parentId: ctx.user.id,
+            studentId,
+          }),
+        ))
+        .limit(1);
+      if (parentAccessStillValid.length === 0) {
+        return privateJson({ error: "Forbidden" }, { status: 403 });
+      }
+
+      return privateJson({
+        role: "parent",
+        studentId,
+        records: sorted,
+        rate: computeRate(records),
+        total: records.length,
+      });
     }
 
     // ============ STUDENT: own records ============
