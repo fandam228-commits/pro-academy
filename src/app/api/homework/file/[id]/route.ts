@@ -18,6 +18,7 @@ type HomeworkFileContext = {
   requesterRole: string | null;
   submissionId: string | null;
   homeworkId: string | null;
+  homeworkRecordId: string | null;
   studentId: string | null;
   storagePath: string | null;
   fileName: string | null;
@@ -40,6 +41,7 @@ async function loadHomeworkFileContext(
       requesterRole: users.role,
       submissionId: homeworkSubmissions.id,
       homeworkId: homeworkSubmissions.homeworkId,
+      homeworkRecordId: homework.id,
       studentId: homeworkSubmissions.studentId,
       storagePath: homeworkSubmissions.storagePath,
       fileName: homeworkSubmissions.fileName,
@@ -66,7 +68,8 @@ function isAuthorizedFileContext(
     !context ||
     context.requesterRole !== sessionRole ||
     !context.submissionId ||
-    !context.homeworkId
+    !context.homeworkId ||
+    !context.homeworkRecordId
   ) {
     return false;
   }
