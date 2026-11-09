@@ -3,6 +3,7 @@ import assert from "node:assert/strict";
 import { spawnSync } from "node:child_process";
 import { resolve } from "node:path";
 import { assertSafeHomeworkAuditTarget } from "../src/lib/homework-storage-audit.mjs";
+import { runHomeworkStorageAudit } from "../scripts/audit-homework-storage.mjs";
 import { tmpdir } from "node:os";
 
 function runAudit(envOverrides = {}) {
@@ -26,7 +27,7 @@ test("homework storage audit refuses to run without DATABASE_URL and emits no da
   assert.equal(result.error, undefined, result.error?.message);
   assert.equal(result.status, 1);
   assert.match(result.stderr, /DATABASE_URL is required/);
-  assert.doesNotMatch(result.stdout + result.stderr, /postgres(?:ql)?:\/\//i);
+  assert.doesNotMatch(result.stdout + result.stderr, /postgres(?:ql)?:\\/\\//i);
   assert.doesNotMatch(result.stdout + result.stderr, /student_id|storage_path|homework_submissions/i);
 });
 
@@ -37,9 +38,8 @@ test("homework storage audit refuses remote databases by default before attempti
   assert.equal(result.error, undefined, result.error?.message);
   assert.equal(result.status, 1);
   assert.match(result.stderr, /Refusing a non-local database by default/);
-  assert.doesNotMatch(result.stdout + result.stderr, /audit-user|do-not-print|db\.example\.invalid|postgres(?:ql)?:\/\//i);
+  assert.doesNotMatch(result.stdout + result.stderr, /audit-user|do-not-print|db\\.example\\.invalid|postgres(?:ql)?:\\/\\//i);
 });
-
 
 test("remote homework storage audits require exactly one sslmode=verify-full", () => {
   const remoteDatabaseUrl = "postgresql://audit-user:do-not-print@db.example.invalid/proacademy";
@@ -77,9 +77,8 @@ test("CLI rejects an opted-in remote audit without verified TLS before connectin
   assert.equal(result.error, undefined, result.error?.message);
   assert.equal(result.status, 1);
   assert.match(result.stderr, /require DATABASE_URL sslmode=verify-full/);
-  assert.doesNotMatch(result.stdout + result.stderr, /audit-user|do-not-print|db\.example\.invalid|postgres(?:ql)?:\/\//i);
+  assert.doesNotMatch(result.stdout + result.stderr, /audit-user|do-not-print|db\\.example\\.invalid|postgres(?:ql)?:\\/\\//i);
 });
-
 
 test("remote audit opt-in must be the boolean true, not a truthy string", () => {
   const remoteDatabaseUrl = "postgresql://audit-user:do-not-print@db.example.invalid/proacademy?sslmode=verify-full";
@@ -92,4 +91,92 @@ test("remote audit opt-in must be the boolean true, not a truthy string", () => 
     assertSafeHomeworkAuditTarget(remoteDatabaseUrl, true),
     "remote-read-only-opt-in",
   );
+});
+
+test("read-only inventory emits aggregate counts only and never logs legacy URLs or submission IDs", async () => {
+  let instance;
+  class FakeAuditClient {
+    constructor(options) {
+      this.options = options;
+      this.queries = [];
+      this.batch = 0;
+      this.ended = false;
+      instance = this;
+    }
+
+    async connect() {}
+
+    async query(sql, params = []) {
+      this.queries.push({ sql, params });
+      if (/^\\s*BEGIN TRANSACTION/i.test(sql)) return { rows: [] };
+      if (sql.includes("current_setting('transaction_read_only')")) {
+        return { rows: [{ read_only: "on", isolation: "repeatable read" }] };
+      }
+      if (sql.includes("SELECT id, storage_path")) {
+        this.batch += 1;
+        if (this.batch === 1) {
+          return {
+            rows: [
+              {
+                id: "fixture-submission-private-id-001",
+                storage_path: "https://public.example.invalid/legacy-bearer-token-001",
+              },
+              {
+                id: "fixture-submission-private-id-002",
+                storage_path: "homework/private/opaque-fixture.pdf",
+              },
+            ],
+          };
+        }
+        return { rows: [] };
+      }
+      if (/^\\s*ROLLBACK\\s*$/i.test(sql)) return { rows: [] };
+      throw new Error("Unexpected fake audit query");
+    }
+
+    async end() {
+      this.ended = true;
+    }
+  }
+
+  const output = [];
+  const summary = await runHomeworkStorageAudit({
+    connectionString: "postgresql://audit-user:fixture-secret@127.0.0.1:5432/proacademy_test",
+    allowRemote: false,
+    batchSize: 2,
+    ClientClass: FakeAuditClient,
+    write: (line) => output.push(line),
+  });
+
+  assert.deepEqual(summary, {
+    totalRows: 2,
+    empty: 0,
+    privatePath: 1,
+    absoluteUrlNeedsReview: 1,
+    unknownOrMalformed: 0,
+  });
+  assert.equal(instance.ended, true, "the audit client must always be closed");
+  assert.ok(instance.queries.some(({ sql }) => /BEGIN TRANSACTION ISOLATION LEVEL REPEATABLE READ READ ONLY/i.test(sql)),
+    "inventory must start a repeatable-read, read-only transaction");
+  assert.ok(instance.queries.some(({ sql }) => sql.includes("SELECT id, storage_path")),
+    "inventory should read only the minimal reference columns");
+  assert.ok(instance.queries.some(({ sql }) => /^\\s*ROLLBACK\\s*$/i.test(sql)),
+    "inventory must roll back and never commit");
+  assert.equal(instance.queries.some(({ sql }) => /\\bCOMMIT\\b/i.test(sql)), false,
+    "inventory must never commit a database transaction");
+
+  const rendered = output.join("\\n");
+  for (const sensitiveValue of [
+    "fixture-submission-private-id-001",
+    "fixture-submission-private-id-002",
+    "public.example.invalid",
+    "legacy-bearer-token-001",
+    "opaque-fixture.pdf",
+    "fixture-secret",
+    "audit-user",
+  ]) {
+    assert.equal(rendered.includes(sensitiveValue), false, `audit output must not expose ${sensitiveValue}`);
+  }
+  assert.match(rendered, /"absoluteUrlNeedsReview": 1/);
+  assert.match(rendered, /"privatePath": 1/);
 });
