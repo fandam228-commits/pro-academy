@@ -223,10 +223,14 @@ integrationTest("PostgreSQL grading fails closed when the actor role changes whi
 });
 
 integrationTest("PostgreSQL grading fails closed when course ownership changes while authorization waits for the course lock", async () => {
-  await withFixture(async ({ client, database }) => {
+  await withFixture(async ({ client, database, schemaName }) => {
     const blocker = new Client({ connectionString });
     const observer = new Client({ connectionString });
     await Promise.all([blocker.connect(), observer.connect()]);
+    await Promise.all([
+      blocker.query(`SET search_path TO "${schemaName}"`),
+      observer.query(`SET search_path TO "${schemaName}"`),
+    ]);
     try {
       await blocker.query("BEGIN");
       await blocker.query("SELECT id FROM courses WHERE id = 'course-owned' FOR UPDATE");
