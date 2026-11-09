@@ -11,6 +11,7 @@ import { buildVerifiedParentLinkPredicate } from "@/lib/parent-report-authorizat
 const verifiedByUser = alias(users, "attendance_verified_by_user");
 const parentAccount = alias(users, "attendance_parent_account");
 const attendanceStudentAccount = alias(users, "attendance_student_account");
+const attendanceTeacherAccount = alias(users, "attendance_teacher_account");
 
 function privateJson(body: unknown, init?: ResponseInit) {
   const headers = new Headers(init?.headers);
@@ -246,23 +247,6 @@ export async function POST(req: Request) {
         return NextResponse.json({ error: "sessionTitle, sessionDate & marks are required" }, { status: 400 });
       }
 
-      if (ctx.user.role === "teacher") {
-        const rows = await db
-          .select({ studentId: enrollments.studentId })
-          .from(enrollments)
-          .innerJoin(courses, eq(enrollments.courseId, courses.id))
-          .innerJoin(users, eq(enrollments.studentId, users.id))
-          .where(and(
-            eq(courses.teacherId, ctx.user.id),
-            eq(users.role, "student"),
-            inArray(enrollments.status, ["active", "completed"]),
-          ));
-        const allowedStudentIds = new Set(rows.map((row) => row.studentId));
-        if (marks.some((mark) => typeof mark?.studentId !== "string" || !allowedStudentIds.has(mark.studentId))) {
-          return NextResponse.json({ error: "Attendance includes a student outside your owned courses" }, { status: 403 });
-        }
-      }
-
       // Serialize writes by the logical attendance key. A row lock alone cannot
       // protect the "no row exists yet" case, so use a transaction-scoped advisory
       // lock before checking or creating each (student, session, date) record.
@@ -276,6 +260,35 @@ export async function POST(req: Request) {
       const result = await db.transaction(async (tx) => {
         for (const lockKey of lockKeys) {
           await tx.execute(sql`SELECT pg_advisory_xact_lock(hashtextextended(${lockKey}, 0))`);
+        }
+
+        // Revalidate teacher, student, course ownership, and enrollment inside the
+        // same transaction as the attendance writes. FOR SHARE holds the relevant
+        // rows stable until commit, so a concurrent role demotion, course transfer,
+        // or enrollment cancellation cannot race the authorization decision.
+        if (ctx.user.role === "teacher") {
+          const requestedStudentIds = [...new Set(marks.map((mark) => mark?.studentId))];
+          if (requestedStudentIds.some((studentId) => typeof studentId !== "string")) {
+            return { forbidden: true, conflict: false, saved: 0 };
+          }
+          const authorizedRows = await tx
+            .select({ studentId: enrollments.studentId })
+            .from(enrollments)
+            .innerJoin(courses, eq(enrollments.courseId, courses.id))
+            .innerJoin(users, eq(enrollments.studentId, users.id))
+            .innerJoin(attendanceTeacherAccount, eq(attendanceTeacherAccount.id, ctx.user.id))
+            .where(and(
+              inArray(enrollments.studentId, requestedStudentIds),
+              eq(courses.teacherId, ctx.user.id),
+              eq(users.role, "student"),
+              eq(attendanceTeacherAccount.role, "teacher"),
+              inArray(enrollments.status, ["active", "completed"]),
+            ))
+            .for("share");
+          const currentlyAuthorizedStudentIds = new Set(authorizedRows.map((row) => row.studentId));
+          if (requestedStudentIds.some((studentId) => !currentlyAuthorizedStudentIds.has(studentId))) {
+            return { forbidden: true, conflict: false, saved: 0 };
+          }
         }
 
         // Preflight every record before writing any of them. This prevents a
@@ -297,7 +310,7 @@ export async function POST(req: Request) {
           const current = existing[0] ?? null;
 
           if (ctx.user.role === "teacher" && current && current.markedBy !== ctx.user.id) {
-            return { conflict: true, saved: 0 };
+            return { forbidden: false, conflict: true, saved: 0 };
           }
           existingByKey.set(key, current);
         }
@@ -324,9 +337,12 @@ export async function POST(req: Request) {
           }
         }
 
-        return { conflict: false, saved: marks.length };
+        return { forbidden: false, conflict: false, saved: marks.length };
       });
 
+      if (result.forbidden) {
+        return NextResponse.json({ error: "Attendance includes a student outside your currently owned courses" }, { status: 403 });
+      }
       if (result.conflict) {
         return NextResponse.json({ error: "Attendance record is owned by another teacher" }, { status: 409 });
       }
