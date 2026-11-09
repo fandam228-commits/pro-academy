@@ -192,7 +192,7 @@ integrationTest("PostgreSQL deletion enforces current course ownership and prese
 });
 
 integrationTest("PostgreSQL grading fails closed when the actor role changes while authorization waits for its row lock", async () => {
-  await withFixture(async ({ client, database }) => {
+  await withFixture(async ({ client, database, schemaName }) => {
     const blocker = new Client({ connectionString });
     const observer = new Client({ connectionString });
     await Promise.all([blocker.connect(), observer.connect()]);
