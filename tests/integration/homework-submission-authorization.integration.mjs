@@ -121,15 +121,20 @@ integrationTest("homework submission authorization uses current role, grade, and
     // Hold the same shared locks the route uses through its write transaction.
     // Concurrent role demotion and enrollment revocation must wait until commit.
     transactionPromise = actorDb.transaction(async (tx) => {
-      const access = await lockHomeworkSubmissionAuthorization(
-        tx,
-        { homeworkId: "hw-course", studentId: "student-active", sessionRole: "student" },
-        tables,
-      );
-      assert.equal(access.allowed, true);
-      signalLocked();
-      await transactionGate;
-      return access;
+      try {
+        const access = await lockHomeworkSubmissionAuthorization(
+          tx,
+          { homeworkId: "hw-course", studentId: "student-active", sessionRole: "student" },
+          tables,
+        );
+        signalLocked();
+        assert.equal(access.allowed, true);
+        await transactionGate;
+        return access;
+      } catch (error) {
+        signalLocked();
+        throw error;
+      }
     });
 
     await lockedSignal;
