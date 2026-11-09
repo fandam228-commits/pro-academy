@@ -16,25 +16,51 @@ function assertLocalTestDatabase(value) {
 
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
-async function waitForBlockedQuery(observerClient, tableName, timeoutMs = 10000) {
+async function waitForBlockedQuery(observerClient, blockerPid, tableName, timeoutMs = 15000) {
   const deadline = Date.now() + timeoutMs;
   while (Date.now() < deadline) {
+    // pg_stat_activity.query is truncated by track_activity_query_size (often 1024
+    // bytes), so matching SQL text can miss a table in a long DDL batch.
+    // Identify the exact blocker and relation through PostgreSQL's lock catalog.
     const result = await observerClient.query(
-      `SELECT pid
-       FROM pg_stat_activity
-       WHERE datname = current_database()
-         AND pid <> pg_backend_pid()
-         AND state = 'active'
-         AND wait_event_type = 'Lock'
-         AND query ~* '^\\s*select'
-         AND query ILIKE $1
+      `SELECT activity.pid
+       FROM pg_stat_activity AS activity
+       JOIN pg_locks AS waiting_lock
+         ON waiting_lock.pid = activity.pid AND waiting_lock.granted = false
+       JOIN pg_class AS blocked_relation
+         ON blocked_relation.oid = waiting_lock.relation
+       WHERE activity.datname = current_database()
+         AND activity.pid <> pg_backend_pid()
+         AND activity.state = 'active'
+         AND activity.wait_event_type = 'Lock'
+         AND blocked_relation.relname = $1
+         AND $2 = ANY(pg_blocking_pids(activity.pid))
        LIMIT 1`,
-      [`%${tableName}%`],
+      [tableName, blockerPid],
     );
     if (result.rowCount > 0) return;
     await delay(50);
   }
-  throw new Error(`Timed out waiting for a PostgreSQL query blocked on ${tableName}`);
+  const blocked = await observerClient.query(
+    `SELECT activity.pid, activity.wait_event_type,
+            blocked_relation.relname AS blocked_relation,
+            left(activity.query, 500) AS query
+     FROM pg_stat_activity AS activity
+     LEFT JOIN pg_locks AS waiting_lock
+       ON waiting_lock.pid = activity.pid AND waiting_lock.granted = false
+     LEFT JOIN pg_class AS blocked_relation
+       ON blocked_relation.oid = waiting_lock.relation
+     WHERE activity.datname = current_database()
+       AND activity.pid <> pg_backend_pid()
+       AND activity.state = 'active'
+       AND activity.wait_event_type = 'Lock'
+       AND $1 = ANY(pg_blocking_pids(activity.pid))
+     LIMIT 10`,
+    [blockerPid],
+  );
+  throw new Error(
+    `Timed out waiting for a PostgreSQL query blocked on ${tableName} by backend ${blockerPid}; blocked queries: ${JSON.stringify(blocked.rows)}`,
+  );
 }
 
 async function stopServer(server) {
@@ -348,12 +374,12 @@ integrationTest(
         return { status: response.status, body };
       }
 
-      async function requestRoute(path, sessionToken, studentId) {
+      async function requestRoute(path, sessionToken, studentId, timeoutMs = 15000) {
         const url = new URL(path, baseUrl);
         if (studentId !== undefined) url.searchParams.set("studentId", studentId);
         const response = await fetch(url, {
           headers: { authorization: `Bearer ${sessionToken}`, "cache-control": "no-store" },
-          signal: AbortSignal.timeout(15000),
+          signal: AbortSignal.timeout(timeoutMs),
         });
         const raw = await response.text();
         let body;
@@ -696,6 +722,20 @@ integrationTest(
       assert.equal(parentAttendance.status, 200, JSON.stringify(parentAttendance.body));
       assert.equal(parentAttendance.body.studentId, ids.student);
       assert.equal(parentAttendance.body.total, 1);
+      assert.equal(parentAttendance.headers.get("cache-control"), "private, no-store",
+        "parent attendance responses must never be cached");
+      assert.deepEqual(
+        Object.keys(parentAttendance.body.records?.[0] || {}).sort(),
+        ["id", "sessionDate", "sessionTitle", "status"].sort(),
+        "parent attendance records must expose only the fields required by the dashboard",
+      );
+      for (const privateField of ["studentId", "studentName", "markedBy", "grade"]) {
+        assert.equal(
+          Object.hasOwn(parentAttendance.body.records?.[0] || {}, privateField),
+          false,
+          `parent attendance rows must not expose ${privateField}`,
+        );
+      }
       const parentAttendanceUnverified = await requestRoute("/api/attendance", tokens.parent, ids.unverifiedStudent);
       assert.equal(parentAttendanceUnverified.status, 403,
         "parent attendance must reject an unverified linked child");
@@ -707,6 +747,20 @@ integrationTest(
       const parentOverviewWithoutSelection = await requestRoute("/api/parent", tokens.parent);
       assert.equal(parentOverviewWithoutSelection.status, 400,
         "parent overview must require explicit selection when multiple children are linked");
+      assert.equal(parentOverviewWithoutSelection.body.requiresStudentSelection, true,
+        "ambiguous parent overview must provide the child-picker signal");
+      assert.deepEqual(
+        (parentOverviewWithoutSelection.body.students || []).map((student) => student.id).sort(),
+        [ids.student, ids.otherStudent].sort(),
+        "the picker must list only currently verified children and exclude unverified links",
+      );
+      for (const selectableStudent of parentOverviewWithoutSelection.body.students || []) {
+        assert.deepEqual(
+          Object.keys(selectableStudent).sort(),
+          ["grade", "id", "name"].sort(),
+          "child picker options must not expose phone, email, or account fields",
+        );
+      }
       assert.equal(parentOverviewWithoutSelection.headers.get("cache-control"), "private, no-store",
         "ambiguous parent overview responses must never be cached");
       const parentOverview = await requestRoute("/api/parent", tokens.parent, ids.student);
@@ -766,17 +820,51 @@ integrationTest(
       assert.equal(parentOverview.headers.get("cache-control"), "private, no-store",
         "parent overview responses containing student data must never be cached");
 
-      // Pause the overview after its initial relationship check, revoke the link
-      // while the quiz-submission read is blocked, then prove the final guard denies
-      // the response instead of returning data authorized by a stale link.
+      // Pause the parent attendance read after its initial relationship check,
+      // revoke the link while the records query is blocked, then prove the final
+      // guard denies the response instead of returning data authorized by a stale link.
       lockClient = new Client({ connectionString });
       observerClient = new Client({ connectionString });
       await Promise.all([lockClient.connect(), observerClient.connect()]);
+      const lockBackend = await lockClient.query("SELECT pg_backend_pid() AS pid");
+      const lockBackendPid = Number(lockBackend.rows[0].pid);
+      await lockClient.query("BEGIN");
+      await lockClient.query("LOCK TABLE attendance_records IN ACCESS EXCLUSIVE MODE");
+      const parentAttendanceInFlight = requestRoute("/api/attendance", tokens.parent, ids.student, 30000)
+        .catch((error) => ({ status: 0, body: { error: String(error) } }));
+      const attendanceBlockOrResponse = await Promise.race([
+        waitForBlockedQuery(observerClient, lockBackendPid, "attendance_records").then(() => ({ blocked: true })),
+        parentAttendanceInFlight.then((response) => ({ blocked: false, response })),
+      ]);
+      assert.equal(
+        attendanceBlockOrResponse.blocked,
+        true,
+        `parent attendance request completed before the expected locked read: ${JSON.stringify(attendanceBlockOrResponse.response)}`,
+      );
+      await client.query(
+        "UPDATE parent_links SET verified_at = NULL, verified_by = NULL WHERE id = $1",
+        [ids.linkStudent],
+      );
+      await lockClient.query("COMMIT");
+      const revokedDuringAttendance = await parentAttendanceInFlight;
+      assert.equal(
+        revokedDuringAttendance.status,
+        403,
+        "parent attendance must revalidate the verified link after records are read and deny a link revoked in flight",
+      );
+      await client.query(
+        "UPDATE parent_links SET verified_at = NOW(), verified_by = $2 WHERE id = $1",
+        [ids.linkStudent, ids.admin],
+      );
+
+      // Pause the overview after its initial relationship check, revoke the link
+      // while the quiz-submission read is blocked, then prove the final guard denies
+      // the response instead of returning data authorized by a stale link.
       await lockClient.query("BEGIN");
       await lockClient.query("LOCK TABLE quiz_submissions IN ACCESS EXCLUSIVE MODE");
       const parentOverviewInFlight = requestRoute("/api/parent", tokens.parent, ids.student)
         .catch((error) => ({ status: 0, body: { error: String(error) } }));
-      await waitForBlockedQuery(observerClient, "quiz_submissions");
+      await waitForBlockedQuery(observerClient, lockBackendPid, "quiz_submissions");
       await client.query(
         "UPDATE parent_links SET verified_at = NULL, verified_by = NULL WHERE id = $1",
         [ids.linkStudent],
@@ -800,7 +888,7 @@ integrationTest(
       await lockClient.query("LOCK TABLE quiz_submissions IN ACCESS EXCLUSIVE MODE");
       const verifierDemotionInFlight = requestRoute("/api/parent", tokens.parent, ids.student)
         .catch((error) => ({ status: 0, body: { error: String(error) } }));
-      await waitForBlockedQuery(observerClient, "quiz_submissions");
+      await waitForBlockedQuery(observerClient, lockBackendPid, "quiz_submissions");
       await client.query("UPDATE users SET role = 'teacher' WHERE id = $1", [ids.admin]);
       await lockClient.query("COMMIT");
       const verifierDemotedDuringOverview = await verifierDemotionInFlight;
@@ -818,7 +906,7 @@ integrationTest(
       await lockClient.query("LOCK TABLE quiz_submissions IN ACCESS EXCLUSIVE MODE");
       const analyticsLinkRevocationInFlight = requestAnalytics(tokens.parent, ids.student)
         .catch((error) => ({ status: 0, body: { error: String(error) } }));
-      await waitForBlockedQuery(observerClient, "quiz_submissions");
+      await waitForBlockedQuery(observerClient, lockBackendPid, "quiz_submissions");
       await client.query(
         "UPDATE parent_links SET verified_at = NULL, verified_by = NULL WHERE id = $1",
         [ids.linkStudent],
@@ -841,7 +929,7 @@ integrationTest(
       await lockClient.query("LOCK TABLE quiz_submissions IN ACCESS EXCLUSIVE MODE");
       const analyticsVerifierDemotionInFlight = requestAnalytics(tokens.parent, ids.student)
         .catch((error) => ({ status: 0, body: { error: String(error) } }));
-      await waitForBlockedQuery(observerClient, "quiz_submissions");
+      await waitForBlockedQuery(observerClient, lockBackendPid, "quiz_submissions");
       await client.query("UPDATE users SET role = 'teacher' WHERE id = $1", [ids.admin]);
       await lockClient.query("COMMIT");
       const analyticsVerifierDemotedDuringReport = await analyticsVerifierDemotionInFlight;
@@ -875,7 +963,7 @@ integrationTest(
       await lockClient.query("LOCK TABLE quiz_submissions IN ACCESS EXCLUSIVE MODE");
       const teacherEnrollmentRevocationInFlight = requestAnalytics(tokens.teacher, ids.student)
         .catch((error) => ({ status: 0, body: { error: String(error) } }));
-      await waitForBlockedQuery(observerClient, "quiz_submissions");
+      await waitForBlockedQuery(observerClient, lockBackendPid, "quiz_submissions");
       await client.query("UPDATE enrollments SET status = 'cancelled' WHERE id = $1", [ids.enrollmentOwned]);
       await lockClient.query("COMMIT");
       const teacherEnrollmentRevokedDuringReport = await teacherEnrollmentRevocationInFlight;
@@ -892,7 +980,7 @@ integrationTest(
       await lockClient.query("LOCK TABLE quiz_submissions IN ACCESS EXCLUSIVE MODE");
       const teacherStudentOwnershipTransferInFlight = requestAnalytics(tokens.teacher, ids.student)
         .catch((error) => ({ status: 0, body: { error: String(error) } }));
-      await waitForBlockedQuery(observerClient, "quiz_submissions");
+      await waitForBlockedQuery(observerClient, lockBackendPid, "quiz_submissions");
       await client.query("UPDATE courses SET teacher_id = $2 WHERE id = $1", [ids.ownedCourse, ids.otherTeacher]);
       await lockClient.query("COMMIT");
       const teacherStudentAfterOwnershipTransfer = await teacherStudentOwnershipTransferInFlight;
@@ -914,7 +1002,7 @@ integrationTest(
       await lockClient.query("LOCK TABLE quiz_submissions IN ACCESS EXCLUSIVE MODE");
       const teacherClassOwnershipTransferInFlight = requestAnalytics(tokens.teacher)
         .catch((error) => ({ status: 0, body: { error: String(error) } }));
-      await waitForBlockedQuery(observerClient, "quiz_submissions");
+      await waitForBlockedQuery(observerClient, lockBackendPid, "quiz_submissions");
       await client.query("UPDATE courses SET teacher_id = $2 WHERE id = $1", [ids.ownedCourse, ids.otherTeacher]);
       await lockClient.query("COMMIT");
       const teacherClassAfterOwnershipTransfer = await teacherClassOwnershipTransferInFlight;
@@ -931,7 +1019,7 @@ integrationTest(
       await lockClient.query("LOCK TABLE quiz_submissions IN ACCESS EXCLUSIVE MODE");
       const teacherRoleDemotionInFlight = requestAnalytics(tokens.teacher, ids.student)
         .catch((error) => ({ status: 0, body: { error: String(error) } }));
-      await waitForBlockedQuery(observerClient, "quiz_submissions");
+      await waitForBlockedQuery(observerClient, lockBackendPid, "quiz_submissions");
       await client.query("UPDATE users SET role = 'student' WHERE id = $1", [ids.teacher]);
       await lockClient.query("COMMIT");
       const teacherRoleDemotedDuringReport = await teacherRoleDemotionInFlight;
@@ -950,7 +1038,7 @@ integrationTest(
       await lockClient.query("LOCK TABLE quiz_submissions IN ACCESS EXCLUSIVE MODE");
       const studentRoleDemotionInFlight = requestAnalytics(tokens.student)
         .catch((error) => ({ status: 0, body: { error: String(error) } }));
-      await waitForBlockedQuery(observerClient, "quiz_submissions");
+      await waitForBlockedQuery(observerClient, lockBackendPid, "quiz_submissions");
       await client.query("UPDATE users SET role = 'teacher' WHERE id = $1", [ids.student]);
       await lockClient.query("COMMIT");
       const studentRoleDemotedDuringReport = await studentRoleDemotionInFlight;
