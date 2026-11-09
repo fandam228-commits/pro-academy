@@ -305,8 +305,8 @@ test("submission replacement checks status before upload and uses transaction-sc
   assert.ok(advisoryLock > finalAuthorization && rowLock > advisoryLock,
     "concurrent submissions must be serialized and the existing submission row locked");
   assert.ok(guardedUpdate > rowLock, "the replacement update must occur after the row lock");
-  assert.match(route, /or\\(isNull\\(homeworkSubmissions\\.status\\), ne\\(homeworkSubmissions\\.status, "graded"\\)\\)/);
-  assert.match(route, /removeUnreferencedPrivateHomeworkUpload\\(uploadedStoragePath, uploadToken\\)/);
+  assert.ok(route.includes('or(isNull(homeworkSubmissions.status), ne(homeworkSubmissions.status, "graded"))'));
+  assert.ok(route.includes("removeUnreferencedPrivateHomeworkUpload(uploadedStoragePath, uploadToken)"));
 });
 
 test("course-linked homework requires an active/completed enrollment", () => {
@@ -341,10 +341,10 @@ test("student homework GET and submission routes enforce course enrollment befor
   const studentListEnd = route.indexOf("const mySubs", studentListStart);
   assert.ok(studentListStart >= 0 && studentListEnd > studentListStart);
   const studentList = route.slice(studentListStart, studentListEnd);
-  assert.match(studentList, /\\.from\\(enrollments\\)/);
-  assert.match(studentList, /inArray\\(enrollments\\.status, \\["active", "completed"\\]\\)/);
-  assert.match(studentList, /const courseVisibility = enrolledCourseIds\\.length > 0/);
-  assert.match(studentList, /inArray\\(homework\\.courseId, enrolledCourseIds\\)/);
+  assert.ok(studentList.includes(".from(enrollments)"));
+  assert.ok(studentList.includes('inArray(enrollments.status, ["active", "completed"])'));
+  assert.ok(studentList.includes("const courseVisibility = enrolledCourseIds.length > 0"));
+  assert.ok(studentList.includes("inArray(homework.courseId, enrolledCourseIds)"));
 
   const submitStart = route.indexOf('if (contentType.includes("multipart/form-data"))');
   const submitEnd = route.indexOf("// ============ JSON ACTIONS", submitStart);
@@ -357,9 +357,9 @@ test("student homework GET and submission routes enforce course enrollment befor
   const persist = submitRoute.indexOf("await tx.insert(homeworkSubmissions).values(submission)", finalAuthorization);
   assert.ok(preflight >= 0 && upload > preflight && finalAuthorization > finalTransaction && persist > finalAuthorization,
     "current role/enrollment authorization must be checked before upload and again before submission persistence");
-  assert.match(helper, /inArray\\(enrollments\\.status, \\["active", "completed"\\]\\)/,
+  assert.ok(helper.includes('inArray(enrollments.status, ["active", "completed"])'),
     "only active or completed course enrollments may submit course-specific homework");
-  assert.match(helper, /\\.for\\("share"\\)/,
+  assert.ok(helper.includes('.for("share")'),
     "the live role, homework, course, and enrollment rows must remain locked through the write transaction");
 });
 
@@ -427,8 +427,8 @@ test("successful submission replacement deletes only a prior validated private B
   assert.ok(previousPathRead > failedUpdateGuard, "the previous path must be captured only for a successful update");
   assert.ok(cleanupCall > previousPathRead && successResponse > cleanupCall);
   const cleanupBlock = route.slice(previousPathRead, successResponse);
-  assert.match(cleanupBlock, /saveResult\\.previousStoragePath !== storagePath/);
-  assert.match(cleanupBlock, /isPrivateHomeworkBlobPath\\(saveResult\\.previousStoragePath\\)/,
+  assert.ok(cleanupBlock.includes("saveResult.previousStoragePath !== storagePath"));
+  assert.ok(cleanupBlock.includes("isPrivateHomeworkBlobPath(saveResult.previousStoragePath)"),
     "legacy absolute URLs and malformed paths must never be sent to private Blob deletion");
 });
 
