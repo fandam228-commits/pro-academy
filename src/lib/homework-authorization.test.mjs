@@ -7,6 +7,7 @@ import {
   canSubmitHomework,
   canAccessHomeworkCourse,
   getHomeworkFileAccessDecision,
+  isSameHomeworkFileAccessContext,
   canAssignHomeworkToCourse,
   canReplaceHomeworkSubmission,
 } from "./homework-authorization.mjs";
@@ -441,4 +442,83 @@ test("homework file GET rejects unsupported roles before database setup", async 
       setup > roleGuard,
     "homework file GET must reject unauthenticated and unsupported-role callers before database setup",
   );
+});
+
+
+test("private file access must be revalidated against the same live context before streaming", () => {
+  const original = {
+    requesterRole: "teacher",
+    submissionId: "submission-1",
+    homeworkId: "homework-1",
+    studentId: "student-1",
+    storagePath: "homework/submission-1.pdf",
+    fileName: "answer.pdf",
+    homeworkTeacherId: "teacher-1",
+    homeworkCourseId: "course-1",
+    courseTeacherId: "teacher-1",
+  };
+
+  assert.equal(isSameHomeworkFileAccessContext(original, { ...original }, "teacher"), true);
+  assert.equal(
+    isSameHomeworkFileAccessContext(original, { ...original, requesterRole: "admin" }, "teacher"),
+    false,
+    "a requester role change must invalidate the session's original authorization",
+  );
+  assert.equal(
+    isSameHomeworkFileAccessContext(original, { ...original, submissionId: "submission-2" }, "teacher"),
+    false,
+    "a different submission must never reuse the original provider result",
+  );
+  assert.equal(
+    isSameHomeworkFileAccessContext(original, { ...original, homeworkId: "homework-2" }, "teacher"),
+    false,
+    "a changed assignment relationship must invalidate the original access decision",
+  );
+  assert.equal(
+    isSameHomeworkFileAccessContext(original, { ...original, studentId: "student-2" }, "teacher"),
+    false,
+    "a changed submission owner must invalidate the original access decision",
+  );
+  assert.equal(
+    isSameHomeworkFileAccessContext(original, { ...original, storagePath: "homework/replaced.pdf" }, "teacher"),
+    false,
+    "a replaced file path must not stream the previously fetched object",
+  );
+  assert.equal(
+    isSameHomeworkFileAccessContext(original, { ...original, homeworkTeacherId: "teacher-2" }, "teacher"),
+    false,
+    "a changed homework owner must invalidate the original access decision",
+  );
+  assert.equal(
+    isSameHomeworkFileAccessContext(original, { ...original, courseTeacherId: "teacher-2" }, "teacher"),
+    false,
+    "a course transfer must invalidate the original access decision",
+  );
+  assert.equal(
+    isSameHomeworkFileAccessContext(original, { ...original, fileName: "renamed.pdf" }, "teacher"),
+    false,
+    "the streamed file metadata must belong to the same unchanged submission",
+  );
+  assert.equal(isSameHomeworkFileAccessContext(original, { ...original }, "admin"), false);
+});
+
+test("homework file GET rechecks current database authorization after the private Blob read and before streaming", async () => {
+  const route = await readFile(new URL("../app/api/homework/file/[id]/route.ts", import.meta.url), "utf8");
+  const initialLookup = route.indexOf("const initial = await loadHomeworkFileContext");
+  const blobRead = route.indexOf("await get(", initialLookup);
+  const finalLookup = route.indexOf("const latest = await loadHomeworkFileContext", blobRead);
+  const stableContextCheck = route.indexOf("isSameHomeworkFileAccessContext(initial, latest, role)", finalLookup);
+  const streamResponse = route.indexOf("return new Response(blob.stream", stableContextCheck);
+
+  assert.ok(initialLookup >= 0, "the route must load a database-derived initial access context");
+  assert.ok(blobRead > initialLookup, "the private Blob provider must be called only after initial authorization");
+  assert.ok(finalLookup > blobRead, "the route must reload current authorization after the provider read");
+  assert.ok(stableContextCheck > finalLookup, "the final live context must be compared with the original context");
+  assert.ok(streamResponse > stableContextCheck, "the stream must not be returned before final authorization succeeds");
+  assert.match(route, /requesterRole:\s*users\.role/);
+  assert.match(route, /\.leftJoin\(homeworkSubmissions,/);
+  assert.match(route, /\.leftJoin\(homework,/);
+  assert.match(route, /\.leftJoin\(courses,/);
+  assert.match(route, /console\.error\("Homework file GET failed; details withheld\."\)/);
+  assert.doesNotMatch(route, /console\.error\("Homework file error:",\s*error\)/);
 });
