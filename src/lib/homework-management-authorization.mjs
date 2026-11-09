@@ -1,4 +1,4 @@
-import { and, eq, sql } from "drizzle-orm";
+import { eq, sql } from "drizzle-orm";
 import { canManageHomework } from "./homework-authorization.mjs";
 
 function denied(status, error) {
@@ -101,14 +101,14 @@ export async function gradeHomeworkSubmission({
       .set({
         status: "graded",
         score: safeScore,
-        feedback: feedback || "",
+        feedback: typeof feedback === "string" ? feedback : "",
         gradedAt: new Date(),
       })
       .where(eq(tables.homeworkSubmissions.id, submissionId));
 
     await tx
       .update(tables.users)
-      .set({ points: sql`${tables.users.points} + ${safeScore}` })
+      .set({ points: sql`COALESCE(${tables.users.points}, 0) + ${safeScore}` })
       .where(eq(tables.users.id, submission.studentId));
 
     return {
