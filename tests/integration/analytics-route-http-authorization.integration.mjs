@@ -888,7 +888,7 @@ integrationTest(
       await lockClient.query("LOCK TABLE quiz_submissions IN ACCESS EXCLUSIVE MODE");
       const verifierDemotionInFlight = requestRoute("/api/parent", tokens.parent, ids.student)
         .catch((error) => ({ status: 0, body: { error: String(error) } }));
-      await waitForBlockedQuery(observerClient, "quiz_submissions");
+      await waitForBlockedQuery(observerClient, lockBackendPid, "quiz_submissions");
       await client.query("UPDATE users SET role = 'teacher' WHERE id = $1", [ids.admin]);
       await lockClient.query("COMMIT");
       const verifierDemotedDuringOverview = await verifierDemotionInFlight;
@@ -906,7 +906,7 @@ integrationTest(
       await lockClient.query("LOCK TABLE quiz_submissions IN ACCESS EXCLUSIVE MODE");
       const analyticsLinkRevocationInFlight = requestAnalytics(tokens.parent, ids.student)
         .catch((error) => ({ status: 0, body: { error: String(error) } }));
-      await waitForBlockedQuery(observerClient, "quiz_submissions");
+      await waitForBlockedQuery(observerClient, lockBackendPid, "quiz_submissions");
       await client.query(
         "UPDATE parent_links SET verified_at = NULL, verified_by = NULL WHERE id = $1",
         [ids.linkStudent],
@@ -929,7 +929,7 @@ integrationTest(
       await lockClient.query("LOCK TABLE quiz_submissions IN ACCESS EXCLUSIVE MODE");
       const analyticsVerifierDemotionInFlight = requestAnalytics(tokens.parent, ids.student)
         .catch((error) => ({ status: 0, body: { error: String(error) } }));
-      await waitForBlockedQuery(observerClient, "quiz_submissions");
+      await waitForBlockedQuery(observerClient, lockBackendPid, "quiz_submissions");
       await client.query("UPDATE users SET role = 'teacher' WHERE id = $1", [ids.admin]);
       await lockClient.query("COMMIT");
       const analyticsVerifierDemotedDuringReport = await analyticsVerifierDemotionInFlight;
@@ -963,7 +963,7 @@ integrationTest(
       await lockClient.query("LOCK TABLE quiz_submissions IN ACCESS EXCLUSIVE MODE");
       const teacherEnrollmentRevocationInFlight = requestAnalytics(tokens.teacher, ids.student)
         .catch((error) => ({ status: 0, body: { error: String(error) } }));
-      await waitForBlockedQuery(observerClient, "quiz_submissions");
+      await waitForBlockedQuery(observerClient, lockBackendPid, "quiz_submissions");
       await client.query("UPDATE enrollments SET status = 'cancelled' WHERE id = $1", [ids.enrollmentOwned]);
       await lockClient.query("COMMIT");
       const teacherEnrollmentRevokedDuringReport = await teacherEnrollmentRevocationInFlight;
@@ -980,7 +980,7 @@ integrationTest(
       await lockClient.query("LOCK TABLE quiz_submissions IN ACCESS EXCLUSIVE MODE");
       const teacherStudentOwnershipTransferInFlight = requestAnalytics(tokens.teacher, ids.student)
         .catch((error) => ({ status: 0, body: { error: String(error) } }));
-      await waitForBlockedQuery(observerClient, "quiz_submissions");
+      await waitForBlockedQuery(observerClient, lockBackendPid, "quiz_submissions");
       await client.query("UPDATE courses SET teacher_id = $2 WHERE id = $1", [ids.ownedCourse, ids.otherTeacher]);
       await lockClient.query("COMMIT");
       const teacherStudentAfterOwnershipTransfer = await teacherStudentOwnershipTransferInFlight;
@@ -1002,7 +1002,7 @@ integrationTest(
       await lockClient.query("LOCK TABLE quiz_submissions IN ACCESS EXCLUSIVE MODE");
       const teacherClassOwnershipTransferInFlight = requestAnalytics(tokens.teacher)
         .catch((error) => ({ status: 0, body: { error: String(error) } }));
-      await waitForBlockedQuery(observerClient, "quiz_submissions");
+      await waitForBlockedQuery(observerClient, lockBackendPid, "quiz_submissions");
       await client.query("UPDATE courses SET teacher_id = $2 WHERE id = $1", [ids.ownedCourse, ids.otherTeacher]);
       await lockClient.query("COMMIT");
       const teacherClassAfterOwnershipTransfer = await teacherClassOwnershipTransferInFlight;
@@ -1019,7 +1019,7 @@ integrationTest(
       await lockClient.query("LOCK TABLE quiz_submissions IN ACCESS EXCLUSIVE MODE");
       const teacherRoleDemotionInFlight = requestAnalytics(tokens.teacher, ids.student)
         .catch((error) => ({ status: 0, body: { error: String(error) } }));
-      await waitForBlockedQuery(observerClient, "quiz_submissions");
+      await waitForBlockedQuery(observerClient, lockBackendPid, "quiz_submissions");
       await client.query("UPDATE users SET role = 'student' WHERE id = $1", [ids.teacher]);
       await lockClient.query("COMMIT");
       const teacherRoleDemotedDuringReport = await teacherRoleDemotionInFlight;
@@ -1038,7 +1038,7 @@ integrationTest(
       await lockClient.query("LOCK TABLE quiz_submissions IN ACCESS EXCLUSIVE MODE");
       const studentRoleDemotionInFlight = requestAnalytics(tokens.student)
         .catch((error) => ({ status: 0, body: { error: String(error) } }));
-      await waitForBlockedQuery(observerClient, "quiz_submissions");
+      await waitForBlockedQuery(observerClient, lockBackendPid, "quiz_submissions");
       await client.query("UPDATE users SET role = 'teacher' WHERE id = $1", [ids.student]);
       await lockClient.query("COMMIT");
       const studentRoleDemotedDuringReport = await studentRoleDemotionInFlight;
