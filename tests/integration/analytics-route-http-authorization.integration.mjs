@@ -671,6 +671,51 @@ integrationTest(
       assert.equal(originalAttendance.rows[0]?.marked_by, ids.otherTeacher,
         "a rejected request must preserve the other teacher's attendance record");
 
+      const outOfScopeAttendanceWrite = await requestPost("/api/attendance", tokens.teacher, {
+        action: "bulk_mark",
+        sessionTitle: "Out-of-scope attendance fixture",
+        sessionDate: "2026-11-06",
+        marks: [
+          { studentId: ids.secondOwnedStudent, status: "present" },
+          { studentId: ids.otherStudent, status: "absent" },
+        ],
+      });
+      assert.equal(
+        outOfScopeAttendanceWrite.status,
+        403,
+        "teachers must not mark students who are enrolled only in another teacher's course",
+      );
+      const outOfScopePartialWrite = await client.query(
+        "SELECT id FROM attendance_records WHERE student_id = $1 AND session_title = $2 AND session_date = $3",
+        [ids.secondOwnedStudent, "Out-of-scope attendance fixture", "2026-11-06"],
+      );
+      assert.equal(
+        outOfScopePartialWrite.rowCount,
+        0,
+        "a mixed in-scope/out-of-scope bulk request must be rejected atomically without writing the in-scope mark",
+      );
+
+      const cancelledEnrollmentAttendanceWrite = await requestPost("/api/attendance", tokens.teacher, {
+        action: "bulk_mark",
+        sessionTitle: "Cancelled enrollment attendance fixture",
+        sessionDate: "2026-11-06",
+        marks: [{ studentId: ids.unverifiedStudent, status: "present" }],
+      });
+      assert.equal(
+        cancelledEnrollmentAttendanceWrite.status,
+        403,
+        "teachers must not mark students whose only owned-course enrollment is cancelled",
+      );
+      const cancelledEnrollmentPartialWrite = await client.query(
+        "SELECT id FROM attendance_records WHERE student_id = $1 AND session_title = $2 AND session_date = $3",
+        [ids.unverifiedStudent, "Cancelled enrollment attendance fixture", "2026-11-06"],
+      );
+      assert.equal(
+        cancelledEnrollmentPartialWrite.rowCount,
+        0,
+        "a cancelled-enrollment attendance request must not create a record",
+      );
+
       // The second student is enrolled in both teachers' courses. With no existing
       // attendance row, concurrent requests must still serialize: exactly one
       // teacher creates the row and the other receives a conflict.
