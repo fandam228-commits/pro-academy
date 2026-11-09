@@ -7,25 +7,65 @@ import { Users, CheckCircle, BarChart3, Clock, MessageSquare, Phone, ShieldCheck
 // BarChart3 powers the new "Full Performance Report" action
 
 export const ParentDashboard: React.FC<{ onOpenReport?: () => void }> = ({ onOpenReport }) => {
-  const { lang, user } = useApp();
+  const { lang } = useApp();
   const [data, setData] = useState<any>(null);
   const [attendance, setAttendance] = useState<{ rate: number; total: number; records: any[] } | null>(null);
   const [loading, setLoading] = useState(true);
+  const [selectionRequired, setSelectionRequired] = useState(false);
+  const [linkedStudents, setLinkedStudents] = useState<Array<{ id: string; name: string; grade: string | null }>>([]);
+  const [selectedStudentId, setSelectedStudentId] = useState("");
+  const [error, setError] = useState<string | null>(null);
 
-  const fetchParentData = async () => {
+  const fetchParentData = async (studentId?: string) => {
     setLoading(true);
+    setError(null);
+    if (!studentId) setSelectedStudentId("");
     try {
-      const res = await fetch(`/api/parent?parentId=${user?.id || "usr_parent_1"}`);
+      const query = studentId ? `?studentId=${encodeURIComponent(studentId)}` : "";
+      const res = await fetch(`/api/parent${query}`, { cache: "no-store" });
       const json = await res.json();
+
+      if (res.status === 400 && json.requiresStudentSelection === true) {
+        setData(null);
+        setAttendance(null);
+        setLinkedStudents(Array.isArray(json.students) ? json.students : []);
+        setSelectedStudentId("");
+        setSelectionRequired(true);
+        return;
+      }
+      if (!res.ok) {
+        setData(null);
+        setAttendance(null);
+        setLinkedStudents([]);
+        setSelectedStudentId("");
+        setSelectionRequired(false);
+        setError(typeof json.error === "string" ? json.error : "Unable to load parent data.");
+        return;
+      }
+
       setData(json);
-      // Fetch REAL attendance for the linked student
-      const attRes = await fetch(`/api/attendance?studentId=${json?.student?.id || ""}`);
+      setLinkedStudents([]);
+      setSelectionRequired(false);
+      setSelectedStudentId(json.student?.id || "");
+
+      // Fetch attendance only after the API has authorized the explicitly selected child.
+      const attRes = await fetch(
+        `/api/attendance?studentId=${encodeURIComponent(json?.student?.id || "")}`,
+        { cache: "no-store" },
+      );
       if (attRes.ok) {
         const attJson = await attRes.json();
-        if (attJson.rate !== undefined) setAttendance({ rate: attJson.rate, total: attJson.total, records: attJson.records || [] });
+        if (attJson.rate !== undefined) {
+          setAttendance({ rate: attJson.rate, total: attJson.total, records: attJson.records || [] });
+        } else {
+          setAttendance(null);
+        }
+      } else {
+        setAttendance(null);
       }
     } catch (e) {
       console.error(e);
+      setError("Unable to load parent data. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -39,7 +79,72 @@ export const ParentDashboard: React.FC<{ onOpenReport?: () => void }> = ({ onOpe
     return <div className="py-20 text-center text-slate-500">{lang === "ar" ? "جاري تحميل بيانات الطالب والنتائج..." : "Loading student metrics..."}</div>;
   }
 
-  const { student, submissions, averageScore, attendanceRate } = data || {};
+  if (selectionRequired) {
+    return (
+      <div className="max-w-xl mx-auto px-4 py-16">
+        <div className="rounded-3xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-8 shadow-xl space-y-5">
+          <div>
+            <h2 className="text-xl font-black text-slate-900 dark:text-white">
+              {lang === "ar" ? "اختر الطالب لمتابعة تقريره" : "Choose a student to view their report"}
+            </h2>
+            <p className="mt-2 text-sm text-slate-500">
+              {lang === "ar"
+                ? "يوجد أكثر من ارتباط عائلي. اختر طالبًا موثقًا للمتابعة."
+                : "More than one family link exists. Select a verified student to continue."}
+            </p>
+          </div>
+          {linkedStudents.length > 0 ? (
+            <>
+              <select
+                value={selectedStudentId}
+                onChange={(event) => setSelectedStudentId(event.target.value)}
+                className="w-full rounded-xl border border-slate-300 dark:border-slate-700 bg-transparent p-3 text-slate-900 dark:text-white"
+                aria-label={lang === "ar" ? "الطالب" : "Student"}
+              >
+                <option value="">{lang === "ar" ? "اختر الطالب" : "Select a student"}</option>
+                {linkedStudents.map((linkedStudent) => (
+                  <option key={linkedStudent.id} value={linkedStudent.id}>
+                    {linkedStudent.name}{linkedStudent.grade ? ` — ${linkedStudent.grade}` : ""}
+                  </option>
+                ))}
+              </select>
+              <button
+                type="button"
+                disabled={!selectedStudentId}
+                onClick={() => fetchParentData(selectedStudentId)}
+                className="w-full rounded-xl bg-amber-500 px-5 py-3 font-extrabold text-white disabled:cursor-not-allowed disabled:opacity-50"
+              >
+                {lang === "ar" ? "عرض التقرير" : "View report"}
+              </button>
+            </>
+          ) : (
+            <p className="text-sm text-amber-700 dark:text-amber-300">
+              {lang === "ar"
+                ? "لا يوجد حاليًا طالب موثق يمكن اختياره. يرجى مراجعة الإدارة."
+                : "No currently verified student is available to select. Please contact the administrator."}
+            </p>
+          )}
+        </div>
+      </div>
+    );
+  }
+
+  if (error || !data) {
+    return (
+      <div className="max-w-xl mx-auto px-4 py-16 text-center">
+        <p className="text-sm text-red-600 dark:text-red-400">{error || "Unable to load parent data."}</p>
+        <button
+          type="button"
+          onClick={() => fetchParentData()}
+          className="mt-4 rounded-xl bg-amber-500 px-5 py-3 font-extrabold text-white"
+        >
+          {lang === "ar" ? "إعادة المحاولة" : "Try again"}
+        </button>
+      </div>
+    );
+  }
+
+  const { student, submissions, averageScore, attendanceRate } = data;
 
   return (
     <div className="max-w-5xl mx-auto px-4 py-8 space-y-8">
@@ -57,7 +162,7 @@ export const ParentDashboard: React.FC<{ onOpenReport?: () => void }> = ({ onOpe
               {lang === "ar" ? `متابعة الطالب: ${student?.name}` : `Student: ${student?.name}`}
             </h1>
             <p className="text-xs text-slate-500 dark:text-slate-400">
-              {student?.grade} • {student?.phone}
+              {student?.grade}
             </p>
           </div>
         </div>
@@ -70,6 +175,15 @@ export const ParentDashboard: React.FC<{ onOpenReport?: () => void }> = ({ onOpe
           >
             <BarChart3 className="w-4 h-4" />
             <span>{lang === "ar" ? "تقرير الأداء التفصيلي" : "Full Performance Report"}</span>
+          </button>
+        )}
+        {selectedStudentId && (
+          <button
+            type="button"
+            onClick={() => fetchParentData()}
+            className="px-5 py-3 rounded-2xl border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-200 font-extrabold text-xs transition-all"
+          >
+            {lang === "ar" ? "تغيير الطالب" : "Change student"}
           </button>
         )}
 
@@ -91,14 +205,14 @@ export const ParentDashboard: React.FC<{ onOpenReport?: () => void }> = ({ onOpe
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
         <div className="bg-white dark:bg-slate-900 p-6 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-lg text-center">
           <span className="text-xs font-bold text-slate-400 block mb-1 uppercase">{lang === "ar" ? "متوسط درجات الامتحانات" : "Average Exam Score"}</span>
-          <div className="text-3xl font-black text-blue-600 dark:text-blue-400">{averageScore}%</div>
+          <div className="text-3xl font-black text-blue-600 dark:text-blue-400">{averageScore == null ? "—" : `${averageScore}%`}</div>
           <p className="text-[10px] text-emerald-600 font-bold mt-1">Grade: Excellent</p>
         </div>
 
         <div className="bg-white dark:bg-slate-900 p-6 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-lg text-center">
           <span className="text-xs font-bold text-slate-400 block mb-1 uppercase">{lang === "ar" ? "نسبة الحضور والانضباط الحقيقية" : "Real Attendance Rate"}</span>
           <div className="text-3xl font-black text-emerald-600 dark:text-emerald-400">
-            {attendance ? `${attendance.rate}%` : attendanceRate}
+            {attendance ? `${attendance.rate}%` : attendanceRate ?? "—"}
           </div>
           <p className="text-[10px] text-slate-400 mt-1">
             {attendance
@@ -111,7 +225,7 @@ export const ParentDashboard: React.FC<{ onOpenReport?: () => void }> = ({ onOpe
 
         <div className="bg-white dark:bg-slate-900 p-6 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-lg text-center">
           <span className="text-xs font-bold text-slate-400 block mb-1 uppercase">{lang === "ar" ? "التتابع والمواظبة" : "Study Streak"}</span>
-          <div className="text-3xl font-black text-amber-500">{student?.streak || 12} Days</div>
+          <div className="text-3xl font-black text-amber-500">{student?.streak ?? 0} Days</div>
           <p className="text-[10px] text-amber-600 font-bold mt-1">Active Daily Learner</p>
         </div>
       </div>
