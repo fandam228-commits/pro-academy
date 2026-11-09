@@ -7,6 +7,7 @@ import { requireRoles, getAuthContext } from "@/lib/security";
 import { notifyUser } from "@/lib/push";
 import { del, put } from "@vercel/blob";
 import { getHomeworkPrivateBlobToken } from "@/lib/homework-storage.mjs";
+import { getSupersededPrivateHomeworkPath } from "@/lib/homework-replacement.mjs";
 import { randomUUID } from "node:crypto";
 import { canManageHomework, canSubmitHomework, canAccessHomeworkGrade, canAccessHomeworkCourse, canAssignHomeworkToCourse, canReplaceHomeworkSubmission } from "@/lib/homework-authorization.mjs";
 
@@ -242,6 +243,11 @@ export async function POST(req: Request) {
           .where(and(
             eq(homeworkSubmissions.id, existing[0].id),
             or(isNull(homeworkSubmissions.status), ne(homeworkSubmissions.status, "graded")),
+            // Compare the path read during preflight so concurrent replacements cannot
+            // overwrite each other using stale state.
+            existing[0].storagePath === null || existing[0].storagePath === undefined
+              ? isNull(homeworkSubmissions.storagePath)
+              : eq(homeworkSubmissions.storagePath, existing[0].storagePath),
           ))
           .returning({ id: homeworkSubmissions.id });
 
@@ -256,6 +262,20 @@ export async function POST(req: Request) {
             }
           }
           return NextResponse.json({ error: "This submission is already graded and can't be replaced." }, { status: 400 });
+        }
+        const supersededStoragePath = getSupersededPrivateHomeworkPath({
+          previousStoragePath: existing[0].storagePath,
+          nextStoragePath: storagePath,
+          updateSucceeded: updated.length > 0,
+        });
+        if (supersededStoragePath && uploadToken) {
+          try {
+            await del(supersededStoragePath, { token: uploadToken });
+          } catch {
+            // The database now references the new object. Keep the successful
+            // replacement response stable and avoid logging private storage paths.
+            console.error("Failed to remove superseded private homework upload.");
+          }
         }
         return NextResponse.json({ success: true, updated: true });
       }
