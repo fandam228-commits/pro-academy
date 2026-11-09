@@ -696,6 +696,20 @@ integrationTest(
       assert.equal(parentAttendance.status, 200, JSON.stringify(parentAttendance.body));
       assert.equal(parentAttendance.body.studentId, ids.student);
       assert.equal(parentAttendance.body.total, 1);
+      assert.equal(parentAttendance.headers.get("cache-control"), "private, no-store",
+        "parent attendance responses must never be cached");
+      assert.deepEqual(
+        Object.keys(parentAttendance.body.records?.[0] || {}).sort(),
+        ["id", "sessionDate", "sessionTitle", "status"].sort(),
+        "parent attendance records must expose only the fields required by the dashboard",
+      );
+      for (const privateField of ["studentId", "studentName", "markedBy", "grade"]) {
+        assert.equal(
+          Object.hasOwn(parentAttendance.body.records?.[0] || {}, privateField),
+          false,
+          `parent attendance rows must not expose ${privateField}`,
+        );
+      }
       const parentAttendanceUnverified = await requestRoute("/api/attendance", tokens.parent, ids.unverifiedStudent);
       assert.equal(parentAttendanceUnverified.status, 403,
         "parent attendance must reject an unverified linked child");
@@ -707,6 +721,20 @@ integrationTest(
       const parentOverviewWithoutSelection = await requestRoute("/api/parent", tokens.parent);
       assert.equal(parentOverviewWithoutSelection.status, 400,
         "parent overview must require explicit selection when multiple children are linked");
+      assert.equal(parentOverviewWithoutSelection.body.requiresStudentSelection, true,
+        "ambiguous parent overview must provide the child-picker signal");
+      assert.deepEqual(
+        (parentOverviewWithoutSelection.body.students || []).map((student) => student.id).sort(),
+        [ids.student, ids.otherStudent].sort(),
+        "the picker must list only currently verified children and exclude unverified links",
+      );
+      for (const selectableStudent of parentOverviewWithoutSelection.body.students || []) {
+        assert.deepEqual(
+          Object.keys(selectableStudent).sort(),
+          ["grade", "id", "name"].sort(),
+          "child picker options must not expose phone, email, or account fields",
+        );
+      }
       assert.equal(parentOverviewWithoutSelection.headers.get("cache-control"), "private, no-store",
         "ambiguous parent overview responses must never be cached");
       const parentOverview = await requestRoute("/api/parent", tokens.parent, ids.student);
@@ -766,12 +794,36 @@ integrationTest(
       assert.equal(parentOverview.headers.get("cache-control"), "private, no-store",
         "parent overview responses containing student data must never be cached");
 
-      // Pause the overview after its initial relationship check, revoke the link
-      // while the quiz-submission read is blocked, then prove the final guard denies
-      // the response instead of returning data authorized by a stale link.
+      // Pause the parent attendance read after its initial relationship check,
+      // revoke the link while the records query is blocked, then prove the final
+      // guard denies the response instead of returning data authorized by a stale link.
       lockClient = new Client({ connectionString });
       observerClient = new Client({ connectionString });
       await Promise.all([lockClient.connect(), observerClient.connect()]);
+      await lockClient.query("BEGIN");
+      await lockClient.query("LOCK TABLE attendance_records IN ACCESS EXCLUSIVE MODE");
+      const parentAttendanceInFlight = requestRoute("/api/attendance", tokens.parent, ids.student)
+        .catch((error) => ({ status: 0, body: { error: String(error) } }));
+      await waitForBlockedQuery(observerClient, "attendance_records");
+      await client.query(
+        "UPDATE parent_links SET verified_at = NULL, verified_by = NULL WHERE id = $1",
+        [ids.linkStudent],
+      );
+      await lockClient.query("COMMIT");
+      const revokedDuringAttendance = await parentAttendanceInFlight;
+      assert.equal(
+        revokedDuringAttendance.status,
+        403,
+        "parent attendance must revalidate the verified link after records are read and deny a link revoked in flight",
+      );
+      await client.query(
+        "UPDATE parent_links SET verified_at = NOW(), verified_by = $2 WHERE id = $1",
+        [ids.linkStudent, ids.admin],
+      );
+
+      // Pause the overview after its initial relationship check, revoke the link
+      // while the quiz-submission read is blocked, then prove the final guard denies
+      // the response instead of returning data authorized by a stale link.
       await lockClient.query("BEGIN");
       await lockClient.query("LOCK TABLE quiz_submissions IN ACCESS EXCLUSIVE MODE");
       const parentOverviewInFlight = requestRoute("/api/parent", tokens.parent, ids.student)
