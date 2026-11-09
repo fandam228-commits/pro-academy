@@ -84,9 +84,9 @@ export async function GET(req: Request) {
       return NextResponse.json({ error: "Session expired or not logged in." }, { status: 401 });
     }
     return NextResponse.json({ success: true, user: sanitizeUser(ctx.user) });
-  } catch (error) {
+  } catch (error: any) {
     console.error("Auth GET error:", error);
-    return NextResponse.json({ error: "Session check failed" }, { status: 500 });
+    return NextResponse.json({ error: error?.message || "Session check failed" }, { status: 500 });
   }
 }
 
@@ -216,8 +216,21 @@ export async function POST(req: Request) {
     }
 
     return NextResponse.json({ error: "Invalid action" }, { status: 400 });
-  } catch (error) {
+  } catch (error: any) {
     console.error("Auth API Error:", error);
-    return NextResponse.json({ error: "Authentication failed" }, { status: 500 });
+    const msg = error?.message || "";
+    if (msg.includes("DATABASE_URL") || !process.env.DATABASE_URL) {
+      return NextResponse.json(
+        {
+          error:
+            "قاعدة البيانات غير متصلة (DATABASE_URL غير متوفر في بيئة Preview على Vercel). يرجى تفعيل متغير DATABASE_URL لبيئة Preview في Vercel Dashboard Settings.",
+        },
+        { status: 500 }
+      );
+    }
+    return NextResponse.json(
+      { error: error?.message || "فشل تسجيل الدخول. يرجى التحقق من اتصال قاعدة البيانات." },
+      { status: 500 }
+    );
   }
 }

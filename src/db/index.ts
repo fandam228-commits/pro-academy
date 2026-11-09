@@ -24,11 +24,18 @@ const globalForDb = globalThis as typeof globalThis & {
   __arenaNextJsPostgresqlPool?: Pool;
 };
 
+const isRemotePostgres = Boolean(
+  databaseUrl &&
+    !databaseUrl.includes("localhost") &&
+    !databaseUrl.includes("127.0.0.1")
+);
+
 export const pool =
   globalForDb.__arenaNextJsPostgresqlPool ??
   new Pool({
     ...(databaseUrl ? { connectionString: databaseUrl } : {}),
-    connectionTimeoutMillis: isBuildPhase ? 1000 : 5000,
+    ...(isRemotePostgres ? { ssl: { rejectUnauthorized: false } } : {}),
+    connectionTimeoutMillis: isBuildPhase ? 1000 : 10000,
     idleTimeoutMillis: isBuildPhase ? 1000 : 30000,
     max: isBuildPhase ? 1 : 10,
   });
