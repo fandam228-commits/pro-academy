@@ -75,6 +75,7 @@ integrationTest(
       otherCourse: id("other_course"),
       otherCourseQuiz: id("other_course_quiz"),
       otherCourseQuizSubmission: id("other_course_quiz_submission"),
+      otherStudentQuizSubmission: id("other_student_quiz_submission"),
       ownedCourseHomework: id("owned_course_homework"),
       otherTeacherHomework: id("other_teacher_homework"),
       staleOwnerHomework: id("stale_owner_homework"),
@@ -83,6 +84,7 @@ integrationTest(
       staleOwnerHomeworkSubmission: id("stale_owner_homework_submission"),
       attendanceRecord: id("attendance_record"),
       attendance: id("attendance"),
+      otherStudentAttendance: id("other_student_attendance"),
       enrollmentOwned: id("enrollment_owned"),
       enrollmentSecondOwned: id("enrollment_second_owned"),
       enrollmentSecondOtherCourse: id("enrollment_second_other_course"),
@@ -265,8 +267,12 @@ integrationTest(
       );
       await client.query(
         `INSERT INTO quiz_submissions (id, quiz_id, student_id, score, total_questions, percentage, passed, answers)
-         VALUES ($1, $2, $3, 9, 10, 90, true, '{}'::jsonb)`,
-        [ids.otherCourseQuizSubmission, ids.otherCourseQuiz, ids.student],
+         VALUES ($1, $2, $3, 9, 10, 90, true, '{}'::jsonb),
+                ($4, $2, $5, 8, 10, 80, true, '{}'::jsonb)`,
+        [
+          ids.otherCourseQuizSubmission, ids.otherCourseQuiz, ids.student,
+          ids.otherStudentQuizSubmission, ids.otherStudent,
+        ],
       );
       await client.query(
         `INSERT INTO attendance_records (id, student_id, student_name, session_title, session_date, status, grade, marked_by)
@@ -276,8 +282,12 @@ integrationTest(
 
       await client.query(
         `INSERT INTO attendance (id, student_id, course_id, lesson_id, status, date)
-         VALUES ($1, $2, $3, 'lesson-parent-overview', 'present', NOW())`,
-        [ids.attendance, ids.student, ids.ownedCourse],
+         VALUES ($1, $2, $3, 'lesson-parent-overview', 'present', NOW()),
+                ($4, $5, $6, 'lesson-parent-sibling', 'absent', NOW())`,
+        [
+          ids.attendance, ids.student, ids.ownedCourse,
+          ids.otherStudentAttendance, ids.otherStudent, ids.otherCourse,
+        ],
       );
 
       await client.query(
@@ -708,22 +718,43 @@ integrationTest(
         "parent overview must expose only the explicitly approved student profile fields",
       );
       assert.ok(parentOverview.body.enrollments?.length > 0, "parent overview fixture must include an enrollment");
-      assert.deepEqual(
-        Object.keys(parentOverview.body.enrollments[0]).sort(),
-        ["activatedAt", "courseId", "id", "progress", "status"].sort(),
-        "parent overview enrollments must expose only progress fields, never payment or internal student data",
+      for (const [index, enrollment] of parentOverview.body.enrollments.entries()) {
+        assert.deepEqual(
+          Object.keys(enrollment).sort(),
+          ["activatedAt", "courseId", "id", "progress", "status"].sort(),
+          `parent overview enrollment ${index} must expose only progress fields, never payment or internal student data`,
+        );
+      }
+      assert.equal(
+        parentOverview.body.enrollments.some((enrollment) => enrollment.id === ids.enrollmentOtherStudent),
+        false,
+        "parent overview must not include an enrollment belonging to a different linked child",
       );
       assert.ok(parentOverview.body.submissions?.length > 0, "parent overview fixture must include a quiz submission");
-      assert.deepEqual(
-        Object.keys(parentOverview.body.submissions[0]).sort(),
-        ["id", "passed", "percentage", "score", "submittedAt", "totalQuestions"].sort(),
-        "parent overview submissions must not expose raw answers, feedback, or internal identifiers",
+      for (const [index, submission] of parentOverview.body.submissions.entries()) {
+        assert.deepEqual(
+          Object.keys(submission).sort(),
+          ["id", "passed", "percentage", "score", "submittedAt", "totalQuestions"].sort(),
+          `parent overview submission ${index} must not expose raw answers, feedback, or internal identifiers`,
+        );
+      }
+      assert.equal(
+        parentOverview.body.submissions.some((submission) => submission.id === ids.otherStudentQuizSubmission),
+        false,
+        "parent overview must not include a quiz submission belonging to a different linked child",
       );
       assert.ok(parentOverview.body.attendance?.length > 0, "parent overview fixture must include an attendance record");
-      assert.deepEqual(
-        Object.keys(parentOverview.body.attendance[0]).sort(),
-        ["courseId", "date", "id", "status"].sort(),
-        "parent overview attendance must expose only the summary fields needed by the dashboard",
+      for (const [index, attendanceRecord] of parentOverview.body.attendance.entries()) {
+        assert.deepEqual(
+          Object.keys(attendanceRecord).sort(),
+          ["courseId", "date", "id", "status"].sort(),
+          `parent overview attendance ${index} must expose only the summary fields needed by the dashboard`,
+        );
+      }
+      assert.equal(
+        parentOverview.body.attendance.some((record) => record.id === ids.otherStudentAttendance),
+        false,
+        "parent overview must not include attendance belonging to a different linked child",
       );
       for (const privateField of ["email", "password", "phone", "parentPhone", "username", "resetToken", "sessionToken"]) {
         assert.equal(
