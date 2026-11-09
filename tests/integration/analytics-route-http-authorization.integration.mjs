@@ -16,34 +16,50 @@ function assertLocalTestDatabase(value) {
 
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
-async function waitForBlockedQuery(observerClient, tableName, timeoutMs = 15000) {
+async function waitForBlockedQuery(observerClient, blockerPid, tableName, timeoutMs = 15000) {
   const deadline = Date.now() + timeoutMs;
   while (Date.now() < deadline) {
+    // pg_stat_activity.query is truncated by track_activity_query_size (often 1024
+    // bytes), so matching SQL text can miss a table in a long DDL batch.
+    // Identify the exact blocker and relation through PostgreSQL's lock catalog.
     const result = await observerClient.query(
-      `SELECT pid
-       FROM pg_stat_activity
-       WHERE datname = current_database()
-         AND pid <> pg_backend_pid()
-         AND state = 'active'
-         AND wait_event_type = 'Lock'
-         AND query ILIKE $1
+      `SELECT activity.pid
+       FROM pg_stat_activity AS activity
+       JOIN pg_locks AS waiting_lock
+         ON waiting_lock.pid = activity.pid AND waiting_lock.granted = false
+       JOIN pg_class AS blocked_relation
+         ON blocked_relation.oid = waiting_lock.relation
+       WHERE activity.datname = current_database()
+         AND activity.pid <> pg_backend_pid()
+         AND activity.state = 'active'
+         AND activity.wait_event_type = 'Lock'
+         AND blocked_relation.relname = $1
+         AND $2 = ANY(pg_blocking_pids(activity.pid))
        LIMIT 1`,
-      [`%${tableName}%`],
+      [tableName, blockerPid],
     );
     if (result.rowCount > 0) return;
     await delay(50);
   }
   const blocked = await observerClient.query(
-    `SELECT pid, wait_event_type, left(query, 500) AS query
-     FROM pg_stat_activity
-     WHERE datname = current_database()
-       AND pid <> pg_backend_pid()
-       AND state = 'active'
-       AND wait_event_type = 'Lock'
+    `SELECT activity.pid, activity.wait_event_type,
+            blocked_relation.relname AS blocked_relation,
+            left(activity.query, 500) AS query
+     FROM pg_stat_activity AS activity
+     LEFT JOIN pg_locks AS waiting_lock
+       ON waiting_lock.pid = activity.pid AND waiting_lock.granted = false
+     LEFT JOIN pg_class AS blocked_relation
+       ON blocked_relation.oid = waiting_lock.relation
+     WHERE activity.datname = current_database()
+       AND activity.pid <> pg_backend_pid()
+       AND activity.state = 'active'
+       AND activity.wait_event_type = 'Lock'
+       AND $1 = ANY(pg_blocking_pids(activity.pid))
      LIMIT 10`,
+    [blockerPid],
   );
   throw new Error(
-    `Timed out waiting for a PostgreSQL query blocked on ${tableName}; other blocked queries: ${JSON.stringify(blocked.rows)}`,
+    `Timed out waiting for a PostgreSQL query blocked on ${tableName} by backend ${blockerPid}; blocked queries: ${JSON.stringify(blocked.rows)}`,
   );
 }
 
@@ -810,12 +826,14 @@ integrationTest(
       lockClient = new Client({ connectionString });
       observerClient = new Client({ connectionString });
       await Promise.all([lockClient.connect(), observerClient.connect()]);
+      const lockBackend = await lockClient.query("SELECT pg_backend_pid() AS pid");
+      const lockBackendPid = Number(lockBackend.rows[0].pid);
       await lockClient.query("BEGIN");
       await lockClient.query("LOCK TABLE attendance_records IN ACCESS EXCLUSIVE MODE");
       const parentAttendanceInFlight = requestRoute("/api/attendance", tokens.parent, ids.student, 30000)
         .catch((error) => ({ status: 0, body: { error: String(error) } }));
       const attendanceBlockOrResponse = await Promise.race([
-        waitForBlockedQuery(observerClient, "attendance_records").then(() => ({ blocked: true })),
+        waitForBlockedQuery(observerClient, lockBackendPid, "attendance_records").then(() => ({ blocked: true })),
         parentAttendanceInFlight.then((response) => ({ blocked: false, response })),
       ]);
       assert.equal(
@@ -846,7 +864,7 @@ integrationTest(
       await lockClient.query("LOCK TABLE quiz_submissions IN ACCESS EXCLUSIVE MODE");
       const parentOverviewInFlight = requestRoute("/api/parent", tokens.parent, ids.student)
         .catch((error) => ({ status: 0, body: { error: String(error) } }));
-      await waitForBlockedQuery(observerClient, "quiz_submissions");
+      await waitForBlockedQuery(observerClient, lockBackendPid, "quiz_submissions");
       await client.query(
         "UPDATE parent_links SET verified_at = NULL, verified_by = NULL WHERE id = $1",
         [ids.linkStudent],
