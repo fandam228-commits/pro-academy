@@ -81,7 +81,7 @@ const homeworkFileRouteSource = await readFile(
 
 test("legacy public homework URLs fail with 410 before any Blob provider read", () => {
   const legacyDecision = homeworkFileRouteSource.indexOf('storageDecision === "legacy-public-url"');
-  const privateBlobRead = homeworkFileRouteSource.indexOf('await get(sub.storagePath as string');
+  const privateBlobRead = homeworkFileRouteSource.indexOf('await get(initial.storagePath as string');
   assert.notEqual(legacyDecision, -1, "the authenticated file route must handle legacy public URLs explicitly");
   assert.notEqual(privateBlobRead, -1, "private file streaming must use the Blob provider");
   assert.ok(legacyDecision < privateBlobRead, "legacy URLs must be rejected before a provider read");
@@ -105,7 +105,7 @@ const homeworkApiRouteSource = await readFile(
 
 test("private homework downloads use private Blob access and non-cacheable response headers", () => {
   assert.ok(
-    homeworkFileRouteSource.includes('await get(sub.storagePath as string, { access: "private", token: privateBlobToken })'),
+    homeworkFileRouteSource.includes('await get(initial.storagePath as string, { access: "private", token: privateBlobToken })'),
     "file reads must use the dedicated private token and private Blob access",
   );
   assert.ok(homeworkFileRouteSource.includes('"Cache-Control": "private, no-store"'));
@@ -145,27 +145,31 @@ test("failed homework submission inserts clean up the newly uploaded private Blo
 });
 
 test("teacher file access resolves the current course owner from the database", () => {
+  // The requester, submission, homework, and current course owner must come
+  // from one joined query so the authorization helper never trusts request data.
   assert.match(
     homeworkFileRouteSource,
-    /\.leftJoin\(courses, eq\(homework\.courseId, courses\.id\)\)/,
+    /\.leftJoin\(courses, eq\(courses\.id, homework\.courseId\)\)/,
     "file authorization must resolve the course linked to the homework",
   );
-  assert.match(homeworkFileRouteSource, /courseId:\s*homework\.courseId/);
+  assert.match(homeworkFileRouteSource, /requesterRole:\s*users\.role/);
+  assert.match(homeworkFileRouteSource, /studentId:\s*homeworkSubmissions\.studentId/);
+  assert.match(homeworkFileRouteSource, /homeworkTeacherId:\s*homework\.teacherId/);
+  assert.match(homeworkFileRouteSource, /homeworkCourseId:\s*homework\.courseId/);
   assert.match(homeworkFileRouteSource, /courseTeacherId:\s*courses\.teacherId/);
-  assert.match(homeworkFileRouteSource, /homeworkCourseId:\s*homeworkRow\?\.courseId/);
-  assert.match(homeworkFileRouteSource, /courseTeacherId:\s*homeworkRow\?\.courseTeacherId/);
+  assert.match(homeworkFileRouteSource, /\.where\(eq\(users\.id, requesterId\)\)/);
 });
 
 test("homework file route authenticates before database setup or private record reads", () => {
   const authIndex = homeworkFileRouteSource.indexOf("const ctx = await getAuthContext(req)");
   const unauthorizedGuardIndex = homeworkFileRouteSource.indexOf("if (!ctx)");
   const setupIndex = homeworkFileRouteSource.indexOf("await ensureDbSetup()");
-  const submissionReadIndex = homeworkFileRouteSource.indexOf("const subs = await db.select().from(homeworkSubmissions)");
+  const initialContextReadIndex = homeworkFileRouteSource.indexOf("const initial = await loadHomeworkFileContext(");
 
   assert.ok(authIndex >= 0, "the route must resolve the session before database setup");
   assert.ok(unauthorizedGuardIndex > authIndex, "unauthenticated requests must be rejected");
   assert.ok(setupIndex > unauthorizedGuardIndex, "unauthenticated requests must not trigger database setup");
-  assert.ok(submissionReadIndex > setupIndex, "submission records must be read only after authentication and setup");
+  assert.ok(initialContextReadIndex > setupIndex, "submission context must be read only after authentication and setup");
   assert.match(homeworkFileRouteSource, /if\s*\(!ctx\)[\s\S]*?status:\s*401/);
 });
 
