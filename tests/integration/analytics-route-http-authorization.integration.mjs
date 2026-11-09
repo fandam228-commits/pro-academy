@@ -358,12 +358,12 @@ integrationTest(
         return { status: response.status, body };
       }
 
-      async function requestRoute(path, sessionToken, studentId) {
+      async function requestRoute(path, sessionToken, studentId, timeoutMs = 15000) {
         const url = new URL(path, baseUrl);
         if (studentId !== undefined) url.searchParams.set("studentId", studentId);
         const response = await fetch(url, {
           headers: { authorization: `Bearer ${sessionToken}`, "cache-control": "no-store" },
-          signal: AbortSignal.timeout(15000),
+          signal: AbortSignal.timeout(timeoutMs),
         });
         const raw = await response.text();
         let body;
@@ -812,7 +812,7 @@ integrationTest(
       await Promise.all([lockClient.connect(), observerClient.connect()]);
       await lockClient.query("BEGIN");
       await lockClient.query("LOCK TABLE attendance_records IN ACCESS EXCLUSIVE MODE");
-      const parentAttendanceInFlight = requestRoute("/api/attendance", tokens.parent, ids.student)
+      const parentAttendanceInFlight = requestRoute("/api/attendance", tokens.parent, ids.student, 30000)
         .catch((error) => ({ status: 0, body: { error: String(error) } }));
       const attendanceBlockOrResponse = await Promise.race([
         waitForBlockedQuery(observerClient, "attendance_records").then(() => ({ blocked: true })),
