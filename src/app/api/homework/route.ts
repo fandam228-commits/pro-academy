@@ -9,6 +9,7 @@ import { del, put } from "@vercel/blob";
 import { getHomeworkPrivateBlobToken, isPrivateHomeworkBlobPath } from "@/lib/homework-storage.mjs";
 import { randomUUID } from "node:crypto";
 import { canManageHomework, canSubmitHomework, canAccessHomeworkCourse, canAssignHomeworkToCourse, canReplaceHomeworkSubmission } from "@/lib/homework-authorization.mjs";
+import { gradeHomeworkSubmission, deleteHomeworkWithAuthorization } from "@/lib/homework-management-authorization.mjs";
 
 const MAX_SIZE_BYTES = 20 * 1024 * 1024; // 20MB
 
@@ -412,44 +413,26 @@ export async function POST(req: Request) {
       if (denied) return denied;
 
       const { submissionId, score, feedback } = body;
-      const subs = await db.select().from(homeworkSubmissions).where(eq(homeworkSubmissions.id, submissionId));
-      if (subs.length === 0) {
-        return NextResponse.json({ error: "Submission not found" }, { status: 404 });
+      // The helper revalidates the current actor role and locks the submission,
+      // homework, and current course owner in one transaction before writing.
+      const result = await gradeHomeworkSubmission({
+        database: db,
+        tables: { users, homework, homeworkSubmissions, courses },
+        actorId: ctx.user.id,
+        actorRole: ctx.user.role as string,
+        submissionId,
+        score,
+        feedback,
+      });
+      if (!result.ok) {
+        return NextResponse.json({ error: result.error }, { status: result.status });
       }
 
-      const hw = await db.select().from(homework).where(eq(homework.id, subs[0].homeworkId));
-      if (hw.length === 0) {
-        return NextResponse.json({ error: "Homework not found" }, { status: 404 });
-      }
-      const courseTeacherId = await getHomeworkCourseTeacherId(hw[0].courseId);
-      if (!canManageHomework({
-        role: ctx.user.role as string,
-        requesterId: ctx.user.id,
-        homeworkTeacherId: hw[0].teacherId,
-        homeworkCourseId: hw[0].courseId,
-        courseTeacherId,
-      })) {
-        return NextResponse.json({ error: "Forbidden" }, { status: 403 });
-      }
-      const maxPts = hw[0]?.totalPoints || 50;
-      const safeScore = Math.max(0, Math.min(parseInt(score) || 0, maxPts));
-
-      await db
-        .update(homeworkSubmissions)
-        .set({ status: "graded", score: safeScore, feedback: feedback || "", gradedAt: new Date() })
-        .where(eq(homeworkSubmissions.id, submissionId));
-
-      // Award partial points in platform gamification + notify student
-      await db
-        .update(users)
-        .set({ points: sql_inc("points", safeScore) })
-        .where(eq(users.id, subs[0].studentId))
-        .catch(() => null);
-
+      // Notify only after the authorized grading transaction has committed.
       await notifyUser(
-        subs[0].studentId,
+        result.studentId,
         "✅ تم تصحيح واجبك",
-        `درجتك في "${hw[0]?.title || "الواجب"}": ${safeScore}/${maxPts}${feedback ? ` — ملاحظة المدرس: ${feedback}` : ""}`,
+        `درجتك في "${result.homeworkTitle || "الواجب"}": ${result.score}/${result.maxPoints}${feedback ? ` — ملاحظة المدرس: ${feedback}` : ""}`,
         "quiz",
         "/?tab=homework"
       );
@@ -460,21 +443,18 @@ export async function POST(req: Request) {
     if (action === "delete") {
       const { denied } = await requireRoles(req, ["admin", "teacher"]);
       if (denied) return denied;
-      if (ctx.user.role === "teacher") {
-        const ownRows = await db.select().from(homework).where(eq(homework.id, body.homeworkId));
-        const own = ownRows[0];
-        const courseTeacherId = own ? await getHomeworkCourseTeacherId(own.courseId) : null;
-        if (!own || !canManageHomework({
-          role: ctx.user.role as string,
-          requesterId: ctx.user.id,
-          homeworkTeacherId: own.teacherId,
-          homeworkCourseId: own.courseId,
-          courseTeacherId,
-        })) {
-          return NextResponse.json({ error: "Forbidden" }, { status: 403 });
-        }
+
+      // Recheck the current role and course owner while holding transaction locks.
+      const result = await deleteHomeworkWithAuthorization({
+        database: db,
+        tables: { users, homework, courses },
+        actorId: ctx.user.id,
+        actorRole: ctx.user.role as string,
+        homeworkId: body.homeworkId,
+      });
+      if (!result.ok) {
+        return NextResponse.json({ error: result.error }, { status: result.status });
       }
-      await db.delete(homework).where(eq(homework.id, body.homeworkId));
       return NextResponse.json({ success: true });
     }
 
@@ -485,8 +465,3 @@ export async function POST(req: Request) {
   }
 }
 
-// Points increment helper that tolerates missing drizzle sql import style
-import { sql } from "drizzle-orm";
-function sql_inc(column: string, amount: number) {
-  return sql`${sql.raw(column)} + ${amount}` as any;
-}

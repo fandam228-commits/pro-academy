@@ -271,16 +271,44 @@ test("homework create route verifies course existence and ownership before inser
 });
 
 
-test("teacher homework reads, grading, and deletion enforce linked course ownership", async () => {
+test("teacher homework reads, grading, and deletion enforce current linked course ownership", async () => {
   const route = await readFile(new URL("../app/api/homework/route.ts", import.meta.url), "utf8");
-  assert.match(route, /\.leftJoin\(courses, eq\(homework\.courseId, courses\.id\)\)/);
-  assert.match(route, /or\(isNull\(homework\.courseId\), eq\(courses\.teacherId, ctx\.user\.id\)\)/);
-  assert.match(route, /homeworkCourseId:\s*hw\.courseId[\s\S]*?courseTeacherId/);
-  assert.match(route, /homeworkCourseId:\s*hw\[0\]\.courseId[\s\S]*?courseTeacherId/);
-  assert.match(route, /homeworkCourseId:\s*own\.courseId[\s\S]*?courseTeacherId/);
-  assert.match(route, /async function getHomeworkCourseTeacherId\(/);
-});
+  const management = await readFile(new URL("./homework-management-authorization.mjs", import.meta.url), "utf8");
 
+  // Teacher list/detail reads are restricted to assignments owned by the teacher
+  // and, for course-linked work, to courses whose current owner is the requester.
+  assert.ok(route.includes(".leftJoin(courses, eq(homework.courseId, courses.id))"));
+  assert.ok(route.includes("or(isNull(homework.courseId), eq(courses.teacherId, ctx.user.id))"));
+  assert.ok(route.includes("async function getHomeworkCourseTeacherId("));
+
+  // Grading and deletion must route through transaction-locked authorization
+  // helpers rather than relying on a preflight ownership check in the HTTP route.
+  const gradeStart = route.indexOf('if (action === "grade")');
+  const deleteStart = route.indexOf('if (action === "delete")', gradeStart);
+  assert.ok(gradeStart >= 0 && deleteStart > gradeStart);
+  const gradeSource = route.slice(gradeStart, deleteStart);
+  const deleteSource = route.slice(deleteStart);
+
+  assert.ok(gradeSource.includes("gradeHomeworkSubmission({"));
+  assert.ok(gradeSource.includes("database: db"));
+  assert.ok(gradeSource.includes("tables: { users, homework, homeworkSubmissions, courses }"));
+  assert.ok(gradeSource.includes("actorId: ctx.user.id"));
+  assert.ok(gradeSource.includes("actorRole: ctx.user.role"));
+
+  assert.ok(deleteSource.includes("deleteHomeworkWithAuthorization({"));
+  assert.ok(deleteSource.includes("database: db"));
+  assert.ok(deleteSource.includes("tables: { users, homework, courses }"));
+
+  // The helpers re-read and lock the current actor, submission, assignment,
+  // and course owner before applying any grade/points/delete writes.
+  assert.ok(management.includes("async function lockCurrentActor"));
+  assert.ok(management.includes(".from(tables.homeworkSubmissions)"));
+  assert.ok(management.includes(".from(tables.homework)"));
+  assert.ok(management.includes(".from(tables.courses)"));
+  assert.ok(management.includes('.for("share")'));
+  assert.ok(management.includes('.for("update")'));
+  assert.ok(management.includes("canManageHomework("));
+});
 test("graded homework submissions cannot be replaced", () => {
   assert.equal(canReplaceHomeworkSubmission({ status: "graded" }), false);
   assert.equal(canReplaceHomeworkSubmission({ status: "submitted" }), true);
