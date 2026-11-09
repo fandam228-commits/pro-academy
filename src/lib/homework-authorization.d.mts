@@ -56,6 +56,7 @@ export interface HomeworkFileAccessContextSnapshot {
   requesterRole: string | null;
   submissionId: string | null;
   homeworkId: string | null;
+  homeworkRecordId: string | null;
   studentId: string | null;
   storagePath: string | null;
   fileName: string | null;
