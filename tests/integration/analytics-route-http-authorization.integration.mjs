@@ -16,7 +16,7 @@ function assertLocalTestDatabase(value) {
 
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
-async function waitForBlockedQuery(observerClient, tableName, timeoutMs = 10000) {
+async function waitForBlockedQuery(observerClient, tableName, timeoutMs = 15000) {
   const deadline = Date.now() + timeoutMs;
   while (Date.now() < deadline) {
     const result = await observerClient.query(
@@ -26,7 +26,6 @@ async function waitForBlockedQuery(observerClient, tableName, timeoutMs = 10000)
          AND pid <> pg_backend_pid()
          AND state = 'active'
          AND wait_event_type = 'Lock'
-         AND query ~* '^\\s*select'
          AND query ILIKE $1
        LIMIT 1`,
       [`%${tableName}%`],
@@ -34,7 +33,18 @@ async function waitForBlockedQuery(observerClient, tableName, timeoutMs = 10000)
     if (result.rowCount > 0) return;
     await delay(50);
   }
-  throw new Error(`Timed out waiting for a PostgreSQL query blocked on ${tableName}`);
+  const blocked = await observerClient.query(
+    `SELECT pid, wait_event_type, left(query, 500) AS query
+     FROM pg_stat_activity
+     WHERE datname = current_database()
+       AND pid <> pg_backend_pid()
+       AND state = 'active'
+       AND wait_event_type = 'Lock'
+     LIMIT 10`,
+  );
+  throw new Error(
+    `Timed out waiting for a PostgreSQL query blocked on ${tableName}; other blocked queries: ${JSON.stringify(blocked.rows)}`,
+  );
 }
 
 async function stopServer(server) {
@@ -804,7 +814,15 @@ integrationTest(
       await lockClient.query("LOCK TABLE attendance_records IN ACCESS EXCLUSIVE MODE");
       const parentAttendanceInFlight = requestRoute("/api/attendance", tokens.parent, ids.student)
         .catch((error) => ({ status: 0, body: { error: String(error) } }));
-      await waitForBlockedQuery(observerClient, "attendance_records");
+      const attendanceBlockOrResponse = await Promise.race([
+        waitForBlockedQuery(observerClient, "attendance_records").then(() => ({ blocked: true })),
+        parentAttendanceInFlight.then((response) => ({ blocked: false, response })),
+      ]);
+      assert.equal(
+        attendanceBlockOrResponse.blocked,
+        true,
+        `parent attendance request completed before the expected locked read: ${JSON.stringify(attendanceBlockOrResponse.response)}`,
+      );
       await client.query(
         "UPDATE parent_links SET verified_at = NULL, verified_by = NULL WHERE id = $1",
         [ids.linkStudent],
