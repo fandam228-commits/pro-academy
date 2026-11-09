@@ -763,6 +763,29 @@ integrationTest(
         [ids.linkStudent, ids.admin],
       );
 
+      // The parent account itself may also be demoted after the overview has
+      // started reading child data. The final verified-link predicate must check
+      // the current parent role, not only the session role captured at request start.
+      await lockClient.query("BEGIN");
+      await lockClient.query("LOCK TABLE quiz_submissions IN ACCESS EXCLUSIVE MODE");
+      const parentRoleDemotionInFlight = requestRoute("/api/parent", tokens.parent, ids.student)
+        .catch((error) => ({ status: 0, body: { error: String(error) } }));
+      await waitForBlockedQuery(observerClient, "quiz_submissions");
+      await client.query("UPDATE users SET role = 'teacher' WHERE id = $1", [ids.parent]);
+      await lockClient.query("COMMIT");
+      const parentRoleDemotedDuringOverview = await parentRoleDemotionInFlight;
+      assert.equal(
+        parentRoleDemotedDuringOverview.status,
+        403,
+        "parent overview must deny the report when the parent account loses its parent role during report reads",
+      );
+      assert.equal(
+        Object.hasOwn(parentRoleDemotedDuringOverview.body || {}, "student"),
+        false,
+        "parent overview must not return child data after the parent role is demoted in flight",
+      );
+      await client.query("UPDATE users SET role = 'parent' WHERE id = $1", [ids.parent]);
+
       // A previously verified relationship is not sufficient if its verifier loses
       // admin privileges while /api/analytics is assembling the report.
       await lockClient.query("BEGIN");
