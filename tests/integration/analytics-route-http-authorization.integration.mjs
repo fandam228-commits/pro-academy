@@ -82,6 +82,7 @@ integrationTest(
       otherTeacherHomeworkSubmission: id("other_teacher_homework_submission"),
       staleOwnerHomeworkSubmission: id("stale_owner_homework_submission"),
       attendanceRecord: id("attendance_record"),
+      attendance: id("attendance"),
       enrollmentOwned: id("enrollment_owned"),
       enrollmentSecondOwned: id("enrollment_second_owned"),
       enrollmentSecondOtherCourse: id("enrollment_second_other_course"),
@@ -271,6 +272,12 @@ integrationTest(
         `INSERT INTO attendance_records (id, student_id, student_name, session_title, session_date, status, grade, marked_by)
          VALUES ($1, $2, 'Student HTTP Test', 'Unscoped attendance fixture', '2026-11-04', 'present', 'Third Secondary', $3)`,
         [ids.attendanceRecord, ids.student, ids.otherTeacher],
+      );
+
+      await client.query(
+        `INSERT INTO attendance (id, student_id, course_id, lesson_id, status, date)
+         VALUES ($1, $2, $3, 'lesson-parent-overview', 'present', NOW())`,
+        [ids.attendance, ids.student, ids.ownedCourse],
       );
 
       await client.query(
@@ -699,6 +706,24 @@ integrationTest(
         Object.keys(parentOverview.body.student || {}).sort(),
         ["grade", "id", "level", "name", "points", "streak"].sort(),
         "parent overview must expose only the explicitly approved student profile fields",
+      );
+      assert.ok(parentOverview.body.enrollments?.length > 0, "parent overview fixture must include an enrollment");
+      assert.deepEqual(
+        Object.keys(parentOverview.body.enrollments[0]).sort(),
+        ["activatedAt", "courseId", "id", "progress", "status"].sort(),
+        "parent overview enrollments must expose only progress fields, never payment or internal student data",
+      );
+      assert.ok(parentOverview.body.submissions?.length > 0, "parent overview fixture must include a quiz submission");
+      assert.deepEqual(
+        Object.keys(parentOverview.body.submissions[0]).sort(),
+        ["id", "passed", "percentage", "score", "submittedAt", "totalQuestions"].sort(),
+        "parent overview submissions must not expose raw answers, feedback, or internal identifiers",
+      );
+      assert.ok(parentOverview.body.attendance?.length > 0, "parent overview fixture must include an attendance record");
+      assert.deepEqual(
+        Object.keys(parentOverview.body.attendance[0]).sort(),
+        ["courseId", "date", "id", "status"].sort(),
+        "parent overview attendance must expose only the summary fields needed by the dashboard",
       );
       for (const privateField of ["email", "password", "phone", "parentPhone", "username", "resetToken", "sessionToken"]) {
         assert.equal(
