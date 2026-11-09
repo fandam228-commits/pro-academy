@@ -450,6 +450,7 @@ test("private file access must be revalidated against the same live context befo
     requesterRole: "teacher",
     submissionId: "submission-1",
     homeworkId: "homework-1",
+    homeworkRecordId: "homework-1",
     studentId: "student-1",
     storagePath: "homework/submission-1.pdf",
     fileName: "answer.pdf",
@@ -473,6 +474,11 @@ test("private file access must be revalidated against the same live context befo
     isSameHomeworkFileAccessContext(original, { ...original, homeworkId: "homework-2" }, "teacher"),
     false,
     "a changed assignment relationship must invalidate the original access decision",
+  );
+  assert.equal(
+    isSameHomeworkFileAccessContext(original, { ...original, homeworkRecordId: null }, "teacher"),
+    false,
+    "a deleted or missing assignment row must invalidate the file context",
   );
   assert.equal(
     isSameHomeworkFileAccessContext(original, { ...original, studentId: "student-2" }, "teacher"),
