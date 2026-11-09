@@ -101,9 +101,36 @@ export async function GET(req: Request) {
     const student = studentList[0];
     if (!student) return privateJson({ error: "Student not found" }, { status: 404 });
 
-    const studentEnrs = await db.select().from(enrollments).where(eq(enrollments.studentId, student.id));
-    const studentSubs = await db.select().from(quizSubmissions).where(eq(quizSubmissions.studentId, student.id));
-    const studentAtt = await db.select().from(attendance).where(eq(attendance.studentId, student.id));
+    const studentEnrs = await db
+      .select({
+        id: enrollments.id,
+        courseId: enrollments.courseId,
+        status: enrollments.status,
+        progress: enrollments.progress,
+        activatedAt: enrollments.activatedAt,
+      })
+      .from(enrollments)
+      .where(eq(enrollments.studentId, student.id));
+    const studentSubs = await db
+      .select({
+        id: quizSubmissions.id,
+        score: quizSubmissions.score,
+        totalQuestions: quizSubmissions.totalQuestions,
+        percentage: quizSubmissions.percentage,
+        passed: quizSubmissions.passed,
+        submittedAt: quizSubmissions.submittedAt,
+      })
+      .from(quizSubmissions)
+      .where(eq(quizSubmissions.studentId, student.id));
+    const studentAtt = await db
+      .select({
+        id: attendance.id,
+        courseId: attendance.courseId,
+        status: attendance.status,
+        date: attendance.date,
+      })
+      .from(attendance)
+      .where(eq(attendance.studentId, student.id));
 
     const avgScore = studentSubs.length > 0
       ? Math.round(studentSubs.reduce((acc, curr) => acc + curr.percentage, 0) / studentSubs.length)
