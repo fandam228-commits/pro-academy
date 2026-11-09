@@ -107,3 +107,31 @@ export function canAssignHomeworkToCourse({ role, requesterId, courseTeacherId }
   if (role === "teacher") return requesterId === courseTeacherId;
   return false;
 }
+
+
+/**
+ * Require the requester and every authorization-bearing relationship to remain
+ * unchanged across the private Blob provider read. A changed role, owner,
+ * assignment, student, or storage path invalidates the original stream decision.
+ */
+export function isSameHomeworkFileAccessContext(initial, current, sessionRole) {
+  if (!initial || !current || typeof sessionRole !== "string" || sessionRole.length === 0) {
+    return false;
+  }
+
+  const stableFields = [
+    "requesterRole",
+    "submissionId",
+    "homeworkId",
+    "studentId",
+    "storagePath",
+    "fileName",
+    "homeworkTeacherId",
+    "homeworkCourseId",
+    "courseTeacherId",
+  ];
+
+  return initial.requesterRole === sessionRole &&
+    current.requesterRole === sessionRole &&
+    stableFields.every((field) => initial[field] === current[field]);
+}
