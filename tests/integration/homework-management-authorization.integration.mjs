@@ -205,7 +205,7 @@ integrationTest("PostgreSQL grading fails closed when the actor role changes whi
       const submission = await client.query("SELECT status FROM homework_submissions WHERE id = 'sub-owned'");
       assert.equal(submission.rows[0].status, "submitted");
     } finally {
-      try { await blocker.query("ROLLBACK"); } catch {}
+      try { await blocker.query("ROLLBACK"); } catch { /* Preserve the test result if cleanup already committed. */ }
       await Promise.all([blocker.end(), observer.end()]);
     }
   });
