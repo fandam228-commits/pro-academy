@@ -695,6 +695,18 @@ integrationTest(
       const parentOverview = await requestRoute("/api/parent", tokens.parent, ids.student);
       assert.equal(parentOverview.status, 200, JSON.stringify(parentOverview.body));
       assert.equal(parentOverview.body.student?.id, ids.student);
+      assert.deepEqual(
+        Object.keys(parentOverview.body.student || {}).sort(),
+        ["grade", "id", "level", "name", "points", "streak"].sort(),
+        "parent overview must expose only the explicitly approved student profile fields",
+      );
+      for (const privateField of ["email", "password", "phone", "parentPhone", "username", "resetToken", "sessionToken"]) {
+        assert.equal(
+          Object.hasOwn(parentOverview.body.student || {}, privateField),
+          false,
+          `parent overview must not expose the student's ${privateField} field`,
+        );
+      }
       assert.equal(parentOverview.headers.get("cache-control"), "private, no-store",
         "parent overview responses containing student data must never be cached");
 
