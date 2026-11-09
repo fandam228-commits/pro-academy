@@ -149,14 +149,15 @@ export const QuizPlayer: React.FC<QuizPlayerProps> = ({
     return `${mins}:${secs < 10 ? "0" : ""}${secs}`;
   };
 
-  const formatAnswer = (value: string, type?: string) => {
+  const formatAnswer = (value?: string | null, type?: string): string => {
+    if (!value) return "";
     if (type === "multi_select") {
       try {
         const parsed = JSON.parse(value || "[]");
         if (Array.isArray(parsed)) return parsed.join(" + ");
       } catch {}
     }
-    return value;
+    return String(value);
   };
 
   if (questions.length === 0) {
@@ -210,9 +211,9 @@ export const QuizPlayer: React.FC<QuizPlayerProps> = ({
                   onClick={() => setCurrentIndex(idx)}
                   className={`w-9 h-9 rounded-xl text-xs font-bold transition-all border ${
                     isCurrent
-                      ? "bg-blue-600 text-white border-blue-600 shadow-lg shadow-blue-500/30"
+                      ? "bg-gradient-to-r from-purple-600 to-sky-600 text-white border-purple-500 shadow-md shadow-purple-500/30 font-black"
                       : isAnswered
-                      ? "bg-emerald-100 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300 border-emerald-300"
+                      ? "bg-purple-100 dark:bg-purple-950 text-purple-700 dark:text-purple-300 border-purple-300"
                       : "bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 border-slate-200 dark:border-slate-700"
                   }`}
                 >
@@ -273,8 +274,8 @@ export const QuizPlayer: React.FC<QuizPlayerProps> = ({
                       onClick={() => handleOptionSelect(opt)}
                       className={`w-full text-start p-4 rounded-2xl font-medium text-sm border transition-all flex items-center justify-between ${
                         isSelected
-                          ? "bg-blue-50 dark:bg-blue-950/60 border-blue-600 text-blue-700 dark:text-blue-300 font-bold"
-                          : "bg-slate-50 dark:bg-slate-800/60 border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:bg-slate-100"
+                          ? "bg-purple-50 dark:bg-purple-950/60 border-purple-600 text-purple-700 dark:text-purple-300 font-bold shadow-sm"
+                          : "bg-slate-50 dark:bg-slate-800/60 border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800"
                       }`}
                     >
                       <span>{opt}</span>
@@ -313,7 +314,7 @@ export const QuizPlayer: React.FC<QuizPlayerProps> = ({
             {currentIndex + 1 < questions.length ? (
               <button
                 onClick={() => setCurrentIndex(currentIndex + 1)}
-                className="flex items-center gap-1.5 px-6 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs shadow-lg shadow-blue-500/25"
+                className="flex items-center gap-1.5 px-6 py-2.5 rounded-xl bg-gradient-to-r from-purple-600 to-sky-600 hover:from-purple-500 hover:to-sky-500 text-white font-bold text-xs shadow-lg shadow-purple-500/25 transition-all"
               >
                 <span>{lang === "ar" ? "التالي" : "Next"}</span>
                 <ArrowRight className="w-4 h-4 rtl:rotate-180" />
@@ -322,7 +323,7 @@ export const QuizPlayer: React.FC<QuizPlayerProps> = ({
               <button
                 onClick={handleSubmit}
                 disabled={loading}
-                className="flex items-center gap-2 px-8 py-3 rounded-2xl bg-emerald-600 hover:bg-emerald-500 text-white font-extrabold text-sm shadow-xl shadow-emerald-500/30 transition-all"
+                className="flex items-center gap-2 px-8 py-3 rounded-2xl bg-gradient-to-r from-amber-500 to-yellow-500 hover:from-amber-400 hover:to-yellow-400 text-slate-950 font-black text-sm shadow-xl shadow-amber-500/30 transition-all"
               >
                 <Send className="w-4 h-4" />
                 <span>{loading ? (lang === "ar" ? "جاري التصحيح..." : "Grading...") : (lang === "ar" ? "تسليم الاختبار" : "Submit Quiz")}</span>
@@ -451,7 +452,7 @@ export const QuizPlayer: React.FC<QuizPlayerProps> = ({
                         {formatAnswer(detail?.studentAnswer || "", q.type) || "(No answer)"}
                       </span>
                     </p>
-                    {!isCorrect && (
+                    {!isCorrect && q.correctAnswer && (
                       <p>
                         <strong>{lang === "ar" ? "الإجابة الصحيحة:" : "Correct Answer:"}</strong>{" "}
                         <span className="text-emerald-600 dark:text-emerald-400 font-bold">{formatAnswer(q.correctAnswer, q.type)}</span>
@@ -515,7 +516,7 @@ export const QuizPlayer: React.FC<QuizPlayerProps> = ({
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 4, fontSize: 10, marginTop: 8 }}>
             {questions.map((q, i) => (
               <span key={q.id}>
-                <strong>{i + 1}:</strong> {q.correctAnswer}
+                <strong>{i + 1}:</strong> {formatAnswer(q.correctAnswer, q.type) || "N/A"}
               </span>
             ))}
           </div>

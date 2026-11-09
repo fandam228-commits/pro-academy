@@ -290,6 +290,15 @@ function MainAppContent() {
       image: "https://images.unsplash.com/photo-1434030216411-0b793f4b4173?w=800&auto=format&fit=crop&q=80",
     },
     {
+      id: "crs_sec_2_bac",
+      title: lang === "ar" ? "كورس تانية بكالوريا المصرية 2026/2027" : "Second Year Egyptian Baccalaureate 2026/2027",
+      grade: lang === "ar" ? "تانية بكالوريا (Egyptian Baccalaureate)" : "Second Year Baccalaureate",
+      desc: lang === "ar" ? "منهج البكالوريا المستقل: 10 وحدات، 5 مراجعات، ورواية The Lost World لآرثر كونان دويل" : "Independent Baccalaureate: 10 Units, 5 Consolidation Reviews & The Lost World novel.",
+      price: "320.00 EGP",
+      badge: "Egyptian Baccalaureate",
+      image: "https://images.unsplash.com/photo-1457369804613-52c61a468e7d?w=800&auto=format&fit=crop&q=80",
+    },
+    {
       id: "crs_sec_2",
       title: lang === "ar" ? "كورس الصف الثاني الثانوي المكثف" : "Second Secondary Intensive English Program",
       grade: lang === "ar" ? "الصف الثاني الثانوي" : "Second Secondary",

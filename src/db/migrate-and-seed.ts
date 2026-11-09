@@ -1001,6 +1001,29 @@ export async function syncCurriculum2026(): Promise<{
             })
             .where(eq(curriculumUnits.id, unitId));
           updatedUnits++;
+
+          // Check and insert any missing sections for existing units
+          for (let sIdx = 0; sIdx < u.sections.length; sIdx++) {
+            const s = u.sections[sIdx];
+            const sectionId = `sec_${unitId}_${s.sectionType}_${sIdx + 1}`;
+            const existingSec = await db.select().from(curriculumSections).where(eq(curriculumSections.id, sectionId));
+            if (existingSec.length === 0) {
+              await db.insert(curriculumSections).values({
+                id: sectionId,
+                unitId: unitId,
+                gradeId: seed.id,
+                sectionType: s.sectionType,
+                titleAr: s.titleAr,
+                titleEn: s.titleEn,
+                videoUrl: s.videoUrl || null,
+                pdfUrl: s.pdfUrl || null,
+                contentData: s.contentData || {},
+                quizId: s.quizId || null,
+                orderIndex: sIdx + 1,
+                isPublished: true,
+              });
+            }
+          }
         }
       }
     }

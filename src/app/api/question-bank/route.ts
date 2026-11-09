@@ -4,25 +4,7 @@ import { eq, and, sql, ilike, inArray, notInArray } from "drizzle-orm";
 import { NextResponse } from "next/server";
 import { ensureDbSetup } from "@/db/migrate-and-seed";
 import { requireRoles, getAuthContext } from "@/lib/security";
-
-function normalizedAnswerSet(value: unknown): string[] {
-  try {
-    const parsed = typeof value === "string" ? JSON.parse(value) : value;
-    if (!Array.isArray(parsed)) return [];
-    return parsed.map((x) => String(x).trim().toLowerCase()).sort();
-  } catch {
-    return [];
-  }
-}
-
-function answersMatch(question: any, studentAnswer: string): boolean {
-  if (question.questionType === "multi_select") {
-    const expected = normalizedAnswerSet(question.correctAnswer);
-    const actual = normalizedAnswerSet(studentAnswer);
-    return expected.length > 0 && expected.length === actual.length && expected.every((x, i) => x === actual[i]);
-  }
-  return studentAnswer.trim().toLowerCase() === String(question.correctAnswer || "").trim().toLowerCase();
-}
+import { answersMatch, normalizedAnswerSet } from "@/lib/question-grading.mjs";
 
 export async function GET(req: Request) {
   await ensureDbSetup();
@@ -138,6 +120,12 @@ export async function POST(req: Request) {
     // 1. ADD NEW SINGLE QUESTION WITH DUPLICATE DETECTION
     if (action === "add_question") {
       const qData = body.question;
+      if (!qData || !String(qData.questionText || "").trim() || !String(qData.correctAnswer || "").trim()) {
+        return NextResponse.json(
+          { error: "Question text and correct answer are required and cannot be empty." },
+          { status: 400 }
+        );
+      }
       const existing = await db.select({ questionText: questionBank.questionText }).from(questionBank);
 
       if (isDuplicateQuestion(qData.questionText, existing)) {
@@ -214,7 +202,7 @@ export async function POST(req: Request) {
       let duplicateCount = 0;
 
       for (const item of items) {
-        if (!item.questionText || !item.correctAnswer) continue;
+        if (!String(item?.questionText || "").trim() || !String(item?.correctAnswer || "").trim()) continue;
 
         if (isDuplicateQuestion(item.questionText, existing)) {
           duplicateCount++;

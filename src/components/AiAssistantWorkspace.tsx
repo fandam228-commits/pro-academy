@@ -82,11 +82,11 @@ export const AiAssistantWorkspace: React.FC = () => {
       {/* LEFT SIDEBAR: MODE SELECTOR */}
       <div className="w-full md:w-80 bg-slate-50 dark:bg-slate-950 p-4 border-b md:border-b-0 md:border-r border-slate-200 dark:border-slate-800 flex flex-col justify-between">
         <div>
-          <div className="flex items-center gap-3 p-3 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-2xl text-white shadow-lg mb-6">
-            <BrainCircuit className="w-7 h-7" />
+          <div className="flex items-center gap-3 p-3 bg-gradient-to-r from-purple-700 via-indigo-700 to-sky-600 rounded-2xl text-white shadow-lg shadow-purple-500/25 mb-6">
+            <BrainCircuit className="w-7 h-7 text-amber-300" />
             <div>
               <h3 className="font-extrabold text-sm">Habib AI Tutor</h3>
-              <p className="text-[11px] text-blue-100">Powered by Professional Academy</p>
+              <p className="text-[11px] text-sky-100">Powered by Professional Academy</p>
             </div>
           </div>
 
@@ -104,7 +104,7 @@ export const AiAssistantWorkspace: React.FC = () => {
                   onClick={() => setActiveMode(mode.id as any)}
                   className={`w-full text-start p-3 rounded-2xl text-xs font-bold transition-all flex items-center gap-3 border ${
                     isSelected
-                      ? "bg-white dark:bg-slate-900 border-blue-600 dark:border-blue-500 text-blue-600 dark:text-blue-400 shadow-md"
+                      ? "bg-purple-50 dark:bg-purple-950/50 border-purple-600 dark:border-purple-500 text-purple-700 dark:text-purple-300 font-black shadow-md"
                       : "border-transparent text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-900"
                   }`}
                 >
@@ -132,7 +132,7 @@ export const AiAssistantWorkspace: React.FC = () => {
               <div key={idx} className={`flex gap-3 ${isUser ? "flex-row-reverse" : "flex-row"}`}>
                 <div
                   className={`w-9 h-9 rounded-2xl flex items-center justify-center text-white shrink-0 font-bold ${
-                    isUser ? "bg-blue-600" : "bg-gradient-to-tr from-indigo-600 to-purple-600 shadow-md"
+                    isUser ? "bg-gradient-to-r from-purple-600 to-indigo-600 shadow-md shadow-purple-600/20" : "bg-gradient-to-tr from-sky-500 to-purple-600 shadow-md shadow-sky-500/20"
                   }`}
                 >
                   {isUser ? <User className="w-5 h-5" /> : <Bot className="w-5 h-5" />}
@@ -141,7 +141,7 @@ export const AiAssistantWorkspace: React.FC = () => {
                 <div
                   className={`max-w-xl p-4 rounded-3xl text-xs leading-relaxed font-medium shadow-sm whitespace-pre-wrap ${
                     isUser
-                      ? "bg-blue-600 text-white rounded-tr-none"
+                      ? "bg-gradient-to-r from-purple-600 to-indigo-600 text-white rounded-tr-none shadow-md shadow-purple-600/20"
                       : "bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-100 rounded-tl-none border border-slate-200/60 dark:border-slate-700/60"
                   }`}
                 >
@@ -159,7 +159,7 @@ export const AiAssistantWorkspace: React.FC = () => {
 
           {loading && (
             <div className="flex items-center gap-3">
-              <div className="w-9 h-9 rounded-2xl bg-indigo-600 text-white flex items-center justify-center">
+              <div className="w-9 h-9 rounded-2xl bg-gradient-to-tr from-purple-600 to-sky-500 text-white flex items-center justify-center shadow-md">
                 <Bot className="w-5 h-5 animate-spin" />
               </div>
               <div className="bg-slate-100 dark:bg-slate-800 px-4 py-3 rounded-2xl text-xs text-slate-500 font-medium animate-pulse">
@@ -183,13 +183,13 @@ export const AiAssistantWorkspace: React.FC = () => {
                 ? (lang === "ar" ? "الصق نص المقال الذي كتبته للحصول على تقييم نتيجتك..." : "Paste your written essay for grading...")
                 : (lang === "ar" ? "اكتب سؤالك هنا..." : "Type your question here...")
             }
-            className="flex-1 p-3.5 rounded-2xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs font-medium text-slate-900 dark:text-slate-100 focus:outline-none focus:border-blue-500"
+            className="flex-1 p-3.5 rounded-2xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs font-medium text-slate-900 dark:text-slate-100 focus:outline-none focus:border-purple-500"
           />
 
           <button
             onClick={handleSendMessage}
             disabled={loading || !inputPrompt.trim()}
-            className="px-6 py-3.5 rounded-2xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-bold text-xs shadow-lg shadow-blue-500/25 transition-all disabled:opacity-50 flex items-center gap-2"
+            className="px-6 py-3.5 rounded-2xl bg-gradient-to-r from-purple-600 via-indigo-600 to-sky-600 hover:from-purple-500 hover:to-sky-500 text-white font-bold text-xs shadow-lg shadow-purple-500/25 transition-all disabled:opacity-50 flex items-center gap-2"
           >
             <span>{lang === "ar" ? "إرسال" : "Send"}</span>
             <Send className="w-4 h-4 rtl:rotate-180" />

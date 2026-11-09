@@ -3,6 +3,9 @@
 import React, { useState, useEffect } from "react";
 import { useApp } from "@/context/AppContext";
 import { authHeaders } from "@/lib/client-auth";
+import { BulkCodesGenerator } from "@/components/BulkCodesGenerator";
+import { ParentConnectAdminHub } from "@/components/ParentConnectAdminHub";
+import { AdminCurriculumManager } from "@/components/AdminCurriculumManager";
 import {
   Users,
   GraduationCap,
@@ -25,7 +28,7 @@ export const SuperAdminDashboard: React.FC = () => {
   const { lang } = useApp();
   const [data, setData] = useState<any>(null);
   const [loading, setLoading] = useState(true);
-  const [activeTab, setActiveTab] = useState<"analytics" | "users" | "groups" | "codes" | "announcements" | "backup">("analytics");
+  const [activeTab, setActiveTab] = useState<"analytics" | "users" | "groups" | "codes" | "parent_connect" | "curriculum" | "announcements" | "backup">("analytics");
 
   // Code Generator Form State
   const [codeCourseId, setCodeCourseId] = useState("crs_sec_3");
@@ -294,6 +297,23 @@ export const SuperAdminDashboard: React.FC = () => {
             {lang === "ar" ? "أكواد التفعيل" : "Codes Generator"}
           </button>
           <button
+            onClick={() => setActiveTab("parent_connect")}
+            className={`px-3.5 py-2 rounded-xl transition-all flex items-center gap-1.5 ${
+              activeTab === "parent_connect" ? "bg-white dark:bg-slate-900 text-purple-600 dark:text-purple-400 shadow-sm font-bold" : "text-slate-600 dark:text-slate-400 font-bold"
+            }`}
+          >
+            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+            <span>{lang === "ar" ? "أولياء الأمور (Parent Connect)" : "Parent Connect"}</span>
+          </button>
+          <button
+            onClick={() => setActiveTab("curriculum")}
+            className={`px-3.5 py-2 rounded-xl transition-all flex items-center gap-1.5 ${
+              activeTab === "curriculum" ? "bg-white dark:bg-slate-900 text-purple-600 dark:text-purple-400 shadow-sm font-bold" : "text-slate-600 dark:text-slate-400 font-bold"
+            }`}
+          >
+            <span>{lang === "ar" ? "📚 المناهج والقصة" : "📚 Curriculum & Story"}</span>
+          </button>
+          <button
             onClick={() => setActiveTab("announcements")}
             className={`px-3.5 py-2 rounded-xl transition-all ${
               activeTab === "announcements" ? "bg-white dark:bg-slate-900 text-purple-600 dark:text-purple-400 shadow-sm" : "text-slate-600 dark:text-slate-400"
@@ -511,61 +531,20 @@ export const SuperAdminDashboard: React.FC = () => {
         </div>
       )}
 
-      {/* 3. ACTIVATION CODES GENERATOR */}
+      {/* 3. BULK ACTIVATION & PRINTABLE CARDS */}
       {activeTab === "codes" && (
         <div className="space-y-6">
-          <div className="bg-white dark:bg-slate-900 p-6 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-lg">
-            <h3 className="font-extrabold text-sm text-slate-900 dark:text-white mb-4">
-              {lang === "ar" ? "مولد أكواد التفعيل الفورية" : "Activation Code Generator"}
-            </h3>
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-              <input
-                type="text"
-                value={codePrefix}
-                onChange={(e) => setCodePrefix(e.target.value)}
-                placeholder="Prefix e.g. HABIB3SEC"
-                className="p-3 rounded-2xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs font-bold text-slate-900 dark:text-white uppercase"
-              />
-              <input
-                type="number"
-                value={codeCount}
-                onChange={(e) => setCodeCount(parseInt(e.target.value) || 1)}
-                placeholder="Number of codes"
-                className="p-3 rounded-2xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs font-bold text-slate-900 dark:text-white"
-              />
-              <button
-                onClick={handleGenerateCodes}
-                className="px-6 py-3 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white font-extrabold text-xs rounded-2xl shadow-lg transition-all"
-              >
-                {lang === "ar" ? "توليد كروت التفعيل" : "Generate Batch Codes"}
-              </button>
-            </div>
+          <BulkCodesGenerator />
 
-            {generatedCodes.length > 0 && (
-              <div className="mt-6 p-4 bg-emerald-50 dark:bg-emerald-950/40 rounded-2xl border border-emerald-200 dark:border-emerald-800">
-                <p className="text-xs font-bold text-emerald-700 dark:text-emerald-300 mb-2">
-                  🎉 {generatedCodes.length} Codes Generated Successfully:
-                </p>
-                <div className="flex flex-wrap gap-2">
-                  {generatedCodes.map((c, i) => (
-                    <span key={i} className="font-mono text-xs font-bold px-3 py-1 bg-white dark:bg-slate-900 rounded-lg shadow text-emerald-600 border border-emerald-300">
-                      {c}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            )}
-          </div>
-
-          <div className="bg-white dark:bg-slate-900 p-6 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-lg">
+          <div className="bg-white dark:bg-[#100a26] p-6 rounded-3xl border border-slate-200 dark:border-purple-900/40 shadow-lg">
             <h3 className="font-extrabold text-sm text-slate-900 dark:text-white mb-4">
-              {lang === "ar" ? "سجل الأكواد الحالية بالمنظومة" : "Active System Activation Codes"}
+              {lang === "ar" ? "أرشيف جميع أكواد المنظومة المسجلة" : "All System Activation Codes Ledger"}
             </h3>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 max-h-72 overflow-y-auto pr-1">
               {codes?.map((c: any) => (
-                <div key={c.id} className="p-3 rounded-2xl bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 flex justify-between items-center text-xs font-mono">
+                <div key={c.id} className="p-3 rounded-2xl bg-slate-50 dark:bg-purple-950/30 border border-slate-200 dark:border-purple-900/40 flex justify-between items-center text-xs font-mono">
                   <span className="font-bold text-slate-800 dark:text-slate-100">{c.code}</span>
-                  <span className={`px-2 py-0.5 rounded text-[10px] font-sans font-bold ${c.isUsed ? "bg-red-100 text-red-600" : "bg-emerald-100 text-emerald-600"}`}>
+                  <span className={`px-2 py-0.5 rounded text-[10px] font-sans font-bold ${c.isUsed ? "bg-red-100 text-red-600 dark:bg-red-950/60 dark:text-red-400" : "bg-emerald-100 text-emerald-600 dark:bg-emerald-950/60 dark:text-emerald-400"}`}>
                     {c.isUsed ? "USED" : "AVAILABLE"}
                   </span>
                 </div>
@@ -575,7 +554,12 @@ export const SuperAdminDashboard: React.FC = () => {
         </div>
       )}
 
-      {/* 4. BROADCAST ANNOUNCEMENTS */}
+      {/* 4. PARENT CONNECT SYSTEM (Meta WhatsApp Cloud API & Telegram Bot) */}
+      {activeTab === "parent_connect" && (
+        <ParentConnectAdminHub />
+      )}
+
+      {/* 5. BROADCAST ANNOUNCEMENTS */}
       {activeTab === "announcements" && (
         <div className="bg-white dark:bg-slate-900 p-6 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-lg max-w-2xl">
           <h3 className="font-extrabold text-sm text-slate-900 dark:text-white mb-4">
@@ -612,6 +596,9 @@ export const SuperAdminDashboard: React.FC = () => {
           </div>
         </div>
       )}
+
+      {/* CURRICULUM & STORY MANAGER */}
+      {activeTab === "curriculum" && <AdminCurriculumManager />}
 
       {/* 5. SYSTEM BACKUP */}
       {activeTab === "backup" && (

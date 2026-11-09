@@ -235,7 +235,7 @@ export const StudentDashboard: React.FC<{
                 <span className="text-[10px] font-black uppercase px-2 py-0.5 rounded-full bg-amber-400 text-slate-950">
                   {lang === "ar" ? "الهيكل الذكي الجديد" : "Smart Curriculum"}
                 </span>
-                <span className="text-xs text-purple-200/80 font-bold">6 {lang === "ar" ? "وحدات + مراجعتين + القصة" : "Units & Story"}</span>
+                <span className="text-xs text-purple-200/80 font-bold">{lang === "ar" ? "جميع الصفوف + تانية بكالوريا المستقلة" : "All Stages + Egyptian Baccalaureate"}</span>
               </div>
               <h3 className="text-base sm:text-lg font-black mt-1">
                 {lang === "ar" ? "متابعة المنهج الدراسي وركن القصة المقررة" : "Resume Curriculum Units & Story Corner"}

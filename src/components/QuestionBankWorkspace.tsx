@@ -25,6 +25,8 @@ import {
   Play,
   Settings,
 } from "lucide-react";
+import { isOptionCorrect } from "@/lib/question-grading.mjs";
+import { getCurriculumUnits } from "@/config/curriculum-2026";
 
 export const QuestionBankWorkspace: React.FC<{ onExamGenerated?: (exam: any) => void }> = ({ onExamGenerated }) => {
   const { lang, user } = useApp();
@@ -219,8 +221,8 @@ export const QuestionBankWorkspace: React.FC<{ onExamGenerated?: (exam: any) => 
 
   const handleAddQuestion = async () => {
     setAddError("");
-    if (!newQText || !newCorrect) {
-      setAddError("Please fill in question text and correct answer.");
+    if (!newQText?.trim() || !newCorrect?.trim()) {
+      setAddError(lang === "ar" ? "يرجى كتابة نص السؤال والإجابة الصحيحة." : "Please fill in question text and correct answer.");
       return;
     }
 
@@ -277,9 +279,10 @@ export const QuestionBankWorkspace: React.FC<{ onExamGenerated?: (exam: any) => 
     for (const l of lines) {
       const parts = l.split("|");
       if (parts.length >= 2) {
-        const qText = parts[0].trim();
-        const opts = parts[1] ? parts[1].split(",").map((o) => o.trim()) : [];
-        const corr = parts[2] ? parts[2].trim() : opts[0] || "A";
+        const qText = (parts[0] || "").trim();
+        const opts = parts[1] ? parts[1].split(",").map((o) => o.trim()).filter(Boolean) : [];
+        const corr = (parts[2] || "").trim() || (opts[0] || "");
+        if (!qText || !corr) continue;
 
         parsedItems.push({
           questionText: qText,
@@ -318,7 +321,7 @@ export const QuestionBankWorkspace: React.FC<{ onExamGenerated?: (exam: any) => 
   return (
     <div className="max-w-7xl mx-auto px-4 py-8 space-y-8">
       {/* HEADER BANNER */}
-      <div className="bg-gradient-to-r from-blue-900 via-indigo-900 to-purple-900 rounded-3xl p-6 sm:p-8 text-white shadow-2xl flex flex-col md:flex-row justify-between items-center gap-6">
+      <div className="bg-gradient-to-r from-purple-900 via-[#1e113a] to-sky-950 rounded-3xl p-6 sm:p-8 text-white shadow-2xl shadow-purple-950/40 border border-purple-500/20 flex flex-col md:flex-row justify-between items-center gap-6">
         <div>
           <div className="flex items-center gap-2">
             <Database className="w-7 h-7 text-amber-400" />
@@ -326,7 +329,7 @@ export const QuestionBankWorkspace: React.FC<{ onExamGenerated?: (exam: any) => 
               {lang === "ar" ? "بنك الأسئلة الذكي والإنشاء التلقائي" : "Intelligent Question Bank Engine"}
             </h1>
           </div>
-          <p className="text-xs sm:text-sm text-blue-200 mt-2 max-w-xl leading-relaxed">
+          <p className="text-xs sm:text-sm text-sky-200 mt-2 max-w-xl leading-relaxed">
             {lang === "ar"
               ? "إدارة أكثر من 100,000 سؤال مفهرس، توليد الامتحانات الذكية بدون تكرار الأسئلة، الكشف التلقائي عن التطابق، ومولد الذكاء الاصطناعي."
               : "High-scale indexed vocabulary & grammar repository, anti-repetition smart exam generator, and AI auto-item authoring."}
@@ -334,19 +337,19 @@ export const QuestionBankWorkspace: React.FC<{ onExamGenerated?: (exam: any) => 
         </div>
 
         {/* STATS BADGES */}
-        <div className="flex gap-3 bg-white/10 backdrop-blur-md p-4 rounded-2xl border border-white/20 shrink-0">
+        <div className="flex gap-3 bg-white/10 backdrop-blur-md p-4 rounded-2xl border border-purple-400/20 shrink-0">
           <div className="text-center px-3">
             <span className="text-2xl font-black text-amber-300">{stats.total}</span>
             <span className="text-[10px] block opacity-80 uppercase">{lang === "ar" ? "إجمالي الأسئلة" : "Total Items"}</span>
           </div>
           <div className="w-px h-10 bg-white/20" />
           <div className="text-center px-3">
-            <span className="text-2xl font-black text-blue-300">{stats.grammarCount}</span>
+            <span className="text-2xl font-black text-purple-300">{stats.grammarCount}</span>
             <span className="text-[10px] block opacity-80 uppercase">{lang === "ar" ? "بنك القواعد" : "Grammar"}</span>
           </div>
           <div className="w-px h-10 bg-white/20" />
           <div className="text-center px-3">
-            <span className="text-2xl font-black text-emerald-300">{stats.vocabularyCount}</span>
+            <span className="text-2xl font-black text-sky-300">{stats.vocabularyCount}</span>
             <span className="text-[10px] block opacity-80 uppercase">{lang === "ar" ? "بنك الكلمات" : "Vocabulary"}</span>
           </div>
         </div>
@@ -358,10 +361,10 @@ export const QuestionBankWorkspace: React.FC<{ onExamGenerated?: (exam: any) => 
           <button
             onClick={() => setActiveTab("bank")}
             className={`px-4 py-2.5 rounded-xl transition-all flex items-center gap-2 ${
-              activeTab === "bank" ? "bg-white dark:bg-slate-900 text-blue-600 dark:text-blue-400 shadow-md" : "text-slate-600 dark:text-slate-400"
+              activeTab === "bank" ? "bg-white dark:bg-slate-900 text-purple-600 dark:text-purple-400 shadow-md" : "text-slate-600 dark:text-slate-400"
             }`}
           >
-            <Database className="w-4 h-4" />
+            <Database className="w-4 h-4 text-purple-500" />
             <span>{lang === "ar" ? "تصفح بنك الأسئلة" : "Question Bank"}</span>
           </button>
 
@@ -378,27 +381,27 @@ export const QuestionBankWorkspace: React.FC<{ onExamGenerated?: (exam: any) => 
           <button
             onClick={() => setActiveTab("ai_generator")}
             className={`px-4 py-2.5 rounded-xl transition-all flex items-center gap-2 ${
-              activeTab === "ai_generator" ? "bg-white dark:bg-slate-900 text-indigo-600 dark:text-indigo-400 shadow-md" : "text-slate-600 dark:text-slate-400"
+              activeTab === "ai_generator" ? "bg-white dark:bg-slate-900 text-purple-600 dark:text-purple-400 shadow-md" : "text-slate-600 dark:text-slate-400"
             }`}
           >
-            <Sparkles className="w-4 h-4 text-indigo-500" />
+            <Sparkles className="w-4 h-4 text-purple-500" />
             <span>{lang === "ar" ? "توليد بالذكاء الاصطناعي" : "AI Question Authoring"}</span>
           </button>
 
           <button
             onClick={() => setActiveTab("importer")}
             className={`px-4 py-2.5 rounded-xl transition-all flex items-center gap-2 ${
-              activeTab === "importer" ? "bg-white dark:bg-slate-900 text-emerald-600 dark:text-emerald-400 shadow-md" : "text-slate-600 dark:text-slate-400"
+              activeTab === "importer" ? "bg-white dark:bg-slate-900 text-sky-600 dark:text-sky-400 shadow-md" : "text-slate-600 dark:text-slate-400"
             }`}
           >
-            <Upload className="w-4 h-4 text-emerald-500" />
+            <Upload className="w-4 h-4 text-sky-500" />
             <span>{lang === "ar" ? "استيراد CSV / Excel" : "Bulk Import"}</span>
           </button>
         </div>
 
         <button
           onClick={() => setShowAddModal(true)}
-          className="px-5 py-2.5 rounded-2xl bg-blue-600 hover:bg-blue-500 text-white font-extrabold text-xs shadow-lg shadow-blue-500/25 flex items-center gap-1.5 transition-all"
+          className="px-5 py-2.5 rounded-2xl bg-gradient-to-r from-purple-600 to-sky-600 hover:from-purple-500 hover:to-sky-500 text-white font-extrabold text-xs shadow-lg shadow-purple-500/25 flex items-center gap-1.5 transition-all"
         >
           <Plus className="w-4 h-4" />
           <span>{lang === "ar" ? "إضافة سؤال يدوي" : "Add Question"}</span>
@@ -448,7 +451,21 @@ export const QuestionBankWorkspace: React.FC<{ onExamGenerated?: (exam: any) => 
               <option value="All">الترم كله</option><option>First</option><option>Second</option>
             </select>
             <select value={unitFilter} onChange={(e) => setUnitFilter(e.target.value)} className="w-full p-2.5 rounded-2xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs text-slate-900 dark:text-white">
-              <option value="All">كل الوحدات</option><option value="Units 1-2">مراجعة الوحدتين 1-2</option>{Array.from({length:12},(_,i)=><option key={i}>Unit {i+1}</option>)}
+              <option value="All">كل الوحدات</option>
+              {gradeFilter !== "All" ? (
+                getCurriculumUnits(gradeFilter).map((u, i) => (
+                  <option key={i} value={u.type === "review" ? `Review ${u.orderIndex === 4 ? 1 : 2}` : `Unit ${u.unitNumber}`}>
+                    {u.type === "review" ? (lang === "ar" ? u.titleAr : u.titleEn) : `Unit ${u.unitNumber}: ${u.titleEn.replace(/^Unit \d+:\s*/, "")}`}
+                  </option>
+                ))
+              ) : (
+                <>
+                  <option value="Units 1-2">مراجعة الوحدتين 1-2</option>
+                  {Array.from({ length: 6 }, (_, i) => <option key={i}>Unit {i + 1}</option>)}
+                  <option value="Review 1">Review 1 (Units 1-3)</option>
+                  <option value="Review 2">Review 2 (Units 4-6)</option>
+                </>
+              )}
             </select>
             <select value={typeFilter} onChange={(e) => setTypeFilter(e.target.value)} className="w-full p-2.5 rounded-2xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs text-slate-900 dark:text-white">
               <option value="All">كل أنواع السؤال</option><option value="mcq">MCQ</option><option value="fill_blank">Complete</option><option value="correction">Correct</option><option value="rewrite">Rewrite</option><option value="comprehension">Reading</option><option value="writing">Writing</option>
@@ -518,7 +535,9 @@ export const QuestionBankWorkspace: React.FC<{ onExamGenerated?: (exam: any) => 
                   {Array.isArray(q.options) && q.options.length > 0 && (
                     <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 pt-1">
                       {q.options.map((opt: string, i: number) => {
-                        const isCorrect = opt.trim().toLowerCase() === q.correctAnswer.trim().toLowerCase();
+                        const optText = String(opt || "").trim();
+                        const isAuthorized = user?.role === "admin" || user?.role === "teacher";
+                        const isCorrect = isAuthorized && isOptionCorrect(optText, q.correctAnswer, q.questionType);
                         return (
                           <div
                             key={i}
@@ -528,7 +547,7 @@ export const QuestionBankWorkspace: React.FC<{ onExamGenerated?: (exam: any) => 
                                 : "bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300"
                             }`}
                           >
-                            {opt} {isCorrect && "✓"}
+                            {optText} {isCorrect && "✓"}
                           </div>
                         );
                       })}
@@ -569,10 +588,33 @@ export const QuestionBankWorkspace: React.FC<{ onExamGenerated?: (exam: any) => 
           <div className="space-y-4 text-xs font-bold text-slate-700 dark:text-slate-300">
             <div className="grid grid-cols-2 gap-3">
               <div><label className="block mb-1">Stage</label><select value={examStage} onChange={e=>setExamStage(e.target.value)} className="w-full p-3 rounded-2xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white"><option>Preparatory</option><option>Secondary</option></select></div>
-              <div><label className="block mb-1">Grade</label><select value={examGrade} onChange={e=>setAiExamGrade(e.target.value)} className="w-full p-3 rounded-2xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white"><option>Third Prep</option><option>First Secondary</option><option>Second Secondary</option><option>Third Secondary (Baccalaureate)</option></select></div>
+              <div>
+                <label className="block mb-1">Grade</label>
+                <select value={examGrade} onChange={e=>setAiExamGrade(e.target.value)} className="w-full p-3 rounded-2xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white">
+                  <option>First Prep</option>
+                  <option>Second Prep</option>
+                  <option>Third Prep</option>
+                  <option>First Secondary</option>
+                  <option>Second Secondary</option>
+                  <option>Third Secondary (Baccalaureate)</option>
+                </select>
+              </div>
               <div><label className="block mb-1">Curriculum</label><select value={examCurriculum} onChange={e=>setExamCurriculum(e.target.value)} className="w-full p-3 rounded-2xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white"><option>Connect</option><option>Connect Plus</option><option>Ministry</option><option>M High</option><option>Baccalaureate</option><option>Thanaweya Amma</option></select></div>
               <div><label className="block mb-1">Term</label><select value={examTerm} onChange={e=>setExamTerm(e.target.value)} className="w-full p-3 rounded-2xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white"><option>First</option><option>Second</option></select></div>
-              <div><label className="block mb-1">Unit</label><select value={examUnit} onChange={e=>setExamUnit(e.target.value)} className="w-full p-3 rounded-2xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white col-span-2"><option>All</option><option>Units 1-2</option>{Array.from({length:12},(_,i)=><option key={i}>Unit {i+1}</option>)}<option>All My Sons</option></select></div>
+              <div>
+                <label className="block mb-1">Unit</label>
+                <select value={examUnit} onChange={e=>setExamUnit(e.target.value)} className="w-full p-3 rounded-2xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white col-span-2">
+                  <option>All</option>
+                  <option>Units 1-3</option>
+                  <option>Units 4-6</option>
+                  {getCurriculumUnits(examGrade).map((u, i) => (
+                    <option key={i} value={u.type === "review" ? `Review ${u.orderIndex === 4 ? 1 : 2}` : `Unit ${u.unitNumber}`}>
+                      {u.type === "review" ? u.titleEn : `Unit ${u.unitNumber}: ${u.titleEn.replace(/^Unit \d+:\s*/, "")}`}
+                    </option>
+                  ))}
+                  <option>Story Chapters</option>
+                </select>
+              </div>
             </div>
 
             <div className="grid grid-cols-2 gap-4">
@@ -758,7 +800,14 @@ export const QuestionBankWorkspace: React.FC<{ onExamGenerated?: (exam: any) => 
               <select value={newGrade} onChange={e=>setNewGrade(e.target.value)} className="p-2.5 rounded-xl bg-slate-50 border border-slate-200 text-xs"><option>First Prep</option><option>Second Prep</option><option>Third Prep</option><option>First Secondary</option><option>Second Secondary</option><option>Third Secondary (Baccalaureate)</option></select>
               <select value={newCurriculum} onChange={e=>setNewCurriculum(e.target.value)} className="p-2.5 rounded-xl bg-slate-50 border border-slate-200 text-xs"><option>Connect</option><option>Connect Plus</option><option>Ministry</option><option>M High</option><option>Baccalaureate</option><option>Thanaweya Amma</option></select>
               <select value={newTerm} onChange={e=>setNewTerm(e.target.value)} className="p-2.5 rounded-xl bg-slate-50 border border-slate-200 text-xs"><option>First</option><option>Second</option></select>
-              <select value={newUnit} onChange={e=>setNewUnit(e.target.value)} className="p-2.5 rounded-xl bg-slate-50 border border-slate-200 text-xs"><option>Unit 1</option><option>Unit 2</option><option>Unit 3</option><option>Unit 4</option><option>Unit 5</option><option>Unit 6</option><option>Unit 7</option><option>Unit 8</option><option>Unit 9</option><option>Unit 10</option><option>Unit 11</option><option>Unit 12</option></select>
+              <select value={newUnit} onChange={e=>setNewUnit(e.target.value)} className="p-2.5 rounded-xl bg-slate-50 border border-slate-200 text-xs">
+                {getCurriculumUnits(newGrade).map((u, i) => (
+                  <option key={i} value={u.type === "review" ? `Review ${u.orderIndex === 4 ? 1 : 2}` : `Unit ${u.unitNumber}`}>
+                    {u.type === "review" ? u.titleEn : `Unit ${u.unitNumber}: ${u.titleEn.replace(/^Unit \d+:\s*/, "")}`}
+                  </option>
+                ))}
+                <option value="Story Corner">Story Corner</option>
+              </select>
               <select value={newSource} onChange={e=>setNewSource(e.target.value)} className="p-2.5 rounded-xl bg-slate-50 border border-slate-200 text-xs"><option>Ministry Book</option><option>External Source</option><option>Teacher Created</option><option>Revision</option></select>
               <input value={newLesson} onChange={e=>setNewLesson(e.target.value)} placeholder="Lesson / All My Sons" className="p-2.5 rounded-xl bg-slate-50 border border-slate-200 text-xs" />
               <input value={newSection} onChange={e=>setNewSection(e.target.value)} placeholder="Section: Grammar / Literature / Story..." className="p-2.5 rounded-xl bg-slate-50 border border-slate-200 text-xs" />

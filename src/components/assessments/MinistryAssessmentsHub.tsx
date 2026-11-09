@@ -155,6 +155,7 @@ export const MinistryAssessmentsHub: React.FC<MinistryAssessmentsHubProps> = ({
   const secGrades = [
     { code: "sec_1", labelAr: "الصف الأول الثانوي", labelEn: "First Secondary" },
     { code: "sec_2", labelAr: "الصف الثاني الثانوي", labelEn: "Second Secondary" },
+    { code: "sec_2_bac", labelAr: "تانية بكالوريا (Baccalaureate)", labelEn: "Second Year Baccalaureate" },
     { code: "sec_3", labelAr: "الصف الثالث الثانوي (ثانوية عامة)", labelEn: "Third Secondary" },
   ];
 
@@ -829,6 +830,7 @@ export const MinistryAssessmentsHub: React.FC<MinistryAssessmentsHubProps> = ({
                     <option value="prep_3">ثالثة إعدادي (prep_3)</option>
                     <option value="sec_1">أولى ثانوي (sec_1)</option>
                     <option value="sec_2">ثانية ثانوي (sec_2)</option>
+                    <option value="sec_2_bac">تانية بكالوريا (sec_2_bac)</option>
                     <option value="sec_3">ثالثة ثانوي (sec_3)</option>
                   </select>
                 </div>

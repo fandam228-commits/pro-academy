@@ -135,7 +135,12 @@ export default function RootLayout({ children }: { children: ReactNode }) {
                   var isLocal = location.hostname === 'localhost' || location.hostname === '127.0.0.1';
                   if (isLocal && 'serviceWorker' in navigator) {
                     navigator.serviceWorker.getRegistrations().then(function(regs) {
+                      var hadWorker = regs.length > 0;
                       for (var i = 0; i < regs.length; i++) { regs[i].unregister(); }
+                      if (hadWorker && !sessionStorage.getItem('sw_purged')) {
+                        sessionStorage.setItem('sw_purged', 'true');
+                        window.location.reload();
+                      }
                     });
                   }
                   if ('caches' in window) {

@@ -73,8 +73,12 @@ async function performLogin(loginId: string, password: string, userAgent?: strin
 }
 
 export async function GET(req: Request) {
-  await ensureDbSetup();
   try {
+    const token = extractToken(req);
+    if (!token) {
+      return NextResponse.json({ error: "Session expired or not logged in." }, { status: 401 });
+    }
+    await ensureDbSetup();
     const ctx = await getAuthContext(req);
     if (!ctx) {
       return NextResponse.json({ error: "Session expired or not logged in." }, { status: 401 });
@@ -87,8 +91,8 @@ export async function GET(req: Request) {
 }
 
 export async function POST(req: Request) {
-  await ensureDbSetup();
   try {
+    await ensureDbSetup();
     const body = await req.json();
     const { email, username, password, name, role, stage, grade, phone, parentPhone } = body;
     const rawAction = typeof body?.action === "string" ? body.action.trim().toLowerCase() : "";

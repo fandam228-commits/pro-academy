@@ -8,12 +8,16 @@ const databaseUrl = process.env.DATABASE_URL;
 // Detect Next.js build phase (no DB needed)
 const isBuildPhase = process.env.NEXT_PHASE === "phase-production-build";
 
-const connectionString = databaseUrl || "postgresql://dummy:dummy@localhost:5432/dummy";
-
 if (!databaseUrl && !isBuildPhase) {
   console.warn(
-    "⚠️ DATABASE_URL is not set — database operations will fail. Set it in Vercel → Project → Settings → Environment Variables."
+    "DATABASE_URL is not set — database operations are disabled until a database is configured."
   );
+}
+
+export function assertDatabaseConfigured(): void {
+  if (!databaseUrl && !isBuildPhase) {
+    throw new Error("DATABASE_URL is required for database operations.");
+  }
 }
 
 const globalForDb = globalThis as typeof globalThis & {
@@ -23,9 +27,10 @@ const globalForDb = globalThis as typeof globalThis & {
 export const pool =
   globalForDb.__arenaNextJsPostgresqlPool ??
   new Pool({
-    connectionString,
-    // Keep build-phase pool lightweight
-    ...(isBuildPhase ? { max: 1, idleTimeoutMillis: 1000, connectionTimeoutMillis: 1000 } : {}),
+    ...(databaseUrl ? { connectionString: databaseUrl } : {}),
+    connectionTimeoutMillis: isBuildPhase ? 1000 : 5000,
+    idleTimeoutMillis: isBuildPhase ? 1000 : 30000,
+    max: isBuildPhase ? 1 : 10,
   });
 
 if (process.env.NODE_ENV !== "production") {
