@@ -123,6 +123,7 @@ export function isSameHomeworkFileAccessContext(initial, current, sessionRole) {
     "requesterRole",
     "submissionId",
     "homeworkId",
+    "homeworkRecordId",
     "studentId",
     "storagePath",
     "fileName",
