@@ -422,6 +422,11 @@ integrationTest(
       );
       const teacherClassOwnStudent = (teacherClass.body.students || []).find((row) => row.id === ids.student);
       assert.ok(teacherClassOwnStudent, "teacher class analytics must include the student enrolled in the owned course");
+      assert.deepEqual(
+        Object.keys(teacherClassOwnStudent).sort(),
+        ["attRate", "avgScore", "grade", "hwCompletion", "id", "name", "performanceIndex", "trend", "weakestTopic"].sort(),
+        "teacher class roster rows must expose only the approved analytics fields, never email, phone, credentials, or unrelated profile data",
+      );
       assert.equal(
         teacherClassOwnStudent.hwCompletion,
         100,
