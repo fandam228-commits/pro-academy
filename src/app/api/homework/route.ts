@@ -465,8 +465,3 @@ export async function POST(req: Request) {
   }
 }
 
-// Points increment helper that tolerates missing drizzle sql import style
-import { sql } from "drizzle-orm";
-function sql_inc(column: string, amount: number) {
-  return sql`${sql.raw(column)} + ${amount}` as any;
-}
