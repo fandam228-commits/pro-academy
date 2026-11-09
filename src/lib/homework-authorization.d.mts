@@ -50,3 +50,22 @@ export interface HomeworkSubmissionReplacementInput {
   status?: string | null;
 }
 export function canReplaceHomeworkSubmission(input: HomeworkSubmissionReplacementInput): boolean;
+
+
+export interface HomeworkFileAccessContextSnapshot {
+  requesterRole: string | null;
+  submissionId: string | null;
+  homeworkId: string | null;
+  homeworkRecordId: string | null;
+  studentId: string | null;
+  storagePath: string | null;
+  fileName: string | null;
+  homeworkTeacherId: string | null;
+  homeworkCourseId: string | null;
+  courseTeacherId: string | null;
+}
+export function isSameHomeworkFileAccessContext(
+  initial: HomeworkFileAccessContextSnapshot | null | undefined,
+  current: HomeworkFileAccessContextSnapshot | null | undefined,
+  sessionRole: string | null | undefined,
+): boolean;
