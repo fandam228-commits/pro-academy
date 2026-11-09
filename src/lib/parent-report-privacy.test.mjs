@@ -6,6 +6,7 @@ const routeFiles = {
   reports: await readFile(new URL("../app/api/reports/route.ts", import.meta.url), "utf8"),
   attendance: await readFile(new URL("../app/api/attendance/route.ts", import.meta.url), "utf8"),
   parent: await readFile(new URL("../app/api/parent/route.ts", import.meta.url), "utf8"),
+  parentDashboard: await readFile(new URL("../components/ParentDashboard.tsx", import.meta.url), "utf8"),
 };
 
 function assertAuthBeforeSetup(source, routeName) {
@@ -246,4 +247,60 @@ test("attendance POST validates action-specific roles before database setup", ()
     "each supported action must enforce its own role and unknown actions must be rejected");
   assert.ok(setup > bulkGuard && setup > checkInGuard && setup > unsupportedGuard,
     "database setup must occur only after action-specific authorization");
+});
+
+
+test("parent overview returns only currently verified child choices for explicit selection", () => {
+  const source = routeFiles.parent;
+  const start = source.indexOf('if (resolution.reason === "student-id-required")');
+  const end = source.indexOf('if (resolution.reason === "invalid-student-id")', start);
+  assert.ok(start >= 0 && end > start, "multiple children must produce a dedicated selection response");
+  const selection = source.slice(start, end);
+  assert.ok(selection.includes(".selectDistinct({"));
+  assert.ok(selection.includes('eq(parentAccount.role, "parent")'));
+  assert.ok(selection.includes('eq(verifiedByUser.role, "admin")'));
+  assert.ok(selection.includes('eq(users.role, "student")'));
+  assert.ok(selection.includes("requiresStudentSelection: true"));
+  assert.ok(selection.includes("students: selectableStudents"));
+  assert.doesNotMatch(selection, /email|password|phone|parentPhone/,
+    "child options must contain only minimal identity fields");
+});
+
+test("parent attendance returns minimal private rows and revalidates the verified link after reading", () => {
+  const source = routeFiles.attendance;
+  const start = source.indexOf('if (role === "parent") {');
+  const end = source.indexOf("// ============ STUDENT: own records", start);
+  assert.ok(start >= 0 && end > start);
+  const parentBranch = source.slice(start, end);
+  const read = parentBranch.indexOf("const records = await db");
+  const finalCheck = parentBranch.indexOf("const parentAccessStillValid", read);
+  const response = parentBranch.indexOf("return privateJson({", finalCheck);
+  assert.ok(read >= 0 && finalCheck > read && response > finalCheck,
+    "attendance must be reauthorized after the database read and before returning rows");
+  const projectionEnd = parentBranch.indexOf("})", read);
+  const projection = parentBranch.slice(read, projectionEnd);
+  for (const field of [
+    "id: attendanceRecords.id",
+    "sessionTitle: attendanceRecords.sessionTitle",
+    "sessionDate: attendanceRecords.sessionDate",
+    "status: attendanceRecords.status",
+  ]) assert.ok(projection.includes(field), "parent attendance projection must include " + field);
+  assert.doesNotMatch(projection, /studentId|studentName|markedBy|grade/,
+    "parent attendance rows must not expose student or marker identifiers");
+  assert.ok(source.includes('headers.set("Cache-Control", "private, no-store")'));
+});
+
+test("parent dashboard supports explicit verified child selection without exposing child phone", () => {
+  const dashboard = routeFiles.parentDashboard;
+  assert.ok(dashboard.includes("if (selectionRequired)"));
+  assert.ok(dashboard.includes("requiresStudentSelection === true"));
+  assert.ok(dashboard.includes("linkedStudents.map"));
+  assert.ok(dashboard.includes("fetchParentData(selectedStudentId)"));
+  assert.ok(dashboard.includes('cache: "no-store"'));
+  assert.ok(dashboard.includes("onClick={() => fetchParentData()}"),
+    "a parent must be able to reopen the picker and change children");
+  assert.ok(!dashboard.includes("/api/parent?parentId="),
+    "the dashboard must rely on the authenticated parent session");
+  assert.ok(!dashboard.includes("student?.phone"),
+    "the dashboard must not require or expose the child's phone number");
 });
