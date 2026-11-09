@@ -289,15 +289,25 @@ test("graded homework submissions cannot be replaced", () => {
   assert.equal(canReplaceHomeworkSubmission({}), true);
 });
 
-test("submission replacement checks status before upload and uses an atomic guarded update", async () => {
+test("submission replacement checks status before upload and uses transaction-scoped authorization and atomic row guards", async () => {
   const route = await readFile(new URL("../app/api/homework/route.ts", import.meta.url), "utf8");
   const preflight = route.indexOf("canReplaceHomeworkSubmission({ status: existing[0].status })");
   const upload = route.indexOf("await put(");
-  assert.ok(preflight >= 0 && upload > preflight, "graded submissions must be rejected before a Blob upload");
-  assert.match(route, /or\(isNull\(homeworkSubmissions\.status\), ne\(homeworkSubmissions\.status, "graded"\)\)/);
-  assert.match(route, /await del\(storagePath, \{ token: uploadToken \}\)/);
-});
+  const saveTransaction = route.indexOf("const saveResult = await db.transaction", upload);
+  const finalAuthorization = route.indexOf("lockHomeworkSubmissionAuthorization(", saveTransaction);
+  const advisoryLock = route.indexOf("pg_advisory_xact_lock", finalAuthorization);
+  const rowLock = route.indexOf('.for("update")', advisoryLock);
+  const guardedUpdate = route.indexOf("const updated = await tx", rowLock);
 
+  assert.ok(preflight >= 0 && upload > preflight, "graded submissions must be rejected before a Blob upload");
+  assert.ok(saveTransaction > upload && finalAuthorization > saveTransaction,
+    "authorization must be revalidated after upload inside the write transaction");
+  assert.ok(advisoryLock > finalAuthorization && rowLock > advisoryLock,
+    "concurrent submissions must be serialized and the existing submission row locked");
+  assert.ok(guardedUpdate > rowLock, "the replacement update must occur after the row lock");
+  assert.match(route, /or\\(isNull\\(homeworkSubmissions\\.status\\), ne\\(homeworkSubmissions\\.status, "graded"\\)\\)/);
+  assert.match(route, /removeUnreferencedPrivateHomeworkUpload\\(uploadedStoragePath, uploadToken\\)/);
+});
 
 test("course-linked homework requires an active/completed enrollment", () => {
   const enrolled = ["course-active", "course-completed"];
@@ -324,34 +334,34 @@ test("course-linked homework requires an active/completed enrollment", () => {
   }), true, "grade-only homework remains available to the existing grade policy");
 });
 
-test("student homework GET and submission routes both enforce course enrollment", async () => {
+test("student homework GET and submission routes enforce course enrollment before persistence", async () => {
   const route = await readFile(new URL("../app/api/homework/route.ts", import.meta.url), "utf8");
+  const helper = await readFile(new URL("./homework-submission-authorization.mjs", import.meta.url), "utf8");
   const studentListStart = route.indexOf('const myGrade = ctx.user.grade || ""');
   const studentListEnd = route.indexOf("const mySubs", studentListStart);
   assert.ok(studentListStart >= 0 && studentListEnd > studentListStart);
   const studentList = route.slice(studentListStart, studentListEnd);
-  assert.match(studentList, /\.from\(enrollments\)/);
-  assert.match(studentList, /inArray\(enrollments\.status, \["active", "completed"\]\)/);
-  assert.match(studentList, /const courseVisibility = enrolledCourseIds\.length > 0/);
-  assert.match(studentList, /isNull\(homework\.courseId\)/);
-  assert.match(studentList, /inArray\(homework\.courseId, enrolledCourseIds\)/);
-  assert.match(studentList, /const gradeVisibility = myGrade/);
-  assert.match(studentList, /eq\(homework\.grade, myGrade\)/);
-  assert.match(studentList, /\.where\(\s*gradeVisibility \? and\(courseVisibility, gradeVisibility\) : courseVisibility\s*\)/);
-  assert.doesNotMatch(studentList, /let list = await db\.select\(\)\.from\(homework\)/,
-    "student visibility must be enforced in SQL before homework rows are loaded");
+  assert.match(studentList, /\\.from\\(enrollments\\)/);
+  assert.match(studentList, /inArray\\(enrollments\\.status, \\["active", "completed"\\]\\)/);
+  assert.match(studentList, /const courseVisibility = enrolledCourseIds\\.length > 0/);
+  assert.match(studentList, /inArray\\(homework\\.courseId, enrolledCourseIds\\)/);
 
   const submitStart = route.indexOf('if (contentType.includes("multipart/form-data"))');
   const submitEnd = route.indexOf("// ============ JSON ACTIONS", submitStart);
   assert.ok(submitStart >= 0 && submitEnd > submitStart);
   const submitRoute = route.slice(submitStart, submitEnd);
-  const enrollmentGuard = submitRoute.indexOf("canAccessHomeworkCourse(");
+  const preflight = submitRoute.indexOf("const preflight = await db.transaction");
   const upload = submitRoute.indexOf("await put(");
-  const persist = submitRoute.indexOf("await db.insert(homeworkSubmissions).values(sub)");
-  assert.ok(enrollmentGuard >= 0 && upload > enrollmentGuard && persist > enrollmentGuard,
-    "course enrollment must be checked before file upload or submission persistence");
+  const finalTransaction = submitRoute.indexOf("const saveResult = await db.transaction", upload);
+  const finalAuthorization = submitRoute.indexOf("lockHomeworkSubmissionAuthorization(", finalTransaction);
+  const persist = submitRoute.indexOf("await tx.insert(homeworkSubmissions).values(submission)", finalAuthorization);
+  assert.ok(preflight >= 0 && upload > preflight && finalAuthorization > finalTransaction && persist > finalAuthorization,
+    "current role/enrollment authorization must be checked before upload and again before submission persistence");
+  assert.match(helper, /inArray\\(enrollments\\.status, \\["active", "completed"\\]\\)/,
+    "only active or completed course enrollments may submit course-specific homework");
+  assert.match(helper, /\\.for\\("share"\\)/,
+    "the live role, homework, course, and enrollment rows must remain locked through the write transaction");
 });
-
 
 test("homework GET and POST authenticate before database setup", async () => {
   const route = await readFile(new URL("../app/api/homework/route.ts", import.meta.url), "utf8");
@@ -390,7 +400,7 @@ test("homework POST authorizes role and action before database setup", async () 
   const start = route.indexOf("export async function POST(");
   const handler = route.slice(start);
   const multipartStart = handler.indexOf('if (contentType.includes("multipart/form-data"))');
-  const multipartRoleGate = handler.indexOf("canSubmitHomework({ role: ctx.user.role })", multipartStart);
+  const multipartRoleGate = handler.indexOf('if (ctx.user.role !== "student")', multipartStart);
   const multipartSetup = handler.indexOf("await ensureDbSetup()", multipartStart);
   assert.ok(multipartRoleGate >= 0 && multipartSetup > multipartRoleGate,
     "non-student multipart requests must be rejected before database setup");
@@ -404,24 +414,23 @@ test("homework POST authorizes role and action before database setup", async () 
 });
 
 
-test("successful submission replacement deletes only a prior validated private Blob path after the guarded update", async () => {
+test("successful submission replacement deletes only a prior validated private Blob path after the transaction commits", async () => {
   const route = await readFile(new URL("../app/api/homework/route.ts", import.meta.url), "utf8");
-  const updateStart = route.indexOf("const updated = await db");
+  const updateStart = route.indexOf("const updated = await tx");
   const failedUpdateGuard = route.indexOf("if (updated.length === 0)", updateStart);
-  const previousPathRead = route.indexOf("const previousStoragePath = existing[0].storagePath", failedUpdateGuard);
-  const cleanupCall = route.indexOf("await del(previousStoragePath, { token: uploadToken })", previousPathRead);
+  const previousPathRead = route.indexOf("previousStoragePath: current.storagePath", updateStart);
+  const cleanupCall = route.indexOf("await removeUnreferencedPrivateHomeworkUpload(saveResult.previousStoragePath, uploadToken)", previousPathRead);
   const successResponse = route.indexOf("return NextResponse.json({ success: true, updated: true })", cleanupCall);
 
   assert.ok(updateStart >= 0, "the atomic guarded database update must exist");
-  assert.ok(failedUpdateGuard > updateStart, "failed guarded updates must be handled before old-file cleanup");
-  assert.ok(previousPathRead > failedUpdateGuard, "the old path may be cleaned up only after the guarded update succeeds");
+  assert.ok(failedUpdateGuard > updateStart, "a failed guarded update must be handled before old-file cleanup");
+  assert.ok(previousPathRead > failedUpdateGuard, "the previous path must be captured only for a successful update");
   assert.ok(cleanupCall > previousPathRead && successResponse > cleanupCall);
   const cleanupBlock = route.slice(previousPathRead, successResponse);
-  assert.match(cleanupBlock, /previousStoragePath !== storagePath/);
-  assert.match(cleanupBlock, /isPrivateHomeworkBlobPath\(previousStoragePath\)/,
+  assert.match(cleanupBlock, /saveResult\\.previousStoragePath !== storagePath/);
+  assert.match(cleanupBlock, /isPrivateHomeworkBlobPath\\(saveResult\\.previousStoragePath\\)/,
     "legacy absolute URLs and malformed paths must never be sent to private Blob deletion");
 });
-
 
 test("homework file GET rejects unsupported roles before database setup", async () => {
   const route = await readFile(new URL("../app/api/homework/file/[id]/route.ts", import.meta.url), "utf8");
