@@ -190,8 +190,8 @@ export async function POST(req: Request) {
     }
 
     // TEACHER / ADMIN ACTIONS ONLY
-    const roleAuth = requireRoles(["teacher", "admin"])(ctx);
-    if (roleAuth) return roleAuth;
+    const { user: staffUser, denied } = await requireRoles(req, ["teacher", "admin"]);
+    if (denied) return denied;
 
     // 2. ACTION: CREATE ASSESSMENT
     if (action === "create_assessment") {
