@@ -33,6 +33,7 @@ import {
 import { isOptionCorrect } from "@/lib/question-grading.mjs";
 import { getCurriculumUnits } from "@/config/curriculum-2026";
 import { parseQuestions } from "@/lib/question-importer";
+import { AiCurriculumAnalyzerWorkspace } from "@/components/AiCurriculumAnalyzerWorkspace";
 
 export const QuestionBankWorkspace: React.FC<{ onExamGenerated?: (exam: any) => void }> = ({ onExamGenerated }) => {
   const { lang, user } = useApp();
@@ -54,7 +55,7 @@ export const QuestionBankWorkspace: React.FC<{ onExamGenerated?: (exam: any) => 
   const [sectionFilter, setSectionFilter] = useState<string>("All");
   const [grammarTopicFilter, setGrammarTopicFilter] = useState<string>("");
   const [searchQuery, setSearchQuery] = useState<string>("");
-  const [activeTab, setActiveTab] = useState<"bank" | "smart_generator" | "ai_generator" | "importer">("bank");
+  const [activeTab, setActiveTab] = useState<"bank" | "smart_generator" | "ai_generator" | "importer" | "curriculum_analyzer">("bank");
 
   // AI Generator state
   const [aiDomain, setAiDomain] = useState("Grammar");
@@ -494,6 +495,19 @@ export const QuestionBankWorkspace: React.FC<{ onExamGenerated?: (exam: any) => 
           >
             <Upload className="w-4 h-4 text-sky-500" />
             <span>{lang === "ar" ? "استيراد CSV / Excel" : "Bulk Import"}</span>
+          </button>
+
+          <button
+            onClick={() => setActiveTab("curriculum_analyzer")}
+            className={`px-4 py-2.5 rounded-xl transition-all flex items-center gap-2 ${
+              activeTab === "curriculum_analyzer"
+                ? "bg-gradient-to-r from-purple-600 to-indigo-600 text-white shadow-md font-black"
+                : "text-slate-600 dark:text-slate-400"
+            }`}
+          >
+            <Brain className="w-4 h-4 text-amber-400" />
+            <span>{lang === "ar" ? "محلل المناهج والمذكرات AI" : "Curriculum Analyzer"}</span>
+            <span className="px-1.5 py-0.5 rounded text-[10px] font-black bg-amber-400 text-purple-950">PRO</span>
           </button>
         </div>
 
@@ -1091,6 +1105,11 @@ export const QuestionBankWorkspace: React.FC<{ onExamGenerated?: (exam: any) => 
             </div>
           )}
         </div>
+      )}
+
+      {/* TAB 5: AI FULL CURRICULUM ANALYZER */}
+      {activeTab === "curriculum_analyzer" && (
+        <AiCurriculumAnalyzerWorkspace />
       )}
 
       {/* ADD QUESTION MANUAL MODAL */}

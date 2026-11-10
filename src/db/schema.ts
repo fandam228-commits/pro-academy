@@ -882,3 +882,94 @@ export const studentAssessmentDownloads = pgTable(
     index("idx_sad_assessment").on(table.assessmentId),
   ]
 );
+
+// 18. AI FULL CURRICULUM ANALYZER JOBS
+export const curriculumAnalysisJobs = pgTable(
+  "curriculum_analysis_jobs",
+  {
+    id: text("id").primaryKey(),
+    teacherId: text("teacher_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+    fileName: text("file_name").notNull(),
+    fileType: text("file_type").notNull(), // 'pdf' | 'docx' | 'txt' | 'text'
+    fileSize: integer("file_size").default(0),
+    gradeCode: text("grade_code").notNull().default("sec_3"),
+    stage: text("stage").notNull().default("Secondary"),
+    term: text("term").notNull().default("First"),
+    status: text("status").notNull().default("pending"), // 'pending' | 'extracting_text' | 'discovering_structure' | 'extracting_original_questions' | 'generating_ai_questions' | 'assembling_quizzes' | 'completed' | 'failed' | 'paused'
+    currentStep: text("current_step").notNull().default("Initialized"),
+    progressPercent: integer("progress_percent").notNull().default(0),
+    checkpointData: jsonb("checkpoint_data").default({}),
+    summaryReport: jsonb("summary_report").default({}),
+    questionsPerLesson: integer("questions_per_lesson").notNull().default(20),
+    errorMessage: text("error_message"),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+    updatedAt: timestamp("updated_at").defaultNow().notNull(),
+  },
+  (table) => [
+    index("idx_caj_teacher").on(table.teacherId),
+    index("idx_caj_status").on(table.status),
+    index("idx_caj_grade").on(table.gradeCode),
+  ]
+);
+
+// 19. ANALYZED & GENERATED CURRICULUM QUESTIONS (Teacher staging area)
+export const analyzedCurriculumQuestions = pgTable(
+  "analyzed_curriculum_questions",
+  {
+    id: text("id").primaryKey(),
+    jobId: text("job_id").notNull().references(() => curriculumAnalysisJobs.id, { onDelete: "cascade" }),
+    sourceType: text("source_type").notNull().default("ai_generated"), // 'original_extracted' | 'ai_generated'
+    pageNumber: integer("page_number").default(1),
+    unitNumber: integer("unit_number").default(1),
+    unitTitle: text("unit_title").notNull().default("Unit 1"),
+    lessonTitle: text("lesson_title").notNull().default("Lesson 1"),
+    sectionType: text("section_type").notNull().default("Vocabulary"), // 'Vocabulary' | 'Grammar' | 'Reading' | 'Writing' | 'Practice'
+    questionText: text("question_text").notNull(),
+    questionType: text("question_type").notNull().default("mcq"),
+    options: jsonb("options").notNull(), // string[]
+    correctAnswer: text("correct_answer").notNull(),
+    explanation: text("explanation"),
+    difficulty: text("difficulty").notNull().default("Medium"), // 'Easy' | 'Medium' | 'Hard'
+    sourceReference: text("source_reference"),
+    approvalStatus: text("approval_status").notNull().default("pending"), // 'pending' | 'approved' | 'rejected' | 'modified'
+    isPublished: boolean("is_published").notNull().default(false),
+    publishedQuestionId: text("published_question_id"),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+  },
+  (table) => [
+    index("idx_acq_job").on(table.jobId),
+    index("idx_acq_source_type").on(table.sourceType),
+    index("idx_acq_approval").on(table.approvalStatus),
+    index("idx_acq_difficulty").on(table.difficulty),
+    index("idx_acq_published").on(table.isPublished),
+  ]
+);
+
+// 20. ANALYZED & GENERATED CURRICULUM QUIZZES (Automated lesson, unit & review exams)
+export const analyzedCurriculumQuizzes = pgTable(
+  "analyzed_curriculum_quizzes",
+  {
+    id: text("id").primaryKey(),
+    jobId: text("job_id").notNull().references(() => curriculumAnalysisJobs.id, { onDelete: "cascade" }),
+    quizType: text("quiz_type").notNull(), // 'lesson_quiz' | 'unit_exam' | 'tri_unit_review' | 'final_exam'
+    titleAr: text("title_ar").notNull(),
+    titleEn: text("title_en").notNull(),
+    unitNumber: integer("unit_number"),
+    unitsCovered: jsonb("units_covered").default([]),
+    lessonTitle: text("lesson_title"),
+    questionIds: jsonb("question_ids").notNull().default([]),
+    durationMinutes: integer("duration_minutes").notNull().default(30),
+    passPercentage: integer("pass_percentage").notNull().default(60),
+    totalPoints: integer("total_points").notNull().default(100),
+    approvalStatus: text("approval_status").notNull().default("pending"), // 'pending' | 'approved' | 'rejected'
+    isPublished: boolean("is_published").notNull().default(false),
+    publishedQuizId: text("published_quiz_id"),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+  },
+  (table) => [
+    index("idx_acz_job").on(table.jobId),
+    index("idx_acz_type").on(table.quizType),
+    index("idx_acz_approval").on(table.approvalStatus),
+    index("idx_acz_published").on(table.isPublished),
+  ]
+);

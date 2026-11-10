@@ -825,6 +825,82 @@ async function initializeSchema(): Promise<void> {
 
       CREATE INDEX IF NOT EXISTS idx_sad_student ON student_assessment_downloads(student_id);
       CREATE INDEX IF NOT EXISTS idx_sad_assessment ON student_assessment_downloads(assessment_id);
+
+      CREATE TABLE IF NOT EXISTS curriculum_analysis_jobs (
+        id TEXT PRIMARY KEY,
+        teacher_id TEXT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+        file_name TEXT NOT NULL,
+        file_type TEXT NOT NULL,
+        file_size INTEGER DEFAULT 0,
+        grade_code TEXT NOT NULL DEFAULT 'sec_3',
+        stage TEXT NOT NULL DEFAULT 'Secondary',
+        term TEXT NOT NULL DEFAULT 'First',
+        status TEXT NOT NULL DEFAULT 'pending',
+        current_step TEXT NOT NULL DEFAULT 'Initialized',
+        progress_percent INTEGER NOT NULL DEFAULT 0,
+        checkpoint_data JSONB DEFAULT '{}',
+        summary_report JSONB DEFAULT '{}',
+        questions_per_lesson INTEGER NOT NULL DEFAULT 20,
+        error_message TEXT,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
+      );
+
+      CREATE INDEX IF NOT EXISTS idx_caj_teacher ON curriculum_analysis_jobs(teacher_id);
+      CREATE INDEX IF NOT EXISTS idx_caj_status ON curriculum_analysis_jobs(status);
+      CREATE INDEX IF NOT EXISTS idx_caj_grade ON curriculum_analysis_jobs(grade_code);
+
+      CREATE TABLE IF NOT EXISTS analyzed_curriculum_questions (
+        id TEXT PRIMARY KEY,
+        job_id TEXT NOT NULL REFERENCES curriculum_analysis_jobs(id) ON DELETE CASCADE,
+        source_type TEXT NOT NULL DEFAULT 'ai_generated',
+        page_number INTEGER DEFAULT 1,
+        unit_number INTEGER DEFAULT 1,
+        unit_title TEXT NOT NULL DEFAULT 'Unit 1',
+        lesson_title TEXT NOT NULL DEFAULT 'Lesson 1',
+        section_type TEXT NOT NULL DEFAULT 'Vocabulary',
+        question_text TEXT NOT NULL,
+        question_type TEXT NOT NULL DEFAULT 'mcq',
+        options JSONB NOT NULL,
+        correct_answer TEXT NOT NULL,
+        explanation TEXT,
+        difficulty TEXT NOT NULL DEFAULT 'Medium',
+        source_reference TEXT,
+        approval_status TEXT NOT NULL DEFAULT 'pending',
+        is_published BOOLEAN NOT NULL DEFAULT false,
+        published_question_id TEXT,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
+      );
+
+      CREATE INDEX IF NOT EXISTS idx_acq_job ON analyzed_curriculum_questions(job_id);
+      CREATE INDEX IF NOT EXISTS idx_acq_source_type ON analyzed_curriculum_questions(source_type);
+      CREATE INDEX IF NOT EXISTS idx_acq_approval ON analyzed_curriculum_questions(approval_status);
+      CREATE INDEX IF NOT EXISTS idx_acq_difficulty ON analyzed_curriculum_questions(difficulty);
+      CREATE INDEX IF NOT EXISTS idx_acq_published ON analyzed_curriculum_questions(is_published);
+
+      CREATE TABLE IF NOT EXISTS analyzed_curriculum_quizzes (
+        id TEXT PRIMARY KEY,
+        job_id TEXT NOT NULL REFERENCES curriculum_analysis_jobs(id) ON DELETE CASCADE,
+        quiz_type TEXT NOT NULL,
+        title_ar TEXT NOT NULL,
+        title_en TEXT NOT NULL,
+        unit_number INTEGER,
+        units_covered JSONB DEFAULT '[]',
+        lesson_title TEXT,
+        question_ids JSONB NOT NULL DEFAULT '[]',
+        duration_minutes INTEGER NOT NULL DEFAULT 30,
+        pass_percentage INTEGER NOT NULL DEFAULT 60,
+        total_points INTEGER NOT NULL DEFAULT 100,
+        approval_status TEXT NOT NULL DEFAULT 'pending',
+        is_published BOOLEAN NOT NULL DEFAULT false,
+        published_quiz_id TEXT,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
+      );
+
+      CREATE INDEX IF NOT EXISTS idx_acz_job ON analyzed_curriculum_quizzes(job_id);
+      CREATE INDEX IF NOT EXISTS idx_acz_type ON analyzed_curriculum_quizzes(quiz_type);
+      CREATE INDEX IF NOT EXISTS idx_acz_approval ON analyzed_curriculum_quizzes(approval_status);
+      CREATE INDEX IF NOT EXISTS idx_acz_published ON analyzed_curriculum_quizzes(is_published);
     `);
 
   // Seed and sync curriculum grades and units to official 2026/2027 Egyptian syllabus
