@@ -1,71 +1,105 @@
 /* Professional Academy PWA Service Worker */
-const CACHE_VERSION = "pro-academy-v1";
-const STATIC_CACHE = `${CACHE_VERSION}-static`;
-const RUNTIME_CACHE = `${CACHE_VERSION}-runtime`;
+const isLocalEnv =
+  typeof self !== "undefined" &&
+  (self.location.hostname === "localhost" || self.location.hostname === "127.0.0.1");
 
-const PRECACHE_URLS = ["/", "/manifest.webmanifest"];
-
-// Install: precache shell
-self.addEventListener("install", (event) => {
-  event.waitUntil(
-    caches.open(STATIC_CACHE).then((cache) => cache.addAll(PRECACHE_URLS)).catch(() => null)
-  );
-  self.skipWaiting();
-});
-
-// Activate: clean old caches
-self.addEventListener("activate", (event) => {
-  event.waitUntil(
-    caches.keys().then((keys) =>
-      Promise.all(keys.filter((k) => !k.startsWith(CACHE_VERSION)).map((k) => caches.delete(k)))
-    )
-  );
-  self.clients.claim();
-});
-
-// Fetch strategy:
-// - API calls: network-first (fresh data), offline fallback with cached JSON
-// - Static/navigations: stale-while-revalidate
-self.addEventListener("fetch", (event) => {
-  const { request } = event;
-  if (request.method !== "GET") return;
-
-  const url = new URL(request.url);
-
-  if (url.pathname.startsWith("/api/")) {
-    // Health/auth mutations should never stall offline logic
-    event.respondWith(
-      fetch(request)
-        .then((response) => {
-          if (response.ok) {
-            const clone = response.clone();
-            caches.open(RUNTIME_CACHE).then((cache) => cache.put(request, clone));
-          }
-          return response;
+if (isLocalEnv) {
+  // In development / localhost, self-destruct and purge caches to avoid any stale bundle freezes
+  self.addEventListener("install", () => {
+    self.skipWaiting();
+  });
+  self.addEventListener("activate", (event) => {
+    event.waitUntil(
+      caches
+        .keys()
+        .then((keys) => Promise.all(keys.map((k) => caches.delete(k))))
+        .then(() => self.registration.unregister())
+        .then(() => self.clients.claim())
+        .then(() => self.clients.matchAll({ type: "window" }))
+        .then((clients) => {
+          clients.forEach((c) => c.navigate(c.url));
         })
-        .catch(() => caches.match(request).then((cached) => cached || Response.error()))
     );
-    return;
-  }
+  });
+} else {
+  // Production PWA Service Worker
+  const CACHE_VERSION = "pro-academy-v2";
+  const STATIC_CACHE = `${CACHE_VERSION}-static`;
+  const RUNTIME_CACHE = `${CACHE_VERSION}-runtime`;
 
-  // Stale-while-revalidate for everything else
-  event.respondWith(
-    caches.match(request).then((cached) => {
-      const networkFetch = fetch(request)
-        .then((response) => {
-          if (response.ok && url.origin === self.location.origin) {
-            const clone = response.clone();
-            caches.open(RUNTIME_CACHE).then((cache) => cache.put(request, clone));
-          }
-          return response;
-        })
-        .catch(() => cached);
-      return cached || networkFetch;
-    })
-  );
-});
+  const PRECACHE_URLS = ["/manifest.webmanifest"];
 
-// Real Web Push notifications
+  self.addEventListener("install", (event) => {
+    event.waitUntil(
+      caches.open(STATIC_CACHE).then((cache) => cache.addAll(PRECACHE_URLS)).catch(() => null)
+    );
+    self.skipWaiting();
+  });
+
+  self.addEventListener("activate", (event) => {
+    event.waitUntil(
+      caches.keys().then((keys) =>
+        Promise.all(keys.filter((k) => !k.startsWith(CACHE_VERSION)).map((k) => caches.delete(k)))
+      ).then(() => self.clients.claim())
+    );
+  });
+
+  self.addEventListener("fetch", (event) => {
+    const { request } = event;
+    if (request.method !== "GET") return;
+
+    const url = new URL(request.url);
+
+    // HTML page navigations: Network-first with cache fallback (never serve stale shell on nav)
+    if (request.mode === "navigate") {
+      event.respondWith(
+        fetch(request)
+          .then((response) => {
+            if (response.ok) {
+              const clone = response.clone();
+              caches.open(STATIC_CACHE).then((cache) => cache.put(request, clone));
+            }
+            return response;
+          })
+          .catch(() => caches.match(request).then((cached) => cached || caches.match("/")))
+      );
+      return;
+    }
+
+    if (url.pathname.startsWith("/api/")) {
+      event.respondWith(
+        fetch(request)
+          .then((response) => {
+            if (response.ok) {
+              const clone = response.clone();
+              caches.open(RUNTIME_CACHE).then((cache) => cache.put(request, clone));
+            }
+            return response;
+          })
+          .catch(() => caches.match(request).then((cached) => cached || Response.error()))
+      );
+      return;
+    }
+
+    // Static assets (images, fonts, CSS, chunks): cache with network revalidate
+    event.respondWith(
+      caches.match(request).then((cached) => {
+        const networkFetch = fetch(request)
+          .then((response) => {
+            if (response.ok && url.origin === self.location.origin) {
+              const clone = response.clone();
+              caches.open(RUNTIME_CACHE).then((cache) => cache.put(request, clone));
+            }
+            return response;
+          })
+          .catch(() => cached);
+        return cached || networkFetch;
+      })
+    );
+  });
+}
+
+// Push notifications always active
 self.addEventListener("push", (event) => {
   let data = {
     title: "Professional Academy",
@@ -97,14 +131,14 @@ self.addEventListener("notificationclick", (event) => {
 
   event.waitUntil(
     clients.matchAll({ type: "window", includeUncontrolled: true }).then((windowClients) => {
-      // Focus an already-open tab when possible
       for (const client of windowClients) {
-        if ("focus" in client) {
-          client.navigate(targetUrl).catch(() => null);
+        if (client.url === targetUrl && "focus" in client) {
           return client.focus();
         }
       }
-      return clients.openWindow(targetUrl);
+      if (clients.openWindow) {
+        return clients.openWindow(targetUrl);
+      }
     })
   );
 });

@@ -69,7 +69,7 @@ export const metadata: Metadata = {
     apple: [{ url: "/icons/apple-touch-icon.png", sizes: "180x180", type: "image/png" }],
   },
   other: {
-    "theme-color": "#2563eb",
+    "theme-color": "#7c3aed",
     "apple-mobile-web-app-capable": "yes",
     "apple-mobile-web-app-status-bar-style": "black-translucent",
   },
@@ -79,8 +79,8 @@ export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#2563eb" },
-    { media: "(prefers-color-scheme: dark)", color: "#0f172a" },
+    { media: "(prefers-color-scheme: light)", color: "#7c3aed" },
+    { media: "(prefers-color-scheme: dark)", color: "#0c071a" },
   ],
 };
 
@@ -126,7 +126,39 @@ const schemaOrgJsonLd = {
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="ar" dir="rtl">
-      <body className="bg-slate-100 text-slate-900 antialiased">
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              try {
+                if (typeof window !== 'undefined') {
+                  var isLocal = location.hostname === 'localhost' || location.hostname === '127.0.0.1';
+                  if (isLocal && 'serviceWorker' in navigator) {
+                    navigator.serviceWorker.getRegistrations().then(function(regs) {
+                      var hadWorker = regs.length > 0;
+                      for (var i = 0; i < regs.length; i++) { regs[i].unregister(); }
+                      if (hadWorker && !sessionStorage.getItem('sw_purged')) {
+                        sessionStorage.setItem('sw_purged', 'true');
+                        window.location.reload();
+                      }
+                    });
+                  }
+                  if ('caches' in window) {
+                    caches.keys().then(function(keys) {
+                      for (var i = 0; i < keys.length; i++) {
+                        if (isLocal || keys[i].indexOf('pro-academy-v1') !== -1) {
+                          caches.delete(keys[i]);
+                        }
+                      }
+                    });
+                  }
+                }
+              } catch(e) {}
+            `,
+          }}
+        />
+      </head>
+      <body className="bg-slate-50 dark:bg-[#0c071a] text-slate-900 dark:text-slate-100 antialiased selection:bg-purple-600 selection:text-white">
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaOrgJsonLd) }} />
         {children}
       </body>

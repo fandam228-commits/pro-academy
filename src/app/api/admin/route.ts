@@ -99,25 +99,40 @@ export async function POST(req: Request) {
       return NextResponse.json({ success: true });
     }
 
-    // 2. Generate Activation Codes
+    // 2. Generate Activation Codes (Bulk Batch Generator up to 500 codes)
     if (action === "generate_codes") {
-      const { courseId, count, prefix } = codeBatch;
+      const { courseId, count, prefix } = codeBatch || {};
       const generated: string[] = [];
-      const numCount = parseInt(count) || 5;
+      const numCount = Math.min(Math.max(parseInt(count) || 5, 1), 500);
+      const cleanPrefix = (prefix || "HABIB").trim().toUpperCase().replace(/[^A-Z0-9_-]/g, "");
+      const targetCourseId = courseId || "all_courses";
+      const timestamp = Date.now();
 
+      const rowsToInsert: Array<{ id: string; code: string; courseId: string; isUsed: boolean }> = [];
       for (let i = 0; i < numCount; i++) {
-        const randStr = Math.random().toString(36).substring(2, 8).toUpperCase();
-        const codeStr = `${prefix || "HABIB"}-${randStr}`;
-        await db.insert(activationCodes).values({
-          id: `ac_${Date.now()}_${i}`,
+        // High-entropy random alphanumeric token (6 chars, unambiguous charset)
+        const chars = "23456789ABCDEFGHJKLMNPQRSTUVWXYZ";
+        let randStr = "";
+        for (let c = 0; c < 6; c++) {
+          randStr += chars.charAt(Math.floor(Math.random() * chars.length));
+        }
+        const codeStr = `${cleanPrefix}-${randStr}`;
+        rowsToInsert.push({
+          id: `ac_${timestamp}_${i}_${Math.random().toString(36).slice(2, 6)}`,
           code: codeStr,
-          courseId,
+          courseId: targetCourseId,
           isUsed: false,
         });
         generated.push(codeStr);
       }
 
-      return NextResponse.json({ success: true, codes: generated });
+      // Fast chunked insert
+      for (let i = 0; i < rowsToInsert.length; i += 100) {
+        const chunk = rowsToInsert.slice(i, i + 100);
+        await db.insert(activationCodes).values(chunk);
+      }
+
+      return NextResponse.json({ success: true, codes: generated, count: generated.length, courseId: targetCourseId });
     }
 
     // 3. System Announcement

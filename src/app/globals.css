@@ -1,5 +1,58 @@
 @import "tailwindcss";
 
+@theme {
+  --color-royal-purple-50: #faf5ff;
+  --color-royal-purple-100: #f3e8ff;
+  --color-royal-purple-200: #e9d5ff;
+  --color-royal-purple-300: #d8b4fe;
+  --color-royal-purple-400: #c084fc;
+  --color-royal-purple-500: #a855f7;
+  --color-royal-purple-600: #9333ea;
+  --color-royal-purple-700: #7e22ce;
+  --color-royal-purple-800: #6b21a8;
+  --color-royal-purple-900: #581c87;
+  --color-royal-purple-950: #3b0764;
+
+  --color-light-sky-50: #f0f9ff;
+  --color-light-sky-100: #e0f2fe;
+  --color-light-sky-200: #bae6fd;
+  --color-light-sky-300: #7dd3fc;
+  --color-light-sky-400: #38bdf8;
+  --color-light-sky-500: #0ea5e9;
+  --color-light-sky-600: #0284c7;
+
+  --color-royal-gold-50: #fffbeb;
+  --color-royal-gold-100: #fef3c7;
+  --color-royal-gold-200: #fde68a;
+  --color-royal-gold-300: #fcd34d;
+  --color-royal-gold-400: #fbbf24;
+  --color-royal-gold-500: #f59e0b;
+  --color-royal-gold-600: #d97706;
+  --color-royal-gold-700: #b45309;
+}
+
+/* ============ BRAND THEME UTILITIES (Purple, Light Sky Blue, Royal Gold) ============ */
+::selection {
+  background: #7c3aed;
+  color: #ffffff;
+}
+
+/* Custom Royal Scrollbars */
+::-webkit-scrollbar {
+  width: 9px;
+  height: 9px;
+}
+::-webkit-scrollbar-track {
+  background: rgba(15, 23, 42, 0.05);
+}
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #7c3aed 0%, #38bdf8 100%);
+  border-radius: 999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #9333ea 0%, #0ea5e9 100%);
+}
+
 /* ============ PRINT STYLES (Exam Paper Printing) ============ */
 .print-only {
   display: none !important;
@@ -27,20 +80,4 @@
   @page {
     margin: 16mm;
   }
-}
-
-/* Dark mode scrollbars + polish */
-::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
-}
-::-webkit-scrollbar-track {
-  background: transparent;
-}
-::-webkit-scrollbar-thumb {
-  background: rgb(59 130 246 / 0.4);
-  border-radius: 999px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: rgb(59 130 246 / 0.7);
 }

@@ -22,7 +22,7 @@ import {
   CheckCircle2,
 } from "lucide-react";
 
-export const AuthScreen: React.FC = () => {
+export const AuthScreen: React.FC<{ onBack?: () => void }> = ({ onBack }) => {
   const { lang, login, register, authLoading, authError, clearAuthError } = useApp();
   const [mode, setMode] = useState<"login" | "register">("login");
   const [showPassword, setShowPassword] = useState(false);
@@ -94,22 +94,22 @@ export const AuthScreen: React.FC = () => {
   const displayError = localError || authError;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-blue-950 to-indigo-950 flex items-center justify-center p-4 relative overflow-hidden">
+    <div className="min-h-screen bg-gradient-to-br from-[#0c071a] via-[#1a0f38] to-[#080d1a] flex items-center justify-center p-4 relative overflow-hidden">
       {/* DECORATIVE GLOW CIRCLES */}
-      <div className="absolute top-[-10%] left-[-10%] w-96 h-96 bg-blue-600/25 rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute bottom-[-10%] right-[-10%] w-96 h-96 bg-indigo-600/25 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute top-[-10%] left-[-10%] w-96 h-96 bg-purple-600/25 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute bottom-[-10%] right-[-10%] w-96 h-96 bg-sky-500/20 rounded-full blur-3xl pointer-events-none" />
 
-      <div className="relative z-10 w-full max-w-5xl grid grid-cols-1 lg:grid-cols-2 rounded-3xl overflow-hidden shadow-2xl border border-white/10">
+      <div className="relative z-10 w-full max-w-5xl grid grid-cols-1 lg:grid-cols-2 rounded-3xl overflow-hidden shadow-2xl border border-purple-500/20">
         
         {/* LEFT BRANDING PANEL */}
-        <div className="hidden lg:flex flex-col justify-between bg-gradient-to-br from-blue-700 via-indigo-800 to-slate-900 p-10 text-white">
+        <div className="hidden lg:flex flex-col justify-between bg-gradient-to-br from-purple-900 via-indigo-950 to-[#0c071a] p-10 text-white">
           <div className="flex items-center gap-3">
-            <div className="w-14 h-14 rounded-3xl bg-white/15 backdrop-blur-md flex items-center justify-center border border-white/25">
-              <GraduationCap className="w-8 h-8" />
+            <div className="w-14 h-14 rounded-3xl bg-white/15 backdrop-blur-md flex items-center justify-center border border-purple-400/30 shadow-lg shadow-purple-500/20">
+              <GraduationCap className="w-8 h-8 text-amber-400" />
             </div>
             <div>
               <h1 className="text-xl font-black">Professional Academy</h1>
-              <p className="text-xs text-blue-200 font-bold">Mr. Habib El Rahman</p>
+              <p className="text-xs text-amber-300 font-bold">Mr. Habib El Rahman</p>
             </div>
           </div>
 
@@ -119,43 +119,52 @@ export const AuthScreen: React.FC = () => {
                 ? "منصة تعليمية آمنة ومحمية بالكامل لطلاب الثانوية والإعدادية"
                 : "A fully secure learning platform for Secondary & Prep students"}
             </h2>
-            <ul className="space-y-3 text-sm text-blue-100 font-medium">
+            <ul className="space-y-3 text-sm text-purple-100 font-medium">
               <li className="flex items-center gap-2.5">
-                <Lock className="w-4 h-4 text-emerald-300 shrink-0" />
+                <Lock className="w-4 h-4 text-amber-400 shrink-0" />
                 <span>{lang === "ar" ? "كلمات مرور مشفرة بخوارزمية scrypt" : "scrypt-hashed passwords"}</span>
               </li>
               <li className="flex items-center gap-2.5">
-                <KeyRound className="w-4 h-4 text-amber-300 shrink-0" />
+                <KeyRound className="w-4 h-4 text-sky-300 shrink-0" />
                 <span>{lang === "ar" ? "جلسات حقيقية بتوكن آمن وتاريخ انتهاء" : "Real session tokens with expiry"}</span>
               </li>
               <li className="flex items-center gap-2.5">
-                <ShieldCheck className="w-4 h-4 text-sky-300 shrink-0" />
+                <ShieldCheck className="w-4 h-4 text-purple-300 shrink-0" />
                 <span>{lang === "ar" ? "حماية من محاولات التخمين + صلاحيات بالأدوار" : "Brute-force lockout + role-based permissions"}</span>
               </li>
               <li className="flex items-center gap-2.5">
-                <Sparkles className="w-4 h-4 text-purple-300 shrink-0" />
+                <Sparkles className="w-4 h-4 text-amber-300 shrink-0" />
                 <span>{lang === "ar" ? "بنك أسئلة ذكي ومولد امتحانات ومساعد AI" : "Smart question bank, exam generator & AI tutor"}</span>
               </li>
             </ul>
           </div>
 
-          <p className="text-[11px] text-blue-300/70 font-mono">
+          <p className="text-[11px] text-purple-300/70 font-mono">
             © 2025 Professional Academy — Secure Learning Environment
           </p>
         </div>
 
         {/* RIGHT AUTH CARD */}
-        <div className="bg-slate-900/80 backdrop-blur-xl p-6 sm:p-10">
+        <div className="bg-[#120a24]/90 backdrop-blur-xl p-6 sm:p-10 relative">
+          {onBack && (
+            <button
+              onClick={onBack}
+              className="mb-4 text-xs font-bold text-purple-300 hover:text-white inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-purple-900/40 hover:bg-purple-900/80 border border-purple-500/30 transition-all cursor-pointer"
+            >
+              <span>←</span>
+              <span>{lang === "ar" ? "العودة للرئيسية" : "Back to Home"}</span>
+            </button>
+          )}
           {/* MOBILE LOGO */}
           <div className="lg:hidden flex items-center gap-3 mb-6 text-white justify-center">
-            <div className="w-11 h-11 rounded-2xl bg-gradient-to-tr from-blue-600 to-indigo-600 flex items-center justify-center">
+            <div className="w-11 h-11 rounded-2xl bg-gradient-to-tr from-purple-600 via-indigo-600 to-sky-400 flex items-center justify-center shadow-lg shadow-purple-500/30">
               <GraduationCap className="w-6 h-6" />
             </div>
             <h1 className="text-lg font-black">Professional Academy</h1>
           </div>
 
           {/* MODE TABS */}
-          <div className="flex bg-slate-800/70 p-1 rounded-2xl mb-6 border border-slate-700">
+          <div className="flex bg-purple-950/40 p-1 rounded-2xl mb-6 border border-purple-800/40">
             <button
               onClick={() => {
                 setMode("login");
@@ -163,7 +172,7 @@ export const AuthScreen: React.FC = () => {
                 setLocalError("");
               }}
               className={`flex-1 py-2.5 rounded-xl text-xs font-extrabold transition-all flex items-center justify-center gap-1.5 ${
-                mode === "login" ? "bg-blue-600 text-white shadow-lg" : "text-slate-400"
+                mode === "login" ? "bg-gradient-to-r from-purple-600 to-sky-600 text-white shadow-lg shadow-purple-600/30" : "text-slate-400 hover:text-white"
               }`}
             >
               <LogIn className="w-4 h-4" />
@@ -176,7 +185,7 @@ export const AuthScreen: React.FC = () => {
                 setLocalError("");
               }}
               className={`flex-1 py-2.5 rounded-xl text-xs font-extrabold transition-all flex items-center justify-center gap-1.5 ${
-                mode === "register" ? "bg-blue-600 text-white shadow-lg" : "text-slate-400"
+                mode === "register" ? "bg-gradient-to-r from-purple-600 to-sky-600 text-white shadow-lg shadow-purple-600/30" : "text-slate-400 hover:text-white"
               }`}
             >
               <UserPlus className="w-4 h-4" />
@@ -239,7 +248,7 @@ export const AuthScreen: React.FC = () => {
               <button
                 onClick={handleLogin}
                 disabled={authLoading}
-                className="w-full py-3.5 rounded-2xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 text-white font-extrabold text-sm shadow-xl shadow-blue-600/30 transition-all disabled:opacity-60 flex items-center justify-center gap-2"
+                className="w-full py-3.5 rounded-2xl bg-gradient-to-r from-purple-600 via-purple-700 to-sky-600 hover:from-purple-500 hover:to-sky-500 text-white font-extrabold text-sm shadow-xl shadow-purple-600/30 transition-all disabled:opacity-60 flex items-center justify-center gap-2"
               >
                 {authLoading ? (
                   <>
@@ -394,7 +403,7 @@ export const AuthScreen: React.FC = () => {
               <button
                 onClick={handleRegister}
                 disabled={authLoading}
-                className="w-full py-3.5 rounded-2xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 text-white font-extrabold text-sm shadow-xl shadow-emerald-600/30 transition-all disabled:opacity-60 flex items-center justify-center gap-2"
+                className="w-full py-3.5 rounded-2xl bg-gradient-to-r from-purple-600 via-indigo-600 to-sky-600 hover:from-purple-500 hover:to-sky-500 text-white font-extrabold text-sm shadow-xl shadow-purple-600/30 transition-all disabled:opacity-60 flex items-center justify-center gap-2"
               >
                 {authLoading ? (
                   <>

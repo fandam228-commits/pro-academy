@@ -50,6 +50,14 @@ export async function createSession(userId: string, role: string, userAgent?: st
     await db.delete(sessions).where(lt(sessions.expiresAt, new Date()));
   } catch {}
 
+  // Single Device Session Lock for students: terminate previous active sessions
+  // to prevent account sharing across multiple phones/laptops simultaneously.
+  if (role === "student") {
+    try {
+      await db.delete(sessions).where(eq(sessions.userId, userId));
+    } catch {}
+  }
+
   await db.insert(sessions).values({
     id,
     token,

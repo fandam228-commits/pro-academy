@@ -75,22 +75,35 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     } catch {}
   };
 
-  // Restore session from the HttpOnly cookie; JavaScript never reads the session token.
+  // Restore session from the HttpOnly cookie; non-blocking with 800ms abort guarantee
   useEffect(() => {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => {
+      try { controller.abort(); } catch {}
+      setAuthLoading(false);
+    }, 800);
+
     (async () => {
       try {
-        const res = await fetch("/api/auth", { method: "GET" });
-        const data = await res.json();
-        if (res.ok && data.user) {
-          setUser(data.user);
-          setToken(null);
-        } else {
+        const res = await fetch("/api/auth", { method: "GET", signal: controller.signal });
+        if (res.ok) {
+          const data = await res.json();
+          if (data && data.user) {
+            setUser(data.user);
+            setToken(null);
+          }
         }
       } catch {
       } finally {
+        clearTimeout(timeoutId);
         setAuthLoading(false);
       }
     })();
+
+    return () => {
+      clearTimeout(timeoutId);
+      try { controller.abort(); } catch {}
+    };
   }, []);
 
   // Poll unread notifications while a user session is active
