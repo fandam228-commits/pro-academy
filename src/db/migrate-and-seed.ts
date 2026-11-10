@@ -1,6 +1,7 @@
 import { assertDatabaseConfigured, db } from "./index";
 import { sql, eq } from "drizzle-orm";
 import {
+  users,
   curriculumGrades,
   curriculumUnits,
   curriculumSections,
@@ -8,6 +9,7 @@ import {
   ministryAssessments,
 } from "./schema";
 import { SMART_CURRICULUM_SEEDS } from "@/data/smart-curriculum-seed";
+import { hashPassword } from "@/lib/security";
 
 let setupPromise: Promise<void> | null = null;
 
@@ -906,6 +908,7 @@ async function initializeSchema(): Promise<void> {
   // Seed and sync curriculum grades and units to official 2026/2027 Egyptian syllabus
   await syncCurriculum2026();
   await seedMinistryAssessmentsIfEmpty();
+  await seedCoreUsersIfEmpty();
 }
 
 export async function syncCurriculum2026(): Promise<{
@@ -1517,5 +1520,83 @@ async function seedMinistryAssessmentsIfEmpty(): Promise<void> {
     await db.insert(ministryAssessments).values(initialAssessments);
   } catch (error) {
     console.error("Seed Ministry Assessments Error:", error);
+  }
+}
+
+export async function seedCoreUsersIfEmpty(): Promise<void> {
+  try {
+    const existing = await db
+      .select({ id: users.id, email: users.email, username: users.username })
+      .from(users)
+      .limit(10);
+
+    if (existing.length === 0) {
+      await db.insert(users).values([
+        {
+          id: "usr_admin_1",
+          name: "Mr. Habib El Rahman",
+          email: "habib.admin@proacademy.com",
+          username: "habibadmin",
+          password: hashPassword("admin123password"),
+          role: "admin",
+          avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80",
+          phone: "+20 100 646 8384",
+          parentPhone: "",
+          stage: "Secondary",
+          grade: "Third Secondary (Baccalaureate)",
+          streak: 42,
+          points: 2450,
+          level: "Advanced",
+          preferredLang: "ar",
+        },
+        {
+          id: "usr_teacher_1",
+          name: "Ms. Sarah Ahmed (Grammar Specialist)",
+          email: "sarah.teacher@proacademy.com",
+          username: "sarah.teacher",
+          password: hashPassword("teacher123password"),
+          role: "teacher",
+          avatar: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=150&auto=format&fit=crop&q=80",
+          phone: "+20 101 987 6543",
+          parentPhone: "",
+          stage: "Secondary",
+          grade: "Second Secondary",
+          streak: 15,
+          points: 1200,
+          level: "Advanced",
+          preferredLang: "ar",
+        },
+        {
+          id: "usr_student_1",
+          name: "Omar Mahmoud Al-Sayed",
+          email: "omar.student@gmail.com",
+          username: "omar.student",
+          password: hashPassword("student123password"),
+          role: "student",
+          avatar: "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=150&auto=format&fit=crop&q=80",
+          phone: "+20 111 222 3333",
+          parentPhone: "+20 111 222 9999",
+          stage: "Secondary",
+          grade: "Third Secondary (Baccalaureate)",
+          streak: 12,
+          points: 680,
+          level: "Upper Intermediate",
+          preferredLang: "ar",
+        },
+      ]);
+    } else {
+      // Ensure admin has username 'habibadmin' set for fast lookups
+      const adminUser = existing.find(
+        (u) => u.email === "habib.admin@proacademy.com" || u.id === "usr_admin_1"
+      );
+      if (adminUser && !adminUser.username) {
+        await db
+          .update(users)
+          .set({ username: "habibadmin" })
+          .where(eq(users.id, adminUser.id));
+      }
+    }
+  } catch (error) {
+    console.error("Seed Core Users Error:", error);
   }
 }
