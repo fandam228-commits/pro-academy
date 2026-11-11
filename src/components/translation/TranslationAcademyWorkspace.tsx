@@ -118,6 +118,7 @@ export const TranslationAcademyWorkspace: React.FC = () => {
     if (user?.role === "admin" || user?.role === "teacher") {
       fetchReviewSubmissions();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
 
   // Exam Countdown Timer
@@ -279,7 +280,7 @@ export const TranslationAcademyWorkspace: React.FC = () => {
             </h1>
 
             <p className="text-sm sm:text-base font-medium text-purple-100/90 leading-relaxed">
-              "Think in English. Translate with Confidence." — فكر بالإنجليزية.. وترجم بثقة.
+              &ldquo;Think in English. Translate with Confidence.&rdquo; — فكر بالإنجليزية.. وترجم بثقة.
               نظام تعليمي متكامل يعلمك أسرار وفنون وصياغات الترجمة بامتحانات الوزارة والبوكليت مع تقييم ذكي فوري.
             </p>
           </div>

@@ -238,7 +238,7 @@ export const TranslationLessonView: React.FC<TranslationLessonViewProps> = ({
                     </div>
                     {voc.exampleEn && (
                       <div className="text-[11px] text-slate-500 dark:text-slate-400 italic pt-1 border-t border-slate-100 dark:border-slate-800">
-                        "{voc.exampleEn}"
+                        &ldquo;{voc.exampleEn}&rdquo;
                       </div>
                     )}
                   </div>
