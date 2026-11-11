@@ -7,8 +7,16 @@ import {
   curriculumSections,
   storyChapters,
   ministryAssessments,
+  translationModules,
+  translationLessons,
+  translationQuestions,
+  translationStudentProgress,
+  translationSubmissions,
+  translationExams,
+  translationExamAttempts,
 } from "./schema";
 import { SMART_CURRICULUM_SEEDS } from "@/data/smart-curriculum-seed";
+import { TRANSLATION_MODULES_SEED, SAMPLE_TRANSLATION_EXAMS } from "@/data/translation-academy-seed";
 import { hashPassword } from "@/lib/security";
 
 let setupPromise: Promise<void> | null = null;
@@ -903,12 +911,159 @@ async function initializeSchema(): Promise<void> {
       CREATE INDEX IF NOT EXISTS idx_acz_type ON analyzed_curriculum_quizzes(quiz_type);
       CREATE INDEX IF NOT EXISTS idx_acz_approval ON analyzed_curriculum_quizzes(approval_status);
       CREATE INDEX IF NOT EXISTS idx_acz_published ON analyzed_curriculum_quizzes(is_published);
+
+      -- 21. TRANSLATION ACADEMY MODULES & LESSONS
+      CREATE TABLE IF NOT EXISTS translation_modules (
+        id TEXT PRIMARY KEY,
+        code TEXT NOT NULL UNIQUE,
+        title_ar TEXT NOT NULL,
+        title_en TEXT NOT NULL,
+        description_ar TEXT NOT NULL,
+        description_en TEXT NOT NULL,
+        grade TEXT NOT NULL DEFAULT 'First Secondary',
+        term TEXT NOT NULL DEFAULT 'First Term',
+        order_index INTEGER NOT NULL DEFAULT 1,
+        icon TEXT NOT NULL DEFAULT 'Languages',
+        total_lessons INTEGER NOT NULL DEFAULT 0,
+        is_published BOOLEAN NOT NULL DEFAULT true,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
+      );
+
+      CREATE INDEX IF NOT EXISTS idx_tm_grade_term ON translation_modules(grade, term);
+      CREATE INDEX IF NOT EXISTS idx_tm_order ON translation_modules(order_index);
+      CREATE INDEX IF NOT EXISTS idx_tm_published ON translation_modules(is_published);
+
+      CREATE TABLE IF NOT EXISTS translation_lessons (
+        id TEXT PRIMARY KEY,
+        module_id TEXT NOT NULL REFERENCES translation_modules(id) ON DELETE CASCADE,
+        order_index INTEGER NOT NULL DEFAULT 1,
+        title_ar TEXT NOT NULL,
+        title_en TEXT NOT NULL,
+        summary_ar TEXT NOT NULL,
+        summary_en TEXT NOT NULL,
+        video_url TEXT,
+        video_duration TEXT DEFAULT '15 mins',
+        pdf_url TEXT,
+        rules JSONB NOT NULL DEFAULT '[]',
+        vocabulary JSONB NOT NULL DEFAULT '[]',
+        solved_examples JSONB NOT NULL DEFAULT '[]',
+        common_mistakes JSONB NOT NULL DEFAULT '[]',
+        is_published BOOLEAN NOT NULL DEFAULT true,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
+      );
+
+      CREATE INDEX IF NOT EXISTS idx_tl_module ON translation_lessons(module_id);
+      CREATE INDEX IF NOT EXISTS idx_tl_order ON translation_lessons(order_index);
+      CREATE INDEX IF NOT EXISTS idx_tl_published ON translation_lessons(is_published);
+
+      CREATE TABLE IF NOT EXISTS translation_questions (
+        id TEXT PRIMARY KEY,
+        lesson_id TEXT NOT NULL REFERENCES translation_lessons(id) ON DELETE CASCADE,
+        module_id TEXT NOT NULL REFERENCES translation_modules(id) ON DELETE CASCADE,
+        question_type TEXT NOT NULL,
+        question_text TEXT NOT NULL,
+        instructions TEXT NOT NULL,
+        options JSONB DEFAULT '[]',
+        correct_answer TEXT NOT NULL,
+        alternative_answers JSONB DEFAULT '[]',
+        explanation TEXT NOT NULL,
+        marks INTEGER NOT NULL DEFAULT 1,
+        difficulty TEXT NOT NULL DEFAULT 'Medium',
+        topic TEXT,
+        source TEXT,
+        audio_url TEXT,
+        is_published BOOLEAN NOT NULL DEFAULT true,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
+      );
+
+      CREATE INDEX IF NOT EXISTS idx_tq_lesson ON translation_questions(lesson_id);
+      CREATE INDEX IF NOT EXISTS idx_tq_module ON translation_questions(module_id);
+      CREATE INDEX IF NOT EXISTS idx_tq_type ON translation_questions(question_type);
+      CREATE INDEX IF NOT EXISTS idx_tq_difficulty ON translation_questions(difficulty);
+      CREATE INDEX IF NOT EXISTS idx_tq_published ON translation_questions(is_published);
+
+      CREATE TABLE IF NOT EXISTS translation_student_progress (
+        id TEXT PRIMARY KEY,
+        student_id TEXT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+        lesson_id TEXT NOT NULL REFERENCES translation_lessons(id) ON DELETE CASCADE,
+        module_id TEXT NOT NULL REFERENCES translation_modules(id) ON DELETE CASCADE,
+        completed BOOLEAN NOT NULL DEFAULT false,
+        practice_score INTEGER NOT NULL DEFAULT 0,
+        exam_score INTEGER NOT NULL DEFAULT 0,
+        total_questions_answered INTEGER NOT NULL DEFAULT 0,
+        last_practiced_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
+      );
+
+      CREATE INDEX IF NOT EXISTS idx_tsp_student ON translation_student_progress(student_id);
+      CREATE INDEX IF NOT EXISTS idx_tsp_lesson ON translation_student_progress(lesson_id);
+      CREATE INDEX IF NOT EXISTS idx_tsp_module ON translation_student_progress(module_id);
+
+      CREATE TABLE IF NOT EXISTS translation_submissions (
+        id TEXT PRIMARY KEY,
+        student_id TEXT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+        question_id TEXT NOT NULL REFERENCES translation_questions(id) ON DELETE CASCADE,
+        lesson_id TEXT NOT NULL REFERENCES translation_lessons(id) ON DELETE CASCADE,
+        mode TEXT NOT NULL DEFAULT 'practice',
+        student_answer TEXT NOT NULL,
+        score INTEGER NOT NULL DEFAULT 0,
+        max_marks INTEGER NOT NULL DEFAULT 1,
+        rubric_breakdown JSONB DEFAULT '{}',
+        evaluation_feedback TEXT,
+        suggested_correction TEXT,
+        model_answer_used TEXT,
+        status TEXT NOT NULL DEFAULT 'graded',
+        teacher_comment TEXT,
+        reviewed_by TEXT REFERENCES users(id) ON DELETE SET NULL,
+        reviewed_at TIMESTAMP,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
+      );
+
+      CREATE INDEX IF NOT EXISTS idx_tsub_student ON translation_submissions(student_id);
+      CREATE INDEX IF NOT EXISTS idx_tsub_question ON translation_submissions(question_id);
+      CREATE INDEX IF NOT EXISTS idx_tsub_lesson ON translation_submissions(lesson_id);
+      CREATE INDEX IF NOT EXISTS idx_tsub_status ON translation_submissions(status);
+      CREATE INDEX IF NOT EXISTS idx_tsub_mode ON translation_submissions(mode);
+
+      CREATE TABLE IF NOT EXISTS translation_exams (
+        id TEXT PRIMARY KEY,
+        module_id TEXT NOT NULL REFERENCES translation_modules(id) ON DELETE CASCADE,
+        title_ar TEXT NOT NULL,
+        title_en TEXT NOT NULL,
+        grade TEXT NOT NULL DEFAULT 'First Secondary',
+        term TEXT NOT NULL DEFAULT 'First Term',
+        time_limit_minutes INTEGER NOT NULL DEFAULT 30,
+        passing_score INTEGER NOT NULL DEFAULT 60,
+        question_ids JSONB NOT NULL DEFAULT '[]',
+        is_published BOOLEAN NOT NULL DEFAULT true,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
+      );
+
+      CREATE INDEX IF NOT EXISTS idx_te_module ON translation_exams(module_id);
+      CREATE INDEX IF NOT EXISTS idx_te_published ON translation_exams(is_published);
+
+      CREATE TABLE IF NOT EXISTS translation_exam_attempts (
+        id TEXT PRIMARY KEY,
+        exam_id TEXT NOT NULL REFERENCES translation_exams(id) ON DELETE CASCADE,
+        student_id TEXT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+        score INTEGER NOT NULL DEFAULT 0,
+        max_score INTEGER NOT NULL DEFAULT 100,
+        percentage INTEGER NOT NULL DEFAULT 0,
+        passed BOOLEAN NOT NULL DEFAULT false,
+        answers JSONB NOT NULL DEFAULT '[]',
+        submitted_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
+      );
+
+      CREATE INDEX IF NOT EXISTS idx_tea_exam ON translation_exam_attempts(exam_id);
+      CREATE INDEX IF NOT EXISTS idx_tea_student ON translation_exam_attempts(student_id);
     `);
 
   // Seed and sync curriculum grades and units to official 2026/2027 Egyptian syllabus
   await syncCurriculum2026();
   await seedMinistryAssessmentsIfEmpty();
   await seedCoreUsersIfEmpty();
+  await seedTranslationAcademyIfEmpty();
 }
 
 export async function syncCurriculum2026(): Promise<{
@@ -1598,5 +1753,97 @@ export async function seedCoreUsersIfEmpty(): Promise<void> {
     }
   } catch (error) {
     console.error("Seed Core Users Error:", error);
+  }
+}
+
+export async function seedTranslationAcademyIfEmpty(): Promise<void> {
+  try {
+    const existing = await db
+      .select({ id: translationModules.id })
+      .from(translationModules)
+      .limit(1);
+
+    if (existing.length > 0) {
+      return;
+    }
+
+    console.log("Seeding Translation Academy modules, lessons, and questions...");
+
+    for (const mod of TRANSLATION_MODULES_SEED) {
+      await db.insert(translationModules).values({
+        id: mod.id,
+        code: mod.code,
+        titleAr: mod.titleAr,
+        titleEn: mod.titleEn,
+        descriptionAr: mod.descriptionAr,
+        descriptionEn: mod.descriptionEn,
+        grade: mod.grade,
+        term: mod.term,
+        orderIndex: mod.orderIndex,
+        icon: mod.icon,
+        totalLessons: mod.lessons.length,
+        isPublished: true,
+      });
+
+      for (const lesson of mod.lessons) {
+        await db.insert(translationLessons).values({
+          id: lesson.id,
+          moduleId: mod.id,
+          orderIndex: lesson.orderIndex,
+          titleAr: lesson.titleAr,
+          titleEn: lesson.titleEn,
+          summaryAr: lesson.summaryAr,
+          summaryEn: lesson.summaryEn,
+          videoUrl: lesson.videoUrl,
+          videoDuration: lesson.videoDuration,
+          pdfUrl: lesson.pdfUrl,
+          rules: lesson.rules as any,
+          vocabulary: lesson.vocabulary as any,
+          solvedExamples: lesson.solvedExamples as any,
+          commonMistakes: lesson.commonMistakes as any,
+          isPublished: true,
+        });
+
+        for (const q of lesson.questions) {
+          await db.insert(translationQuestions).values({
+            id: q.id,
+            lessonId: lesson.id,
+            moduleId: mod.id,
+            questionType: q.questionType,
+            questionText: q.questionText,
+            instructions: q.instructions,
+            options: q.options as any,
+            correctAnswer: q.correctAnswer,
+            alternativeAnswers: q.alternativeAnswers as any,
+            explanation: q.explanation,
+            marks: q.marks,
+            difficulty: q.difficulty,
+            topic: q.topic,
+            source: q.source,
+            audioUrl: q.audioUrl,
+            isPublished: true,
+          });
+        }
+      }
+    }
+
+    for (const exam of SAMPLE_TRANSLATION_EXAMS) {
+      await db.insert(translationExams).values({
+        id: exam.id,
+        moduleId: exam.moduleId,
+        titleAr: exam.titleAr,
+        titleEn: exam.titleEn,
+        grade: exam.grade,
+        term: exam.term,
+        timeLimitMinutes: exam.timeLimitMinutes,
+        passingScore: exam.passingScore,
+        questionIds: exam.questionIds as any,
+        isPublished: true,
+      });
+    }
+
+    console.log("Translation Academy seeded successfully!");
+  } catch (error) {
+    console.error("Seed Translation Academy Error:", error);
   }
 }

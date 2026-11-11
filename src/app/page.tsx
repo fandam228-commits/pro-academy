@@ -155,6 +155,11 @@ const MinistryAssessmentsHub = dynamic(
   () => import("@/components/assessments/MinistryAssessmentsHub").then((m) => m.MinistryAssessmentsHub),
   { loading: () => <TabLoadingSkeleton label="جاري تحميل تقييمات الوزارة الرسمية 2026/2027..." />, ssr: false }
 );
+
+const TranslationAcademyWorkspace = dynamic(
+  () => import("@/components/translation/TranslationAcademyWorkspace").then((m) => m.TranslationAcademyWorkspace),
+  { loading: () => <TabLoadingSkeleton label="جاري تحميل أكاديمية الترجمة الاحترافية..." />, ssr: false }
+);
 import {
   GraduationCap,
   Sparkles,
@@ -173,6 +178,7 @@ import {
   Ticket,
   AlertCircle,
   X,
+  Languages,
 } from "lucide-react";
 
 function MainAppContent() {
@@ -390,6 +396,10 @@ function MainAppContent() {
                     {lang === "ar" ? "شرح ومراجعة وتدريب ذكي على منهجك، مع بنك أسئلة مصنف حسب الصف والوحدة، وامتحانات تفاعلية تتابع تقدمك خطوة بخطوة." : "Curriculum-aligned lessons, a carefully classified question bank, interactive exams, and progress tracking to help you improve step by step."}
                   </p>
                   <div className="flex flex-wrap items-center justify-center gap-3 pt-2 lg:justify-start">
+                    <button onClick={() => setActiveTab("translation")} className="flex items-center gap-2 rounded-2xl bg-gradient-to-r from-amber-500 via-purple-600 to-indigo-600 px-6 py-4 text-sm font-extrabold text-white shadow-xl shadow-purple-950/60 transition hover:-translate-y-0.5 hover:brightness-110 cursor-pointer">
+                      <Languages className="h-5 w-5 text-amber-300" />
+                      <span>{lang === "ar" ? "أكاديمية الترجمة الاحترافية" : "Translation Academy"}</span>
+                    </button>
                     <button onClick={() => setActiveTab("question_bank")} className="flex items-center gap-2 rounded-2xl bg-gradient-to-r from-purple-600 via-purple-700 to-sky-600 px-6 py-4 text-sm font-extrabold text-white shadow-xl shadow-purple-950/60 transition hover:-translate-y-0.5 hover:brightness-110">
                       <Database className="h-5 w-5 text-amber-300" />
                       <span>{lang === "ar" ? "ابدأ التدريب والامتحانات" : "Start Practicing"}</span>
@@ -633,7 +643,12 @@ function MainAppContent() {
           ) : (
             <div>
               {user.role === "admin" && <SuperAdminDashboard />}
-              {user.role === "teacher" && <TeacherDashboard onOpenLibrary={() => setActiveTab("pdfs")} />}
+              {user.role === "teacher" && (
+                <TeacherDashboard
+                  onOpenLibrary={() => setActiveTab("pdfs")}
+                  onOpenTranslation={() => setActiveTab("translation")}
+                />
+              )}
               {user.role === "student" && (
                 <StudentDashboard
                   onSelectCourse={(id) => setSelectedCourseId(id)}
@@ -644,6 +659,7 @@ function MainAppContent() {
                     setActiveTab("curriculum");
                   }}
                   onOpenMinistryAssessments={() => setActiveTab("ministry_assessments")}
+                  onOpenTranslation={() => setActiveTab("translation")}
                 />
               )}
               {user.role === "parent" && <ParentDashboard onOpenReport={() => setActiveTab("report")} />}
@@ -722,6 +738,10 @@ function MainAppContent() {
             onBack={() => setActiveTab(user ? "dashboard" : "home")}
             initialGradeCode={user?.grade ? user.grade : selectedCurriculumGrade}
           />
+        ) : activeTab === "translation" ? (
+
+          /* VIEW: TRANSLATION ACADEMY — Mr. Habib El Rahman */
+          <TranslationAcademyWorkspace />
         ) : activeTab === "download" ? (
 
           /* VIEW: DOWNLOAD / INSTALL APP */
