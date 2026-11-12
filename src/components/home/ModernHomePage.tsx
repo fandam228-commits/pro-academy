@@ -175,14 +175,14 @@ export function ModernHomePage({
             {/* Right Column: Original Animated Teacher GIF Card */}
             <div className="lg:col-span-5 flex justify-center">
               <div className="w-full max-w-sm sm:max-w-md bg-white rounded-3xl p-3 sm:p-4 border border-blue-100 shadow-xl shadow-blue-900/10 space-y-3 transition-transform hover:scale-[1.01]">
-                {/* Visual Animated Hero Container */}
-                <div className="relative rounded-2xl overflow-hidden bg-slate-900 aspect-[6/5] flex items-center justify-center shadow-inner">
-                  <picture>
+                {/* Visual Animated Hero Container — Full unblocked frame */}
+                <div className="relative rounded-2xl overflow-hidden bg-slate-950 aspect-[6/5] flex items-center justify-center shadow-inner border border-slate-800">
+                  <picture className="w-full h-full flex items-center justify-center">
                     <source srcSet="/habib-hero-static.png" media="(prefers-reduced-motion: reduce)" />
                     <img
                       src="/habib-hero.gif"
-                      alt="Mr. Habib El Rahman - English Educator"
-                      className="w-full h-full object-cover object-center"
+                      alt="Mr. Habib El Rahman - Official English Broadcast"
+                      className="w-full h-full object-contain"
                       width={360}
                       height={300}
                       loading="eager"
@@ -190,24 +190,29 @@ export function ModernHomePage({
                   </picture>
 
                   {/* Top Floating Badge */}
-                  <div className="absolute top-3 start-3 px-3 py-1 rounded-full bg-white/90 backdrop-blur-md text-[#243247] text-[11px] font-black shadow flex items-center gap-1.5 border border-slate-200">
+                  <div className="absolute top-2.5 start-2.5 px-2.5 py-1 rounded-full bg-black/70 backdrop-blur-md text-white text-[10px] font-black shadow flex items-center gap-1.5 border border-white/20">
                     <span className="w-2 h-2 rounded-full bg-[#10B981] animate-ping" />
-                    <span>{lang === "ar" ? "مباشر وتفاعلي" : "Live & Interactive"}</span>
+                    <span>{lang === "ar" ? "تسجيل تلفزيوني رسمي" : "Official Broadcast"}</span>
                   </div>
+                </div>
 
-                  {/* Bottom Verification Label */}
-                  <div className="absolute bottom-3 inset-x-3 bg-white/95 backdrop-blur-md rounded-xl p-2.5 shadow-md border border-slate-200 flex items-center justify-between text-right">
+                {/* Teacher Profile & Verification Badge — Positioned below the GIF to preserve full visibility */}
+                <div className="bg-[#F7F9FC] rounded-2xl p-3 border border-slate-200/80 flex items-center justify-between text-right">
+                  <div className="flex items-center gap-3">
+                    <div className="w-9 h-9 rounded-xl bg-[#2563EB] text-white flex items-center justify-center text-sm font-black shadow-md shadow-blue-600/30 shrink-0">
+                      ✓
+                    </div>
                     <div>
-                      <h4 className="text-xs font-black text-[#243247]">
-                        {lang === "ar" ? "مستر / حبيب الرحمن" : "Mr. Habib El Rahman"}
+                      <h4 className="text-xs font-black text-[#243247] flex items-center gap-1.5">
+                        <span>{lang === "ar" ? "مستر / حبيب الرحمن" : "Mr. Habib El Rahman"}</span>
+                        <span className="px-2 py-0.5 rounded-full bg-blue-100 text-[#2563EB] text-[9px] font-bold">
+                          {lang === "ar" ? "معلم معتمد" : "Verified Educator"}
+                        </span>
                       </h4>
                       <p className="text-[10px] text-[#718096] font-medium">
                         {lang === "ar" ? "خبير لغة إنجليزية ومُعد أوائل الجمهورية" : "Senior English Expert & Mentor"}
                       </p>
                     </div>
-                    <span className="w-6 h-6 rounded-full bg-[#2563EB] text-white flex items-center justify-center text-xs font-bold">
-                      ✓
-                    </span>
                   </div>
                 </div>
 

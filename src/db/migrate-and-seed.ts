@@ -38,6 +38,9 @@ import { hashPassword } from "@/lib/security";
 let setupPromise: Promise<void> | null = null;
 
 export async function ensureDbSetup() {
+  if (!process.env.DATABASE_URL) {
+    return;
+  }
   assertDatabaseConfigured();
   if (!setupPromise) {
     setupPromise = initializeSchema().catch((error: unknown) => {
