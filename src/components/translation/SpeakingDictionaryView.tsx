@@ -65,7 +65,15 @@ export const SpeakingDictionaryView: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [selectedLetter, setSelectedLetter] = useState<string | null>(null);
   const [favoritesOnly, setFavoritesOnly] = useState(false);
-  const [favorites, setFavorites] = useState<string[]>([]);
+  const [favorites, setFavorites] = useState<string[]>(() => {
+    if (typeof window === "undefined") return [];
+    try {
+      const savedFavs = localStorage.getItem("pro_academy_dict_favs");
+      return savedFavs ? JSON.parse(savedFavs) : [];
+    } catch {
+      return [];
+    }
+  });
   const [accent, setAccent] = useState<"US" | "UK">("US");
   const [playbackSpeed, setPlaybackSpeed] = useState<number>(1.0);
   const [activeTab, setActiveTab] = useState<"browse" | "flashcards" | "quiz">("browse");
@@ -73,23 +81,19 @@ export const SpeakingDictionaryView: React.FC = () => {
   // Flashcards state
   const [flashcardIndex, setFlashcardIndex] = useState(0);
   const [isFlipped, setIsFlipped] = useState(false);
-  const [knownWords, setKnownWords] = useState<string[]>([]);
+  const [knownWords, setKnownWords] = useState<string[]>(() => {
+    if (typeof window === "undefined") return [];
+    try {
+      const savedKnown = localStorage.getItem("pro_academy_dict_known");
+      return savedKnown ? JSON.parse(savedKnown) : [];
+    } catch {
+      return [];
+    }
+  });
 
   // Pronunciation Practice state
   const [isListening, setIsListening] = useState(false);
   const [practiceResult, setPracticeResult] = useState<{ wordId: string; transcript: string; score: number } | null>(null);
-
-  // Load favorites and known words from localStorage
-  useEffect(() => {
-    try {
-      const savedFavs = localStorage.getItem("pro_academy_dict_favs");
-      if (savedFavs) setFavorites(JSON.parse(savedFavs));
-      const savedKnown = localStorage.getItem("pro_academy_dict_known");
-      if (savedKnown) setKnownWords(JSON.parse(savedKnown));
-    } catch (e) {
-      console.warn("Could not load stored dictionary state", e);
-    }
-  }, []);
 
   const toggleFavorite = (id: string) => {
     setFavorites((prev) => {
