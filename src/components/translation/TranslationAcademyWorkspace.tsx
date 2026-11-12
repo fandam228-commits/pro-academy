@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import { useApp } from "@/context/AppContext";
 import { TranslationLessonView } from "./TranslationLessonView";
 import { TranslationQuestionPlayer } from "./TranslationQuestionPlayer";
+import { SpeakingDictionaryView } from "./SpeakingDictionaryView";
 import {
   Languages,
   BookOpen,
@@ -28,13 +29,16 @@ import {
   Eye,
   GraduationCap,
   MessageSquare,
+  Volume2,
+  Download,
+  FileText,
 } from "lucide-react";
 
 export const TranslationAcademyWorkspace: React.FC = () => {
   const { lang, user } = useApp();
 
   // Navigation states
-  const [activeMainTab, setActiveMainTab] = useState<"modules" | "practice" | "exam" | "analytics" | "admin">("modules");
+  const [activeMainTab, setActiveMainTab] = useState<"modules" | "dictionary" | "practice" | "exam" | "analytics" | "admin">("modules");
   const [selectedModule, setSelectedModule] = useState<any | null>(null);
   const [selectedLesson, setSelectedLesson] = useState<any | null>(null);
 
@@ -322,6 +326,21 @@ export const TranslationAcademyWorkspace: React.FC = () => {
 
         <button
           onClick={() => {
+            setActiveMainTab("dictionary");
+            setSelectedLesson(null);
+          }}
+          className={`px-4 py-2.5 rounded-xl text-xs font-black transition-all flex items-center gap-2 cursor-pointer ${
+            activeMainTab === "dictionary"
+              ? "bg-purple-600 text-white shadow-md shadow-purple-600/30"
+              : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+          }`}
+        >
+          <Volume2 className="w-4 h-4 text-amber-300" />
+          <span>القاموس الناطق والمصطلحات (Speaking Dictionary)</span>
+        </button>
+
+        <button
+          onClick={() => {
             if (!activeSessionQuestions.length && modules[0]?.lessons[0]?.questions) {
               setActiveSessionQuestions(modules[0].lessons[0].questions);
             }
@@ -501,6 +520,11 @@ export const TranslationAcademyWorkspace: React.FC = () => {
           )}
         </>
       )}
+
+      {/* ============================================================== */}
+      {/* VIEW: SPEAKING DICTIONARY & TERMINOLOGY (MULTI-PDF EXTRACTION) */}
+      {/* ============================================================== */}
+      {activeMainTab === "dictionary" && <SpeakingDictionaryView />}
 
       {/* ============================================================== */}
       {/* VIEW 2: PRACTICE MODE (INSTANT EVALUATION & 14 QUESTION TYPES) */}
@@ -1044,6 +1068,70 @@ export const TranslationAcademyWorkspace: React.FC = () => {
                 )}
               </div>
             )}
+          </div>
+
+          {/* MASTER DATA MANAGEMENT & EXCEL ARCHIVES */}
+          <div className="p-6 sm:p-8 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm space-y-6">
+            <div className="flex flex-wrap items-center justify-between gap-4">
+              <div className="flex items-center gap-3">
+                <FileSpreadsheet className="w-6 h-6 text-purple-500" />
+                <div>
+                  <h4 className="text-lg font-black text-slate-900 dark:text-white">
+                    ملفات الإكسل المركزية للمشروع (Master Data Excel Archives)
+                  </h4>
+                  <p className="text-xs text-slate-500 dark:text-slate-400">
+                    الملفات المركزية السبعة المعتمدة للمشروع ببياناتها المستخرجة من المذكرات مع التوثيق الكامل
+                  </p>
+                </div>
+              </div>
+              <span className="px-3 py-1 rounded-xl text-xs font-bold bg-purple-50 dark:bg-purple-950/60 text-purple-700 dark:text-purple-300 border border-purple-500/20">
+                7 Master Files Ready
+              </span>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+              {[
+                { file: "SOURCE_MASTER_INDEX.xlsx", title: "فهرس المصادر والمذكرات", desc: "بيانات ملفات الـ PDF وأرقام الصفحات", badge: "Inventory" },
+                { file: "LESSONS_MASTER.xlsx", title: "مصفوفة الدروس التعليمية الـ 12", desc: "نواة التعلم والاستراتيجيات والقواعد", badge: "Curriculum" },
+                { file: "DICTIONARY_MASTER.xlsx", title: "معجم الترجمة والمصطلحات الموحد", desc: "الكلمات التخصصية والنسخ الصوتي IPA", badge: "Dictionary" },
+                { file: "QUESTIONS_MASTER.xlsx", title: "بنك أسئلة الترجمة بالأنماط الـ 16", desc: "نماذج الامتحانات والبوكليت مع البدائل", badge: "Question Bank" },
+                { file: "EXAMPLES_MASTER.xlsx", title: "سجل الأمثلة المحلولة والتحليلات", desc: "نماذج الترجمة الشارحة مع الإعراب والتحليل", badge: "Examples" },
+                { file: "EXTRACTION_PROGRESS.xlsx", title: "سجل مراحل المعالجة ونقاط التوقف", desc: "مراحل الاستخراج ونسب الإنجاز التراكمية", badge: "Progress" },
+                { file: "QUALITY_CONTROL_REPORT.xlsx", title: "تقرير ضبط الجودة والتدقيق", desc: "فحص الدقة اللغوية والتوثيق والمطابقة", badge: "Audit & QC" }
+              ].map((item, idx) => (
+                <div
+                  key={idx}
+                  className="p-4 rounded-2xl bg-slate-50 dark:bg-slate-850 border border-slate-200 dark:border-slate-800 flex flex-col justify-between hover:border-purple-500/40 transition-all group"
+                >
+                  <div className="space-y-1.5 mb-3">
+                    <div className="flex items-center justify-between">
+                      <span className="text-[10px] font-mono px-2 py-0.5 rounded-md bg-purple-100 dark:bg-purple-950/60 text-purple-700 dark:text-purple-300 font-bold">
+                        {item.badge}
+                      </span>
+                      <FileSpreadsheet className="w-4 h-4 text-emerald-500" />
+                    </div>
+                    <h5 className="text-xs font-black text-slate-900 dark:text-white group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors">
+                      {item.title}
+                    </h5>
+                    <p className="text-[11px] text-slate-500 dark:text-slate-400">
+                      {item.desc}
+                    </p>
+                    <p className="text-[10px] font-mono text-slate-400 truncate">
+                      {item.file}
+                    </p>
+                  </div>
+
+                  <a
+                    href={`/api/translation/download-master?file=${item.file}`}
+                    download={item.file}
+                    className="w-full py-2 rounded-xl bg-white dark:bg-slate-900 hover:bg-purple-600 hover:text-white border border-slate-200 dark:border-slate-700 text-purple-600 dark:text-purple-300 text-xs font-bold transition-all flex items-center justify-center gap-1.5 cursor-pointer shadow-sm"
+                  >
+                    <Download className="w-3.5 h-3.5" />
+                    <span>تحميل الملف (.xlsx)</span>
+                  </a>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       )}
