@@ -1,0 +1,258 @@
+{
+  "titleAr": "استراتيجية الإجابة على سؤال المحادثة في امتحان الشهادة الإعدادية 2025",
+  "titleEn": "Dialogue Answering Strategy — Third Preparatory 2025",
+  "author": "Mr. Habib El Rahman",
+  "examSpecs": {
+    "totalExamMarks": 30,
+    "dialogueQuestion": "Question 1 (السؤال الأول: المحادثة)",
+    "dialogueMarks": 5,
+    "gapsCount": 5,
+    "gapRequirement": "مطلوب ملء الفراغات بخمس جمل كاملة وليس كلمات مفردة (غالباً فراغين لتكوين سؤال و3 فراغات لتكوين إجابة أو العكس)"
+  },
+  "goldenRules": [
+    {
+      "step": 1,
+      "ruleAr": "اقرأ مقدمة المحادثة (الجملة المكتوبة بالخط العريض فوق المحادثة) جيداً، فهي توضح المكان والأشخاص والموضوع العام.",
+      "ruleEn": "Read the dialogue intro thoroughly to grasp who is speaking, where they are, and the context."
+    },
+    {
+      "step": 2,
+      "ruleAr": "اقرأ المحادثة كاملة دون كتابة أي حل لفهم سياق الحديث ومعرفة الإجابات المسبقة أو اللاحقة التي تدل على الفراغات.",
+      "ruleEn": "Read the entire dialogue before answering to spot contextual clues across preceding and following turns."
+    },
+    {
+      "step": 3,
+      "ruleAr": "اقرأ المحادثة مرة أخيرة بعد الحل للتأكد من الترابط النحوي والمنطقي وصحة علامات الترقيم (نقطة . أو علامة استفهام ؟).",
+      "ruleEn": "Re-read the completed dialogue after solving to ensure grammatical harmony, tense agreement, and punctuation."
+    }
+  ],
+  "questionTypes": {
+    "closedQuestions": {
+      "nameAr": "الأسئلة المغلقة (Yes/No questions)",
+      "characteristicsAr": [
+        "هي أسئلة تبدأ بفعل مساعد (Auxiliary Verb)",
+        "تكون دائماً بمعنى (هل)",
+        "تكون الإجابة عليها تبدأ بـ (Yes) أو (No)"
+      ],
+      "auxiliaryVerbs": {
+        "verbToBe": ["am", "is", "are", "was", "were"],
+        "verbToDo": ["do", "does", "did"],
+        "verbToHave": ["have", "has", "had"],
+        "modalVerbs": ["can", "could", "may", "might", "shall", "should", "must", "will", "would"]
+      },
+      "formationSteps": [
+        "1. نحذف Yes أو No من أول الجملة.",
+        "2. نعمل عملية المقص (أي نقدم الفعل المساعد أو الناقص على الفاعل)."
+      ],
+      "formationExamples": [
+        {
+          "statement": "Yes, he is good at English.",
+          "question": "Is he good at English?"
+        }
+      ],
+      "missingAuxiliaryRules": {
+        "rule": "إذا لم يوجد في الجملة فعل مساعد، نستخدم (do / does / did) حسب زمن الجملة:",
+        "cases": [
+          {
+            "condition": "إذا كان فعل الجملة مضارع بسيط غير منتهي بـ s",
+            "auxiliary": "do",
+            "exampleStatement": "Yes, they play football every day.",
+            "exampleQuestion": "Do they play football every day?"
+          },
+          {
+            "condition": "إذا كان فعل الجملة مضارع بسيط منتهي بـ s (نحذف s ونعيد الفعل لمصدره)",
+            "auxiliary": "does",
+            "exampleStatement": "Yes, he plays football every day.",
+            "exampleQuestion": "Does he play football every day?"
+          },
+          {
+            "condition": "إذا كان فعل الجملة ماضي بسيط (نعيد الفعل لمصدره)",
+            "auxiliary": "did",
+            "exampleStatement": "Yes, they played football yesterday.",
+            "exampleQuestion": "Did they play football yesterday?"
+          }
+        ]
+      },
+      "pronounTransformations": [
+        { "question": "you (فاعل)", "answer": "I / we" },
+        { "question": "you (مفعول)", "answer": "me / us" },
+        { "question": "your (ملكية)", "answer": "my / our" },
+        { "question": "are you", "answer": "I am / we are" },
+        { "question": "were you", "answer": "I was / we were" }
+      ],
+      "pronounExample": {
+        "statement": "Yes, I am Egyptian.",
+        "question": "Are you Egyptian?"
+      }
+    },
+    "openQuestions": {
+      "nameAr": "الأسئلة المفتوحة (Wh-questions)",
+      "characteristicsAr": [
+        "هي أسئلة تبدأ بأداة استفهام (Question Word).",
+        "تسأل عن جزء محدد في الجملة (مكان، زمان، سبب، وسيلة مواصلات، مفعول).",
+        "لها قاعدة محددة تُحفظ جيداً."
+      ],
+      "formula": "أداة الاستفهام (Wh-word) + فعل مساعد (Auxiliary) + فاعل (Subject) + فعل أساسي (Main Verb) + تكملة الجملة + ؟",
+      "formulaExample": {
+        "wh": "What",
+        "aux": "are",
+        "subject": "you",
+        "mainVerb": "doing",
+        "complement": "now",
+        "full": "What are you doing now?"
+      },
+      "formationSteps": [
+        "1. نحدد الجزء المراد السؤال عنه في الجملة.",
+        "2. نحذف هذا الجزء ونستخدم أداة استفهام مناسبة بدلاً منه في بداية السؤال.",
+        "3. نعمل عملية المقص (نقدم الفعل المساعد على الفاعل).",
+        "4. إذا لم يوجد فعل مساعد نستخدم (do / does / did) ونعيد الفعل لمصدره كما سبق."
+      ],
+      "formationExamples": [
+        {
+          "statement": "She lives in Cairo.",
+          "question": "Where does she live?"
+        },
+        {
+          "statement": "My name is Ahmed.",
+          "question": "What is your name?"
+        },
+        {
+          "statement": "She goes to school by bus.",
+          "question": "How does she go to school?"
+        },
+        {
+          "statement": "She bought a book.",
+          "question": "What did she buy?"
+        }
+      ],
+      "primaryWhWords": [
+        {
+          "word": "Who",
+          "meaningAr": "مَن (تسأل عن الفاعل أو المفعول العاقل)",
+          "exampleQ": "Who's your best friend?",
+          "exampleA": "Ahmed is my best friend."
+        },
+        {
+          "word": "Where",
+          "meaningAr": "أين (تسأل عن المكان - يُحذف حرف الجر + المكان)",
+          "exampleQ": "Where do you live?",
+          "exampleA": "I live in Cairo."
+        },
+        {
+          "word": "When",
+          "meaningAr": "متى (تسأل عن الوقت - يُحذف حرف الجر + الوقت)",
+          "exampleQ": "When do you go to school?",
+          "exampleA": "I go to school at 7 o'clock."
+        },
+        {
+          "word": "Why",
+          "meaningAr": "لماذا (تسأل عن السبب - تبدأ الإجابة بـ Because / To)",
+          "exampleQ": "Why are you sad?",
+          "exampleA": "Because my father is ill."
+        },
+        {
+          "word": "How",
+          "meaningAr": "كيف (تسأل عن وسيلة المواصلات أو الحالة الصحية)",
+          "exampleQ": "How do you go to school?",
+          "exampleA": "I go to school by bus."
+        },
+        {
+          "word": "What",
+          "meaningAr": "ما / ماذا (تسأل عن غير العاقل أو المهنة أو النشاط)",
+          "exampleQ": "What is your favourite subject?",
+          "exampleA": "My favourite subject is English."
+        }
+      ],
+      "derivedWhWords": [
+        {
+          "word": "Which",
+          "meaningAr": "أي (تسأل عن الاختيار ويليها اسم الشيء)",
+          "exampleQ": "Which colour do you like?",
+          "exampleA": "I like red."
+        },
+        {
+          "word": "Whose",
+          "meaningAr": "مِلك مَن (تسأل عن الملكية ويليها اسم المملوك)",
+          "exampleQ": "Whose pen is this?",
+          "exampleA": "It's Ahmed's pen."
+        },
+        {
+          "word": "Whom",
+          "meaningAr": "مَن (تسأل عن المفعول به العاقل)",
+          "exampleQ": "Whom did you meet?",
+          "exampleA": "I met Ahmed."
+        },
+        {
+          "word": "How old",
+          "meaningAr": "كم عمر",
+          "exampleQ": "How old are you?",
+          "exampleA": "I am ten."
+        },
+        {
+          "word": "How many",
+          "meaningAr": "كم عدد (يأتي بعدها اسم جمع معدود)",
+          "exampleQ": "How many brothers have you got?",
+          "exampleA": "I have got two brothers."
+        },
+        {
+          "word": "How much",
+          "meaningAr": "كم ثمن / كم كمية",
+          "exampleQ": "How much is the shirt?",
+          "exampleA": "It's fifty pounds."
+        },
+        {
+          "word": "How long",
+          "meaningAr": "كم المدة الزمنية",
+          "exampleQ": "How long have you been living in Cairo?",
+          "exampleA": "I have been living in Cairo for 2 years."
+        },
+        {
+          "word": "How often",
+          "meaningAr": "كم عدد المرات",
+          "exampleQ": "How often do you go to the cinema?",
+          "exampleA": "I go to the cinema once a week."
+        },
+        {
+          "word": "What time",
+          "meaningAr": "ما الوقت / في أي ساعة",
+          "exampleQ": "What time is it?",
+          "exampleA": "It's two o'clock."
+        },
+        {
+          "word": "How tall",
+          "meaningAr": "ما طول (للأشخاص والمباني)",
+          "exampleQ": "How tall is Ali?",
+          "exampleA": "He is 1.38 cm tall."
+        }
+      ],
+      "commonDialogueQuestions": [
+        { "en": "Can I help you?", "ar": "هل لي أن أساعدك؟" },
+        { "en": "What colour do you want?", "ar": "ما اللون الذي تريده؟" },
+        { "en": "What size do you want?", "ar": "ما المقاس الذي تريده؟" },
+        { "en": "How much is it? / How much does it cost?", "ar": "كم سعره؟" },
+        { "en": "How much are they? / How much do they cost?", "ar": "كم سعرهم؟" },
+        { "en": "What is the matter with you? / What is wrong?", "ar": "ما الأمر؟ / ماذا بك؟" },
+        { "en": "Where are you from? / Where do you come from?", "ar": "من أين أنت؟ / من أين أتيت؟" },
+        { "en": "Is it your first visit to Egypt?", "ar": "هل هي زيارتك الأولى لمصر؟" },
+        { "en": "How long will you stay here?", "ar": "ما المدة التي سوف تقيمها هنا؟" },
+        { "en": "How can I get to the Pyramids, please?", "ar": "كيف يمكنني الوصول إلى الأهرامات من فضلك؟" },
+        { "en": "What does your father do? / What is your father's job?", "ar": "ما هي وظيفة والدك؟" },
+        { "en": "Where were you born?", "ar": "أين ولدت؟" },
+        { "en": "When were you born? / What's your date of birth?", "ar": "متى ولدت؟ / ما هو تاريخ ميلادك؟" },
+        { "en": "What is your nationality?", "ar": "ما هي جنسيتك؟" },
+        { "en": "Where do you live?", "ar": "أين تعيش؟" },
+        { "en": "How often do you go to the cinema?", "ar": "كم مرة تذهب إلى السينما؟" },
+        { "en": "What is your opinion of ...?", "ar": "ما رأيك في ...؟" },
+        { "en": "Can I book a ticket to Alex, please?", "ar": "هل يمكنني حجز تذكرة إلى الإسكندرية من فضلك؟" },
+        { "en": "Single or return?", "ar": "ذهاب فقط أم ذهاب وعودة؟" },
+        { "en": "Which platform does the train leave from?", "ar": "من أي رصيف يغادر القطار؟" },
+        { "en": "How long does it take to go there?", "ar": "كم من الوقت يستغرق الذهاب إلى هناك؟" },
+        { "en": "What is the weather like today?", "ar": "كيف حال الطقس اليوم؟" },
+        { "en": "What happened?", "ar": "ماذا حدث؟" },
+        { "en": "What's your name?", "ar": "ما اسمك؟" },
+        { "en": "How are you?", "ar": "كيف حالك؟" },
+        { "en": "How old are you?", "ar": "كم عمرك؟" }
+      ]
+    }
+  }
+}

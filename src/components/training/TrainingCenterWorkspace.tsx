@@ -32,7 +32,9 @@ import {
   Eye,
   Loader2,
   HelpCircle,
+  MessageSquare,
 } from "lucide-react";
+import { DialogueCenterWorkspace } from "@/components/dialogue/DialogueCenterWorkspace";
 
 interface OptionItem {
   label: string;
@@ -94,7 +96,7 @@ export const TrainingCenterWorkspace: React.FC<{ initialTopic?: string }> = ({ i
 
   // Navigation tab inside Training Center
   const [activeTab, setActiveTab] = useState<
-    "practice" | "exams" | "topics" | "revision" | "progress" | "admin_queue"
+    "practice" | "exams" | "topics" | "revision" | "progress" | "admin_queue" | "dialogues"
   >("practice");
 
   // Filter state for Practice
@@ -587,6 +589,19 @@ export const TrainingCenterWorkspace: React.FC<{ initialTopic?: string }> = ({ i
           >
             <TrendingUp className="h-4 w-4 text-cyan-600" />
             <span>{isArabic ? "إنجازاتي ونقاط القوة" : "My Progress"}</span>
+          </button>
+
+          <button
+            onClick={() => setActiveTab("dialogues")}
+            className={`flex items-center gap-2 px-5 py-3 rounded-2xl text-sm font-extrabold transition-all ${
+              activeTab === "dialogues"
+                ? "bg-[#2563EB] text-white shadow-md shadow-blue-600/20"
+                : "bg-[#E8F3FF] text-[#2563EB] hover:bg-blue-100 border border-blue-200"
+            }`}
+          >
+            <MessageSquare className="h-4 w-4 text-[#2563EB]" />
+            <span>{isArabic ? "مركز المحادثة (94 محادثة)" : "Dialogue Center"}</span>
+            <span className="text-[10px] px-1.5 py-0.5 rounded bg-[#2563EB] text-white font-black">NEW</span>
           </button>
 
           {isAdminOrTeacher && (
@@ -1728,6 +1743,16 @@ export const TrainingCenterWorkspace: React.FC<{ initialTopic?: string }> = ({ i
               </div>
             </div>
           )}
+        </div>
+      )}
+
+      {/* 7. DIALOGUE CENTER TAB */}
+      {activeTab === "dialogues" && (
+        <div className="mt-4">
+          <DialogueCenterWorkspace
+            user={user}
+            onBack={() => setActiveTab("practice")}
+          />
         </div>
       )}
     </div>

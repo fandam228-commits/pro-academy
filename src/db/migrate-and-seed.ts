@@ -25,7 +25,11 @@ import {
   storyCharacterChatSessions,
   storyStudentProgress,
   storyStudentBadges,
+  dialogues,
+  dialogueSubmissions,
+  dialogueStudentProgress,
 } from "./schema";
+import { ALL_DIALOGUES } from "@/data/dialogue-center";
 import { SMART_CURRICULUM_SEEDS } from "@/data/smart-curriculum-seed";
 import { TRANSLATION_MODULES_SEED, SAMPLE_TRANSLATION_EXAMS } from "@/data/translation-academy-seed";
 import EXTRACTED_TRAINING_QUESTIONS from "@/data/training-center-extracted-questions.json";
@@ -1253,6 +1257,58 @@ async function initializeSchema(): Promise<void> {
       );
       CREATE INDEX IF NOT EXISTS idx_ssb_student ON story_student_badges(student_id);
       CREATE INDEX IF NOT EXISTS idx_ssb_badge ON story_student_badges(badge_code);
+
+      CREATE TABLE IF NOT EXISTS dialogues (
+        id TEXT PRIMARY KEY,
+        grade TEXT NOT NULL,
+        grade_label_ar TEXT NOT NULL,
+        grade_label_en TEXT NOT NULL,
+        dialogue_number INTEGER NOT NULL,
+        title TEXT NOT NULL,
+        governorate TEXT,
+        governorate_ar TEXT,
+        year INTEGER,
+        speakers JSONB DEFAULT '[]'::jsonb,
+        lines JSONB DEFAULT '[]'::jsonb,
+        approved_answers JSONB DEFAULT '{}'::jsonb,
+        is_published BOOLEAN NOT NULL DEFAULT true,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
+      );
+      CREATE INDEX IF NOT EXISTS idx_dlg_grade ON dialogues(grade);
+      CREATE INDEX IF NOT EXISTS idx_dlg_number ON dialogues(dialogue_number);
+      CREATE INDEX IF NOT EXISTS idx_dlg_published ON dialogues(is_published);
+
+      CREATE TABLE IF NOT EXISTS dialogue_submissions (
+        id TEXT PRIMARY KEY,
+        student_id TEXT NOT NULL,
+        dialogue_id TEXT NOT NULL,
+        mode TEXT NOT NULL DEFAULT 'practice',
+        student_answers JSONB DEFAULT '{}'::jsonb,
+        evaluation_results JSONB DEFAULT '{}'::jsonb,
+        score INTEGER NOT NULL DEFAULT 0,
+        max_score INTEGER NOT NULL DEFAULT 5,
+        percentage INTEGER NOT NULL DEFAULT 0,
+        time_taken_seconds INTEGER DEFAULT 0,
+        submitted_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
+      );
+      CREATE INDEX IF NOT EXISTS idx_dsub_student ON dialogue_submissions(student_id);
+      CREATE INDEX IF NOT EXISTS idx_dsub_dialogue ON dialogue_submissions(dialogue_id);
+      CREATE INDEX IF NOT EXISTS idx_dsub_mode ON dialogue_submissions(mode);
+
+      CREATE TABLE IF NOT EXISTS dialogue_student_progress (
+        id TEXT PRIMARY KEY,
+        student_id TEXT NOT NULL,
+        grade TEXT NOT NULL,
+        completed_dialogue_ids JSONB DEFAULT '[]'::jsonb,
+        total_practice_count INTEGER NOT NULL DEFAULT 0,
+        perfect_score_count INTEGER NOT NULL DEFAULT 0,
+        total_points_earned INTEGER NOT NULL DEFAULT 0,
+        streak INTEGER NOT NULL DEFAULT 0,
+        last_practiced_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
+      );
+      CREATE INDEX IF NOT EXISTS idx_dsp_student ON dialogue_student_progress(student_id);
+      CREATE INDEX IF NOT EXISTS idx_dsp_grade ON dialogue_student_progress(grade);
     `);
 
   // Seed and sync curriculum grades and units to official 2026/2027 Egyptian syllabus
@@ -1262,6 +1318,7 @@ async function initializeSchema(): Promise<void> {
   await seedTranslationAcademyIfEmpty();
   await seedLiveSessionsIfEmpty();
   await seedTrainingCenterQuestionsIfEmpty();
+  await seedDialogueCenterIfEmpty();
 }
 
 export async function syncCurriculum2026(): Promise<{
@@ -2191,4 +2248,43 @@ export async function seedTrainingCenterQuestionsIfEmpty(): Promise<void> {
     console.error("Seed Training Questions Error:", error);
   }
 }
+
+export async function seedDialogueCenterIfEmpty(): Promise<void> {
+  try {
+    const existing = await db
+      .select({ id: dialogues.id })
+      .from(dialogues)
+      .limit(1);
+
+    if (existing.length > 0) {
+      return;
+    }
+
+    console.log(`Seeding ${ALL_DIALOGUES.length} authentic preparatory dialogues...`);
+    const BATCH_SIZE = 25;
+    for (let i = 0; i < ALL_DIALOGUES.length; i += BATCH_SIZE) {
+      const chunk = ALL_DIALOGUES.slice(i, i + BATCH_SIZE).map((d) => ({
+        id: d.id,
+        grade: d.grade,
+        gradeLabelAr: d.gradeLabelAr,
+        gradeLabelEn: d.gradeLabelEn,
+        dialogueNumber: d.dialogueNumber,
+        title: d.title,
+        governorate: d.governorate || null,
+        governorateAr: d.governorateAr || null,
+        year: d.year || null,
+        speakers: d.speakers,
+        lines: d.lines,
+        approvedAnswers: d.approvedAnswers,
+        isPublished: true,
+      }));
+
+      await db.insert(dialogues).values(chunk);
+    }
+    console.log("Professional Dialogue Center seeded successfully!");
+  } catch (error) {
+    console.error("Seed Dialogue Center Error:", error);
+  }
+}
+
 

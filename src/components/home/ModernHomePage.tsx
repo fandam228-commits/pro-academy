@@ -27,6 +27,7 @@ import {
   ShieldCheck,
   Compass,
   ArrowUpRight,
+  MessageSquare,
 } from "lucide-react";
 import { LiveClassroomSection } from "@/components/LiveClassroomSection";
 
@@ -125,6 +126,15 @@ export function ModernHomePage({
                 >
                   <Trophy className="w-4 h-4 text-[#EABF58]" />
                   <span>{lang === "ar" ? "مركز التدريب والامتحانات" : "Training Center"}</span>
+                </button>
+
+                <button
+                  onClick={() => setActiveTab("dialogues")}
+                  className="px-6 py-3.5 rounded-2xl bg-[#E8F3FF] hover:bg-blue-100 text-[#2563EB] font-black text-sm border border-blue-300 shadow-sm transition-all hover:-translate-y-0.5 flex items-center gap-2 cursor-pointer"
+                >
+                  <MessageSquare className="w-4 h-4 text-[#2563EB]" />
+                  <span>{lang === "ar" ? "مركز المحادثة (94 محادثة)" : "Dialogue Center"}</span>
+                  <span className="text-[10px] px-1.5 py-0.5 rounded bg-[#2563EB] text-white font-black">NEW</span>
                 </button>
 
                 <button
@@ -454,17 +464,83 @@ export function ModernHomePage({
             <div className="pt-2 flex flex-wrap items-center justify-center sm:justify-start gap-3">
               <button
                 onClick={() => setActiveTab("training_center")}
-                className="px-6 py-3.5 rounded-2xl bg-white hover:bg-slate-100 text-[#2563EB] font-bold text-sm shadow-md transition flex items-center gap-2"
+                className="px-6 py-3.5 rounded-2xl bg-white hover:bg-slate-100 text-[#2563EB] font-bold text-sm shadow-md transition flex items-center gap-2 cursor-pointer"
               >
                 <Trophy className="w-4 h-4 text-[#EABF58]" />
                 <span>{lang === "ar" ? "ابدأ التدريب الآن" : "Start Practicing"}</span>
               </button>
               <button
                 onClick={() => setActiveTab("question_bank")}
-                className="px-6 py-3.5 rounded-2xl bg-white/10 hover:bg-white/20 text-white border border-white/20 font-bold text-sm transition"
+                className="px-6 py-3.5 rounded-2xl bg-white/10 hover:bg-white/20 text-white border border-white/20 font-bold text-sm transition cursor-pointer"
               >
                 {lang === "ar" ? "تصفح بنك الأسئلة الشامل" : "Question Bank"}
               </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* =========================================================================
+          5.1 PROFESSIONAL DIALOGUE CENTER (مركز المحادثة الإنجليزية التفاعلي)
+      ========================================================================= */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="bg-white rounded-3xl p-8 sm:p-10 border border-blue-200/80 shadow-md relative overflow-hidden">
+          <div className="flex flex-col lg:flex-row items-center justify-between gap-8">
+            <div className="space-y-4 text-center lg:text-start max-w-2xl">
+              <div className="flex flex-wrap items-center justify-center lg:justify-start gap-2">
+                <span className="px-3 py-1 rounded-full bg-[#E8F3FF] text-[#2563EB] text-xs font-black">
+                  {lang === "ar" ? "94 محادثة وزارية معتمدة" : "94 Authentic Dialogues"}
+                </span>
+                <span className="px-3 py-1 rounded-full bg-amber-50 text-amber-800 border border-amber-200 text-xs font-black">
+                  {lang === "ar" ? "استراتيجية 2025 لمستر حبيب الرحمن" : "2025 Exam Strategy"}
+                </span>
+              </div>
+
+              <h3 className="text-2xl sm:text-3xl font-black text-[#243247]">
+                {lang === "ar" ? "مركز المحادثة الإنجليزية التفاعلي (Professional Dialogue Center)" : "Professional English Dialogue Center"}
+              </h3>
+
+              <p className="text-xs sm:text-sm text-[#718096] leading-relaxed">
+                {lang === "ar"
+                  ? "تدريب شامل على السؤال الأول في الامتحان الرسمي لجميع صفوف المرحلة الإعدادية (أولى، ثانية، ثالثة إعدادي) مع محاكاة كاملة، تدريب فوري بالذكاء الاصطناعي، وقبول كافة البدائل الوزارية الصحيحة."
+                  : "Complete interactive dialogue center for preparatory grades covering Question 1 in official Egyptian ministry exams with 4 learning modes."}
+              </p>
+
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 pt-2">
+                {[
+                  { title: "أولى إعدادي", count: "25 محادثة", file: "prep111" },
+                  { title: "تانية إعدادي", count: "27 محادثة", file: "prep 2" },
+                  { title: "تالتة إعدادي", count: "32 محادثة", file: "prep 3" },
+                  { title: "مراجعة 2025", count: "10 امتحانات", file: "Revision" },
+                ].map((item, i) => (
+                  <div key={i} className="p-3 rounded-xl bg-[#F7F9FC] border border-slate-200/80 text-center">
+                    <div className="text-xs font-black text-[#2563EB]">{item.title}</div>
+                    <div className="text-[11px] text-[#718096] font-bold mt-0.5">{item.count}</div>
+                  </div>
+                ))}
+              </div>
+
+              <div className="pt-2 flex flex-wrap items-center justify-center lg:justify-start gap-3">
+                <button
+                  onClick={() => setActiveTab("dialogues")}
+                  className="px-6 py-3.5 rounded-2xl bg-[#2563EB] hover:bg-blue-700 text-white font-black text-sm shadow-md shadow-blue-500/20 transition flex items-center gap-2 cursor-pointer"
+                >
+                  <MessageSquare className="w-4 h-4 text-white" />
+                  <span>{lang === "ar" ? "ابدأ التدريب على المحادثات الآن" : "Start Practicing Dialogues"}</span>
+                  <ChevronRight className="w-4 h-4 rtl:rotate-180" />
+                </button>
+              </div>
+            </div>
+
+            {/* Illustration Card */}
+            <div className="w-full lg:w-72 shrink-0 p-6 rounded-2xl bg-[#E8F3FF] border border-blue-200 text-center space-y-3">
+              <div className="w-16 h-16 rounded-2xl bg-[#2563EB] text-white flex items-center justify-center mx-auto shadow-md shadow-blue-500/20">
+                <MessageSquare className="w-8 h-8" />
+              </div>
+              <div className="text-base font-black text-[#243247]">مواصفات 2025 الرسمية</div>
+              <div className="text-xs text-[#718096] leading-relaxed">
+                5 درجات كاملة على سؤال المحادثة، مع شرح طريقة المقص ومعادلة Wh-Questions وقائمة الأفعال المساعدة.
+              </div>
             </div>
           </div>
         </div>

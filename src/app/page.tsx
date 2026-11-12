@@ -81,6 +81,11 @@ const TrainingCenterWorkspace = dynamic(
   { loading: () => <TabLoadingSkeleton label="جاري تجهيز مركز التدريب والامتحانات الاحترافية..." />, ssr: false }
 );
 
+const DialogueCenterWorkspace = dynamic(
+  () => import("@/components/dialogue/DialogueCenterWorkspace").then((m) => m.DialogueCenterWorkspace),
+  { loading: () => <TabLoadingSkeleton label="جاري تجهيز مركز المحادثة الإنجليزية التفاعلي..." />, ssr: false }
+);
+
 const PdfLibraryWorkspace = dynamic(
   () => import("@/components/PdfLibraryWorkspace").then((m) => m.PdfLibraryWorkspace),
   { loading: () => <TabLoadingSkeleton label="جاري تحميل مكتبة المذكرات والـ PDF..." />, ssr: false }
@@ -586,6 +591,13 @@ function MainAppContent() {
           <StoryWorldWorkspace
             user={user}
             onNavigateHome={() => setActiveTab(user ? "dashboard" : "home")}
+          />
+        ) : activeTab === "dialogues" ? (
+
+          /* VIEW: PROFESSIONAL DIALOGUE CENTER — Mr. Habib El Rahman */
+          <DialogueCenterWorkspace
+            user={user}
+            onBack={() => setActiveTab("home")}
           />
         ) : activeTab === "download" ? (
 

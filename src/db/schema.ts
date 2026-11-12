@@ -1424,4 +1424,75 @@ export const storyStudentBadges = pgTable(
   ]
 );
 
+// 38. DIALOGUES TABLE (Interactive Dialogue Center Bank)
+export const dialogues = pgTable(
+  "dialogues",
+  {
+    id: text("id").primaryKey(),
+    grade: text("grade").notNull(), // 'prep_1', 'prep_2', 'prep_3', 'prep_3_revision'
+    gradeLabelAr: text("grade_label_ar").notNull(),
+    gradeLabelEn: text("grade_label_en").notNull(),
+    dialogueNumber: integer("dialogue_number").notNull(),
+    title: text("title").notNull(),
+    governorate: text("governorate"),
+    governorateAr: text("governorate_ar"),
+    year: integer("year"),
+    speakers: jsonb("speakers").default([]),
+    lines: jsonb("lines").default([]),
+    approvedAnswers: jsonb("approved_answers").default({}),
+    isPublished: boolean("is_published").default(true).notNull(),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+    updatedAt: timestamp("updated_at").defaultNow().notNull(),
+  },
+  (table) => [
+    index("idx_dlg_grade").on(table.grade),
+    index("idx_dlg_number").on(table.dialogueNumber),
+    index("idx_dlg_published").on(table.isPublished),
+  ]
+);
+
+// 39. DIALOGUE SUBMISSIONS (Student Exam & Practice Attempts)
+export const dialogueSubmissions = pgTable(
+  "dialogue_submissions",
+  {
+    id: text("id").primaryKey(),
+    studentId: text("student_id").notNull(),
+    dialogueId: text("dialogue_id").notNull(),
+    mode: text("mode").notNull().default("practice"), // 'learn', 'practice', 'exam', 'challenge'
+    studentAnswers: jsonb("student_answers").default({}),
+    evaluationResults: jsonb("evaluation_results").default({}),
+    score: integer("score").notNull().default(0), // 0 to 5
+    maxScore: integer("max_score").notNull().default(5),
+    percentage: integer("percentage").notNull().default(0),
+    timeTakenSeconds: integer("time_taken_seconds").default(0),
+    submittedAt: timestamp("submitted_at").defaultNow().notNull(),
+  },
+  (table) => [
+    index("idx_dsub_student").on(table.studentId),
+    index("idx_dsub_dialogue").on(table.dialogueId),
+    index("idx_dsub_mode").on(table.mode),
+  ]
+);
+
+// 40. DIALOGUE STUDENT PROGRESS & GAMIFICATION
+export const dialogueStudentProgress = pgTable(
+  "dialogue_student_progress",
+  {
+    id: text("id").primaryKey(),
+    studentId: text("student_id").notNull(),
+    grade: text("grade").notNull(),
+    completedDialogueIds: jsonb("completed_dialogue_ids").default([]),
+    totalPracticeCount: integer("total_practice_count").notNull().default(0),
+    perfectScoreCount: integer("perfect_score_count").notNull().default(0),
+    totalPointsEarned: integer("total_points_earned").notNull().default(0),
+    streak: integer("streak").notNull().default(0),
+    lastPracticedAt: timestamp("last_practiced_at").defaultNow().notNull(),
+  },
+  (table) => [
+    index("idx_dsp_student").on(table.studentId),
+    index("idx_dsp_grade").on(table.grade),
+  ]
+);
+
+
 

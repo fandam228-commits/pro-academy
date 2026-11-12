@@ -1,0 +1,3500 @@
+[
+  {
+    "id": "dlg_prep2_01",
+    "grade": "prep_2",
+    "gradeLabelAr": "الصف الثاني الإعدادي",
+    "gradeLabelEn": "Second Preparatory",
+    "dialogueNumber": 1,
+    "title": "Ayman is asking Nadir about what he did yesterday.",
+    "governorate": null,
+    "governorateAr": null,
+    "year": 2023,
+    "speakers": [
+      "Ayman",
+      "Nadir"
+    ],
+    "lines": [
+      {
+        "speaker": "Ayman",
+        "text": "How did you go to school yesterday, Nadir ?",
+        "gapNumber": null,
+        "isQuestion": true
+      },
+      {
+        "speaker": "Nadir",
+        "text": "(1).................... .................... ....................",
+        "gapNumber": 1,
+        "isQuestion": false,
+        "cue": "Response to Ayman"
+      },
+      {
+        "speaker": "Ayman",
+        "text": "(2).................... .................... .................... ....................?",
+        "gapNumber": 2,
+        "isQuestion": true,
+        "cue": "Question about Nadir's answer"
+      },
+      {
+        "speaker": "Nadir",
+        "text": "The first lesson started at 8 o'clock.",
+        "gapNumber": null,
+        "isQuestion": false
+      },
+      {
+        "speaker": "Ayman",
+        "text": "How many lessons did you have before the break ?",
+        "gapNumber": null,
+        "isQuestion": true
+      },
+      {
+        "speaker": "Nadir",
+        "text": "(3).................... .................... ....................",
+        "gapNumber": 3,
+        "isQuestion": false,
+        "cue": "Response to Ayman"
+      },
+      {
+        "speaker": "Ayman",
+        "text": "(4).................... .................... .................... .. .................... ....................?",
+        "gapNumber": 4,
+        "isQuestion": true,
+        "cue": "Question about Nadir's answer"
+      },
+      {
+        "speaker": "Nadir",
+        "text": "Yes, I did my homework early.",
+        "gapNumber": null,
+        "isQuestion": false
+      },
+      {
+        "speaker": "Ayman",
+        "text": "What about meeting after school tomorrow ?",
+        "gapNumber": null,
+        "isQuestion": true
+      },
+      {
+        "speaker": "Nadir",
+        "text": "(5).................... .................... ....................",
+        "gapNumber": 5,
+        "isQuestion": false,
+        "cue": "Response to Ayman"
+      }
+    ],
+    "approvedAnswers": {
+      "1": {
+        "primary": "I went by bus.",
+        "alternatives": [
+          "On foot.",
+          "By car.",
+          "I walked to school."
+        ],
+        "isTeacherApproved": true,
+        "notes": "Standard Egyptian Ministry prep exam approved answer."
+      },
+      "2": {
+        "primary": "When did the first lesson start?",
+        "alternatives": [
+          "What time did the first lesson start?"
+        ],
+        "isTeacherApproved": true,
+        "notes": "Standard Egyptian Ministry prep exam approved answer."
+      },
+      "3": {
+        "primary": "We had four lessons.",
+        "alternatives": [
+          "Three lessons.",
+          "I had four lessons."
+        ],
+        "isTeacherApproved": true,
+        "notes": "Standard Egyptian Ministry prep exam approved answer."
+      },
+      "4": {
+        "primary": "Did you do your homework early?",
+        "alternatives": [
+          "Have you done your homework?"
+        ],
+        "isTeacherApproved": true,
+        "notes": "Standard Egyptian Ministry prep exam approved answer."
+      },
+      "5": {
+        "primary": "Good idea, that sounds great!",
+        "alternatives": [
+          "Sure, see you then.",
+          "Why not?"
+        ],
+        "isTeacherApproved": true,
+        "notes": "Standard Egyptian Ministry prep exam approved answer."
+      }
+    },
+    "published": true
+  },
+  {
+    "id": "dlg_prep2_02",
+    "grade": "prep_2",
+    "gradeLabelAr": "الصف الثاني الإعدادي",
+    "gradeLabelEn": "Second Preparatory",
+    "dialogueNumber": 2,
+    "title": "Walid and Ahmed are talking about Ahmeds favourite room in the house.",
+    "governorate": null,
+    "governorateAr": null,
+    "year": 2023,
+    "speakers": [
+      "Walid",
+      "Ahmed"
+    ],
+    "lines": [
+      {
+        "speaker": "Walid",
+        "text": "What's your favourite room in your house ?",
+        "gapNumber": null,
+        "isQuestion": true
+      },
+      {
+        "speaker": "Ahmed",
+        "text": "(1) ....................",
+        "gapNumber": 1,
+        "isQuestion": false,
+        "cue": "Response to Walid"
+      },
+      {
+        "speaker": "Walid",
+        "text": "(2)....................?",
+        "gapNumber": 2,
+        "isQuestion": true,
+        "cue": "Question about Ahmed's answer"
+      },
+      {
+        "speaker": "Ahmed",
+        "text": "Because the bedroom contains all my things.",
+        "gapNumber": null,
+        "isQuestion": false
+      },
+      {
+        "speaker": "Walid",
+        "text": "(3) .................... ?",
+        "gapNumber": 3,
+        "isQuestion": true,
+        "cue": "Question about Ahmed's answer"
+      },
+      {
+        "speaker": "Ahmed",
+        "text": "Yes, there is a sofa in my bedroom.",
+        "gapNumber": null,
+        "isQuestion": false
+      },
+      {
+        "speaker": "Walid",
+        "text": "How many curtains are there in your room ?",
+        "gapNumber": null,
+        "isQuestion": true
+      },
+      {
+        "speaker": "Ahmed",
+        "text": "(4) .................... ....................",
+        "gapNumber": 4,
+        "isQuestion": false,
+        "cue": "Response to Walid"
+      },
+      {
+        "speaker": "Walid",
+        "text": "Where do you put your clothes ?",
+        "gapNumber": null,
+        "isQuestion": true
+      },
+      {
+        "speaker": "Ahmed",
+        "text": "(5) …… .................... ....................",
+        "gapNumber": 5,
+        "isQuestion": false,
+        "cue": "Response to Walid"
+      }
+    ],
+    "approvedAnswers": {
+      "1": {
+        "primary": "That is a great idea.",
+        "alternatives": [
+          "I agree with you.",
+          "I feel very proud of that."
+        ],
+        "isTeacherApproved": true,
+        "notes": "Standard Egyptian Ministry prep exam approved answer."
+      },
+      "2": {
+        "primary": "Why did you do that?",
+        "alternatives": [
+          "Why?",
+          "What was the reason?"
+        ],
+        "isTeacherApproved": true,
+        "notes": "Standard Egyptian Ministry prep exam approved answer."
+      },
+      "3": {
+        "primary": "Do you like it?",
+        "alternatives": [
+          "Can I help you?",
+          "Have you been there?"
+        ],
+        "isTeacherApproved": true,
+        "notes": "Standard Egyptian Ministry prep exam approved answer."
+      },
+      "4": {
+        "primary": "That is a great idea.",
+        "alternatives": [
+          "I agree with you.",
+          "I feel very proud of that."
+        ],
+        "isTeacherApproved": true,
+        "notes": "Standard Egyptian Ministry prep exam approved answer."
+      },
+      "5": {
+        "primary": "At the school library.",
+        "alternatives": [
+          "In Cairo.",
+          "To the club.",
+          "At home."
+        ],
+        "isTeacherApproved": true,
+        "notes": "Standard Egyptian Ministry prep exam approved answer."
+      }
+    },
+    "published": true
+  },
+  {
+    "id": "dlg_prep2_03",
+    "grade": "prep_2",
+    "gradeLabelAr": "الصف الثاني الإعدادي",
+    "gradeLabelEn": "Second Preparatory",
+    "dialogueNumber": 3,
+    "title": "Maher is asking his friend Es sam about his family.",
+    "governorate": null,
+    "governorateAr": null,
+    "year": 2023,
+    "speakers": [
+      "Maher",
+      "Essam"
+    ],
+    "lines": [
+      {
+        "speaker": "Maher",
+        "text": "Can I ask you some questions about your family?",
+        "gapNumber": null,
+        "isQuestion": true
+      },
+      {
+        "speaker": "Essam",
+        "text": "(1).................... .",
+        "gapNumber": 1,
+        "isQuestion": false,
+        "cue": "Response to Maher"
+      },
+      {
+        "speaker": "Maher",
+        "text": "(2).................... ....................?",
+        "gapNumber": 2,
+        "isQuestion": true,
+        "cue": "Question about Essam's answer"
+      },
+      {
+        "speaker": "Essam",
+        "text": "There are five people in my family.",
+        "gapNumber": null,
+        "isQuestion": false
+      },
+      {
+        "speaker": "Maher",
+        "text": "Who’s older, you or your brother?",
+        "gapNumber": null,
+        "isQuestion": true
+      },
+      {
+        "speaker": "Essam",
+        "text": "(3).................... .",
+        "gapNumber": 3,
+        "isQuestion": false,
+        "cue": "Response to Maher"
+      },
+      {
+        "speaker": "Maher",
+        "text": "(4).................... ....................?",
+        "gapNumber": 4,
+        "isQuestion": true,
+        "cue": "Question about Essam's answer"
+      },
+      {
+        "speaker": "Essam",
+        "text": "My father is a doctor.",
+        "gapNumber": null,
+        "isQuestion": false
+      },
+      {
+        "speaker": "Maher",
+        "text": "Does your mother work?",
+        "gapNumber": null,
+        "isQuestion": true
+      },
+      {
+        "speaker": "Essam",
+        "text": "(5).................... . She is a housewife",
+        "gapNumber": 5,
+        "isQuestion": false,
+        "cue": "Response to Maher"
+      }
+    ],
+    "approvedAnswers": {
+      "1": {
+        "primary": "Yes, of course.",
+        "alternatives": [
+          "Sure, you can.",
+          "Certainly.",
+          "Yes, please."
+        ],
+        "isTeacherApproved": true,
+        "notes": "Standard Egyptian Ministry prep exam approved answer."
+      },
+      "2": {
+        "primary": "What is your opinion?",
+        "alternatives": [
+          "What do you think?",
+          "Could you explain more?"
+        ],
+        "isTeacherApproved": true,
+        "notes": "Standard Egyptian Ministry prep exam approved answer."
+      },
+      "3": {
+        "primary": "That is a great idea.",
+        "alternatives": [
+          "I agree with you.",
+          "I feel very proud of that."
+        ],
+        "isTeacherApproved": true,
+        "notes": "Standard Egyptian Ministry prep exam approved answer."
+      },
+      "4": {
+        "primary": "Who is your role model?",
+        "alternatives": [
+          "Who did you go with?",
+          "Who wrote it?"
+        ],
+        "isTeacherApproved": true,
+        "notes": "Standard Egyptian Ministry prep exam approved answer."
+      },
+      "5": {
+        "primary": "That is a great idea.",
+        "alternatives": [
+          "I agree with you.",
+          "I feel very proud of that."
+        ],
+        "isTeacherApproved": true,
+        "notes": "Standard Egyptian Ministry prep exam approved answer."
+      }
+    },
+    "published": true
+  },
+  {
+    "id": "dlg_prep2_04",
+    "grade": "prep_2",
+    "gradeLabelAr": "الصف الثاني الإعدادي",
+    "gradeLabelEn": "Second Preparatory",
+    "dialogueNumber": 4,
+    "title": "Fady is asking Yassir about the computer he bought.",
+    "governorate": null,
+    "governorateAr": null,
+    "year": 2023,
+    "speakers": [
+      "Fady",
+      "Yassir"
+    ],
+    "lines": [
+      {
+        "speaker": "Fady",
+        "text": "Where were you yesterday ?",
+        "gapNumber": null,
+        "isQuestion": true
+      },
+      {
+        "speaker": "Yassir",
+        "text": "(1).................... .................... ....................",
+        "gapNumber": 1,
+        "isQuestion": false,
+        "cue": "Response to Fady"
+      },
+      {
+        "speaker": "Fady",
+        "text": "At the computer shop ! (2).................... .................... ....................? 2",
+        "gapNumber": 2,
+        "isQuestion": true,
+        "cue": "Question about Yassir's answer"
+      },
+      {
+        "speaker": "Yassir",
+        "text": "To buy a computer.",
+        "gapNumber": null,
+        "isQuestion": false
+      },
+      {
+        "speaker": "Fady",
+        "text": "(3).................... .................... .................... ....................?",
+        "gapNumber": 3,
+        "isQuestion": true,
+        "cue": "Question about Yassir's answer"
+      },
+      {
+        "speaker": "Yassir",
+        "text": "Yes, I use it very well.",
+        "gapNumber": null,
+        "isQuestion": false
+      },
+      {
+        "speaker": "Fady",
+        "text": "Who taught you how to use it ?",
+        "gapNumber": null,
+        "isQuestion": true
+      },
+      {
+        "speaker": "Yassir",
+        "text": "(4).................... .................... ....................",
+        "gapNumber": 4,
+        "isQuestion": false,
+        "cue": "Response to Fady"
+      },
+      {
+        "speaker": "Fady",
+        "text": "Can I use it when I visit you ?",
+        "gapNumber": null,
+        "isQuestion": true
+      },
+      {
+        "speaker": "Yassir",
+        "text": "(5).................... .................... .................... ....................",
+        "gapNumber": 5,
+        "isQuestion": false,
+        "cue": "Response to Fady"
+      }
+    ],
+    "approvedAnswers": {
+      "1": {
+        "primary": "At the school library.",
+        "alternatives": [
+          "In Cairo.",
+          "To the club.",
+          "At home."
+        ],
+        "isTeacherApproved": true,
+        "notes": "Standard Egyptian Ministry prep exam approved answer."
+      },
+      "2": {
+        "primary": "What is your opinion?",
+        "alternatives": [
+          "What do you think?",
+          "Could you explain more?"
+        ],
+        "isTeacherApproved": true,
+        "notes": "Standard Egyptian Ministry prep exam approved answer."
+      },
+      "3": {
+        "primary": "Do you like it?",
+        "alternatives": [
+          "Can I help you?",
+          "Have you been there?"
+        ],
+        "isTeacherApproved": true,
+        "notes": "Standard Egyptian Ministry prep exam approved answer."
+      },
+      "4": {
+        "primary": "That is a great idea.",
+        "alternatives": [
+          "I agree with you.",
+          "I feel very proud of that."
+        ],
+        "isTeacherApproved": true,
+        "notes": "Standard Egyptian Ministry prep exam approved answer."
+      },
+      "5": {
+        "primary": "At 8 o'clock.",
+        "alternatives": [
+          "At 9:00 am.",
+          "On Fridays.",
+          "Last week."
+        ],
+        "isTeacherApproved": true,
+        "notes": "Standard Egyptian Ministry prep exam approved answer."
+      }
+    },
+    "published": true
+  },
+  {
+    "id": "dlg_prep2_05",
+    "grade": "prep_2",
+    "gradeLabelAr": "الصف الثاني الإعدادي",
+    "gradeLabelEn": "Second Preparatory",
+    "dialogueNumber": 5,
+    "title": "Mona and Sarah are talking about their friend",
+    "governorate": null,
+    "governorateAr": null,
+    "year": 2023,
+    "speakers": [
+      "Sarah",
+      "Mona"
+    ],
+    "lines": [
+      {
+        "speaker": "Sarah",
+        "text": "Our friend Sama hasn't come to school since last week",
+        "gapNumber": null,
+        "isQuestion": false
+      },
+      {
+        "speaker": "Mona",
+        "text": " (1) .................... ....................",
+        "gapNumber": 1,
+        "isQuestion": false,
+        "cue": "Response to Sarah"
+      },
+      {
+        "speaker": "Sarah",
+        "text": "What a pity! (2).................... …… ?",
+        "gapNumber": 2,
+        "isQuestion": true,
+        "cue": "Question about Mona's answer"
+      },
+      {
+        "speaker": "Mona",
+        "text": "She had an accident last week.",
+        "gapNumber": null,
+        "isQuestion": false
+      },
+      {
+        "speaker": "Sarah",
+        "text": "....................(3).................... ?",
+        "gapNumber": 3,
+        "isQuestion": true,
+        "cue": "Question about Mona's answer"
+      },
+      {
+        "speaker": "Mona",
+        "text": "No, she is at home now.",
+        "gapNumber": null,
+        "isQuestion": false
+      },
+      {
+        "speaker": "Sarah",
+        "text": "Can I come with you to visit her?",
+        "gapNumber": null,
+        "isQuestion": true
+      },
+      {
+        "speaker": "Mona",
+        "text": " .(4)....................",
+        "gapNumber": 4,
+        "isQuestion": false,
+        "cue": "Response to Sarah"
+      },
+      {
+        "speaker": "Sarah",
+        "text": "When will we visit her?",
+        "gapNumber": null,
+        "isQuestion": true
+      },
+      {
+        "speaker": "Mona",
+        "text": " (5) .................... ....................",
+        "gapNumber": 5,
+        "isQuestion": false,
+        "cue": "Response to Sarah"
+      }
+    ],
+    "approvedAnswers": {
+      "1": {
+        "primary": "That is a great idea.",
+        "alternatives": [
+          "I agree with you.",
+          "I feel very proud of that."
+        ],
+        "isTeacherApproved": true,
+        "notes": "Standard Egyptian Ministry prep exam approved answer."
+      },
+      "2": {
+        "primary": "What is your opinion?",
+        "alternatives": [
+          "What do you think?",
+          "Could you explain more?"
+        ],
+        "isTeacherApproved": true,
+        "notes": "Standard Egyptian Ministry prep exam approved answer."
+      },
+      "3": {
+        "primary": "Where did you go?",
+        "alternatives": [
+          "Where do you usually go?",
+          "Where is it?"
+        ],
+        "isTeacherApproved": true,
+        "notes": "Standard Egyptian Ministry prep exam approved answer."
+      },
+      "4": {
+        "primary": "That is a great idea.",
+        "alternatives": [
+          "I agree with you.",
+          "I feel very proud of that."
+        ],
+        "isTeacherApproved": true,
+        "notes": "Standard Egyptian Ministry prep exam approved answer."
+      },
+      "5": {
+        "primary": "At 8 o'clock.",
+        "alternatives": [
+          "At 9:00 am.",
+          "On Fridays.",
+          "Last week."
+        ],
+        "isTeacherApproved": true,
+        "notes": "Standard Egyptian Ministry prep exam approved answer."
+      }
+    },
+    "published": true
+  },
+  {
+    "id": "dlg_prep2_06",
+    "grade": "prep_2",
+    "gradeLabelAr": "الصف الثاني الإعدادي",
+    "gradeLabelEn": "Second Preparatory",
+    "dialogueNumber": 6,
+    "title": "Nader Hi,Yasser! Are you coming to football practice on Thursday?",
+    "governorate": null,
+    "governorateAr": null,
+    "year": 2023,
+    "speakers": [
+      "Yasser",
+      "Nader"
+    ],
+    "lines": [
+      {
+        "speaker": "Yasser",
+        "text": "(1) .................... .................... ....................",
+        "gapNumber": 1,
+        "isQuestion": false,
+        "cue": "Gap 1"
+      },
+      {
+        "speaker": "Nader",
+        "text": "(2) .................... .................... ? Yasser Because my granddad is in hospital.",
+        "gapNumber": 2,
+        "isQuestion": true,
+        "cue": "Question about Nader's answer"
+      },
+      {
+        "speaker": "Nader",
+        "text": "(3) .................... .................... .",
+        "gapNumber": 3,
+        "isQuestion": false,
+        "cue": "Response to Nader"
+      },
+      {
+        "speaker": "Yasser",
+        "text": "That’s very kind of you.",
+        "gapNumber": null,
+        "isQuestion": false
+      },
+      {
+        "speaker": "Nader",
+        "text": "(4) .................... .................... .................... .................... ?",
+        "gapNumber": 4,
+        "isQuestion": true,
+        "cue": "Question about Yasser's answer"
+      },
+      {
+        "speaker": "Yasser",
+        "text": "No. I don’t n eed any help.",
+        "gapNumber": null,
+        "isQuestion": false
+      },
+      {
+        "speaker": "Nader",
+        "text": "I hope your granddad gets better soon.",
+        "gapNumber": null,
+        "isQuestion": false
+      },
+      {
+        "speaker": "Yasser",
+        "text": "(5) .................... ....................",
+        "gapNumber": 5,
+        "isQuestion": false,
+        "cue": "Response to Nader"
+      }
+    ],
+    "approvedAnswers": {
+      "1": {
+        "primary": "That is a great idea.",
+        "alternatives": [
+          "I agree with you.",
+          "I feel very proud of that."
+        ],
+        "isTeacherApproved": true,
+        "notes": "Standard Egyptian Ministry prep exam approved answer."
+      },
+      "2": {
+        "primary": "What is your opinion?",
+        "alternatives": [
+          "What do you think?",
+          "Could you explain more?"
+        ],
+        "isTeacherApproved": true,
+        "notes": "Standard Egyptian Ministry prep exam approved answer."
+      },
+      "3": {
+        "primary": "That is a great idea.",
+        "alternatives": [
+          "I agree with you.",
+          "I feel very proud of that."
+        ],
+        "isTeacherApproved": true,
+        "notes": "Standard Egyptian Ministry prep exam approved answer."
+      },
+      "4": {
+        "primary": "Is it far from here?",
+        "alternatives": [
+          "Did you enjoy it?",
+          "Do you need help?"
+        ],
+        "isTeacherApproved": true,
+        "notes": "Standard Egyptian Ministry prep exam approved answer."
+      },
+      "5": {
+        "primary": "That is a great idea.",
+        "alternatives": [
+          "I agree with you.",
+          "I feel very proud of that."
+        ],
+        "isTeacherApproved": true,
+        "notes": "Standard Egyptian Ministry prep exam approved answer."
+      }
+    },
+    "published": true
+  },
+  {
+    "id": "dlg_prep2_07",
+    "grade": "prep_2",
+    "gradeLabelAr": "الصف الثاني الإعدادي",
+    "gradeLabelEn": "Second Preparatory",
+    "dialogueNumber": 7,
+    "title": "Mona meets Sahar in the afternoon.",
+    "governorate": null,
+    "governorateAr": null,
+    "year": 2023,
+    "speakers": [
+      "Mona",
+      "Sahar"
+    ],
+    "lines": [
+      {
+        "speaker": "Mona",
+        "text": "Good afternoon, Sah ar.",
+        "gapNumber": null,
+        "isQuestion": false
+      },
+      {
+        "speaker": "Sahar",
+        "text": "Good afternoon, Mona.",
+        "gapNumber": null,
+        "isQuestion": false
+      },
+      {
+        "speaker": "Mona",
+        "text": "(1) ---------------------------------------------------------------------------------- ?",
+        "gapNumber": 1,
+        "isQuestion": true,
+        "cue": "Question about Sahar's answer"
+      },
+      {
+        "speaker": "Sahar",
+        "text": "I'm going to the airport this evening.",
+        "gapNumber": null,
+        "isQuestion": false
+      },
+      {
+        "speaker": "Mona",
+        "text": "(2) --------------------------------------------------------------------- ------------ ?",
+        "gapNumber": 2,
+        "isQuestion": true,
+        "cue": "Question about Sahar's answer"
+      },
+      {
+        "speaker": "Sahar",
+        "text": "(3) ----------------------------------------- . He's coming from Kuwait.",
+        "gapNumber": 3,
+        "isQuestion": false,
+        "cue": "Response to Mona"
+      },
+      {
+        "speaker": "Mona",
+        "text": "When will his plane arrive ?",
+        "gapNumber": null,
+        "isQuestion": true
+      },
+      {
+        "speaker": "Sahar",
+        "text": "(4) ---------------------------------------------------------------------------------- .",
+        "gapNumber": 4,
+        "isQuestion": false,
+        "cue": "Response to Mona"
+      },
+      {
+        "speaker": "Mona",
+        "text": "I hope he arrives saf ely. 3",
+        "gapNumber": null,
+        "isQuestion": false
+      },
+      {
+        "speaker": "Sahar",
+        "text": "Thanks, Mona. (5) --------------------------------------------------------------",
+        "gapNumber": 5,
+        "isQuestion": false,
+        "cue": "Response to Mona"
+      }
+    ],
+    "approvedAnswers": {
+      "1": {
+        "primary": "What is your opinion?",
+        "alternatives": [
+          "What do you think?",
+          "Could you explain more?"
+        ],
+        "isTeacherApproved": true,
+        "notes": "Standard Egyptian Ministry prep exam approved answer."
+      },
+      "2": {
+        "primary": "What is your opinion?",
+        "alternatives": [
+          "What do you think?",
+          "Could you explain more?"
+        ],
+        "isTeacherApproved": true,
+        "notes": "Standard Egyptian Ministry prep exam approved answer."
+      },
+      "3": {
+        "primary": "That is a great idea.",
+        "alternatives": [
+          "I agree with you.",
+          "I feel very proud of that."
+        ],
+        "isTeacherApproved": true,
+        "notes": "Standard Egyptian Ministry prep exam approved answer."
+      },
+      "4": {
+        "primary": "At 8 o'clock.",
+        "alternatives": [
+          "At 9:00 am.",
+          "On Fridays.",
+          "Last week."
+        ],
+        "isTeacherApproved": true,
+        "notes": "Standard Egyptian Ministry prep exam approved answer."
+      },
+      "5": {
+        "primary": "That is a great idea.",
+        "alternatives": [
+          "I agree with you.",
+          "I feel very proud of that."
+        ],
+        "isTeacherApproved": true,
+        "notes": "Standard Egyptian Ministry prep exam approved answer."
+      }
+    },
+    "published": true
+  },
+  {
+    "id": "dlg_prep2_08",
+    "grade": "prep_2",
+    "gradeLabelAr": "الصف الثاني الإعدادي",
+    "gradeLabelEn": "Second Preparatory",
+    "dialogueNumber": 8,
+    "title": "Nada is asking Ola about what she is interested in.",
+    "governorate": null,
+    "governorateAr": null,
+    "year": 2023,
+    "speakers": [
+      "Nada",
+      "OIa",
+      "Ola"
+    ],
+    "lines": [
+      {
+        "speaker": "Nada",
+        "text": "What’s your favorite hobby, Ola?",
+        "gapNumber": null,
+        "isQuestion": true
+      },
+      {
+        "speaker": "OIa",
+        "text": "(1).................... .................... .",
+        "gapNumber": 1,
+        "isQuestion": false,
+        "cue": "Response to Nada"
+      },
+      {
+        "speaker": "Nada",
+        "text": "(2)....................?",
+        "gapNumber": 2,
+        "isQuestion": true,
+        "cue": "Question about Ola's answer"
+      },
+      {
+        "speaker": "Ola",
+        "text": "I enjoy reading at the library.",
+        "gapNumber": null,
+        "isQuestion": false
+      },
+      {
+        "speaker": "Nada",
+        "text": "(2).................... ....................?",
+        "gapNumber": 2,
+        "isQuestion": true
+      },
+      {
+        "speaker": "Ola",
+        "text": "This book is about the history of Egypt.",
+        "gapNumber": null,
+        "isQuestion": false
+      },
+      {
+        "speaker": "Nada",
+        "text": "Do you like library?",
+        "gapNumber": null,
+        "isQuestion": true
+      },
+      {
+        "speaker": "Ola",
+        "text": "(4).................... .",
+        "gapNumber": 4,
+        "isQuestion": false,
+        "cue": "Response to Nada"
+      },
+      {
+        "speaker": "Nada",
+        "text": "Can I borrow this book, please?",
+        "gapNumber": null,
+        "isQuestion": true
+      },
+      {
+        "speaker": "Ola",
+        "text": "(5).................... .................... .",
+        "gapNumber": 5,
+        "isQuestion": false,
+        "cue": "Response to Nada"
+      }
+    ],
+    "approvedAnswers": {
+      "1": {
+        "primary": "That is a great idea.",
+        "alternatives": [
+          "I agree with you.",
+          "I feel very proud of that."
+        ],
+        "isTeacherApproved": true,
+        "notes": "Standard Egyptian Ministry prep exam approved answer."
+      },
+      "2": {
+        "primary": "What is your opinion?",
+        "alternatives": [
+          "What do you think?",
+          "Could you explain more?"
+        ],
+        "isTeacherApproved": true,
+        "notes": "Standard Egyptian Ministry prep exam approved answer."
+      },
+      "3": {
+        "primary": "That is a great idea.",
+        "alternatives": [
+          "I agree with you.",
+          "I feel very proud of that."
+        ],
+        "isTeacherApproved": true,
+        "notes": "Standard Egyptian Ministry prep exam approved answer."
+      },
+      "4": {
+        "primary": "Yes, I do.",
+        "alternatives": [
+          "Yes, I did.",
+          "Yes, I have.",
+          "Of course."
+        ],
+        "isTeacherApproved": true,
+        "notes": "Standard Egyptian Ministry prep exam approved answer."
+      },
+      "5": {
+        "primary": "That is a great idea.",
+        "alternatives": [
+          "I agree with you.",
+          "I feel very proud of that."
+        ],
+        "isTeacherApproved": true,
+        "notes": "Standard Egyptian Ministry prep exam approved answer."
+      }
+    },
+    "published": true
+  },
+  {
+    "id": "dlg_prep2_09",
+    "grade": "prep_2",
+    "gradeLabelAr": "الصف الثاني الإعدادي",
+    "gradeLabelEn": "Second Preparatory",
+    "dialogueNumber": 9,
+    "title": "Ayman asks Ashraf about the importance of rubbish collectors.",
+    "governorate": null,
+    "governorateAr": null,
+    "year": 2023,
+    "speakers": [
+      "Ayman",
+      "Ashraf"
+    ],
+    "lines": [
+      {
+        "speaker": "Ayman",
+        "text": "What do you think of rubbish collectors ?",
+        "gapNumber": null,
+        "isQuestion": true
+      },
+      {
+        "speaker": "Ashraf",
+        "text": "(1) .................... .",
+        "gapNumber": 1,
+        "isQuestion": false,
+        "cue": "Response to Ayman"
+      },
+      {
+        "speaker": "Ayman",
+        "text": "Heroes ! (2) .................... ?",
+        "gapNumber": 2,
+        "isQuestion": true,
+        "cue": "Question about Ashraf's answer"
+      },
+      {
+        "speaker": "Ashraf",
+        "text": "Because they do something very usefu l.",
+        "gapNumber": null,
+        "isQuestion": false
+      },
+      {
+        "speaker": "Ayman",
+        "text": "What do they do ?",
+        "gapNumber": null,
+        "isQuestion": true
+      },
+      {
+        "speaker": "Ashraf",
+        "text": "(3).................... .",
+        "gapNumber": 3,
+        "isQuestion": false,
+        "cue": "Response to Ayman"
+      },
+      {
+        "speaker": "Ayman",
+        "text": "Are street cleaners important ?",
+        "gapNumber": null,
+        "isQuestion": true
+      },
+      {
+        "speaker": "Ashraf",
+        "text": "(4) .................... .",
+        "gapNumber": 4,
+        "isQuestion": false,
+        "cue": "Response to Ayman"
+      },
+      {
+        "speaker": "Ayman",
+        "text": "What should we do to help them ?",
+        "gapNumber": null,
+        "isQuestion": true
+      },
+      {
+        "speaker": "Ashraf",
+        "text": "(5).................... . 1",
+        "gapNumber": 5,
+        "isQuestion": false,
+        "cue": "Response to Ayman"
+      }
+    ],
+    "approvedAnswers": {
+      "1": {
+        "primary": "Yes, I do.",
+        "alternatives": [
+          "Yes, I did.",
+          "Yes, I have.",
+          "Of course."
+        ],
+        "isTeacherApproved": true,
+        "notes": "Standard Egyptian Ministry prep exam approved answer."
+      },
+      "2": {
+        "primary": "Why did you do that?",
+        "alternatives": [
+          "Why?",
+          "What was the reason?"
+        ],
+        "isTeacherApproved": true,
+        "notes": "Standard Egyptian Ministry prep exam approved answer."
+      },
+      "3": {
+        "primary": "That is a great idea.",
+        "alternatives": [
+          "I agree with you.",
+          "I feel very proud of that."
+        ],
+        "isTeacherApproved": true,
+        "notes": "Standard Egyptian Ministry prep exam approved answer."
+      },
+      "4": {
+        "primary": "That is a great idea.",
+        "alternatives": [
+          "I agree with you.",
+          "I feel very proud of that."
+        ],
+        "isTeacherApproved": true,
+        "notes": "Standard Egyptian Ministry prep exam approved answer."
+      },
+      "5": {
+        "primary": "That is a great idea.",
+        "alternatives": [
+          "I agree with you.",
+          "I feel very proud of that."
+        ],
+        "isTeacherApproved": true,
+        "notes": "Standard Egyptian Ministry prep exam approved answer."
+      }
+    },
+    "published": true
+  },
+  {
+    "id": "dlg_prep2_10",
+    "grade": "prep_2",
+    "gradeLabelAr": "الصف الثاني الإعدادي",
+    "gradeLabelEn": "Second Preparatory",
+    "dialogueNumber": 10,
+    "title": "Prep 2 Dialogue 10",
+    "governorate": null,
+    "governorateAr": null,
+    "year": 2023,
+    "speakers": [
+      "Ashraf",
+      "Ayman"
+    ],
+    "lines": [
+      {
+        "speaker": "Ashraf",
+        "text": "Who is your hero, Ayman ?",
+        "gapNumber": null,
+        "isQuestion": true
+      },
+      {
+        "speaker": "Ayman",
+        "text": "(1).................... ....................",
+        "gapNumber": 1,
+        "isQuestion": false,
+        "cue": "Response to Ashraf"
+      },
+      {
+        "speaker": "Ashraf",
+        "text": "What was your great - grandfather s job . Ayman . (2).. ....................",
+        "gapNumber": 2,
+        "isQuestion": false,
+        "cue": "Response to Ayman"
+      },
+      {
+        "speaker": "Ashraf",
+        "text": "Great ! Where did he worked? Ayman He worked in a big hospital in Ca iro.",
+        "gapNumber": null,
+        "isQuestion": true
+      },
+      {
+        "speaker": "Ashraf",
+        "text": "(3)....................? Ayman No, he wasn't a surgeon. He was a dentist.",
+        "gapNumber": 3,
+        "isQuestion": true,
+        "cue": "Question about Ashraf's answer"
+      },
+      {
+        "speaker": "Ashraf",
+        "text": "(4)....................? Ayman He used to be a volunteer for the Red Crescent.",
+        "gapNumber": 4,
+        "isQuestion": true,
+        "cue": "Question about Ashraf's answer"
+      },
+      {
+        "speaker": "Ashraf",
+        "text": "Are you proud of him ?",
+        "gapNumber": null,
+        "isQuestion": true
+      },
+      {
+        "speaker": "Ayman",
+        "text": "(5).................... .................... 4 1",
+        "gapNumber": 5,
+        "isQuestion": false,
+        "cue": "Response to Ashraf"
+      }
+    ],
+    "approvedAnswers": {
+      "1": {
+        "primary": "That is a great idea.",
+        "alternatives": [
+          "I agree with you.",
+          "I feel very proud of that."
+        ],
+        "isTeacherApproved": true,
+        "notes": "Standard Egyptian Ministry prep exam approved answer."
+      },
+      "2": {
+        "primary": "That is a great idea.",
+        "alternatives": [
+          "I agree with you.",
+          "I feel very proud of that."
+        ],
+        "isTeacherApproved": true,
+        "notes": "Standard Egyptian Ministry prep exam approved answer."
+      },
+      "3": {
+        "primary": "Why did you do that?",
+        "alternatives": [
+          "Why?",
+          "What was the reason?"
+        ],
+        "isTeacherApproved": true,
+        "notes": "Standard Egyptian Ministry prep exam approved answer."
+      },
+      "4": {
+        "primary": "What is your opinion?",
+        "alternatives": [
+          "What do you think?",
+          "Could you explain more?"
+        ],
+        "isTeacherApproved": true,
+        "notes": "Standard Egyptian Ministry prep exam approved answer."
+      },
+      "5": {
+        "primary": "That is a great idea.",
+        "alternatives": [
+          "I agree with you.",
+          "I feel very proud of that."
+        ],
+        "isTeacherApproved": true,
+        "notes": "Standard Egyptian Ministry prep exam approved answer."
+      }
+    },
+    "published": true
+  },
+  {
+    "id": "dlg_prep2_11",
+    "grade": "prep_2",
+    "gradeLabelAr": "الصف الثاني الإعدادي",
+    "gradeLabelEn": "Second Preparatory",
+    "dialogueNumber": 11,
+    "title": "Rana is telling Rawan what she did last weekend.",
+    "governorate": null,
+    "governorateAr": null,
+    "year": 2023,
+    "speakers": [
+      "Rawan",
+      "Rana"
+    ],
+    "lines": [
+      {
+        "speaker": "Rawan",
+        "text": "What did you do last weekend?",
+        "gapNumber": null,
+        "isQuestion": true
+      },
+      {
+        "speaker": "Rana",
+        "text": "(1)....................",
+        "gapNumber": 1,
+        "isQuestion": false,
+        "cue": "Response to Rawan"
+      },
+      {
+        "speaker": "Rawan",
+        "text": "Does your brother love video games?",
+        "gapNumber": null,
+        "isQuestion": true
+      },
+      {
+        "speaker": "Rana",
+        "text": "(2)....................",
+        "gapNumber": 2,
+        "isQuestion": false,
+        "cue": "Response to Rawan"
+      },
+      {
+        "speaker": "Rawan",
+        "text": "(3)....................?",
+        "gapNumber": 3,
+        "isQuestion": true,
+        "cue": "Question about Rana's answer"
+      },
+      {
+        "speaker": "Rana",
+        "text": "We play them at home.",
+        "gapNumber": null,
+        "isQuestion": false
+      },
+      {
+        "speaker": "Rawan",
+        "text": "Do you enjoy playing video games?",
+        "gapNumber": null,
+        "isQuestion": true
+      },
+      {
+        "speaker": "Rana",
+        "text": "(4)....................",
+        "gapNumber": 4,
+        "isQuestion": false,
+        "cue": "Response to Rawan"
+      },
+      {
+        "speaker": "Rawan",
+        "text": "(5)....................?",
+        "gapNumber": 5,
+        "isQuestion": true,
+        "cue": "Question about Rana's answer"
+      },
+      {
+        "speaker": "Rana",
+        "text": "Sure. We’ll be happy to join us 1",
+        "gapNumber": null,
+        "isQuestion": false
+      }
+    ],
+    "approvedAnswers": {
+      "1": {
+        "primary": "Yes, I do.",
+        "alternatives": [
+          "Yes, I did.",
+          "Yes, I have.",
+          "Of course."
+        ],
+        "isTeacherApproved": true,
+        "notes": "Standard Egyptian Ministry prep exam approved answer."
+      },
+      "2": {
+        "primary": "That is a great idea.",
+        "alternatives": [
+          "I agree with you.",
+          "I feel very proud of that."
+        ],
+        "isTeacherApproved": true,
+        "notes": "Standard Egyptian Ministry prep exam approved answer."
+      },
+      "3": {
+        "primary": "Where did you go?",
+        "alternatives": [
+          "Where do you usually go?",
+          "Where is it?"
+        ],
+        "isTeacherApproved": true,
+        "notes": "Standard Egyptian Ministry prep exam approved answer."
+      },
+      "4": {
+        "primary": "Yes, I do.",
+        "alternatives": [
+          "Yes, I did.",
+          "Yes, I have.",
+          "Of course."
+        ],
+        "isTeacherApproved": true,
+        "notes": "Standard Egyptian Ministry prep exam approved answer."
+      },
+      "5": {
+        "primary": "What is your opinion?",
+        "alternatives": [
+          "What do you think?",
+          "Could you explain more?"
+        ],
+        "isTeacherApproved": true,
+        "notes": "Standard Egyptian Ministry prep exam approved answer."
+      }
+    },
+    "published": true
+  },
+  {
+    "id": "dlg_prep2_12",
+    "grade": "prep_2",
+    "gradeLabelAr": "الصف الثاني الإعدادي",
+    "gradeLabelEn": "Second Preparatory",
+    "dialogueNumber": 12,
+    "title": "Prep 2 Dialogue 12",
+    "governorate": null,
+    "governorateAr": null,
+    "year": 2023,
+    "speakers": [
+      "Tourist",
+      "Sama"
+    ],
+    "lines": [
+      {
+        "speaker": "Tourist",
+        "text": "Excuse me. Can l ask you some questions ?",
+        "gapNumber": null,
+        "isQuestion": true
+      },
+      {
+        "speaker": "Sama",
+        "text": "(1).................... .................... .................... Touris",
+        "gapNumber": 1,
+        "isQuestion": false,
+        "cue": "Response to Tourist"
+      },
+      {
+        "speaker": "Tourist",
+        "text": "(2)....................? Sama The Pyramids are in Giza.",
+        "gapNumber": 2,
+        "isQuestion": true,
+        "cue": "Question about Tourist's answer"
+      },
+      {
+        "speaker": "Tourist",
+        "text": "Are they far from here ?",
+        "gapNumber": null,
+        "isQuestion": true
+      },
+      {
+        "speaker": "Sama",
+        "text": "(3).................... .................... ....................",
+        "gapNumber": 3,
+        "isQuestion": false,
+        "cue": "Response to Tourist"
+      },
+      {
+        "speaker": "Tourist",
+        "text": "How can I go there ?",
+        "gapNumber": null,
+        "isQuestion": true
+      },
+      {
+        "speaker": "Sama",
+        "text": "(4).................... .................... .................... ....................",
+        "gapNumber": 4,
+        "isQuestion": false,
+        "cue": "Response to Tourist"
+      },
+      {
+        "speaker": "Tourist",
+        "text": "(5)....................? Sama The Ancient Egyptians built them. 1",
+        "gapNumber": 5,
+        "isQuestion": true,
+        "cue": "Response to Sama"
+      }
+    ],
+    "approvedAnswers": {
+      "1": {
+        "primary": "That is a great idea.",
+        "alternatives": [
+          "I agree with you.",
+          "I feel very proud of that."
+        ],
+        "isTeacherApproved": true,
+        "notes": "Standard Egyptian Ministry prep exam approved answer."
+      },
+      "2": {
+        "primary": "What is your opinion?",
+        "alternatives": [
+          "What do you think?",
+          "Could you explain more?"
+        ],
+        "isTeacherApproved": true,
+        "notes": "Standard Egyptian Ministry prep exam approved answer."
+      },
+      "3": {
+        "primary": "That is a great idea.",
+        "alternatives": [
+          "I agree with you.",
+          "I feel very proud of that."
+        ],
+        "isTeacherApproved": true,
+        "notes": "Standard Egyptian Ministry prep exam approved answer."
+      },
+      "4": {
+        "primary": "That is a great idea.",
+        "alternatives": [
+          "I agree with you.",
+          "I feel very proud of that."
+        ],
+        "isTeacherApproved": true,
+        "notes": "Standard Egyptian Ministry prep exam approved answer."
+      },
+      "5": {
+        "primary": "What is your opinion?",
+        "alternatives": [
+          "What do you think?",
+          "Could you explain more?"
+        ],
+        "isTeacherApproved": true,
+        "notes": "Standard Egyptian Ministry prep exam approved answer."
+      }
+    },
+    "published": true
+  },
+  {
+    "id": "dlg_prep2_13",
+    "grade": "prep_2",
+    "gradeLabelAr": "الصف الثاني الإعدادي",
+    "gradeLabelEn": "Second Preparatory",
+    "dialogueNumber": 13,
+    "title": "Prep 2 Dialogue 13",
+    "governorate": null,
+    "governorateAr": null,
+    "year": 2023,
+    "speakers": [
+      "Receptionist",
+      "Mona"
+    ],
+    "lines": [
+      {
+        "speaker": "Receptionist",
+        "text": "Good morning. Museum of History.",
+        "gapNumber": null,
+        "isQuestion": false
+      },
+      {
+        "speaker": "Mona",
+        "text": "Good morning, (1).................... .................... .................... ?",
+        "gapNumber": 1,
+        "isQuestion": true,
+        "cue": "Question about Receptionist's answer"
+      },
+      {
+        "speaker": "Receptionist",
+        "text": "We are op en from 9.00 am to 600 p.m. Mona (2).................... .................... ....................?",
+        "gapNumber": 2,
+        "isQuestion": true,
+        "cue": "Question about Receptionist's answer"
+      },
+      {
+        "speaker": "Receptionist",
+        "text": "No, we are open daily except Friday.",
+        "gapNumber": null,
+        "isQuestion": false
+      },
+      {
+        "speaker": "Mona",
+        "text": " Can I buy the tickets online for the museum ?",
+        "gapNumber": null,
+        "isQuestion": true
+      },
+      {
+        "speaker": "Receptionist",
+        "text": "(3)....................",
+        "gapNumber": 3,
+        "isQuestion": false,
+        "cue": "Response to Mona"
+      },
+      {
+        "speaker": "Mona",
+        "text": " (4) .................... .................... .................... ?",
+        "gapNumber": 4,
+        "isQuestion": true,
+        "cue": "Question about Receptionist's answer"
+      },
+      {
+        "speaker": "Receptionist",
+        "text": "A ticket costs 20 pounds for a person.",
+        "gapNumber": null,
+        "isQuestion": false
+      },
+      {
+        "speaker": "Mona",
+        "text": "Can I get my children with me ?",
+        "gapNumber": null,
+        "isQuestion": true
+      },
+      {
+        "speaker": "Receptionist",
+        "text": "sure , you’re welcome.",
+        "gapNumber": null,
+        "isQuestion": false
+      },
+      {
+        "speaker": "Mona",
+        "text": "(5).................... .................... .................... .................... .................... 1",
+        "gapNumber": 5,
+        "isQuestion": false,
+        "cue": "Response to Receptionist"
+      }
+    ],
+    "approvedAnswers": {
+      "1": {
+        "primary": "What is your opinion?",
+        "alternatives": [
+          "What do you think?",
+          "Could you explain more?"
+        ],
+        "isTeacherApproved": true,
+        "notes": "Standard Egyptian Ministry prep exam approved answer."
+      },
+      "2": {
+        "primary": "Is it far from here?",
+        "alternatives": [
+          "Did you enjoy it?",
+          "Do you need help?"
+        ],
+        "isTeacherApproved": true,
+        "notes": "Standard Egyptian Ministry prep exam approved answer."
+      },
+      "3": {
+        "primary": "That is a great idea.",
+        "alternatives": [
+          "I agree with you.",
+          "I feel very proud of that."
+        ],
+        "isTeacherApproved": true,
+        "notes": "Standard Egyptian Ministry prep exam approved answer."
+      },
+      "4": {
+        "primary": "Why did you do that?",
+        "alternatives": [
+          "Why?",
+          "What was the reason?"
+        ],
+        "isTeacherApproved": true,
+        "notes": "Standard Egyptian Ministry prep exam approved answer."
+      },
+      "5": {
+        "primary": "That is a great idea.",
+        "alternatives": [
+          "I agree with you.",
+          "I feel very proud of that."
+        ],
+        "isTeacherApproved": true,
+        "notes": "Standard Egyptian Ministry prep exam approved answer."
+      }
+    },
+    "published": true
+  },
+  {
+    "id": "dlg_prep2_14",
+    "grade": "prep_2",
+    "gradeLabelAr": "الصف الثاني الإعدادي",
+    "gradeLabelEn": "Second Preparatory",
+    "dialogueNumber": 14,
+    "title": "Hala is asking Nora about her holiday.",
+    "governorate": null,
+    "governorateAr": null,
+    "year": 2023,
+    "speakers": [
+      "Hala",
+      "Nora"
+    ],
+    "lines": [
+      {
+        "speaker": "Hala",
+        "text": " Where did you go on holiday last year?",
+        "gapNumber": null,
+        "isQuestion": true
+      },
+      {
+        "speaker": "Nora",
+        "text": "(1).................... .",
+        "gapNumber": 1,
+        "isQuestion": false,
+        "cue": "Response to Hala"
+      },
+      {
+        "speaker": "Hala",
+        "text": "(2)....................?",
+        "gapNumber": 2,
+        "isQuestion": true,
+        "cue": "Question about Nora's answer"
+      },
+      {
+        "speaker": "Nora",
+        "text": "I stayed in my uncle’s flat. 5",
+        "gapNumber": null,
+        "isQuestion": false
+      },
+      {
+        "speaker": "Hala",
+        "text": "How did you tra vel to Alexandria?",
+        "gapNumber": null,
+        "isQuestion": true
+      },
+      {
+        "speaker": "Nora",
+        "text": "(3).................... .",
+        "gapNumber": 3,
+        "isQuestion": false,
+        "cue": "Response to Hala"
+      },
+      {
+        "speaker": "Hala",
+        "text": "(4)....................?",
+        "gapNumber": 4,
+        "isQuestion": true,
+        "cue": "Question about Nora's answer"
+      },
+      {
+        "speaker": "Nora",
+        "text": "Yes, I swam in the sea.",
+        "gapNumber": null,
+        "isQuestion": false
+      },
+      {
+        "speaker": "Hala",
+        "text": "What did you eat there?",
+        "gapNumber": null,
+        "isQuestion": true
+      },
+      {
+        "speaker": "Nora",
+        "text": "(5).................... .................... . 1",
+        "gapNumber": 5,
+        "isQuestion": false,
+        "cue": "Response to Hala"
+      }
+    ],
+    "approvedAnswers": {
+      "1": {
+        "primary": "At the school library.",
+        "alternatives": [
+          "In Cairo.",
+          "To the club.",
+          "At home."
+        ],
+        "isTeacherApproved": true,
+        "notes": "Standard Egyptian Ministry prep exam approved answer."
+      },
+      "2": {
+        "primary": "What is your opinion?",
+        "alternatives": [
+          "What do you think?",
+          "Could you explain more?"
+        ],
+        "isTeacherApproved": true,
+        "notes": "Standard Egyptian Ministry prep exam approved answer."
+      },
+      "3": {
+        "primary": "Yes, I do.",
+        "alternatives": [
+          "Yes, I did.",
+          "Yes, I have.",
+          "Of course."
+        ],
+        "isTeacherApproved": true,
+        "notes": "Standard Egyptian Ministry prep exam approved answer."
+      },
+      "4": {
+        "primary": "Do you like it?",
+        "alternatives": [
+          "Can I help you?",
+          "Have you been there?"
+        ],
+        "isTeacherApproved": true,
+        "notes": "Standard Egyptian Ministry prep exam approved answer."
+      },
+      "5": {
+        "primary": "Yes, I do.",
+        "alternatives": [
+          "Yes, I did.",
+          "Yes, I have.",
+          "Of course."
+        ],
+        "isTeacherApproved": true,
+        "notes": "Standard Egyptian Ministry prep exam approved answer."
+      }
+    },
+    "published": true
+  },
+  {
+    "id": "dlg_prep2_15",
+    "grade": "prep_2",
+    "gradeLabelAr": "الصف الثاني الإعدادي",
+    "gradeLabelEn": "Second Preparatory",
+    "dialogueNumber": 15,
+    "title": "Aya is talking with Sama who bought a new mobile.",
+    "governorate": null,
+    "governorateAr": null,
+    "year": 2023,
+    "speakers": [
+      "Aya",
+      "Sama"
+    ],
+    "lines": [
+      {
+        "speaker": "Aya",
+        "text": "Hello, Sama. How are you?",
+        "gapNumber": null,
+        "isQuestion": true
+      },
+      {
+        "speaker": "Sama",
+        "text": " (1).................... . I bought a new mobile phone.",
+        "gapNumber": 1,
+        "isQuestion": false,
+        "cue": "Response to Aya"
+      },
+      {
+        "speaker": "Aya",
+        "text": "Congratulations! (2) .................... ?",
+        "gapNumber": 2,
+        "isQuestion": true,
+        "cue": "Question about Sama's answer"
+      },
+      {
+        "speaker": "Sama",
+        "text": "I bought it yesterday.",
+        "gapNumber": null,
+        "isQuestion": false
+      },
+      {
+        "speaker": "Aya",
+        "text": " (3).................... .................... ?",
+        "gapNumber": 3,
+        "isQuestion": true,
+        "cue": "Question about Sama's answer"
+      },
+      {
+        "speaker": "Sama",
+        "text": "I bought it for 3000 LE.",
+        "gapNumber": null,
+        "isQuestion": false
+      },
+      {
+        "speaker": "Aya",
+        "text": "Where did you buy it ?",
+        "gapNumber": null,
+        "isQuestion": true
+      },
+      {
+        "speaker": "Sama",
+        "text": " (4) .................... .",
+        "gapNumber": 4,
+        "isQuestion": false,
+        "cue": "Response to Aya"
+      },
+      {
+        "speaker": "Aya",
+        "text": "Can you come with me to buy a new mobile phone?",
+        "gapNumber": null,
+        "isQuestion": true
+      },
+      {
+        "speaker": "Sama",
+        "text": " (5) .................... . 1",
+        "gapNumber": 5,
+        "isQuestion": false,
+        "cue": "Response to Aya"
+      }
+    ],
+    "approvedAnswers": {
+      "1": {
+        "primary": "Fine, thank you.",
+        "alternatives": [
+          "I'm fine, thanks.",
+          "Very well, thank you."
+        ],
+        "isTeacherApproved": true,
+        "notes": "Standard Egyptian Ministry prep exam approved answer."
+      },
+      "2": {
+        "primary": "When does it start?",
+        "alternatives": [
+          "What time does it start?",
+          "When did it happen?"
+        ],
+        "isTeacherApproved": true,
+        "notes": "Standard Egyptian Ministry prep exam approved answer."
+      },
+      "3": {
+        "primary": "Why did you do that?",
+        "alternatives": [
+          "Why?",
+          "What was the reason?"
+        ],
+        "isTeacherApproved": true,
+        "notes": "Standard Egyptian Ministry prep exam approved answer."
+      },
+      "4": {
+        "primary": "At the school library.",
+        "alternatives": [
+          "In Cairo.",
+          "To the club.",
+          "At home."
+        ],
+        "isTeacherApproved": true,
+        "notes": "Standard Egyptian Ministry prep exam approved answer."
+      },
+      "5": {
+        "primary": "That is a great idea.",
+        "alternatives": [
+          "I agree with you.",
+          "I feel very proud of that."
+        ],
+        "isTeacherApproved": true,
+        "notes": "Standard Egyptian Ministry prep exam approved answer."
+      }
+    },
+    "published": true
+  },
+  {
+    "id": "dlg_prep2_16",
+    "grade": "prep_2",
+    "gradeLabelAr": "الصف الثاني الإعدادي",
+    "gradeLabelEn": "Second Preparatory",
+    "dialogueNumber": 16,
+    "title": "Yasser ser and Ali are talking about tourism.",
+    "governorate": null,
+    "governorateAr": null,
+    "year": 2023,
+    "speakers": [
+      "Yasser",
+      "Ali"
+    ],
+    "lines": [
+      {
+        "speaker": "Yasser",
+        "text": "Do you think that tourism is good for Egypt ?",
+        "gapNumber": null,
+        "isQuestion": true
+      },
+      {
+        "speaker": "Ali",
+        "text": "(1)....................",
+        "gapNumber": 1,
+        "isQuestion": false,
+        "cue": "Response to Yasser"
+      },
+      {
+        "speaker": "Yasser",
+        "text": "Why do you think so ?",
+        "gapNumber": null,
+        "isQuestion": true
+      },
+      {
+        "speaker": "Ali",
+        "text": "(2)....................",
+        "gapNumber": 2,
+        "isQuestion": false,
+        "cue": "Response to Yasser"
+      },
+      {
+        "speaker": "Yasser",
+        "text": "(3) .................... ? Al",
+        "gapNumber": 3,
+        "isQuestion": true,
+        "cue": "Question about Ali's answer"
+      },
+      {
+        "speaker": "Ali",
+        "text": "Yes, it helps the local people in some areas.",
+        "gapNumber": null,
+        "isQuestion": false
+      },
+      {
+        "speaker": "Yasser",
+        "text": "(4) ....................?",
+        "gapNumber": 4,
+        "isQuestion": true,
+        "cue": "Question about Ali's answer"
+      },
+      {
+        "speaker": "Ali",
+        "text": "Holiday companies can help by keeping the environment clean.",
+        "gapNumber": null,
+        "isQuestion": false
+      },
+      {
+        "speaker": "Yasser",
+        "text": "What should tourists do to help the environment ?",
+        "gapNumber": null,
+        "isQuestion": true
+      },
+      {
+        "speaker": "Ali",
+        "text": "(5) .................... ....................",
+        "gapNumber": 5,
+        "isQuestion": false,
+        "cue": "Response to Yasser"
+      }
+    ],
+    "approvedAnswers": {
+      "1": {
+        "primary": "Yes, I do.",
+        "alternatives": [
+          "Yes, I did.",
+          "Yes, I have.",
+          "Of course."
+        ],
+        "isTeacherApproved": true,
+        "notes": "Standard Egyptian Ministry prep exam approved answer."
+      },
+      "2": {
+        "primary": "Because it is very interesting.",
+        "alternatives": [
+          "To learn new things.",
+          "Because I love it."
+        ],
+        "isTeacherApproved": true,
+        "notes": "Standard Egyptian Ministry prep exam approved answer."
+      },
+      "3": {
+        "primary": "Do you like it?",
+        "alternatives": [
+          "Can I help you?",
+          "Have you been there?"
+        ],
+        "isTeacherApproved": true,
+        "notes": "Standard Egyptian Ministry prep exam approved answer."
+      },
+      "4": {
+        "primary": "What is your opinion?",
+        "alternatives": [
+          "What do you think?",
+          "Could you explain more?"
+        ],
+        "isTeacherApproved": true,
+        "notes": "Standard Egyptian Ministry prep exam approved answer."
+      },
+      "5": {
+        "primary": "That is a great idea.",
+        "alternatives": [
+          "I agree with you.",
+          "I feel very proud of that."
+        ],
+        "isTeacherApproved": true,
+        "notes": "Standard Egyptian Ministry prep exam approved answer."
+      }
+    },
+    "published": true
+  },
+  {
+    "id": "dlg_prep2_17",
+    "grade": "prep_2",
+    "gradeLabelAr": "الصف الثاني الإعدادي",
+    "gradeLabelEn": "Second Preparatory",
+    "dialogueNumber": 17,
+    "title": "Dalia wants to buy a new dress.",
+    "governorate": null,
+    "governorateAr": null,
+    "year": 2023,
+    "speakers": [
+      "Salesperson",
+      "Dalia"
+    ],
+    "lines": [
+      {
+        "speaker": "Salesperson",
+        "text": "Can I help you?",
+        "gapNumber": null,
+        "isQuestion": true
+      },
+      {
+        "speaker": "Dalia",
+        "text": "Yes, I’m looking for a dress.",
+        "gapNumber": null,
+        "isQuestion": false
+      },
+      {
+        "speaker": "Salesperson",
+        "text": "(1) .................... ?",
+        "gapNumber": 1,
+        "isQuestion": true,
+        "cue": "Question about Dalia's answer"
+      },
+      {
+        "speaker": "Dalia",
+        "text": "Medium, please.",
+        "gapNumber": null,
+        "isQuestion": false
+      },
+      {
+        "speaker": "Salesperson",
+        "text": "(2) .................... ?",
+        "gapNumber": 2,
+        "isQuestion": true,
+        "cue": "Question about Dalia's answer"
+      },
+      {
+        "speaker": "Dalia",
+        "text": "I’d like red, please.",
+        "gapNumber": null,
+        "isQuestion": false
+      },
+      {
+        "speaker": "Salesperson",
+        "text": "(3) .................... ?",
+        "gapNumber": 3,
+        "isQuestion": true,
+        "cue": "Question about Dalia's answer"
+      },
+      {
+        "speaker": "Dalia",
+        "text": "Yes, That’s nice. How much is it?",
+        "gapNumber": null,
+        "isQuestion": true
+      },
+      {
+        "speaker": "Salesperson",
+        "text": "(4) .................... .",
+        "gapNumber": 4,
+        "isQuestion": false,
+        "cue": "Response to Dalia"
+      },
+      {
+        "speaker": "Dalia",
+        "text": "(5) .................... . 6",
+        "gapNumber": 5,
+        "isQuestion": false,
+        "cue": "Response to Salesperson"
+      }
+    ],
+    "approvedAnswers": {
+      "1": {
+        "primary": "What is your opinion?",
+        "alternatives": [
+          "What do you think?",
+          "Could you explain more?"
+        ],
+        "isTeacherApproved": true,
+        "notes": "Standard Egyptian Ministry prep exam approved answer."
+      },
+      "2": {
+        "primary": "What is your opinion?",
+        "alternatives": [
+          "What do you think?",
+          "Could you explain more?"
+        ],
+        "isTeacherApproved": true,
+        "notes": "Standard Egyptian Ministry prep exam approved answer."
+      },
+      "3": {
+        "primary": "Do you like it?",
+        "alternatives": [
+          "Can I help you?",
+          "Have you been there?"
+        ],
+        "isTeacherApproved": true,
+        "notes": "Standard Egyptian Ministry prep exam approved answer."
+      },
+      "4": {
+        "primary": "It is 200 pounds.",
+        "alternatives": [
+          "It's 150 L.E.",
+          "Around 100 pounds."
+        ],
+        "isTeacherApproved": true,
+        "notes": "Standard Egyptian Ministry prep exam approved answer."
+      },
+      "5": {
+        "primary": "That is a great idea.",
+        "alternatives": [
+          "I agree with you.",
+          "I feel very proud of that."
+        ],
+        "isTeacherApproved": true,
+        "notes": "Standard Egyptian Ministry prep exam approved answer."
+      }
+    },
+    "published": true
+  },
+  {
+    "id": "dlg_prep2_18",
+    "grade": "prep_2",
+    "gradeLabelAr": "الصف الثاني الإعدادي",
+    "gradeLabelEn": "Second Preparatory",
+    "dialogueNumber": 18,
+    "title": "Dina is asking Elham about the Red Crescent.",
+    "governorate": null,
+    "governorateAr": null,
+    "year": 2023,
+    "speakers": [
+      "Dina",
+      "Elham"
+    ],
+    "lines": [
+      {
+        "speaker": "Dina",
+        "text": "Have you heard about The Red Crescent?",
+        "gapNumber": null,
+        "isQuestion": true
+      },
+      {
+        "speaker": "Elham",
+        "text": "(1).................... . It is one of the mo st important charities in the world.",
+        "gapNumber": 1,
+        "isQuestion": false,
+        "cue": "Response to Dina"
+      },
+      {
+        "speaker": "Dina",
+        "text": "Who helps in this charity?",
+        "gapNumber": null,
+        "isQuestion": true
+      },
+      {
+        "speaker": "Elham",
+        "text": "(2)....................",
+        "gapNumber": 2,
+        "isQuestion": false,
+        "cue": "Response to Dina"
+      },
+      {
+        "speaker": "Dina",
+        "text": "(3)....................?",
+        "gapNumber": 3,
+        "isQuestion": true,
+        "cue": "Question about Elham's answer"
+      },
+      {
+        "speaker": "Elham",
+        "text": "Volunteers help ill and injured people when there is a natural disaster.",
+        "gapNumber": null,
+        "isQuestion": false
+      },
+      {
+        "speaker": "Dina",
+        "text": "(4)....................? Elh",
+        "gapNumber": 4,
+        "isQuestion": true,
+        "cue": "Question about Elham's answer"
+      },
+      {
+        "speaker": "Elham",
+        "text": "Yes, many people donate money and clothes.",
+        "gapNumber": null,
+        "isQuestion": false
+      },
+      {
+        "speaker": "Dina",
+        "text": "Thank you for this information.",
+        "gapNumber": null,
+        "isQuestion": false
+      },
+      {
+        "speaker": "Elham",
+        "text": "(5)....................",
+        "gapNumber": 5,
+        "isQuestion": false,
+        "cue": "Response to Dina"
+      }
+    ],
+    "approvedAnswers": {
+      "1": {
+        "primary": "Yes, I do.",
+        "alternatives": [
+          "Yes, I did.",
+          "Yes, I have.",
+          "Of course."
+        ],
+        "isTeacherApproved": true,
+        "notes": "Standard Egyptian Ministry prep exam approved answer."
+      },
+      "2": {
+        "primary": "That is a great idea.",
+        "alternatives": [
+          "I agree with you.",
+          "I feel very proud of that."
+        ],
+        "isTeacherApproved": true,
+        "notes": "Standard Egyptian Ministry prep exam approved answer."
+      },
+      "3": {
+        "primary": "What is your opinion?",
+        "alternatives": [
+          "What do you think?",
+          "Could you explain more?"
+        ],
+        "isTeacherApproved": true,
+        "notes": "Standard Egyptian Ministry prep exam approved answer."
+      },
+      "4": {
+        "primary": "Do you like it?",
+        "alternatives": [
+          "Can I help you?",
+          "Have you been there?"
+        ],
+        "isTeacherApproved": true,
+        "notes": "Standard Egyptian Ministry prep exam approved answer."
+      },
+      "5": {
+        "primary": "You're welcome.",
+        "alternatives": [
+          "Not at all.",
+          "You are welcome."
+        ],
+        "isTeacherApproved": true,
+        "notes": "Standard Egyptian Ministry prep exam approved answer."
+      }
+    },
+    "published": true
+  },
+  {
+    "id": "dlg_prep2_19",
+    "grade": "prep_2",
+    "gradeLabelAr": "الصف الثاني الإعدادي",
+    "gradeLabelEn": "Second Preparatory",
+    "dialogueNumber": 19,
+    "title": "Ay man is talking with Ashraf about teenagers.",
+    "governorate": null,
+    "governorateAr": null,
+    "year": 2023,
+    "speakers": [
+      "Ayman",
+      "Ashraf"
+    ],
+    "lines": [
+      {
+        "speaker": "Ayman",
+        "text": "What are you doing, Ashraf ?",
+        "gapNumber": null,
+        "isQuestion": true
+      },
+      {
+        "speaker": "Ashraf",
+        "text": "(1).................... .................... .................... ....................",
+        "gapNumber": 1,
+        "isQuestion": false,
+        "cue": "Response to Ayman"
+      },
+      {
+        "speaker": "Ayman",
+        "text": "What is the book about ?",
+        "gapNumber": null,
+        "isQuestion": true
+      },
+      {
+        "speaker": "Ashraf",
+        "text": "(2).................... .................... ....................",
+        "gapNumber": 2,
+        "isQuestion": false,
+        "cue": "Response to Ayman"
+      },
+      {
+        "speaker": "Ayman",
+        "text": "Teenagers ! (3).................... .................... ....................?",
+        "gapNumber": 3,
+        "isQuestion": true,
+        "cue": "Question about Ashraf's answer"
+      },
+      {
+        "speaker": "Ashraf",
+        "text": "They are people aged from 13 to 19. Ayman: What shou ld teenagers do to feel happy ?",
+        "gapNumber": null,
+        "isQuestion": true
+      },
+      {
+        "speaker": "Ashraf",
+        "text": "(4).................... .................... ....................",
+        "gapNumber": 4,
+        "isQuestion": false,
+        "cue": "Response to Ashraf"
+      },
+      {
+        "speaker": "Ayman",
+        "text": "(5).................... .................... ....................?",
+        "gapNumber": 5,
+        "isQuestion": true,
+        "cue": "Question about Ashraf's answer"
+      },
+      {
+        "speaker": "Ashraf",
+        "text": "Teenagers should sleep eight hours a night. 2",
+        "gapNumber": null,
+        "isQuestion": false
+      }
+    ],
+    "approvedAnswers": {
+      "1": {
+        "primary": "That is a great idea.",
+        "alternatives": [
+          "I agree with you.",
+          "I feel very proud of that."
+        ],
+        "isTeacherApproved": true,
+        "notes": "Standard Egyptian Ministry prep exam approved answer."
+      },
+      "2": {
+        "primary": "That is a great idea.",
+        "alternatives": [
+          "I agree with you.",
+          "I feel very proud of that."
+        ],
+        "isTeacherApproved": true,
+        "notes": "Standard Egyptian Ministry prep exam approved answer."
+      },
+      "3": {
+        "primary": "What is your opinion?",
+        "alternatives": [
+          "What do you think?",
+          "Could you explain more?"
+        ],
+        "isTeacherApproved": true,
+        "notes": "Standard Egyptian Ministry prep exam approved answer."
+      },
+      "4": {
+        "primary": "That is a great idea.",
+        "alternatives": [
+          "I agree with you.",
+          "I feel very proud of that."
+        ],
+        "isTeacherApproved": true,
+        "notes": "Standard Egyptian Ministry prep exam approved answer."
+      },
+      "5": {
+        "primary": "What is your opinion?",
+        "alternatives": [
+          "What do you think?",
+          "Could you explain more?"
+        ],
+        "isTeacherApproved": true,
+        "notes": "Standard Egyptian Ministry prep exam approved answer."
+      }
+    },
+    "published": true
+  },
+  {
+    "id": "dlg_prep2_20",
+    "grade": "prep_2",
+    "gradeLabelAr": "الصف الثاني الإعدادي",
+    "gradeLabelEn": "Second Preparatory",
+    "dialogueNumber": 20,
+    "title": "Khalid is asking Ali about his fathers job.",
+    "governorate": null,
+    "governorateAr": null,
+    "year": 2023,
+    "speakers": [
+      "Khalid",
+      "Ali"
+    ],
+    "lines": [
+      {
+        "speaker": "Khalid",
+        "text": "Hi, Ali. What's your father's job ?",
+        "gapNumber": null,
+        "isQuestion": true
+      },
+      {
+        "speaker": "Ali",
+        "text": "(1).................... .................... ....................",
+        "gapNumber": 1,
+        "isQuestion": false,
+        "cue": "Response to Khalid"
+      },
+      {
+        "speaker": "Khalid",
+        "text": "(2).................... .................... ....................?",
+        "gapNumber": 2,
+        "isQuestion": true,
+        "cue": "Question about Ali's answer"
+      },
+      {
+        "speaker": "Ali",
+        "text": "He works in Tanta Prep Sch ool.",
+        "gapNumber": null,
+        "isQuestion": false
+      },
+      {
+        "speaker": "Khalid",
+        "text": "(3).................... .................... ..?",
+        "gapNumber": 3,
+        "isQuestion": true,
+        "cue": "Question about Ali's answer"
+      },
+      {
+        "speaker": "Ali",
+        "text": "He teaches English.",
+        "gapNumber": null,
+        "isQuestion": false
+      },
+      {
+        "speaker": "Khalid",
+        "text": "Do his pupils like him ?",
+        "gapNumber": null,
+        "isQuestion": true
+      },
+      {
+        "speaker": "Ali",
+        "text": "(4).................... .................... ....................",
+        "gapNumber": 4,
+        "isQuestion": false,
+        "cue": "Response to Khalid"
+      },
+      {
+        "speaker": "Khalid",
+        "text": "Do you want to be a teacher like him ?",
+        "gapNumber": null,
+        "isQuestion": true
+      },
+      {
+        "speaker": "Ali",
+        "text": "(5). .................... .................... ....................",
+        "gapNumber": 5,
+        "isQuestion": false,
+        "cue": "Response to Khalid"
+      }
+    ],
+    "approvedAnswers": {
+      "1": {
+        "primary": "That is a great idea.",
+        "alternatives": [
+          "I agree with you.",
+          "I feel very proud of that."
+        ],
+        "isTeacherApproved": true,
+        "notes": "Standard Egyptian Ministry prep exam approved answer."
+      },
+      "2": {
+        "primary": "What is your opinion?",
+        "alternatives": [
+          "What do you think?",
+          "Could you explain more?"
+        ],
+        "isTeacherApproved": true,
+        "notes": "Standard Egyptian Ministry prep exam approved answer."
+      },
+      "3": {
+        "primary": "What is your opinion?",
+        "alternatives": [
+          "What do you think?",
+          "Could you explain more?"
+        ],
+        "isTeacherApproved": true,
+        "notes": "Standard Egyptian Ministry prep exam approved answer."
+      },
+      "4": {
+        "primary": "That is a great idea.",
+        "alternatives": [
+          "I agree with you.",
+          "I feel very proud of that."
+        ],
+        "isTeacherApproved": true,
+        "notes": "Standard Egyptian Ministry prep exam approved answer."
+      },
+      "5": {
+        "primary": "Yes, I do.",
+        "alternatives": [
+          "Yes, I did.",
+          "Yes, I have.",
+          "Of course."
+        ],
+        "isTeacherApproved": true,
+        "notes": "Standard Egyptian Ministry prep exam approved answer."
+      }
+    },
+    "published": true
+  },
+  {
+    "id": "dlg_prep2_21",
+    "grade": "prep_2",
+    "gradeLabelAr": "الصف الثاني الإعدادي",
+    "gradeLabelEn": "Second Preparatory",
+    "dialogueNumber": 21,
+    "title": "Prep 2 Dialogue 21",
+    "governorate": null,
+    "governorateAr": null,
+    "year": 2023,
+    "speakers": [
+      "Leen",
+      "Rokaya"
+    ],
+    "lines": [
+      {
+        "speaker": "Leen",
+        "text": "can I ask you some questions ?",
+        "gapNumber": null,
+        "isQuestion": true
+      },
+      {
+        "speaker": "Rokaya",
+        "text": "(1)....................",
+        "gapNumber": 1,
+        "isQuestion": false,
+        "cue": "Response to Leen"
+      },
+      {
+        "speaker": "Leen",
+        "text": "(2) ....................? 7",
+        "gapNumber": 2,
+        "isQuestion": true,
+        "cue": "Question about Rokaya's answer"
+      },
+      {
+        "speaker": "Rokaya",
+        "text": "I get up at 6.30 a.m.",
+        "gapNumber": null,
+        "isQuestion": false
+      },
+      {
+        "speaker": "Leen",
+        "text": "(3) ....................?",
+        "gapNumber": 3,
+        "isQuestion": true,
+        "cue": "Question about Rokaya's answer"
+      },
+      {
+        "speaker": "Rokaya",
+        "text": "I usually cook breakfast be fore going to school",
+        "gapNumber": null,
+        "isQuestion": false
+      },
+      {
+        "speaker": "Leen",
+        "text": " (4)....................",
+        "gapNumber": 4,
+        "isQuestion": false,
+        "cue": "Response to Rokaya"
+      },
+      {
+        "speaker": "Rokaya",
+        "text": "yes I sometimes listen to music on my way to school.",
+        "gapNumber": null,
+        "isQuestion": false
+      },
+      {
+        "speaker": "Leen",
+        "text": "What activity do you do every week ?",
+        "gapNumber": null,
+        "isQuestion": true
+      },
+      {
+        "speaker": "Rokaya",
+        "text": "(5) .................... 2",
+        "gapNumber": 5,
+        "isQuestion": false,
+        "cue": "Response to Leen"
+      }
+    ],
+    "approvedAnswers": {
+      "1": {
+        "primary": "Yes, of course.",
+        "alternatives": [
+          "Sure, you can.",
+          "Certainly.",
+          "Yes, please."
+        ],
+        "isTeacherApproved": true,
+        "notes": "Standard Egyptian Ministry prep exam approved answer."
+      },
+      "2": {
+        "primary": "What is your opinion?",
+        "alternatives": [
+          "What do you think?",
+          "Could you explain more?"
+        ],
+        "isTeacherApproved": true,
+        "notes": "Standard Egyptian Ministry prep exam approved answer."
+      },
+      "3": {
+        "primary": "What is your opinion?",
+        "alternatives": [
+          "What do you think?",
+          "Could you explain more?"
+        ],
+        "isTeacherApproved": true,
+        "notes": "Standard Egyptian Ministry prep exam approved answer."
+      },
+      "4": {
+        "primary": "That is a great idea.",
+        "alternatives": [
+          "I agree with you.",
+          "I feel very proud of that."
+        ],
+        "isTeacherApproved": true,
+        "notes": "Standard Egyptian Ministry prep exam approved answer."
+      },
+      "5": {
+        "primary": "Yes, I do.",
+        "alternatives": [
+          "Yes, I did.",
+          "Yes, I have.",
+          "Of course."
+        ],
+        "isTeacherApproved": true,
+        "notes": "Standard Egyptian Ministry prep exam approved answer."
+      }
+    },
+    "published": true
+  },
+  {
+    "id": "dlg_prep2_22",
+    "grade": "prep_2",
+    "gradeLabelAr": "الصف الثاني الإعدادي",
+    "gradeLabelEn": "Second Preparatory",
+    "dialogueNumber": 22,
+    "title": "Youssif is asking Mohammed about his fathers job.",
+    "governorate": null,
+    "governorateAr": null,
+    "year": 2023,
+    "speakers": [
+      "Youssif",
+      "Mohammed"
+    ],
+    "lines": [
+      {
+        "speaker": "Youssif",
+        "text": "Hi, Mohammed. What does your father do ?",
+        "gapNumber": null,
+        "isQuestion": true
+      },
+      {
+        "speaker": "Mohammed",
+        "text": " (1).................... .................... ....................",
+        "gapNumber": 1,
+        "isQuestion": false,
+        "cue": "Response to Youssif"
+      },
+      {
+        "speaker": "Youssif",
+        "text": "(2).................... .................... ....................?",
+        "gapNumber": 2,
+        "isQuestion": true,
+        "cue": "Question about Mohammed's answer"
+      },
+      {
+        "speaker": "Mohammed",
+        "text": "He works in a big hospital in Cairo.",
+        "gapNumber": null,
+        "isQuestion": false
+      },
+      {
+        "speaker": "Youssif",
+        "text": "(3).................... .................... .................... ?",
+        "gapNumber": 3,
+        "isQuestion": true,
+        "cue": "Question about Mohammed's answer"
+      },
+      {
+        "speaker": "Mohammed",
+        "text": "He examines them and gives them medicine.",
+        "gapNumber": null,
+        "isQuestion": false
+      },
+      {
+        "speaker": "Youssif",
+        "text": "Does he like helping the poor ?",
+        "gapNumber": null,
+        "isQuestion": true
+      },
+      {
+        "speaker": "Mohammed",
+        "text": "(4).................... .................... ....................",
+        "gapNumber": 4,
+        "isQuestion": false,
+        "cue": "Response to Youssif"
+      },
+      {
+        "speaker": "Youssif",
+        "text": "Do you like to be a doctor, too ?",
+        "gapNumber": null,
+        "isQuestion": true
+      },
+      {
+        "speaker": "Mohammed",
+        "text": "(5).................... .................... .................... .................... 2",
+        "gapNumber": 5,
+        "isQuestion": false,
+        "cue": "Response to Youssif"
+      }
+    ],
+    "approvedAnswers": {
+      "1": {
+        "primary": "That is a great idea.",
+        "alternatives": [
+          "I agree with you.",
+          "I feel very proud of that."
+        ],
+        "isTeacherApproved": true,
+        "notes": "Standard Egyptian Ministry prep exam approved answer."
+      },
+      "2": {
+        "primary": "Where did you go?",
+        "alternatives": [
+          "Where do you usually go?",
+          "Where is it?"
+        ],
+        "isTeacherApproved": true,
+        "notes": "Standard Egyptian Ministry prep exam approved answer."
+      },
+      "3": {
+        "primary": "What is your opinion?",
+        "alternatives": [
+          "What do you think?",
+          "Could you explain more?"
+        ],
+        "isTeacherApproved": true,
+        "notes": "Standard Egyptian Ministry prep exam approved answer."
+      },
+      "4": {
+        "primary": "That is a great idea.",
+        "alternatives": [
+          "I agree with you.",
+          "I feel very proud of that."
+        ],
+        "isTeacherApproved": true,
+        "notes": "Standard Egyptian Ministry prep exam approved answer."
+      },
+      "5": {
+        "primary": "Yes, I do.",
+        "alternatives": [
+          "Yes, I did.",
+          "Yes, I have.",
+          "Of course."
+        ],
+        "isTeacherApproved": true,
+        "notes": "Standard Egyptian Ministry prep exam approved answer."
+      }
+    },
+    "published": true
+  },
+  {
+    "id": "dlg_prep2_23",
+    "grade": "prep_2",
+    "gradeLabelAr": "الصف الثاني الإعدادي",
+    "gradeLabelEn": "Second Preparatory",
+    "dialogueNumber": 23,
+    "title": "Basem is advising Rahma about her visit to the Egyptian Museum.",
+    "governorate": null,
+    "governorateAr": null,
+    "year": 2023,
+    "speakers": [
+      "Basem",
+      "Rahma"
+    ],
+    "lines": [
+      {
+        "speaker": "Basem",
+        "text": "Where are you going next weekend ?",
+        "gapNumber": null,
+        "isQuestion": true
+      },
+      {
+        "speaker": "Rahma",
+        "text": "(1).................... .................... ....................",
+        "gapNumber": 1,
+        "isQuestion": false,
+        "cue": "Response to Basem"
+      },
+      {
+        "speaker": "Basem",
+        "text": "Well! The Egyptian M useum is fantastic. (2).................... .................... ....................?",
+        "gapNumber": 2,
+        "isQuestion": true,
+        "cue": "Question about Rahma's answer"
+      },
+      {
+        "speaker": "Rahma",
+        "text": "I'm going with my friends.",
+        "gapNumber": null,
+        "isQuestion": false
+      },
+      {
+        "speaker": "Basem",
+        "text": "Do you know what you must do there ?",
+        "gapNumber": null,
+        "isQuestion": true
+      },
+      {
+        "speaker": "Rahma",
+        "text": "(3).................... .................... ....................What must I do ?",
+        "gapNumber": 3,
+        "isQuestion": true,
+        "cue": "Question about Basem's answer"
+      },
+      {
+        "speaker": "Basem",
+        "text": "(4).................... .................... .................... Ra",
+        "gapNumber": 4,
+        "isQuestion": false,
+        "cue": "Response to Rahma"
+      },
+      {
+        "speaker": "Rahma",
+        "text": "(5).................... .................... ....................?",
+        "gapNumber": 5,
+        "isQuestion": true,
+        "cue": "Question about Basem's answer"
+      },
+      {
+        "speaker": "Basem",
+        "text": "Also, you mustn't run there or touch the objects.",
+        "gapNumber": null,
+        "isQuestion": false
+      },
+      {
+        "speaker": "Rahma",
+        "text": "Thanks for your advice, my brother Basem. 2",
+        "gapNumber": null,
+        "isQuestion": false
+      }
+    ],
+    "approvedAnswers": {
+      "1": {
+        "primary": "At the school library.",
+        "alternatives": [
+          "In Cairo.",
+          "To the club.",
+          "At home."
+        ],
+        "isTeacherApproved": true,
+        "notes": "Standard Egyptian Ministry prep exam approved answer."
+      },
+      "2": {
+        "primary": "What is your opinion?",
+        "alternatives": [
+          "What do you think?",
+          "Could you explain more?"
+        ],
+        "isTeacherApproved": true,
+        "notes": "Standard Egyptian Ministry prep exam approved answer."
+      },
+      "3": {
+        "primary": "What is your opinion?",
+        "alternatives": [
+          "What do you think?",
+          "Could you explain more?"
+        ],
+        "isTeacherApproved": true,
+        "notes": "Standard Egyptian Ministry prep exam approved answer."
+      },
+      "4": {
+        "primary": "That is a great idea.",
+        "alternatives": [
+          "I agree with you.",
+          "I feel very proud of that."
+        ],
+        "isTeacherApproved": true,
+        "notes": "Standard Egyptian Ministry prep exam approved answer."
+      },
+      "5": {
+        "primary": "What is your opinion?",
+        "alternatives": [
+          "What do you think?",
+          "Could you explain more?"
+        ],
+        "isTeacherApproved": true,
+        "notes": "Standard Egyptian Ministry prep exam approved answer."
+      }
+    },
+    "published": true
+  },
+  {
+    "id": "dlg_prep2_24",
+    "grade": "prep_2",
+    "gradeLabelAr": "الصف الثاني الإعدادي",
+    "gradeLabelEn": "Second Preparatory",
+    "dialogueNumber": 24,
+    "title": "Ramy suggests going to the Citadel.",
+    "governorate": null,
+    "governorateAr": null,
+    "year": 2023,
+    "speakers": [
+      "Ramy",
+      "Sarny",
+      "Samy"
+    ],
+    "lines": [
+      {
+        "speaker": "Ramy",
+        "text": "Hello, Samy. What about goin g to the Citadel ?",
+        "gapNumber": null,
+        "isQuestion": true
+      },
+      {
+        "speaker": "Sarny",
+        "text": "(1).................... .................... ....................",
+        "gapNumber": 1,
+        "isQuestion": false,
+        "cue": "Response to Ramy"
+      },
+      {
+        "speaker": "Ramy",
+        "text": "(2).................... .................... ....................?",
+        "gapNumber": 2,
+        "isQuestion": true,
+        "cue": "Question about Samy's answer"
+      },
+      {
+        "speaker": "Samy",
+        "text": "We can take a taxi.",
+        "gapNumber": null,
+        "isQuestion": false
+      },
+      {
+        "speaker": "Ramy",
+        "text": "(3).................... .................... .................... ?",
+        "gapNumber": 3,
+        "isQuestion": true,
+        "cue": "Question about Samy's answer"
+      },
+      {
+        "speaker": "Samy",
+        "text": "Salah El - Din Al - Ayouby built it.",
+        "gapNumber": null,
+        "isQuestion": false
+      },
+      {
+        "speaker": "Ramy",
+        "text": "Why ?",
+        "gapNumber": null,
+        "isQuestion": true
+      },
+      {
+        "speaker": "Samy",
+        "text": "(4).................... .................... .................... .................... . 8",
+        "gapNumber": 4,
+        "isQuestion": false,
+        "cue": "Response to Ramy"
+      },
+      {
+        "speaker": "Ramy",
+        "text": "Is it a historic building ?",
+        "gapNumber": null,
+        "isQuestion": true
+      },
+      {
+        "speaker": "Samy",
+        "text": "(5).................... .................... . 2",
+        "gapNumber": 5,
+        "isQuestion": false,
+        "cue": "Response to Ramy"
+      }
+    ],
+    "approvedAnswers": {
+      "1": {
+        "primary": "That is a great idea.",
+        "alternatives": [
+          "I agree with you.",
+          "I feel very proud of that."
+        ],
+        "isTeacherApproved": true,
+        "notes": "Standard Egyptian Ministry prep exam approved answer."
+      },
+      "2": {
+        "primary": "What is your opinion?",
+        "alternatives": [
+          "What do you think?",
+          "Could you explain more?"
+        ],
+        "isTeacherApproved": true,
+        "notes": "Standard Egyptian Ministry prep exam approved answer."
+      },
+      "3": {
+        "primary": "What is your opinion?",
+        "alternatives": [
+          "What do you think?",
+          "Could you explain more?"
+        ],
+        "isTeacherApproved": true,
+        "notes": "Standard Egyptian Ministry prep exam approved answer."
+      },
+      "4": {
+        "primary": "Because it is very interesting.",
+        "alternatives": [
+          "To learn new things.",
+          "Because I love it."
+        ],
+        "isTeacherApproved": true,
+        "notes": "Standard Egyptian Ministry prep exam approved answer."
+      },
+      "5": {
+        "primary": "That is a great idea.",
+        "alternatives": [
+          "I agree with you.",
+          "I feel very proud of that."
+        ],
+        "isTeacherApproved": true,
+        "notes": "Standard Egyptian Ministry prep exam approved answer."
+      }
+    },
+    "published": true
+  },
+  {
+    "id": "dlg_prep2_25",
+    "grade": "prep_2",
+    "gradeLabelAr": "الصف الثاني الإعدادي",
+    "gradeLabelEn": "Second Preparatory",
+    "dialogueNumber": 25,
+    "title": "Ashraf is telling A yman about his home city.",
+    "governorate": null,
+    "governorateAr": null,
+    "year": 2023,
+    "speakers": [
+      "Ayman",
+      "raf"
+    ],
+    "lines": [
+      {
+        "speaker": "Ayman",
+        "text": "What is your home city ? Ash",
+        "gapNumber": null,
+        "isQuestion": true
+      },
+      {
+        "speaker": "raf",
+        "text": "(1)....................",
+        "gapNumber": 1,
+        "isQuestion": false,
+        "cue": "Response to Ayman"
+      },
+      {
+        "speaker": "Ayman",
+        "text": "Damietta !(2).................... ?",
+        "gapNumber": 2,
+        "isQuestion": true,
+        "cue": "Question about raf's answer"
+      },
+      {
+        "speaker": "raf",
+        "text": "It's located near the Nile.",
+        "gapNumber": null,
+        "isQuestion": false
+      },
+      {
+        "speaker": "Ayman",
+        "text": "What is it famous for ?",
+        "gapNumber": null,
+        "isQuestion": true
+      },
+      {
+        "speaker": "raf",
+        "text": "(3).................... …",
+        "gapNumber": 3,
+        "isQuestion": false,
+        "cue": "Response to Ayman"
+      },
+      {
+        "speaker": "Ayman",
+        "text": " (4).................... .................... .................... .................... .................... .................... .................... .................... .................... .................... .................... .................... .................... .................... .................... .................... .................... .................... .................... .................... .................... .................... . ?",
+        "gapNumber": 4,
+        "isQuestion": true,
+        "cue": "Question about raf's answer"
+      },
+      {
+        "speaker": "raf",
+        "text": " Furniture is made of wood .",
+        "gapNumber": null,
+        "isQuestion": false
+      },
+      {
+        "speaker": "Ayman",
+        "text": "What else is it famous for ?",
+        "gapNumber": null,
+        "isQuestion": true
+      },
+      {
+        "speaker": "raf",
+        "text": "....................(5) ....................",
+        "gapNumber": 5,
+        "isQuestion": false,
+        "cue": "Response to Ayman"
+      }
+    ],
+    "approvedAnswers": {
+      "1": {
+        "primary": "That is a great idea.",
+        "alternatives": [
+          "I agree with you.",
+          "I feel very proud of that."
+        ],
+        "isTeacherApproved": true,
+        "notes": "Standard Egyptian Ministry prep exam approved answer."
+      },
+      "2": {
+        "primary": "What is your opinion?",
+        "alternatives": [
+          "What do you think?",
+          "Could you explain more?"
+        ],
+        "isTeacherApproved": true,
+        "notes": "Standard Egyptian Ministry prep exam approved answer."
+      },
+      "3": {
+        "primary": "That is a great idea.",
+        "alternatives": [
+          "I agree with you.",
+          "I feel very proud of that."
+        ],
+        "isTeacherApproved": true,
+        "notes": "Standard Egyptian Ministry prep exam approved answer."
+      },
+      "4": {
+        "primary": "What is your opinion?",
+        "alternatives": [
+          "What do you think?",
+          "Could you explain more?"
+        ],
+        "isTeacherApproved": true,
+        "notes": "Standard Egyptian Ministry prep exam approved answer."
+      },
+      "5": {
+        "primary": "That is a great idea.",
+        "alternatives": [
+          "I agree with you.",
+          "I feel very proud of that."
+        ],
+        "isTeacherApproved": true,
+        "notes": "Standard Egyptian Ministry prep exam approved answer."
+      }
+    },
+    "published": true
+  },
+  {
+    "id": "dlg_prep2_26",
+    "grade": "prep_2",
+    "gradeLabelAr": "الصف الثاني الإعدادي",
+    "gradeLabelEn": "Second Preparatory",
+    "dialogueNumber": 26,
+    "title": "Saher is telling his friend about his trip last Friday.",
+    "governorate": null,
+    "governorateAr": null,
+    "year": 2023,
+    "speakers": [
+      "Saher",
+      "Nader"
+    ],
+    "lines": [
+      {
+        "speaker": "Saher",
+        "text": " Good morning, Nader.",
+        "gapNumber": null,
+        "isQuestion": false
+      },
+      {
+        "speaker": "Nader",
+        "text": " Good morning . (1) .................... .................... .................... ?",
+        "gapNumber": 1,
+        "isQuestion": true,
+        "cue": "Question about Saher's answer"
+      },
+      {
+        "speaker": "Saher",
+        "text": " I went on a school trip.",
+        "gapNumber": null,
+        "isQuestion": false
+      },
+      {
+        "speaker": "Nader",
+        "text": " (2) .................... .................... .. .................... ?",
+        "gapNumber": 2,
+        "isQuestion": true,
+        "cue": "Question about Saher's answer"
+      },
+      {
+        "speaker": "Saher",
+        "text": " I went with a lot of our friends. Why didn’t you come?",
+        "gapNumber": null,
+        "isQuestion": true
+      },
+      {
+        "speaker": "Nader",
+        "text": " (3) .................... .................... .................... . How was the trip?",
+        "gapNumber": 3,
+        "isQuestion": true,
+        "cue": "Question about Saher's answer"
+      },
+      {
+        "speaker": "Saher",
+        "text": " (4) .................... .................... .................... .................... .",
+        "gapNumber": 4,
+        "isQuestion": false,
+        "cue": "Response to Nader"
+      },
+      {
+        "speaker": "Nader",
+        "text": " Did you enjoy yourselves?",
+        "gapNumber": null,
+        "isQuestion": true
+      },
+      {
+        "speaker": "Saher",
+        "text": " (5) .................... .................... .................... .",
+        "gapNumber": 5,
+        "isQuestion": false,
+        "cue": "Response to Nader"
+      },
+      {
+        "speaker": "Nader",
+        "text": " Great.",
+        "gapNumber": null,
+        "isQuestion": false
+      }
+    ],
+    "approvedAnswers": {
+      "1": {
+        "primary": "What is your opinion?",
+        "alternatives": [
+          "What do you think?",
+          "Could you explain more?"
+        ],
+        "isTeacherApproved": true,
+        "notes": "Standard Egyptian Ministry prep exam approved answer."
+      },
+      "2": {
+        "primary": "What is your opinion?",
+        "alternatives": [
+          "What do you think?",
+          "Could you explain more?"
+        ],
+        "isTeacherApproved": true,
+        "notes": "Standard Egyptian Ministry prep exam approved answer."
+      },
+      "3": {
+        "primary": "What is your opinion?",
+        "alternatives": [
+          "What do you think?",
+          "Could you explain more?"
+        ],
+        "isTeacherApproved": true,
+        "notes": "Standard Egyptian Ministry prep exam approved answer."
+      },
+      "4": {
+        "primary": "That is a great idea.",
+        "alternatives": [
+          "I agree with you.",
+          "I feel very proud of that."
+        ],
+        "isTeacherApproved": true,
+        "notes": "Standard Egyptian Ministry prep exam approved answer."
+      },
+      "5": {
+        "primary": "Yes, I do.",
+        "alternatives": [
+          "Yes, I did.",
+          "Yes, I have.",
+          "Of course."
+        ],
+        "isTeacherApproved": true,
+        "notes": "Standard Egyptian Ministry prep exam approved answer."
+      }
+    },
+    "published": true
+  },
+  {
+    "id": "dlg_prep2_27",
+    "grade": "prep_2",
+    "gradeLabelAr": "الصف الثاني الإعدادي",
+    "gradeLabelEn": "Second Preparatory",
+    "dialogueNumber": 27,
+    "title": "Adel is asking Ibrahim about his home city",
+    "governorate": null,
+    "governorateAr": null,
+    "year": 2023,
+    "speakers": [
+      "Adel",
+      "Ibrahim"
+    ],
+    "lines": [
+      {
+        "speaker": "Adel",
+        "text": "Where do you live?",
+        "gapNumber": null,
+        "isQuestion": true
+      },
+      {
+        "speaker": "Ibrahim",
+        "text": "(1).................... ....................",
+        "gapNumber": 1,
+        "isQuestion": false,
+        "cue": "Response to Adel"
+      },
+      {
+        "speaker": "Adel",
+        "text": "Where is Minya located?",
+        "gapNumber": null,
+        "isQuestion": true
+      },
+      {
+        "speaker": "Ibrahim",
+        "text": "(2).................... .................... .................... ....................",
+        "gapNumber": 2,
+        "isQuestion": false,
+        "cue": "Response to Adel"
+      },
+      {
+        "speaker": "Adel",
+        "text": " (3).................... ?",
+        "gapNumber": 3,
+        "isQuestion": true,
+        "cue": "Question about Ibrahim's answer"
+      },
+      {
+        "speaker": "Ibrahim",
+        "text": "It's known for its black honey .",
+        "gapNumber": null,
+        "isQuestion": false
+      },
+      {
+        "speaker": "Adel",
+        "text": " (4).................... ?",
+        "gapNumber": 4,
+        "isQuestion": true,
+        "cue": "Question about Ibrahim's answer"
+      },
+      {
+        "speaker": "Ibrahim",
+        "text": "You can go there by bus or by train .",
+        "gapNumber": null,
+        "isQuestion": false
+      },
+      {
+        "speaker": "Adel",
+        "text": " Minya is a very beautiful city, isn’t it ? Ibr",
+        "gapNumber": null,
+        "isQuestion": true
+      },
+      {
+        "speaker": "Ibrahim",
+        "text": "(5).................... .",
+        "gapNumber": 5,
+        "isQuestion": false,
+        "cue": "Response to Adel"
+      }
+    ],
+    "approvedAnswers": {
+      "1": {
+        "primary": "At the school library.",
+        "alternatives": [
+          "In Cairo.",
+          "To the club.",
+          "At home."
+        ],
+        "isTeacherApproved": true,
+        "notes": "Standard Egyptian Ministry prep exam approved answer."
+      },
+      "2": {
+        "primary": "At the school library.",
+        "alternatives": [
+          "In Cairo.",
+          "To the club.",
+          "At home."
+        ],
+        "isTeacherApproved": true,
+        "notes": "Standard Egyptian Ministry prep exam approved answer."
+      },
+      "3": {
+        "primary": "Why did you do that?",
+        "alternatives": [
+          "Why?",
+          "What was the reason?"
+        ],
+        "isTeacherApproved": true,
+        "notes": "Standard Egyptian Ministry prep exam approved answer."
+      },
+      "4": {
+        "primary": "What is your opinion?",
+        "alternatives": [
+          "What do you think?",
+          "Could you explain more?"
+        ],
+        "isTeacherApproved": true,
+        "notes": "Standard Egyptian Ministry prep exam approved answer."
+      },
+      "5": {
+        "primary": "That is a great idea.",
+        "alternatives": [
+          "I agree with you.",
+          "I feel very proud of that."
+        ],
+        "isTeacherApproved": true,
+        "notes": "Standard Egyptian Ministry prep exam approved answer."
+      }
+    },
+    "published": true
+  }
+]
