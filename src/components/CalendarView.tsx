@@ -17,15 +17,25 @@ export const CalendarView: React.FC = () => {
   const { user, lang } = useApp();
   const [currentDate, setCurrentDate] = useState(new Date());
   const [tasks, setTasks] = useState<any[]>([]);
+  const [dbSessions, setDbSessions] = useState<any[]>([]);
   const [loadingTasks, setLoadingTasks] = useState(true);
   const [remindedSet, setRemindedSet] = useState<Set<string>>(new Set());
 
   useEffect(() => {
     (async () => {
       try {
-        const res = await fetch(`/api/planner?studentId=${user?.id || "usr_student_1"}`);
-        const json = await res.json();
-        setTasks(json.tasks || []);
+        const [plannerRes, liveRes] = await Promise.all([
+          fetch(`/api/planner?studentId=${user?.id || "usr_student_1"}`),
+          fetch("/api/live-sessions"),
+        ]);
+        if (plannerRes.ok) {
+          const json = await plannerRes.json();
+          setTasks(json.tasks || []);
+        }
+        if (liveRes.ok) {
+          const liveJson = await liveRes.json();
+          setDbSessions(liveJson.sessions || []);
+        }
       } catch {}
       setLoadingTasks(false);
     })();
@@ -37,14 +47,27 @@ export const CalendarView: React.FC = () => {
   const daysInMonth = new Date(year, month + 1, 0).getDate();
   const today = new Date();
 
-  const sessionsWithDates = LIVE_SESSIONS.map((s) => {
-    const d = new Date(today);
-    d.setDate(today.getDate() + s.dayOffset);
-    return { ...s, date: d, dayNum: d.getDate(), monthNum: d.getMonth(), yearNum: d.getFullYear() };
+  // Combine DB live sessions with date helpers
+  const allSessionsWithDates = dbSessions.map((s) => {
+    const d = new Date(s.startTime);
+    const timeFormatted = d.toLocaleTimeString(lang === "ar" ? "ar-EG" : "en-US", {
+      hour: "2-digit",
+      minute: "2-digit",
+    });
+    return {
+      ...s,
+      date: d,
+      teacher: s.teacherName || "Mr. Habib El Rahman",
+      time: timeFormatted,
+      duration: `${s.durationMinutes || 60} mins`,
+      dayNum: d.getDate(),
+      monthNum: d.getMonth(),
+      yearNum: d.getFullYear(),
+    };
   });
 
   const sessionsOnDay = (day: number) =>
-    sessionsWithDates.filter((s) => s.dayNum === day && s.monthNum === month && s.yearNum === year);
+    allSessionsWithDates.filter((s) => s.dayNum === day && s.monthNum === month && s.yearNum === year);
 
   const prevMonth = () => setCurrentDate(new Date(year, month - 1, 1));
   const nextMonth = () => setCurrentDate(new Date(year, month + 1, 1));
@@ -125,9 +148,11 @@ export const CalendarView: React.FC = () => {
               {lang === "ar" ? "الحصص المباشرة القادمة" : "Upcoming Live Classes"}
             </h3>
             <div className="space-y-3 max-h-[380px] overflow-y-auto pr-1">
-              {sessionsWithDates.slice(0, 5).map((s) => (
+              {(allSessionsWithDates.length > 0 ? allSessionsWithDates : []).slice(0, 6).map((s) => (
                 <div key={s.id} className="p-3.5 rounded-2xl bg-slate-50 dark:bg-slate-800/70 border border-slate-200 dark:border-slate-700 space-y-2">
-                  <p className="font-extrabold text-xs text-slate-900 dark:text-white leading-snug">{s.title}</p>
+                  <div className="flex items-center justify-between">
+                    <p className="font-extrabold text-xs text-slate-900 dark:text-white leading-snug">{s.title}</p>
+                  </div>
                   <p className="text-[10px] text-slate-500">{s.teacher} • {s.grade}</p>
                   <div className="flex items-center justify-between text-[10px] font-bold">
                     <span className="flex items-center gap-1 text-blue-600 dark:text-blue-400">
@@ -138,26 +163,17 @@ export const CalendarView: React.FC = () => {
                       <Clock className="w-3 h-3" /> {s.time}
                     </span>
                   </div>
-                  <button
-                    onClick={() => setRemindedSet(new Set(remindedSet).add(s.id))}
-                    className={`w-full py-2 rounded-xl text-[11px] font-extrabold flex items-center justify-center gap-1.5 transition-all ${
-                      remindedSet.has(s.id)
-                        ? "bg-emerald-100 text-emerald-700 border border-emerald-300"
-                        : "bg-red-600 hover:bg-red-500 text-white shadow"
-                    }`}
-                  >
-                    {remindedSet.has(s.id) ? (
-                      <>
-                        <CheckCircle className="w-3.5 h-3.5" />
-                        {lang === "ar" ? "تم تفعيل التذكير ✓" : "Reminder On ✓"}
-                      </>
-                    ) : (
-                      <>
-                        <Bell className="w-3.5 h-3.5" />
-                        {lang === "ar" ? "ذكّرني قبل الحصة" : "Remind Me"}
-                      </>
-                    )}
-                  </button>
+                  {s.meetUrl && (
+                    <a
+                      href={s.meetUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="w-full py-1.5 rounded-xl bg-red-600 hover:bg-red-500 text-white text-[11px] font-extrabold flex items-center justify-center gap-1.5 shadow"
+                    >
+                      <Video className="w-3 h-3" />
+                      <span>{lang === "ar" ? "دخول الحصة (Google Meet)" : "Join Google Meet"}</span>
+                    </a>
+                  )}
                 </div>
               ))}
             </div>

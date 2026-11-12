@@ -96,6 +96,11 @@ const CalendarView = dynamic(
   { loading: () => <TabLoadingSkeleton label="جاري تحميل جدول الحصص والمواعيد..." />, ssr: false }
 );
 
+const LiveClassroomSection = dynamic(
+  () => import("@/components/LiveClassroomSection").then((m) => m.LiveClassroomSection),
+  { loading: () => <TabLoadingSkeleton label="جاري تحميل قاعة البث المباشر..." />, ssr: false }
+);
+
 const InfoPages = dynamic(
   () => import("@/components/InfoPages").then((m) => m.InfoPages),
   { loading: () => <TabLoadingSkeleton label="جاري تحميل الصفحة..." />, ssr: false }
@@ -491,6 +496,9 @@ function MainAppContent() {
                 </div>
               </div>
             </section>
+
+            {/* LIVE CLASSROOM SECTION — GOOGLE MEET */}
+            <LiveClassroomSection />
 
             {/* STAGES COURSES PREVIEW GRID */}
             <section className="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

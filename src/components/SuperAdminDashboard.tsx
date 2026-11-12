@@ -6,6 +6,7 @@ import { authHeaders } from "@/lib/client-auth";
 import { BulkCodesGenerator } from "@/components/BulkCodesGenerator";
 import { ParentConnectAdminHub } from "@/components/ParentConnectAdminHub";
 import { AdminCurriculumManager } from "@/components/AdminCurriculumManager";
+import { LiveClassroomManager } from "@/components/LiveClassroomManager";
 import {
   Users,
   GraduationCap,
@@ -22,13 +23,14 @@ import {
   Smartphone,
   ShieldCheck,
   RefreshCw,
+  Video,
 } from "lucide-react";
 
 export const SuperAdminDashboard: React.FC = () => {
   const { lang } = useApp();
   const [data, setData] = useState<any>(null);
   const [loading, setLoading] = useState(true);
-  const [activeTab, setActiveTab] = useState<"analytics" | "users" | "groups" | "codes" | "parent_connect" | "curriculum" | "announcements" | "backup">("analytics");
+  const [activeTab, setActiveTab] = useState<"analytics" | "users" | "groups" | "codes" | "parent_connect" | "curriculum" | "live_classes" | "announcements" | "backup">("analytics");
 
   // Code Generator Form State
   const [codeCourseId, setCodeCourseId] = useState("crs_sec_3");
@@ -312,6 +314,17 @@ export const SuperAdminDashboard: React.FC = () => {
             }`}
           >
             <span>{lang === "ar" ? "📚 المناهج والقصة" : "📚 Curriculum & Story"}</span>
+          </button>
+          <button
+            onClick={() => setActiveTab("live_classes")}
+            className={`px-3.5 py-2 rounded-xl transition-all flex items-center gap-1.5 ${
+              activeTab === "live_classes"
+                ? "bg-gradient-to-r from-red-600 to-purple-600 text-white shadow-sm font-bold"
+                : "text-slate-600 dark:text-slate-400 font-bold"
+            }`}
+          >
+            <Video className="w-4 h-4 text-red-500" />
+            <span>{lang === "ar" ? "الحصص المباشرة و Meet" : "Live Classes & Meet"}</span>
           </button>
           <button
             onClick={() => setActiveTab("announcements")}
@@ -599,6 +612,9 @@ export const SuperAdminDashboard: React.FC = () => {
 
       {/* CURRICULUM & STORY MANAGER */}
       {activeTab === "curriculum" && <AdminCurriculumManager />}
+
+      {/* LIVE CLASSROOM & GOOGLE MEET MANAGER */}
+      {activeTab === "live_classes" && <LiveClassroomManager />}
 
       {/* 5. SYSTEM BACKUP */}
       {activeTab === "backup" && (
