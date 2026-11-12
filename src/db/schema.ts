@@ -1226,3 +1226,121 @@ export const googleIntegrations = pgTable(
   }
 );
 
+// ==========================================
+// PROFESSIONAL TRAINING CENTER & QUESTION BANK
+// ==========================================
+
+export const trainingQuestions = pgTable(
+  "training_questions",
+  {
+    id: text("id").primaryKey(),
+    questionNumber: text("question_number"),
+    originalOrder: integer("original_order").notNull(),
+    sourceDocument: text("source_document").notNull().default("Professional_Question_Bank_20261108_233552.docx"),
+    sourcePage: integer("source_page").default(1),
+    questionText: text("question_text").notNull(),
+    rawText: text("raw_text"),
+    options: jsonb("options").notNull().default([]),
+    optionsCount: integer("options_count").notNull().default(0),
+    correctAnswer: text("correct_answer"),
+    explanation: text("explanation"),
+    category: text("category").notNull().default("Grammar & Vocabulary"),
+    topic: text("topic").notNull().default("Grammar & Vocabulary"),
+    difficulty: text("difficulty").notNull().default("Medium"),
+    validationStatus: text("validation_status").notNull().default("unverified_answer"),
+    isPublished: boolean("is_published").notNull().default(false),
+    verifiedBy: text("verified_by"),
+    verifiedAt: timestamp("verified_at"),
+    notes: text("notes"),
+    timesPracticed: integer("times_practiced").notNull().default(0),
+    timesCorrect: integer("times_correct").notNull().default(0),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+    updatedAt: timestamp("updated_at").defaultNow().notNull(),
+  },
+  (table) => [
+    index("idx_tq_status").on(table.validationStatus),
+    index("idx_tq_published").on(table.isPublished),
+    index("idx_tq_topic").on(table.topic),
+    index("idx_tq_difficulty").on(table.difficulty),
+    index("idx_tq_order").on(table.originalOrder),
+  ]
+);
+
+export const trainingStudentAttempts = pgTable(
+  "training_student_attempts",
+  {
+    id: text("id").primaryKey(),
+    studentId: text("student_id").notNull(),
+    questionId: text("question_id").notNull(),
+    selectedAnswer: text("selected_answer"),
+    isCorrect: boolean("is_correct").notNull(),
+    attemptType: text("attempt_type").notNull().default("practice"),
+    timeSpentSeconds: integer("time_spent_seconds").default(0),
+    examSessionId: text("exam_session_id"),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+  },
+  (table) => [
+    index("idx_tsa_student").on(table.studentId),
+    index("idx_tsa_question").on(table.questionId),
+    index("idx_tsa_created").on(table.createdAt),
+  ]
+);
+
+export const trainingBookmarks = pgTable(
+  "training_bookmarks",
+  {
+    id: text("id").primaryKey(),
+    studentId: text("student_id").notNull(),
+    questionId: text("question_id").notNull(),
+    notes: text("notes"),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+  },
+  (table) => [
+    index("idx_tb_student").on(table.studentId),
+    index("idx_tb_question").on(table.questionId),
+  ]
+);
+
+export const trainingExamSessions = pgTable(
+  "training_exam_sessions",
+  {
+    id: text("id").primaryKey(),
+    studentId: text("student_id").notNull(),
+    title: text("title").notNull(),
+    questionCount: integer("question_count").notNull(),
+    durationMinutes: integer("duration_minutes").notNull(),
+    score: integer("score").default(0),
+    totalScore: integer("total_score").default(0),
+    percentage: decimal("percentage", { precision: 5, scale: 2 }).default("0.00"),
+    passed: boolean("passed").default(false),
+    status: text("status").notNull().default("in_progress"),
+    questionIds: jsonb("question_ids").notNull().default([]),
+    studentAnswers: jsonb("student_answers").default({}),
+    detailedResults: jsonb("detailed_results").default([]),
+    startedAt: timestamp("started_at").defaultNow().notNull(),
+    submittedAt: timestamp("submitted_at"),
+  },
+  (table) => [
+    index("idx_tes_student").on(table.studentId),
+    index("idx_tes_status").on(table.status),
+  ]
+);
+
+export const trainingRevisionQueue = pgTable(
+  "training_revision_queue",
+  {
+    id: text("id").primaryKey(),
+    studentId: text("student_id").notNull(),
+    questionId: text("question_id").notNull(),
+    mistakeCount: integer("mistake_count").notNull().default(1),
+    lastMistakeAt: timestamp("last_mistake_at").defaultNow().notNull(),
+    resolved: boolean("resolved").notNull().default(false),
+    resolvedAt: timestamp("resolved_at"),
+  },
+  (table) => [
+    index("idx_trq_student").on(table.studentId),
+    index("idx_trq_resolved").on(table.resolved),
+  ]
+);
+
+

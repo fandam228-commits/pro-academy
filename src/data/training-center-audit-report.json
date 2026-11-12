@@ -1,0 +1,27 @@
+{
+  "sourceDocument": "Professional_Question_Bank_20261108_233552.docx",
+  "totalExtracted": 894,
+  "totalPagesAudited": 108,
+  "statusBreakdown": {
+    "missing_text": 45,
+    "missing_options": 288,
+    "complete_verified": 555,
+    "unverified_answer": 4,
+    "duplicate_candidates": 2
+  },
+  "topicBreakdown": {
+    "Grammar & Vocabulary": 283,
+    "Prepositions & Phrasal Verbs": 126,
+    "Relative Clauses & Pronouns": 143,
+    "Modals & Auxiliaries": 62,
+    "Present Perfect": 95,
+    "Past Tenses": 114,
+    "Future Forms": 16,
+    "Conditionals & Wishes": 17,
+    "Present Simple & Continuous": 22,
+    "Passive Voice": 2,
+    "Comparatives & Superlatives": 14
+  },
+  "publishedCount": 555,
+  "auditDate": "2026-11-12"
+}

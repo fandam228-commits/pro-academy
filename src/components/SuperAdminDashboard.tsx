@@ -7,6 +7,7 @@ import { BulkCodesGenerator } from "@/components/BulkCodesGenerator";
 import { ParentConnectAdminHub } from "@/components/ParentConnectAdminHub";
 import { AdminCurriculumManager } from "@/components/AdminCurriculumManager";
 import { LiveClassroomManager } from "@/components/LiveClassroomManager";
+import { TrainingCenterWorkspace } from "@/components/training/TrainingCenterWorkspace";
 import {
   Users,
   GraduationCap,
@@ -30,7 +31,7 @@ export const SuperAdminDashboard: React.FC = () => {
   const { lang } = useApp();
   const [data, setData] = useState<any>(null);
   const [loading, setLoading] = useState(true);
-  const [activeTab, setActiveTab] = useState<"analytics" | "users" | "groups" | "codes" | "parent_connect" | "curriculum" | "live_classes" | "announcements" | "backup">("analytics");
+  const [activeTab, setActiveTab] = useState<"analytics" | "users" | "groups" | "codes" | "parent_connect" | "curriculum" | "live_classes" | "training_questions" | "announcements" | "backup">("analytics");
 
   // Code Generator Form State
   const [codeCourseId, setCodeCourseId] = useState("crs_sec_3");
@@ -327,6 +328,17 @@ export const SuperAdminDashboard: React.FC = () => {
             <span>{lang === "ar" ? "الحصص المباشرة و Meet" : "Live Classes & Meet"}</span>
           </button>
           <button
+            onClick={() => setActiveTab("training_questions")}
+            className={`px-3.5 py-2 rounded-xl transition-all flex items-center gap-1.5 ${
+              activeTab === "training_questions"
+                ? "bg-gradient-to-r from-amber-600 to-purple-600 text-white shadow-sm font-bold"
+                : "text-slate-600 dark:text-slate-400 font-bold"
+            }`}
+          >
+            <ShieldCheck className="w-4 h-4 text-amber-500" />
+            <span>{lang === "ar" ? "بنك الأسئلة والتدريب" : "Training Question Bank"}</span>
+          </button>
+          <button
             onClick={() => setActiveTab("announcements")}
             className={`px-3.5 py-2 rounded-xl transition-all ${
               activeTab === "announcements" ? "bg-white dark:bg-slate-900 text-purple-600 dark:text-purple-400 shadow-sm" : "text-slate-600 dark:text-slate-400"
@@ -615,6 +627,9 @@ export const SuperAdminDashboard: React.FC = () => {
 
       {/* LIVE CLASSROOM & GOOGLE MEET MANAGER */}
       {activeTab === "live_classes" && <LiveClassroomManager />}
+
+      {/* TRAINING CENTER & QUESTION BANK AUDIT */}
+      {activeTab === "training_questions" && <TrainingCenterWorkspace initialTopic="all" />}
 
       {/* 5. SYSTEM BACKUP */}
       {activeTab === "backup" && (

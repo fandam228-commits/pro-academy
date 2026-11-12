@@ -149,13 +149,13 @@ export const Navbar: React.FC<{ activeTab?: string; setActiveTab?: (tab: string)
             </button>
 
             <button
-              onClick={() => setActiveTab && setActiveTab("question_bank")}
+              onClick={() => setActiveTab && setActiveTab("training_center")}
               className={`px-3.5 py-2 rounded-xl transition-all flex items-center gap-1.5 ${
-                activeTab === "question_bank" ? "bg-amber-100/80 dark:bg-amber-950/60 text-amber-700 dark:text-amber-400 font-bold shadow-sm" : "hover:bg-slate-100 dark:hover:bg-slate-800"
+                activeTab === "training_center" || activeTab === "question_bank" ? "bg-amber-100/80 dark:bg-amber-950/60 text-amber-700 dark:text-amber-400 font-bold shadow-sm" : "hover:bg-slate-100 dark:hover:bg-slate-800"
               }`}
             >
               <Database className="w-4 h-4 text-amber-500" />
-              <span>{lang === "ar" ? "بنك الأسئلة" : "Question Bank"}</span>
+              <span>{lang === "ar" ? "التدريب والامتحانات" : "Training & Exams"}</span>
             </button>
 
             <button
@@ -466,13 +466,13 @@ export const Navbar: React.FC<{ activeTab?: string; setActiveTab?: (tab: string)
           </button>
           <button
             onClick={() => {
-              setActiveTab && setActiveTab("question_bank");
+              setActiveTab && setActiveTab("training_center");
               setMobileMenuOpen(false);
             }}
             className="w-full text-start px-4 py-2.5 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 font-medium text-slate-800 dark:text-slate-200 flex items-center gap-2"
           >
             <Database className="w-4 h-4 text-amber-500" />
-            <span>{lang === "ar" ? "بنك الأسئلة الذكي" : "Question Bank"}</span>
+            <span>{lang === "ar" ? "التدريب والامتحانات" : "Training & Exams"}</span>
           </button>
           <button
             onClick={() => {

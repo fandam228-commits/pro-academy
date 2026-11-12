@@ -76,6 +76,11 @@ const QuestionBankWorkspace = dynamic(
   { loading: () => <TabLoadingSkeleton label="جاري تحميل بنك الأسئلة ومولد الامتحانات..." />, ssr: false }
 );
 
+const TrainingCenterWorkspace = dynamic(
+  () => import("@/components/training/TrainingCenterWorkspace").then((m) => m.TrainingCenterWorkspace),
+  { loading: () => <TabLoadingSkeleton label="جاري تجهيز مركز التدريب والامتحانات الاحترافية..." />, ssr: false }
+);
+
 const PdfLibraryWorkspace = dynamic(
   () => import("@/components/PdfLibraryWorkspace").then((m) => m.PdfLibraryWorkspace),
   { loading: () => <TabLoadingSkeleton label="جاري تحميل مكتبة المذكرات والـ PDF..." />, ssr: false }
@@ -405,7 +410,7 @@ function MainAppContent() {
                       <Languages className="h-5 w-5 text-amber-300" />
                       <span>{lang === "ar" ? "أكاديمية الترجمة الاحترافية" : "Translation Academy"}</span>
                     </button>
-                    <button onClick={() => setActiveTab("question_bank")} className="flex items-center gap-2 rounded-2xl bg-gradient-to-r from-purple-600 via-purple-700 to-sky-600 px-6 py-4 text-sm font-extrabold text-white shadow-xl shadow-purple-950/60 transition hover:-translate-y-0.5 hover:brightness-110">
+                    <button onClick={() => setActiveTab("training_center")} className="flex items-center gap-2 rounded-2xl bg-gradient-to-r from-purple-600 via-purple-700 to-sky-600 px-6 py-4 text-sm font-extrabold text-white shadow-xl shadow-purple-950/60 transition hover:-translate-y-0.5 hover:brightness-110">
                       <Database className="h-5 w-5 text-amber-300" />
                       <span>{lang === "ar" ? "ابدأ التدريب والامتحانات" : "Start Practicing"}</span>
                     </button>
@@ -577,6 +582,10 @@ function MainAppContent() {
             </section>
 
           </div>
+        ) : activeTab === "training_center" ? (
+          
+          /* VIEW: PROFESSIONAL TRAINING CENTER */
+          <TrainingCenterWorkspace />
         ) : activeTab === "question_bank" ? (
           
           /* VIEW: QUESTION BANK WORKSPACE */

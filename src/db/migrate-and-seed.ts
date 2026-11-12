@@ -16,9 +16,15 @@ import {
   translationExamAttempts,
   liveSessions,
   googleIntegrations,
+  trainingQuestions,
+  trainingStudentAttempts,
+  trainingBookmarks,
+  trainingExamSessions,
+  trainingRevisionQueue,
 } from "./schema";
 import { SMART_CURRICULUM_SEEDS } from "@/data/smart-curriculum-seed";
 import { TRANSLATION_MODULES_SEED, SAMPLE_TRANSLATION_EXAMS } from "@/data/translation-academy-seed";
+import EXTRACTED_TRAINING_QUESTIONS from "@/data/training-center-extracted-questions.json";
 import { hashPassword } from "@/lib/security";
 
 let setupPromise: Promise<void> | null = null;
@@ -1099,6 +1105,94 @@ async function initializeSchema(): Promise<void> {
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
         updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
       );
+
+      CREATE TABLE IF NOT EXISTS training_questions (
+        id TEXT PRIMARY KEY,
+        question_number TEXT,
+        original_order INTEGER NOT NULL,
+        source_document TEXT NOT NULL DEFAULT 'Professional_Question_Bank_20261108_233552.docx',
+        source_page INTEGER DEFAULT 1,
+        question_text TEXT NOT NULL,
+        raw_text TEXT,
+        options JSONB NOT NULL DEFAULT '[]'::jsonb,
+        options_count INTEGER NOT NULL DEFAULT 0,
+        correct_answer TEXT,
+        explanation TEXT,
+        category TEXT NOT NULL DEFAULT 'Grammar & Vocabulary',
+        topic TEXT NOT NULL DEFAULT 'Grammar & Vocabulary',
+        difficulty TEXT NOT NULL DEFAULT 'Medium',
+        validation_status TEXT NOT NULL DEFAULT 'unverified_answer',
+        is_published BOOLEAN NOT NULL DEFAULT false,
+        verified_by TEXT,
+        verified_at TIMESTAMP,
+        notes TEXT,
+        times_practiced INTEGER NOT NULL DEFAULT 0,
+        times_correct INTEGER NOT NULL DEFAULT 0,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
+      );
+      CREATE INDEX IF NOT EXISTS idx_tq_status ON training_questions(validation_status);
+      CREATE INDEX IF NOT EXISTS idx_tq_published ON training_questions(is_published);
+      CREATE INDEX IF NOT EXISTS idx_tq_topic ON training_questions(topic);
+      CREATE INDEX IF NOT EXISTS idx_tq_difficulty ON training_questions(difficulty);
+      CREATE INDEX IF NOT EXISTS idx_tq_order ON training_questions(original_order);
+
+      CREATE TABLE IF NOT EXISTS training_student_attempts (
+        id TEXT PRIMARY KEY,
+        student_id TEXT NOT NULL,
+        question_id TEXT NOT NULL,
+        selected_answer TEXT,
+        is_correct BOOLEAN NOT NULL,
+        attempt_type TEXT NOT NULL DEFAULT 'practice',
+        time_spent_seconds INTEGER DEFAULT 0,
+        exam_session_id TEXT,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
+      );
+      CREATE INDEX IF NOT EXISTS idx_tsa_student ON training_student_attempts(student_id);
+      CREATE INDEX IF NOT EXISTS idx_tsa_question ON training_student_attempts(question_id);
+      CREATE INDEX IF NOT EXISTS idx_tsa_created ON training_student_attempts(created_at);
+
+      CREATE TABLE IF NOT EXISTS training_bookmarks (
+        id TEXT PRIMARY KEY,
+        student_id TEXT NOT NULL,
+        question_id TEXT NOT NULL,
+        notes TEXT,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
+      );
+      CREATE INDEX IF NOT EXISTS idx_tb_student ON training_bookmarks(student_id);
+      CREATE INDEX IF NOT EXISTS idx_tb_question ON training_bookmarks(question_id);
+
+      CREATE TABLE IF NOT EXISTS training_exam_sessions (
+        id TEXT PRIMARY KEY,
+        student_id TEXT NOT NULL,
+        title TEXT NOT NULL,
+        question_count INTEGER NOT NULL,
+        duration_minutes INTEGER NOT NULL,
+        score INTEGER DEFAULT 0,
+        total_score INTEGER DEFAULT 0,
+        percentage DECIMAL(5, 2) DEFAULT 0.00,
+        passed BOOLEAN DEFAULT false,
+        status TEXT NOT NULL DEFAULT 'in_progress',
+        question_ids JSONB NOT NULL DEFAULT '[]'::jsonb,
+        student_answers JSONB DEFAULT '{}'::jsonb,
+        detailed_results JSONB DEFAULT '[]'::jsonb,
+        started_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+        submitted_at TIMESTAMP
+      );
+      CREATE INDEX IF NOT EXISTS idx_tes_student ON training_exam_sessions(student_id);
+      CREATE INDEX IF NOT EXISTS idx_tes_status ON training_exam_sessions(status);
+
+      CREATE TABLE IF NOT EXISTS training_revision_queue (
+        id TEXT PRIMARY KEY,
+        student_id TEXT NOT NULL,
+        question_id TEXT NOT NULL,
+        mistake_count INTEGER NOT NULL DEFAULT 1,
+        last_mistake_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+        resolved BOOLEAN NOT NULL DEFAULT false,
+        resolved_at TIMESTAMP
+      );
+      CREATE INDEX IF NOT EXISTS idx_trq_student ON training_revision_queue(student_id);
+      CREATE INDEX IF NOT EXISTS idx_trq_resolved ON training_revision_queue(resolved);
     `);
 
   // Seed and sync curriculum grades and units to official 2026/2027 Egyptian syllabus
@@ -1107,6 +1201,7 @@ async function initializeSchema(): Promise<void> {
   await seedCoreUsersIfEmpty();
   await seedTranslationAcademyIfEmpty();
   await seedLiveSessionsIfEmpty();
+  await seedTrainingCenterQuestionsIfEmpty();
 }
 
 export async function syncCurriculum2026(): Promise<{
@@ -1990,3 +2085,50 @@ async function seedLiveSessionsIfEmpty(): Promise<void> {
     console.error("Seed Live Sessions Error:", error);
   }
 }
+
+export async function seedTrainingCenterQuestionsIfEmpty(): Promise<void> {
+  try {
+    const existing = await db
+      .select({ id: trainingQuestions.id })
+      .from(trainingQuestions)
+      .limit(1);
+
+    if (existing.length > 0) {
+      return;
+    }
+
+    console.log(`Seeding ${EXTRACTED_TRAINING_QUESTIONS.length} extracted training questions...`);
+    const BATCH_SIZE = 50;
+    for (let i = 0; i < EXTRACTED_TRAINING_QUESTIONS.length; i += BATCH_SIZE) {
+      const chunk = EXTRACTED_TRAINING_QUESTIONS.slice(i, i + BATCH_SIZE).map((q: any) => ({
+        id: q.id,
+        questionNumber: q.questionNumber,
+        originalOrder: q.originalOrder,
+        sourceDocument: q.sourceDocument || "Professional_Question_Bank_20261108_233552.docx",
+        sourcePage: q.sourcePage || 1,
+        questionText: q.questionText,
+        rawText: q.rawText,
+        options: q.options || [],
+        optionsCount: q.optionsCount || (q.options?.length ?? 0),
+        correctAnswer: q.correctAnswer || null,
+        explanation: q.explanation || null,
+        category: q.category || "Grammar & Vocabulary",
+        topic: q.topic || "Grammar & Vocabulary",
+        difficulty: q.difficulty || "Medium",
+        validationStatus: q.validationStatus || "unverified_answer",
+        isPublished: Boolean(q.isPublished),
+        verifiedBy: q.verifiedBy || null,
+        verifiedAt: q.verifiedAt ? new Date(q.verifiedAt) : null,
+        notes: q.notes || null,
+        timesPracticed: 0,
+        timesCorrect: 0,
+      }));
+
+      await db.insert(trainingQuestions).values(chunk);
+    }
+    console.log("Training center questions seeded successfully!");
+  } catch (error) {
+    console.error("Seed Training Questions Error:", error);
+  }
+}
+
