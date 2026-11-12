@@ -26,9 +26,8 @@ function sanitizeUser(u: any) {
 }
 
 async function performLogin(loginId: string, password: string, userAgent?: string) {
-  // Admin username alias: habibadmin -> the seeded admin account. Other users continue to use email.
   const normalizedLogin = loginId.trim().toLowerCase();
-  const lockKey = normalizedLogin === "habibadmin" ? "habibadmin" : normalizedLogin;
+  const lockKey = normalizedLogin;
   const lockMinutes = checkLoginLock(lockKey);
   if (lockMinutes > 0) {
     return {
@@ -42,9 +41,6 @@ async function performLogin(loginId: string, password: string, userAgent?: strin
   let foundUsers = await db.select().from(users).where(eq(users.email, normalizedLogin));
   if (foundUsers.length === 0) {
     foundUsers = await db.select().from(users).where(eq(users.username, normalizedLogin));
-  }
-  if (foundUsers.length === 0 && normalizedLogin === "habibadmin") {
-    foundUsers = await db.select().from(users).where(eq(users.email, "habib.admin@proacademy.com"));
   }
   if (foundUsers.length === 0) {
     recordFailedLogin(lockKey);

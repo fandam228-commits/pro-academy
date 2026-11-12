@@ -30,6 +30,7 @@ import {
   BookMarked,
   FileCheck,
   Languages,
+  Film,
 } from "lucide-react";
 
 export const Navbar: React.FC<{ activeTab?: string; setActiveTab?: (tab: string) => void }> = ({
@@ -101,6 +102,18 @@ export const Navbar: React.FC<{ activeTab?: string; setActiveTab?: (tab: string)
             >
               <BookMarked className="w-4 h-4 text-purple-500" />
               <span>{lang === "ar" ? "المناهج والقصة" : "Curriculum & Story"}</span>
+            </button>
+
+            <button
+              onClick={() => setActiveTab && setActiveTab("story_world")}
+              className={`px-3.5 py-2 rounded-xl transition-all flex items-center gap-1.5 cursor-pointer ${
+                activeTab === "story_world"
+                  ? "bg-gradient-to-r from-amber-500 to-indigo-600 text-white font-black shadow-md shadow-amber-500/30"
+                  : "hover:bg-slate-100 dark:hover:bg-slate-800 text-amber-600 dark:text-amber-400 font-bold"
+              }`}
+            >
+              <Film className="w-4 h-4 text-amber-500" />
+              <span>{lang === "ar" ? "عالم القصص" : "Story World"}</span>
             </button>
 
             <button
@@ -413,6 +426,16 @@ export const Navbar: React.FC<{ activeTab?: string; setActiveTab?: (tab: string)
           >
             <BookMarked className="w-4 h-4 text-purple-500" />
             <span>{lang === "ar" ? "المناهج والقصة المقررة" : "Curriculum & Story"}</span>
+          </button>
+          <button
+            onClick={() => {
+              setActiveTab && setActiveTab("story_world");
+              setMobileMenuOpen(false);
+            }}
+            className="w-full text-start px-4 py-2.5 rounded-xl bg-amber-500/10 hover:bg-amber-500/20 font-bold text-amber-700 dark:text-amber-300 flex items-center gap-2 border border-amber-400/30"
+          >
+            <Film className="w-4 h-4 text-amber-500" />
+            <span>{lang === "ar" ? "عالم القصص الاحترافي (Story World)" : "Story World"}</span>
           </button>
           <button
             onClick={() => {

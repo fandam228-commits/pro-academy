@@ -1343,4 +1343,85 @@ export const trainingRevisionQueue = pgTable(
   ]
 );
 
+// 34. STORY SCENES (Story Cinema & Visual Storyboard per Chapter)
+export const storyScenes = pgTable(
+  "story_scenes",
+  {
+    id: text("id").primaryKey(),
+    chapterId: text("chapter_id").notNull().references(() => storyChapters.id, { onDelete: "cascade" }),
+    sceneNumber: integer("scene_number").notNull(),
+    titleAr: text("title_ar"),
+    titleEn: text("title_en"),
+    narrationEn: text("narration_en").notNull(),
+    narrationAr: text("narration_ar").notNull(),
+    audioUrl: text("audio_url"),
+    characterName: text("character_name"),
+    characterAvatar: text("character_avatar"),
+    backdropImage: text("backdrop_image"),
+    karaokeTokens: jsonb("karaoke_tokens").default([]),
+    orderIndex: integer("order_index").notNull().default(1),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+  },
+  (table) => [
+    index("idx_ss_chapter").on(table.chapterId),
+    index("idx_ss_scene").on(table.sceneNumber),
+  ]
+);
+
+// 35. STORY CHARACTER CHAT SESSIONS (Talk to Characters)
+export const storyCharacterChatSessions = pgTable(
+  "story_character_chat_sessions",
+  {
+    id: text("id").primaryKey(),
+    studentId: text("student_id").notNull(),
+    gradeId: text("grade_id").notNull(),
+    characterName: text("character_name").notNull(),
+    messages: jsonb("messages").default([]),
+    updatedAt: timestamp("updated_at").defaultNow().notNull(),
+  },
+  (table) => [
+    index("idx_sccs_student").on(table.studentId),
+    index("idx_sccs_char").on(table.characterName),
+  ]
+);
+
+// 36. STORY STUDENT PROGRESS & BOOKMARKS
+export const storyStudentProgress = pgTable(
+  "story_student_progress",
+  {
+    id: text("id").primaryKey(),
+    studentId: text("student_id").notNull(),
+    gradeId: text("grade_id").notNull(),
+    chapterId: text("chapter_id").notNull(),
+    lastPage: integer("last_page").notNull().default(1),
+    readingProgress: integer("reading_progress").notNull().default(0),
+    listeningProgress: integer("listening_progress").notNull().default(0),
+    learnedVocab: jsonb("learned_vocab").default([]),
+    isCompleted: boolean("is_completed").notNull().default(false),
+    updatedAt: timestamp("updated_at").defaultNow().notNull(),
+  },
+  (table) => [
+    index("idx_ssp_student").on(table.studentId),
+    index("idx_ssp_chapter").on(table.chapterId),
+  ]
+);
+
+// 37. STORY STUDENT BADGES & ACHIEVEMENTS
+export const storyStudentBadges = pgTable(
+  "story_student_badges",
+  {
+    id: text("id").primaryKey(),
+    studentId: text("student_id").notNull(),
+    badgeCode: text("badge_code").notNull(),
+    badgeNameAr: text("badge_name_ar").notNull(),
+    badgeNameEn: text("badge_name_en").notNull(),
+    badgeIcon: text("badge_icon").notNull(),
+    earnedAt: timestamp("earned_at").defaultNow().notNull(),
+  },
+  (table) => [
+    index("idx_ssb_student").on(table.studentId),
+    index("idx_ssb_badge").on(table.badgeCode),
+  ]
+);
+
 

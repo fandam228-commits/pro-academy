@@ -21,6 +21,10 @@ import {
   trainingBookmarks,
   trainingExamSessions,
   trainingRevisionQueue,
+  storyScenes,
+  storyCharacterChatSessions,
+  storyStudentProgress,
+  storyStudentBadges,
 } from "./schema";
 import { SMART_CURRICULUM_SEEDS } from "@/data/smart-curriculum-seed";
 import { TRANSLATION_MODULES_SEED, SAMPLE_TRANSLATION_EXAMS } from "@/data/translation-academy-seed";
@@ -1193,6 +1197,62 @@ async function initializeSchema(): Promise<void> {
       );
       CREATE INDEX IF NOT EXISTS idx_trq_student ON training_revision_queue(student_id);
       CREATE INDEX IF NOT EXISTS idx_trq_resolved ON training_revision_queue(resolved);
+
+      CREATE TABLE IF NOT EXISTS story_scenes (
+        id TEXT PRIMARY KEY,
+        chapter_id TEXT NOT NULL REFERENCES story_chapters(id) ON DELETE CASCADE,
+        scene_number INTEGER NOT NULL,
+        title_ar TEXT,
+        title_en TEXT,
+        narration_en TEXT NOT NULL,
+        narration_ar TEXT NOT NULL,
+        audio_url TEXT,
+        character_name TEXT,
+        character_avatar TEXT,
+        backdrop_image TEXT,
+        karaoke_tokens JSONB DEFAULT '[]'::jsonb,
+        order_index INTEGER NOT NULL DEFAULT 1,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
+      );
+      CREATE INDEX IF NOT EXISTS idx_ss_chapter ON story_scenes(chapter_id);
+
+      CREATE TABLE IF NOT EXISTS story_character_chat_sessions (
+        id TEXT PRIMARY KEY,
+        student_id TEXT NOT NULL,
+        grade_id TEXT NOT NULL,
+        character_name TEXT NOT NULL,
+        messages JSONB DEFAULT '[]'::jsonb,
+        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
+      );
+      CREATE INDEX IF NOT EXISTS idx_sccs_student ON story_character_chat_sessions(student_id);
+      CREATE INDEX IF NOT EXISTS idx_sccs_char ON story_character_chat_sessions(character_name);
+
+      CREATE TABLE IF NOT EXISTS story_student_progress (
+        id TEXT PRIMARY KEY,
+        student_id TEXT NOT NULL,
+        grade_id TEXT NOT NULL,
+        chapter_id TEXT NOT NULL,
+        last_page INTEGER NOT NULL DEFAULT 1,
+        reading_progress INTEGER NOT NULL DEFAULT 0,
+        listening_progress INTEGER NOT NULL DEFAULT 0,
+        learned_vocab JSONB DEFAULT '[]'::jsonb,
+        is_completed BOOLEAN NOT NULL DEFAULT false,
+        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
+      );
+      CREATE INDEX IF NOT EXISTS idx_ssp_student ON story_student_progress(student_id);
+      CREATE INDEX IF NOT EXISTS idx_ssp_chapter ON story_student_progress(chapter_id);
+
+      CREATE TABLE IF NOT EXISTS story_student_badges (
+        id TEXT PRIMARY KEY,
+        student_id TEXT NOT NULL,
+        badge_code TEXT NOT NULL,
+        badge_name_ar TEXT NOT NULL,
+        badge_name_en TEXT NOT NULL,
+        badge_icon TEXT NOT NULL,
+        earned_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
+      );
+      CREATE INDEX IF NOT EXISTS idx_ssb_student ON story_student_badges(student_id);
+      CREATE INDEX IF NOT EXISTS idx_ssb_badge ON story_student_badges(badge_code);
     `);
 
   // Seed and sync curriculum grades and units to official 2026/2027 Egyptian syllabus

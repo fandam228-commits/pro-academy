@@ -215,7 +215,7 @@ export const AuthScreen: React.FC<{ onBack?: () => void }> = ({ onBack }) => {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     onKeyDown={(e) => e.key === "Enter" && handleLogin()}
-                    placeholder="habibadmin أو email@example.com"
+                    placeholder={lang === "ar" ? "البريد الإلكتروني أو اسم المستخدم" : "Email or Username"}
                     className="w-full pl-10 rtl:pr-10 rtl:pl-3 pr-3 py-3 rounded-2xl bg-slate-800/80 border border-slate-700 text-xs font-medium text-white placeholder:text-slate-500 focus:outline-none focus:border-blue-500"
                   />
                 </div>
@@ -262,63 +262,6 @@ export const AuthScreen: React.FC<{ onBack?: () => void }> = ({ onBack }) => {
                   </>
                 )}
               </button>
-
-              {/* QUICK DEMO CREDENTIALS SELECTOR */}
-              <div className="pt-3 border-t border-purple-900/40">
-                <p className="text-[11px] font-bold text-slate-400 mb-2 flex items-center justify-between">
-                  <span>{lang === "ar" ? "بيانات الدخول السريع للاختبار التجريبي:" : "Quick Test Sign-In Accounts:"}</span>
-                  <span className="text-[10px] text-amber-400 font-mono">1-Click Fill</span>
-                </p>
-                <div className="grid grid-cols-3 gap-2">
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setEmail("habibadmin");
-                      setPassword("admin123password");
-                      setLocalError("");
-                      clearAuthError();
-                    }}
-                    className="p-2 rounded-xl bg-purple-900/30 hover:bg-purple-800/50 border border-purple-500/30 text-left rtl:text-right transition-all group cursor-pointer"
-                  >
-                    <div className="text-[11px] font-extrabold text-amber-300 group-hover:text-amber-200">
-                      {lang === "ar" ? "👑 الإدارة" : "👑 Admin"}
-                    </div>
-                    <div className="text-[9px] text-slate-400 font-mono truncate">habibadmin</div>
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setEmail("sarah.teacher@proacademy.com");
-                      setPassword("teacher123password");
-                      setLocalError("");
-                      clearAuthError();
-                    }}
-                    className="p-2 rounded-xl bg-purple-900/30 hover:bg-purple-800/50 border border-purple-500/30 text-left rtl:text-right transition-all group cursor-pointer"
-                  >
-                    <div className="text-[11px] font-extrabold text-sky-300 group-hover:text-sky-200">
-                      {lang === "ar" ? "👩‍🏫 المعلم" : "👩‍🏫 Teacher"}
-                    </div>
-                    <div className="text-[9px] text-slate-400 font-mono truncate">sarah.teacher</div>
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setEmail("omar.student@gmail.com");
-                      setPassword("student123password");
-                      setLocalError("");
-                      clearAuthError();
-                    }}
-                    className="p-2 rounded-xl bg-purple-900/30 hover:bg-purple-800/50 border border-purple-500/30 text-left rtl:text-right transition-all group cursor-pointer"
-                  >
-                    <div className="text-[11px] font-extrabold text-emerald-300 group-hover:text-emerald-200">
-                      {lang === "ar" ? "🎓 الطالب" : "🎓 Student"}
-                    </div>
-                    <div className="text-[9px] text-slate-400 font-mono truncate">omar.student</div>
-                  </button>
-                </div>
-              </div>
-
-
             </div>
           ) : (
             /* ============= REGISTER FORM ============= */

@@ -10,6 +10,7 @@ import { eq, and, sql, desc, inArray } from "drizzle-orm";
 import { NextResponse } from "next/server";
 import { ensureDbSetup } from "@/db/migrate-and-seed";
 import { getAuthContext } from "@/lib/security";
+import { createExamAttemptSession, gradeExamAttempt } from "@/lib/smart-shuffle-engine";
 
 export async function GET(req: Request) {
   try {
@@ -78,7 +79,10 @@ export async function POST(req: Request) {
       const qCount = Math.min(50, Math.max(5, parseInt(String(questionCount), 10) || 20));
       const duration = Math.min(120, Math.max(5, parseInt(String(durationMinutes), 10) || 20));
 
-      const conditions = [eq(trainingQuestions.isPublished, true)];
+      const conditions = [
+        eq(trainingQuestions.isPublished, true),
+        eq(trainingQuestions.validationStatus, "complete_verified"),
+      ];
       if (topic && topic !== "all") {
         conditions.push(eq(trainingQuestions.topic, topic));
       }
@@ -93,6 +97,8 @@ export async function POST(req: Request) {
           originalOrder: trainingQuestions.originalOrder,
           questionText: trainingQuestions.questionText,
           options: trainingQuestions.options,
+          correctAnswer: trainingQuestions.correctAnswer,
+          explanation: trainingQuestions.explanation,
           topic: trainingQuestions.topic,
           difficulty: trainingQuestions.difficulty,
         })
@@ -108,30 +114,30 @@ export async function POST(req: Request) {
         );
       }
 
+      const attemptSession = createExamAttemptSession(availableQuestions);
       const sessionId = `tes_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`;
-      const qIds = availableQuestions.map((q) => q.id);
+      const qIds = attemptSession.clientQuestions.map((q: any) => q.id);
 
       await db.insert(trainingExamSessions).values({
         id: sessionId,
         studentId,
         title,
-        questionCount: availableQuestions.length,
+        questionCount: attemptSession.clientQuestions.length,
         durationMinutes: duration,
         status: "in_progress",
         questionIds: qIds,
         studentAnswers: {},
-        detailedResults: [],
+        detailedResults: attemptSession.secrets,
         startedAt: new Date(),
       });
 
-      // Strip answers from returned questions for security
       return NextResponse.json({
         success: true,
         sessionId,
         title,
         durationMinutes: duration,
-        totalQuestions: availableQuestions.length,
-        questions: availableQuestions,
+        totalQuestions: attemptSession.clientQuestions.length,
+        questions: attemptSession.clientQuestions,
       });
     }
 
@@ -159,97 +165,157 @@ export async function POST(req: Request) {
         return NextResponse.json({ success: false, error: "Session has no questions" }, { status: 400 });
       }
 
-      // Fetch official questions and answers
-      const trueQuestions = await db
-        .select()
-        .from(trainingQuestions)
-        .where(inArray(trainingQuestions.id, qIds));
-
-      const qMap = new Map<string, any>();
-      for (const q of trueQuestions) {
-        qMap.set(q.id, q);
-      }
-
       let correctCount = 0;
-      const detailedResults: any[] = [];
+      let detailedResults: any[] = [];
+      const storedSecrets = session.detailedResults;
+      const isSmartShuffleSession =
+        storedSecrets &&
+        typeof storedSecrets === "object" &&
+        !Array.isArray(storedSecrets) &&
+        Object.keys(storedSecrets).length > 0;
 
-      for (const qId of qIds) {
-        const q = qMap.get(qId);
-        if (!q) continue;
+      if (isSmartShuffleSession) {
+        const graded = gradeExamAttempt(storedSecrets as any, studentAnswers);
+        correctCount = graded.score;
+        detailedResults = graded.detailedResults;
 
-        const givenAnswer = studentAnswers[qId] ? String(studentAnswers[qId]).trim().toLowerCase() : null;
-        const correctAnswer = String(q.correctAnswer || "").trim().toLowerCase();
-
-        let isCorrect = givenAnswer !== null && givenAnswer === correctAnswer;
-        if (!isCorrect && givenAnswer !== null && Array.isArray(q.options)) {
-          const matchedOpt = (q.options as any[]).find(
-            (o) => String(o.label).toLowerCase() === correctAnswer
-          );
-          if (matchedOpt && String(matchedOpt.text).trim().toLowerCase() === givenAnswer) {
-            isCorrect = true;
-          }
-        }
-
-        if (isCorrect) {
-          correctCount += 1;
-        }
-
-        detailedResults.push({
-          questionId: q.id,
-          questionNumber: q.questionNumber,
-          questionText: q.questionText,
-          options: q.options,
-          studentAnswer: givenAnswer,
-          correctAnswer: q.correctAnswer,
-          isCorrect,
-          explanation: q.explanation || `Grammar rule: ${q.topic}`,
-          topic: q.topic,
-          difficulty: q.difficulty,
-        });
-
-        // Log attempt and update revision queue
         if (session.studentId && session.studentId !== "usr_guest") {
-          const attemptId = `att_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`;
-          await db.insert(trainingStudentAttempts).values({
-            id: attemptId,
-            studentId: session.studentId,
-            questionId: q.id,
-            selectedAnswer: givenAnswer,
-            isCorrect,
-            attemptType: "exam",
-            examSessionId: sessionId,
-          });
+          for (const item of graded.detailedResults) {
+            const attemptId = `att_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`;
+            await db.insert(trainingStudentAttempts).values({
+              id: attemptId,
+              studentId: session.studentId,
+              questionId: item.questionId,
+              selectedAnswer: item.studentAnswer,
+              isCorrect: item.isCorrect,
+              attemptType: "exam",
+              examSessionId: sessionId,
+            });
 
-          if (!isCorrect) {
-            const existingMistake = await db
-              .select()
-              .from(trainingRevisionQueue)
-              .where(
-                and(
-                  eq(trainingRevisionQueue.studentId, session.studentId),
-                  eq(trainingRevisionQueue.questionId, q.id)
+            if (!item.isCorrect) {
+              const existingMistake = await db
+                .select()
+                .from(trainingRevisionQueue)
+                .where(
+                  and(
+                    eq(trainingRevisionQueue.studentId, session.studentId),
+                    eq(trainingRevisionQueue.questionId, item.questionId)
+                  )
                 )
-              )
-              .limit(1);
+                .limit(1);
 
-            if (existingMistake.length > 0) {
-              await db
-                .update(trainingRevisionQueue)
-                .set({
-                  mistakeCount: sql`${trainingRevisionQueue.mistakeCount} + 1`,
+              if (existingMistake.length > 0) {
+                await db
+                  .update(trainingRevisionQueue)
+                  .set({
+                    mistakeCount: sql`${trainingRevisionQueue.mistakeCount} + 1`,
+                    lastMistakeAt: new Date(),
+                    resolved: false,
+                  })
+                  .where(eq(trainingRevisionQueue.id, existingMistake[0].id));
+              } else {
+                await db.insert(trainingRevisionQueue).values({
+                  id: `rev_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`,
+                  studentId: session.studentId,
+                  questionId: item.questionId,
+                  mistakeCount: 1,
                   lastMistakeAt: new Date(),
                   resolved: false,
-                })
-                .where(eq(trainingRevisionQueue.id, existingMistake[0].id));
-            } else {
-              await db.insert(trainingRevisionQueue).values({
-                id: `rev_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`,
-                studentId: session.studentId,
-                questionId: q.id,
-                mistakeCount: 1,
-                lastMistakeAt: new Date(),
-                resolved: false,
-              });
+                });
+              }
+            }
+          }
+        }
+      } else {
+        // Fetch official questions and answers for legacy sessions
+        const trueQuestions = await db
+          .select()
+          .from(trainingQuestions)
+          .where(inArray(trainingQuestions.id, qIds));
+
+        const qMap = new Map<string, any>();
+        for (const q of trueQuestions) {
+          qMap.set(q.id, q);
+        }
+
+        for (const qId of qIds) {
+          const q = qMap.get(qId);
+          if (!q) continue;
+
+          const givenAnswer = studentAnswers[qId] ? String(studentAnswers[qId]).trim().toLowerCase() : null;
+          const correctAnswer = String(q.correctAnswer || "").trim().toLowerCase();
+
+          let isCorrect = givenAnswer !== null && givenAnswer === correctAnswer;
+          if (!isCorrect && givenAnswer !== null && Array.isArray(q.options)) {
+            const matchedOpt = (q.options as any[]).find(
+              (o) => String(o.label).toLowerCase() === correctAnswer
+            );
+            if (matchedOpt && String(matchedOpt.text).trim().toLowerCase() === givenAnswer) {
+              isCorrect = true;
+            }
+          }
+
+          if (isCorrect) {
+            correctCount += 1;
+          }
+
+          detailedResults.push({
+            questionId: q.id,
+            questionNumber: q.questionNumber,
+            questionText: q.questionText,
+            options: q.options,
+            studentAnswer: givenAnswer,
+            correctAnswer: q.correctAnswer,
+            isCorrect,
+            explanation: q.explanation || `Grammar rule: ${q.topic}`,
+            topic: q.topic,
+            difficulty: q.difficulty,
+          });
+
+          // Log attempt and update revision queue
+          if (session.studentId && session.studentId !== "usr_guest") {
+            const attemptId = `att_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`;
+            await db.insert(trainingStudentAttempts).values({
+              id: attemptId,
+              studentId: session.studentId,
+              questionId: q.id,
+              selectedAnswer: givenAnswer,
+              isCorrect,
+              attemptType: "exam",
+              examSessionId: sessionId,
+            });
+
+            if (!isCorrect) {
+              const existingMistake = await db
+                .select()
+                .from(trainingRevisionQueue)
+                .where(
+                  and(
+                    eq(trainingRevisionQueue.studentId, session.studentId),
+                    eq(trainingRevisionQueue.questionId, q.id)
+                  )
+                )
+                .limit(1);
+
+              if (existingMistake.length > 0) {
+                await db
+                  .update(trainingRevisionQueue)
+                  .set({
+                    mistakeCount: sql`${trainingRevisionQueue.mistakeCount} + 1`,
+                    lastMistakeAt: new Date(),
+                    resolved: false,
+                  })
+                  .where(eq(trainingRevisionQueue.id, existingMistake[0].id));
+              } else {
+                await db.insert(trainingRevisionQueue).values({
+                  id: `rev_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`,
+                  studentId: session.studentId,
+                  questionId: q.id,
+                  mistakeCount: 1,
+                  lastMistakeAt: new Date(),
+                  resolved: false,
+                });
+              }
             }
           }
         }

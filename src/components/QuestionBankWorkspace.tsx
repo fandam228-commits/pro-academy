@@ -981,7 +981,7 @@ export const QuestionBankWorkspace: React.FC<{ onExamGenerated?: (exam: any) => 
           <div className="space-y-1.5">
             <span className="text-[11px] font-bold text-slate-600 dark:text-slate-400 flex items-center gap-1">
               <FileText className="w-3.5 h-3.5 text-indigo-500" />
-              <span>{lang === "ar" ? "نماذج اختبار سريعة للتجربة بنقرة واحدة:" : "Quick Test Templates (1-Click Fill):"}</span>
+              <span>{lang === "ar" ? "نماذج اختبار سريعة للاستيراد:" : "Quick Test Templates:"}</span>
             </span>
             <div className="flex flex-wrap gap-2 text-xs font-bold">
               <button

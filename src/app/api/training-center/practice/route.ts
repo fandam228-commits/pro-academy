@@ -27,6 +27,7 @@ export async function GET(req: Request) {
 
     const conditions = [
       eq(trainingQuestions.isPublished, true),
+      eq(trainingQuestions.validationStatus, "complete_verified"),
     ];
 
     if (topic && topic !== "all") {

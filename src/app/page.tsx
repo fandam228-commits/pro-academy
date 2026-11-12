@@ -170,6 +170,11 @@ const TranslationAcademyWorkspace = dynamic(
   () => import("@/components/translation/TranslationAcademyWorkspace").then((m) => m.TranslationAcademyWorkspace),
   { loading: () => <TabLoadingSkeleton label="جاري تحميل أكاديمية الترجمة الاحترافية..." />, ssr: false }
 );
+
+const StoryWorldWorkspace = dynamic(
+  () => import("@/components/story/StoryWorldWorkspace").then((m) => m.StoryWorldWorkspace),
+  { loading: () => <TabLoadingSkeleton label="جاري تحميل عالم القصص الاحترافي..." />, ssr: false }
+);
 import {
   GraduationCap,
   Sparkles,
@@ -759,6 +764,13 @@ function MainAppContent() {
 
           /* VIEW: TRANSLATION ACADEMY — Mr. Habib El Rahman */
           <TranslationAcademyWorkspace />
+        ) : activeTab === "story_world" ? (
+
+          /* VIEW: PROFESSIONAL STORY WORLD — Mr. Habib El Rahman */
+          <StoryWorldWorkspace
+            user={user}
+            onNavigateHome={() => setActiveTab(user ? "dashboard" : "home")}
+          />
         ) : activeTab === "download" ? (
 
           /* VIEW: DOWNLOAD / INSTALL APP */

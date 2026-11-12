@@ -11,6 +11,7 @@ dist/
 
 # production runtime storage (uploaded PDFs, homework files, VAPID keys)
 storage/
+backups/
 
 # environment secrets — NEVER commit these
 .env
