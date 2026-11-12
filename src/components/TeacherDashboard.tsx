@@ -5,13 +5,14 @@ import { useApp } from "@/context/AppContext";
 import { authHeaders } from "@/lib/client-auth";
 import { ParentConnectAdminHub } from "@/components/ParentConnectAdminHub";
 import { AdminCurriculumManager } from "@/components/AdminCurriculumManager";
-import { GraduationCap, Plus, Video, FileText, CheckCircle2, BookOpen, Users, BarChart2, Sparkles, HelpCircle, Layers } from "lucide-react";
+import { AiCurriculumAnalyzerWorkspace } from "@/components/AiCurriculumAnalyzerWorkspace";
+import { GraduationCap, Plus, Video, FileText, CheckCircle2, BookOpen, Users, BarChart2, Sparkles, HelpCircle, Layers, Brain, Languages } from "lucide-react";
 
-export const TeacherDashboard: React.FC<{ onOpenLibrary?: () => void }> = ({ onOpenLibrary }) => {
+export const TeacherDashboard: React.FC<{ onOpenLibrary?: () => void; onOpenTranslation?: () => void }> = ({ onOpenLibrary, onOpenTranslation }) => {
   const { lang, user } = useApp();
   const [coursesList, setCoursesList] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
-  const [activeTab, setActiveTab] = useState<"courses" | "create_course" | "question_bank" | "parent_connect" | "curriculum">("courses");
+  const [activeTab, setActiveTab] = useState<"courses" | "create_course" | "question_bank" | "parent_connect" | "curriculum" | "curriculum_analyzer">("courses");
 
   // Create Course Form State
   const [title, setTitle] = useState("");
@@ -84,15 +85,26 @@ export const TeacherDashboard: React.FC<{ onOpenLibrary?: () => void }> = ({ onO
           <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
             {lang === "ar" ? "مرحباً مستر حبيب الرحمن! رفع الفيديوهات، الشيتات، والملاحظات" : "Manage lectures, PDF files, exam question banks and attendance."}
           </p>
-          {onOpenLibrary && (
-            <button
-              onClick={onOpenLibrary}
-              className="mt-3 inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-purple-600 via-indigo-600 to-sky-600 hover:from-purple-500 hover:to-sky-500 text-white text-xs font-extrabold shadow-lg shadow-purple-500/25 transition-all"
-            >
-              <FileText className="w-4 h-4 text-amber-300" />
-              <span>{lang === "ar" ? "رفع وإدارة ملفات PDF" : "Upload & Manage PDF Files"}</span>
-            </button>
-          )}
+          <div className="flex flex-wrap items-center gap-2 mt-3">
+            {onOpenLibrary && (
+              <button
+                onClick={onOpenLibrary}
+                className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-purple-600 via-indigo-600 to-sky-600 hover:from-purple-500 hover:to-sky-500 text-white text-xs font-extrabold shadow-lg shadow-purple-500/25 transition-all cursor-pointer"
+              >
+                <FileText className="w-4 h-4 text-amber-300" />
+                <span>{lang === "ar" ? "رفع وإدارة ملفات PDF" : "Upload & Manage PDF Files"}</span>
+              </button>
+            )}
+            {onOpenTranslation && (
+              <button
+                onClick={onOpenTranslation}
+                className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-slate-900 dark:bg-slate-800 hover:bg-slate-800 dark:hover:bg-slate-700 text-white text-xs font-extrabold border border-purple-500/40 shadow-sm transition-all cursor-pointer"
+              >
+                <Languages className="w-4 h-4 text-amber-300" />
+                <span>{lang === "ar" ? "أكاديمية الترجمة والمراجعة" : "Translation Academy Hub"}</span>
+              </button>
+            )}
+          </div>
         </div>
 
         {/* TAB BUTTONS */}
@@ -130,6 +142,15 @@ export const TeacherDashboard: React.FC<{ onOpenLibrary?: () => void }> = ({ onO
           >
             <Layers className="w-3.5 h-3.5 text-purple-500" />
             <span>{lang === "ar" ? "المناهج والقصة" : "Curriculum & Story"}</span>
+          </button>
+          <button
+            onClick={() => setActiveTab("curriculum_analyzer")}
+            className={`px-4 py-2 rounded-xl transition-all flex items-center gap-1.5 ${
+              activeTab === "curriculum_analyzer" ? "bg-gradient-to-r from-purple-600 to-indigo-600 text-white shadow-sm font-black" : "text-slate-600 dark:text-slate-400"
+            }`}
+          >
+            <Brain className="w-3.5 h-3.5 text-amber-400" />
+            <span>{lang === "ar" ? "محلل المناهج والمذكرات AI" : "AI Curriculum Analyzer"}</span>
           </button>
         </div>
       </div>
@@ -233,6 +254,11 @@ export const TeacherDashboard: React.FC<{ onOpenLibrary?: () => void }> = ({ onO
       {/* CURRICULUM MANAGER TAB */}
       {activeTab === "curriculum" && (
         <AdminCurriculumManager />
+      )}
+
+      {/* AI FULL CURRICULUM ANALYZER TAB */}
+      {activeTab === "curriculum_analyzer" && (
+        <AiCurriculumAnalyzerWorkspace />
       )}
     </div>
   );

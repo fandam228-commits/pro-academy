@@ -23,6 +23,7 @@ import {
   RotateCcw,
   FileCheck,
   FileText,
+  Languages,
 } from "lucide-react";
 import { getCurriculumUnits } from "@/config/curriculum-2026";
 
@@ -32,7 +33,8 @@ export const StudentDashboard: React.FC<{
   onStartExam?: (exam: any) => void;
   onOpenCurriculum?: (gradeCode?: string) => void;
   onOpenMinistryAssessments?: () => void;
-}> = ({ onSelectCourse, onOpenReport, onStartExam, onOpenCurriculum, onOpenMinistryAssessments }) => {
+  onOpenTranslation?: () => void;
+}> = ({ onSelectCourse, onOpenReport, onStartExam, onOpenCurriculum, onOpenMinistryAssessments, onOpenTranslation }) => {
   const { user, lang } = useApp();
   const [plannerTasks, setPlannerTasks] = useState<any[]>([]);
   const [newTask, setNewTask] = useState("");
@@ -294,6 +296,41 @@ export const StudentDashboard: React.FC<{
           </button>
         </div>
       )}
+
+      {/* TRANSLATION ACADEMY DEDICATED CARD */}
+      <div className="bg-gradient-to-r from-[#180a33] via-[#210d48] to-[#0d071a] p-6 rounded-3xl border border-purple-500/30 text-white shadow-xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+        <div className="flex items-center gap-4">
+          <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-purple-600 via-indigo-600 to-sky-400 flex items-center justify-center text-white shadow-lg shadow-purple-600/30 shrink-0">
+            <Languages className="w-6 h-6 text-amber-300" />
+          </div>
+          <div>
+            <div className="flex items-center gap-2">
+              <span className="text-[10px] font-black uppercase px-2.5 py-0.5 rounded-full bg-gradient-to-r from-amber-400 to-amber-500 text-slate-950 shadow-sm">
+                TRANSLATION ACADEMY
+              </span>
+              <span className="text-xs text-purple-200 font-bold">
+                Think in English. Translate with Confidence.
+              </span>
+            </div>
+            <h3 className="text-base sm:text-lg font-black mt-1 text-white">
+              {lang === "ar" ? "أكاديمية الترجمة الاحترافية — مستر حبيب الرحمن" : "Professional Translation Academy — Mr. Habib El Rahman"}
+            </h3>
+            <p className="text-xs text-purple-200/80">
+              {lang === "ar"
+                ? "تدريب تفاعلي على 8 مسارات و14 نمط أسئلة مع تقييم ذكي فوري وفق معايير الترجمة الخمسة."
+                : "Interactive training across 8 modules and 14 question types with instant rubric-based evaluation."}
+            </p>
+          </div>
+        </div>
+
+        <button
+          onClick={() => onOpenTranslation ? onOpenTranslation() : undefined}
+          className="px-6 py-3 rounded-2xl bg-gradient-to-r from-purple-500 via-indigo-500 to-sky-500 hover:from-purple-400 hover:to-sky-400 text-white font-black text-xs shadow-xl shadow-purple-600/25 transition-all cursor-pointer shrink-0 flex items-center gap-1.5"
+        >
+          <Languages className="w-4 h-4 text-amber-300" />
+          <span>{lang === "ar" ? "دخول أكاديمية الترجمة ←" : "Enter Translation Academy →"}</span>
+        </button>
+      </div>
 
       {/* MAIN DASHBOARD CONTENT GRID */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">

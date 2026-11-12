@@ -29,6 +29,7 @@ import {
   Smartphone,
   BookMarked,
   FileCheck,
+  Languages,
 } from "lucide-react";
 
 export const Navbar: React.FC<{ activeTab?: string; setActiveTab?: (tab: string) => void }> = ({
@@ -100,6 +101,21 @@ export const Navbar: React.FC<{ activeTab?: string; setActiveTab?: (tab: string)
             >
               <BookMarked className="w-4 h-4 text-purple-500" />
               <span>{lang === "ar" ? "المناهج والقصة" : "Curriculum & Story"}</span>
+            </button>
+
+            <button
+              onClick={() => setActiveTab && setActiveTab("translation")}
+              className={`px-3.5 py-2 rounded-xl transition-all flex items-center gap-1.5 cursor-pointer ${
+                activeTab === "translation"
+                  ? "bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-black shadow-md shadow-purple-600/30"
+                  : "bg-purple-50 dark:bg-purple-950/40 text-purple-700 dark:text-purple-300 font-extrabold hover:bg-purple-100 dark:hover:bg-purple-900/60 border border-purple-300/40"
+              }`}
+            >
+              <Languages className="w-4 h-4 text-amber-400" />
+              <span>{lang === "ar" ? "أكاديمية الترجمة" : "Translation Academy"}</span>
+              <span className="px-1.5 py-0.5 rounded-md bg-amber-400 text-slate-950 text-[9px] font-black uppercase">
+                PRO
+              </span>
             </button>
 
             <button
@@ -397,6 +413,16 @@ export const Navbar: React.FC<{ activeTab?: string; setActiveTab?: (tab: string)
           >
             <BookMarked className="w-4 h-4 text-purple-500" />
             <span>{lang === "ar" ? "المناهج والقصة المقررة" : "Curriculum & Story"}</span>
+          </button>
+          <button
+            onClick={() => {
+              setActiveTab && setActiveTab("translation");
+              setMobileMenuOpen(false);
+            }}
+            className="w-full text-start px-4 py-2.5 rounded-xl bg-purple-500/10 hover:bg-purple-500/20 font-bold text-purple-700 dark:text-purple-300 flex items-center gap-2 border border-purple-400/30"
+          >
+            <Languages className="w-4 h-4 text-amber-500" />
+            <span>{lang === "ar" ? "أكاديمية الترجمة (Translation Academy)" : "Translation Academy"}</span>
           </button>
           <button
             onClick={() => {

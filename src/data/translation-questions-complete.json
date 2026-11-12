@@ -1,0 +1,450 @@
+[
+  {
+    "id": "q_mcq_001",
+    "type": "mcq",
+    "questionText": "اختر الترجمة الصحيحة للجملة التالية:\n\"لقد فاز الفريق القومي المصري بكأس أفريقيا وأسعد كل المصريين.\"",
+    "instructions": "اختر الترجمة الإنجليزية الأدق لقواعد وأزمنة الجملة",
+    "options": [
+      "The Egyptian national team has won the Africa Cup and delighted all Egyptians.",
+      "The Egyptian national team had won Africa Cup and delighted all Egyptians.",
+      "The Egyptian national team won Africa Cup and will delight all Egyptians.",
+      "The Egyptian national team is winning the African Cup and delighted every Egyptian."
+    ],
+    "modelAnswer": "The Egyptian national team has won the Africa Cup and delighted all Egyptians.",
+    "altAnswers": [
+      "Egypt's national team has won the African Cup and made all Egyptians happy."
+    ],
+    "explanation": "\"لقد + ماضي\" بدون تحديد وقت ماضٍ صريح تترجم بالمضارع التام (has won). كما أن 'أسعد' معطوفة على ماضٍ متحقق.",
+    "difficulty": "Medium",
+    "topic": "Sports & National Pride",
+    "lessonId": "LES_006",
+    "marks": 2,
+    "sourcePdf": "Source 1",
+    "sourcePage": 14,
+    "origin": "Original Source Question"
+  },
+  {
+    "id": "q_mcq_002",
+    "type": "mcq",
+    "questionText": "اختر الترجمة الصحيحة للجملة التالية:\n\"تدين حضارة العالم بالكثير للعرب.\"",
+    "instructions": "اختر الترجمة التي تعبر عن المعنى الدقيق للفعل 'يدين بـ'",
+    "options": [
+      "World civilization owes a great deal to the Arabs.",
+      "World civilization owes with much to the Arabs.",
+      "World civilization has debt from the Arabs greatly.",
+      "The world civilization is owing a lot of the Arabs."
+    ],
+    "modelAnswer": "World civilization owes a great deal to the Arabs.",
+    "altAnswers": [
+      "The civilization of the world owes much to the Arabs."
+    ],
+    "explanation": "الفعل owe لا يأخذ حرف جر مفعولي في الإنجليزية بل تركيبه (owe something to someone) وحضارة العالم بدون أداة زائدة.",
+    "difficulty": "Medium",
+    "topic": "History & Heritage",
+    "lessonId": "LES_007",
+    "marks": 2,
+    "sourcePdf": "Source 1",
+    "sourcePage": 10,
+    "origin": "Original Source Question"
+  },
+  {
+    "id": "q_mcq_003",
+    "type": "mcq",
+    "questionText": "Choose the best Arabic translation:\n\"Distant learning makes use of educational experts in various branches of knowledge all over the world.\"",
+    "instructions": "اختر الصياغة العربية الأكثر فصاحة وسلاسة",
+    "options": [
+      "يستفيد التعلم عن بعد من خبراء التعليم في شتى فروع المعرفة حول العالم.",
+      "يجعل التعلم البعيد استخدام خبراء التربية في فروع العلم العالمية.",
+      "التعليم بالمسافة يستخدم الخبراء التعليميين في كل مكان في العالم.",
+      "استفاد التعليم البعيد من العلماء في مجالات شتى على مستوى العالم."
+    ],
+    "modelAnswer": "يستفيد التعلم عن بعد من خبراء التعليم في شتى فروع المعرفة حول العالم.",
+    "altAnswers": [
+      "يتيح التعلم عن بعد الاستفادة من خبراء التربية والتعليم في مختلف فروع المعرفة في أنحاء العالم."
+    ],
+    "explanation": "الترجمة الاصطلاحية لـ 'makes use of' هي 'يستفيد من' أو 'يوظف'، و'distant learning' هي 'التعلم عن بعد'.",
+    "difficulty": "Easy",
+    "topic": "Education & Technology",
+    "lessonId": "LES_005",
+    "marks": 2,
+    "sourcePdf": "Source 2",
+    "sourcePage": 50,
+    "origin": "Original Source Question"
+  },
+  {
+    "id": "q_ar_en_001",
+    "type": "arabic_to_english",
+    "questionText": "ترجم إلى الإنجليزية:\n\"يجب أن نتعاون جميعاً من أجل زيادة الإنتاج ورفع مستوى المعيشة.\"",
+    "instructions": "اكتب ترجمة دقيقة مستخدماً البناء السليم للجملة الإنجليزية",
+    "options": [],
+    "modelAnswer": "We must all cooperate in order to increase production and raise the standard of living.",
+    "altAnswers": [
+      "We should all cooperate to increase production and improve living standards.",
+      "All of us must cooperate so as to increase production and raise the standard of living."
+    ],
+    "explanation": "فاعل الجملة مستتر في العربية 'نتعاون' ويجب إظهاره كـ 'We'. لام التعليل تترجم بـ 'in order to' أو 'to'. و'مستوى المعيشة' هي 'the standard of living'.",
+    "difficulty": "Medium",
+    "topic": "Economics & Work",
+    "lessonId": "LES_004",
+    "marks": 3,
+    "sourcePdf": "Source 1",
+    "sourcePage": 16,
+    "origin": "Original Source Question"
+  },
+  {
+    "id": "q_ar_en_002",
+    "type": "arabic_to_english",
+    "questionText": "ترجم إلى الإنجليزية:\n\"إن السلام العادل والدائم هو السبيل الوحيد لتحقيق الرخاء والاستقرار في الشرق الأوسط.\"",
+    "instructions": "لا تترجم 'إنّ' التوكيدية حرفياً وابدأ بالفاعل مباشرة",
+    "options": [],
+    "modelAnswer": "Just and lasting peace is the only way to achieve prosperity and stability in the Middle East.",
+    "altAnswers": [
+      "A just and lasting peace is the only means of achieving prosperity and stability in the Middle East.",
+      "Fair and permanent peace is the only way to realize prosperity and stability in the Middle East."
+    ],
+    "explanation": "كلمة 'إنّ' توكيدية لا تترجم حرفياً. السلام اسم معنوي مجرد ولا يأخذ the إلا مع تخصيص. 'lasting' أو 'permanent' تعني دائم، و'prosperity' تعني الرخاء.",
+    "difficulty": "Hard",
+    "topic": "Politics & Peace",
+    "lessonId": "LES_004",
+    "marks": 4,
+    "sourcePdf": "Source 2",
+    "sourcePage": 35,
+    "origin": "Original Source Question"
+  },
+  {
+    "id": "q_ar_en_003",
+    "type": "arabic_to_english",
+    "questionText": "ترجم إلى الإنجليزية:\n\"لقد ساعد العلم الإنسان على أن يحيا حياة مريحة.\"",
+    "instructions": "لاحظ زمن الجملة وتركيب المفعول المطلق",
+    "options": [],
+    "modelAnswer": "Science has helped man to live a comfortable life.",
+    "altAnswers": [
+      "Science has helped humans live comfortably.",
+      "Science helped man to lead a comfortable life."
+    ],
+    "explanation": "'لقد ساعد' تفيد أثراً ممتداً للحاضر فيستخدم المضارع التام (has helped)، والعلم كاسم معنوي عام يكتب Science بدون the.",
+    "difficulty": "Medium",
+    "topic": "Science & Humanity",
+    "lessonId": "LES_004",
+    "marks": 3,
+    "sourcePdf": "Source 1",
+    "sourcePage": 16,
+    "origin": "Original Source Question"
+  },
+  {
+    "id": "q_en_ar_001",
+    "type": "english_to_arabic",
+    "questionText": "Translate into Arabic:\n\"Modern inventions have made it possible for us to travel quickly and comfortably across long distances.\"",
+    "instructions": "صغ الجملة بأسلوب عربي فصيح مبدوءاً بفعل مناسب",
+    "options": [],
+    "modelAnswer": "لقد مكنتنا المخترعات الحديثة من السفر بسرعة وراحة عبر المسافات الطويلة.",
+    "altAnswers": [
+      "أتاحت المخترعات الحديثة لنا السفر بسرعة وراحة عبر مسافات شاسعة.",
+      "بفضل الاختراعات الحديثة أصبح بإمكاننا السفر سريعاً وبشكل مريح لمسافات طويلة."
+    ],
+    "explanation": "يفضل في العربية البدء بالجملة الفعلية (مكّنتنا / أتاحت لنا). 'comfortable' تترجم ظرفياً بـ 'براحة / بشكل مريح'.",
+    "difficulty": "Medium",
+    "topic": "Technology & Travel",
+    "lessonId": "LES_005",
+    "marks": 3,
+    "sourcePdf": "Source 2",
+    "sourcePage": 27,
+    "origin": "Original Source Question"
+  },
+  {
+    "id": "q_en_ar_002",
+    "type": "english_to_arabic",
+    "questionText": "Translate into Arabic:\n\"Eco-tourism is a branch of tourism where tourists live in a primitive way, using natural resources and avoiding pollutants.\"",
+    "instructions": "ترجم النص إلى لغة عربية متناسقة",
+    "options": [],
+    "modelAnswer": "السياحة البيئية هي فرع من فروع السياحة حيث يعيش السائحون بطريقة بدائية معتمدين على الموارد الطبيعية ومتجنبين الملوثات.",
+    "altAnswers": [
+      "تعد السياحة البيئية أحد فروع السياحة التي يقيم فيها السياح بأسلوب بدائي مستخدمين الموارد الطبيعية ومبتعدين عن الملوثات."
+    ],
+    "explanation": "ترجمة مصطلح 'Eco-tourism' بالسياحة البيئية، و'primitive way' بطريقة بدائية، و'pollutants' بالملوثات.",
+    "difficulty": "Medium",
+    "topic": "Tourism & Environment",
+    "lessonId": "LES_005",
+    "marks": 3,
+    "sourcePdf": "Source 2",
+    "sourcePage": 71,
+    "origin": "Original Source Question"
+  },
+  {
+    "id": "q_ord_001",
+    "type": "sentence_ordering",
+    "questionText": "رتب الكلمات الإنجليزية لتكوين ترجمة صحيحة للجملة:\n\"يزور مصر ملايين السياح كل عام لمشاهدة آثارها القديمة.\"",
+    "instructions": "رتب الكلمات بالترتيب الصحيح (S + V + O)",
+    "options": [
+      "visit Egypt",
+      "Every year,",
+      "to watch",
+      "millions of tourists",
+      "its ancient monuments."
+    ],
+    "modelAnswer": "Every year, millions of tourists visit Egypt to watch its ancient monuments.",
+    "altAnswers": [
+      "Millions of tourists visit Egypt every year to watch its ancient monuments."
+    ],
+    "explanation": "في الإنجليزية: ظرف الزمان في البداية أو النهاية، ثم الفاعل (millions of tourists) ثم الفعل (visit) ثم المفعول (Egypt).",
+    "difficulty": "Medium",
+    "topic": "Tourism & History",
+    "lessonId": "LES_003",
+    "marks": 2,
+    "sourcePdf": "Source 1",
+    "sourcePage": 15,
+    "origin": "Original Source Question"
+  },
+  {
+    "id": "q_fib_001",
+    "type": "fill_blanks",
+    "questionText": "أكمل الفراغ بالكلمة المناسبة لترجمة:\n\"مدرسي مسرور من عملي.\"\n\"My teacher is pleased ________ my work.\"",
+    "instructions": "اختر حرف الجر الصحيح المرتبط بالصفة pleased",
+    "options": [
+      "with",
+      "from",
+      "at",
+      "about"
+    ],
+    "modelAnswer": "with",
+    "altAnswers": [
+      "with"
+    ],
+    "explanation": "من الأخطاء الشائعة استخدام from مع pleased بينما التعبير الإنجليزي الصحيح هو pleased with.",
+    "difficulty": "Easy",
+    "topic": "Grammar & Prepositions",
+    "lessonId": "LES_007",
+    "marks": 1,
+    "sourcePdf": "Source 1",
+    "sourcePage": 12,
+    "origin": "Original Source Question"
+  },
+  {
+    "id": "q_cpt_001",
+    "type": "complete_translation",
+    "questionText": "أكمل الترجمة التالية:\n\"إن مصر غنية بثرواتها الطبيعية.\"\n\"Egypt ________ rich in its natural resources.\"",
+    "instructions": "أدخل فعل الكينونة المناسب للزمن الحاضر",
+    "options": [
+      "is",
+      "are",
+      "was",
+      "has"
+    ],
+    "modelAnswer": "is",
+    "altAnswers": [
+      "is"
+    ],
+    "explanation": "الجملة الاسمية في العربية تتطلب وجود Verb to be في الإنجليزية، ومصر مفرد فتأخذ is.",
+    "difficulty": "Easy",
+    "topic": "Sentence Structure",
+    "lessonId": "LES_003",
+    "marks": 1,
+    "sourcePdf": "Source 1",
+    "sourcePage": 10,
+    "origin": "Original Source Question"
+  },
+  {
+    "id": "q_mat_001",
+    "type": "word_matching",
+    "questionText": "طابق كل مصطلح إنجليزي بمعناه العربي الدقيق المعتمد في المذكرات:",
+    "instructions": "اسحب الكلمة الإنجليزية وضعها أمام معناها العربي",
+    "options": [
+      "1. Desert reclamation",
+      "2. Food security",
+      "3. Intensive care",
+      "4. Foreign currency"
+    ],
+    "modelAnswer": "1-استصلاح الصحراء, 2-الأمن الغذائي, 3-العناية المركزة, 4-النقد الأجنبي",
+    "altAnswers": [],
+    "explanation": "المصطلحات الاقتصادية والطبية المستخرجة من صفحات 26 و50 و75.",
+    "difficulty": "Medium",
+    "topic": "Specialized Terminology",
+    "lessonId": "LES_007",
+    "marks": 4,
+    "sourcePdf": "Source 3",
+    "sourcePage": 75,
+    "origin": "Original Source Question"
+  },
+  {
+    "id": "q_sel_001",
+    "type": "word_selection",
+    "questionText": "أي من الكلمات التالية تترجم بدقة عبارة 'منتجات محلية':",
+    "instructions": "حدد الإجابة الأنسب وفق مبدأ 'الترجمة لغة التصرف'",
+    "options": [
+      "local products",
+      "foreign crops",
+      "imported merchandise",
+      "raw minerals"
+    ],
+    "modelAnswer": "local products",
+    "altAnswers": [
+      "domestic goods"
+    ],
+    "explanation": "أوضح المستر أن local products أو local goods أو national articles تعبر بدقة عن المنتجات الوطنية والمحلية.",
+    "difficulty": "Easy",
+    "topic": "Translation Techniques",
+    "lessonId": "LES_008",
+    "marks": 1,
+    "sourcePdf": "Source 1",
+    "sourcePage": 18,
+    "origin": "Original Source Question"
+  },
+  {
+    "id": "q_cor_001",
+    "type": "correct_translation",
+    "questionText": "صحح الخطأ في ترجمة الجملة التالية:\n\"The child is afraid from the lion.\"",
+    "instructions": "حدد الكلمة الخاطئة واكتب الجملة المصححة بالكامل",
+    "options": [],
+    "modelAnswer": "The child is afraid of the lion.",
+    "altAnswers": [
+      "The child is frightened of the lion."
+    ],
+    "explanation": "الصفة afraid تأخذ حرف الجر of وليس from.",
+    "difficulty": "Easy",
+    "topic": "Common Mistakes",
+    "lessonId": "LES_009",
+    "marks": 2,
+    "sourcePdf": "Source 1",
+    "sourcePage": 13,
+    "origin": "Original Source Question"
+  },
+  {
+    "id": "q_err_001",
+    "type": "error_identification",
+    "questionText": "حدد الجزء الذي يحتوي على خطأ نحوي في الترجمة التالية:\n\"We (A) are still (B) suffer from (C) the problem of unemployment (D).\"",
+    "instructions": "اختر الرمز الذي يشير إلى الخطأ النحوي",
+    "options": [
+      "(A) We",
+      "(B) are still",
+      "(C) suffer from",
+      "(D) the problem of unemployment"
+    ],
+    "modelAnswer": "(C) suffer from",
+    "altAnswers": [
+      "C",
+      "suffer from"
+    ],
+    "explanation": "مع وجود are still يجب أن يكون الفعل بصيغة المضارع المستمر: suffering from.",
+    "difficulty": "Medium",
+    "topic": "Tenses & Continuous Aspect",
+    "lessonId": "LES_006",
+    "marks": 2,
+    "sourcePdf": "Source 1",
+    "sourcePage": 10,
+    "origin": "Original Source Question"
+  },
+  {
+    "id": "q_ctx_001",
+    "type": "context_translation",
+    "questionText": "ترجم كلمة (Home) في سياق العبارة التالية لمغترب في الخارج:\n\"He spent twenty years abroad, but home means a lot to him.\"",
+    "instructions": "بين كيف يؤثر السياق على المعنى الدقيق لكلمة Home هنا",
+    "options": [],
+    "modelAnswer": "قضى عشرين عاماً في الخارج، لكن وطنه يعني له الكثير.",
+    "altAnswers": [
+      "أمضى عشرين عاماً في الغربة، إلا أن مسقط رأسه والوطن يعنيان له الكثير."
+    ],
+    "explanation": "أكد مستر حبيب الرحمن في الصفحة الأولى أن Home في سياق المغتربين تعني الوطن، بينما للأم تعني الحياة الأسرية وللعامل في الصحراء الراحة والدفء.",
+    "difficulty": "Medium",
+    "topic": "Context & Polysemy",
+    "lessonId": "LES_002",
+    "marks": 3,
+    "sourcePdf": "Source 1",
+    "sourcePage": 9,
+    "origin": "Original Source Question"
+  },
+  {
+    "id": "q_grm_001",
+    "type": "grammar_in_translation",
+    "questionText": "ترجم مع ضبط الزمن:\n\"قد يتغير منهج اللغة الإنجليزية العام القادم.\"",
+    "instructions": "استخدم الأداة التي تعبر عن الاحتمال في المضارع/المستقبل",
+    "options": [],
+    "modelAnswer": "The English curriculum may change next year.",
+    "altAnswers": [
+      "The English syllabus might change next year."
+    ],
+    "explanation": "'قد + مضارع' تفيد الاحتمال وتترجم بـ may + مصدر.",
+    "difficulty": "Medium",
+    "topic": "Modals & Probability",
+    "lessonId": "LES_006",
+    "marks": 2,
+    "sourcePdf": "Source 1",
+    "sourcePage": 17,
+    "origin": "Original Source Question"
+  },
+  {
+    "id": "q_trn_001",
+    "type": "sentence_transformation",
+    "questionText": "حول الجملة التالية إلى المبني للمجهول في الإنجليزية:\n\"We consider tourism an important source of national income.\"",
+    "instructions": "ابدأ بكلمة Tourism وأعد بناء الجملة",
+    "options": [],
+    "modelAnswer": "Tourism is considered an important source of national income.",
+    "altAnswers": [
+      "Tourism is regarded as an important source of national income."
+    ],
+    "explanation": "في المبني للمجهول: المفعول به Tourism يبدأ الجملة، ثم is considered ثم التكملة.",
+    "difficulty": "Medium",
+    "topic": "Passive Voice",
+    "lessonId": "LES_008",
+    "marks": 2,
+    "sourcePdf": "Source 1",
+    "sourcePage": 18,
+    "origin": "Original Source Question"
+  },
+  {
+    "id": "q_par_001",
+    "type": "paragraph_translation",
+    "questionText": "Translate this paragraph into Arabic:\n\"Egypt has always been known as the birthplace of civilization because of its long and rich history. We are now keen on restoring our glories to keep pace with progress in developed countries.\"",
+    "instructions": "ترجم الفقرة كاملة بلغة عربية فصيحة ومترابطة",
+    "options": [],
+    "modelAnswer": "لطالما عُرفت مصر بأنها مهد الحضارة بفضل تاريخها الطويل والحافل. ونحن حريصون الآن على استعادة أمجادنا لنواكب مسيرة التقدم في الدول المتقدمة.",
+    "altAnswers": [
+      "لقد كانت مصر دائماً مهد الحضارة نظراً لتاريخها العريق. وإننا الآن حريصون أشد الحرص على استرداد أمجادنا لنساير التقدم في الدول المتقدمة."
+    ],
+    "explanation": "نموذج رسمي من امتحانات الأعوام السابقة (صفحة 42 و70). 'birthplace of civilization' = مهد الحضارة، و'keep pace with' = يواكب / يساير.",
+    "difficulty": "Hard",
+    "topic": "National Pride & History",
+    "lessonId": "LES_011",
+    "marks": 5,
+    "sourcePdf": "Source 2",
+    "sourcePage": 42,
+    "origin": "Original Source Question"
+  },
+  {
+    "id": "q_gw_001",
+    "type": "translation_given_words",
+    "questionText": "ترجم إلى الإنجليزية مستخدماً الكلمات المعطاة:\n\"إن نهر النيل هو شريان الحياة في مصر.\"\n(artery / lifeline / Egypt / River Nile)",
+    "instructions": "وظف الكلمات المعطاة بدقة داخل صياغة صحيحة",
+    "options": [],
+    "modelAnswer": "The River Nile is the artery of life in Egypt.",
+    "altAnswers": [
+      "The River Nile is Egypt's lifeline."
+    ],
+    "explanation": "شريان الحياة يمكن ترجمته بـ artery of life أو lifeline.",
+    "difficulty": "Medium",
+    "topic": "Environment & Geography",
+    "lessonId": "LES_010",
+    "marks": 3,
+    "sourcePdf": "Source 2",
+    "sourcePage": 44,
+    "origin": "Original Source Question"
+  },
+  {
+    "id": "q_lst_001",
+    "type": "listening_translation",
+    "questionText": "استمع إلى الجملة الصوتية ثم اكتب ترجمتها العربية الصحيحة:\n[Audio: \"Sir Magdi Yacoub is a world-famous heart surgeon who has helped thousands of patients.\"]",
+    "instructions": "استمع بعناية وترجم المعنى المسموع بدقة",
+    "options": [],
+    "modelAnswer": "السير مجدي يعقوب جراح قلب عالمي شهير ساعد آلاف المرضى.",
+    "altAnswers": [
+      "الدكتور مجدي يعقوب جراح قلب ذائع الصيت في العالم وقد ساعد آلاف المرضى."
+    ],
+    "explanation": "تمرين استماع وترجمة تفاعلي يختبر الاستيعاب السمعي والترجمة الفورية.",
+    "difficulty": "Medium",
+    "topic": "Medicine & Personalities",
+    "lessonId": "LES_012",
+    "marks": 3,
+    "sourcePdf": "Source 2",
+    "sourcePage": 29,
+    "origin": "Original Source Question"
+  }
+]

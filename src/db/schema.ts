@@ -882,3 +882,297 @@ export const studentAssessmentDownloads = pgTable(
     index("idx_sad_assessment").on(table.assessmentId),
   ]
 );
+
+// 18. AI FULL CURRICULUM ANALYZER JOBS
+export const curriculumAnalysisJobs = pgTable(
+  "curriculum_analysis_jobs",
+  {
+    id: text("id").primaryKey(),
+    teacherId: text("teacher_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+    fileName: text("file_name").notNull(),
+    fileType: text("file_type").notNull(), // 'pdf' | 'docx' | 'txt' | 'text'
+    fileSize: integer("file_size").default(0),
+    gradeCode: text("grade_code").notNull().default("sec_3"),
+    stage: text("stage").notNull().default("Secondary"),
+    term: text("term").notNull().default("First"),
+    status: text("status").notNull().default("pending"), // 'pending' | 'extracting_text' | 'discovering_structure' | 'extracting_original_questions' | 'generating_ai_questions' | 'assembling_quizzes' | 'completed' | 'failed' | 'paused'
+    currentStep: text("current_step").notNull().default("Initialized"),
+    progressPercent: integer("progress_percent").notNull().default(0),
+    checkpointData: jsonb("checkpoint_data").default({}),
+    summaryReport: jsonb("summary_report").default({}),
+    questionsPerLesson: integer("questions_per_lesson").notNull().default(20),
+    errorMessage: text("error_message"),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+    updatedAt: timestamp("updated_at").defaultNow().notNull(),
+  },
+  (table) => [
+    index("idx_caj_teacher").on(table.teacherId),
+    index("idx_caj_status").on(table.status),
+    index("idx_caj_grade").on(table.gradeCode),
+  ]
+);
+
+// 19. ANALYZED & GENERATED CURRICULUM QUESTIONS (Teacher staging area)
+export const analyzedCurriculumQuestions = pgTable(
+  "analyzed_curriculum_questions",
+  {
+    id: text("id").primaryKey(),
+    jobId: text("job_id").notNull().references(() => curriculumAnalysisJobs.id, { onDelete: "cascade" }),
+    sourceType: text("source_type").notNull().default("ai_generated"), // 'original_extracted' | 'ai_generated'
+    pageNumber: integer("page_number").default(1),
+    unitNumber: integer("unit_number").default(1),
+    unitTitle: text("unit_title").notNull().default("Unit 1"),
+    lessonTitle: text("lesson_title").notNull().default("Lesson 1"),
+    sectionType: text("section_type").notNull().default("Vocabulary"), // 'Vocabulary' | 'Grammar' | 'Reading' | 'Writing' | 'Practice'
+    questionText: text("question_text").notNull(),
+    questionType: text("question_type").notNull().default("mcq"),
+    options: jsonb("options").notNull(), // string[]
+    correctAnswer: text("correct_answer").notNull(),
+    explanation: text("explanation"),
+    difficulty: text("difficulty").notNull().default("Medium"), // 'Easy' | 'Medium' | 'Hard'
+    sourceReference: text("source_reference"),
+    approvalStatus: text("approval_status").notNull().default("pending"), // 'pending' | 'approved' | 'rejected' | 'modified'
+    isPublished: boolean("is_published").notNull().default(false),
+    publishedQuestionId: text("published_question_id"),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+  },
+  (table) => [
+    index("idx_acq_job").on(table.jobId),
+    index("idx_acq_source_type").on(table.sourceType),
+    index("idx_acq_approval").on(table.approvalStatus),
+    index("idx_acq_difficulty").on(table.difficulty),
+    index("idx_acq_published").on(table.isPublished),
+  ]
+);
+
+// 20. ANALYZED & GENERATED CURRICULUM QUIZZES (Automated lesson, unit & review exams)
+export const analyzedCurriculumQuizzes = pgTable(
+  "analyzed_curriculum_quizzes",
+  {
+    id: text("id").primaryKey(),
+    jobId: text("job_id").notNull().references(() => curriculumAnalysisJobs.id, { onDelete: "cascade" }),
+    quizType: text("quiz_type").notNull(), // 'lesson_quiz' | 'unit_exam' | 'tri_unit_review' | 'final_exam'
+    titleAr: text("title_ar").notNull(),
+    titleEn: text("title_en").notNull(),
+    unitNumber: integer("unit_number"),
+    unitsCovered: jsonb("units_covered").default([]),
+    lessonTitle: text("lesson_title"),
+    questionIds: jsonb("question_ids").notNull().default([]),
+    durationMinutes: integer("duration_minutes").notNull().default(30),
+    passPercentage: integer("pass_percentage").notNull().default(60),
+    totalPoints: integer("total_points").notNull().default(100),
+    approvalStatus: text("approval_status").notNull().default("pending"), // 'pending' | 'approved' | 'rejected'
+    isPublished: boolean("is_published").notNull().default(false),
+    publishedQuizId: text("published_quiz_id"),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+  },
+  (table) => [
+    index("idx_acz_job").on(table.jobId),
+    index("idx_acz_type").on(table.quizType),
+    index("idx_acz_approval").on(table.approvalStatus),
+    index("idx_acz_published").on(table.isPublished),
+  ]
+);
+
+// =========================================================================
+// 21. TRANSLATION ACADEMY MODULES & EDUCATIONAL STRUCTURE
+// Professional Academy — Mr. Habib El Rahman
+// "Think in English. Translate with Confidence."
+// =========================================================================
+
+export const translationModules = pgTable(
+  "translation_modules",
+  {
+    id: text("id").primaryKey(),
+    code: text("code").notNull().unique(), // e.g. 'mod_basics', 'mod_vocab_context', etc.
+    titleAr: text("title_ar").notNull(),
+    titleEn: text("title_en").notNull(),
+    descriptionAr: text("description_ar").notNull(),
+    descriptionEn: text("description_en").notNull(),
+    grade: text("grade").notNull().default("First Secondary"),
+    term: text("term").notNull().default("First Term"),
+    orderIndex: integer("order_index").notNull().default(1),
+    icon: text("icon").notNull().default("Languages"),
+    totalLessons: integer("total_lessons").notNull().default(0),
+    isPublished: boolean("is_published").notNull().default(true),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+  },
+  (table) => [
+    index("idx_tm_grade_term").on(table.grade, table.term),
+    index("idx_tm_order").on(table.orderIndex),
+    index("idx_tm_published").on(table.isPublished),
+  ]
+);
+
+export const translationLessons = pgTable(
+  "translation_lessons",
+  {
+    id: text("id").primaryKey(),
+    moduleId: text("module_id")
+      .notNull()
+      .references(() => translationModules.id, { onDelete: "cascade" }),
+    orderIndex: integer("order_index").notNull().default(1),
+    titleAr: text("title_ar").notNull(),
+    titleEn: text("title_en").notNull(),
+    summaryAr: text("summary_ar").notNull(),
+    summaryEn: text("summary_en").notNull(),
+    videoUrl: text("video_url"),
+    videoDuration: text("video_duration").default("15 mins"),
+    pdfUrl: text("pdf_url"),
+    rules: jsonb("rules").notNull().default([]), // [{ id, titleAr, titleEn, ruleAr, ruleEn, examples: [{ ar, en, note }] }]
+    vocabulary: jsonb("vocabulary").notNull().default([]), // [{ id, en, ar, ipa, pos, exampleEn, exampleAr }]
+    solvedExamples: jsonb("solved_examples").notNull().default([]), // [{ id, sourceAr, targetEn, steps: [string], notesAr, notesEn }]
+    commonMistakes: jsonb("common_mistakes").notNull().default([]), // [{ id, wrongSentence, correctSentence, explanationAr, explanationEn }]
+    isPublished: boolean("is_published").notNull().default(true),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+  },
+  (table) => [
+    index("idx_tl_module").on(table.moduleId),
+    index("idx_tl_order").on(table.orderIndex),
+    index("idx_tl_published").on(table.isPublished),
+  ]
+);
+
+export const translationQuestions = pgTable(
+  "translation_questions",
+  {
+    id: text("id").primaryKey(),
+    lessonId: text("lesson_id")
+      .notNull()
+      .references(() => translationLessons.id, { onDelete: "cascade" }),
+    moduleId: text("module_id")
+      .notNull()
+      .references(() => translationModules.id, { onDelete: "cascade" }),
+    questionType: text("question_type").notNull(), // 14 types: mcq, ar_to_en_text, en_to_ar_text, sentence_ordering, fill_blanks, complete_translation, word_matching, word_selection, error_correction, context_translation, sentence_transformation, paragraph_translation, translation_given_words, listening_translation
+    questionText: text("question_text").notNull(),
+    instructions: text("instructions").notNull(),
+    options: jsonb("options").default([]), // Options for MCQ, matching pairs, scrambled words, or word bank
+    correctAnswer: text("correct_answer").notNull(), // Primary model answer
+    alternativeAnswers: jsonb("alternative_answers").default([]), // Array of valid alternative translations
+    explanation: text("explanation").notNull(), // Pedagogical explanation in Arabic & English
+    marks: integer("marks").notNull().default(1),
+    difficulty: text("difficulty").notNull().default("Medium"), // Easy | Medium | Hard
+    topic: text("topic"),
+    source: text("source"),
+    audioUrl: text("audio_url"),
+    isPublished: boolean("is_published").notNull().default(true),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+  },
+  (table) => [
+    index("idx_tq_lesson").on(table.lessonId),
+    index("idx_tq_module").on(table.moduleId),
+    index("idx_tq_type").on(table.questionType),
+    index("idx_tq_difficulty").on(table.difficulty),
+    index("idx_tq_published").on(table.isPublished),
+  ]
+);
+
+export const translationStudentProgress = pgTable(
+  "translation_student_progress",
+  {
+    id: text("id").primaryKey(),
+    studentId: text("student_id")
+      .notNull()
+      .references(() => users.id, { onDelete: "cascade" }),
+    lessonId: text("lesson_id")
+      .notNull()
+      .references(() => translationLessons.id, { onDelete: "cascade" }),
+    moduleId: text("module_id")
+      .notNull()
+      .references(() => translationModules.id, { onDelete: "cascade" }),
+    completed: boolean("completed").notNull().default(false),
+    practiceScore: integer("practice_score").notNull().default(0),
+    examScore: integer("exam_score").notNull().default(0),
+    totalQuestionsAnswered: integer("total_questions_answered").notNull().default(0),
+    lastPracticedAt: timestamp("last_practiced_at").defaultNow().notNull(),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+  },
+  (table) => [
+    index("idx_tsp_student").on(table.studentId),
+    index("idx_tsp_lesson").on(table.lessonId),
+    index("idx_tsp_module").on(table.moduleId),
+  ]
+);
+
+export const translationSubmissions = pgTable(
+  "translation_submissions",
+  {
+    id: text("id").primaryKey(),
+    studentId: text("student_id")
+      .notNull()
+      .references(() => users.id, { onDelete: "cascade" }),
+    questionId: text("question_id")
+      .notNull()
+      .references(() => translationQuestions.id, { onDelete: "cascade" }),
+    lessonId: text("lesson_id")
+      .notNull()
+      .references(() => translationLessons.id, { onDelete: "cascade" }),
+    mode: text("mode").notNull().default("practice"), // 'practice' | 'exam'
+    studentAnswer: text("student_answer").notNull(),
+    score: integer("score").notNull().default(0),
+    maxMarks: integer("max_marks").notNull().default(1),
+    rubricBreakdown: jsonb("rubric_breakdown").default({}), // { meaning: 40, grammar: 20, vocab: 20, structure: 10, mechanics: 10, totalPercentage: 100 }
+    evaluationFeedback: text("evaluation_feedback"),
+    suggestedCorrection: text("suggested_correction"),
+    modelAnswerUsed: text("model_answer_used"),
+    status: text("status").notNull().default("graded"), // 'graded' | 'needs_review' | 'teacher_reviewed'
+    teacherComment: text("teacher_comment"),
+    reviewedBy: text("reviewed_by").references(() => users.id, { onDelete: "set null" }),
+    reviewedAt: timestamp("reviewed_at"),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+  },
+  (table) => [
+    index("idx_tsub_student").on(table.studentId),
+    index("idx_tsub_question").on(table.questionId),
+    index("idx_tsub_lesson").on(table.lessonId),
+    index("idx_tsub_status").on(table.status),
+    index("idx_tsub_mode").on(table.mode),
+  ]
+);
+
+export const translationExams = pgTable(
+  "translation_exams",
+  {
+    id: text("id").primaryKey(),
+    moduleId: text("module_id")
+      .notNull()
+      .references(() => translationModules.id, { onDelete: "cascade" }),
+    titleAr: text("title_ar").notNull(),
+    titleEn: text("title_en").notNull(),
+    grade: text("grade").notNull().default("First Secondary"),
+    term: text("term").notNull().default("First Term"),
+    timeLimitMinutes: integer("time_limit_minutes").notNull().default(30),
+    passingScore: integer("passing_score").notNull().default(60),
+    questionIds: jsonb("question_ids").notNull().default([]),
+    isPublished: boolean("is_published").notNull().default(true),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+  },
+  (table) => [
+    index("idx_te_module").on(table.moduleId),
+    index("idx_te_published").on(table.isPublished),
+  ]
+);
+
+export const translationExamAttempts = pgTable(
+  "translation_exam_attempts",
+  {
+    id: text("id").primaryKey(),
+    examId: text("exam_id")
+      .notNull()
+      .references(() => translationExams.id, { onDelete: "cascade" }),
+    studentId: text("student_id")
+      .notNull()
+      .references(() => users.id, { onDelete: "cascade" }),
+    score: integer("score").notNull().default(0),
+    maxScore: integer("max_score").notNull().default(100),
+    percentage: integer("percentage").notNull().default(0),
+    passed: boolean("passed").notNull().default(false),
+    answers: jsonb("answers").notNull().default([]), // [{ questionId, studentAnswer, score, status, rubric }]
+    submittedAt: timestamp("submitted_at").defaultNow().notNull(),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+  },
+  (table) => [
+    index("idx_tea_exam").on(table.examId),
+    index("idx_tea_student").on(table.studentId),
+  ]
+);
