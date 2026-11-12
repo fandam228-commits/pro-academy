@@ -6,13 +6,14 @@ import { authHeaders } from "@/lib/client-auth";
 import { ParentConnectAdminHub } from "@/components/ParentConnectAdminHub";
 import { AdminCurriculumManager } from "@/components/AdminCurriculumManager";
 import { AiCurriculumAnalyzerWorkspace } from "@/components/AiCurriculumAnalyzerWorkspace";
+import { LiveClassroomManager } from "@/components/LiveClassroomManager";
 import { GraduationCap, Plus, Video, FileText, CheckCircle2, BookOpen, Users, BarChart2, Sparkles, HelpCircle, Layers, Brain, Languages } from "lucide-react";
 
 export const TeacherDashboard: React.FC<{ onOpenLibrary?: () => void; onOpenTranslation?: () => void }> = ({ onOpenLibrary, onOpenTranslation }) => {
   const { lang, user } = useApp();
   const [coursesList, setCoursesList] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
-  const [activeTab, setActiveTab] = useState<"courses" | "create_course" | "question_bank" | "parent_connect" | "curriculum" | "curriculum_analyzer">("courses");
+  const [activeTab, setActiveTab] = useState<"courses" | "create_course" | "question_bank" | "parent_connect" | "curriculum" | "curriculum_analyzer" | "live_classes">("courses");
 
   // Create Course Form State
   const [title, setTitle] = useState("");
@@ -152,6 +153,15 @@ export const TeacherDashboard: React.FC<{ onOpenLibrary?: () => void; onOpenTran
             <Brain className="w-3.5 h-3.5 text-amber-400" />
             <span>{lang === "ar" ? "محلل المناهج والمذكرات AI" : "AI Curriculum Analyzer"}</span>
           </button>
+          <button
+            onClick={() => setActiveTab("live_classes")}
+            className={`px-4 py-2 rounded-xl transition-all flex items-center gap-1.5 ${
+              activeTab === "live_classes" ? "bg-gradient-to-r from-red-600 to-purple-600 text-white shadow-sm font-black" : "text-slate-600 dark:text-slate-400"
+            }`}
+          >
+            <Video className="w-3.5 h-3.5 text-red-500" />
+            <span>{lang === "ar" ? "الحصص المباشرة و Meet" : "Live Classes"}</span>
+          </button>
         </div>
       </div>
 
@@ -259,6 +269,11 @@ export const TeacherDashboard: React.FC<{ onOpenLibrary?: () => void; onOpenTran
       {/* AI FULL CURRICULUM ANALYZER TAB */}
       {activeTab === "curriculum_analyzer" && (
         <AiCurriculumAnalyzerWorkspace />
+      )}
+
+      {/* LIVE CLASSROOM & GOOGLE MEET TAB */}
+      {activeTab === "live_classes" && (
+        <LiveClassroomManager />
       )}
     </div>
   );

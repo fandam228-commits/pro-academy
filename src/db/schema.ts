@@ -1176,3 +1176,53 @@ export const translationExamAttempts = pgTable(
     index("idx_tea_student").on(table.studentId),
   ]
 );
+
+// GOOGLE MEET & LIVE SESSIONS
+export const liveSessions = pgTable(
+  "live_sessions",
+  {
+    id: text("id").primaryKey(),
+    title: text("title").notNull(),
+    description: text("description"),
+    stage: text("stage").notNull().default("Secondary"),
+    grade: text("grade").notNull().default("Third Secondary (Baccalaureate)"),
+    subject: text("subject").notNull().default("English"),
+    teacherId: text("teacher_id").notNull().default("usr_admin_1"),
+    teacherName: text("teacher_name").notNull().default("Mr. Habib El Rahman"),
+    startTime: timestamp("start_time").notNull(),
+    endTime: timestamp("end_time").notNull(),
+    durationMinutes: integer("duration_minutes").default(60),
+    meetUrl: text("meet_url").notNull(),
+    googleEventId: text("google_event_id"),
+    calendarHtmlLink: text("calendar_html_link"),
+    status: text("status").notNull().default("scheduled"), // 'scheduled' | 'live' | 'completed' | 'cancelled'
+    recordingUrl: text("recording_url"),
+    recordingNotes: text("recording_notes"),
+    maxAttendees: integer("max_attendees").default(100),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+    updatedAt: timestamp("updated_at").defaultNow().notNull(),
+  },
+  (table) => [
+    index("idx_ls_start").on(table.startTime),
+    index("idx_ls_grade").on(table.grade),
+    index("idx_ls_status").on(table.status),
+  ]
+);
+
+// GOOGLE OAUTH & CALENDAR INTEGRATIONS
+export const googleIntegrations = pgTable(
+  "google_integrations",
+  {
+    id: text("id").primaryKey(),
+    accountEmail: text("account_email").notNull().unique(),
+    accessToken: text("access_token"),
+    refreshToken: text("refresh_token"),
+    tokenExpiry: timestamp("token_expiry"),
+    scope: text("scope"),
+    isConnected: boolean("is_connected").default(false),
+    lastSyncAt: timestamp("last_sync_at"),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+    updatedAt: timestamp("updated_at").defaultNow().notNull(),
+  }
+);
+

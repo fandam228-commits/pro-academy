@@ -14,6 +14,8 @@ import {
   translationSubmissions,
   translationExams,
   translationExamAttempts,
+  liveSessions,
+  googleIntegrations,
 } from "./schema";
 import { SMART_CURRICULUM_SEEDS } from "@/data/smart-curriculum-seed";
 import { TRANSLATION_MODULES_SEED, SAMPLE_TRANSLATION_EXAMS } from "@/data/translation-academy-seed";
@@ -1057,6 +1059,46 @@ async function initializeSchema(): Promise<void> {
 
       CREATE INDEX IF NOT EXISTS idx_tea_exam ON translation_exam_attempts(exam_id);
       CREATE INDEX IF NOT EXISTS idx_tea_student ON translation_exam_attempts(student_id);
+
+      CREATE TABLE IF NOT EXISTS live_sessions (
+        id TEXT PRIMARY KEY,
+        title TEXT NOT NULL,
+        description TEXT,
+        stage TEXT NOT NULL DEFAULT 'Secondary',
+        grade TEXT NOT NULL DEFAULT 'Third Secondary (Baccalaureate)',
+        subject TEXT NOT NULL DEFAULT 'English',
+        teacher_id TEXT NOT NULL DEFAULT 'usr_admin_1',
+        teacher_name TEXT NOT NULL DEFAULT 'Mr. Habib El Rahman',
+        start_time TIMESTAMP NOT NULL,
+        end_time TIMESTAMP NOT NULL,
+        duration_minutes INTEGER DEFAULT 60,
+        meet_url TEXT NOT NULL,
+        google_event_id TEXT,
+        calendar_html_link TEXT,
+        status TEXT NOT NULL DEFAULT 'scheduled',
+        recording_url TEXT,
+        recording_notes TEXT,
+        max_attendees INTEGER DEFAULT 100,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
+      );
+
+      CREATE INDEX IF NOT EXISTS idx_ls_start ON live_sessions(start_time);
+      CREATE INDEX IF NOT EXISTS idx_ls_grade ON live_sessions(grade);
+      CREATE INDEX IF NOT EXISTS idx_ls_status ON live_sessions(status);
+
+      CREATE TABLE IF NOT EXISTS google_integrations (
+        id TEXT PRIMARY KEY,
+        account_email TEXT NOT NULL UNIQUE,
+        access_token TEXT,
+        refresh_token TEXT,
+        token_expiry TIMESTAMP,
+        scope TEXT,
+        is_connected BOOLEAN DEFAULT false,
+        last_sync_at TIMESTAMP,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
+      );
     `);
 
   // Seed and sync curriculum grades and units to official 2026/2027 Egyptian syllabus
@@ -1064,6 +1106,7 @@ async function initializeSchema(): Promise<void> {
   await seedMinistryAssessmentsIfEmpty();
   await seedCoreUsersIfEmpty();
   await seedTranslationAcademyIfEmpty();
+  await seedLiveSessionsIfEmpty();
 }
 
 export async function syncCurriculum2026(): Promise<{
@@ -1845,5 +1888,105 @@ export async function seedTranslationAcademyIfEmpty(): Promise<void> {
     console.log("Translation Academy seeded successfully!");
   } catch (error) {
     console.error("Seed Translation Academy Error:", error);
+  }
+}
+
+async function seedLiveSessionsIfEmpty(): Promise<void> {
+  try {
+    const existing = await db.select({ id: liveSessions.id }).from(liveSessions).limit(1);
+    if (existing.length > 0) return;
+
+    const now = new Date();
+    const upcomingTime = new Date(now.getTime() + 2 * 60 * 60 * 1000); // 2 hours ahead
+    const upcomingEndTime = new Date(upcomingTime.getTime() + 60 * 60 * 1000);
+
+    const nextDayTime = new Date(now.getTime() + 26 * 60 * 60 * 1000); // tomorrow
+    const nextDayEndTime = new Date(nextDayTime.getTime() + 60 * 60 * 1000);
+
+    const pastTime = new Date(now.getTime() - 48 * 60 * 60 * 1000); // 2 days ago
+    const pastEndTime = new Date(pastTime.getTime() + 60 * 60 * 1000);
+
+    await db.insert(liveSessions).values([
+      {
+        id: "ls_demo_1",
+        title: "حصة مراجعة تفاعلية مباشرة: أسرار وحيل الترجمة للثانوية العامة 2026/2027",
+        description: "مناقشة تفاعلية وحل تدريبات مباشرة على قواعد وأساليب الترجمة مع مستر حبيب الرحمن عبر Google Meet.",
+        stage: "Secondary",
+        grade: "Third Secondary (Baccalaureate)",
+        subject: "English",
+        teacherId: "usr_admin_1",
+        teacherName: "Mr. Habib El Rahman",
+        startTime: upcomingTime,
+        endTime: upcomingEndTime,
+        durationMinutes: 60,
+        meetUrl: "https://meet.google.com/qpa-yomc-nzo",
+        googleEventId: "evt_meet_demo_1",
+        calendarHtmlLink: "https://calendar.google.com",
+        status: "scheduled",
+        recordingUrl: null,
+        recordingNotes: null,
+        maxAttendees: 100,
+      },
+      {
+        id: "ls_demo_2",
+        title: "ورشة عمل نطق ومحادثة تفاعلية: Speaking & Vocabulary in Action",
+        description: "تدريب عملي ومباشر على نطق الكلمات الصعبة وتطبيق مهارات القاموس الناطق.",
+        stage: "Secondary",
+        grade: "First Secondary",
+        subject: "English",
+        teacherId: "usr_admin_1",
+        teacherName: "Mr. Habib El Rahman",
+        startTime: nextDayTime,
+        endTime: nextDayEndTime,
+        durationMinutes: 60,
+        meetUrl: "https://meet.google.com/wkh-tzbj-rsm",
+        googleEventId: "evt_meet_demo_2",
+        calendarHtmlLink: "https://calendar.google.com",
+        status: "scheduled",
+        recordingUrl: null,
+        recordingNotes: null,
+        maxAttendees: 100,
+      },
+      {
+        id: "ls_demo_3",
+        title: "تسجيل حصة: التأسيس الشامل لقواعد الأزمنة الماضية (Past Tenses Mastery)",
+        description: "تسجيل كامل للحصة التفاعلية السابقة متضمناً شرح الاستخدامات الخاصة وحل أسئلة البوكليت وإجابات الطلاب.",
+        stage: "Secondary",
+        grade: "Third Secondary (Baccalaureate)",
+        subject: "English",
+        teacherId: "usr_admin_1",
+        teacherName: "Mr. Habib El Rahman",
+        startTime: pastTime,
+        endTime: pastEndTime,
+        durationMinutes: 60,
+        meetUrl: "https://meet.google.com/qpa-yomc-nzo",
+        googleEventId: "evt_meet_demo_3",
+        calendarHtmlLink: "https://calendar.google.com",
+        status: "completed",
+        recordingUrl: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+        recordingNotes: "تسجيل عالي الجودة متاح للمشاهدة والإعادة لجميع طلاب المنصة.",
+        maxAttendees: 100,
+      },
+    ]);
+
+    // Ensure google_integrations entry exists for fandam228@gmail.com
+    const existingGoogle = await db
+      .select({ id: googleIntegrations.id })
+      .from(googleIntegrations)
+      .where(eq(googleIntegrations.accountEmail, "fandam228@gmail.com"))
+      .limit(1);
+
+    if (existingGoogle.length === 0) {
+      await db.insert(googleIntegrations).values({
+        id: "g_int_fandam",
+        accountEmail: "fandam228@gmail.com",
+        scope: "https://www.googleapis.com/auth/calendar.events",
+        isConnected: false,
+      });
+    }
+
+    console.log("Live sessions and Google integration initialized successfully!");
+  } catch (error) {
+    console.error("Seed Live Sessions Error:", error);
   }
 }
