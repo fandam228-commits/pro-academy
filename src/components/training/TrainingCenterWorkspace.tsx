@@ -483,23 +483,23 @@ export const TrainingCenterWorkspace: React.FC<{ initialTopic?: string }> = ({ i
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-[#070314] text-slate-900 dark:text-slate-100 py-8 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-[#F7F9FC] text-[#243247] py-8 px-4 sm:px-6 lg:px-8">
       {/* HEADER SECTION */}
       <div className="max-w-7xl mx-auto mb-8">
-        <div className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-purple-900 via-indigo-900 to-slate-900 p-8 shadow-2xl border border-purple-800/40">
+        <div className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-[#1E40AF] via-[#2563EB] to-[#1D4ED8] p-8 shadow-xl shadow-blue-600/15 border border-blue-200/40">
           <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-6">
             <div>
-              <div className="inline-flex items-center gap-2 rounded-full bg-purple-500/20 px-4 py-1.5 text-xs font-black text-purple-300 border border-purple-400/30 mb-3">
-                <Sparkles className="h-4 w-4 text-amber-300 animate-pulse" />
+              <div className="inline-flex items-center gap-2 rounded-full bg-white/15 px-4 py-1.5 text-xs font-black text-blue-100 border border-white/20 mb-3">
+                <Sparkles className="h-4 w-4 text-[#EABF58] animate-pulse" />
                 <span>{isArabic ? "مركز التدريب والامتحانات الاحترافية" : "Professional Training Center"}</span>
-                <span className="text-amber-400 font-extrabold">• Mr. Habib El Rahman</span>
+                <span className="text-[#EABF58] font-extrabold">• Mr. Habib El Rahman</span>
               </div>
               <h1 className="text-2xl sm:text-4xl font-black text-white tracking-tight">
                 {isArabic
                   ? "تدريب تفاعلي، امتحانات ذكية، ومراجعة تشخيصية"
                   : "Interactive Practice, Smart Exams & Diagnostic Revision"}
               </h1>
-              <p className="mt-2 text-sm sm:text-base text-purple-200/80 max-w-2xl leading-relaxed">
+              <p className="mt-2 text-sm sm:text-base text-blue-100 max-w-2xl leading-relaxed">
                 {isArabic
                   ? "منظومة تدريبية متكاملة مستخرجة من أحدث بنوك الأسئلة المنهجية (894 سؤالاً معتمداً) تغطي جميع قواعد اللغة الإنجليزية، مع تصحيح لحظي وتحليل لنقاط القوة والضعف."
                   : "Integrated examination and practice system extracted from comprehensive curriculum question banks with instant feedback and weak topic tracking."}
@@ -507,19 +507,19 @@ export const TrainingCenterWorkspace: React.FC<{ initialTopic?: string }> = ({ i
             </div>
 
             {/* Streak & Points Pill */}
-            <div className="flex items-center gap-4 bg-white/10 backdrop-blur-md rounded-2xl p-4 border border-white/10">
+            <div className="flex items-center gap-4 bg-white/15 backdrop-blur-md rounded-2xl p-4 border border-white/20">
               <div className="flex items-center gap-2">
-                <Flame className="h-6 w-6 text-amber-400 animate-bounce" />
+                <Flame className="h-6 w-6 text-[#EABF58] animate-bounce" />
                 <div>
-                  <div className="text-xs text-purple-200">{isArabic ? "سلسلة الإجابات" : "Practice Streak"}</div>
+                  <div className="text-xs text-blue-100">{isArabic ? "سلسلة الإجابات" : "Practice Streak"}</div>
                   <div className="text-lg font-black text-white">{practiceStreak} {isArabic ? "صحيحة" : "streak"}</div>
                 </div>
               </div>
-              <div className="h-8 w-px bg-purple-500/30" />
+              <div className="h-8 w-px bg-white/20" />
               <div className="flex items-center gap-2">
-                <Award className="h-6 w-6 text-emerald-400" />
+                <Award className="h-6 w-6 text-emerald-300" />
                 <div>
-                  <div className="text-xs text-purple-200">{isArabic ? "نقاطك" : "Points"}</div>
+                  <div className="text-xs text-blue-100">{isArabic ? "نقاطك" : "Points"}</div>
                   <div className="text-lg font-black text-white">{progressStats?.points || 150}</div>
                 </div>
               </div>
@@ -528,16 +528,16 @@ export const TrainingCenterWorkspace: React.FC<{ initialTopic?: string }> = ({ i
         </div>
 
         {/* PRIMARY WORKSPACE TABS */}
-        <div className="flex flex-wrap items-center gap-2 mt-6 border-b border-slate-200 dark:border-purple-950/60 pb-3">
+        <div className="flex flex-wrap items-center gap-2 mt-6 border-b border-slate-200 pb-3">
           <button
             onClick={() => setActiveTab("practice")}
             className={`flex items-center gap-2 px-5 py-3 rounded-2xl text-sm font-extrabold transition-all ${
               activeTab === "practice"
-                ? "bg-purple-600 text-white shadow-lg shadow-purple-900/40"
-                : "bg-white dark:bg-[#120a24] text-slate-600 dark:text-purple-300 hover:bg-purple-50 dark:hover:bg-purple-950/40"
+                ? "bg-[#2563EB] text-white shadow-md shadow-blue-600/20"
+                : "bg-white text-[#718096] hover:bg-[#E8F3FF] hover:text-[#2563EB] border border-slate-200"
             }`}
           >
-            <Play className="h-4 w-4 text-amber-300" />
+            <Play className="h-4 w-4 text-[#EABF58]" />
             <span>{isArabic ? "التدريب التفاعلي" : "Interactive Practice"}</span>
           </button>
 
@@ -545,11 +545,11 @@ export const TrainingCenterWorkspace: React.FC<{ initialTopic?: string }> = ({ i
             onClick={() => setActiveTab("exams")}
             className={`flex items-center gap-2 px-5 py-3 rounded-2xl text-sm font-extrabold transition-all ${
               activeTab === "exams"
-                ? "bg-purple-600 text-white shadow-lg shadow-purple-900/40"
-                : "bg-white dark:bg-[#120a24] text-slate-600 dark:text-purple-300 hover:bg-purple-50 dark:hover:bg-purple-950/40"
+                ? "bg-[#2563EB] text-white shadow-md shadow-blue-600/20"
+                : "bg-white text-[#718096] hover:bg-[#E8F3FF] hover:text-[#2563EB] border border-slate-200"
             }`}
           >
-            <Clock className="h-4 w-4 text-sky-400" />
+            <Clock className="h-4 w-4 text-sky-500" />
             <span>{isArabic ? "الامتحانات الإلكترونية" : "Online Examinations"}</span>
           </button>
 
@@ -557,11 +557,11 @@ export const TrainingCenterWorkspace: React.FC<{ initialTopic?: string }> = ({ i
             onClick={() => setActiveTab("topics")}
             className={`flex items-center gap-2 px-5 py-3 rounded-2xl text-sm font-extrabold transition-all ${
               activeTab === "topics"
-                ? "bg-purple-600 text-white shadow-lg shadow-purple-900/40"
-                : "bg-white dark:bg-[#120a24] text-slate-600 dark:text-purple-300 hover:bg-purple-50 dark:hover:bg-purple-950/40"
+                ? "bg-[#2563EB] text-white shadow-md shadow-blue-600/20"
+                : "bg-white text-[#718096] hover:bg-[#E8F3FF] hover:text-[#2563EB] border border-slate-200"
             }`}
           >
-            <Layers className="h-4 w-4 text-emerald-400" />
+            <Layers className="h-4 w-4 text-emerald-500" />
             <span>{isArabic ? "التدريب حسب الموضوع" : "Practice by Topic"}</span>
           </button>
 
@@ -569,11 +569,11 @@ export const TrainingCenterWorkspace: React.FC<{ initialTopic?: string }> = ({ i
             onClick={() => setActiveTab("revision")}
             className={`flex items-center gap-2 px-5 py-3 rounded-2xl text-sm font-extrabold transition-all ${
               activeTab === "revision"
-                ? "bg-purple-600 text-white shadow-lg shadow-purple-900/40"
-                : "bg-white dark:bg-[#120a24] text-slate-600 dark:text-purple-300 hover:bg-purple-50 dark:hover:bg-purple-950/40"
+                ? "bg-[#2563EB] text-white shadow-md shadow-blue-600/20"
+                : "bg-white text-[#718096] hover:bg-[#E8F3FF] hover:text-[#2563EB] border border-slate-200"
             }`}
           >
-            <RotateCcw className="h-4 w-4 text-rose-400" />
+            <RotateCcw className="h-4 w-4 text-rose-500" />
             <span>{isArabic ? "المراجعة الذكية والأخطاء" : "Smart Revision"}</span>
           </button>
 
@@ -581,11 +581,11 @@ export const TrainingCenterWorkspace: React.FC<{ initialTopic?: string }> = ({ i
             onClick={() => setActiveTab("progress")}
             className={`flex items-center gap-2 px-5 py-3 rounded-2xl text-sm font-extrabold transition-all ${
               activeTab === "progress"
-                ? "bg-purple-600 text-white shadow-lg shadow-purple-900/40"
-                : "bg-white dark:bg-[#120a24] text-slate-600 dark:text-purple-300 hover:bg-purple-50 dark:hover:bg-purple-950/40"
+                ? "bg-[#2563EB] text-white shadow-md shadow-blue-600/20"
+                : "bg-white text-[#718096] hover:bg-[#E8F3FF] hover:text-[#2563EB] border border-slate-200"
             }`}
           >
-            <TrendingUp className="h-4 w-4 text-cyan-400" />
+            <TrendingUp className="h-4 w-4 text-cyan-600" />
             <span>{isArabic ? "إنجازاتي ونقاط القوة" : "My Progress"}</span>
           </button>
 
@@ -594,11 +594,11 @@ export const TrainingCenterWorkspace: React.FC<{ initialTopic?: string }> = ({ i
               onClick={() => setActiveTab("admin_queue")}
               className={`flex items-center gap-2 px-5 py-3 rounded-2xl text-sm font-extrabold transition-all mr-auto ${
                 activeTab === "admin_queue"
-                  ? "bg-amber-600 text-white shadow-lg shadow-amber-900/40"
-                  : "bg-amber-500/10 text-amber-600 dark:text-amber-400 hover:bg-amber-500/20"
+                  ? "bg-[#EABF58] text-[#243247] shadow-md font-black"
+                  : "bg-amber-50 text-amber-700 hover:bg-amber-100 border border-amber-200"
               }`}
             >
-              <ShieldCheck className="h-4 w-4 text-amber-400" />
+              <ShieldCheck className="h-4 w-4 text-amber-600" />
               <span>{isArabic ? "إدارة وتدقيق بنك الأسئلة" : "Admin Review Queue"}</span>
             </button>
           )}

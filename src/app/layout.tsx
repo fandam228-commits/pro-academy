@@ -158,7 +158,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           }}
         />
       </head>
-      <body className="bg-slate-50 dark:bg-[#0c071a] text-slate-900 dark:text-slate-100 antialiased selection:bg-purple-600 selection:text-white">
+      <body className="bg-[#F7F9FC] text-[#243247] antialiased selection:bg-[#2563EB] selection:text-white">
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaOrgJsonLd) }} />
         {children}
       </body>

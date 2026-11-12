@@ -1,56 +1,56 @@
 @import "tailwindcss";
 
 @theme {
+  --color-pro-bg: #F7F9FC;
+  --color-pro-primary: #2563EB;
+  --color-pro-primary-hover: #1D4ED8;
+  --color-pro-light-blue: #E8F3FF;
+  --color-pro-card: #FFFFFF;
+  --color-pro-text-main: #243247;
+  --color-pro-text-secondary: #718096;
+  --color-pro-gold: #EABF58;
+  --color-pro-green: #10B981;
+
   --color-royal-purple-50: #faf5ff;
   --color-royal-purple-100: #f3e8ff;
-  --color-royal-purple-200: #e9d5ff;
-  --color-royal-purple-300: #d8b4fe;
-  --color-royal-purple-400: #c084fc;
   --color-royal-purple-500: #a855f7;
-  --color-royal-purple-600: #9333ea;
-  --color-royal-purple-700: #7e22ce;
-  --color-royal-purple-800: #6b21a8;
-  --color-royal-purple-900: #581c87;
-  --color-royal-purple-950: #3b0764;
+  --color-royal-purple-600: #2563EB;
+  --color-royal-purple-700: #1D4ED8;
+  --color-royal-purple-950: #1E293B;
 
   --color-light-sky-50: #f0f9ff;
-  --color-light-sky-100: #e0f2fe;
-  --color-light-sky-200: #bae6fd;
-  --color-light-sky-300: #7dd3fc;
-  --color-light-sky-400: #38bdf8;
+  --color-light-sky-100: #E8F3FF;
   --color-light-sky-500: #0ea5e9;
-  --color-light-sky-600: #0284c7;
+  --color-light-sky-600: #2563EB;
 
-  --color-royal-gold-50: #fffbeb;
-  --color-royal-gold-100: #fef3c7;
-  --color-royal-gold-200: #fde68a;
-  --color-royal-gold-300: #fcd34d;
-  --color-royal-gold-400: #fbbf24;
-  --color-royal-gold-500: #f59e0b;
-  --color-royal-gold-600: #d97706;
-  --color-royal-gold-700: #b45309;
+  --color-royal-gold-500: #EABF58;
 }
 
-/* ============ BRAND THEME UTILITIES (Purple, Light Sky Blue, Royal Gold) ============ */
+/* ============ MODERN LIGHT BLUE DESIGN SYSTEM ============ */
 ::selection {
-  background: #7c3aed;
+  background: #2563EB;
   color: #ffffff;
 }
 
-/* Custom Royal Scrollbars */
+body {
+  background-color: #F7F9FC;
+  color: #243247;
+}
+
+/* Custom Clean Scrollbars */
 ::-webkit-scrollbar {
-  width: 9px;
-  height: 9px;
+  width: 8px;
+  height: 8px;
 }
 ::-webkit-scrollbar-track {
-  background: rgba(15, 23, 42, 0.05);
+  background: #F1F5F9;
 }
 ::-webkit-scrollbar-thumb {
-  background: linear-gradient(180deg, #7c3aed 0%, #38bdf8 100%);
+  background: #CBD5E1;
   border-radius: 999px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(180deg, #9333ea 0%, #0ea5e9 100%);
+  background: #94A3B8;
 }
 
 /* ============ PRINT STYLES (Exam Paper Printing) ============ */

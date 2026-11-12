@@ -188,61 +188,61 @@ export const StudentDashboard: React.FC<{
   return (
     <div className="max-w-7xl mx-auto px-4 py-8 space-y-8">
       {/* WELCOME BANNER */}
-      <div className="bg-gradient-to-r from-purple-800 via-indigo-900 to-sky-900 rounded-3xl p-6 sm:p-8 text-white shadow-2xl shadow-purple-950/40 border border-purple-500/20 relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-6">
+      <div className="bg-gradient-to-r from-[#2563EB] to-[#1D4ED8] rounded-3xl p-6 sm:p-8 text-white shadow-xl shadow-blue-600/15 relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-6">
         <div className="relative z-10 max-w-xl">
-          <span className="text-xs font-bold uppercase tracking-wider bg-purple-500/30 border border-purple-300/30 px-3 py-1 rounded-full text-sky-200">
+          <span className="text-xs font-bold uppercase tracking-wider bg-white/20 border border-white/30 px-3 py-1 rounded-full text-white">
             {user?.grade || "Third Secondary (Baccalaureate)"}
           </span>
           <h1 className="text-2xl sm:text-3xl font-black mt-3">
             {lang === "ar" ? `أهلاً بك يا ${user?.name || "عمر"}!` : `Welcome back, ${user?.name || "Omar"}!`}
           </h1>
-          <p className="text-xs sm:text-sm text-purple-100 mt-2 leading-relaxed">
+          <p className="text-xs sm:text-sm text-blue-100 mt-2 leading-relaxed">
             {lang === "ar"
               ? "استمر في مشاهدة محاضرات مستر حبيب الرحمن وحل التدريبات اليومية للحفاظ على التتابع والمكافآت."
-              : "Keep up your study streak by completing Unit 1 lectures and practicing with Habib AI Tutor."}
+              : "Keep up your study streak by completing your curriculum lectures and practicing with Habib AI Tutor."}
           </p>
         </div>
 
         {/* STATS BADGES */}
-        <div className="relative z-10 flex items-center gap-3 bg-white/10 backdrop-blur-md p-4 rounded-2xl border border-purple-400/20">
+        <div className="relative z-10 flex items-center gap-3 bg-white/15 backdrop-blur-md p-4 rounded-2xl border border-white/20">
           <div className="text-center px-3">
-            <Flame className="w-6 h-6 text-amber-400 mx-auto mb-1 fill-amber-400" />
-            <span className="text-lg font-black text-amber-300">{user?.streak || 12}d</span>
-            <span className="text-[10px] block opacity-80">{lang === "ar" ? "تتابع يومي" : "Streak"}</span>
+            <Flame className="w-6 h-6 text-[#EABF58] mx-auto mb-1 fill-[#EABF58]" />
+            <span className="text-lg font-black text-white">{user?.streak || 12}d</span>
+            <span className="text-[10px] block text-blue-100">{lang === "ar" ? "تتابع يومي" : "Streak"}</span>
           </div>
           <div className="w-px h-10 bg-white/20" />
           <div className="text-center px-3">
-            <Award className="w-6 h-6 text-sky-300 mx-auto mb-1" />
-            <span className="text-lg font-black text-sky-200">{user?.points || 680}</span>
-            <span className="text-[10px] block opacity-80">{lang === "ar" ? "نقاط تفوق" : "Points"}</span>
+            <Award className="w-6 h-6 text-white mx-auto mb-1" />
+            <span className="text-lg font-black text-white">{user?.points || 680}</span>
+            <span className="text-[10px] block text-blue-100">{lang === "ar" ? "نقاط تفوق" : "Points"}</span>
           </div>
           <div className="w-px h-10 bg-white/20" />
           <div className="text-center px-3">
-            <Trophy className="w-6 h-6 text-yellow-300 mx-auto mb-1" />
-            <span className="text-lg font-black text-yellow-200">{user?.level || "Upper Int."}</span>
-            <span className="text-[10px] block opacity-80">{lang === "ar" ? "المستوى" : "Level"}</span>
+            <Trophy className="w-6 h-6 text-[#EABF58] mx-auto mb-1" />
+            <span className="text-lg font-black text-white">{user?.level || "Upper Int."}</span>
+            <span className="text-[10px] block text-blue-100">{lang === "ar" ? "المستوى" : "Level"}</span>
           </div>
         </div>
       </div>
 
       {/* QUICK SMART CURRICULUM ACCESS BANNER */}
       {onOpenCurriculum && (
-        <div className="bg-gradient-to-r from-[#12082b] via-[#1f0e47] to-[#0c1326] p-6 rounded-3xl border border-purple-500/30 text-white shadow-xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+        <div className="bg-white p-6 rounded-3xl border border-blue-100 shadow-md shadow-blue-900/5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
           <div className="flex items-center gap-4">
-            <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-purple-600 to-sky-400 flex items-center justify-center text-white shadow-lg shadow-purple-600/30 shrink-0">
+            <div className="w-12 h-12 rounded-2xl bg-[#E8F3FF] text-[#2563EB] flex items-center justify-center shrink-0">
               <BookOpen className="w-6 h-6" />
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <span className="text-[10px] font-black uppercase px-2 py-0.5 rounded-full bg-amber-400 text-slate-950">
+                <span className="text-[10px] font-black uppercase px-2 py-0.5 rounded-full bg-[#EABF58] text-slate-950">
                   {lang === "ar" ? "الهيكل الذكي الجديد" : "Smart Curriculum"}
                 </span>
-                <span className="text-xs text-purple-200/80 font-bold">{lang === "ar" ? "جميع الصفوف + تانية بكالوريا المستقلة" : "All Stages + Egyptian Baccalaureate"}</span>
+                <span className="text-xs text-[#718096] font-bold">{lang === "ar" ? "جميع الصفوف + تانية بكالوريا المستقلة" : "All Stages + Egyptian Baccalaureate"}</span>
               </div>
-              <h3 className="text-base sm:text-lg font-black mt-1">
+              <h3 className="text-base sm:text-lg font-black mt-1 text-[#243247]">
                 {lang === "ar" ? "متابعة المنهج الدراسي وركن القصة المقررة" : "Resume Curriculum Units & Story Corner"}
               </h3>
-              <p className="text-xs text-purple-200/70">
+              <p className="text-xs text-[#718096]">
                 {lang === "ar"
                   ? "كلمات، قواعد، مهارات كتابة، وفصول الرواية المقررة مع حساب نسبة إنجازك تلقائياً."
                   : "Vocabulary, grammar rules, writing templates, and story chapters with progress tracking."}
@@ -252,7 +252,7 @@ export const StudentDashboard: React.FC<{
 
           <button
             onClick={() => onOpenCurriculum()}
-            className="px-6 py-3 rounded-2xl bg-gradient-to-r from-purple-600 via-indigo-600 to-sky-500 hover:from-purple-500 hover:to-sky-400 text-white font-black text-xs shadow-xl shadow-purple-600/30 transition-all cursor-pointer shrink-0"
+            className="px-6 py-3 rounded-2xl bg-[#2563EB] hover:bg-[#1D4ED8] text-white font-bold text-xs shadow-md shadow-blue-600/20 transition-all cursor-pointer shrink-0"
           >
             {lang === "ar" ? "فتح وحدات المنهج الآن ←" : "Open Curriculum Now →"}
           </button>
@@ -261,25 +261,25 @@ export const StudentDashboard: React.FC<{
 
       {/* OFFICIAL MINISTRY ASSESSMENTS DEDICATED CARD */}
       {onOpenMinistryAssessments && (
-        <div className="bg-gradient-to-r from-[#0c1427] via-[#101e38] to-[#0a182e] p-6 rounded-3xl border border-amber-400/30 text-white shadow-xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+        <div className="bg-white p-6 rounded-3xl border border-amber-200/80 shadow-md shadow-amber-900/5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
           <div className="flex items-center gap-4">
-            <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-amber-500 via-yellow-500 to-amber-600 flex items-center justify-center text-slate-950 shadow-lg shadow-amber-500/30 shrink-0">
+            <div className="w-12 h-12 rounded-2xl bg-amber-50 text-[#EABF58] flex items-center justify-center shrink-0">
               <FileCheck className="w-6 h-6" />
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <span className="text-[10px] font-black uppercase px-2.5 py-0.5 rounded-full bg-gradient-to-r from-amber-400 to-yellow-400 text-slate-950 shadow-sm">
+                <span className="text-[10px] font-black uppercase px-2.5 py-0.5 rounded-full bg-[#EABF58] text-slate-950 shadow-sm">
                   {lang === "ar" ? "بوابة التقييمات الرسمية 2026/2027" : "Official MOE Assessments 2026/2027"}
                 </span>
-                <span className="text-xs text-amber-200/90 font-bold flex items-center gap-1">
-                  <ShieldCheck className="w-3.5 h-3.5 text-amber-400" />
+                <span className="text-xs text-[#718096] font-bold flex items-center gap-1">
+                  <ShieldCheck className="w-3.5 h-3.5 text-amber-500" />
                   <span>{lang === "ar" ? "وزارة التربية والتعليم" : "Ministry of Education"}</span>
                 </span>
               </div>
-              <h3 className="text-base sm:text-lg font-black mt-1 text-white">
+              <h3 className="text-base sm:text-lg font-black mt-1 text-[#243247]">
                 {lang === "ar" ? "تقييمات الوزارة الرسمية (PDF والأداءات الصفية والمنزلية)" : "Official Ministry Performance & Weekly Assessments"}
               </h3>
-              <p className="text-xs text-amber-100/75">
+              <p className="text-xs text-[#718096]">
                 {lang === "ar"
                   ? "تحميل مباشر لتقييمات الأسابيع، الأداءات الصفية والمنزلية، والتقييمات الشهرية المعتمدة لجميع المراحل الإعدادية والثانوية."
                   : "Direct access to official weekly assessments, classroom & homework sheets, and monthly exams."}
@@ -289,7 +289,7 @@ export const StudentDashboard: React.FC<{
 
           <button
             onClick={() => onOpenMinistryAssessments()}
-            className="px-6 py-3 rounded-2xl bg-gradient-to-r from-amber-500 via-yellow-400 to-amber-500 hover:from-amber-400 hover:to-yellow-300 text-slate-950 font-black text-xs shadow-xl shadow-amber-500/25 transition-all cursor-pointer shrink-0 flex items-center gap-1.5"
+            className="px-6 py-3 rounded-2xl bg-[#EABF58] hover:bg-amber-400 text-slate-950 font-black text-xs shadow-md transition-all cursor-pointer shrink-0 flex items-center gap-1.5"
           >
             <FileText className="w-4 h-4 text-slate-950" />
             <span>{lang === "ar" ? "تصفح وتحميل التقييمات ←" : "Browse Assessments →"}</span>
@@ -298,24 +298,24 @@ export const StudentDashboard: React.FC<{
       )}
 
       {/* TRANSLATION ACADEMY DEDICATED CARD */}
-      <div className="bg-gradient-to-r from-[#180a33] via-[#210d48] to-[#0d071a] p-6 rounded-3xl border border-purple-500/30 text-white shadow-xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+      <div className="bg-white p-6 rounded-3xl border border-blue-100 shadow-md shadow-blue-900/5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div className="flex items-center gap-4">
-          <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-purple-600 via-indigo-600 to-sky-400 flex items-center justify-center text-white shadow-lg shadow-purple-600/30 shrink-0">
-            <Languages className="w-6 h-6 text-amber-300" />
+          <div className="w-12 h-12 rounded-2xl bg-[#E8F3FF] text-[#2563EB] flex items-center justify-center shrink-0">
+            <Languages className="w-6 h-6 text-[#2563EB]" />
           </div>
           <div>
             <div className="flex items-center gap-2">
-              <span className="text-[10px] font-black uppercase px-2.5 py-0.5 rounded-full bg-gradient-to-r from-amber-400 to-amber-500 text-slate-950 shadow-sm">
+              <span className="text-[10px] font-black uppercase px-2.5 py-0.5 rounded-full bg-[#EABF58] text-slate-950 shadow-sm">
                 TRANSLATION ACADEMY
               </span>
-              <span className="text-xs text-purple-200 font-bold">
+              <span className="text-xs text-[#718096] font-bold">
                 Think in English. Translate with Confidence.
               </span>
             </div>
-            <h3 className="text-base sm:text-lg font-black mt-1 text-white">
+            <h3 className="text-base sm:text-lg font-black mt-1 text-[#243247]">
               {lang === "ar" ? "أكاديمية الترجمة الاحترافية — مستر حبيب الرحمن" : "Professional Translation Academy — Mr. Habib El Rahman"}
             </h3>
-            <p className="text-xs text-purple-200/80">
+            <p className="text-xs text-[#718096]">
               {lang === "ar"
                 ? "تدريب تفاعلي على 8 مسارات و14 نمط أسئلة مع تقييم ذكي فوري وفق معايير الترجمة الخمسة."
                 : "Interactive training across 8 modules and 14 question types with instant rubric-based evaluation."}
@@ -325,9 +325,9 @@ export const StudentDashboard: React.FC<{
 
         <button
           onClick={() => onOpenTranslation ? onOpenTranslation() : undefined}
-          className="px-6 py-3 rounded-2xl bg-gradient-to-r from-purple-500 via-indigo-500 to-sky-500 hover:from-purple-400 hover:to-sky-400 text-white font-black text-xs shadow-xl shadow-purple-600/25 transition-all cursor-pointer shrink-0 flex items-center gap-1.5"
+          className="px-6 py-3 rounded-2xl bg-[#2563EB] hover:bg-[#1D4ED8] text-white font-bold text-xs shadow-md shadow-blue-600/20 transition-all cursor-pointer shrink-0 flex items-center gap-1.5"
         >
-          <Languages className="w-4 h-4 text-amber-300" />
+          <Languages className="w-4 h-4 text-[#EABF58]" />
           <span>{lang === "ar" ? "دخول أكاديمية الترجمة ←" : "Enter Translation Academy →"}</span>
         </button>
       </div>

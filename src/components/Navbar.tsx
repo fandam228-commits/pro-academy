@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { useApp } from "@/context/AppContext";
 import {
   GraduationCap,
@@ -31,580 +31,506 @@ import {
   FileCheck,
   Languages,
   Film,
+  ChevronDown,
+  Home,
+  User,
 } from "lucide-react";
 
 export const Navbar: React.FC<{ activeTab?: string; setActiveTab?: (tab: string) => void }> = ({
-  activeTab,
+  activeTab = "home",
   setActiveTab,
 }) => {
   const { user, lang, toggleLang, theme, toggleTheme, notificationsCount, logout } = useApp();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [moreMenuOpen, setMoreMenuOpen] = useState(false);
+  const moreMenuRef = useRef<HTMLDivElement>(null);
 
+  // Close "More" dropdown when clicking outside
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (moreMenuRef.current && !moreMenuRef.current.contains(event.target as Node)) {
+        setMoreMenuOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  const navigateTo = (tab: string) => {
+    if (setActiveTab) setActiveTab(tab);
+    setMobileMenuOpen(false);
+    setMoreMenuOpen(false);
+  };
+
+  const moreItems = [
+    { id: "ministry_assessments", labelAr: "تقييمات الوزارة الرسمية", labelEn: "Ministry Assessments", icon: FileCheck, badge: "2027" },
+    { id: "homework", labelAr: "الواجبات والتسليم", labelEn: "Homework & Tasks", icon: NotebookPen },
+    { id: "attendance", labelAr: "الحضور والغياب (QR)", labelEn: "Attendance & QR", icon: ClipboardCheck },
+    { id: "question_bank", labelAr: "بنك الأسئلة الذكي", labelEn: "Question Bank & Shuffle", icon: Database },
+    { id: "pdfs", labelAr: "مكتبة مذكرات PDF", labelEn: "PDF Library", icon: FileText },
+    { id: "grammar", labelAr: "شرح القواعد التفاعلي", labelEn: "Grammar Master", icon: BookOpen },
+    { id: "placement", labelAr: "اختبار تحديد المستوى", labelEn: "Placement Test", icon: Sparkles },
+    { id: "ai_assistant", labelAr: "المساعد الذكي (AI Tutor)", labelEn: "AI Tutor", icon: BrainCircuit },
+    { id: "gamification", labelAr: "المتصدرون والأوسمة", labelEn: "Leaderboard & Badges", icon: Trophy },
+    { id: "calendar", labelAr: "جدول الحصص والبث", labelEn: "Calendar & Live", icon: CalendarDays },
+    { id: "analytics", labelAr: "التقارير والتحليلات", labelEn: "Analytics & Reports", icon: BarChart3 },
+    { id: "blog", labelAr: "المدونة والنصائح", labelEn: "Blog & Tips", icon: FileText },
+    { id: "faq", labelAr: "الأسئلة الشائعة والدعم", labelEn: "FAQ & Support", icon: ShieldCheck },
+  ];
+
+  const isMoreTabActive = moreItems.some((item) => item.id === activeTab);
 
   return (
-    <header className="sticky top-0 z-50 backdrop-blur-xl bg-white/85 dark:bg-[#0d071d]/85 border-b border-purple-100/60 dark:border-purple-900/40 transition-colors">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-20">
-          
-          {/* LOGO */}
-          <div
-            role="button"
-            tabIndex={0}
-            onClick={() => {
-              if (setActiveTab) setActiveTab("home");
-            }}
-            onKeyDown={(e) => {
-              if (e.key === "Enter" && setActiveTab) setActiveTab("home");
-            }}
-            className="flex items-center gap-3 group cursor-pointer select-none"
-          >
-            <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-purple-600 via-indigo-600 to-sky-400 flex items-center justify-center text-white shadow-lg shadow-purple-500/25 group-hover:scale-105 transition-transform">
-              <GraduationCap className="w-7 h-7" />
-            </div>
-            <div>
-              <div className="font-extrabold text-xl tracking-tight text-slate-900 dark:text-white flex items-center gap-1.5">
-                <span>{lang === "ar" ? "أكاديمية المستر" : "Professional Academy"}</span>
-                <span className="text-[11px] font-black px-2 py-0.5 rounded-full bg-gradient-to-r from-amber-400 to-yellow-400 text-slate-950 border border-amber-300 shadow-sm">
-                  PRO
-                </span>
+    <>
+      {/* =========================================================================
+          DESKTOP & MOBILE TOP HEADER
+      ========================================================================= */}
+      <header className="sticky top-0 z-50 backdrop-blur-md bg-white/95 dark:bg-[#0d1322]/95 border-b border-blue-100/80 dark:border-slate-800 transition-colors shadow-xs">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between h-20">
+            
+            {/* BRAND LOGO */}
+            <div
+              role="button"
+              tabIndex={0}
+              onClick={() => navigateTo("home")}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") navigateTo("home");
+              }}
+              className="flex items-center gap-3 group cursor-pointer select-none"
+            >
+              <div className="w-11 h-11 sm:w-12 sm:h-12 rounded-2xl bg-[#2563EB] flex items-center justify-center text-white shadow-md shadow-blue-600/25 group-hover:scale-105 transition-transform">
+                <GraduationCap className="w-6 h-6 sm:w-7 sm:h-7 text-white" />
               </div>
-              <p className="text-xs font-medium text-slate-500 dark:text-slate-400">
-                {lang === "ar" ? "مع مستر حبيب الرحمن" : "Mr. Habib El Rahman Platform"}
-              </p>
+              <div>
+                <div className="font-black text-lg sm:text-xl tracking-tight text-[#243247] dark:text-white flex items-center gap-1.5">
+                  <span>{lang === "ar" ? "أكاديمية المستر" : "Professional Academy"}</span>
+                  <span className="text-[10px] sm:text-[11px] font-black px-2 py-0.5 rounded-full bg-[#EABF58] text-[#243247] shadow-xs">
+                    PRO
+                  </span>
+                </div>
+                <p className="text-[11px] sm:text-xs font-semibold text-[#718096] dark:text-slate-400">
+                  {lang === "ar" ? "مع مستر حبيب الرحمن" : "Mr. Habib El Rahman"}
+                </p>
+              </div>
             </div>
-          </div>
 
-          {/* DESKTOP NAVIGATION */}
-          <nav className="hidden md:flex items-center gap-1 text-sm font-medium text-slate-700 dark:text-slate-200">
-            <button
-              onClick={() => setActiveTab && setActiveTab("home")}
-              className={`px-3.5 py-2 rounded-xl transition-all ${
-                activeTab === "home" ? "bg-purple-100/80 dark:bg-purple-950/60 text-purple-700 dark:text-purple-300 font-bold shadow-sm" : "hover:bg-slate-100 dark:hover:bg-slate-800"
-              }`}
-            >
-              {lang === "ar" ? "الرئيسية" : "Home"}
-            </button>
-
-            <button
-              onClick={() => setActiveTab && setActiveTab("courses")}
-              className={`px-3.5 py-2 rounded-xl transition-all ${
-                activeTab === "courses" ? "bg-purple-100/80 dark:bg-purple-950/60 text-purple-700 dark:text-purple-300 font-bold shadow-sm" : "hover:bg-slate-100 dark:hover:bg-slate-800"
-              }`}
-            >
-              {lang === "ar" ? "الكورسات والصفوف" : "Courses & Stages"}
-            </button>
-
-            <button
-              onClick={() => setActiveTab && setActiveTab("curriculum")}
-              className={`px-3.5 py-2 rounded-xl transition-all flex items-center gap-1.5 ${
-                activeTab === "curriculum" ? "bg-purple-100/80 dark:bg-purple-950/60 text-purple-700 dark:text-purple-300 font-bold shadow-sm" : "hover:bg-slate-100 dark:hover:bg-slate-800"
-              }`}
-            >
-              <BookMarked className="w-4 h-4 text-purple-500" />
-              <span>{lang === "ar" ? "المناهج والقصة" : "Curriculum & Story"}</span>
-            </button>
-
-            <button
-              onClick={() => setActiveTab && setActiveTab("story_world")}
-              className={`px-3.5 py-2 rounded-xl transition-all flex items-center gap-1.5 cursor-pointer ${
-                activeTab === "story_world"
-                  ? "bg-gradient-to-r from-amber-500 to-indigo-600 text-white font-black shadow-md shadow-amber-500/30"
-                  : "hover:bg-slate-100 dark:hover:bg-slate-800 text-amber-600 dark:text-amber-400 font-bold"
-              }`}
-            >
-              <Film className="w-4 h-4 text-amber-500" />
-              <span>{lang === "ar" ? "عالم القصص" : "Story World"}</span>
-            </button>
-
-            <button
-              onClick={() => setActiveTab && setActiveTab("translation")}
-              className={`px-3.5 py-2 rounded-xl transition-all flex items-center gap-1.5 cursor-pointer ${
-                activeTab === "translation"
-                  ? "bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-black shadow-md shadow-purple-600/30"
-                  : "bg-purple-50 dark:bg-purple-950/40 text-purple-700 dark:text-purple-300 font-extrabold hover:bg-purple-100 dark:hover:bg-purple-900/60 border border-purple-300/40"
-              }`}
-            >
-              <Languages className="w-4 h-4 text-amber-400" />
-              <span>{lang === "ar" ? "أكاديمية الترجمة" : "Translation Academy"}</span>
-              <span className="px-1.5 py-0.5 rounded-md bg-amber-400 text-slate-950 text-[9px] font-black uppercase">
-                PRO
-              </span>
-            </button>
-
-            <button
-              onClick={() => setActiveTab && setActiveTab("ministry_assessments")}
-              className={`px-3.5 py-2 rounded-xl transition-all flex items-center gap-1.5 ${
-                activeTab === "ministry_assessments" ? "bg-amber-100/90 dark:bg-amber-950/70 text-amber-800 dark:text-amber-300 font-black shadow-sm border border-amber-300/40" : "hover:bg-slate-100 dark:hover:bg-slate-800"
-              }`}
-            >
-              <FileCheck className="w-4 h-4 text-amber-500" />
-              <span>{lang === "ar" ? "تقييمات الوزارة" : "Ministry Assessments"}</span>
-            </button>
-
-            <button
-              onClick={() => setActiveTab && setActiveTab("homework")}
-              className={`px-3.5 py-2 rounded-xl transition-all flex items-center gap-1.5 ${
-                activeTab === "homework" ? "bg-sky-100/80 dark:bg-sky-950/60 text-sky-700 dark:text-sky-300 font-bold shadow-sm" : "hover:bg-slate-100 dark:hover:bg-slate-800"
-              }`}
-            >
-              <NotebookPen className="w-4 h-4 text-sky-500" />
-              <span>{lang === "ar" ? "الواجبات" : "Homework"}</span>
-            </button>
-
-            <button
-              onClick={() => setActiveTab && setActiveTab("attendance")}
-              className={`px-3.5 py-2 rounded-xl transition-all flex items-center gap-1.5 ${
-                activeTab === "attendance" ? "bg-purple-100/80 dark:bg-purple-950/60 text-purple-700 dark:text-purple-300 font-bold shadow-sm" : "hover:bg-slate-100 dark:hover:bg-slate-800"
-              }`}
-            >
-              <ClipboardCheck className="w-4 h-4 text-purple-500" />
-              <span>{lang === "ar" ? "الحضور" : "Attendance"}</span>
-            </button>
-
-            <button
-              onClick={() => setActiveTab && setActiveTab("training_center")}
-              className={`px-3.5 py-2 rounded-xl transition-all flex items-center gap-1.5 ${
-                activeTab === "training_center" || activeTab === "question_bank" ? "bg-amber-100/80 dark:bg-amber-950/60 text-amber-700 dark:text-amber-400 font-bold shadow-sm" : "hover:bg-slate-100 dark:hover:bg-slate-800"
-              }`}
-            >
-              <Database className="w-4 h-4 text-amber-500" />
-              <span>{lang === "ar" ? "التدريب والامتحانات" : "Training & Exams"}</span>
-            </button>
-
-            <button
-              onClick={() => setActiveTab && setActiveTab("pdfs")}
-              className={`px-3.5 py-2 rounded-xl transition-all flex items-center gap-1.5 ${
-                activeTab === "pdfs" ? "bg-sky-100/80 dark:bg-sky-950/60 text-sky-700 dark:text-sky-400 font-bold shadow-sm" : "hover:bg-slate-100 dark:hover:bg-slate-800"
-              }`}
-            >
-              <FileText className="w-4 h-4 text-sky-500" />
-              <span>{lang === "ar" ? "مكتبة PDF" : "PDF Library"}</span>
-            </button>
-            <button
-              onClick={() => setActiveTab && setActiveTab("grammar")}
-              className={"px-3.5 py-2 rounded-xl transition-all flex items-center gap-1.5 " + (activeTab === "grammar" ? "bg-purple-100/80 dark:bg-purple-950/60 text-purple-700 dark:text-purple-300 font-bold shadow-sm" : "hover:bg-slate-100 dark:hover:bg-slate-800")}
-            >
-              <BookOpen className="w-4 h-4 text-purple-500" />
-              <span>{lang === "ar" ? "شرح القواعد" : "Grammar Library"}</span>
-            </button>
-
-            <button
-              onClick={() => setActiveTab && setActiveTab("placement")}
-              className={`px-3.5 py-2 rounded-xl transition-all flex items-center gap-1.5 ${
-                activeTab === "placement" ? "bg-amber-100/80 dark:bg-amber-950/60 text-amber-700 dark:text-amber-300 font-bold shadow-sm" : "hover:bg-slate-100 dark:hover:bg-slate-800"
-              }`}
-            >
-              <Sparkles className="w-4 h-4 text-amber-500 animate-pulse" />
-              <span>{lang === "ar" ? "اختبار المستوى" : "Placement Test"}</span>
-            </button>
-
-            <button
-              onClick={() => setActiveTab && setActiveTab("ai_assistant")}
-              className={`px-3.5 py-2 rounded-xl transition-all flex items-center gap-1.5 ${
-                activeTab === "ai_assistant" ? "bg-purple-100/80 dark:bg-purple-950/60 text-purple-700 dark:text-purple-300 font-bold shadow-sm" : "hover:bg-slate-100 dark:hover:bg-slate-800"
-              }`}
-            >
-              <BrainCircuit className="w-4 h-4 text-purple-500" />
-              <span>{lang === "ar" ? "الذكاء الاصطناعي" : "AI Tutor"}</span>
-            </button>
-
-            <button
-              onClick={() => setActiveTab && setActiveTab("dashboard")}
-              className={`px-3.5 py-2 rounded-xl transition-all ${
-                activeTab === "dashboard" ? "bg-purple-100/80 dark:bg-purple-950/60 text-purple-700 dark:text-purple-300 font-bold shadow-sm" : "hover:bg-slate-100 dark:hover:bg-slate-800"
-              }`}
-            >
-              {lang === "ar" ? "لوحة التحكم" : "Dashboard"}
-            </button>
-
-            <button
-              onClick={() => setActiveTab && setActiveTab("blog")}
-              className={`px-3.5 py-2 rounded-xl transition-all ${
-                activeTab === "blog" ? "bg-purple-100/80 dark:bg-purple-950/60 text-purple-700 dark:text-purple-300 font-bold shadow-sm" : "hover:bg-slate-100 dark:hover:bg-slate-800"
-              }`}
-            >
-              {lang === "ar" ? "المدونة والنصائح" : "Blog & Tips"}
-            </button>
-          </nav>
-
-          {/* RIGHT ACTION BUTTONS */}
-          <div className="flex items-center gap-2 sm:gap-3">
-
-            {/* QUICK ACCESS: SEARCH / GAMIFICATION / CALENDAR */}
-            <div className="hidden md:flex items-center gap-1 bg-slate-100 dark:bg-slate-800/80 p-1 rounded-2xl border border-slate-200 dark:border-slate-700">
+            {/* STREAMLINED DESKTOP NAVIGATION (5 Primary Tabs + More Dropdown) */}
+            <nav className="hidden xl:flex items-center gap-1.5 text-xs lg:text-sm font-bold text-[#243247] dark:text-slate-200">
+              
+              {/* 1. HOME */}
               <button
-                onClick={() => setActiveTab && setActiveTab("search")}
-                className={`p-2 rounded-xl transition-all ${activeTab === "search" ? "bg-white dark:bg-slate-900 text-sky-500 shadow-sm" : "text-slate-500 hover:text-slate-800 dark:hover:text-slate-200"}`}
+                onClick={() => navigateTo("home")}
+                className={`px-3.5 py-2 rounded-xl transition-all flex items-center gap-1.5 ${
+                  activeTab === "home"
+                    ? "bg-[#E8F3FF] text-[#2563EB] shadow-xs"
+                    : "text-[#718096] hover:text-[#243247] hover:bg-slate-100 dark:hover:bg-slate-800"
+                }`}
+              >
+                <Home className="w-4 h-4" />
+                <span>{lang === "ar" ? "الرئيسية" : "Home"}</span>
+              </button>
+
+              {/* 2. CURRICULUM & COURSES */}
+              <button
+                onClick={() => navigateTo("curriculum")}
+                className={`px-3.5 py-2 rounded-xl transition-all flex items-center gap-1.5 ${
+                  activeTab === "curriculum" || activeTab === "courses"
+                    ? "bg-[#E8F3FF] text-[#2563EB] shadow-xs"
+                    : "text-[#718096] hover:text-[#243247] hover:bg-slate-100 dark:hover:bg-slate-800"
+                }`}
+              >
+                <BookOpen className="w-4 h-4 text-[#2563EB]" />
+                <span>{lang === "ar" ? "المناهج والكورسات" : "Courses & Syllabus"}</span>
+              </button>
+
+              {/* 3. TRANSLATION ACADEMY */}
+              <button
+                onClick={() => navigateTo("translation")}
+                className={`px-3.5 py-2 rounded-xl transition-all flex items-center gap-1.5 ${
+                  activeTab === "translation"
+                    ? "bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-md shadow-blue-600/20"
+                    : "text-[#243247] hover:bg-[#E8F3FF] border border-blue-200/60"
+                }`}
+              >
+                <Languages className="w-4 h-4 text-[#EABF58]" />
+                <span>{lang === "ar" ? "أكاديمية الترجمة" : "Translation Academy"}</span>
+                <span className="px-1.5 py-0.5 rounded text-[9px] font-black bg-[#EABF58] text-[#243247]">PRO</span>
+              </button>
+
+              {/* 4. TRAINING CENTER */}
+              <button
+                onClick={() => navigateTo("training_center")}
+                className={`px-3.5 py-2 rounded-xl transition-all flex items-center gap-1.5 ${
+                  activeTab === "training_center"
+                    ? "bg-[#E8F3FF] text-[#2563EB] shadow-xs"
+                    : "text-[#718096] hover:text-[#243247] hover:bg-slate-100 dark:hover:bg-slate-800"
+                }`}
+              >
+                <Trophy className="w-4 h-4 text-[#EABF58]" />
+                <span>{lang === "ar" ? "التدريب والامتحانات" : "Training Center"}</span>
+              </button>
+
+              {/* 5. STORY WORLD */}
+              <button
+                onClick={() => navigateTo("story_world")}
+                className={`px-3.5 py-2 rounded-xl transition-all flex items-center gap-1.5 ${
+                  activeTab === "story_world"
+                    ? "bg-[#E8F3FF] text-[#2563EB] shadow-xs"
+                    : "text-[#718096] hover:text-[#243247] hover:bg-slate-100 dark:hover:bg-slate-800"
+                }`}
+              >
+                <Film className="w-4 h-4 text-indigo-500" />
+                <span>{lang === "ar" ? "عالم القصص" : "Story World"}</span>
+              </button>
+
+              {/* 6. MORE DROPDOWN */}
+              <div className="relative" ref={moreMenuRef}>
+                <button
+                  onClick={() => setMoreMenuOpen(!moreMenuOpen)}
+                  className={`px-3 py-2 rounded-xl transition-all flex items-center gap-1 font-bold ${
+                    isMoreTabActive
+                      ? "bg-[#E8F3FF] text-[#2563EB]"
+                      : "text-[#718096] hover:text-[#243247] hover:bg-slate-100 dark:hover:bg-slate-800"
+                  }`}
+                >
+                  <span>{lang === "ar" ? "المزيد" : "More"}</span>
+                  <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-200 ${moreMenuOpen ? "rotate-180" : ""}`} />
+                </button>
+
+                {moreMenuOpen && (
+                  <div className="absolute top-full end-0 mt-2 w-72 bg-white dark:bg-slate-900 rounded-2xl shadow-xl border border-blue-100 dark:border-slate-800 py-2.5 z-50 animate-in fade-in slide-in-from-top-2 duration-150">
+                    <div className="px-3 py-1 text-[11px] font-black text-[#718096] uppercase tracking-wider border-b border-slate-100 dark:border-slate-800 mb-1">
+                      {lang === "ar" ? "الأدوات والخدمات الإضافية" : "Academy Tools"}
+                    </div>
+                    <div className="max-h-[60vh] overflow-y-auto space-y-0.5 px-1.5">
+                      {moreItems.map((item) => {
+                        const Icon = item.icon;
+                        const isCurrent = activeTab === item.id;
+                        return (
+                          <button
+                            key={item.id}
+                            onClick={() => navigateTo(item.id)}
+                            className={`w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-bold transition ${
+                              isCurrent
+                                ? "bg-[#E8F3FF] text-[#2563EB]"
+                                : "text-[#243247] dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800"
+                            }`}
+                          >
+                            <span className="flex items-center gap-2">
+                              <Icon className={`w-4 h-4 ${isCurrent ? "text-[#2563EB]" : "text-[#718096]"}`} />
+                              <span>{lang === "ar" ? item.labelAr : item.labelEn}</span>
+                            </span>
+                            {item.badge && (
+                              <span className="px-1.5 py-0.5 rounded text-[9px] font-black bg-[#EABF58] text-[#243247]">
+                                {item.badge}
+                              </span>
+                            )}
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
+                )}
+              </div>
+
+            </nav>
+
+            {/* RIGHT ACTION CONTROLS */}
+            <div className="flex items-center gap-2 sm:gap-3">
+
+              {/* SEARCH */}
+              <button
+                onClick={() => navigateTo("search")}
+                className={`p-2.5 rounded-xl border border-slate-200/80 hover:bg-slate-100 dark:hover:bg-slate-800 transition ${
+                  activeTab === "search" ? "bg-[#E8F3FF] text-[#2563EB] border-blue-200" : "text-[#718096]"
+                }`}
                 title={lang === "ar" ? "البحث الشامل" : "Global Search"}
               >
                 <Search className="w-4 h-4" />
               </button>
+
+              {/* USER STREAK & POINTS (WHEN LOGGED IN) */}
+              {user && (
+                <div className="hidden lg:flex items-center gap-2 bg-[#E8F3FF] border border-blue-200/80 px-3 py-1.5 rounded-full text-xs font-bold">
+                  <div className="flex items-center gap-1 text-orange-500" title="Daily Streak">
+                    <Flame className="w-4 h-4 fill-orange-500 text-orange-500" />
+                    <span>{user.streak || 1}d</span>
+                  </div>
+                  <div className="w-px h-3 bg-blue-200" />
+                  <div className="flex items-center gap-1 text-[#2563EB]" title="Gamification Points">
+                    <Award className="w-4 h-4 text-[#EABF58]" />
+                    <span>{user.points || 150} pts</span>
+                  </div>
+                </div>
+              )}
+
+              {/* DOWNLOAD APP CTA */}
               <button
-                onClick={() => setActiveTab && setActiveTab("gamification")}
-                className={`p-2 rounded-xl transition-all ${activeTab === "gamification" ? "bg-white dark:bg-slate-900 text-amber-500 shadow-sm" : "text-slate-500 hover:text-slate-800 dark:hover:text-slate-200"}`}
-                title={lang === "ar" ? "الأوسمة والمتصدرون" : "Leaderboard & Badges"}
+                onClick={() => navigateTo("download")}
+                className="hidden sm:inline-flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-bold bg-[#F7F9FC] hover:bg-slate-100 text-[#243247] border border-slate-200 transition shadow-xs"
+                title={lang === "ar" ? "تحميل التطبيق على هاتفك" : "Install mobile app"}
               >
-                <Trophy className="w-4 h-4" />
+                <Smartphone className="w-3.5 h-3.5 text-[#2563EB]" />
+                <span className="hidden md:inline">{lang === "ar" ? "تطبيق الهاتف" : "Mobile App"}</span>
               </button>
+
+              {/* LANGUAGE TOGGLE */}
               <button
-                onClick={() => setActiveTab && setActiveTab("calendar")}
-                className={`p-2 rounded-xl transition-all ${activeTab === "calendar" ? "bg-white dark:bg-slate-900 text-purple-500 shadow-sm" : "text-slate-500 hover:text-slate-800 dark:hover:text-slate-200"}`}
-                title={lang === "ar" ? "التقويم والحصص المباشرة" : "Calendar & Live Sessions"}
+                onClick={toggleLang}
+                className="px-2.5 py-2 rounded-xl bg-[#F7F9FC] hover:bg-slate-100 text-[#243247] dark:text-slate-200 border border-slate-200 text-xs font-bold transition flex items-center gap-1"
+                title="Toggle Language (AR/EN)"
               >
-                <CalendarDays className="w-4 h-4" />
+                <Globe className="w-3.5 h-3.5 text-[#2563EB]" />
+                <span>{lang === "ar" ? "EN" : "عربي"}</span>
               </button>
+
+              {/* THEME TOGGLE (OPTIONAL) */}
               <button
-                onClick={() => setActiveTab && setActiveTab("analytics")}
-                className={`p-2 rounded-xl transition-all ${activeTab === "analytics" ? "bg-white dark:bg-slate-900 text-purple-500 shadow-sm" : "text-slate-500 hover:text-slate-800 dark:hover:text-slate-200"}`}
-                title={lang === "ar" ? "التقارير والتحليلات" : "Analytics & Reports"}
+                onClick={toggleTheme}
+                className="p-2 rounded-xl bg-[#F7F9FC] hover:bg-slate-100 text-[#718096] border border-slate-200 transition"
+                title="Toggle Dark/Light Mode"
               >
-                <BarChart3 className="w-4 h-4" />
+                {theme === "light" ? <Moon className="w-4 h-4 text-[#718096]" /> : <Sun className="w-4 h-4 text-[#EABF58]" />}
               </button>
+
+              {/* NOTIFICATIONS */}
+              <button
+                onClick={() => navigateTo("notifications")}
+                className="relative p-2.5 rounded-xl bg-[#F7F9FC] hover:bg-slate-100 text-[#718096] border border-slate-200 transition"
+                title={lang === "ar" ? "الإشعارات" : "Notifications"}
+              >
+                <Bell className="w-4 h-4" />
+                {notificationsCount > 0 && (
+                  <span className="absolute -top-1 -right-1 rtl:-left-1 rtl:right-auto min-w-[18px] h-[18px] px-1 rounded-full bg-red-500 text-white text-[9px] font-black flex items-center justify-center ring-2 ring-white">
+                    {notificationsCount > 9 ? "9+" : notificationsCount}
+                  </span>
+                )}
+              </button>
+
+              {/* USER ACCOUNT BADGE / AUTH CTA */}
+              {user ? (
+                <div className="flex items-center gap-2">
+                  <button
+                    onClick={() => navigateTo("dashboard")}
+                    className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-[#E8F3FF] hover:bg-blue-100/80 text-[#2563EB] border border-blue-200 transition text-xs font-extrabold"
+                  >
+                    <User className="w-3.5 h-3.5" />
+                    <span className="max-w-[90px] truncate hidden sm:inline">{user.name}</span>
+                  </button>
+
+                  <button
+                    onClick={async () => {
+                      setMobileMenuOpen(false);
+                      await logout();
+                    }}
+                    className="p-2 rounded-xl bg-red-50 hover:bg-red-100 text-red-600 border border-red-200 transition"
+                    title={lang === "ar" ? "تسجيل الخروج" : "Log out"}
+                  >
+                    <LogOut className="w-4 h-4" />
+                  </button>
+                </div>
+              ) : (
+                <button
+                  onClick={() => navigateTo("auth")}
+                  className="px-4 py-2.5 rounded-xl bg-[#2563EB] hover:bg-[#1D4ED8] text-white font-extrabold text-xs shadow-md shadow-blue-600/20 transition flex items-center gap-1.5 cursor-pointer"
+                >
+                  <LogIn className="w-3.5 h-3.5" />
+                  <span>{lang === "ar" ? "تسجيل الدخول" : "Sign In"}</span>
+                </button>
+              )}
+
+              {/* MOBILE HAMBURGER MENU TRIGGER */}
+              <button
+                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                className="xl:hidden p-2.5 rounded-xl bg-[#F7F9FC] text-[#243247] border border-slate-200"
+                aria-label="Toggle navigation menu"
+              >
+                {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+              </button>
+
             </div>
 
-            {/* STREAK & POINTS (Gold Flame & Sky Points) */}
-            {user && (
-              <div className="hidden lg:flex items-center gap-2 bg-gradient-to-r from-amber-500/15 via-purple-500/10 to-sky-500/15 dark:from-amber-950/30 dark:to-purple-950/30 border border-amber-300/40 dark:border-amber-700/40 px-3 py-1.5 rounded-full text-xs font-semibold">
-                <div className="flex items-center gap-1 text-amber-600 dark:text-amber-400" title="Daily Streak">
-                  <Flame className="w-4 h-4 fill-amber-500 text-amber-500" />
-                  <span>{user.streak || 1}d</span>
-                </div>
-                <div className="w-px h-3 bg-amber-300 dark:bg-amber-700" />
-                <div className="flex items-center gap-1 text-sky-600 dark:text-sky-400" title="Gamification Points">
-                  <Award className="w-4 h-4 text-sky-500" />
-                  <span>{user.points || 150} pts</span>
-                </div>
-              </div>
-            )}
-            {/* DOWNLOAD APP CTA */}
-            <button
-              onClick={() => setActiveTab && setActiveTab("download")}
-              className={`hidden sm:flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-extrabold shadow-lg transition-all ${
-                activeTab === "download"
-                  ? "bg-purple-700 text-white"
-                  : "bg-gradient-to-r from-purple-600 via-indigo-600 to-sky-500 hover:from-purple-500 hover:to-sky-400 text-white shadow-purple-500/25"
-              }`}
-              title={lang === "ar" ? "تحميل التطبيق على الموبايل" : "Install mobile app"}
-            >
-              <Smartphone className="w-4 h-4" />
-              <span className="hidden lg:inline">{lang === "ar" ? "تحميل التطبيق" : "Get App"}</span>
-            </button>
+          </div>
+        </div>
 
-            {/* LANGUAGE TOGGLE */}
-            <button
-              onClick={toggleLang}
-              className="p-2 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 transition-all flex items-center gap-1 text-xs font-bold"
-              title="Toggle Language (AR/EN)"
-            >
-              <Globe className="w-4 h-4 text-purple-600 dark:text-purple-400" />
-              <span>{lang === "ar" ? "English" : "عربي"}</span>
-            </button>
-
-            {/* THEME TOGGLE */}
-            <button
-              onClick={toggleTheme}
-              className="p-2 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 transition-all"
-            >
-              {theme === "light" ? <Moon className="w-4 h-4 text-slate-600" /> : <Sun className="w-4 h-4 text-amber-400" />}
-            </button>
-
-            {/* NOTIFICATIONS */}
-            <button
-              onClick={() => setActiveTab && setActiveTab("notifications")}
-              className="relative p-2 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 transition-all"
-            >
-              <Bell className="w-4 h-4" />
-              {notificationsCount > 0 && (
-                <span className="absolute -top-1 -right-1 rtl:-left-1 rtl:right-auto min-w-[18px] h-[18px] px-1 rounded-full bg-red-500 text-white text-[9px] font-black flex items-center justify-center ring-2 ring-white dark:ring-slate-900 animate-pulse">
-                  {notificationsCount > 9 ? "9+" : notificationsCount}
-                </span>
-              )}
-            </button>
-
-            {/* USER CONTROLS: LOGGED-IN BADGE + LOGOUT OR SIGN-IN CTA */}
+        {/* MOBILE FULL MENU DRAWER */}
+        {mobileMenuOpen && (
+          <div className="xl:hidden border-t border-slate-200 bg-white/98 backdrop-blur-lg px-4 pt-3 pb-8 space-y-2 max-h-[80vh] overflow-y-auto animate-in fade-in slide-in-from-top-3">
             {user ? (
-              <>
-                <div className="hidden xl:flex items-center gap-2 pr-1 border-r border-slate-200 dark:border-slate-700 mr-1">
-                  <div className="max-w-[120px] text-end">
-                    <p className="text-[11px] font-extrabold text-slate-800 dark:text-slate-100 truncate">{user.name}</p>
-                    <p className="text-[9px] font-bold text-purple-600 dark:text-purple-400 uppercase tracking-wide">{user.role}</p>
-                  </div>
+              <div className="flex items-center justify-between gap-3 p-3 rounded-2xl bg-[#E8F3FF] border border-blue-200 mb-2">
+                <div className="min-w-0">
+                  <p className="font-black text-sm text-[#243247] truncate">{user.name}</p>
+                  <p className="text-xs text-[#2563EB] font-bold">{user.role}</p>
                 </div>
                 <button
                   onClick={async () => {
                     setMobileMenuOpen(false);
                     await logout();
                   }}
-                  className="inline-flex shrink-0 items-center justify-center gap-2 px-3 py-2 rounded-xl bg-red-50 dark:bg-red-950/60 hover:bg-red-100 dark:hover:bg-red-900/60 text-red-700 dark:text-red-300 border border-red-200 dark:border-red-900/60 transition-all font-bold text-xs whitespace-nowrap cursor-pointer"
-                  title={lang === "ar" ? "تسجيل الخروج" : "Log Out"}
-                  aria-label={lang === "ar" ? "تسجيل الخروج" : "Log Out"}
+                  className="px-3 py-1.5 rounded-xl bg-red-600 text-white font-bold text-xs flex items-center gap-1 shadow-sm"
                 >
-                  <LogOut className="w-4 h-4" />
+                  <LogOut className="w-3.5 h-3.5" />
                   <span>{lang === "ar" ? "خروج" : "Log out"}</span>
                 </button>
-              </>
+              </div>
             ) : (
               <button
-                onClick={() => setActiveTab && setActiveTab("auth")}
-                className="inline-flex shrink-0 items-center justify-center gap-2 px-3.5 py-2 rounded-xl bg-gradient-to-r from-purple-600 via-purple-700 to-sky-600 hover:from-purple-500 hover:to-sky-500 text-white shadow-md shadow-purple-600/20 font-extrabold text-xs whitespace-nowrap transition-all cursor-pointer"
+                onClick={() => navigateTo("auth")}
+                className="w-full py-3 rounded-2xl bg-[#2563EB] hover:bg-[#1D4ED8] text-white font-black text-sm flex items-center justify-center gap-2 shadow-md mb-2 cursor-pointer"
               >
                 <LogIn className="w-4 h-4" />
-                <span>{lang === "ar" ? "تسجيل الدخول" : "Sign In"}</span>
+                <span>{lang === "ar" ? "تسجيل الدخول / إنشاء حساب جديد" : "Sign In / Register"}</span>
               </button>
             )}
 
-            {/* MOBILE MENU TRIGGER */}
-            <button
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="md:hidden p-2 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300"
-            >
-              {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
-            </button>
-
-          </div>
-        </div>
-      </div>
-
-      {/* MOBILE MENU DROPDOWN */}
-      {mobileMenuOpen && (
-        <div className="md:hidden border-t border-slate-200 dark:border-slate-800 bg-white/95 dark:bg-slate-900/95 backdrop-blur-lg px-4 pt-3 pb-6 space-y-2">
-          {user ? (
-            <div className="flex items-center justify-between gap-3 rounded-xl border border-slate-200 dark:border-slate-700 px-3 py-3 mb-3">
-              <div className="min-w-0">
-                <p className="font-extrabold text-sm text-slate-900 dark:text-white truncate">{user.name}</p>
-                <p className="text-xs text-slate-500 dark:text-slate-400">{user.role}</p>
-              </div>
+            {/* Core Links */}
+            <div className="grid grid-cols-2 gap-2 pb-2 border-b border-slate-100">
               <button
-                onClick={async () => {
-                  setMobileMenuOpen(false);
-                  await logout();
-                }}
-                className="inline-flex shrink-0 items-center justify-center gap-2 px-3 py-2 rounded-xl bg-red-50 dark:bg-red-950/60 hover:bg-red-100 dark:hover:bg-red-900/60 text-red-700 dark:text-red-300 border border-red-200 dark:border-red-900/60 transition-all font-bold text-xs"
-                aria-label={lang === "ar" ? "تسجيل الخروج" : "Log Out"}
+                onClick={() => navigateTo("home")}
+                className="flex items-center gap-2 p-2.5 rounded-xl bg-[#F7F9FC] font-bold text-xs text-[#243247]"
               >
-                <LogOut className="w-4 h-4" />
-                <span>{lang === "ar" ? "تسجيل الخروج" : "Log out"}</span>
+                <Home className="w-4 h-4 text-[#2563EB]" />
+                <span>{lang === "ar" ? "الرئيسية" : "Home"}</span>
+              </button>
+
+              <button
+                onClick={() => navigateTo("curriculum")}
+                className="flex items-center gap-2 p-2.5 rounded-xl bg-[#F7F9FC] font-bold text-xs text-[#243247]"
+              >
+                <BookOpen className="w-4 h-4 text-[#2563EB]" />
+                <span>{lang === "ar" ? "المناهج والقصة" : "Curriculum"}</span>
+              </button>
+
+              <button
+                onClick={() => navigateTo("translation")}
+                className="flex items-center gap-2 p-2.5 rounded-xl bg-blue-50 font-bold text-xs text-[#2563EB] border border-blue-200"
+              >
+                <Languages className="w-4 h-4 text-[#EABF58]" />
+                <span>{lang === "ar" ? "أكاديمية الترجمة" : "Translation"}</span>
+              </button>
+
+              <button
+                onClick={() => navigateTo("training_center")}
+                className="flex items-center gap-2 p-2.5 rounded-xl bg-[#F7F9FC] font-bold text-xs text-[#243247]"
+              >
+                <Trophy className="w-4 h-4 text-[#EABF58]" />
+                <span>{lang === "ar" ? "التدريب والامتحانات" : "Training"}</span>
+              </button>
+
+              <button
+                onClick={() => navigateTo("story_world")}
+                className="flex items-center gap-2 p-2.5 rounded-xl bg-[#F7F9FC] font-bold text-xs text-[#243247]"
+              >
+                <Film className="w-4 h-4 text-indigo-500" />
+                <span>{lang === "ar" ? "عالم القصص" : "Story World"}</span>
+              </button>
+
+              <button
+                onClick={() => navigateTo("ministry_assessments")}
+                className="flex items-center gap-2 p-2.5 rounded-xl bg-[#F7F9FC] font-bold text-xs text-[#243247]"
+              >
+                <FileCheck className="w-4 h-4 text-[#EABF58]" />
+                <span>{lang === "ar" ? "تقييمات الوزارة" : "Ministry Tests"}</span>
               </button>
             </div>
-          ) : (
-            <button
-              onClick={() => {
-                setActiveTab && setActiveTab("auth");
-                setMobileMenuOpen(false);
-              }}
-              className="w-full px-4 py-3 rounded-xl bg-gradient-to-r from-purple-600 via-purple-700 to-sky-600 hover:from-purple-500 hover:to-sky-500 text-white font-black text-sm flex items-center justify-center gap-2 shadow-lg mb-3 cursor-pointer"
-            >
-              <LogIn className="w-4 h-4" />
-              <span>{lang === "ar" ? "تسجيل الدخول / إنشاء حساب جديد" : "Sign In / Register"}</span>
-            </button>
-          )}
-          <button
-            onClick={() => {
-              setActiveTab && setActiveTab("download");
-              setMobileMenuOpen(false);
-            }}
-            className="w-full px-4 py-3 rounded-xl bg-gradient-to-r from-purple-600 via-indigo-600 to-sky-500 text-white font-extrabold text-sm flex items-center justify-center gap-2 shadow-lg"
-          >
-            <Smartphone className="w-4 h-4" />
-            <span>{lang === "ar" ? "📱 تحميل التطبيق على تليفونك" : "📱 Install Mobile App"}</span>
-          </button>
-          <button
-            onClick={() => {
-              setActiveTab && setActiveTab("home");
-              setMobileMenuOpen(false);
-            }}
-            className="w-full text-start px-4 py-2.5 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 font-medium text-slate-800 dark:text-slate-200"
-          >
-            {lang === "ar" ? "الرئيسية" : "Home"}
-          </button>
-          <button
-            onClick={() => {
-              setActiveTab && setActiveTab("curriculum");
-              setMobileMenuOpen(false);
-            }}
-            className="w-full text-start px-4 py-2.5 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 font-medium text-slate-800 dark:text-slate-200 flex items-center gap-2"
-          >
-            <BookMarked className="w-4 h-4 text-purple-500" />
-            <span>{lang === "ar" ? "المناهج والقصة المقررة" : "Curriculum & Story"}</span>
-          </button>
-          <button
-            onClick={() => {
-              setActiveTab && setActiveTab("story_world");
-              setMobileMenuOpen(false);
-            }}
-            className="w-full text-start px-4 py-2.5 rounded-xl bg-amber-500/10 hover:bg-amber-500/20 font-bold text-amber-700 dark:text-amber-300 flex items-center gap-2 border border-amber-400/30"
-          >
-            <Film className="w-4 h-4 text-amber-500" />
-            <span>{lang === "ar" ? "عالم القصص الاحترافي (Story World)" : "Story World"}</span>
-          </button>
-          <button
-            onClick={() => {
-              setActiveTab && setActiveTab("translation");
-              setMobileMenuOpen(false);
-            }}
-            className="w-full text-start px-4 py-2.5 rounded-xl bg-purple-500/10 hover:bg-purple-500/20 font-bold text-purple-700 dark:text-purple-300 flex items-center gap-2 border border-purple-400/30"
-          >
-            <Languages className="w-4 h-4 text-amber-500" />
-            <span>{lang === "ar" ? "أكاديمية الترجمة (Translation Academy)" : "Translation Academy"}</span>
-          </button>
-          <button
-            onClick={() => {
-              setActiveTab && setActiveTab("ministry_assessments");
-              setMobileMenuOpen(false);
-            }}
-            className="w-full text-start px-4 py-2.5 rounded-xl bg-amber-500/10 hover:bg-amber-500/20 font-bold text-amber-700 dark:text-amber-300 flex items-center gap-2 border border-amber-400/30"
-          >
-            <FileCheck className="w-4 h-4 text-amber-500" />
-            <span>{lang === "ar" ? "تقييمات الوزارة الرسمية 2026/2027" : "Official Ministry Assessments"}</span>
-          </button>
-          <button
-            onClick={() => {
-              setActiveTab && setActiveTab("homework");
-              setMobileMenuOpen(false);
-            }}
-            className="w-full text-start px-4 py-2.5 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 font-medium text-slate-800 dark:text-slate-200 flex items-center gap-2"
-          >
-            <NotebookPen className="w-4 h-4 text-sky-500" />
-            <span>{lang === "ar" ? "الواجبات والتسليم" : "Homework"}</span>
-          </button>
-          <button
-            onClick={() => {
-              setActiveTab && setActiveTab("attendance");
-              setMobileMenuOpen(false);
-            }}
-            className="w-full text-start px-4 py-2.5 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 font-medium text-slate-800 dark:text-slate-200 flex items-center gap-2"
-          >
-            <ClipboardCheck className="w-4 h-4 text-purple-500" />
-            <span>{lang === "ar" ? "الحضور والغياب" : "Attendance"}</span>
-          </button>
-          <button
-            onClick={() => {
-              setActiveTab && setActiveTab("analytics");
-              setMobileMenuOpen(false);
-            }}
-            className="w-full text-start px-4 py-2.5 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 font-medium text-slate-800 dark:text-slate-200 flex items-center gap-2"
-          >
-            <BarChart3 className="w-4 h-4 text-purple-500" />
-            <span>{lang === "ar" ? "التقارير والتحليلات" : "Analytics & Reports"}</span>
-          </button>
-          <button
-            onClick={() => {
-              setActiveTab && setActiveTab("training_center");
-              setMobileMenuOpen(false);
-            }}
-            className="w-full text-start px-4 py-2.5 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 font-medium text-slate-800 dark:text-slate-200 flex items-center gap-2"
-          >
-            <Database className="w-4 h-4 text-amber-500" />
-            <span>{lang === "ar" ? "التدريب والامتحانات" : "Training & Exams"}</span>
-          </button>
-          <button
-            onClick={() => {
-              setActiveTab && setActiveTab("pdfs");
-              setMobileMenuOpen(false);
-            }}
-            className="w-full text-start px-4 py-2.5 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 font-medium text-slate-800 dark:text-slate-200 flex items-center gap-2"
-          >
-            <FileText className="w-4 h-4 text-sky-500" />
-            <span>{lang === "ar" ? "مكتبة ملفات PDF" : "PDF Library"}</span>
-          </button>
-          <button
-            onClick={() => {
-              setActiveTab && setActiveTab("grammar");
-              setMobileMenuOpen(false);
-            }}
-            className="w-full text-start px-4 py-2.5 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 font-medium text-slate-800 dark:text-slate-200 flex items-center gap-2"
-          >
-            <BookOpen className="w-4 h-4 text-purple-500" />
-            <span>{lang === "ar" ? "شرح القواعد" : "Grammar Library"}</span>
-          </button>
-          <button
-            onClick={() => {
-              setActiveTab && setActiveTab("gamification");
-              setMobileMenuOpen(false);
-            }}
-            className="w-full text-start px-4 py-2.5 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 font-medium text-slate-800 dark:text-slate-200 flex items-center gap-2"
-          >
-            <Trophy className="w-4 h-4 text-amber-500" />
-            <span>{lang === "ar" ? "الأوسمة والمتصدرون" : "Leaderboard & Badges"}</span>
-          </button>
-          <button
-            onClick={() => {
-              setActiveTab && setActiveTab("calendar");
-              setMobileMenuOpen(false);
-            }}
-            className="w-full text-start px-4 py-2.5 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 font-medium text-slate-800 dark:text-slate-200 flex items-center gap-2"
-          >
-            <CalendarDays className="w-4 h-4 text-purple-500" />
-            <span>{lang === "ar" ? "التقويم والحصص المباشرة" : "Calendar & Live Sessions"}</span>
-          </button>
-          <button
-            onClick={() => {
-              setActiveTab && setActiveTab("search");
-              setMobileMenuOpen(false);
-            }}
-            className="w-full text-start px-4 py-2.5 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 font-medium text-slate-800 dark:text-slate-200 flex items-center gap-2"
-          >
-            <Search className="w-4 h-4 text-sky-500" />
-            <span>{lang === "ar" ? "البحث الشامل" : "Global Search"}</span>
-          </button>
-          <button
-            onClick={() => {
-              setActiveTab && setActiveTab("faq");
-              setMobileMenuOpen(false);
-            }}
-            className="w-full text-start px-4 py-2.5 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 font-medium text-slate-800 dark:text-slate-200 flex items-center gap-2"
-          >
-            <ShieldCheck className="w-4 h-4 text-emerald-500" />
-            <span>{lang === "ar" ? "الأسئلة الشائعة والدعم" : "FAQ & Support"}</span>
-          </button>
-          <button
-            onClick={() => {
-              setActiveTab && setActiveTab("placement");
-              setMobileMenuOpen(false);
-            }}
-            className="w-full text-start px-4 py-2.5 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 font-medium text-slate-800 dark:text-slate-200 flex items-center gap-2 text-amber-600 dark:text-amber-400"
-          >
-            <Sparkles className="w-4 h-4 text-amber-500" />
-            <span>{lang === "ar" ? "اختبار تحديد المستوى" : "Placement Test"}</span>
-          </button>
-          <button
-            onClick={() => {
-              setActiveTab && setActiveTab("ai_assistant");
-              setMobileMenuOpen(false);
-            }}
-            className="w-full text-start px-4 py-2.5 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 font-medium text-slate-800 dark:text-slate-200 flex items-center gap-2"
-          >
-            <BrainCircuit className="w-4 h-4 text-purple-500" />
-            <span>{lang === "ar" ? "مساعد الذكاء الاصطناعي" : "AI Study Assistant"}</span>
-          </button>
-          <button
-            onClick={() => {
-              setActiveTab && setActiveTab("dashboard");
-              setMobileMenuOpen(false);
-            }}
-            className="w-full text-start px-4 py-2.5 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 font-medium text-slate-800 dark:text-slate-200"
-          >
-            {lang === "ar" ? "لوحة التحكم" : "Dashboard"}
-          </button>
-        </div>
-      )}
 
-      {/* ALWAYS-VISIBLE LOGOUT ACTION: kept outside the crowded navigation row */}
-      {user && (
+            {/* Extra items in drawer */}
+            <div className="space-y-1 pt-1">
+              {moreItems.slice(1).map((item) => {
+                const Icon = item.icon;
+                return (
+                  <button
+                    key={item.id}
+                    onClick={() => navigateTo(item.id)}
+                    className="w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-semibold text-[#243247] hover:bg-slate-100"
+                  >
+                    <span className="flex items-center gap-2.5">
+                      <Icon className="w-4 h-4 text-[#718096]" />
+                      <span>{lang === "ar" ? item.labelAr : item.labelEn}</span>
+                    </span>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        )}
+      </header>
+
+      {/* =========================================================================
+          FIXED MOBILE BOTTOM NAVIGATION BAR (Home, Learning, Training, Translation, Account)
+      ========================================================================= */}
+      <nav
+        aria-label="Mobile Navigation"
+        className="xl:hidden fixed bottom-0 inset-x-0 z-40 bg-white/95 dark:bg-[#0d1322]/95 backdrop-blur-md border-t border-blue-100 dark:border-slate-800 shadow-xl px-2 py-1.5 flex items-center justify-around safe-bottom"
+      >
+        {/* 1. HOME */}
         <button
-          type="button"
-          onClick={async () => {
-            setMobileMenuOpen(false);
-            await logout();
-          }}
-          className="fixed bottom-5 left-5 z-[100] inline-flex items-center gap-2 rounded-full bg-red-600 px-4 py-3 text-sm font-extrabold text-white shadow-xl shadow-red-600/30 hover:bg-red-700 focus:outline-none focus:ring-4 focus:ring-red-300"
-          title={lang === "ar" ? "تسجيل الخروج" : "Log out"}
-          aria-label={lang === "ar" ? "تسجيل الخروج" : "Log out"}
+          onClick={() => navigateTo("home")}
+          className={`flex flex-col items-center justify-center py-1 px-3 rounded-2xl transition-all ${
+            activeTab === "home"
+              ? "text-[#2563EB] font-black bg-[#E8F3FF] shadow-xs"
+              : "text-[#718096] hover:text-[#243247]"
+          }`}
         >
-          <LogOut className="h-5 w-5" />
-          <span>{lang === "ar" ? "تسجيل الخروج" : "Log out"}</span>
+          <Home className="w-5 h-5 mb-0.5" />
+          <span className="text-[10px] leading-tight">{lang === "ar" ? "الرئيسية" : "Home"}</span>
         </button>
-      )}
-    </header>
+
+        {/* 2. LEARNING / CURRICULUM */}
+        <button
+          onClick={() => navigateTo("curriculum")}
+          className={`flex flex-col items-center justify-center py-1 px-3 rounded-2xl transition-all ${
+            activeTab === "curriculum" || activeTab === "courses"
+              ? "text-[#2563EB] font-black bg-[#E8F3FF] shadow-xs"
+              : "text-[#718096] hover:text-[#243247]"
+          }`}
+        >
+          <BookOpen className="w-5 h-5 mb-0.5" />
+          <span className="text-[10px] leading-tight">{lang === "ar" ? "المناهج" : "Learning"}</span>
+        </button>
+
+        {/* 3. TRAINING / PRACTICE */}
+        <button
+          onClick={() => navigateTo("training_center")}
+          className={`flex flex-col items-center justify-center py-1 px-3 rounded-2xl transition-all ${
+            activeTab === "training_center" || activeTab === "question_bank"
+              ? "text-[#2563EB] font-black bg-[#E8F3FF] shadow-xs"
+              : "text-[#718096] hover:text-[#243247]"
+          }`}
+        >
+          <Trophy className="w-5 h-5 mb-0.5 text-[#EABF58]" />
+          <span className="text-[10px] leading-tight">{lang === "ar" ? "التدريب" : "Training"}</span>
+        </button>
+
+        {/* 4. TRANSLATION */}
+        <button
+          onClick={() => navigateTo("translation")}
+          className={`flex flex-col items-center justify-center py-1 px-3 rounded-2xl transition-all ${
+            activeTab === "translation"
+              ? "text-[#2563EB] font-black bg-[#E8F3FF] shadow-xs"
+              : "text-[#718096] hover:text-[#243247]"
+          }`}
+        >
+          <Languages className="w-5 h-5 mb-0.5 text-indigo-500" />
+          <span className="text-[10px] leading-tight">{lang === "ar" ? "الترجمة" : "Translate"}</span>
+        </button>
+
+        {/* 5. MY ACCOUNT */}
+        <button
+          onClick={() => navigateTo(user ? "dashboard" : "auth")}
+          className={`flex flex-col items-center justify-center py-1 px-3 rounded-2xl transition-all ${
+            activeTab === "dashboard" || activeTab === "auth"
+              ? "text-[#2563EB] font-black bg-[#E8F3FF] shadow-xs"
+              : "text-[#718096] hover:text-[#243247]"
+          }`}
+        >
+          <User className="w-5 h-5 mb-0.5" />
+          <span className="text-[10px] leading-tight">
+            {user ? (lang === "ar" ? "حسابي" : "Account") : (lang === "ar" ? "دخول" : "Sign In")}
+          </span>
+        </button>
+      </nav>
+    </>
   );
 };
