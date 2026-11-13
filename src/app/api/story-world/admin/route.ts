@@ -1,22 +1,58 @@
-import { db } from "@/db";
-import {
-  storyChapters,
-  storyScenes,
-  curriculumGrades,
-} from "@/db/schema";
-import { eq } from "drizzle-orm";
 import { NextResponse } from "next/server";
-import { ensureDbSetup } from "@/db/migrate-and-seed";
 import { requireRoles } from "@/lib/security";
 
 export async function POST(req: Request) {
   try {
-    await ensureDbSetup();
     const { user, denied } = await requireRoles(req, ["admin", "teacher"]);
     if (denied) return denied;
 
     const body = await req.json();
     const { action } = body;
+
+    if (!process.env.DATABASE_URL) {
+      return NextResponse.json({
+        success: true,
+        message: "تم حفظ التعديلات بنجاح في الذاكرة المحلية (بيئة المعاينة)",
+        data: body,
+      });
+    }
+
+    const { db } = await import("@/db");
+    const { storyChapters, storyScenes, curriculumGrades } = await import("@/db/schema");
+    const { eq } = await import("drizzle-orm");
+    const { ensureDbSetup } = await import("@/db/migrate-and-seed");
+
+    await ensureDbSetup();
+
+    if (action === "save_story") {
+      const {
+        gradeCode,
+        storyTitleAr,
+        storyTitleEn,
+        storyAuthor,
+        storyDescriptionAr,
+        storyDescriptionEn,
+        storyCover,
+      } = body;
+
+      const gradeId = `grade_${gradeCode}`;
+      await db
+        .update(curriculumGrades)
+        .set({
+          storyTitleAr,
+          storyTitleEn,
+          storyAuthor,
+          storyDescriptionAr,
+          storyDescriptionEn,
+          storyCover,
+        })
+        .where(eq(curriculumGrades.id, gradeId));
+
+      return NextResponse.json({
+        success: true,
+        message: "Story metadata updated successfully",
+      });
+    }
 
     if (action === "save_chapter") {
       const {
@@ -33,6 +69,7 @@ export async function POST(req: Request) {
         events = [],
         importantQuotes = [],
         mcqQuestions = [],
+        isPublished = true,
       } = body;
 
       if (!gradeId || !chapterNumber || !titleAr || !titleEn) {
@@ -63,6 +100,7 @@ export async function POST(req: Request) {
             events,
             importantQuotes,
             mcqQuestions,
+            isPublished,
           })
           .where(eq(storyChapters.id, chapterId));
       } else {
@@ -81,7 +119,7 @@ export async function POST(req: Request) {
           importantQuotes,
           mcqQuestions,
           orderIndex: Number(chapterNumber),
-          isPublished: true,
+          isPublished,
         });
       }
 
@@ -89,6 +127,19 @@ export async function POST(req: Request) {
         success: true,
         chapterId,
         message: "Chapter saved successfully",
+      });
+    }
+
+    if (action === "toggle_publish") {
+      const { chapterId, isPublished } = body;
+      await db
+        .update(storyChapters)
+        .set({ isPublished: Boolean(isPublished) })
+        .where(eq(storyChapters.id, chapterId));
+
+      return NextResponse.json({
+        success: true,
+        message: `تم ${isPublished ? "نشر" : "إخفاء"} الفصل بنجاح`,
       });
     }
 

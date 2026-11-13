@@ -1,0 +1,724 @@
+[
+  {
+    "id": "story_prep_1_magic_classroom",
+    "gradeCode": "prep_1",
+    "gradeLabelAr": "الصف الأول الإعدادي",
+    "gradeLabelEn": "First Preparatory",
+    "term": "first",
+    "termLabelAr": "الفصل الدراسي الأول 2026/2027",
+    "termLabelEn": "First Term 2026/2027",
+    "titleAr": "الفصل الدراسي السحري",
+    "titleEn": "The Magic Classroom",
+    "author": "Ministry of Education (وزارة التربية والتعليم)",
+    "aboutAuthorEn": "Official reader for First Preparatory English syllabus (Connect Plus & New Hello!).",
+    "aboutAuthorAr": "القصة المقررة الرسمية من وزارة التربية والتعليم لطلاب الصف الأول الإعدادي للعام الدراسي 2026/2027.",
+    "coverImage": "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=800&auto=format&fit=crop&q=80",
+    "descriptionAr": "مغامرة تربوية شائقة لطلاب الصف الأول الإعدادي داخل فصل سحري مليء بالألغاز التي لا تُحل إلا بالمسؤولية والتعاون والصدق.",
+    "descriptionEn": "An imaginative educational allegory where students enter a magical classroom to solve floating puzzles, an invisible bridge, and a locked golden door using essential moral values.",
+    "plotSummaryEn": "Mr. Adam, an inspiring village teacher, invites his students into the 'Magic Classroom' where floating clues and enchanted locks await. Sara, Zain, and shy Omar must solve puzzles that only yield to character strengths. They unlock a mystery box through teamwork, manifest an invisible bridge across a chasm through kind words and encouragement, and open a stubborn golden door by singing in unison. In the final room, a glowing book reveals that the real magic was never spells, but Responsibility, Curiosity, Teamwork, Respect, Determination, Courage, and Honesty.",
+    "plotSummaryAr": "يدعو المعلم مستر آدم تلاميذه لخوض تجربة الفصل السحري لكشف أسراره بالمسؤولية والتعاون. تواجه سارة وزين وعمر الخجول ألغازاً عائمة وصندوقاً مغلقاً يحتاج لتبادل الأفكار، ثم يعبرون جسراً غير مرئي لا يظهر تحت أقدامهم إلا بالكلمات الطيبة والتشجيع، ويفتحون باباً ذهبياً بتوحدهم في الغناء معاً. وفي الغرفة الأخيرة، يكشف لهم كتاب متوهج أن السحر الحقيقي ليس تعاويذ، بل هو القيم الأخلاقية النبيلة: المسؤولية، والفضول العلمي، والعمل الجماعي، والاحترام، والعزيمة، والشجاعة، والصدق.",
+    "characters": [
+      {
+        "name": "Mr. Adam (مستر آدم)",
+        "role": "The Inspiring Teacher",
+        "roleAr": "المعلم الحكيم والملهم",
+        "descriptionEn": "A wise village educator who guides students through experiential trials teaching that values outshine puzzles.",
+        "descriptionAr": "معلم فاضل يوجه تلاميذه نحو التعلم القيمي والعمل الجماعي كطريق وحيد للنجاح.",
+        "isMain": true
+      },
+      {
+        "name": "Sara (سارة)",
+        "role": "The Eager Team Organizer",
+        "roleAr": "الطالبة الشغوفة والمبادرة",
+        "descriptionEn": "An enthusiastic student who loves learning, promotes deep listening, and keeps the team focused.",
+        "descriptionAr": "طالبة متحمسة للعلم، تشجع زملاءها على التفكير والتكاتف في مواجهة الصعاب.",
+        "isMain": true
+      },
+      {
+        "name": "Omar (عمر)",
+        "role": "The Courageous Scout",
+        "roleAr": "الطالب الذي تحول من الخجل إلى الشجاعة",
+        "descriptionEn": "Initially timid and nervous, Omar gains courage through his teammates' belief, ultimately proposing the key solution of singing in unity.",
+        "descriptionAr": "طالب خجول يكتسب الثقة والشجاعة بدعم أصدقائه، وهو صاحب فكرة الغناء الجماعي التي فتحت الباب الذهبي.",
+        "isMain": true
+      },
+      {
+        "name": "Zain (زين)",
+        "role": "The Calm Anchor",
+        "roleAr": "الصديق الهادئ والداعم",
+        "descriptionEn": "A calm, gentle friend who reinforces self-belief, reassures Omar, and embodies steadiness under pressure.",
+        "descriptionAr": "صديق هادئ وودود، يبعث الطمأنينة في نفوس زملائه ويؤكد على الإيمان بالنجاح المشترك.",
+        "isMain": true
+      }
+    ],
+    "themes": [
+      {
+        "themeEn": "The Power of Unity and Teamwork",
+        "themeAr": "قوة الاتحاد والعمل الجماعي",
+        "descriptionEn": "Complex challenges become surmountable when diverse learners combine insights and support one another wholeheartedly.",
+        "descriptionAr": "المشكلات المعقدة تُحل بيسر عندما تتكاتف العقول والقلوب في فريق واحد متعاون."
+      },
+      {
+        "themeEn": "Real Magic Resides in Character",
+        "themeAr": "السحر الحقيقي يكمن في الأخلاق",
+        "descriptionEn": "True wonder does not stem from illusion, but from practicing honesty, empathy, courage, and perseverance in everyday life.",
+        "descriptionAr": "السحر الحقيقي ليس خوارق غيبية، بل هو تجسيد قيم الصدق والشجاعة والمسؤولية في المدرسة والمنزل والإنترنت."
+      }
+    ],
+    "chapters": [
+      {
+        "id": "sc_prep_1_ch_1",
+        "chapterNumber": 1,
+        "titleEn": "The First Challenge",
+        "titleAr": "التحدي الأول",
+        "term": "first",
+        "summaryEn": "Mr. Adam introduces the Magic Classroom; the children enter a glowing chamber and solve a locked mystery box through teamwork.",
+        "summaryAr": "يعلن مستر آدم عن الفصل السحري، ويدخل الطلاب من باب متوهج ليحلوا لغز الصندوق المغلق بالتعاون.",
+        "chapterInPoints": [
+          {
+            "en": "Mr. Adam announced the class would enter the Magic Classroom next week.",
+            "ar": "أعلن مستر آدم أن الفصل سيدخل الغرفة السحرية الأسبوع القادم."
+          },
+          {
+            "en": "To succeed, students needed responsibility, curiosity, and teamwork.",
+            "ar": "للنجاح، توجب عليهم إظهار المسؤولية والفضول والعمل الجماعي."
+          },
+          {
+            "en": "They entered a glowing door into a room filled with floating puzzles.",
+            "ar": "عبروا باباً مشعاً إلى غرفة مليئة بالألغاز العائمة والكتب اللامعة."
+          },
+          {
+            "en": "Their first obstacle was a locked mystery box.",
+            "ar": "كان أول تحدٍ أمامهم صندوقاً غامضاً ومغلقاً بإحكام."
+          },
+          {
+            "en": "By sharing ideas, the box clicked open and bright light signaled victory.",
+            "ar": "بتبادل الأفكار، انفتح الصندوق وانبثق نور ساطع معلناً اجتياز التحدي."
+          }
+        ],
+        "vocabulary": [
+          {
+            "word": "responsibility",
+            "meaningAr": "تحمل المسؤولية"
+          },
+          {
+            "word": "collaborate",
+            "meaningAr": "يتعاون ويتشارك"
+          },
+          {
+            "word": "mystery",
+            "meaningAr": "لغز غامض"
+          },
+          {
+            "word": "glowing door",
+            "meaningAr": "باب متوهج"
+          }
+        ],
+        "theText": [
+          {
+            "order": 1,
+            "paragraphEn": "In a cheerful village school, the children loved discovering new things. Mr. Adam made an announcement: 'Next week, we will enter the Magic Classroom. To succeed, you need to show responsibility and work together.'",
+            "paragraphAr": "في مدرسة ريفية مبهجة، كان الأطفال يحبون استكشاف الجديد. أعلن المعلم مستر آدم: 'في الأسبوع القادم، سندخل الفصل السحري. ولتحقيق النجاح، يلزمكم إظهار المسؤولية والعمل معاً'."
+          },
+          {
+            "order": 2,
+            "paragraphEn": "When the day came, they walked through a glowing door into a room with floating puzzles. On the wall was a message: 'Only those who collaborate and stay curious can unlock the mysteries.' Together, Sara, Zain, and nervous Omar shared ideas and clicked the locked box open.",
+            "paragraphAr": "وعندما حان اليوم، عبروا باباً متوهجاً إلى غرفة تحوي ألغازاً عائمة، وعلى الجدار رسالة: 'فقط المتعاونون وأصحاب الفضول العلمي يستطيعون فك الألغاز'. بتكاتف سارة وزين وعمر القلق، تبادلوا الرؤى فانفتح الصندوق المغلق بنجاح."
+          }
+        ],
+        "questionsAndAnswers": [
+          {
+            "id": "prep1_ch1_qa_1",
+            "question": "What was Mr. Adam's core condition for succeeding in the Magic Classroom?",
+            "answer": "Showing responsibility, remaining curious, and collaborating actively as a unified team."
+          }
+        ],
+        "importantQuestions": [
+          {
+            "id": "prep1_ch1_crit_1",
+            "question": "Why is exchanging diverse ideas more fruitful than working alone?",
+            "answer": "Because collaboration unites different perspectives, overcomes blind spots, and generates robust solutions."
+          }
+        ],
+        "homeworkQuestions": [
+          {
+            "id": "prep1_ch1_hw_1",
+            "question": "What appeared on the wall when the students stepped through the glowing door?",
+            "answer": "A glowing message: 'Only those who collaborate and stay curious can unlock the mysteries.'"
+          }
+        ],
+        "mcqQuestions": [
+          {
+            "id": "mcq_prep1_ch1_1",
+            "question": "What was the students' first challenge inside the Magic Classroom?",
+            "options": [
+              "A locked box",
+              "A steep mountain",
+              "A deep river",
+              "A mathematical exam"
+            ],
+            "correctAnswer": "A locked box",
+            "explanation": "They had to pool their ideas to unlock the enchanted box."
+          }
+        ]
+      },
+      {
+        "id": "sc_prep_1_ch_2",
+        "chapterNumber": 2,
+        "titleEn": "The Power of Unity",
+        "titleAr": "قوة الاتحاد",
+        "term": "first",
+        "summaryEn": "The children walk across an invisible bridge by speaking kind words, then open a locked golden door by singing in unity.",
+        "summaryAr": "يعبر الأطفال جسراً غير مرئي بكلمات التشجيع، ويفتحون باباً ذهبياً بالتوحد في الغناء المشترك.",
+        "chapterInPoints": [
+          {
+            "en": "The second room featured an invisible bridge requiring respect, ambition, and courage.",
+            "ar": "ضمت الغرفة الثانية جسراً غير مرئي يتطلب الاحترام والطموح والشجاعة."
+          },
+          {
+            "en": "Sara defined respect as listening and caring for each other.",
+            "ar": "عرّفت سارة الاحترام بأنه الاستماع المتبادل والاهتمام الصادق."
+          },
+          {
+            "en": "Every kind word and brave step made the bridge solidify beneath their feet.",
+            "ar": "كل كلمة طيبة وخطوة جسورة جعلت الجسر يتبلور ويتجسد تحت أقدامهم."
+          },
+          {
+            "en": "At the bridge's end, a stubborn golden door refused all mechanical attempts.",
+            "ar": "في نهاية الجسر، واجههم باب ذهبي استعصى على كل المحاولات الفردية."
+          },
+          {
+            "en": "Omar suggested singing in harmony, and the door gracefully swung open.",
+            "ar": "اقترح عمر الغناء بتناغم ووحدة، فانفتح الباب الذهبي بسلاسة."
+          }
+        ],
+        "vocabulary": [
+          {
+            "word": "invisible bridge",
+            "meaningAr": "جسر غير مرئي"
+          },
+          {
+            "word": "ambition",
+            "meaningAr": "طموح وعزيمة"
+          },
+          {
+            "word": "courage",
+            "meaningAr": "الشجاعة والإقدام"
+          },
+          {
+            "word": "unity",
+            "meaningAr": "الوحدة والترابط"
+          }
+        ],
+        "theText": [
+          {
+            "order": 1,
+            "paragraphEn": "Next, the children faced an invisible bridge. A sign read: 'Only those with respect, ambition, and courage can cross.' Holding hands and encouraging one another, every kind word made the bridge appear beneath their feet.",
+            "paragraphAr": "بعد ذلك، واجه الأطفال جسراً غير مرئي، كُتبت عليه لافتة: 'فقط أصحاب الاحترام والطموح والشجاعة يعبرون'. مسكوا بأيدي بعضهم، وكانت كل كلمة تشجيع طيبة تجعل الجسر يتجسد تدريجياً تحت خطاهم."
+          },
+          {
+            "order": 2,
+            "paragraphEn": "At the far side stood a locked golden door: 'Determination opens every door. Never give up.' After many failed attempts, Omar whispered, 'Let's sing together. Maybe unity is the key.' They sang, and slowly, the golden door swung open.",
+            "paragraphAr": "وعلى الجانب الآخر وقف باب ذهبي مغلق: 'الإصرار يفتح كل باب، لا تستسلم أبداً'. وبعد محاولات غير مجدية، همس عمر: 'دعونا نغني معاً، لعل الوحدة هي المفتاح'. وغنوا بتناغم، فاستجاب الباب وانفتح أمامهم."
+          }
+        ],
+        "questionsAndAnswers": [
+          {
+            "id": "prep1_ch2_qa_1",
+            "question": "What made the invisible bridge appear beneath the children's feet?",
+            "answer": "Holding hands, encouraging each other, and speaking kind, brave words."
+          }
+        ],
+        "importantQuestions": [
+          {
+            "id": "prep1_ch2_crit_1",
+            "question": "What does the phrase 'unity is the key' teach us?",
+            "answer": "That harmony of purpose and shared emotional resonance can unlock barriers that individual force cannot."
+          }
+        ],
+        "homeworkQuestions": [
+          {
+            "id": "prep1_ch2_hw_1",
+            "question": "Whose innovative suggestion unlocked the stubborn golden door?",
+            "answer": "Omar's idea to sing together in united harmony."
+          }
+        ],
+        "mcqQuestions": [
+          {
+            "id": "mcq_prep1_ch2_1",
+            "question": "What sign was posted before the invisible bridge?",
+            "options": [
+              "Only those with respect, ambition, and courage can cross",
+              "Keep off the grass",
+              "Danger: Deep water",
+              "First prize winners only"
+            ],
+            "correctAnswer": "Only those with respect, ambition, and courage can cross",
+            "explanation": "The bridge responded only to moral qualities."
+          }
+        ]
+      },
+      {
+        "id": "sc_prep_1_ch_3",
+        "chapterNumber": 3,
+        "titleEn": "The Greatest Lessons",
+        "titleAr": "أعظم الدروس",
+        "term": "first",
+        "summaryEn": "In the final room, Mr. Adam presents a glowing book, revealing that true magic lies in Responsibility, Curiosity, Respect, Courage, and Honesty.",
+        "summaryAr": "في الغرفة الأخيرة، يكشف مستر آدم أن السحر الحقيقي هو القيم الإنسانية، ويتعهد الطلاب بتطبيقها دائماً.",
+        "chapterInPoints": [
+          {
+            "en": "Inside the final room, the children found a glowing book on a crystal stand.",
+            "ar": "في الغرفة الأخيرة، وجد الطلاب كتاباً متوهجاً على قاعدة كريستالية."
+          },
+          {
+            "en": "Mr. Adam appeared, explaining that the real magic is in the values they showed.",
+            "ar": "ظهر مستر آدم موضحاً أن السحر الحقيقي يكمن في القيم التي جسدوها."
+          },
+          {
+            "en": "Glowing words appeared: Responsibility, Curiosity, Teamwork, Respect, Determination, Courage.",
+            "ar": "توهجت كلمات الكتاب: المسؤولية، الفضول، العمل الجماعي، الاحترام، العزيمة، الشجاعة."
+          },
+          {
+            "en": "Omar rejoiced that friendship gave him confidence, while Zain valued honesty.",
+            "ar": "فرح عمر لأن ثقة رفاقه منحته الشجاعة، وثمّن زين الصدق التام."
+          },
+          {
+            "en": "The children returned promising to live these values at school, at home, and online.",
+            "ar": "عاد الطلاب لصفهم عاقدين العزم على تطبيق هذه المبادئ في المدرسة والبيت وعبر الإنترنت."
+          }
+        ],
+        "vocabulary": [
+          {
+            "word": "crystal stand",
+            "meaningAr": "حامل كريستالي"
+          },
+          {
+            "word": "curiosity",
+            "meaningAr": "حب الاستطلاع والتعلم"
+          },
+          {
+            "word": "determination",
+            "meaningAr": "العزم والإصرار"
+          },
+          {
+            "word": "honesty online",
+            "meaningAr": "الأمانة الأخلاقية عبر الإنترنت"
+          }
+        ],
+        "theText": [
+          {
+            "order": 1,
+            "paragraphEn": "Inside the final chamber, a glowing book rested on a crystal pedestal. Mr. Adam smiled warmly: 'You have completed the Magic Classroom. But remember, the real magic was never in the puzzles—it was in the values you showed.'",
+            "paragraphAr": "في الغرفة الختامية، استقر كتاب مشع على حامل كريستالي. ابتسم مستر آدم بدفء: 'لقد أتممتم تحديات الفصل السحري بنجاح، لكن تذكروا أن السحر الحقيقي لم يكن في الألغاز بل في القيم التي تحليتم بها'."
+          },
+          {
+            "order": 2,
+            "paragraphEn": "Glowing letters revealed: 'Responsibility, Curiosity, Teamwork, Respect, Determination, Courage, and Honesty.' The children returned with proud hearts, promising to apply these virtues in their studies, at home, and across their digital lives.",
+            "paragraphAr": "أضاءت حروف الكتاب: 'المسؤولية، والفضول العلمي، والعمل الجماعي، والاحترام، والعزيمة، والشجاعة، والصدق'. عاد التلاميذ بقلوب ملؤها الفخر، متعهدين بالالتزام بهذه الفضائل في دراستهم وبيوتهم وعوالمهم الرقمية."
+          }
+        ],
+        "questionsAndAnswers": [
+          {
+            "id": "prep1_ch3_qa_1",
+            "question": "Where does the 'real magic' reside according to Mr. Adam?",
+            "answer": "In the core human values: Responsibility, Curiosity, Teamwork, Respect, Determination, Courage, and Honesty."
+          }
+        ],
+        "importantQuestions": [
+          {
+            "id": "prep1_ch3_crit_1",
+            "question": "Why did the teacher emphasize applying honesty 'online' as well as at school?",
+            "answer": "Because moral character must govern our digital conduct, respecting privacy, avoiding harmful speech, and acting ethically when unseen."
+          }
+        ],
+        "homeworkQuestions": [
+          {
+            "id": "prep1_ch3_hw_1",
+            "question": "What did the students promise to do after exiting the Magic Classroom?",
+            "answer": "To practice their newly discovered values in all areas of life: school, home, and online."
+          }
+        ],
+        "mcqQuestions": [
+          {
+            "id": "mcq_prep1_ch3_1",
+            "question": "What rested on the crystal pedestal in the final chamber?",
+            "options": [
+              "A glowing book of values",
+              "A chest of gold coins",
+              "A magic wand",
+              "A trophy"
+            ],
+            "correctAnswer": "A glowing book of values",
+            "explanation": "The glowing book held the enduring lessons of character and cooperation."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "story_prep_1_dream_team",
+    "gradeCode": "prep_1",
+    "gradeLabelAr": "الصف الأول الإعدادي",
+    "gradeLabelEn": "First Preparatory",
+    "term": "second",
+    "termLabelAr": "الفصل الدراسي الثاني 2026/2027",
+    "termLabelEn": "Second Term 2026/2027",
+    "titleAr": "فريق الأحلام (آلة توفير المياه)",
+    "titleEn": "The Dream Team",
+    "author": "Ministry of Education (وزارة التربية والتعليم)",
+    "aboutAuthorEn": "Official reader for First Preparatory Term 2 teaching engineering teamwork, conflict resolution, and environmental service.",
+    "aboutAuthorAr": "القصة المقررة للترم الثاني لطلاب الصف الأول الإعدادي، لترسيخ مهارات حل المشكلات والتضامن من أجل حماية الموارد المائية.",
+    "coverImage": "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=800&auto=format&fit=crop&q=80",
+    "descriptionAr": "مغامرة تطبيقية شيقة لخمسة طلاب يصممون آلة مبتكرة لترشيد مياه الأمطار في معرض الاختراعات السنوي، مدركين أن قيم التعاون والصداقة أسمى من أي كأس.",
+    "descriptionEn": "A dynamic hands-on story where Sara, Omar, Zain, Lily, and Karim engineer a rainwater-saving machine for the school fair, learning that friendship and ethics surpass trophies.",
+    "plotSummaryEn": "In a lively village school, five friends—Sara, Omar, Zain, Lily, and Karim—unite to enter the annual Invention Fair with a Water-Saving Machine. Early disagreements flare when Omar rushes ahead, leaving Lily feeling ignored. Sara steps in to restore fair listening and Karim advocates honesty. By dividing roles based on talents, fixing leaks without blaming mistakes, and utilizing eco-friendly components, their rainwater recycling machine works successfully. While another group wins first place, the judges and teacher proclaim them the true winners for their exemplary cooperation, mutual respect, and civic purpose.",
+    "plotSummaryAr": "في مدرسة قروية مبهجة، يقرر خمسة أصدقاء (سارة، عمر، زين، ليلي، وكريم) ابتكار آلة لترشيد وتجميع مياه الأمطار للمشاركة في معرض الاختراعات. تبدأ التجربة ببعض الخلاف حين تسرع عمر وأهمل آراء ليلي، لكن سارة وكريم أعادا التوازن بالعدل والصدق. وزعوا الأدوار: زين صمم النموذج، عمر أصلح الأنابيب، ليلي اقترحت مواد صديقة للبيئة، كريم اختبر تدفق المياه، وسارة نسقت العمل. وعندما وقع خطأ في التوصيلات، ساندوا كريم دون لوم. في يوم المعرض، فازت آلتهم بإعجاب الحكام، وأكد المعلم أن القيم التي أظهروها تفوق كل الجوائز.",
+    "characters": [
+      {
+        "name": "Sara (سارة)",
+        "role": "The Fair Organizer",
+        "roleAr": "منسقة الفريق وقائدة الحوار العادل",
+        "descriptionEn": "A fair, articulate leader who ensures every team member's voice is respected and keeps moral purpose above competitive winning.",
+        "descriptionAr": "طالبة منظمة وعادلة، تتدخل لحماية حقوق زملائها وتؤكد أن مساعدة القرية هي الغاية الكبرى.",
+        "isMain": true
+      },
+      {
+        "name": "Omar (عمر)",
+        "role": "The Passionate Builder",
+        "roleAr": "المصلح النشيط والمسؤول عن الأنابيب",
+        "descriptionEn": "An enthusiastic student who initially rushes, but learns humility, active listening, and pipe assembly.",
+        "descriptionAr": "طالب متحمس كان يتعجل القيادة، لكنه تعلم الصبر والإنصات وتولى إصلاح الأنابيب ببراعة.",
+        "isMain": true
+      },
+      {
+        "name": "Lily (ليلي)",
+        "role": "The Eco-Material Specialist",
+        "roleAr": "المبتكرة الصديقة للبيئة",
+        "descriptionEn": "Initially shy and sidelined, Lily finds her voice to champion eco-friendly recycled materials and persistent testing.",
+        "descriptionAr": "طالبة كانت خجولة في البداية، لكنها أثبتت تميزها باقتراح مواد صديقة للبيئة واختبار الآلة مراراً.",
+        "isMain": true
+      },
+      {
+        "name": "Karim (كريم)",
+        "role": "The Honest Tester",
+        "roleAr": "فاحص تدفق المياه والباحث الأمين",
+        "descriptionEn": "A thoughtful tester of water flow who advocates honesty in choices and learns resilience when supported after a mistake.",
+        "descriptionAr": "طالب صادق ومجتهد، اختبر تدفق المياه، وعندما ارتكب خطأ سانده زملاؤه ليصلحه بتعاون.",
+        "isMain": true
+      },
+      {
+        "name": "Zain (زين)",
+        "role": "The Creative Designer",
+        "roleAr": "مصمم النموذج الهندسي",
+        "descriptionEn": "A gifted designer who sketches and models the water-saving machine with precision and artistic flair.",
+        "descriptionAr": "طالب مبدع صمم هيكل النموذج المبتكر لجمع وترشيد مياه الأمطار.",
+        "isMain": true
+      }
+    ],
+    "themes": [
+      {
+        "themeEn": "Values and Character Above Trophies",
+        "themeAr": "القيم والأخلاق أسمى من الجوائز",
+        "descriptionEn": "Winning a contest is fleeting, but honesty, cooperation, and serving one's community constitute true lifelong victory.",
+        "descriptionAr": "الكؤوس والجوائز قد تزول، أما الأمانة والتعاون ومساعدة المجتمع فتبقى أثراً خالداً."
+      },
+      {
+        "themeEn": "Supportive Problem-Solving Without Blame",
+        "themeAr": "حل المشكلات بلا لوم أو تجريح",
+        "descriptionEn": "When mistakes happen, healthy teams rally to fix the problem constructively rather than targeting individuals with accusations.",
+        "descriptionAr": "عند وقوع الأخطاء، يتعاون الفريق الإيجابي لإصلاح الخلل بروح المحبة بدلاً من إلقاء اللوم."
+      }
+    ],
+    "chapters": [
+      {
+        "id": "sc_prep_1_ch_4",
+        "chapterNumber": 1,
+        "titleEn": "Never Give Up",
+        "titleAr": "لا تستسلم أبداً",
+        "term": "second",
+        "summaryEn": "The five friends team up for the annual Invention Fair to build a water-saving machine, overcoming early division through fairness and respect.",
+        "summaryAr": "يجتمع الأصدقاء الخمسة لتصميم آلة ترشيد المياه لمعرض الاختراعات، ويتعلمون العدل وتوزيع الأدوار.",
+        "chapterInPoints": [
+          {
+            "en": "The annual invention fair was announced in the village school.",
+            "ar": "أُعلن عن معرض الاختراعات السنوي في مدرسة القرية."
+          },
+          {
+            "en": "Sara, Omar, Zain, Lily, and Karim teamed up to build a Water-Saving Machine.",
+            "ar": "اتحدت سارة وعمر وزين وليلي وكريم لبناء آلة لتوفير المياه."
+          },
+          {
+            "en": "Omar rushed to take charge, causing Lily to feel excluded.",
+            "ar": "تعجل عمر القيادة مما جعل ليلي تشعر بالتهميش."
+          },
+          {
+            "en": "Sara and Karim restored equity, agreeing that every member's voice matters.",
+            "ar": "أعادت سارة وكريم التوازن مؤكدين أن فكرة كل فرد لها وزنها."
+          },
+          {
+            "en": "Each member received a specific role, strengthening their bond.",
+            "ar": "توزعت الأدوار بتناغم، مما زاد من قوة الصداقة والتعاون."
+          }
+        ],
+        "vocabulary": [
+          {
+            "word": "water-saving machine",
+            "meaningAr": "آلة توفير وترشيد المياه"
+          },
+          {
+            "word": "left out",
+            "meaningAr": "مستبعد أو مهمش"
+          },
+          {
+            "word": "fairness",
+            "meaningAr": "العدل والإنصاف"
+          },
+          {
+            "word": "eco-friendly materials",
+            "meaningAr": "مواد صديقة للبيئة"
+          }
+        ],
+        "theText": [
+          {
+            "order": 1,
+            "paragraphEn": "In the cheerful village, the annual invention fair arrived. Sara, Omar, Zain, Lily, and Karim decided to build a water-saving machine. But in their first meeting, Omar rushed to take the lead, leaving Lily feeling left out. Sara stopped him gently: 'We need to be fair. Everyone's ideas matter. We are a team.'",
+            "paragraphAr": "في القرية السعيدة، حل موعد معرض الاختراعات السنوي. قررت سارة وعمر وزين وليلي وكريم صنع آلة لتوفير المياه. ولكن في لقائهم الأول، تعجل عمر القيادة فشعرت ليلي بالتهميش. أوقفته سارة بلطف: 'يجب أن نكون منصفين، أفكار الجميع مهمة فنحن فريق واحد'."
+          },
+          {
+            "order": 2,
+            "paragraphEn": "Karim added wisely, 'We must have honesty.' They all agreed to respect each other. Zain designed the model, Omar fixed the pipes, Lily chose eco-friendly parts, Karim tested the water flow, and Sara organized tasks.",
+            "paragraphAr": "وأضاف كريم بحكمة: 'علينا التحلي بالصدق'. اتفق الجميع على الاحترام؛ صمم زين النموذج، وأصلح عمر الأنابيب، واختارت ليلي مواد بيئية، واختبر كريم التدفق، بينما نظمت سارة المهام."
+          }
+        ],
+        "questionsAndAnswers": [
+          {
+            "id": "prep1_ch4_qa_1",
+            "question": "What project did the Dream Team decide to build?",
+            "answer": "A Water-Saving Machine to conserve water for their village."
+          }
+        ],
+        "importantQuestions": [
+          {
+            "id": "prep1_ch4_crit_1",
+            "question": "Why did Sara step in when Omar rushed to take charge?",
+            "answer": "Because a healthy team requires fair participation where every member feels valued, heard, and respected."
+          }
+        ],
+        "homeworkQuestions": [
+          {
+            "id": "prep1_ch4_hw_1",
+            "question": "What roles did each of the five students assume?",
+            "answer": "Zain (design), Omar (pipes), Lily (eco-materials), Karim (water flow testing), Sara (team organization)."
+          }
+        ],
+        "mcqQuestions": [
+          {
+            "id": "mcq_prep1_ch4_1",
+            "question": "Why did Lily feel left out in the first meeting?",
+            "options": [
+              "Her ideas were initially ignored in the rush",
+              "She did not want to work",
+              "She forgot her notebook",
+              "She arrived late"
+            ],
+            "correctAnswer": "Her ideas were initially ignored in the rush",
+            "explanation": "Sara intervened to ensure Lily's voice was welcomed and valued."
+          }
+        ]
+      },
+      {
+        "id": "sc_prep_1_ch_5",
+        "chapterNumber": 2,
+        "titleEn": "Does Lily feel shy now?",
+        "titleAr": "هل ما زالت ليلي خجولة؟",
+        "term": "second",
+        "summaryEn": "The team overcomes machine malfunctions, supports Karim when he makes a mistake, and builds a unique rainwater recycling prototype.",
+        "summaryAr": "يتغلب الفريق على تسريبات الآلة، ويساندون كريم عند وقوع خطأ دون لوم، وينجزون نموذجاً متميزاً لري المزروعات.",
+        "chapterInPoints": [
+          {
+            "en": "The machine took shape but had performance issues, discouraging the team.",
+            "ar": "اكتمل شكل الآلة لكنها لم تعمل بكفاءة، مما أحبط الفريق."
+          },
+          {
+            "en": "Sara reminded everyone that their goal was helping the village, not just winning.",
+            "ar": "ذكّرت سارة الجميع بأن الهدف مساعدة القرية لا مجرد الفوز."
+          },
+          {
+            "en": "Lily overcame her shyness and recommended repetitive flow testing.",
+            "ar": "تغلبت ليلي على خجلها واقترحت إعادة الاختبار وتعديل الوصلات."
+          },
+          {
+            "en": "When Karim made an assembly error, the team helped him fix it without blame.",
+            "ar": "عندما أخطأ كريم في التركيب، سانده الزملاء لإصلاحه دون لوم."
+          },
+          {
+            "en": "The completed machine successfully reused rainwater for plants and paths.",
+            "ar": "أعادت الآلة تدوير مياه الأمطار بكفاءة لري الحدائق وتنظيف الممرات."
+          }
+        ],
+        "vocabulary": [
+          {
+            "word": "purpose",
+            "meaningAr": "هدف نبيل وغرض سامٍ"
+          },
+          {
+            "word": "aspiration",
+            "meaningAr": "طموح وتطلع إيجابي"
+          },
+          {
+            "word": "no blame",
+            "meaningAr": "دون إلقاء لوم"
+          },
+          {
+            "word": "rainwater",
+            "meaningAr": "مياه الأمطار"
+          }
+        ],
+        "theText": [
+          {
+            "order": 1,
+            "paragraphEn": "Days passed, and the machine started to take shape, but it worked imperfectly. Some members felt discouraged. Sara rallied them: 'Our purpose isn't just to win, it's to help people. Let's not lose hope.' Omar agreed, and Lily, once shy, spoke up: 'We can make it better if we test it again and again.'",
+            "paragraphAr": "مرت الأيام وبدأت الآلة تكتمل، لكنها لم تعمل بدقة، فشعر البعض بالإحباط. شجعتهم سارة: 'هدفنا ليس مجرد الفوز، بل مساعدة الناس'. وافقها عمر، ونهضت ليلي متغلبة على خجلها: 'يمكننا تحسينها إذا كررنا الاختبار مرة بعد أخرى'."
+          },
+          {
+            "order": 2,
+            "paragraphEn": "The team worked late, dividing tasks and sharing steps. When Karim made a mistake, no one blamed him; instead, they helped him fix it. Finally, the machine operated smoothly, collecting rainwater to nourish plants and clean pathways.",
+            "paragraphAr": "عمل الفريق حتى وقت متأخر يتقاسمون الخطوات؛ وعندما أخطأ كريم، لم يلمه أحد بل تكاتفوا لإصلاح الخطأ. وأخيراً، عملت الآلة بانسجام لجمع مياه الأمطار وري المزروعات وتنظيف الممرات."
+          }
+        ],
+        "questionsAndAnswers": [
+          {
+            "id": "prep1_ch5_qa_1",
+            "question": "How did the team react when Karim made a mistake?",
+            "answer": "No one blamed him; they supported him and worked together to correct the issue."
+          }
+        ],
+        "importantQuestions": [
+          {
+            "id": "prep1_ch5_crit_1",
+            "question": "Why is avoiding personal blame critical to group success?",
+            "answer": "Blame induces fear and defensiveness, whereas constructive support fosters learning, courage, and higher trust."
+          }
+        ],
+        "homeworkQuestions": [
+          {
+            "id": "prep1_ch5_hw_1",
+            "question": "What practical tasks did the completed Water-Saving Machine accomplish?",
+            "answer": "It collected rainwater to irrigate school garden flora and wash walkway paths."
+          }
+        ],
+        "mcqQuestions": [
+          {
+            "id": "mcq_prep1_ch5_1",
+            "question": "What change occurred in Lily during the testing phase?",
+            "options": [
+              "She overcame her shyness and proposed iterative testing",
+              "She decided to leave the group",
+              "She refused to speak to Karim",
+              "She took over all of Omar's tasks"
+            ],
+            "correctAnswer": "She overcame her shyness and proposed iterative testing",
+            "explanation": "Lily gained self-assurance and offered practical suggestions."
+          }
+        ]
+      },
+      {
+        "id": "sc_prep_1_ch_6",
+        "chapterNumber": 3,
+        "titleEn": "A Team of Tomorrow",
+        "titleAr": "فريق الغد",
+        "term": "second",
+        "summaryEn": "At the fair, the judges praise the team's presentation and unity; their teacher declares them the real winners because values outshine trophies.",
+        "summaryAr": "يقدم الفريق الآلة بإتقان في المعرض، ويشيد الحكام والمعلم بأخلاقهم مؤكدين أن التعاون والصدق هما الفوز الحقيقي.",
+        "chapterInPoints": [
+          {
+            "en": "On the fair day, Sara's team explained their project clearly and confidently.",
+            "ar": "في يوم المعرض، شرحت سارة وفريقها مشروعهم بثقة واقتدار."
+          },
+          {
+            "en": "Judges were deeply impressed by the machine and the team's mutual respect.",
+            "ar": "أبدى الحكام إعجاباً كبيراً بالآلة وبالاحترام المتبادل بين الطلاب."
+          },
+          {
+            "en": "Another team won first prize, but Sara and her friends did not feel sad.",
+            "ar": "فاز فريق آخر بالمركز الأول، لكن سارة ورفاقها لم يحزنوا."
+          },
+          {
+            "en": "Their teacher proudly called them 'the real winners' for honesty and teamwork.",
+            "ar": "أعلن معلمهم أنهم الفائزون الحقيقيون لتجسيدهم الصدق والعمل الجماعي."
+          },
+          {
+            "en": "The students celebrated their friendship and shared achievement.",
+            "ar": "احتفل الأصدقاء بصداقتهم العميقة وإنجازهم الأخلاقي المتميز."
+          }
+        ],
+        "vocabulary": [
+          {
+            "word": "invention fair",
+            "meaningAr": "معرض الاختراعات"
+          },
+          {
+            "word": "cooperation",
+            "meaningAr": "التعاون البناء"
+          },
+          {
+            "word": "real winners",
+            "meaningAr": "الفائزون الحقيقيون بالقيم"
+          },
+          {
+            "word": "trophy",
+            "meaningAr": "كأس أو جائزة مادية"
+          }
+        ],
+        "theText": [
+          {
+            "order": 1,
+            "paragraphEn": "On the day of the Invention Fair, the playground was filled with visitors. Sara and her team explained their Water-Saving Machine clearly and confidently. The judges were impressed not only by the machine, but also by the teamwork and respect the group showed.",
+            "paragraphAr": "في يوم المعرض، امتلأ الفناء بالزوار. شرحت سارة وفريقها آلة ترشيد المياه بوضوح وثقة؛ فأعجب الحكام ليس بالابتكار وحده بل بروح الفريق والاحترام الرفيع الذي تحلوا به."
+          },
+          {
+            "order": 2,
+            "paragraphEn": "Though another team took first prize, the friends did not feel sad. Their teacher clapped proudly: 'You are the real winners. You showed honesty, cooperation, and teamwork. These values are more important than any trophy.' The children smiled and held hands.",
+            "paragraphAr": "ومع أن فريقاً آخر فاز بالمركز الأول، إلا أن الأصدقاء لم يحزنوا. صفق معلمهم بفخر: 'أنتم الفائزون الحقيقيون، فقد أظهرتم الصدق والتعاون والعمل الجماعي؛ وهذه القيم أسمى من أي كأس'. ابتسم الأطفال وأمسكوا بأيدي بعضهم فخورين بما أنجزوا."
+          }
+        ],
+        "questionsAndAnswers": [
+          {
+            "id": "prep1_ch6_qa_1",
+            "question": "Why did the teacher call Sara's team the 'real winners'?",
+            "answer": "Because they exemplified honesty, empathy, selfless cooperation, and civic purpose throughout the challenge."
+          }
+        ],
+        "importantQuestions": [
+          {
+            "id": "prep1_ch6_crit_1",
+            "question": "Why are character values considered more enduring than a competitive trophy?",
+            "answer": "Trophies are static physical objects, whereas virtues of cooperation, integrity, and perseverance enrich character and benefit communities for a lifetime."
+          }
+        ],
+        "homeworkQuestions": [
+          {
+            "id": "prep1_ch6_hw_1",
+            "question": "How did Sara and her team react when another project was awarded first prize?",
+            "answer": "They remained cheerful, celebrating their friendship and moral victory rather than feeling dejected."
+          }
+        ],
+        "mcqQuestions": [
+          {
+            "id": "mcq_prep1_ch6_1",
+            "question": "What is the concluding message of 'The Dream Team'?",
+            "options": [
+              "Good values and teamwork are more important than winning trophies",
+              "Winning at any cost is the only goal",
+              "Building machines is easy for one person",
+              "Competitions should be avoided"
+            ],
+            "correctAnswer": "Good values and teamwork are more important than winning trophies",
+            "explanation": "True victory is rooted in collaborative ethics and service."
+          }
+        ]
+      }
+    ]
+  }
+]

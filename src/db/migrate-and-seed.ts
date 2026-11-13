@@ -30,6 +30,7 @@ import {
   dialogueStudentProgress,
 } from "./schema";
 import { ALL_DIALOGUES } from "@/data/dialogue-center";
+import { ALL_CURRICULUM_STORIES } from "@/data/story-world";
 import { SMART_CURRICULUM_SEEDS } from "@/data/smart-curriculum-seed";
 import { TRANSLATION_MODULES_SEED, SAMPLE_TRANSLATION_EXAMS } from "@/data/translation-academy-seed";
 import EXTRACTED_TRAINING_QUESTIONS from "@/data/training-center-extracted-questions.json";
@@ -1516,6 +1517,40 @@ export async function syncCurriculum2026(): Promise<{
               });
             }
           }
+        }
+      }
+    }
+
+    // Sync All Authentic Curriculum Stories from Professional Story World Booklets
+    for (const st of ALL_CURRICULUM_STORIES) {
+      for (const ch of st.chapters) {
+        const chapterId = ch.id;
+        const gradeId = `grade_${st.gradeCode}`;
+        const existingCh = await db
+          .select()
+          .from(storyChapters)
+          .where(eq(storyChapters.id, chapterId));
+
+        if (existingCh.length === 0) {
+          await db.insert(storyChapters).values({
+            id: chapterId,
+            gradeId: gradeId,
+            chapterNumber: ch.chapterNumber,
+            titleAr: ch.titleAr,
+            titleEn: ch.titleEn,
+            explanation: ch.summaryEn || ch.summaryAr,
+            videoUrl: null,
+            pdfUrl: null,
+            vocabulary: ch.vocabulary || [],
+            characters: st.characters || [],
+            events: ch.chapterInPoints || [],
+            importantQuotes: ch.importantQuestions || [],
+            questionsAndAnswers: ch.questionsAndAnswers || [],
+            mcqQuestions: ch.mcqQuestions || [],
+            orderIndex: ch.chapterNumber,
+            isPublished: true,
+          });
+          updatedStories++;
         }
       }
     }

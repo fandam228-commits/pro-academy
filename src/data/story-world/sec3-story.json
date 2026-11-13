@@ -1,0 +1,4428 @@
+{
+  "id": "story_sec_3_monte_cristo",
+  "gradeCode": "sec_3",
+  "gradeLabelAr": "الصف الثالث الثانوي",
+  "gradeLabelEn": "Third Secondary",
+  "term": "first",
+  "termLabelAr": "الفصل الدراسي الأول 2026/2027",
+  "termLabelEn": "First Term 2026/2027",
+  "titleAr": "كونت دي مونت كريستو",
+  "titleEn": "The Count of Monte Cristo",
+  "author": "Alexandre Dumas (ألكسندر دوما)",
+  "aboutAuthorEn": "Alexandre Dumas (1802-1870) was a French writer whose works have been translated into many languages and who is one of the most widely read French authors.",
+  "aboutAuthorAr": "ألكسندر دوما (1802-1870) كاتب فرنسي شهير، تُرجمت أعماله إلى لغات عديدة، ويُعد من أكثر الكتاب الفرنسيين قراءة في العالم.",
+  "coverImage": "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=800&auto=format&fit=crop&q=80",
+  "descriptionAr": "الرواية المقررة رسميًا لشهادة الثانوية العامة 2026/2027: ملحمة العدالة والظلم، الخيانة والانتقام، وتغير المصائر الإنسانية بالصبر والمعرفة.",
+  "descriptionEn": "Official Third Secondary 2026/2027 novel: an epic tale of justice, betrayal, wrongful imprisonment, and the transformative power of wisdom and mercy.",
+  "plotSummaryEn": "The Count of Monte Cristo is the story of a young and honest sailor named Edmond Dantés. He returns to Marseille to marry his fiancée Mercédés, but he is betrayed by jealous men: Danglars, Fernand, and Villefort. They accuse him of being a spy, and he is sent to prison in the dark Chateau d'If. In prison, he meets the wise Abbé Faria who educates him and reveals the secret treasure of Monte Cristo. After 14 years, Edmond escapes, recovers the vast fortune, and returns as the Count of Monte Cristo to reward the good and punish the treacherous.",
+  "plotSummaryAr": "تحكي الرواية قصة البحار الشاب الصادق إدموند دانتيس الذي يعود إلى مارسيليا ليتزوج خطيبته مرسيدس، لكنه يتعرض لخيانة خبيثة من رجال تملؤهم الغيرة: دانجلار وفرناند وفيلفور، فيتآمرون عليه ويسجنونه ظلماً في سجن شاتو ديف الرهيب. في السجن يلتقي بالأب فاريا الحكيم الذي يعلمه العلوم واللغات ويكشف له سر كنز مونت كريستو الأسطوري. بعد 14 عاماً يهرب إدموند بجرأة، ويعثر على الكنز، ويعود بشخصية كونت مونت كريستو ليحقق العدالة ويكافئ الأوفياء.",
+  "characters": [
+    {
+      "name": "Edmond Dantés (إدموند دانتس)",
+      "role": "The Protagonist / The Count of Monte Cristo",
+      "roleAr": "البطل الرئيسي / كونت مونت كريستو",
+      "descriptionEn": "A young, innocent sailor promoted to captain of the Pharaon and unjustly imprisoned. He transforms into the wise, powerful Count of Monte Cristo seeking justice.",
+      "descriptionAr": "بحار شاب بريء ومخلص أصبح قائداً لسفينة الفرعون، تعرض لظلم مروع وسجن دون محاكمة، وتحول بالمعرفة والصبر إلى كونت مونت كريستو لتحقيق العدالة.",
+      "isMain": true
+    },
+    {
+      "name": "Mercédés (مرسيدس)",
+      "role": "Edmond's Betrothed",
+      "roleAr": "خطيبة إدموند والحب الحقيقي له",
+      "descriptionEn": "Edmond's true love who pleaded desperately for his freedom and remained faithfully devoted to his memory.",
+      "descriptionAr": "خطيبة إدموند وحبه الصادق، حاولت بكل قوتها إثبات براءته وظلت وفية له ولذكراه.",
+      "isMain": true
+    },
+    {
+      "name": "Fernand Mondego (فرناند مونديجو)",
+      "role": "Edmond's Jealous Rival",
+      "roleAr": "منافس إدموند والصديق المزيف",
+      "descriptionEn": "A fisherman from Catalonia who passionately loved Mercédés and conspired with Danglars to frame Edmond for treason out of bitter envy.",
+      "descriptionAr": "صياد من كاتالونيا كان يحب مرسيدس بجنون، وخان إدموند وسلم الرسالة الكاذبة للمدعي العام بدافع الغيرة.",
+      "isMain": true
+    },
+    {
+      "name": "Danglars (دانجلار)",
+      "role": "The Greedy Purser",
+      "roleAr": "أمين صندوق السفينة الطماع والمحرض",
+      "descriptionEn": "The purser of the Pharaon who bitterly envied Edmond's promotion to captain and masterminded the false letter of denunciation.",
+      "descriptionAr": "أمين صندوق السفينة الذي حسد إدموند على الترقية لقيادة السفينة ودبّر الرسالة الكاذبة لاتهامه بالتجسس.",
+      "isMain": true
+    },
+    {
+      "name": "Gérard de Villefort (جيرارد دو فيلفور)",
+      "role": "The Corrupt Deputy Prosecutor",
+      "roleAr": "نائب المدعي العام الطموح والفاسد",
+      "descriptionEn": "An ambitious prosecutor who discovered the traitorous letter was addressed to his own Bonapartist father, so he burned it and sacrificed innocent Edmond to protect his career.",
+      "descriptionAr": "نائب المدعي العام الذي أرسل إدموند إلى سجن شاتو ديف دون محاكمة ليحمي مستقبله ويخفي أن الرسالة موجهة إلى والده البونابرتي.",
+      "isMain": true
+    },
+    {
+      "name": "Abbé Faria (الأب فاريا)",
+      "role": "The Wise Priest & Mentor",
+      "roleAr": "الكاهن الحكيم ومعلم إدموند الروحي",
+      "descriptionEn": "An elderly priest and brilliant scholar imprisoned for political reasons. He taught Edmond sciences, languages, and philosophy, and gave him the secret map to the Monte Cristo treasure.",
+      "descriptionAr": "كاهن وعالم حكيم التقى بإدموند في السجن، حول الزنزانة إلى مدرسة وعلّمه اللغات والعلوم، وأهداه خريطة كنز مونت كريستو قبل وفاته.",
+      "isMain": true
+    },
+    {
+      "name": "Gaspard Caderousse (كادروس)",
+      "role": "The Cowardly Neighbor",
+      "roleAr": "جار إدموند الجبان والأنانى",
+      "descriptionEn": "Edmond's neighbor who witnessed the conspiracy but stayed cowardly silent out of selfishness and greed.",
+      "descriptionAr": "جار إدموند الذي شهد تدبير المؤامرة وظل صامتاً بدافع الجبن والأنانية.",
+      "isMain": false
+    },
+    {
+      "name": "Maximilien Morrel (ماكسيميليان موريل)",
+      "role": "The Honorable Son of Morrel",
+      "roleAr": "الابن الوفي لصاحب السفينة موريل",
+      "descriptionEn": "The noble, loyal son of Edmond's old employer Monsieur Morrel, representing honor, hope, and true friendship.",
+      "descriptionAr": "الابن النبيل والشريف لرب عمل إدموند السيد موريل، الذي يكافئه إدموند لاحقاً بثروته.",
+      "isMain": false
+    }
+  ],
+  "themes": [
+    {
+      "themeEn": "Justice and Injustice",
+      "themeAr": "العدل والظلم",
+      "descriptionEn": "The story exposes the harsh reality of corruption and false accusations, illustrating that earthly justice is often compromised by ambition, yet ultimate divine justice prevails.",
+      "descriptionAr": "توضح الرواية خطورة الفساد والظلم عندما يُسجن البريء دون محاكمة، وتؤكد أن العدالة الحقيقية تتطلب الحكمة والضمير الحي."
+    },
+    {
+      "themeEn": "Revenge vs. Mercy",
+      "themeAr": "الانتقام مقابل الرحمة",
+      "descriptionEn": "Edmond learns that relentless vengeance can consume the human soul, and that true peace comes from wisdom, justice, and forgiveness.",
+      "descriptionAr": "يتعلم إدموند أن نار الانتقام قد تلتهم الروح وتؤذي الأبرياء، وأن العظمة الحقيقية تكمن في ضبط النفس والرحمة والتسامح."
+    },
+    {
+      "themeEn": "Power of Knowledge",
+      "themeAr": "قوة المعرفة والتعليم",
+      "descriptionEn": "In the dark Chateau d'If, Abbé Faria transforms Edmond from an uneducated sailor into an enlightened scholar armed with wisdom, showing that the mind can never be imprisoned.",
+      "descriptionAr": "حوّل الأب فاريا سجن شاتو ديف إلى منارة علم، وأثبت لإدموند أن الإنسان قد يفقد حريته الجسدية ولكن لا يجب أن يفقد عقله، فالمعرفة هي القوة الحقيقية."
+    },
+    {
+      "themeEn": "Hope and Resilience",
+      "themeAr": "الأمل والصمود الإنساني",
+      "descriptionEn": "Through 14 years of darkness, Edmond endures through faith, patience, and purpose, moving from deep despair to fulfilling an extraordinary destiny.",
+      "descriptionAr": "رغم 14 عاماً من السجن والظلام، لم يفقد إدموند الأمل، وبفضل الصبر والعزيمة تحول من سجين يائس إلى رجل ذي قدر ومكانة عظيمة."
+    }
+  ],
+  "chapters": [
+    {
+      "id": "sc_sec_3_ch_1",
+      "chapterNumber": 1,
+      "titleEn": "The Arrival at Marseilles",
+      "titleAr": "الوصول لمرسيليا",
+      "term": "first",
+      "summaryEn": "Edmond Dantés proudly retumed to Marseille after safely commanding the Pharaon",
+      "summaryAr": "بعد أن قاد سفينة الفاراون بأمان عبر العواصف والمخاطر. Uljujla عاد إدموند دانتس بفخر إلى",
+      "chapterInPoints": [
+        {
+          "en": "Edmond Dantés proudly retumed to Marseille after safely commanding the Pharaon",
+          "ar": "بعد أن قاد سفينة الفاراون بأمان عبر العواصف والمخاطر. Uljujla عاد إدموند دانتس بفخر إلى"
+        },
+        {
+          "en": "Captain's death allowed ambitious Edmond to earn Morrel’s promise of becoming the",
+          "ar": "موت القبطان إلى حصول إدموند الطموح على وعد موريل بأن يصبح قبطان سفينة الفاراون. sai"
+        },
+        {
+          "en": "Edmond happily reunited with his father and Mercédes, sharing dreams of marriage and",
+          "ar": "اجتمع إدموند بسعادة مع والدة ومرسيدس. وتقاسما أحلام الزواج والسعادة."
+        },
+        {
+          "en": "Monsieur Morrel praised Edmond’s courage, wisdom, and loyalty, confirming his future",
+          "ar": "أشاد السيد موريل بشجاعة إدموند وحكمته وإخلاصه. مؤكداً قيادته المستقبلية للسفينة."
+        },
+        {
+          "en": "Fernand and Danglars secretly hated Edmond because of Mereédés, promotion",
+          "ar": "وقيادة السفينة. .alaillg كره فرنائد ودانجلار إدموند سراً بسبب مرسيدس. والترقية."
+        },
+        {
+          "en": "Edmond discovered his father had lived in poverty and gave him all his wages.",
+          "ar": "عاش في فقر. فأعطاه كل الأجور التي كسبها. oallg اكتشف إدموند أن"
+        },
+        {
+          "en": "Edmond and Mercédas planned to marry soon, believing nothing could destroy their",
+          "ar": "قريباً. معتقدين أن لا شيء سيدمر مستقبلهما المشرق. alg jl) خطط إدموند ومرسيدس"
+        },
+        {
+          "en": "Fernand delivered the false letter, poisoning Edmonds future with dangerous",
+          "ar": "سلّم فرنائد الرسالة الكاذبة. مسموماً مستقبل إدموند باتهامات خطيرة بالخيانة."
+        }
+      ],
+      "vocabulary": [
+        {
+          "word": "ambitious",
+          "meaningAr": "طموح"
+        },
+        {
+          "word": "aily",
+          "meaningAr": "مريض"
+        },
+        {
+          "word": "accusation",
+          "meaningAr": "اتهام"
+        },
+        {
+          "word": "anchor",
+          "meaningAr": "مرساة"
+        },
+        {
+          "word": "shadows",
+          "meaningAr": "الظلال"
+        },
+        {
+          "word": "authorities",
+          "meaningAr": "السلطات"
+        },
+        {
+          "word": "insufferable",
+          "meaningAr": "الا يُحتمل"
+        },
+        {
+          "word": "malice dua",
+          "meaningAr": "/ حقد"
+        },
+        {
+          "word": "voyage",
+          "meaningAr": "رحلة بحرية"
+        },
+        {
+          "word": "bitterness",
+          "meaningAr": "مرارة / حقد"
+        },
+        {
+          "word": "revenge (n.)",
+          "meaningAr": "انتقام"
+        },
+        {
+          "word": "wages",
+          "meaningAr": "أجور / مرتب"
+        },
+        {
+          "word": "cargo",
+          "meaningAr": "حمولة / بضائع"
+        },
+        {
+          "word": "jealousy",
+          "meaningAr": "غيرة"
+        },
+        {
+          "word": "wisdom",
+          "meaningAr": "حكمة"
+        },
+        {
+          "word": "merchant",
+          "meaningAr": "اتاجر"
+        },
+        {
+          "word": "innocent",
+          "meaningAr": "بريء"
+        },
+        {
+          "word": "debt wa navigate",
+          "meaningAr": "يوجه / يقود"
+        },
+        {
+          "word": "mate",
+          "meaningAr": "مساعد"
+        },
+        {
+          "word": "dia poverty",
+          "meaningAr": "فقر"
+        },
+        {
+          "word": "modestly",
+          "meaningAr": "بتواضع"
+        },
+        {
+          "word": "lall",
+          "meaningAr": "المدعي"
+        },
+        {
+          "word": ". traitor",
+          "meaningAr": "خائن"
+        },
+        {
+          "word": "gangplank",
+          "meaningAr": "خشبي"
+        },
+        {
+          "word": "yao proudly",
+          "meaningAr": "بفخر"
+        }
+      ],
+      "theText": [
+        {
+          "order": 1,
+          "paragraphEn": "the sea sparkled in the sunlight, and sailors hurried across Yee",
+          "paragraphAr": "the deck, For Edmond, this was not just another journey; it را 2101 1"
+        },
+        {
+          "order": 2,
+          "paragraphEn": "",
+          "paragraphAr": "was the beginning of a new life. He was only nineteen years Jie ا -"
+        },
+        {
+          "order": 3,
+          "paragraphEn": "carried good news for both his employer and his family.",
+          "paragraphAr": "وقف إدموند دانتس بفخر في مقدمة السفينة الفاراون وهي تدخل ميناء مرسيليا. كانت الرياح"
+        },
+        {
+          "order": 4,
+          "paragraphEn": "",
+          "paragraphAr": "تدفع الأشرعة. وكانت مياه البحر تتلألاً تحت أشعة الشمس. بينما كان البحارة يسرعون في أرجاء"
+        },
+        {
+          "order": 5,
+          "paragraphEn": "",
+          "paragraphAr": "سطح السفينة. بالنسبة لإدموند. لم تكن هذه مجرد رحلة أخرى. بل كانت بداية حياة جديدة. كان"
+        },
+        {
+          "order": 6,
+          "paragraphEn": "",
+          "paragraphAr": "ومع ذلك كان يشغل منصب مساعد القبطان على إحدى أفضل bad في التاسعة عشرة من عمره"
+        },
+        {
+          "order": 7,
+          "paragraphEn": "",
+          "paragraphAr": "مفعمًا بالأمل والأحلام. إذ كان يحمل أخبارًا سارة لكل من صاحب عمله aula سفن الشركة. وكان"
+        },
+        {
+          "order": 8,
+          "paragraphEn": "",
+          "paragraphAr": "وأسرته."
+        },
+        {
+          "order": 9,
+          "paragraphEn": "board. Even the old sailors, who at first had doubted him, now spoke of him with respect,",
+          "paragraphAr": "أبحرت الفرعون من سعميرنا في اليونان. ثم توقفت في نابولي. وأخيراً عادت إلى مارسيليا. وأثناء"
+        },
+        {
+          "order": 10,
+          "paragraphEn": "",
+          "paragraphAr": "الرحلة. أصيب القبطان بمرض شديد. فتولى إدموند الشاب الطموح القيادة. قاد السفينة في"
+        },
+        {
+          "order": 11,
+          "paragraphEn": "",
+          "paragraphAr": "العواصف. وتفاوض مع التجار. وأعادها بسلام وحمولتها سليمة. أدهشت مهارته وشجاعته الجميع"
+        },
+        {
+          "order": 12,
+          "paragraphEn": "",
+          "paragraphAr": "على متن السفينة. حتى البحارة القدامى الذين شكوا فيه في البداية صاروا يتحدثون عنه باحترام."
+        },
+        {
+          "order": 13,
+          "paragraphEn": "As the ship neared the dock, a small crowd gathered Senn 7",
+          "paragraphAr": "to welcome it. Merchants, port workers, and families (RS الل 8"
+        },
+        {
+          "order": 14,
+          "paragraphEn": "most: his father, an old man who had given everything Jie 5 — - peed",
+          "paragraphAr": "for his son, and Mercédés, the beautiful young ١ 1 ١ ="
+        },
+        {
+          "order": 15,
+          "paragraphEn": "woman who was promised to him. =",
+          "paragraphAr": "Hon وعندما اقتربت السفينة من الرصيف. تجمع حشد"
+        },
+        {
+          "order": 16,
+          "paragraphEn": "",
+          "paragraphAr": "في الانتظار بلا صبر: تجار وعمال الميناء وعائلات. خفق قلب إدموند بشدة. فقد كان بين الحاضرين"
+        },
+        {
+          "order": 17,
+          "paragraphEn": "",
+          "paragraphAr": "الناس عنده: والده العجوز الذي ضحى بكل شيء من أجله. ومرسيدس. الفتاة الجميلة التي je"
+        },
+        {
+          "order": 18,
+          "paragraphEn": "",
+          "paragraphAr": "وعدته بالزواج."
+        },
+        {
+          "order": 19,
+          "paragraphEn": "dark hair shining in the sunlight, her eyes full of love",
+          "paragraphAr": "عند رسو السفينة. أصدر إدموند أوامره القاطعة الوائقة: «أنزلوا الأشرعة! جهزوا الحبال!"
+        },
+        {
+          "order": 20,
+          "paragraphEn": "",
+          "paragraphAr": "البضائع!» فأطاعه البحارة بسرعة. وما إن أنزل الممر الخشبي حتى ركض متلهفاً لعناق Ig ial"
+        },
+        {
+          "order": 21,
+          "paragraphEn": "",
+          "paragraphAr": "والده ومرسيدس. ضمه والده بقوة والدموع في عينيه. بينما ابتسمت مرسيدس وشعرها"
+        },
+        {
+          "order": 22,
+          "paragraphEn": "",
+          "paragraphAr": "Wall الأسود يلمع في الشمس وعيناها مملوءتان"
+        },
+        {
+          "order": 23,
+          "paragraphEn": "playing by the shore, and a future bright with happiness.",
+          "paragraphAr": "(ag JS قالت بصوت خافت: \"إدموند. لقد عدت سالماً. كنت أدعو لك"
+        },
+        {
+          "order": 24,
+          "paragraphEn": "",
+          "paragraphAr": "بخير. وأكثر من ذَلَكَ: أحصل أخباراً مفرحة: لقد توفي القبطان. لكن الْسَيد قوريل وعد Lil” أجابها:"
+        },
+        {
+          "order": 25,
+          "paragraphEn": "",
+          "paragraphAr": "ٍقياذة خاضة بي! Gala أن يجعلني قبطان الفرعون. في التاسعة عشرة سأكون"
+        },
+        {
+          "order": 26,
+          "paragraphEn": "",
+          "paragraphAr": "بني. لقد جعلتني فخوراً. ولو كانت أمك على قيد Ly ارتعشت يدا والده وهو يمسكه: \"قبطان"
+        },
+        {
+          "order": 27,
+          "paragraphEn": "",
+          "paragraphAr": "الحياة لكانت فخورة بك أيضاً"
+        },
+        {
+          "order": 28,
+          "paragraphEn": "",
+          "paragraphAr": "الأمن والشرف. حلمت ببيت icy أطرقت مرسيدس خجلاً. لكن الفرح غمر قلبها. فالزواج من قبطان"
+        },
+        {
+          "order": 29,
+          "paragraphEn": "",
+          "paragraphAr": "بالسعادة. ela قرب البحر. وأطفال يلعبون على الشاطئ. ومستقبل pan"
+        },
+        {
+          "order": 30,
+          "paragraphEn": "confirmed the promise. “You have shown courage 34 2 \"he",
+          "paragraphAr": "and wisdom beyond your years. The Pharaon is د ١ 000 a إلا aie"
+        },
+        {
+          "order": 31,
+          "paragraphEn": "you shall rise even higher.” va 1 5",
+          "paragraphAr": "ثم ظهر السيد موريل. التاجر الثري ذو الابتسامة الطيبة 1"
+        },
+        {
+          "order": 32,
+          "paragraphEn": "",
+          "paragraphAr": "شجاعة. Gp abi ا 1 رحب بإدموند بحرارة وأكد وعده: \"لقد"
+        },
+        {
+          "order": 33,
+          "paragraphEn": "",
+          "paragraphAr": "وحكمة تفوق سنك. السفينة الفرعون لك لتقودها يا"
+        },
+        {
+          "order": 34,
+          "paragraphEn": "",
+          "paragraphAr": "إدموند. إن خدمتني بإخلاص سترتقي أعلى"
+        },
+        {
+          "order": 35,
+          "paragraphEn": "chosen Edmond, and Fernand's heart was filled with anger and envy.",
+          "paragraphAr": "ابتهح الحاضرون. وشعر إدموند وكأن العالم كله يحتفل به. لكن بين الوجوه المبتسمة كان هناك"
+        },
+        {
+          "order": 36,
+          "paragraphEn": "",
+          "paragraphAr": "الغيرة. فقد كان فرناند مونديجو. صياد من كاتالونيا. يراقب بصمت ويداه مشدودتان wads من"
+        },
+        {
+          "order": 37,
+          "paragraphEn": "",
+          "paragraphAr": "وعيناه تتقدان بالغيرة. كان يحب مرسيدس منذ زمن. وحلم طويلاً بالزواج منها. لكنها اختارت"
+        },
+        {
+          "order": 38,
+          "paragraphEn": "",
+          "paragraphAr": "fading Le فامتلا قلب قرنائله ia igas|"
+        },
+        {
+          "order": 39,
+          "paragraphEn": "‘see how long that lasts.\"",
+          "paragraphAr": "نظر رجل آخر, دانجلار مسؤول السفينة. إلى إدموند بعرارة. خلال الرحلة زُقَي إدموند إلى رتبة"
+        },
+        {
+          "order": 40,
+          "paragraphEn": "",
+          "paragraphAr": "من Opie له هلذه الإهانة. كانت رؤية فتى في التاساعة pad أن Laila يسَتَظمْ alg منه. wile"
+        },
+        {
+          "order": 41,
+          "paragraphEn": "",
+          "paragraphAr": "icy leg AMIR أكانة له. ارتسعت على شفتيه ابتسامة Age AN الشفينة aad عمره يشل"
+        },
+        {
+          "order": 42,
+          "paragraphEn": "",
+          "paragraphAr": "الوضع Sm في نفسه: \"كابتن دانتيس... سنرى إلى متى سيستمر"
+        },
+        {
+          "order": 43,
+          "paragraphEn": "wages he had earned. “From now on, you will want for nothing,” he promised.",
+          "paragraphAr": "اوفرسيدس. en Ady لاط يلي float wud yA, 9 igs} Lud alga Sayljiall Ava,SIl غافلا عن"
+        },
+        {
+          "order": 44,
+          "paragraphEn": "",
+          "paragraphAr": "<i] لتقم NORE ge Sate هذ RI 6 cus go ag ظمل زاروا منؤ اتيك"
+        },
+        {
+          "order": 45,
+          "paragraphEn": "",
+          "paragraphAr": "يأكله تقريباً La كان على إدموند لجاره, ولم يبق له Liss غيابه. بدافع الواجب. سدد الرجل العجوز"
+        },
+        {
+          "order": 46,
+          "paragraphEn": "",
+          "paragraphAr": "ووعده قائلاً: .من الآنّ yal انفطر قلب إدموند. لكنه سارع إلى إعطاء والده كل ما كسبه من"
+        },
+        {
+          "order": 47,
+          "paragraphEn": "",
+          "paragraphAr": "فصاعدا. لن ينقصك شيء"
+        },
+        {
+          "order": 48,
+          "paragraphEn": "whispered, “I wish this happiness could last forever.” [= A ee",
+          "paragraphAr": "“it will,” Edmond answered confidently. “Nothing can take 7 تو"
+        },
+        {
+          "order": 49,
+          "paragraphEn": "it from us.” But fate had other plans. = { y",
+          "paragraphAr": "جلب المساء المزيد من الفرح. سار إدموند ومرسيدس على ul"
+        },
+        {
+          "order": 50,
+          "paragraphEn": "",
+          "paragraphAr": "طول الشاطى. يتحدثان عن مستقبلهما. لامس نسيم البحر وجهيهما. وبدا الأفق واعداً باحتمالات"
+        },
+        {
+          "order": 51,
+          "paragraphEn": "",
+          "paragraphAr": "خططا للزواج في أقرب وقت ممكن. اتكأت مرسيدس على ذراع إدموند وهمست. Lad الاحصر"
+        },
+        {
+          "order": 52,
+          "paragraphEn": "",
+          "paragraphAr": "أتمنى أن تدوم هذه السعادة إلى الأبد"
+        },
+        {
+          "order": 53,
+          "paragraphEn": "",
+          "paragraphAr": "أجاب إدموند بثقة: «ستدوم. لا شيء يستطيع أن يسلبها منا». لكن القدر كان له ترتيبات أخرى."
+        },
+        {
+          "order": 54,
+          "paragraphEn": "the captaincy. While |_who has loved her since childhood—am 1",
+          "paragraphAr": "left with nothing.” ب *"
+        },
+        {
+          "order": 55,
+          "paragraphEn": "“Exactly,” Danglars agreed. “And | shall have my revenge. He will never be captain if he is in prison.”",
+          "paragraphAr": "كان إدموند يحتفل. التق دانجلار وفرناند سراً في حانة مظلمة. تحدثا بصوت خافت. Lain"
+        },
+        {
+          "order": 56,
+          "paragraphEn": "",
+          "paragraphAr": "وكلماتهما مليئة بالحقد"
+        },
+        {
+          "order": 57,
+          "paragraphEn": "",
+          "paragraphAr": "الذي أحبها منذ Lil Lain, شيء: ميرسيدس. النجاح. والقيادة. JS همس فرنائد: «إدموند يمتلك"
+        },
+        {
+          "order": 58,
+          "paragraphEn": "",
+          "paragraphAr": "لم يبق لي شيء' dal"
+        },
+        {
+          "order": 59,
+          "paragraphEn": "",
+          "paragraphAr": "cial بعد القائد. بدلاً من ذلك. يتولى هذا Lith الصندوق, Gol يجب أن أكون Lilgy قال دانجلار:"
+        },
+        {
+          "order": 60,
+          "paragraphEn": "",
+          "paragraphAr": "Lay القيادة. وأنا مجبر على الخدمة تحت إمرته حظه السعيد لا"
+        },
+        {
+          "order": 61,
+          "paragraphEn": "",
+          "paragraphAr": "شرب الرجلان القهوة: وعيناهما مليئتان بالكراهية عندها اقترح دانجلار خطة: .«ماذا لو اتهم إدموند"
+        },
+        {
+          "order": 62,
+          "paragraphEn": "",
+          "paragraphAr": "بالخيانة؟ ماذا لو كتب أحدهم رسالة إلى السلطات. مدعياً أنه يحمل رسائل من أنصار تابليون؟"
+        },
+        {
+          "order": 63,
+          "paragraphEn": "",
+          "paragraphAr": "سيخسر ميرسيدس. ستكون لي' cule أضاءت عينا فرناند بأمل قاس: «.إذا ألقي القبض"
+        },
+        {
+          "order": 64,
+          "paragraphEn": "",
+          "paragraphAr": "(Gaull ووافق دانجلار قائلاً: «بالضبط. وسأنتقم. لن يصبح قائدأ أبدأً وهو في"
+        },
+        {
+          "order": 65,
+          "paragraphEn": "Edmond's future was poisoned.",
+          "paragraphAr": "في تلك الليلة. كتب دانجلار رسالة بخط دقيق ومتأنٍ. اتهم فيها إدموند دانتس بحمل رسالة سرية من"
+        },
+        {
+          "order": 66,
+          "paragraphEn": "",
+          "paragraphAr": "كان في غاية الخطورة. فقد كانت ai) UALS نابليون بونابرت إلى أتباعه في باريس. كان هذا الاتهام"
+        },
+        {
+          "order": 67,
+          "paragraphEn": "",
+          "paragraphAr": "ما زال يتمتع بولاء كثير من أنصاره. وكان مجرد الاشتباه ais! «nai الحكومة تخشى نابليون. الذي كان قد"
+        },
+        {
+          "order": 68,
+          "paragraphEn": "",
+          "paragraphAr": "Js) في مساعدة نابليون كافيًا لتدمير حياة أي"
+        },
+        {
+          "order": 69,
+          "paragraphEn": "",
+          "paragraphAr": "من كتابة الرسالة. قام فرناند بتسليمها إلى المدعي العام المحلي. وبهذا التصرف الخبيث. wail وعندما"
+        },
+        {
+          "order": 70,
+          "paragraphEn": "",
+          "paragraphAr": "على عقب Lil) حياة إدموند تنقلب diay"
+        },
+        {
+          "order": 71,
+          "paragraphEn": "",
+          "paragraphAr": "‘The next day, Edmond's friends gathered for his betrothal feast. موصو -"
+        },
+        {
+          "order": 72,
+          "paragraphEn": "",
+          "paragraphAr": "Laughter filled the air, music played, and tables were heavy with ابد ze Net"
+        },
+        {
+          "order": 73,
+          "paragraphEn": "",
+          "paragraphAr": "food and drinks. Mercédés wore a simple white dress, her face 8 ع"
+        },
+        {
+          "order": 74,
+          "paragraphEn": "",
+          "paragraphAr": "glowing with happiness. ند بيب 8 in eed"
+        },
+        {
+          "order": 75,
+          "paragraphEn": "Cheers answered him, and for a moment, all seemed perfect. edi Jpn",
+          "paragraphAr": "But outside, in the shadows, soldiers approached. At the height اع 4 bp Steg"
+        },
+        {
+          "order": 76,
+          "paragraphEn": "“You are under arrest by order of the king's prosecutor.”",
+          "paragraphAr": "في اليوم التالي؛ اجتمع أصدقاء إدموند للاحتفال بخطوبته. ملأ الفحك الأجواء. وعزفت الموسيقى."
+        },
+        {
+          "order": 77,
+          "paragraphEn": "",
+          "paragraphAr": "وامتلأت الطاولات بالطعام والشراب. ارتدت ميرسيدس فستاناً أبيض بسيطا. ووجهها يشع سعادة"
+        },
+        {
+          "order": 78,
+          "paragraphEn": "",
+          "paragraphAr": "uli هتف الجميع. وللحظة. بدا كل شيء"
+        },
+        {
+          "order": 79,
+          "paragraphEn": "",
+          "paragraphAr": "الباب. ودخل ضابط بسلطة باردة. aid لكن في الخارج؛ في الظلال. اقترب الجنود في ذروة الاحتفال:"
+        },
+        {
+          "order": 80,
+          "paragraphEn": "",
+          "paragraphAr": "سأل: «إدموند دانتيس؟"
+        },
+        {
+          "order": 81,
+          "paragraphEn": "",
+          "paragraphAr": "أجاب إدموند مندهشاً: «نعم”"
+        },
+        {
+          "order": 82,
+          "paragraphEn": "",
+          "paragraphAr": "أنت رهن الاعتقال بأمر من المدعي العام للملك"
+        },
+        {
+          "order": 83,
+          "paragraphEn": "already slipping into darkness.",
+          "paragraphAr": "إدموند. بينها وقف إدموند aig ساد الصمت أرجاء المكان. شهقت مرسيدس من هول الصدمة. وارتجف"
+        },
+        {
+          "order": 84,
+          "paragraphEn": "",
+          "paragraphAr": "مذهولا لا يعدق ما يسمعه. لم يرتكب أي ذنب. ومع ذلك أمسك به الجنود واقتادوه بعيدًا"
+        },
+        {
+          "order": 85,
+          "paragraphEn": "",
+          "paragraphAr": "وانتهى حفل الخطوبة. الذي بدأ بالفرح بالفوضى والحزن. صرخت مرسيدس قائلة \".لا بد أن هناك خطأ!"
+        },
+        {
+          "order": 86,
+          "paragraphEn": "",
+          "paragraphAr": "شيئًا. فقد أحكمت المؤامرة. وبدأ مستقبل إدموند المشرق pia ادموند بريء !\"لكن كلماتها لم"
+        },
+        {
+          "order": 87,
+          "paragraphEn": "",
+          "paragraphAr": "فشيئًا في ظلام دامس Wd يختفي"
+        }
+      ],
+      "questionsAndAnswers": [
+        {
+          "id": "sec3_ch1_qa_1",
+          "question": "the captain's death? بعد وفاة القبطان؟",
+          "answer": "Because he took command calmly and السفينة. alcig لأنه تولّى القيادة بهدوء\nbrought the ship safely back to port. إلى الميناء بسلام.\n157( (What can we guess about Edmond’s ماذا يمكن أن نستنتج عن شخصية إدمون\npersonality from how he takes responsibility من طريقته في تحمّل المسؤولية على",
+          "type": "sb_wb"
+        },
+        {
+          "id": "sec3_ch1_qa_2",
+          "question": "on the ship? السفينة؟",
+          "answer": "He is confident, responsible, and shows شخص واثق من نفسه. مسؤول. ويتمتع ail\nnatural leadership. بصفات القيادة بالفطرة.\n]5[( (How does the arrival at Marseilles set the وصول السفينة إلى مرسيليا amas كيف",
+          "type": "sb_wb"
+        },
+        {
+          "id": "sec3_ch1_qa_3",
+          "question": "stage for both hope and danger in Edmond’s ؟نومدإ الأمل والخطر في حياة yo لكل",
+          "answer": "life?\nIt marks the start of his happiness with يمثل بداية سعادته مع مرسيدس. وأيضًا\nMercédés and also the beginning of بداية الخيانة والمأساة في حياته.\nbetrayal and tragedy.\nWF} (Do you think Edmonds loyalty to his captain aa إدمون لقائده كان clag هل تعتقد أن",
+          "type": "sb_wb"
+        },
+        {
+          "id": "sec3_ch1_qa_4",
+          "question": "was more important than reaching his family ؟اذاملو من الوصول إلى عائلته بسرعة؟",
+          "answer": "",
+          "type": "sb_wb"
+        },
+        {
+          "id": "sec3_ch1_qa_5",
+          "question": "quickly? Why or why not ?",
+          "answer": "Yes, because his loyalty shows his strong لأن وفاءه يُظهر إحساسه القوي ani\nsense of duty and honor. بالواجب والشرف.\nfF} (if you were in Edmond’s place, would you إذا كنت مكان إدمون. هل كنت ستتصرف",
+          "type": "sb_wb"
+        },
+        {
+          "id": "sec3_ch1_qa_6",
+          "question": "have acted differently with the ship and the بطريقة مختلفة مع السفينة والطاقم؟",
+          "answer": "",
+          "type": "sb_wb"
+        },
+        {
+          "id": "sec3_ch1_qa_7",
+          "question": "crew? Explain وشّح.",
+          "answer": "No, because he acted wisely and responsibly, كما Aulgguag لا. لأنه تصرّف بحكمة\njust like a good leader should. قائد صالح. gi Joay\nIG (The sea voyage represents more than travel. La تمثل الرحلة البحرية أكثر من مجرد سفر.\nWhat might the sea symbolize for Edmond at إليه البحر بالنسبة لإدمون في joy الذي قد",
+          "type": "sb_wb"
+        },
+        {
+          "id": "sec3_ch1_qa_8",
+          "question": "this point in the story? هذه المرحلة من القصة؟",
+          "answer": "It symbolizes freedom, destiny, and the البحر إلى الحرية والمصير والطريق jays\nuncertain path of his future. المجهول الذي ينتظره في المستقبل.\n(AYR (The voyage that Edmond took marked a كانت الرحلة التي قام بها إدموند نقطة.\nturning point in his life. Explain this idea by تحول في حياته. وضح ذلك بذكر سببين.\ngiving two reasons.\nHe became the future captain of the Pharaon .نوارافلا أصبح القبطان المستقبلي لسفينة\nand returned to marry Mercédés. ليتزوج مرسيدس. alcg\n(ER. (How does Danglars plan to stop Edmond دانجلار لمنع إدموند من أن bbs كيف",
+          "type": "sb_wb"
+        },
+        {
+          "id": "sec3_ch1_qa_9",
+          "question": "from being captain? يصبح قبطاناً؟",
+          "answer": "He wrote a false letter accusing Edmond of كتب رسالة كاذبة يتهم فيها إدموند\nbeing a traitor. بالخيانة.\nFE). (Mercédeés thinks that being the captain's تعتقد مرسيدس أن كونها زوجة القبطان ع ]آنا\n~~ | means security and honour. Illustrate. يعني الأمان والشرف. وضح.\nIt means a future with happiness, money, and يعني مستقبلاً مليئاً بالسعادة والمال.\nsocial prestige. والمكانة الاجتماعية.\n1577 (The journey Edmond travelled on was the بها إدموند بداية ald كانت الرحلة التي\nbeginning of a new life. Explain with two حياة جديدة. اشرح بسببين.\nreasons.\nEdmond proved his leadership and was أثبت إدموند قيادته 3099 بمنصب القبطان.\npromised the position of captain.\n1517 (To what extent was helping Napoleon very yal إلى أي مدى كان مساعدة نابليون",
+          "type": "sb_wb"
+        },
+        {
+          "id": "sec3_ch1_qa_10",
+          "question": "dangerous? خطيراً؟",
+          "answer": "It was considered treason and could lead to كان يُعتبر خيانة وقد يؤدي إلى السجن.\nimprisonment.\n131 How far did the announcement of Edmond's إعلان قيادة إدموند jit إلى أي مدى",
+          "type": "sb_wb"
+        },
+        {
+          "id": "sec3_ch1_qa_11",
+          "question": "captaincy and marriage to Mercédés change ؟هتايح للسفينة وزواجه من مرسيدس مسار",
+          "answer": "",
+          "type": "sb_wb"
+        },
+        {
+          "id": "sec3_ch1_qa_12",
+          "question": "the course of his life?",
+          "answer": "It made Danglars and Fernand plot against دانجلار وفرنائد يتآمران ضده مما أدى Jor\nhim which led to his imprisonment. إلى سجنه.\n11 (Eamond confidently said, \"Nothing can take it قال إدموند بثقة: \"لا شيء يستطيع أن\nfrom us,\" yet fate had other plans. How does يسلبنا هذه السعادة». لكن القدر كان له",
+          "type": "sb_wb"
+        },
+        {
+          "id": "sec3_ch1_qa_13",
+          "question": "this moment foreshadow what happens next? ذلك لما سيحدث؟ amay آخر. كيف gly",
+          "answer": "Ithints that his happiness will soon turn into يشير إلى أن سعادته ستتحول قريبًا إلى\ntragedy. ,مأساة.\nIEP (While the crowd cheered for Edmond's captaincy, .ةنيفسلل بينما احتفل الناس بقيادة إدموند\nFernand and Danglars didn't openly show their لم يُظهر فرنائد ودانجلار غيرتهما علناً\njealousy. Explain with reasons. vill\nThey hid their jealousy and secretly planned غيرتهما وخططا ضده سرأً. Ladi\nagainst him.\nEE) (Do you think Edmond's loyalty to his captain Gixauull هل تعتقد أن ولاء إدموند لربان",
+          "type": "sb_wb"
+        },
+        {
+          "id": "sec3_ch1_qa_14",
+          "question": "was more important than reaching his family ؟ةعرسب كان أهم من الوصول إلى عائلته",
+          "answer": "",
+          "type": "sb_wb"
+        },
+        {
+          "id": "sec3_ch1_qa_15",
+          "question": "quickly? Why or why not? ولماذا؟",
+          "answer": "Yes, because loyalty and duty were important نعم. لأن الولاء والواجب كانا قيمتين\nvalues for him. ,مهمتين بالنسبة له.\nET) (“From now on, you will want for nothing.” 'من الآن فصاعداً لن تحتاج إلى شيء.\" ماذا\nWhat does this show about Edmond's feel- Soallg يدل ذلك عن مشاعر إدموند تجاه",
+          "type": "sb_wb"
+        },
+        {
+          "id": "sec3_ch1_qa_16",
+          "question": "ings towards his father?",
+          "answer": "It shows his love, care, and desire to support acs يدل على حبه واهتمامه ورغبته في\nhis father. oallg\niP. (He muttered to himself, “Captain Dantes we قال لنفسه: «الكابتن دانتس. سنرى كم\nshall see how long that lasts.” What does this ةيصخش سيستعر ذلك.» ماذا يدل هذا عن",
+          "type": "sb_wb"
+        },
+        {
+          "id": "sec3_ch1_qa_17",
+          "question": "show about Danglars’ character? دانجلار؟",
+          "answer": "It shows his jealousy and hatred toward يدل على غيرته وحقده تجاه إدموند.\nEdmond.\nEP). (Why was the government still afraid of لماذا كانت الحكومة لا تزال تخشى نابليون",
+          "type": "sb_wb"
+        },
+        {
+          "id": "sec3_ch1_qa_18",
+          "question": "Napoleon even after his exile? Saudi حتى بعد",
+          "answer": "Because he still had many loyal supporters كان لا يزال يملك الكثير من الأنصار aid\nwho could help him return. على العودة. aigacluy المخلصين الذين قد\nGF) (When Danglars says, ‘He will never be captain عندما قال دانجلار: \"لن يصبح قبطانًا إذا كان\nif he is in prison,\" do you believe he has any في السجن\". هل تعتقد أن له الحق في",
+          "type": "sb_wb"
+        },
+        {
+          "id": "sec3_ch1_qa_19",
+          "question": "right to take revenge on Edmond? Explain. الانتقام من إدموند؟ وضح.",
+          "answer": "No. Edmond did nothing wrong, so لذلك لم 75قاومة0 ibs لا لأن إدموند لم يرتكب أي\nhad no right to harm him. يكن لدانجلار أي حق في إيذائه.\nprofessional 0 901 1 للك\n© /",
+          "type": "sb_wb"
+        }
+      ],
+      "importantQuestions": [
+        {
+          "id": "sec3_ch1_qa_5",
+          "question": "quickly? Why or why not ?",
+          "answer": "Yes, because his loyalty shows his strong لأن وفاءه يُظهر إحساسه القوي ani\nsense of duty and honor. بالواجب والشرف.\nfF} (if you were in Edmond’s place, would you إذا كنت مكان إدمون. هل كنت ستتصرف",
+          "type": "sb_wb"
+        },
+        {
+          "id": "sec3_ch1_qa_7",
+          "question": "crew? Explain وشّح.",
+          "answer": "No, because he acted wisely and responsibly, كما Aulgguag لا. لأنه تصرّف بحكمة\njust like a good leader should. قائد صالح. gi Joay\nIG (The sea voyage represents more than travel. La تمثل الرحلة البحرية أكثر من مجرد سفر.\nWhat might the sea symbolize for Edmond at إليه البحر بالنسبة لإدمون في joy الذي قد",
+          "type": "sb_wb"
+        },
+        {
+          "id": "sec3_ch1_qa_15",
+          "question": "quickly? Why or why not? ولماذا؟",
+          "answer": "Yes, because loyalty and duty were important نعم. لأن الولاء والواجب كانا قيمتين\nvalues for him. ,مهمتين بالنسبة له.\nET) (“From now on, you will want for nothing.” 'من الآن فصاعداً لن تحتاج إلى شيء.\" ماذا\nWhat does this show about Edmond's feel- Soallg يدل ذلك عن مشاعر إدموند تجاه",
+          "type": "sb_wb"
+        },
+        {
+          "id": "sec3_ch1_qa_17",
+          "question": "show about Danglars’ character? دانجلار؟",
+          "answer": "It shows his jealousy and hatred toward يدل على غيرته وحقده تجاه إدموند.\nEdmond.\nEP). (Why was the government still afraid of لماذا كانت الحكومة لا تزال تخشى نابليون",
+          "type": "sb_wb"
+        },
+        {
+          "id": "sec3_ch1_qa_19",
+          "question": "right to take revenge on Edmond? Explain. الانتقام من إدموند؟ وضح.",
+          "answer": "No. Edmond did nothing wrong, so لذلك لم 75قاومة0 ibs لا لأن إدموند لم يرتكب أي\nhad no right to harm him. يكن لدانجلار أي حق في إيذائه.\nprofessional 0 901 1 للك\n© /",
+          "type": "sb_wb"
+        }
+      ],
+      "homeworkQuestions": [
+        {
+          "id": "sec3_ch1_hw_1",
+          "question": "1537 ما what ways did the news of Edmond’s captaincy and his engagement to Mercédes",
+          "answer": "تحليل أدبي ونقدي يعبر فيه الطالب عن رؤيته للشخصيات والأحداث وفق توجيهات د. حبيب الرحمن.",
+          "type": "homework"
+        },
+        {
+          "id": "sec3_ch1_hw_2",
+          "question": "change the direction of his future?",
+          "answer": "تحليل أدبي ونقدي يعبر فيه الطالب عن رؤيته للشخصيات والأحداث وفق توجيهات د. حبيب الرحمن.",
+          "type": "homework"
+        },
+        {
+          "id": "sec3_ch1_hw_3",
+          "question": "©). ما your opinion, did Monsieur Morrel make a wise decision in choosing Edmond as",
+          "answer": "تحليل أدبي ونقدي يعبر فيه الطالب عن رؤيته للشخصيات والأحداث وفق توجيهات د. حبيب الرحمن.",
+          "type": "homework"
+        },
+        {
+          "id": "sec3_ch1_hw_4",
+          "question": "captain? Give reasons for your answer.",
+          "answer": "تحليل أدبي ونقدي يعبر فيه الطالب عن رؤيته للشخصيات والأحداث وفق توجيهات د. حبيب الرحمن.",
+          "type": "homework"
+        },
+        {
+          "id": "sec3_ch1_hw_5",
+          "question": "FE) do you think Fernand’s desire for revenge is morally justified? Why or why not?",
+          "answer": "تحليل أدبي ونقدي يعبر فيه الطالب عن رؤيته للشخصيات والأحداث وفق توجيهات د. حبيب الرحمن.",
+          "type": "homework"
+        },
+        {
+          "id": "sec3_ch1_hw_6",
+          "question": "WE) How does the character of Danglars contrast with Edmond Dantes?",
+          "answer": "تحليل أدبي ونقدي يعبر فيه الطالب عن رؤيته للشخصيات والأحداث وفق توجيهات د. حبيب الرحمن.",
+          "type": "homework"
+        },
+        {
+          "id": "sec3_ch1_hw_7",
+          "question": "fF) what does Edmond’s father's sacrifice tell us about his love and sense of",
+          "answer": "تحليل أدبي ونقدي يعبر فيه الطالب عن رؤيته للشخصيات والأحداث وفق توجيهات د. حبيب الرحمن.",
+          "type": "homework"
+        },
+        {
+          "id": "sec3_ch1_hw_8",
+          "question": "responsibility toward his son?",
+          "answer": "تحليل أدبي ونقدي يعبر فيه الطالب عن رؤيته للشخصيات والأحداث وفق توجيهات د. حبيب الرحمن.",
+          "type": "homework"
+        },
+        {
+          "id": "sec3_ch1_hw_9",
+          "question": "1]59[ How does Danglars attempt to explain or justify his jealousy and bitterness toward",
+          "answer": "تحليل أدبي ونقدي يعبر فيه الطالب عن رؤيته للشخصيات والأحداث وفق توجيهات د. حبيب الرحمن.",
+          "type": "homework"
+        },
+        {
+          "id": "sec3_ch1_hw_10",
+          "question": "Edmond? Do you believe his reasons are fair or selfish? Explain your opinion.",
+          "answer": "تحليل أدبي ونقدي يعبر فيه الطالب عن رؤيته للشخصيات والأحداث وفق توجيهات د. حبيب الرحمن.",
+          "type": "homework"
+        },
+        {
+          "id": "sec3_ch1_hw_11",
+          "question": "§5)) what do the characters of Danglars and Fernand represent in the story?",
+          "answer": "تحليل أدبي ونقدي يعبر فيه الطالب عن رؤيته للشخصيات والأحداث وفق توجيهات د. حبيب الرحمن.",
+          "type": "homework"
+        }
+      ],
+      "mcqQuestions": [
+        {
+          "id": "mcq_sec3_ch1_1",
+          "question": "What is the central focus of Chapter 1 (The Arrival at Marseilles)?",
+          "options": [
+            "Edmond Dantés proudly retumed to Marseille after safely commanding the Pharaon",
+            "Edmond decides to leave France forever without facing his enemies",
+            "The Pharaon ship is sold to a foreign country",
+            "Villefort resigns from his position as deputy prosecutor"
+          ],
+          "correctAnswer": "Edmond Dantés proudly retumed to Marseille after safely commanding the Pharaon",
+          "explanation": "Edmond's journey reflects moral resilience and enduring faith in ultimate justice."
+        },
+        {
+          "id": "mcq_sec3_ch1_2",
+          "question": "How does Edmond Dantés demonstrate his character in this chapter?",
+          "options": [
+            "Through unwavering loyalty, honesty, and moral resilience",
+            "By seeking violent revenge immediately without thought",
+            "By surrendering completely to hopelessness and giving up",
+            "By accepting money to abandon his principles"
+          ],
+          "correctAnswer": "Through unwavering loyalty, honesty, and moral resilience",
+          "explanation": "Edmond consistently maintains his dignity and integrity, holding fast to his core values."
+        }
+      ]
+    },
+    {
+      "id": "sc_sec_3_ch_2",
+      "chapterNumber": 2,
+      "titleEn": "A Treacherous Plot",
+      "titleAr": "مؤامرة خبيثة",
+      "term": "first",
+      "summaryEn": "Edmond honestly admitted carrying the letter, but never knew its dangerous contents",
+      "summaryAr": "الرسالة. لكنه لم يعرف محتواها الخطير أو وجهتها. Jars اعترف إدموند بصدق",
+      "chapterInPoints": [
+        {
+          "en": "Edmond honestly admitted carrying the letter, but never knew its dangerous contents",
+          "ar": "الرسالة. لكنه لم يعرف محتواها الخطير أو وجهتها. Jars اعترف إدموند بصدق"
+        },
+        {
+          "en": "Villefort discovered the letter addressed to his father and sacrificed innocent Edmond",
+          "ar": "اكتشف فيلفور أن الرسالة موجهة إلى والده. فضحَى بإدموند البريوء من أجل طموحه."
+        },
+        {
+          "en": "Villefort ordered guards to imprison Edmond in the Chateau d’If for supposed treason.",
+          "ar": "أمر فيلفور الحراس بسجن إدموند في شاتو ديف بتهمة الخيانة المزعومة."
+        },
+        {
+          "en": "Mercédés defended Edmond everywhere, insisting he knew only ships, sails, and the",
+          "ar": "والأشرعة والبحر. Gaull لا يعرف سوى ail دافعت مرسيدس عن إدموند في كل مكان. مؤكدة"
+        },
+        {
+          "en": "Eamond's father grew weaker with grief, waiting sadly by the window facing the sea.",
+          "ar": "إدموند ضعفاً من الحزن. منتظراً بحزن بجوار النافذة المطلة على البحر. alg ازداد"
+        },
+        {
+          "en": "Danglars celebrated Edmond’s imprisonment, while Fernand secretly hoped to win",
+          "ar": "سراً في الفوز بحب مرسيدس. Joly دانجلار بسجن إدموند. بينما كان فرنائد Jain!"
+        },
+        {
+          "en": "Mercédes faithfully promised to wait for Edmond, even if imprisonment lasted a",
+          "ar": "وعدت مرسيدس بإخلاص أن تنتظر إدموند. حتى لو استمر سجنه مئة عام."
+        },
+        {
+          "en": "Saldiers transported Edmond across Marseille to the infamous fortress-prison, the",
+          "ar": "نقل الجنود إدموند عبر مرسيليا إلى سجن القلعة سيئ السمعة. شاتو ديف."
+        }
+      ],
+      "vocabulary": [
+        {
+          "word": "beg",
+          "meaningAr": "يتوسل"
+        },
+        {
+          "word": "infamous",
+          "meaningAr": "سيء السمعة"
+        },
+        {
+          "word": "collapse jlaiyunshaken",
+          "meaningAr": "غير مهزوز"
+        },
+        {
+          "word": "condemn (v)",
+          "meaningAr": "يدين / يحكم على"
+        },
+        {
+          "word": "despair (n)",
+          "meaningAr": "يأس"
+        },
+        {
+          "word": "consume",
+          "meaningAr": "يحترق /"
+        },
+        {
+          "word": "amily determination",
+          "meaningAr": "عزيمة"
+        },
+        {
+          "word": "deputy prosecutor",
+          "meaningAr": "نائب المدعي العام"
+        },
+        {
+          "word": "scheme",
+          "meaningAr": "مؤامرة / خطة خبيثة"
+        },
+        {
+          "word": "eager",
+          "meaningAr": "متحمس"
+        },
+        {
+          "word": "shackled",
+          "meaningAr": "مقيد بالسلاسل"
+        },
+        {
+          "word": "envy",
+          "meaningAr": "حسد / غيرة"
+        },
+        {
+          "word": "sincerity Ban",
+          "meaningAr": "/ إخلاص"
+        },
+        {
+          "word": "executed acl supporters",
+          "meaningAr": "أنصار"
+        },
+        {
+          "word": "flames",
+          "meaningAr": "أنسنة اللهب"
+        },
+        {
+          "word": "throne",
+          "meaningAr": "العرش"
+        },
+        {
+          "word": "fortress-prison",
+          "meaningAr": "حصين"
+        },
+        {
+          "word": "Yaw traitor",
+          "meaningAr": "خائن"
+        },
+        {
+          "word": "glances oyu",
+          "meaningAr": "نظرات"
+        },
+        {
+          "word": "treason",
+          "meaningAr": "خيانة عظمى"
+        },
+        {
+          "word": "treacherous (adj)",
+          "meaningAr": "غادر"
+        },
+        {
+          "word": "scheme (n)",
+          "meaningAr": "خطة / مؤامرة"
+        },
+        {
+          "word": "astonishment (n)",
+          "meaningAr": "ردهشة / ذهول"
+        }
+      ],
+      "theText": [
+        {
+          "order": 1,
+          "paragraphEn": "sweets had turned bitter in the mouths of the guests, ib Let | A",
+          "paragraphAr": "and Mercédés's white dress, once a symbol of joy, now AA ١ Hy"
+        },
+        {
+          "order": 2,
+          "paragraphEn": "taken away by soldiers, accused of crimes he did not \\",
+          "paragraphAr": "even understand. ١"
+        },
+        {
+          "order": 3,
+          "paragraphEn": "",
+          "paragraphAr": "انتهى الاختفال بخطوبة إدموند دانتيس بصدمة وصمت."
+        },
+        {
+          "order": 4,
+          "paragraphEn": "",
+          "paragraphAr": "توقفت الموسيقى. وتحولت. الحلويات إلى طعم مر في أفواه الضيوف. وصار فستان مرسيدس"
+        },
+        {
+          "order": 5,
+          "paragraphEn": "",
+          "paragraphAr": "على يد الجنود. متهماً بجرائم isso) أشبه بثوب حداد. أخذ إدموند ay all الأبيض. الذي كان رمزاً"
+        },
+        {
+          "order": 6,
+          "paragraphEn": "",
+          "paragraphAr": "لم يكن يفهمها حتى."
+        },
+        {
+          "order": 7,
+          "paragraphEn": "storm to destroy their rival.",
+          "paragraphAr": "تشبثت مرسيدس بوالد إدموند. ووجهها شاحب تفمره الدموع. همست قائلة: \"لا يمكنهم أن"
+        },
+        {
+          "order": 8,
+          "paragraphEn": "",
+          "paragraphAr": "يحتجزوة. إدموند بريء. الجميع يعلم ذلك"
+        },
+        {
+          "order": 9,
+          "paragraphEn": "",
+          "paragraphAr": "الرجل العجوز برأسه. رغم ارجاف يديه. قال: \"نعم يا ابنتي. لكن الحسد عدو قاس. أخشى أن Logi"
+        },
+        {
+          "order": 10,
+          "paragraphEn": "",
+          "paragraphAr": "شيئاً شريرًا قد دُبَر'"
+        },
+        {
+          "order": 11,
+          "paragraphEn": "",
+          "paragraphAr": "وبالفعل . خارج جدران بيتهما المتواضع. هنأ رجلان نفسيهما في السر: داجلا وفرنائد. ققد نجحا"
+        },
+        {
+          "order": 12,
+          "paragraphEn": "",
+          "paragraphAr": "في مكيدتهما والآن كانا ينتظران العاصفة لتدمر منافسهها"
+        },
+        {
+          "order": 13,
+          "paragraphEn": "Paris”.",
+          "paragraphAr": "الرسالة المزيفة, التي كتبها دائجلار وسلمها فرناند. وصلت إلى يد جيرارد دو فيلفور"
+        },
+        {
+          "order": 14,
+          "paragraphEn": "",
+          "paragraphAr": "نائب المدعي العام في مرسيليا. كان فيلفور شاباً طموحاً. متلهفاً للصعود في المناصب"
+        },
+        {
+          "order": 15,
+          "paragraphEn": "",
+          "paragraphAr": "إدموند دانتيس. بحار على Yio السفينة فرعون. يحمل رسالة من نابليون بونابرت إلى"
+        },
+        {
+          "order": 16,
+          "paragraphEn": "",
+          "paragraphAr": "أنصاره في باريس"
+        },
+        {
+          "order": 17,
+          "paragraphEn": "behind his smile”.",
+          "paragraphAr": "هذه كانت تحمل خطورة خاصة. فقد كان البلد تحت a Sa الملك لويس الثامن عشر. الذي"
+        },
+        {
+          "order": 18,
+          "paragraphEn": "",
+          "paragraphAr": "أعيد إلى العرش بعد هزيفة نابّيون. وأي تلميلح لأشاط بوثابرتي كان يُهد AUS ولحماية"
+        },
+        {
+          "order": 19,
+          "paragraphEn": "",
+          "paragraphAr": "yal فيلفور: \"أحضروا cll هذا إدموند دانتيس. سترى ما الحقيقة التي تختبئ وراء ابتسامته"
+        },
+        {
+          "order": 20,
+          "paragraphEn": "his supporters in Paris. What say you”? a",
+          "paragraphAr": "= اقتيد إدموند إلى غرفة_ياردة من الحجر. كانت يداه"
+        },
+        {
+          "order": 21,
+          "paragraphEn": "",
+          "paragraphAr": "مقيدتين. لكن روحه لم تنكسر. ووقف thal أمام ثائب المذعي القام. مرتبكاً لكنه غير خائف."
+        },
+        {
+          "order": 22,
+          "paragraphEn": "",
+          "paragraphAr": "بدأ فيلفور SLAB \"السيد دانتيس. أنت متهم بحمل رسالة من الإمبراطور المنقي نابليون إلى ail"
+        },
+        {
+          "order": 23,
+          "paragraphEn": "Edmond’s eyes widened with astonishment. “A letter?",
+          "paragraphAr": "Yes, | was given a letter on the island of Elba by the . ٠"
+        },
+        {
+          "order": 24,
+          "paragraphEn": "",
+          "paragraphAr": "dying captain of my ship. He begged me to deliver it, 1 م"
+        },
+        {
+          "order": 25,
+          "paragraphEn": "politician”.",
+          "paragraphAr": "Lal اتسعت عينا إدموند بدهشة: «رسالة؟ نعم أعطائني رسالة قائد سفينتي المحتضر في جزيرة"
+        },
+        {
+          "order": 26,
+          "paragraphEn": "",
+          "paragraphAr": "أن أسلمها. ووعدته بذلك. لم أقرأها حتى. كان الأمر واجباً لا أكثر” cal توسل"
+        },
+        {
+          "order": 27,
+          "paragraphEn": "",
+          "paragraphAr": "سِئسلم في باريس. كنت أرغب فقط في الوفاء Laud قال إدموند بصدقه \"لايا سيدي. كل ما أعرفه"
+        },
+        {
+          "order": 28,
+          "paragraphEn": "",
+          "paragraphAr": "لست سياسياً olay بكلمتي لقائدي. آنا"
+        },
+        {
+          "order": 29,
+          "paragraphEn": "carrying evidence that could bring shame upon him.",
+          "paragraphAr": "عدالته. Wie لكن طموح فيلفور Jae كان إخلاص إدموند في صوته كفيلاً بأن يلين أي قاض"
+        },
+        {
+          "order": 30,
+          "paragraphEn": "",
+          "paragraphAr": "الرسالة. اكتشف حقيقة مروعة: كانت موجهة إلى زعيم بونابرتي. والده Ip Ag فعندما كسر الختم"
+        },
+        {
+          "order": 31,
+          "paragraphEn": "",
+          "paragraphAr": "وهو OBB لبه AS فيلفور وانهارت مسيرته. Able Anat Si لو خرجت الرسالةالأعل."
+        },
+        {
+          "order": 32,
+          "paragraphEn": "",
+          "paragraphAr": "قد يجلب العار عليه Lila يواجه البحار الشاب. كان أمامة رجل بريء من أي مؤامرة. لكنه يحمل"
+        },
+        {
+          "order": 33,
+          "paragraphEn": "Part of him longed to release the boy and clear his name, but his ambition refused.",
+          "paragraphAr": "سبب Coe ge gS Insp big Unigeseltapet \"نظام لكناي قشم كنك ادي فلم igos| اجاب"
+        },
+        {
+          "order": 34,
+          "paragraphEn": "",
+          "paragraphAr": "ضرراً"
+        },
+        {
+          "order": 35,
+          "paragraphEn": "",
+          "paragraphAr": "ويبرئه. لكن طموحه رفض."
+        },
+        {
+          "order": 36,
+          "paragraphEn": "the prison doors.",
+          "paragraphAr": "برد صوت فيلفور وقال: \"إدموند دانتيس. لقد اعترفت"
+        },
+        {
+          "order": 37,
+          "paragraphEn": "",
+          "paragraphAr": "بحملك رسالة من عدو الملك. ولهذا. أنت مذنب بالخيانة. أيها الحرس. خذوه إلى سجن شاتو ديف"
+        },
+        {
+          "order": 38,
+          "paragraphEn": "",
+          "paragraphAr": "إدمونه: \"لا! أنا بريء! أرجوكم. اسمعوني \" لكن كلماته ابتلعتها أصوات أبواب السجن ayo"
+        },
+        {
+          "order": 39,
+          "paragraphEn": "to door, pleading with officials, crying out that slag at 6",
+          "paragraphAr": "Edmond was no traitor. “He knows only ships, sails, لياق 14 =_"
+        },
+        {
+          "order": 40,
+          "paragraphEn": "and the sea,” she said desperately. A wr wk",
+          "paragraphAr": "عندما انتشر خبر سجن إدموند. عمت الصدمة وعدم 9 3"
+        },
+        {
+          "order": 41,
+          "paragraphEn": "",
+          "paragraphAr": "قالت بيأس: \"هو لا يعرف سوى Lists تتوسل المسؤولين. وتصرخ بأن إدموند ليس ly من باب إلى"
+        },
+        {
+          "order": 42,
+          "paragraphEn": "",
+          "paragraphAr": "السفن. والأشرعة. والبحر."
+        },
+        {
+          "order": 43,
+          "paragraphEn": "Edmond’s name,",
+          "paragraphAr": "رجل يُتهم gig Ug abli لكن صرخاتها وقعت على آذان صماء. فقد كانت الحكومة تخشى عودة"
+        },
+        {
+          "order": 44,
+          "paragraphEn": "",
+          "paragraphAr": "بخدمته يُعتبر مذنباً في نظرهم."
+        },
+        {
+          "order": 45,
+          "paragraphEn": "",
+          "paragraphAr": "إدموند ضعفاً من الحزن. فلم يكن له في الدنيا سوى ابنه. وها قد شلب حتى هذا alg زداد"
+        },
+        {
+          "order": 46,
+          "paragraphEn": "",
+          "paragraphAr": "في البحر. ويهمس باسم إدموتد dia ay العزاء منه. جلس لساعات طويلة بجوار النافذة."
+        },
+        {
+          "order": 47,
+          "paragraphEn": "words cut Fernand’s heart like a knife.",
+          "paragraphAr": "لنفسه. متخيلاً سفينة فرعون ails وفرناند في الخفاء. ابتسم Laila وفي تلك الأثناء. احتفل"
+        },
+        {
+          "order": 48,
+          "paragraphEn": "",
+          "paragraphAr": "فرناند فلم يهتم إلا بعرسيدس. كان يزورها يومياً متظاهراً Lol تحت نفوذه بعد غياب إدموند."
+        },
+        {
+          "order": 49,
+          "paragraphEn": "",
+          "paragraphAr": "كان في سره يأمل أن يدفعها يأسها إلى أحضانه. لكن في كل مرة كانت Lain بمواساتها."
+        },
+        {
+          "order": 50,
+          "paragraphEn": "",
+          "paragraphAr": "قالت بحزم: 'سأنتظره. حتى لو ظل في السجن مئة عام. فسأطل أنتظره.' مزقت كلماتها قلب"
+        },
+        {
+          "order": 51,
+          "paragraphEn": "",
+          "paragraphAr": "فرناند كالسكين"
+        },
+        {
+          "order": 52,
+          "paragraphEn": "Then he whispered, “Farewell, Edmond Dantés. You are sacrificed for my future”.",
+          "paragraphAr": "في مكتبه. والرسالة أمامه. ارتجفت يداه وهنو يقرأ اسم gays في وقت فتاخر من الليل."
+        },
+        {
+          "order": 53,
+          "paragraphEn": "",
+          "paragraphAr": "كانت أسرة خطيبنه ملكية الزعة. ومسيرته المهنية كلها تعتمد على ولائه للتاج. كل ما عمل من"
+        },
+        {
+          "order": 54,
+          "paragraphEn": "",
+          "paragraphAr": "أجله قد يتلاشى في أحظة"
+        },
+        {
+          "order": 55,
+          "paragraphEn": "",
+          "paragraphAr": "الورقة وحولها إلى راد"
+        },
+        {
+          "order": 56,
+          "paragraphEn": "",
+          "paragraphAr": "بك من أجل مستقبلي' cus 2 iia ووداعاً إدموند pian ثم"
+        },
+        {
+          "order": 57,
+          "paragraphEn": "“To the Chateau 0' 1,\" one guard replied grimly.",
+          "paragraphAr": "مع بزوع الفجر. جر الجنود إدموند من زنزانته. مكبلاً وشاحباً. دفعوه إلى قارب صفير حمله عبر"
+        },
+        {
+          "order": 58,
+          "paragraphEn": "",
+          "paragraphAr": "مياه مرسيليا. نظر بيأس إلى المدينة: الميناء حيث حلم أن يصبح قبطاناً. والبيت حيث ينتظر والده"
+        },
+        {
+          "order": 59,
+          "paragraphEn": "",
+          "paragraphAr": "والشوارع التي سار فيها مع مرسيدس. كل مشهد كان يطعن قلبه كسكين"
+        },
+        {
+          "order": 60,
+          "paragraphEn": "",
+          "paragraphAr": "صرخ: \"إلى أين تأخذونني؟"
+        },
+        {
+          "order": 61,
+          "paragraphEn": "",
+          "paragraphAr": "أجابه أحد الحراس بصرامة: \"إلى شاتو ديف"
+        },
+        {
+          "order": 62,
+          "paragraphEn": "As the boat approached the dark stone walls rising :",
+          "paragraphAr": "from the sea, Edmond’s spirit sank. He stretched out {ial ١"
+        },
+        {
+          "order": 63,
+          "paragraphEn": "within him,",
+          "paragraphAr": "وسجنا بُني على جزيرة صخرية. سيئ Lima تجمد الدم في عروق إدموند. فقد كان شاتو ديف"
+        },
+        {
+          "order": 64,
+          "paragraphEn": "",
+          "paragraphAr": "من دخل بواباته وعاد. Jd السمعة بإيواء الخونة والسجناء."
+        },
+        {
+          "order": 65,
+          "paragraphEn": "",
+          "paragraphAr": "وبينما اقترب القارب من الجدران الحجرية السوداء التي ترتفع من البحر. غاصت روح إدموند. مد يديه"
+        },
+        {
+          "order": 66,
+          "paragraphEn": "",
+          "paragraphAr": "نحو المدينة صارخاً: \"مرسيدس! أباي! ساعداني!\" لكن لم يرد صوت. سوى ارتطام الأمواج بالصخور."
+        },
+        {
+          "order": 67,
+          "paragraphEn": "",
+          "paragraphAr": "ومع إغلاق الأبواب الحديدية. شعر أن عالم الحرية والحب يفلت من بين يديه. ولم يتبف داخله سوى"
+        },
+        {
+          "order": 68,
+          "paragraphEn": "",
+          "paragraphAr": "egal ألم"
+        },
+        {
+          "order": 69,
+          "paragraphEn": "Back n Marseile, Ferand and Danglars exchanged satisfied «yu rammc",
+          "paragraphAr": "lances. Sai لاسن"
+        },
+        {
+          "order": 70,
+          "paragraphEn": "",
+          "paragraphAr": "“Dantés is gone,\" Danglars said quietly. “The sea has لهستس ag 4"
+        },
+        {
+          "order": 71,
+          "paragraphEn": "swallowed him, though he lives stil” 4 a. 4",
+          "paragraphAr": "Fernand nodded, his eyes fixed on Meroédés from adistance. uma pic 5 ١"
+        },
+        {
+          "order": 72,
+          "paragraphEn": "imprisoned, his spirit ived on in the heart of Mercéds, and no chains could break that bond,",
+          "paragraphAr": "ودانجلار نظرات رضا ailiya في مرسيليا. تبادل"
+        },
+        {
+          "order": 73,
+          "paragraphEn": "",
+          "paragraphAr": "قال دانجلار بهدوء؛ \"لقد انتهى دانتيس. لقد ابتلعه البحر. وإن كان حياً"
+        },
+        {
+          "order": 74,
+          "paragraphEn": "",
+          "paragraphAr": "فرنائد. وعيناه معلقتان بمرسيدس من بعيد: «نعم. انتهى. والآن ستصبح لي Lagi"
+        },
+        {
+          "order": 75,
+          "paragraphEn": "",
+          "paragraphAr": "لكن في أعماق قلبه. كان يعرف الحقيقة: فرغم سجن إدموند. فإن روحه ها زالت حية في قلب"
+        },
+        {
+          "order": 76,
+          "paragraphEn": "",
+          "paragraphAr": "مرسيدس. ولا يمكن لأي قيود أن تكسر تلك الرابطة."
+        }
+      ],
+      "questionsAndAnswers": [
+        {
+          "id": "sec3_ch2_qa_1",
+          "question": "Fernand's jealousy earlier? Why or why not? غيرة فرنائد مبكراً؟ ولماذا؟",
+          "answer": "Yes, he should have been more cautious لأنه yaa كان يجب أن يكون أكثر asi\nknowing Fernand loved Mercédés. أن فرنائد يحب مرسيدس. ales\n1701 (What were Edmond and Mercédés planning ماذا كان إدموند ومرسيدس يخططان",
+          "type": "sb_wb"
+        },
+        {
+          "id": "sec3_ch2_qa_2",
+          "question": "for their future? لمستقبلهما؟",
+          "answer": "They planned to marry, live near the sea, #لاهط jaull كانا يخططان للزواج والعيش قرب\na small home, and raise children together. ,وامتلاك منزل صغير وتربية أطفالهما معاً.\n151! (How can we tell that Fernand’s feelings )66 alai كيف يمكننا أن نعرف أن مشاعر فرنائد",
+          "type": "sb_wb"
+        },
+        {
+          "id": "sec3_ch2_qa_3",
+          "question": "Mercédés were more than friendship? مرسيدس كانت أكثر من مجرد صداقة؟",
+          "answer": "Fernand loved Mercédés and wanted to marry كان فرنائد يحب مرسيدس ويريد الزواج\nher, and he was jealous and angry that she منها؛ وكان غاضباً وغيوراً لأنها اختارت\nchose Edmond. إدموند.\n1511! (Compare Edmond’s hope with Fernand’s إدموند وغيرة فرنائد. كيف Jal قارن بين",
+          "type": "sb_wb"
+        },
+        {
+          "id": "sec3_ch2_qa_4",
+          "question": "jealousy. How do these two emotions create يخلق هذان الشعوران صراعاً؟",
+          "answer": "conflict?\nEdmond was full of happiness and dreams for بالسعادة والأحلام Lila كان إدموند\nthe future, while Fernand's jealousy made him «nll للمستقبل. بينما دفعته غيرة فرنائد\nplot against Edmond. التآمر ضد إدموند.\nBPP (imagine you are Mercédés. Would you trust تخيل أنك مرسيدس. هل ستثق بفرناند",
+          "type": "sb_wb"
+        },
+        {
+          "id": "sec3_ch2_qa_5",
+          "question": "Fernand as a friend after noticing his envy? كصديق بعد ملاحظة غيرته؟ اشرح.",
+          "answer": "Explain.\nNo, because his jealousy and actions showed ليس ail لا؛ لأن غيرته وتصرفاته أظهرت\nhe was not a true friend. حقيقياً. laa,\nFRPP (Weddings often symbolize unity and new الزواج إلى الوحدة والبدايات joys غالباً ما\nbeginnings. What does Edmond and زفاف إدموند jay الجديدة. ماذا\nMercédés’ planned wedding symbolize in this Jail ومرسيدس المخطط له في هذا\nchapter?\nIt symbolizes hope, love, happiness, anda إلى الأمل والحب والسعادة ومستقبل jays\nbright future, but it also shows that danger مشرق. لكنه يُظهر أيضاً أن الخطر والخيانة.\nand betrayal are coming. قادمان.\nFFP (if you were Villefort, would you choose كنت مكان فيلفورت, هل ستختار العدالة gl",
+          "type": "sb_wb"
+        },
+        {
+          "id": "sec3_ch2_qa_6",
+          "question": "fairness instead of ambition? Why? الطموح؟ ولماذا؟ Jas",
+          "answer": "Yes, because justice should come before نعم. لأن العدالة يجب أن تكون أهم من\npersonal ambition. الطموح الشخصي.\n2}. (Eamond was a man of principle. Explain in مبادئ. وضح ذلك من خلال Jay كان إدموند\nlight of his act with the dying captain. تصرفه مع القبطان المحتضر.\nHe kept his promise and delivered the letter وفى بوعده وسلّم الرسالة دون أن يشكك\nwithout questioning the captain. .في القبطان.\nماذا كان سيحدث لو أصبحت الرسالة التي (What would have happened if the letter لإ[",
+          "type": "sb_wb"
+        },
+        {
+          "id": "sec3_ch2_qa_7",
+          "question": "أحضرها إدموند إلى باريس معروفة للجميع؟ Edmond brought to Paris became public?",
+          "answer": "كانت سمعة عائلة فيلفورت ومستقبله. Villefort's family reputation and career would\nالمهني ستتدمر. have been destroyed.\nWF}. (Describe the character of Gérard de Villefort. حبصأ صف شخصية جيرار دي فيلفورت. لماذا",
+          "type": "sb_wb"
+        },
+        {
+          "id": "sec3_ch2_qa_8",
+          "question": "Why did he become Edmonds enemy? عدوا لإدموند؟",
+          "answer": "He was ambitious and selfish, so he كان طموحاً وأنانياً فسجن إدموند لحماية.\nimprisoned Edmond to protect his career. auido,\nFE} (What do you think carried Edmond to promise رضتحملا إدموند يعد القبطان Jor ما الذي",
+          "type": "sb_wb"
+        },
+        {
+          "id": "sec3_ch2_qa_9",
+          "question": "the dying captain to deliver the letter? بتسليم الرسالة؟",
+          "answer": "His loyalty, honesty, and respect for the ولاؤه وصدقه واحترامه للقبطان.\ncaptain.\n131 (Eamond compared a sailor with a politician. قارن إدموند بين البحار والسياسي. ماذا",
+          "type": "sb_wb"
+        },
+        {
+          "id": "sec3_ch2_qa_10",
+          "question": "What does this comparison show? يوضح هذا التشبيه؟",
+          "answer": "A sailor is honest and simple while politicians البحار صادق وبسيط بينما قد يخفي.\nmay hide their intentions. السياسي نواياه.\nfin the Chateau ,1ك Edmond experienced the عيطبلا gall في قلعة إيف عاش إدموند\nslow death of hope. Explain. للأمل. وضح.\nIsolation and sutfering in prison made him العزلة والمعاناة في السجن جعلته يشعر\nfeel hopeless. باليأس.",
+          "type": "sb_wb"
+        },
+        {
+          "id": "sec3_ch2_qa_11",
+          "question": "EE} ) 66 you think Edmond is a victim? Why or why هل تعتقد أن إدموند ضحية؟ ولماذا؟",
+          "answer": "not?\nYes, because he was innocent but betrayed كان بريئاً لكنه تعرض للخيانة. ail) نعم:\nand imprisoned unfairly. والسجن ظلعاً.\n[ER (How does Mercédés’ faithfulness contrast Ulgi كيف يختلف إخلاص مرسيدس عن",
+          "type": "sb_wb"
+        },
+        {
+          "id": "sec3_ch2_qa_12",
+          "question": "with Fernand’s intentions? فرنائد؟",
+          "answer": "Mercédés remained loyal while Fernand بقيت مرسيدس مخلصة بينما خان فرنائد\nbetrayed Edmond out of jealousy. إدموند بدافع الغيرة.\nET. (Compare Edmond's pure hope with Fernand’s دئانرف إدموند الصادق وغيرة Jol قارن بين\ngrowing jealousy. How do these opposing المتزايدة. كيف شكّل هذان الشعوران",
+          "type": "sb_wb"
+        },
+        {
+          "id": "sec3_ch2_qa_13",
+          "question": "emotions create the story's central conflict? المتضادان الصراع الرئيسي في القصة؟",
+          "answer": "Edmond looked forward to a happy future, كان إدموند يتطلع إلى مستقبل سعيد.\nwhile Fernand's jealousy drove him to betray Loa دفعت الغيرة فرنائد إلى خيانته. Loins\nhim. This conflict started Edmond's tragedy. أشعل الصراع الرئيسي في القصة.\nA} (Do you think Edmond should have sensed تعتقد أن إدموند كان يجب أن يلاحظ Ja",
+          "type": "sb_wb"
+        },
+        {
+          "id": "sec3_ch2_qa_14",
+          "question": "Fernand's jealousy earlier? Give reasons for غيرة فرنائد مبكرًا؟ اذكر السبب.",
+          "answer": "your opinion.\nNo. Edmond trusted people and had no يكن alg لاء لأن إدموند كان يثق بالناس\nreason to suspect his close friends would لديه سبب للشك في أن المقربين منه\nbetray him. ,سيخونونه.\n117 (Though many secret letters were rumored, رغم انتشار الشائعات عن رسائل سرية\nthis one carried true danger. Explain why this كثيرة. فإن هذه الرسالة كانت شديدة.\nparticular letter was so threatening. الخطورة. وضح السبب.\nIt inked Edmond to Napoleon, and helping وكان دعم Jqubly ربطت إدموند Lai)\nNapoleon was considered treason against the نابليون يُعد خيانة للملك.\nking.\nEE}. (“Edmond stood tall before the deputy pros- 'وقف إدموند شامخًا أمام نائب المدعي\necutor, confused but not afraid.\" What العام؛ مرتبكًا لكنه غير خائف\". ماذا يكشف . 065ل",
+          "type": "sb_wb"
+        },
+        {
+          "id": "sec3_ch2_qa_15",
+          "question": "this moment reveal about Edmond's courage ؟هتهازنو هذا الموقف عن شجاعة إدموند",
+          "answer": "",
+          "type": "sb_wb"
+        },
+        {
+          "id": "sec3_ch2_qa_16",
+          "question": "and integrity?",
+          "answer": "It shows that Edmond was brave and honest Jl يدل ذلك على شجاعته وصدقه. فقد\nbecause he told the truth without fear despite الحقيقة دون خوف رغم الاتهام.\nthe accusation.\nET). (Mercédés remained loyal to Edmond even ظلت مرسيدس مخلصة لإدموند حتى بعد",
+          "type": "sb_wb"
+        },
+        {
+          "id": "sec3_ch2_qa_17",
+          "question": "when he was accused of treason. How did اتهامه بالخيانة. كيف أظهرت وفاءها؟",
+          "answer": "",
+          "type": "sb_wb"
+        },
+        {
+          "id": "sec3_ch2_qa_18",
+          "question": "she show her faithfulness?",
+          "answer": "She defended his innocence, refused to دافعت عن براءته. ورفضت تصديق الاتهام,\nbelieve the accusation, and promised to wait .هنجس dao أن تنتظره مهما طالت Gacgg\nfor him no matter how long.\nprofessional 0 901 1 للك\ng /",
+          "type": "sb_wb"
+        }
+      ],
+      "importantQuestions": [
+        {
+          "id": "sec3_ch2_qa_1",
+          "question": "Fernand's jealousy earlier? Why or why not? غيرة فرنائد مبكراً؟ ولماذا؟",
+          "answer": "Yes, he should have been more cautious لأنه yaa كان يجب أن يكون أكثر asi\nknowing Fernand loved Mercédés. أن فرنائد يحب مرسيدس. ales\n1701 (What were Edmond and Mercédés planning ماذا كان إدموند ومرسيدس يخططان",
+          "type": "sb_wb"
+        },
+        {
+          "id": "sec3_ch2_qa_4",
+          "question": "jealousy. How do these two emotions create يخلق هذان الشعوران صراعاً؟",
+          "answer": "conflict?\nEdmond was full of happiness and dreams for بالسعادة والأحلام Lila كان إدموند\nthe future, while Fernand's jealousy made him «nll للمستقبل. بينما دفعته غيرة فرنائد\nplot against Edmond. التآمر ضد إدموند.\nBPP (imagine you are Mercédés. Would you trust تخيل أنك مرسيدس. هل ستثق بفرناند",
+          "type": "sb_wb"
+        },
+        {
+          "id": "sec3_ch2_qa_6",
+          "question": "fairness instead of ambition? Why? الطموح؟ ولماذا؟ Jas",
+          "answer": "Yes, because justice should come before نعم. لأن العدالة يجب أن تكون أهم من\npersonal ambition. الطموح الشخصي.\n2}. (Eamond was a man of principle. Explain in مبادئ. وضح ذلك من خلال Jay كان إدموند\nlight of his act with the dying captain. تصرفه مع القبطان المحتضر.\nHe kept his promise and delivered the letter وفى بوعده وسلّم الرسالة دون أن يشكك\nwithout questioning the captain. .في القبطان.\nماذا كان سيحدث لو أصبحت الرسالة التي (What would have happened if the letter لإ[",
+          "type": "sb_wb"
+        },
+        {
+          "id": "sec3_ch2_qa_8",
+          "question": "Why did he become Edmonds enemy? عدوا لإدموند؟",
+          "answer": "He was ambitious and selfish, so he كان طموحاً وأنانياً فسجن إدموند لحماية.\nimprisoned Edmond to protect his career. auido,\nFE} (What do you think carried Edmond to promise رضتحملا إدموند يعد القبطان Jor ما الذي",
+          "type": "sb_wb"
+        },
+        {
+          "id": "sec3_ch2_qa_10",
+          "question": "What does this comparison show? يوضح هذا التشبيه؟",
+          "answer": "A sailor is honest and simple while politicians البحار صادق وبسيط بينما قد يخفي.\nmay hide their intentions. السياسي نواياه.\nfin the Chateau ,1ك Edmond experienced the عيطبلا gall في قلعة إيف عاش إدموند\nslow death of hope. Explain. للأمل. وضح.\nIsolation and sutfering in prison made him العزلة والمعاناة في السجن جعلته يشعر\nfeel hopeless. باليأس.",
+          "type": "sb_wb"
+        },
+        {
+          "id": "sec3_ch2_qa_11",
+          "question": "EE} ) 66 you think Edmond is a victim? Why or why هل تعتقد أن إدموند ضحية؟ ولماذا؟",
+          "answer": "not?\nYes, because he was innocent but betrayed كان بريئاً لكنه تعرض للخيانة. ail) نعم:\nand imprisoned unfairly. والسجن ظلعاً.\n[ER (How does Mercédés’ faithfulness contrast Ulgi كيف يختلف إخلاص مرسيدس عن",
+          "type": "sb_wb"
+        },
+        {
+          "id": "sec3_ch2_qa_17",
+          "question": "when he was accused of treason. How did اتهامه بالخيانة. كيف أظهرت وفاءها؟",
+          "answer": "",
+          "type": "sb_wb"
+        },
+        {
+          "id": "sec3_ch2_qa_18",
+          "question": "she show her faithfulness?",
+          "answer": "She defended his innocence, refused to دافعت عن براءته. ورفضت تصديق الاتهام,\nbelieve the accusation, and promised to wait .هنجس dao أن تنتظره مهما طالت Gacgg\nfor him no matter how long.\nprofessional 0 901 1 للك\ng /",
+          "type": "sb_wb"
+        }
+      ],
+      "homeworkQuestions": [
+        {
+          "id": "sec3_ch2_hw_1",
+          "question": "FE} How can we tell that Fernand's feelings for Mercédés were more than friendship?",
+          "answer": "تحليل أدبي ونقدي يعبر فيه الطالب عن رؤيته للشخصيات والأحداث وفق توجيهات د. حبيب الرحمن.",
+          "type": "homework"
+        },
+        {
+          "id": "sec3_ch2_hw_2",
+          "question": "(compare Edmond's hope with Fernand's jealousy. How do these emotions create",
+          "answer": "تحليل أدبي ونقدي يعبر فيه الطالب عن رؤيته للشخصيات والأحداث وفق توجيهات د. حبيب الرحمن.",
+          "type": "homework"
+        },
+        {
+          "id": "sec3_ch2_hw_3",
+          "question": "fF) Mercédés was loyal to Edmond despite being accused of treason. Explain.",
+          "answer": "تحليل أدبي ونقدي يعبر فيه الطالب عن رؤيته للشخصيات والأحداث وفق توجيهات د. حبيب الرحمن.",
+          "type": "homework"
+        },
+        {
+          "id": "sec3_ch2_hw_4",
+          "question": "OF). what were Edmond and Mercédés planning for their future?",
+          "answer": "تحليل أدبي ونقدي يعبر فيه الطالب عن رؤيته للشخصيات والأحداث وفق توجيهات د. حبيب الرحمن.",
+          "type": "homework"
+        },
+        {
+          "id": "sec3_ch2_hw_5",
+          "question": "fF) Do you think burning the letter left Edmond with no proof of his innocence? Explain.",
+          "answer": "تحليل أدبي ونقدي يعبر فيه الطالب عن رؤيته للشخصيات والأحداث وفق توجيهات د. حبيب الرحمن.",
+          "type": "homework"
+        },
+        {
+          "id": "sec3_ch2_hw_6",
+          "question": "199 Gérard de villefort was a man of law and ambition.",
+          "answer": "تحليل أدبي ونقدي يعبر فيه الطالب عن رؤيته للشخصيات والأحداث وفق توجيهات د. حبيب الرحمن.",
+          "type": "homework"
+        },
+        {
+          "id": "sec3_ch2_hw_7",
+          "question": "Describe his character, and explain why he turned against Edmond despite having",
+          "answer": "تحليل أدبي ونقدي يعبر فيه الطالب عن رؤيته للشخصيات والأحداث وفق توجيهات د. حبيب الرحمن.",
+          "type": "homework"
+        },
+        {
+          "id": "sec3_ch2_hw_8",
+          "question": "no personal grudge.",
+          "answer": "تحليل أدبي ونقدي يعبر فيه الطالب عن رؤيته للشخصيات والأحداث وفق توجيهات د. حبيب الرحمن.",
+          "type": "homework"
+        },
+        {
+          "id": "sec3_ch2_hw_9",
+          "question": "(5) The word ‘captain’, once a promise of honor, now sounded like an insult.”",
+          "answer": "تحليل أدبي ونقدي يعبر فيه الطالب عن رؤيته للشخصيات والأحداث وفق توجيهات د. حبيب الرحمن.",
+          "type": "homework"
+        },
+        {
+          "id": "sec3_ch2_hw_10",
+          "question": "How does this moment mark a turning point in Edmond's life and identity?",
+          "answer": "تحليل أدبي ونقدي يعبر فيه الطالب عن رؤيته للشخصيات والأحداث وفق توجيهات د. حبيب الرحمن.",
+          "type": "homework"
+        },
+        {
+          "id": "sec3_ch2_hw_11",
+          "question": "(1) you were Villefort, would you choose justice over ambition?",
+          "answer": "تحليل أدبي ونقدي يعبر فيه الطالب عن رؤيته للشخصيات والأحداث وفق توجيهات د. حبيب الرحمن.",
+          "type": "homework"
+        },
+        {
+          "id": "sec3_ch2_hw_12",
+          "question": "Explain your choice.",
+          "answer": "تحليل أدبي ونقدي يعبر فيه الطالب عن رؤيته للشخصيات والأحداث وفق توجيهات د. حبيب الرحمن.",
+          "type": "homework"
+        }
+      ],
+      "mcqQuestions": [
+        {
+          "id": "mcq_sec3_ch2_1",
+          "question": "What is the central focus of Chapter 2 (A Treacherous Plot)?",
+          "options": [
+            "Edmond honestly admitted carrying the letter, but never knew its dangerous contents",
+            "Edmond decides to leave France forever without facing his enemies",
+            "The Pharaon ship is sold to a foreign country",
+            "Villefort resigns from his position as deputy prosecutor"
+          ],
+          "correctAnswer": "Edmond honestly admitted carrying the letter, but never knew its dangerous contents",
+          "explanation": "Edmond's journey reflects moral resilience and enduring faith in ultimate justice."
+        },
+        {
+          "id": "mcq_sec3_ch2_2",
+          "question": "How does Edmond Dantés demonstrate his character in this chapter?",
+          "options": [
+            "Through unwavering loyalty, honesty, and moral resilience",
+            "By seeking violent revenge immediately without thought",
+            "By surrendering completely to hopelessness and giving up",
+            "By accepting money to abandon his principles"
+          ],
+          "correctAnswer": "Through unwavering loyalty, honesty, and moral resilience",
+          "explanation": "Edmond consistently maintains his dignity and integrity, holding fast to his core values."
+        }
+      ]
+    },
+    {
+      "id": "sc_sec_3_ch_3",
+      "chapterNumber": 3,
+      "titleEn": "Betrayal and Arrest",
+      "titleAr": "الخيانة والاعتقال",
+      "term": "first",
+      "summaryEn": "Danglars and Fernand twisted Edmond's loyalty into treason through a clever letter of",
+      "summaryAr": "حوّل دانجلار وفرنائد وفاء إدموند إلى خيانة من خلال رسالة وشاية ماكرة.",
+      "chapterInPoints": [
+        {
+          "en": "Danglars and Fernand twisted Edmond's loyalty into treason through a clever letter of",
+          "ar": "حوّل دانجلار وفرنائد وفاء إدموند إلى خيانة من خلال رسالة وشاية ماكرة."
+        },
+        {
+          "en": "Edmond honestly explained he carried the letter only to fulfil his dying captain's wish",
+          "ar": "شرح إدموند بصدق أنه حمل الرسالة فقط لينفذ وصية قائده المحتضر."
+        },
+        {
+          "en": "Villefor secretly burned the letter but publicly condemned innocent Edmond for treason",
+          "ar": "لكنه أدان إدموند البريء علناً بتهمة الخيانة ضد الملك. yu أحرق فيلفور الرسالة"
+        },
+        {
+          "en": "Mercédes, Edmonds father, and Morrel refused to believe the false accusations against him",
+          "ar": "aul إدموند وموريل تصديق الاتهامات الكاذبة الموجهة allgg رفضت مرسيدس"
+        },
+        {
+          "en": "Danglars desired power, while Fernand tried persuading Mercédes to forget Edmond forever.",
+          "ar": "طمع دانجلار في السلطة؛ بينما حاول فرنائد إقناع مرسيدس بنسيان إدموند إلى الأبد."
+        },
+        {
+          "en": "Inthe Chateau بألا Edmond lost hope, freedom, love, and his bright future.",
+          "ar": "إدموند الأمل والحرية والحب ومستقبله المشرق. add ways في شاتو"
+        },
+        {
+          "en": "Mercédés prayed constantly, waiting faithfully beside the sea for Edmond's return",
+          "ar": "كانت مرسيدس تدعو باستعرار. منتظرة بإخلاص بجوار البحر عودة إدموند من السجن."
+        },
+        {
+          "en": "Villefort gained promotion and honor, yet Edmond’s innocent face haunted his guilty",
+          "ar": "l ظل يطارد ضميره المذنب. eg yl نال فيلفور الترقية والشرف. لكن وجه إدموند |"
+        }
+      ],
+      "vocabulary": [
+        {
+          "word": "abandon",
+          "meaningAr": "يتخلى عن / يهجر"
+        },
+        {
+          "word": "disbelief ani",
+          "meaningAr": "عدم"
+        },
+        {
+          "word": "rejoice",
+          "meaningAr": "يبتهج"
+        },
+        {
+          "word": "accusation",
+          "meaningAr": "اتهامات"
+        },
+        {
+          "word": "dread fia) relieve",
+          "meaningAr": "يريح / يخفف"
+        },
+        {
+          "word": "accuse pais grief",
+          "meaningAr": "حزن"
+        },
+        {
+          "word": "roots",
+          "meaningAr": "جذور"
+        },
+        {
+          "word": "beg",
+          "meaningAr": "يتوسل"
+        },
+        {
+          "word": "haunt",
+          "meaningAr": "يطارد"
+        },
+        {
+          "word": "stab",
+          "meaningAr": "يطعن"
+        },
+        {
+          "word": "betrayal",
+          "meaningAr": "خيانة"
+        },
+        {
+          "word": "innocent eg suffering",
+          "meaningAr": "معاناة"
+        },
+        {
+          "word": "betrothal igh jealousy",
+          "meaningAr": "غيرة"
+        },
+        {
+          "word": "torture",
+          "meaningAr": "تعذيب"
+        },
+        {
+          "word": "condemn",
+          "meaningAr": "يدين"
+        },
+        {
+          "word": "loyalty",
+          "meaningAr": "ولاء"
+        },
+        {
+          "word": "treacherous",
+          "meaningAr": "نئاخ / غادر"
+        },
+        {
+          "word": "confession",
+          "meaningAr": "اعتراف"
+        },
+        {
+          "word": "mercy",
+          "meaningAr": "رحمة"
+        },
+        {
+          "word": "vanish",
+          "meaningAr": "يختفي"
+        },
+        {
+          "word": "conspiracy",
+          "meaningAr": "مؤامرة"
+        },
+        {
+          "word": "nightmare",
+          "meaningAr": "كابوس"
+        },
+        {
+          "word": "vigilance",
+          "meaningAr": "يقظة / حذر"
+        },
+        {
+          "word": "deceit",
+          "meaningAr": "اخداع"
+        },
+        {
+          "word": "pitiless",
+          "meaningAr": "بلارحمة"
+        },
+        {
+          "word": "denunciation",
+          "meaningAr": "إدانة علنية"
+        }
+      ],
+      "theText": [
+        {
+          "order": 1,
+          "paragraphEn": "",
+          "paragraphAr": "The night of Edmond Dantés's arrest remained etched in the دو —"
+        },
+        {
+          "order": 2,
+          "paragraphEn": "What should have been the happiest evening of his young 1",
+          "paragraphAr": "life had become a nightmare. The music had stopped, the لل 00 ا 1"
+        },
+        {
+          "order": 3,
+          "paragraphEn": "",
+          "paragraphAr": "laughter had died, and soldiers had led him away as though الالال ier ل"
+        },
+        {
+          "order": 4,
+          "paragraphEn": "",
+          "paragraphAr": "he were a criminal. The faces of his father and Mercédés, full لس xX"
+        },
+        {
+          "order": 5,
+          "paragraphEn": "prison cell",
+          "paragraphAr": "كان Lad ليلة اعتقال إدموند دانتيس بقيت محفورة في ذاكرة كل من اجتمعوا للاحتفال بخطبته."
+        },
+        {
+          "order": 6,
+          "paragraphEn": "",
+          "paragraphAr": "ينبغي أن يكون أسعد ليلة فب حياته الشابة تحول إلى كابوس. توقفت الموسيقى. وخمد الضحك"
+        },
+        {
+          "order": 7,
+          "paragraphEn": "",
+          "paragraphAr": "واقتاده الجنود كما لو كان مجرماً. وظلت وجوه والده ومرسيدس. الممتلئة رعباً وعدم تصديق."
+        },
+        {
+          "order": 8,
+          "paragraphEn": "",
+          "paragraphAr": "تطارده وهو يجلس وحيداً في زنزانته الباردة."
+        },
+        {
+          "order": 9,
+          "paragraphEn": "traitor, secretly plotting against the country. An &",
+          "paragraphAr": "es” قبل وصول Lig) agiall طويل. كانت الخيانة قد تجذرت بالفعل"
+        },
+        {
+          "order": 10,
+          "paragraphEn": "",
+          "paragraphAr": "دانجلار. أمين صندوق سقينة فرعون. وفرنائد. الصياد الغيور الذي"
+        },
+        {
+          "order": 11,
+          "paragraphEn": "",
+          "paragraphAr": "كان يرغب في مرسيدس: أنهيا خطابهما الخائن بالتشهير. سوياً اتهما إدموند بالخيانة والتأمر سراً"
+        },
+        {
+          "order": 12,
+          "paragraphEn": "",
+          "paragraphAr": "ضد الوطن."
+        },
+        {
+          "order": 13,
+          "paragraphEn": "around him.",
+          "paragraphAr": "كتبا بكلمات ماكرة. فيها من الحقيقة ما يكفي لجعل الكذبة تبدو واقعية. فقد استلم إدموند"
+        },
+        {
+          "order": 14,
+          "paragraphEn": "",
+          "paragraphAr": "فعلاً رسالة في جزيرة إلبا. وكان قد وعد قائده المحتضر أن يوصلها. لكن ذلك الفعل البريء من"
+        },
+        {
+          "order": 15,
+          "paragraphEn": "",
+          "paragraphAr": "الوفاء تحول إلى دليل على الخيانة."
+        },
+        {
+          "order": 16,
+          "paragraphEn": "",
+          "paragraphAr": "وعندما دخل الجنود الحفل. لم يكن إدموند يدرك أن شبكة خفية كانت قد أحكمت من alga"
+        },
+        {
+          "order": 17,
+          "paragraphEn": "",
+          "paragraphAr": "4 0 22009 ا"
+        },
+        {
+          "order": 18,
+          "paragraphEn": "steady at first, confident in his innocence.",
+          "paragraphAr": "“| am loyal to the king,” he said. “I have never spoken with بم"
+        },
+        {
+          "order": 19,
+          "paragraphEn": "carried out the final wish of my captain.”",
+          "paragraphAr": "في مكتب جيرارد دو فيلفور. نائب المدعي العام بعرسيليا. حاول"
+        },
+        {
+          "order": 20,
+          "paragraphEn": "",
+          "paragraphAr": "في البداية. واثقأ من براءته Lal ادموند أن يبرر موقفه. كان صوته"
+        },
+        {
+          "order": 21,
+          "paragraphEn": "",
+          "paragraphAr": "مع أعداء. أنا بحار يا سيدي. لا أكثر. لقد نفذت فقط Log نا مخلص للملك\". قال. \"لم أتحدث"
+        },
+        {
+          "order": 22,
+          "paragraphEn": "",
+          "paragraphAr": "الوصية الأخيرة لقائدي"
+        },
+        {
+          "order": 23,
+          "paragraphEn": "“Yes,” Edmond answered honestly, “but | did not know what it contained. | swear it, monsieur.”",
+          "paragraphAr": "لكن فيلفور كان ممزقاً بين الواجب والطموح. ففي يده كانت الرسالة ذاتها التي لا تدين إدموند"
+        },
+        {
+          "order": 24,
+          "paragraphEn": "",
+          "paragraphAr": "أمرها لانهارت مسيرته وضاع مستقبل ai’ فيلفور نفسه. ولو alg وحده. بل وتدين"
+        },
+        {
+          "order": 25,
+          "paragraphEn": "",
+          "paragraphAr": "تعترف بأنك حملت هذه الرسالة؟\" ضغط فيلفور بالسؤال"
+        },
+        {
+          "order": 26,
+          "paragraphEn": "",
+          "paragraphAr": "أجاب إدموند بصدق “لكني لم أكن أعلم ما تحتويه. أقسم بذلك يا سيدي «ani"
+        },
+        {
+          "order": 27,
+          "paragraphEn": "And the proof condemns you.”",
+          "paragraphAr": "أحرق فيلفور الرسالة في الخفاء ليحمي نفسه. لكنه أعلن إدانة إدموند جهرًا. \"باعترافك أنت"
+        },
+        {
+          "order": 28,
+          "paragraphEn": "",
+          "paragraphAr": "حملت رسالة من عدو الملك. ولك خيانة"
+        },
+        {
+          "order": 29,
+          "paragraphEn": "",
+          "paragraphAr": "تجمد قلب إدموند. وصرخ وقال \"لكني بريك!"
+        },
+        {
+          "order": 30,
+          "paragraphEn": "",
+          "paragraphAr": "يطلب الدليل: والدليل يدينك\" Quel ll أجابه فيلفور ببرود. \"لكن القانون لا يسأل عن Lay"
+        },
+        {
+          "order": 31,
+          "paragraphEn": "",
+          "paragraphAr": "Back in Marseille, word spread quickly that Edmond had ىبن"
+        },
+        {
+          "order": 32,
+          "paragraphEn": "been taken to the Chateau 0'11, People whispered his 4 “a",
+          "paragraphAr": "name in markets and taverns. Some pitied him, but others ١ ry"
+        },
+        {
+          "order": 33,
+          "paragraphEn": "Monsieur Morrel—refused to believe the accusations. aL)",
+          "paragraphAr": "في مرسيليا. انتشر الخبر سريعاً بأن إدموند قد )3 إلى سجن"
+        },
+        {
+          "order": 34,
+          "paragraphEn": "",
+          "paragraphAr": "آخرين هزوا أكتافهم قائلين: \"ما من دخان بلا نار"
+        },
+        {
+          "order": 35,
+          "paragraphEn": "",
+          "paragraphAr": "وخدهم من أحبوه حَقة والده. ومرسيدس. والسيد موري رفضوا تصديق الاتهامات."
+        },
+        {
+          "order": 36,
+          "paragraphEn": "the written denunciation.",
+          "paragraphAr": "ذهبت مرسيدس. يائسة. إلى كل مسؤول استطاعت الوصول إليه. توسلت وقالت \"إدموند ليس"
+        },
+        {
+          "order": 37,
+          "paragraphEn": "",
+          "paragraphAr": "\"حبه الوحيد هو البحر\" لكن كلماتها اصطدمت بأبواب مفلقة واذان صماء. فلم يجرق \"sla"
+        },
+        {
+          "order": 38,
+          "paragraphEn": "",
+          "paragraphAr": "القدعي العام palgl على الطعن في ai"
+        },
+        {
+          "order": 39,
+          "paragraphEn": "",
+          "paragraphAr": "وذهب موريل. رب عمل إدموند. بنفسه إلى السلطات. مقدماً كلمته كرجل شريف على أن"
+        },
+        {
+          "order": 40,
+          "paragraphEn": "Edmond is gone. They will not free him. You must not waste your youth in waiting.”",
+          "paragraphAr": "بينما كان الأبرياء يقاتلون من أجل إدموند. كان أعداؤه يفرحون في الخفاء."
+        },
+        {
+          "order": 41,
+          "paragraphEn": "",
+          "paragraphAr": "شعر دانجلار بالارتياح لرؤية البحار الشاب بعد عن القيادة. وبدأ يحلم بالسلطة داخل الشركة"
+        },
+        {
+          "order": 42,
+          "paragraphEn": "",
+          "paragraphAr": "قال لنفسه: \"مع غياب دانتيس. يمكنني تشكيل مستقيل السفينة فرعون كما أشاء"
+        },
+        {
+          "order": 43,
+          "paragraphEn": "",
+          "paragraphAr": "أمبااقرناتد. فحول نظره نطو مرسيدس. كان يزورهياكثيرًا. متظاهرًا بأنه يواسيها. قال لها"
+        },
+        {
+          "order": 44,
+          "paragraphEn": "",
+          "paragraphAr": "تعانين. لكن إدموند قد ذهب. لن يطلقوا سراحه. لا تضيعي شبابك في Lil aici” بلطف:"
+        },
+        {
+          "order": 45,
+          "paragraphEn": "Chateau d’If,” he muttered to himself. “One day you will have no choice but to turn to me.”",
+          "paragraphAr": "وحتيفود. sigan) ella Lil\" لكن مرسيدش:هزت رأسها وعيناها مشتعلة بالعزيضّة. قالت:"
+        },
+        {
+          "order": 46,
+          "paragraphEn": "",
+          "paragraphAr": "لن أستمع لغيره."
+        },
+        {
+          "order": 47,
+          "paragraphEn": "",
+          "paragraphAr": "pl] opi] فيه خيار halal قيغة |إيلف. سياتي يلوم ليس"
+        },
+        {
+          "order": 48,
+          "paragraphEn": "",
+          "paragraphAr": "professional ل انالال سد"
+        },
+        {
+          "order": 49,
+          "paragraphEn": "man. Yet they remain.”",
+          "paragraphAr": "من الحجر قائماً على Lins في شاتو ديف. عاش إدموند العوت البطيء للأمل. كان السجن"
+        },
+        {
+          "order": 50,
+          "paragraphEn": "",
+          "paragraphAr": "مشبعة برطوبة البحر a Tang جزيرة وحيدة. نوافذه مسؤّرة."
+        },
+        {
+          "order": 51,
+          "paragraphEn": "",
+          "paragraphAr": "ضحك السجان بقسوة. \"الجميع هنا يقولون الشيء نفسه. يا فتى. ومع ذلك. يبقون"
+        },
+        {
+          "order": 52,
+          "paragraphEn": "lost his freedom, his father, his love, and his future.",
+          "paragraphAr": "إلا المشاعل كان هواء المكان مشيعاً يرائحة الملح tity لا Job pan p4e شتحب إدموند"
+        },
+        {
+          "order": 53,
+          "paragraphEn": "",
+          "paragraphAr": "وإبريق AM ضيقة فيها سرير من Ajj والعفل. سكر منه الجرس وَكَمميكفُعَونه للها"
+        },
+        {
+          "order": 54,
+          "paragraphEn": "",
+          "paragraphAr": "الحراس. sal هو قصرك. أيها القبطازي, تهكم tao» 256, uy) Elisa ga 39 ماء مكسوز"
+        },
+        {
+          "order": 55,
+          "paragraphEn": "",
+          "paragraphAr": "وعدأ بالشرف. صارت الآن إهانة. انهار Logs انقبض قلب إدموند. فكلمة \"مبَطان” التي كانت"
+        },
+        {
+          "order": 56,
+          "paragraphEn": "",
+          "paragraphAr": "وفسْتَقبله tying قفي يوم واحد خسر حريته. ووالده. eins فوق القشل, مفظياً وَجهه"
+        },
+        {
+          "order": 57,
+          "paragraphEn": "were the guards who brought him bread and water.",
+          "paragraphAr": "مانم Jag صافاةا رد قحف قار cutis yoda! aula uLul ead] alii تحولت"
+        },
+        {
+          "order": 58,
+          "paragraphEn": "",
+          "paragraphAr": "وِيطفي بلاأتهاية yea شهوف wus ويرسم اشكالاً aj الياس. كان )0 الكجارة فلي"
+        },
+        {
+          "order": 59,
+          "paragraphEn": "",
+          "paragraphAr": "في الخارح jg Sally لصوت البحر وهو يرِتطم"
+        },
+        {
+          "order": 60,
+          "paragraphEn": "",
+          "paragraphAr": "وأحياناً كان يصرخ ببراءته في الظلام. لكن لم يكير هناك من يصَفََِاروارةٌ الوحيةون كانوا"
+        },
+        {
+          "order": 61,
+          "paragraphEn": "",
+          "paragraphAr": "alls الكراس الذيان يجلبلون له الخبر"
+        },
+        {
+          "order": 62,
+          "paragraphEn": "Soon after, his frail heart gave out, and he died alone, whispering his son's name.",
+          "paragraphAr": "بعد يوم. وبدون دعم ابنه. وقع العجوز في الفقر Lag) في مرسيليا. كان والد إدموند يضعف"
+        },
+        {
+          "order": 63,
+          "paragraphEn": "",
+          "paragraphAr": "واليأس. رفض الطعام. وكانت عزاؤه الوحيد ذكرى صوت إدموند"
+        },
+        {
+          "order": 64,
+          "paragraphEn": "",
+          "paragraphAr": "حاول موريل. الطيب الوفي. أن يساعده. لكن الحزن كان أقوى من الصدقة"
+        },
+        {
+          "order": 65,
+          "paragraphEn": "",
+          "paragraphAr": "ic قال له موريل. \"أقسم لك أنني لن أتخلى \"egy ابنك"
+        },
+        {
+          "order": 66,
+          "paragraphEn": "",
+          "paragraphAr": "كنت أحبه.\" وبعد وقت قصير will العجوز على يده بضعف. \"أخبره... أخبر إدموندي... had"
+        },
+        {
+          "order": 67,
+          "paragraphEn": "",
+          "paragraphAr": "توقف قلبه الواهن. ومات وحيذا. يعمس باسم ابنه"
+        },
+        {
+          "order": 68,
+          "paragraphEn": "his, no matter the cost.",
+          "paragraphAr": "بالنسبة لمرسيدس. كان كل يوم دون إدموند عذايًا. كانت تنقظر على الشاطت. تحدق في السجن"
+        },
+        {
+          "order": 69,
+          "paragraphEn": "",
+          "paragraphAr": "كانت تدعو باستعرار لعودته. رافضة كل اقتراح بأن تنساه. وكان جمالها ووفاؤها يزيدان من"
+        },
+        {
+          "order": 70,
+          "paragraphEn": "",
+          "paragraphAr": "كلف الأمر"
+        },
+        {
+          "order": 71,
+          "paragraphEn": "face—honest, confused, and pleading.",
+          "paragraphAr": "في هذه الأثناء. كان جيرارد دو فيلفور يستمتع بثمار خيانته. فبإرساله إدموند إلى السجن"
+        },
+        {
+          "order": 72,
+          "paragraphEn": "",
+          "paragraphAr": "وإتلاف الرسالة. ضمن مكانته لدى الملكيين. نال المدح على يقظته. والترقية على ولائه."
+        },
+        {
+          "order": 73,
+          "paragraphEn": "",
+          "paragraphAr": "واستعد للزواج من أسرة قوية."
+        },
+        {
+          "order": 74,
+          "paragraphEn": "",
+          "paragraphAr": "المرتبك. والملتمس. «stall لكن أحياناً. في ساعة متأخرة من الليل. كان يحلم بوجه إدموند"
+        }
+      ],
+      "questionsAndAnswers": [
+        {
+          "id": "sec3_ch3_qa_1",
+          "question": "was innocent?",
+          "answer": "Because he unknowingly delivered a letter vale سلم رسالة من نابليون دون ai)\nfrom Napoleon, which others used to accuse واستخدمت ضده لاتهامه بالخيانة.\nhim of treason.\n101 (What does Fernand’s and Danglars’ betrayal ماذا تخبرنا خيانة فرناند ودانجلار عن",
+          "type": "sb_wb"
+        },
+        {
+          "id": "sec3_ch3_qa_2",
+          "question": "tell us about their characters? شخصياتهم؟",
+          "answer": "It shows they are jealous and selfish, willing تظهر أنهم غيورون وأنانيون ومستعدون\nto hurt others for personal gain. لإيذاء الآخرين لتحقيق مصالحهم.\n1517 (How does this chapter show the theme of كيف يُظهر هذا الفصل موضوع الثقة",
+          "type": "sb_wb"
+        },
+        {
+          "id": "sec3_ch3_qa_3",
+          "question": "trust and deceit? والخداع؟",
+          "answer": "It shows how Edmond’s trust in his friends وأ ud يوضح كيف تم خيانة ثقة إدموند من\nbetrayed by their secret lies. من خلال أكاذيبهم السرية. ailéaol\nWF} (Do you think the authorities acted fairly عندما .معطلا Jao) هل تعتقد أن السلطات تصرفت",
+          "type": "sb_wb"
+        },
+        {
+          "id": "sec3_ch3_qa_4",
+          "question": "they arrested Edmond? Why or why not? $y اعتقلت إدموند؟ لماذا أو لماذا",
+          "answer": "No, because they arrested him without proof اعتقلوه دون دليل وتجاهلوا amily\nand ignored his innocence. براءته.\nfF ) 156 chains placed on Edmond symbolize القيود التي ؤُضعت على إدموند ترمز لأكثر",
+          "type": "sb_wb"
+        },
+        {
+          "id": "sec3_ch3_qa_5",
+          "question": "more than imprisonment. What do they من السجن. ماذا تمثل عن حياته وحريته؟",
+          "answer": "",
+          "type": "sb_wb"
+        },
+        {
+          "id": "sec3_ch3_qa_6",
+          "question": "represent about his life and freedom?",
+          "answer": "They symbolize the loss of his dreams, hope, —_aijluuug ترمز إلى فقدانه لأحلامه وأمله\nand control over his life. على حياته.\n[RJ (While the innocent fought for Edmond, his بينما دافع الأبرياء عن إدموند كان أعداؤه\nenemies quietly rejoiced. Explain. يفرحون سراً. اشرح\nHis friends tried to prove his innocence while فرح laiy حاول أصدقاؤه إثبات براءته\nhis enemies celebrated his arrest. أعداؤه باعتقاله.\nfP.(Why do you think Edmond's cries of لماذا لم نجد صرخات براءة إدموند من",
+          "type": "sb_wb"
+        },
+        {
+          "id": "sec3_ch3_qa_7",
+          "question": "innocence didn't find an ear at Villefort's يسمعها في محكمة فيلفورت؟",
+          "answer": "court?\nBecause Villefort cared more about his ambi- بطموحه أكثر من pial لأن فيلفورت\ntion than justice. العدالة.\nFE} (Why do you think Villefort sometimes لماذا تعتقد أن فيلفورت كان يحلم أحياناً",
+          "type": "sb_wb"
+        },
+        {
+          "id": "sec3_ch3_qa_8",
+          "question": "dreamed of ول مممقع face at night? بوجه إدموند ليلاً؟",
+          "answer": "Because he felt guilty about sending an شعر بالذنب بسبب سجن رجل بريء. ai)\ninnocent man to prison.\nfF} (Vitlefort enjoyed the rewards of his betrayal. استمتع فيلفورت بنتائج خيانته. اشرح\nExplain.\nHe protected his career and gained power. على منصبه واكتسب السلطة. Bist\n15017 (The word ‘captain’ once promised honor now كلمة «القبطان» التي كانت تعني الشرف\nsounded like an insult. How did Edmond fee! أصبحت كإهانة. كيف شعر إدموند",
+          "type": "sb_wb"
+        },
+        {
+          "id": "sec3_ch3_qa_9",
+          "question": "about this word? تجاهها؟",
+          "answer": "It reminded him of the life and happiness ذكرته بالحياة والسعادة التي فقدها.\nhe lost.\n£5}, (What does Fernand’s and Danglars’ betrayal عن Mailag ماذا تخبرنا خيانة فرناند",
+          "type": "sb_wb"
+        },
+        {
+          "id": "sec3_ch3_qa_10",
+          "question": "tell us about their characters? دخصياتهما؟",
+          "answer": "They were jealous, selfish, and disloyal. وغير مخلصين. Yuililg حسودين LIS,\n1571 (Villefort was torn between duty and ambition. .حومطلاو كان فيلفورت ممزقاً بين الواجب\nExplain. ang\nHe knew Edmond was innocent but كان يعلم أن إدموند بريء لكنه سجنه\nimprisoned him to protect his career. لحماية مستقبله المهني.\n117 أنا8) the law does not ask for innocence.\" Are تنأ «لكن القانون لا يسأل عن البراءة.» هل",
+          "type": "sb_wb"
+        },
+        {
+          "id": "sec3_ch3_qa_11",
+          "question": "you for or against Villefort's opinion? Why? مع أو ضد رأي فيلفورت؟ ولماذا؟",
+          "answer": "1am against it because justice must protect ضده لأن العدالة يجب أن تحمي الأبرياء. Ui\ninnocent people.\nIE). (How does the story show the theme of trust ¢¢laallg القصة موضوع الثقة jai كيف",
+          "type": "sb_wb"
+        },
+        {
+          "id": "sec3_ch3_qa_12",
+          "question": "and deceit?",
+          "answer": "Edmond trusted his friends, but they betrayed إدموند بأصدقائه لكنهم خانوه aig\nhim with lies. بالأكاذيب.\nET) (How do people's reactions to Edmond reflect كيف تعكس ردود أفعال الناس تجاه إدموند",
+          "type": "sb_wb"
+        },
+        {
+          "id": "sec3_ch3_qa_13",
+          "question": "society's attitude toward guilt and innocence? موقف المجتمع من الذنب والبراءة؟",
+          "answer": "Society often judges quickly without full غالباً ما يحكم المجتمع بسرعة دون دليل\nproof. كامل.\nIP (Do you think the conspirators acted fairly هل تعتقد أن المتآمرين تصرفوا بعدل عندما",
+          "type": "sb_wb"
+        },
+        {
+          "id": "sec3_ch3_qa_14",
+          "question": "when they accused Edmond? Why or why اتهموا إدموند؟ ولماذا؟",
+          "answer": "not?\nNo, because they acted out of jealousy and تصرفوا بدافع الغيرة والطموح amily\nselfish ambition. الأناني.",
+          "type": "sb_wb"
+        }
+      ],
+      "importantQuestions": [
+        {
+          "id": "sec3_ch3_qa_4",
+          "question": "they arrested Edmond? Why or why not? $y اعتقلت إدموند؟ لماذا أو لماذا",
+          "answer": "No, because they arrested him without proof اعتقلوه دون دليل وتجاهلوا amily\nand ignored his innocence. براءته.\nfF ) 156 chains placed on Edmond symbolize القيود التي ؤُضعت على إدموند ترمز لأكثر",
+          "type": "sb_wb"
+        },
+        {
+          "id": "sec3_ch3_qa_11",
+          "question": "you for or against Villefort's opinion? Why? مع أو ضد رأي فيلفورت؟ ولماذا؟",
+          "answer": "1am against it because justice must protect ضده لأن العدالة يجب أن تحمي الأبرياء. Ui\ninnocent people.\nIE). (How does the story show the theme of trust ¢¢laallg القصة موضوع الثقة jai كيف",
+          "type": "sb_wb"
+        },
+        {
+          "id": "sec3_ch3_qa_14",
+          "question": "when they accused Edmond? Why or why اتهموا إدموند؟ ولماذا؟",
+          "answer": "not?\nNo, because they acted out of jealousy and تصرفوا بدافع الغيرة والطموح amily\nselfish ambition. الأناني.",
+          "type": "sb_wb"
+        }
+      ],
+      "homeworkQuestions": [
+        {
+          "id": "sec3_ch3_hw_1",
+          "question": "fRY) what do the chains placed on Edmond symbolize about his life and freedom?",
+          "answer": "تحليل أدبي ونقدي يعبر فيه الطالب عن رؤيته للشخصيات والأحداث وفق توجيهات د. حبيب الرحمن.",
+          "type": "homework"
+        },
+        {
+          "id": "sec3_ch3_hw_2",
+          "question": "ff) According to the proverb “Where there is smoke, there is fire,” what does it suggest",
+          "answer": "تحليل أدبي ونقدي يعبر فيه الطالب عن رؤيته للشخصيات والأحداث وفق توجيهات د. حبيب الرحمن.",
+          "type": "homework"
+        },
+        {
+          "id": "sec3_ch3_hw_3",
+          "question": "about human nature?",
+          "answer": "تحليل أدبي ونقدي يعبر فيه الطالب عن رؤيته للشخصيات والأحداث وفق توجيهات د. حبيب الرحمن.",
+          "type": "homework"
+        },
+        {
+          "id": "sec3_ch3_hw_4",
+          "question": "(©) what should have been the happiest evening of Edmond's young life became a",
+          "answer": "تحليل أدبي ونقدي يعبر فيه الطالب عن رؤيته للشخصيات والأحداث وفق توجيهات د. حبيب الرحمن.",
+          "type": "homework"
+        },
+        {
+          "id": "sec3_ch3_hw_5",
+          "question": "nightmare. Explain.",
+          "answer": "تحليل أدبي ونقدي يعبر فيه الطالب عن رؤيته للشخصيات والأحداث وفق توجيهات د. حبيب الرحمن.",
+          "type": "homework"
+        },
+        {
+          "id": "sec3_ch3_hw_6",
+          "question": "(EP) How can mixing truth with lies make it hatder to see what is real?",
+          "answer": "تحليل أدبي ونقدي يعبر فيه الطالب عن رؤيته للشخصيات والأحداث وفق توجيهات د. حبيب الرحمن.",
+          "type": "homework"
+        },
+        {
+          "id": "sec3_ch3_hw_7",
+          "question": "591 Villefort’s act of hiding the truth led to Edmond’s unfair punishment. Explain.",
+          "answer": "تحليل أدبي ونقدي يعبر فيه الطالب عن رؤيته للشخصيات والأحداث وفق توجيهات د. حبيب الرحمن.",
+          "type": "homework"
+        }
+      ],
+      "mcqQuestions": [
+        {
+          "id": "mcq_sec3_ch3_1",
+          "question": "What is the central focus of Chapter 3 (Betrayal and Arrest)?",
+          "options": [
+            "Danglars and Fernand twisted Edmond's loyalty into treason through a clever letter of",
+            "Edmond decides to leave France forever without facing his enemies",
+            "The Pharaon ship is sold to a foreign country",
+            "Villefort resigns from his position as deputy prosecutor"
+          ],
+          "correctAnswer": "Danglars and Fernand twisted Edmond's loyalty into treason through a clever letter of",
+          "explanation": "Edmond's journey reflects moral resilience and enduring faith in ultimate justice."
+        },
+        {
+          "id": "mcq_sec3_ch3_2",
+          "question": "How does Edmond Dantés demonstrate his character in this chapter?",
+          "options": [
+            "Through unwavering loyalty, honesty, and moral resilience",
+            "By seeking violent revenge immediately without thought",
+            "By surrendering completely to hopelessness and giving up",
+            "By accepting money to abandon his principles"
+          ],
+          "correctAnswer": "Through unwavering loyalty, honesty, and moral resilience",
+          "explanation": "Edmond consistently maintains his dignity and integrity, holding fast to his core values."
+        }
+      ]
+    },
+    {
+      "id": "sc_sec_3_ch_4",
+      "chapterNumber": 4,
+      "titleEn": "The Prison of Chateau d'If",
+      "titleAr": "سجن شاتو ديف",
+      "term": "first",
+      "summaryEn": "Inside the Chateau 011, Edmond lost hope as lonely days blended into endless despair",
+      "summaryAr": "داخل شاتو ديف. فقد إدموند الأمل بينما امتزجت الأيام الوحيدة بيأس لا نهاية له.",
+      "chapterInPoints": [
+        {
+          "en": "Inside the Chateau 011, Edmond lost hope as lonely days blended into endless despair",
+          "ar": "داخل شاتو ديف. فقد إدموند الأمل بينما امتزجت الأيام الوحيدة بيأس لا نهاية له."
+        },
+        {
+          "en": "Hearing mysterious scratching beneath the floor, Edmond discovered another prisoner",
+          "ar": "خدشًا غامضًا تحت الأرض. اكتشف إدموند سجيئًا آخر يحفر نحو زنزانته. paw عندما"
+        },
+        {
+          "en": "Arter weeks of effort, Edmond met Abbé Faria, an intelligent prisoner and wise scholar.",
+          "ar": "بعد أسابيع من الجهد. التقى إدموند بالأب فاريا. السجين الذكي والعالم الحكيم."
+        },
+        {
+          "en": "Abbé Faria transformed prison into a school, teaching Edmond knowledge, wisdom, and",
+          "ar": "يوم. JS حوّل الأب فاريا السجن إلى مدرسة, وعلّم إدموند المعرفة والحكمة والانضباط"
+        },
+        {
+          "en": "Exmond learned languages, history, science, geography, philosophy, and strategy from",
+          "ar": "إدموند اللغات والتاريخ والعلوم والجغرافيا والفلسفة والاستراتيجيات من معلمه المخلص. lai"
+        },
+        {
+          "en": "The abbé revealed the hidden Monte Cristo treasure and entrusted its secret to Edmond",
+          "ar": ". إدموند sal كشف الأب فاريا عن كنز مونتي كريستو المخفي. وأودع سره"
+        },
+        {
+          "en": "He urged Edmond to use the treasure wisely for justice instead of greed.",
+          "ar": "الجشع. Yo Vay إدموند على استخدام الكنز بحكمة من أجل العدالة da"
+        },
+        {
+          "en": "Abbé Faria suttered terrible seizures and feared death before their planned escape together",
+          "ar": "120 قبل هروبهما المخطط له gall من نوبات شديدة. وخشي Lyla عانى الأب"
+        },
+        {
+          "en": "Before dying, Abbé Faria gave Edmond the treasure map and remembered Monte",
+          "ar": "Laila أن يتذكر مونتي كريستو aio إدموند خريطة الكنز. وطلب Lyla قبل موته. أعطى الأب |"
+        }
+      ],
+      "vocabulary": [
+        {
+          "word": "artifacts",
+          "meaningAr": "أثرية"
+        },
+        {
+          "word": "pha fortress",
+          "meaningAr": "حصن / قلعة"
+        },
+        {
+          "word": "seizures",
+          "meaningAr": "نوبات مرضية"
+        },
+        {
+          "word": "claws wllka fortune",
+          "meaningAr": "ثروة"
+        },
+        {
+          "word": "sentinel",
+          "meaningAr": "حارس / رقيب"
+        },
+        {
+          "word": "companion",
+          "meaningAr": "رفيق"
+        },
+        {
+          "word": "freedom aya stale",
+          "meaningAr": "بايت / قديم"
+        },
+        {
+          "word": "confess",
+          "meaningAr": "يعترف"
+        },
+        {
+          "word": "greed pab deliberate",
+          "meaningAr": "متعمد"
+        },
+        {
+          "word": "despair",
+          "meaningAr": "يأس / إحباط"
+        },
+        {
+          "word": "miscalculate",
+          "meaningAr": "يخطت في الحساب"
+        },
+        {
+          "word": "disciplined",
+          "meaningAr": "منضيط"
+        },
+        {
+          "word": "gnawed",
+          "meaningAr": "ينهش / يقضظم"
+        },
+        {
+          "word": "trace",
+          "meaningAr": "يتتبع / يرسم"
+        },
+        {
+          "word": "dreaded",
+          "meaningAr": "مخيف / مرعب"
+        },
+        {
+          "word": "hopeless",
+          "meaningAr": "بلا أمل"
+        },
+        {
+          "word": ". whisper",
+          "meaningAr": "يهمس"
+        },
+        {
+          "word": "dust",
+          "meaningAr": "غبار"
+        },
+        {
+          "word": "innocence ely wisdom",
+          "meaningAr": "حكمة"
+        },
+        {
+          "word": "enemies claci fate",
+          "meaningAr": "قدر"
+        },
+        {
+          "word": "damp",
+          "meaningAr": "رطب"
+        },
+        {
+          "word": "faint",
+          "meaningAr": "ضعيف / باهت"
+        },
+        {
+          "word": "scholar",
+          "meaningAr": "عالم / باحث"
+        },
+        {
+          "word": "priceless gals",
+          "meaningAr": "لا يقدر"
+        },
+        {
+          "word": "fits",
+          "meaningAr": "تشنجات / نوبات"
+        },
+        {
+          "word": "scratching",
+          "meaningAr": "خربشة / خدش"
+        }
+      ],
+      "theText": [
+        {
+          "order": 1,
+          "paragraphEn": "sound of the sea surrounded him",
+          "paragraphAr": "وقف سجن شاتو ديف كحارس مظلم في وسط البخر. ارتفعت جدرانه الثقيلة من بين الصخور"
+        },
+        {
+          "order": 2,
+          "paragraphEn": "",
+          "paragraphAr": "متحدية الأمواج والعواصف. كان منظرًا مرعبًا للبحارة. إذ كانوا يعرفونه مكانًا لليأس. حيث يختفي"
+        },
+        {
+          "order": 3,
+          "paragraphEn": "",
+          "paragraphAr": "السجناء في الصمت ونادرًا ما يعودون."
+        },
+        {
+          "order": 4,
+          "paragraphEn": "",
+          "paragraphAr": "بالنسبة لإدموند دانتيس. فقد أصبحت هذه القلعة عالمه كله. ابتلعته البوابات الحديدية. ولم Lal"
+        },
+        {
+          "order": 5,
+          "paragraphEn": "",
+          "paragraphAr": "سوى الحجر الرطب وصوت البحر alga يعد"
+        },
+        {
+          "order": 6,
+          "paragraphEn": "that Villefort would confess his mistake. But weeks turned into months, and no one came.",
+          "paragraphAr": "فقد الزمن معناه داخل السجن. اختلط الليل بالنهار, ولم يعد يميزهما سوى وصول خبز يابس وماء"
+        },
+        {
+          "order": 7,
+          "paragraphEn": "",
+          "paragraphAr": "عكر. كان إدموند يعد حجارة زنزانته. ويتتبع الشقوق بأصابعه. ويحاول حساب الوقت من خلال"
+        },
+        {
+          "order": 8,
+          "paragraphEn": "",
+          "paragraphAr": "الضوء الضعيف الذي يتسلل عبر النافذة الصغيرة العالية. clo"
+        },
+        {
+          "order": 9,
+          "paragraphEn": "",
+          "paragraphAr": "Jig مرسيدس ستتوسل من أجله. Jig في البداية. كان يحلم بالنجاة. تخيل أن السيد موريل سينقذه."
+        },
+        {
+          "order": 10,
+          "paragraphEn": "",
+          "paragraphAr": "فيلفور سيعترف بخطئه. لكن الأسابيع تحولت إلى شهور. ولم يأت أحد"
+        },
+        {
+          "order": 11,
+          "paragraphEn": "himself, ending his pain.",
+          "paragraphAr": "بدأ صمت السجن يسحق روحه. كان يصرخ ببراءته حتى انكسر صوته. لكن الحراس كانوا يضحكون."
+        },
+        {
+          "order": 12,
+          "paragraphEn": "",
+          "paragraphAr": "وأحياناً يردون بسخرية قاسية: «نعم. نعم. كل من هنا بريء!» كان الجوع ينهشه. والوحدة تلتهمه."
+        },
+        {
+          "order": 13,
+          "paragraphEn": "",
+          "paragraphAr": "نفسه للجوع لينهي عذايه"
+        },
+        {
+          "order": 14,
+          "paragraphEn": "Edmond pressed his ear to the floor. The sound grew clearer. xy",
+          "paragraphAr": "دس ‘Someone was digging."
+        },
+        {
+          "order": 15,
+          "paragraphEn": "‘out with joy. He was not alone! From that moment, hope returned to his soul.",
+          "paragraphAr": "في إحدى الليالي. Lain كان إدموند مستلقيًا في صمت يانس. paw صوثًا Lidl مستعرًا كخربشة"
+        },
+        {
+          "order": 16,
+          "paragraphEn": "",
+          "paragraphAr": "متعمذا جد"
+        },
+        {
+          "order": 17,
+          "paragraphEn": "",
+          "paragraphAr": "anil إدموند أذنه بالأرض. أصبح الصوت أوضخ. كان أحدهم يحفر."
+        },
+        {
+          "order": 18,
+          "paragraphEn": "",
+          "paragraphAr": "كبر. وكأنها تجيب. صرخ إدموند فركا! لم يكن Ning ومنذ تلك اللحظة عاد الأمل إلى aang)"
+        },
+        {
+          "order": 19,
+          "paragraphEn": "“Who are you?” Edmond whispered.",
+          "paragraphAr": "Abbé Faria,” the man replied in a low voice. “A prisoner, like you” مع |\""
+        },
+        {
+          "order": 20,
+          "paragraphEn": "reborn.",
+          "paragraphAr": "بدأ يخلخل الحجارة في yung chug ليلة بعد أخرى. كان إدموند يصفي إلى ذلك الحفر الغامض."
+        },
+        {
+          "order": 21,
+          "paragraphEn": "",
+          "paragraphAr": "زنزانته ليساعد. كان يمزق الجدران بيديه العاريتين. مستخدفا مسامير حديدية من سريره كأدوات. نزفت"
+        },
+        {
+          "order": 22,
+          "paragraphEn": "",
+          "paragraphAr": "أصابعه. لكنه شعر أنه حي من جديد"
+        },
+        {
+          "order": 23,
+          "paragraphEn": "",
+          "paragraphAr": "بعد أسابيع من الجهد. انفتح نفق صغير. ومن خلال الغبار والظلام رأى إدموند وجهًا بشريًا آخر. كان"
+        },
+        {
+          "order": 24,
+          "paragraphEn": "",
+          "paragraphAr": "وجهًا محفورًا بعلامات العمر والحكمة. وعينان تلمعان بالذكاء."
+        },
+        {
+          "order": 25,
+          "paragraphEn": "",
+          "paragraphAr": "Saul همس إدموند: \"من"
+        },
+        {
+          "order": 26,
+          "paragraphEn": "",
+          "paragraphAr": "أجاب الرجل بصوت منخفض: \"أنا الأب فاريا. سجين مثلك:"
+        },
+        {
+          "order": 27,
+          "paragraphEn": "",
+          "paragraphAr": "ولد من جديد aig مد الرجلان أيديهها وتشبثا ببعضهما بقوة. وفي تلك اللحظة شعر إدموند"
+        },
+        {
+          "order": 28,
+          "paragraphEn": "cell instead of the outer wall. Yet he did not regret it, for now he 1",
+          "paragraphAr": "had a companion. ا"
+        },
+        {
+          "order": 29,
+          "paragraphEn": "in his memory, solved problems in his head, and taught himself new sciences by sheer thought.",
+          "paragraphAr": "به enailg شرح الرجل العجوز كيف قضى سنوات يحاول حفر نفق للهروب. لكنه أخطأً في الحسابات"
+        },
+        {
+          "order": 30,
+          "paragraphEn": "",
+          "paragraphAr": "الخْدار الخارجي. وفع ذلك لم يندم لأنه وجد الآن ريق ja Vay الحفر إلى زنزانة إدموند"
+        },
+        {
+          "order": 31,
+          "paragraphEn": "",
+          "paragraphAr": "فقد خدم أمراءوملوكاً ووزراء. لكن ذكاءه جعله خطراً على أعداء xl لأسباب Lyla الأب soul"
+        },
+        {
+          "order": 32,
+          "paragraphEn": "",
+          "paragraphAr": "أقوياء"
+        },
+        {
+          "order": 33,
+          "paragraphEn": "",
+          "paragraphAr": "مسائل في Jag حؤل الكاهن سجنه إلى مدرسة. كتب كتبأً في ذاكرته. oll لكن بدلا من أن يفقد"
+        },
+        {
+          "order": 34,
+          "paragraphEn": "",
+          "paragraphAr": "جديّكة يمجرة التفكير. Lagle رأسه. وعلّم نفسه"
+        },
+        {
+          "order": 35,
+          "paragraphEn": "freedom”.",
+          "paragraphAr": "لفو السجن US Cle 3 Ady المزة حزينه لكنة لا جب أن Lay 38 Gy بإدقونه: «أترى ينا JLo"
+        },
+        {
+          "order": 36,
+          "paragraphEn": "RR",
+          "paragraphAr": "لكنه غبار متف رس ّي الكتب. alg aig ماهرا قي قراكة لياح Lay أصفى إدموند بإعجاب. لقد كان"
+        },
+        {
+          "order": 37,
+          "paragraphEn": "",
+          "paragraphAr": "والآن. وهو محبوش في الظلام. وجد معلمًا قادرًا على أن يفتح في عقله أبوابًا أوسع من المحجيط"
+        },
+        {
+          "order": 38,
+          "paragraphEn": "",
+          "paragraphAr": "امتلأ قلب إدموند بالامتنان وقال: \"ظننت أنني سأموت وحيدًا. لقد أنقذتنةي.\" ابتسم الأب بابتسامة."
+        },
+        {
+          "order": 39,
+          "paragraphEn": "",
+          "paragraphAr": "Ayla Lao من لينمدني. cul ربكا تكو wae) Ls Wes"
+        },
+        {
+          "order": 40,
+          "paragraphEn": "Se,",
+          "paragraphAr": "أعظم: المعرفة. li أكثر من الحرية. أعطى الأب فاريا لإدموند"
+        },
+        {
+          "order": 41,
+          "paragraphEn": "",
+          "paragraphAr": "كان الرجل العجوز كاهنًا وعالمًا. يجيد اللغات, بارعًا فب الرياضيات والتاريخ والفلسفة. درس السياسة"
+        },
+        {
+          "order": 42,
+          "paragraphEn": "",
+          "paragraphAr": "والعلوم والطبيعة البشرية. والآن. في صمت السجن. صار يشارك حكمته مع إدموند"
+        },
+        {
+          "order": 43,
+          "paragraphEn": "\"| entered this prison a sailor,” Edmond thought, “but | wll leave it a scholar”",
+          "paragraphAr": "على الأقل حياة نافعة. كل يوم سأعلم وأنت yiLeilé لا نستطيع أن نعيش أحرارًا. Lins قال الأب: \"ما"
+        },
+        {
+          "order": 44,
+          "paragraphEn": "",
+          "paragraphAr": "ستتعلم."
+        },
+        {
+          "order": 45,
+          "paragraphEn": "",
+          "paragraphAr": "فصار إدموند تلميذه. تعلم الإيطالية والإنجليزية وحتى بعض العربية. درس التاريخ والجغرافيا والعلوم"
+        },
+        {
+          "order": 46,
+          "paragraphEn": "",
+          "paragraphAr": "والاستراتيجيات. صار عقله. الذي كان يوهًا بسيطًا وشابًا. حادًا ومنظفًا"
+        },
+        {
+          "order": 47,
+          "paragraphEn": "One night, as the two men whispered in the tunnel, the abbé",
+          "paragraphAr": "grew serious. “There is something more, Edmond, something | ب ©"
+        },
+        {
+          "order": 48,
+          "paragraphEn": "long ago by the Spada family.",
+          "paragraphAr": "آخريا pol كان الرجلان يتهامسان في النفق. بدا الأب جاذًا وقال: \"هناك Lain lll في إحدى"
+        },
+        {
+          "order": 49,
+          "paragraphEn": "",
+          "paragraphAr": "إدموند. شيء لم أخبر به روكًا من قبل. إن شاء القدر. قد ينقذك هذا السر يوماً ما"
+        },
+        {
+          "order": 50,
+          "paragraphEn": "",
+          "paragraphAr": "في جزيرة مونتاي كريستو. حدثه عن خريطة, وعن ثروات Lida اقترب منه وكشف له قصة كنز هائل"
+        },
+        {
+          "order": 51,
+          "paragraphEn": "",
+          "paragraphAr": "زمن بعيد آل سبادا aia تفوق الخيال ذهب وجواهر وتحف لا تُقدر يثمن. أخفاها"
+        },
+        {
+          "order": 52,
+          "paragraphEn": "prisoner, but as a man with power to change his fate.",
+          "paragraphAr": "في البداية. ظن إدموند أن الأمر حلم. \"مثل هذه الثروة لا يمكن أن تكون حقيقية\". ابتسم الأب"
+        },
+        {
+          "order": 53,
+          "paragraphEn": "",
+          "paragraphAr": "حقيقية. وإذا ما هربت يوماً من هذا السجن. فسيكون الكنز لك. عدني أنك Lai وقال: \"أؤكد لك"
+        },
+        {
+          "order": 54,
+          "paragraphEn": "",
+          "paragraphAr": "ستستخدمه بحكمة. ليس بجشع. بل من أجل العدالة"
+        },
+        {
+          "order": 55,
+          "paragraphEn": "",
+          "paragraphAr": "اشتعل قلب إدموند. ولأول مرة منذ اعتقاله. رأى مستقبلاً-_لا كسجين محطم. بل كرجل يملك القوة"
+        },
+        {
+          "order": 56,
+          "paragraphEn": "",
+          "paragraphAr": "لتغيير قدره"
+        },
+        {
+          "order": 57,
+          "paragraphEn": "",
+          "paragraphAr": "Sickness and Despair المرض واليأس"
+        },
+        {
+          "order": 58,
+          "paragraphEn": "The abbé suffered from terrible seizures, violent fits that shook : a",
+          "paragraphAr": "his body and left him weak for days. He knew his time was short هه Be لب"
+        },
+        {
+          "order": 59,
+          "paragraphEn": "",
+          "paragraphAr": "“My dear Edmond,” he whispered during one of these attacks, ii اك 8"
+        },
+        {
+          "order": 60,
+          "paragraphEn": "we shall escape”. But in his heart he feared otherwise.",
+          "paragraphAr": "من نوبات مروعة. هزات عنيفة تهز جسده وتتركه ضعيفًا لأيام. كان يعلم أن وقته wiles كان الأب"
+        },
+        {
+          "order": 61,
+          "paragraphEn": "yuna",
+          "paragraphAr": "قال هاما خلال إحدى تلك النوبات: \"يا عزيزي إدموند. إن مت قبل أن نهرب. فسر الكنز لك. ها قد"
+        },
+        {
+          "order": 62,
+          "paragraphEn": "",
+          "paragraphAr": "تذكر مونتي كريستوا Lass رسعت الخريطة."
+        },
+        {
+          "order": 63,
+          "paragraphEn": "",
+          "paragraphAr": "كان يخشمأ العكس. auld لكن في \"lao أمسك إدموند بيده بقوة وقال: \"لا يا أبي. ستعيش. وسنهرب"
+        }
+      ],
+      "questionsAndAnswers": [
+        {
+          "id": "sec3_ch4_qa_1",
+          "question": "Chateau 017 قلعة شاتو ديف؟",
+          "answer": "He lived in a dark, damp cell, with little food المع زنزانة مظلمة ورطبةٍ\nand dirty water, feeling lonely. مع طعام قليل وماء متسخ وكان يشعر\n/ بالوحدة.\nfF}, (What does Edmond’s survival in prison show . الحياة aud ماذا يُظهر بقاء إدموند على",
+          "type": "sb_wb"
+        },
+        {
+          "id": "sec3_ch4_qa_2",
+          "question": "about his inner strength? في السجن عن قوته الداخلية؟",
+          "answer": "It shows his resilience, hope, and pac وإصراره على alalg aagan يُظهر\ndetermination not to give up. الاستسلام.\nEJ} (How does the prison setting increase the alll كيف يزيد موقع السجن من إحساس",
+          "type": "sb_wb"
+        },
+        {
+          "id": "sec3_ch4_qa_3",
+          "question": "sense of injustice in the story? في القصة؟",
+          "answer": "The prison is dark and lonely, increasing the السجن مكان مظلم وموحش. وهذا يزيد\nsense of injustice Edmond feels. رشعور الظلم الذي يعيشه إدموند.\nprofessional ل انالال سد\n11! (Do you think Edmond should accept his fate هريصم هل تعتقد أن على إدموند أن يقبل",
+          "type": "sb_wb"
+        },
+        {
+          "id": "sec3_ch4_qa_4",
+          "question": "quietly or keep fighting for his freedom? بهدوء أو يواصل القتال من أجل حريته؟",
+          "answer": "Explain. ang\nEdmond should keep fighting for his freedom يجب أن يستمر إدموند في القتال من أجل\nsince accepting his fate would mean giving حريته لأن قبول مصيره يعني الاستسلام مز\nto an unjust punishment he does not deserve. لعقوبة ظالمة لا يستحقها.\nAAP) (How far did Edmond face challenges in his إدموند تحديات في aalg مدى gi إلى",
+          "type": "sb_wb"
+        },
+        {
+          "id": "sec3_ch4_qa_5",
+          "question": "attempt to open a tunnel with Faria? محاولته حفر نفق مع فاريا؟",
+          "answer": "He faced many dangers and difficulties but iS! واجه العديد من المخاطر والصعوبات\ncontinued digging with patience and استمر في الحفر بصبر وإصرار.\ndetermination.",
+          "type": "sb_wb"
+        },
+        {
+          "id": "sec3_ch4_qa_6",
+          "question": "157! (Describe Faria. What does his description tell ؟متيصخش عن aang صف فاريا. ماذا يخبرنا",
+          "answer": "",
+          "type": "sb_wb"
+        },
+        {
+          "id": "sec3_ch4_qa_7",
+          "question": "about his character?",
+          "answer": "Faria is wise, knowledgeable, and kind, فاريا حكيم ومثقف ولطيف مما يدل على\nshowing that he Is a mentor and teacher. معلم ومرشد. ail\n15(( (Meeting with Faria is the most worthwhile لقاء إدموند مع فاريا كان أكثر وقت قيمة\ntime Edmond has ever experienced. IIlustrate. في حياته. وضح.\nFaria taught Edmond knowledge, languages, لمألاو فاريا إدموند المعرفة واللغات alc\nand hope which changed his life. حياته. jit مما\n1511! (“1 thought | would die alone. You have saved دقل سأموت وحيداً. will قال إدموند: \"ظننت",
+          "type": "sb_wb"
+        },
+        {
+          "id": "sec3_ch4_qa_8",
+          "question": "me.” How far did Faria save Edmond? أنقذ فاريا إدموند؟ sao أنقذتني.\" إلى أي",
+          "answer": "Faria saved Edmond by giving him المعرفة والأمل. arias أنقذ فاريا إدموند\nknowledge, hope, and a plan for escape. وخطة للهروب.\nfF) (For the first time since his arrest, he saw afu- yuu! مستقبلاً. gly اعتقاله Sia الأول مرة\nture—not as a broken prisoner, but as aman judi كسجين محطم بل كرجل قادر على\nwith power to change his fate. Illustrate. ag مصيره.\nEdmond realized he could escape, find the أدرك إدموند أنه يستطيع الهروب والعثور\ntreasure, and rebuild his life. على الكنز وإعادة بناء حياته.\n197 00 clasping Faria's hands, Edmond felt شعر وكأنه Lyla gay عندما أمسك إدموند\nreborn. Illustrate. من جديد. وضح. alg\nFaria gave him knowledge, hope, and a Ghali أعطاه فاريا المعرفة والأمل وهدفاً\npurpose to live and seek justice. والسعي لتحقيق العدالة.\n(GP) (What does Edmond's survival in prison show إدموند حياً في السجن عن clay ماذا يوضح",
+          "type": "sb_wb"
+        },
+        {
+          "id": "sec3_ch4_qa_9",
+          "question": "about his inner strength? قوته الداخلية؟",
+          "answer": "It shows that Edmond is strong, determined, يفقد Vg يوضح أن إدموند قوي ومصمم\nand never gives up hope. الأمل أبدأ.\nPF. (According to Faria, can a prison of the mind وفقاً لفاريا. هل يمكن أن يكون سجن",
+          "type": "sb_wb"
+        },
+        {
+          "id": "sec3_ch4_qa_10",
+          "question": "be worse than a prison of the body? Why? العقل أسواً من سجن الجسد؟ ولماذا؟",
+          "answer": "Why not?\nAccording to Faria, a prison of the mind can ja وفقاً لفاريا قد يكون سجن العقل أسوأ\nbe worse than a prison of the body because نادقف فقدان العقل يعني YY سجن الجسد\nlosing one’s mind means losing the ability to Ap القدرة على التفكير والأمل والبقاء\nthink, hope, and stay free.\nfF). (“1 entered this prison a sailor,” Edmond قال إدموند: \"دخلت هذا السجن بحاراً\nthought, “but I will leave it a scholar. فشر. \"alle لكنني سأغادره\nExplain.\nEdmond means that prison changed him. إدموند أن السجن غيّره؛ فبدلاً من أن andy\nInstead of being a simple sailor, he used the يكون بحاراً بسيطاً استغل الوقت ليتعلم من\ntime to learn from Faria and became educat- .ةمكحو فاريا ويصبح متعلماً وأكثر معرفة\ned, knowledgeable, and wiser.",
+          "type": "sb_wb"
+        }
+      ],
+      "importantQuestions": [
+        {
+          "id": "sec3_ch4_qa_8",
+          "question": "me.” How far did Faria save Edmond? أنقذ فاريا إدموند؟ sao أنقذتني.\" إلى أي",
+          "answer": "Faria saved Edmond by giving him المعرفة والأمل. arias أنقذ فاريا إدموند\nknowledge, hope, and a plan for escape. وخطة للهروب.\nfF) (For the first time since his arrest, he saw afu- yuu! مستقبلاً. gly اعتقاله Sia الأول مرة\nture—not as a broken prisoner, but as aman judi كسجين محطم بل كرجل قادر على\nwith power to change his fate. Illustrate. ag مصيره.\nEdmond realized he could escape, find the أدرك إدموند أنه يستطيع الهروب والعثور\ntreasure, and rebuild his life. على الكنز وإعادة بناء حياته.\n197 00 clasping Faria's hands, Edmond felt شعر وكأنه Lyla gay عندما أمسك إدموند\nreborn. Illustrate. من جديد. وضح. alg\nFaria gave him knowledge, hope, and a Ghali أعطاه فاريا المعرفة والأمل وهدفاً\npurpose to live and seek justice. والسعي لتحقيق العدالة.\n(GP) (What does Edmond's survival in prison show إدموند حياً في السجن عن clay ماذا يوضح",
+          "type": "sb_wb"
+        },
+        {
+          "id": "sec3_ch4_qa_10",
+          "question": "be worse than a prison of the body? Why? العقل أسواً من سجن الجسد؟ ولماذا؟",
+          "answer": "Why not?\nAccording to Faria, a prison of the mind can ja وفقاً لفاريا قد يكون سجن العقل أسوأ\nbe worse than a prison of the body because نادقف فقدان العقل يعني YY سجن الجسد\nlosing one’s mind means losing the ability to Ap القدرة على التفكير والأمل والبقاء\nthink, hope, and stay free.\nfF). (“1 entered this prison a sailor,” Edmond قال إدموند: \"دخلت هذا السجن بحاراً\nthought, “but I will leave it a scholar. فشر. \"alle لكنني سأغادره\nExplain.\nEdmond means that prison changed him. إدموند أن السجن غيّره؛ فبدلاً من أن andy\nInstead of being a simple sailor, he used the يكون بحاراً بسيطاً استغل الوقت ليتعلم من\ntime to learn from Faria and became educat- .ةمكحو فاريا ويصبح متعلماً وأكثر معرفة\ned, knowledgeable, and wiser.",
+          "type": "sb_wb"
+        }
+      ],
+      "homeworkQuestions": [
+        {
+          "id": "sec3_ch4_hw_1",
+          "question": "EP) why do you think Faria wanted Edmund to promise him to use the treasure wisely,",
+          "answer": "تحليل أدبي ونقدي يعبر فيه الطالب عن رؤيته للشخصيات والأحداث وفق توجيهات د. حبيب الرحمن.",
+          "type": "homework"
+        },
+        {
+          "id": "sec3_ch4_hw_2",
+          "question": "not for greed, but for justice?",
+          "answer": "تحليل أدبي ونقدي يعبر فيه الطالب عن رؤيته للشخصيات والأحداث وفق توجيهات د. حبيب الرحمن.",
+          "type": "homework"
+        },
+        {
+          "id": "sec3_ch4_hw_3",
+          "question": "fP why do you think Faria told Edmond the secret of the treasure?",
+          "answer": "تحليل أدبي ونقدي يعبر فيه الطالب عن رؤيته للشخصيات والأحداث وفق توجيهات د. حبيب الرحمن.",
+          "type": "homework"
+        },
+        {
+          "id": "sec3_ch4_hw_4",
+          "question": "§F)) To what extent is the Chateau d'if infamous?",
+          "answer": "تحليل أدبي ونقدي يعبر فيه الطالب عن رؤيته للشخصيات والأحداث وفق توجيهات د. حبيب الرحمن.",
+          "type": "homework"
+        },
+        {
+          "id": "sec3_ch4_hw_5",
+          "question": "1751 what do you think drove Edmond to consider starving himself to end his life?",
+          "answer": "تحليل أدبي ونقدي يعبر فيه الطالب عن رؤيته للشخصيات والأحداث وفق توجيهات د. حبيب الرحمن.",
+          "type": "homework"
+        },
+        {
+          "id": "sec3_ch4_hw_6",
+          "question": "]5[ More than freedom, Abbé Faria gave Edmond something greater. Illustrate.",
+          "answer": "تحليل أدبي ونقدي يعبر فيه الطالب عن رؤيته للشخصيات والأحداث وفق توجيهات د. حبيب الرحمن.",
+          "type": "homework"
+        }
+      ],
+      "mcqQuestions": [
+        {
+          "id": "mcq_sec3_ch4_1",
+          "question": "What is the central focus of Chapter 4 (The Prison of Chateau d'If)?",
+          "options": [
+            "Inside the Chateau 011, Edmond lost hope as lonely days blended into endless despair",
+            "Edmond decides to leave France forever without facing his enemies",
+            "The Pharaon ship is sold to a foreign country",
+            "Villefort resigns from his position as deputy prosecutor"
+          ],
+          "correctAnswer": "Inside the Chateau 011, Edmond lost hope as lonely days blended into endless despair",
+          "explanation": "Edmond's journey reflects moral resilience and enduring faith in ultimate justice."
+        },
+        {
+          "id": "mcq_sec3_ch4_2",
+          "question": "How does Edmond Dantés demonstrate his character in this chapter?",
+          "options": [
+            "Through unwavering loyalty, honesty, and moral resilience",
+            "By seeking violent revenge immediately without thought",
+            "By surrendering completely to hopelessness and giving up",
+            "By accepting money to abandon his principles"
+          ],
+          "correctAnswer": "Through unwavering loyalty, honesty, and moral resilience",
+          "explanation": "Edmond consistently maintains his dignity and integrity, holding fast to his core values."
+        }
+      ]
+    },
+    {
+      "id": "sc_sec_3_ch_5",
+      "chapterNumber": 5,
+      "titleEn": "A Ray of Hope",
+      "titleAr": "شعاع أمل",
+      "term": "first",
+      "summaryEn": "Abbé Faria taught Edmond languages, history, geography, mathematics, and",
+      "summaryAr": "إدموند اللغات والتاريخ والجغرافيا والرياضيات وعلم الفلك بصبر كل يوم. Lyla الأب alc",
+      "chapterInPoints": [
+        {
+          "en": "Abbé Faria taught Edmond languages, history, geography, mathematics, and",
+          "ar": "إدموند اللغات والتاريخ والجغرافيا والرياضيات وعلم الفلك بصبر كل يوم. Lyla الأب alc"
+        },
+        {
+          "en": "The abbé became the father Edmond had lost, offering love, guidance, wisdom, and hope.",
+          "ar": "أصبح الأب فاريا الأب الذي فقده إدموند. مقدماً له الحب والتوجيه والحكمة والأمل."
+        },
+        {
+          "en": "Faria revealed Danglars, Fernand, and Villefort had planned Edmond’s betrayal for",
+          "ar": "وفرنائد وفيلفور دبروا خيانة إدموند لتحقيق مصالحهم الشخصية. Mails أن Lyla كشف"
+        },
+        {
+          "en": "Edmond realized his imprisonment resulted from conspiracy, not mistake, and controlled",
+          "ar": "أدرك إدموند أن سجنه كان نتيجة مؤامرة لا خطأً. وسيطر على غضبه المتزايد."
+        },
+        {
+          "en": "The abbé advised Edmond to seek justice with patience, wisdom, and a noble heart",
+          "ar": "نصح الأب فاريا إدموند بالسعي إلى العدالة بالصبر والحكمة والقلب النبيل."
+        },
+        {
+          "en": "As Faria’s health dectined, he entrusted Edmond with the secret Monte Cristo treasure map.",
+          "ar": "فاريا. سلّم إدموند خريطة كنز مونتي كريستو السرية. dan ومع تدهور"
+        },
+        {
+          "en": "Together they dug an escape tunnel, hoping to reach freedom through the sea",
+          "ar": "للهروب. آملين الوصول إلى الحرية عبر البحر. Laas حفر الاثنان ممًا"
+        },
+        {
+          "en": "Abbé Faria’s final wisdom taught Edmond to build, forgive, and protect his noble soul",
+          "ar": "فاريا إدموند أن يبني ويسامح ويحافظ على روحه النبيلة. Will الحكمة الأخيرة Gale"
+        }
+      ],
+      "vocabulary": [
+        {
+          "word": "betrayal",
+          "meaningAr": "خيانة"
+        },
+        {
+          "word": "imagination Jus scripture",
+          "meaningAr": "نص مقدس"
+        },
+        {
+          "word": "bond",
+          "meaningAr": "علاقة /"
+        },
+        {
+          "word": "Alay) injustice",
+          "meaningAr": "ظلم"
+        },
+        {
+          "word": "seize",
+          "meaningAr": "يستولي"
+        },
+        {
+          "word": "collapsed",
+          "meaningAr": "انهار"
+        },
+        {
+          "word": "interrogation",
+          "meaningAr": "استجواب"
+        },
+        {
+          "word": "sorrow",
+          "meaningAr": "حزن"
+        },
+        {
+          "word": "destiny",
+          "meaningAr": "مصير"
+        },
+        {
+          "word": "justice",
+          "meaningAr": "عدالة"
+        },
+        {
+          "word": "eager",
+          "meaningAr": "متحمس"
+        },
+        {
+          "word": "rage",
+          "meaningAr": "غضب شديد"
+        },
+        {
+          "word": "trapped",
+          "meaningAr": "محبوس / عالق"
+        },
+        {
+          "word": "envy",
+          "meaningAr": "يحسد"
+        },
+        {
+          "word": "knowledge",
+          "meaningAr": "معرفة"
+        },
+        {
+          "word": "fade",
+          "meaningAr": "يتلاشى"
+        },
+        {
+          "word": "tunnel",
+          "meaningAr": "معمر تحت الأرض"
+        },
+        {
+          "word": "vengeance",
+          "meaningAr": "انتقام"
+        },
+        {
+          "word": "fluency",
+          "meaningAr": "طلاقة"
+        },
+        {
+          "word": "parchment",
+          "meaningAr": "مخطوطة / رق"
+        },
+        {
+          "word": "weakness",
+          "meaningAr": "ضعف"
+        },
+        {
+          "word": "fortune",
+          "meaningAr": "ثروة"
+        },
+        {
+          "word": "revenge",
+          "meaningAr": "انتقام"
+        },
+        {
+          "word": "wisdom",
+          "meaningAr": "حكمة"
+        },
+        {
+          "word": "guidance",
+          "meaningAr": "إرشاد"
+        },
+        {
+          "word": "sacred yuatia purpose",
+          "meaningAr": "رغاية / هدف"
+        }
+      ],
+      "theText": [
+        {
+          "order": 1,
+          "paragraphEn": "The days passed quickly now. Each time the guards left, 9",
+          "paragraphAr": "Edmond crawled through the hidden tunnel to the abbé’s cell, د 7"
+        },
+        {
+          "order": 2,
+          "paragraphEn": "words until he could speak with fluency. ee",
+          "paragraphAr": "السري Baill كانت الأيام تمر سريقًا الآن. ففي كل مرة يبتعد فيها الحراس. كان إدموند يزحف عبر"
+        },
+        {
+          "order": 3,
+          "paragraphEn": "",
+          "paragraphAr": "إلى زنزانة الأب حيث يمنحه الكاهن دروسا."
+        },
+        {
+          "order": 4,
+          "paragraphEn": "",
+          "paragraphAr": "بدأوا باللغات. علمه الأب الإيطالية والإنجليزية والإسبانية. ودربه على تحسين القراءة والكتابة"
+        },
+        {
+          "order": 5,
+          "paragraphEn": "",
+          "paragraphAr": "بالفرنسية. بل وعلمه اللاتينية. كرر إدموند الكلمات حتى أصبح يتحدث بطلاقة."
+        },
+        {
+          "order": 6,
+          "paragraphEn": "a free man, but a man armed with wisdom.”",
+          "paragraphAr": "على الأرض المغبرة. موضحاً كيف Ligyg يرسم خرائط Lyla ثم جاء دور التاريخ والجغرافيا. كان"
+        },
+        {
+          "order": 7,
+          "paragraphEn": "",
+          "paragraphAr": "قامت الأمم وسقطت. تحدث عَنْ روما واليونان والإمبراطوريات الماضية. فارتفعت خيالات إدموند"
+        },
+        {
+          "order": 8,
+          "paragraphEn": "",
+          "paragraphAr": "ورغم أن جسده كان سجيناً. فإن عقله كان يجوب القارات والقرون."
+        },
+        {
+          "order": 9,
+          "paragraphEn": "",
+          "paragraphAr": "وعلم الفلك. تعلم إدموند كيف يقيس التجوم. ويحسب Awaiallg دور الرياضياتالأعداد cla ثم"
+        },
+        {
+          "order": 10,
+          "paragraphEn": "",
+          "paragraphAr": "المسافات. ويستدل بالمنطق."
+        },
+        {
+          "order": 11,
+          "paragraphEn": "",
+          "paragraphAr": "قال الأب: \"أترى يا بني؟ المعرفة قوة. فإذا خرجت من هذا المكان. فلن تكون مجرد رجل حر. بل"
+        },
+        {
+          "order": 12,
+          "paragraphEn": "",
+          "paragraphAr": "مسلح بالحكقة. Jay"
+        },
+        {
+          "order": 13,
+          "paragraphEn": "the Abbé not only knowledge, but love, patience, and guidance.",
+          "paragraphAr": "VI كان قد فقده منذ زمن: lin لم يمنح الأب فاريا إدموند الدروس والعلم فحسب. بل منحه"
+        },
+        {
+          "order": 14,
+          "paragraphEn": "",
+          "paragraphAr": "tau ففي أحد الأيام قال إدموند بحزن: \"لقد مات والدي وحيدًا بينما كنت"
+        },
+        {
+          "order": 15,
+          "paragraphEn": "",
+          "paragraphAr": "فوضع الأب فاريا يده برفق على كتفه وقال: \"إذن دعني أكن أباك من الآن فصاعدًا. لقد جمعنا الله"
+        },
+        {
+          "order": 16,
+          "paragraphEn": "",
+          "paragraphAr": "في هذا المكان لسبب: ستكون ابني. وسأكون معلمك:"
+        },
+        {
+          "order": 17,
+          "paragraphEn": "",
+          "paragraphAr": "والمعرفة alll ومنذ تلك اللحظة. توطدت العلاقة بينهما. فلم يجد إدموند في الأب فاريا مصدرًا"
+        },
+        {
+          "order": 18,
+          "paragraphEn": "",
+          "paragraphAr": "الأمل في الحياة aul والصبر. والحكمة, والتوجيه الذي أعاد wall بل وجد أيضًا ad"
+        },
+        {
+          "order": 19,
+          "paragraphEn": "mysterious letter. 1 a",
+          "paragraphAr": "The old priest's sharp mind connected the pieces. “Do you not حا"
+        },
+        {
+          "order": 20,
+          "paragraphEn": "",
+          "paragraphAr": "see?” he said, “It was not chance. It was a plot. Danglars, who - صجي-"
+        },
+        {
+          "order": 21,
+          "paragraphEn": "",
+          "paragraphAr": "envied your promotion to captain, and Fernand, who desired ا"
+        },
+        {
+          "order": 22,
+          "paragraphEn": "gain from your ruin.”",
+          "paragraphAr": "روى Laiy بدأ إدموند في فحص الأحداث التي قادته إلى السجن. استمع الأب بانتباه Lyla بمساعدة"
+        },
+        {
+          "order": 23,
+          "paragraphEn": "",
+          "paragraphAr": "إدموند تفاصيل القبض عليه. واستجواب فيلفور. والرسالة الفامقة."
+        },
+        {
+          "order": 24,
+          "paragraphEn": "",
+          "paragraphAr": "لقد كانت مؤامرة. ddan ربط ذهن الكاهن الثاقب بين الخيوط وقال: \"ألا ترى؟ لم يكن الأمر"
+        },
+        {
+          "order": 25,
+          "paragraphEn": "",
+          "paragraphAr": "لتدميرك. Lao دانجلار الذي خسدك على ترقيتك إلى قبطان. وفرناند, الذي اشتهى مرسيدس. تأمرا"
+        },
+        {
+          "order": 26,
+          "paragraphEn": "",
+          "paragraphAr": "أما فيلفور فخشي أن تكشف الرسالة عن ميول والده السياسية. فأسكتك. كل واحد منهم كان له"
+        },
+        {
+          "order": 27,
+          "paragraphEn": "noble. God has chosen you for this destiny.”",
+          "paragraphAr": "إدموند. حتى ذلك الوقت كان يظن أن الأمر مجرد خطأً. لكن بعد تفسير الكاهن أدرك Lise اتسعت"
+        },
+        {
+          "order": 28,
+          "paragraphEn": "",
+          "paragraphAr": "الحقيقة: لقد تمت خيانته"
+        },
+        {
+          "order": 29,
+          "paragraphEn": "",
+          "paragraphAr": "بالغضب. لكن الأب وضع يده بقوة على ذراعه وقال: \"لا تدع الكراهية تلتهمك يا بني auld اشتعل"
+        },
+        {
+          "order": 30,
+          "paragraphEn": "",
+          "paragraphAr": "بالحكمة agi فالمعرفة والصبر أقوى من الغضب. سيأتي يوم العدالة. لكنه يجب أن"
+        },
+        {
+          "order": 31,
+          "paragraphEn": "",
+          "paragraphAr": "لهذا المصير alll ومع ذلك بقيت نبيلاً. لقد اختارك cid ابتسم الأب: \"لأني أرى فيك قلباً طيباً. لقد"
+        },
+        {
+          "order": 32,
+          "paragraphEn": "",
+          "paragraphAr": "The Priest's Illness مرض الكاهن"
+        },
+        {
+          "order": 33,
+          "paragraphEn": "fading. Terrible fits seized him, leaving him pale and 1 Vise",
+          "paragraphAr": "trembling. His strength weakened, and though he smiled ١"
+        },
+        {
+          "order": 34,
+          "paragraphEn": "bravely, Edmond saw fear in his eyes. 4 >",
+          "paragraphAr": "“Do not be afraid,” Edmond said. \"| will care for you as you ١ we"
+        },
+        {
+          "order": 35,
+          "paragraphEn": "was the secret map of Monte Cristo. Edmond pressed it to his heart.",
+          "paragraphAr": "إدموند أن صحة الأب بدأت تتدهوز. كانت النوبات العنيفة تصيبه. فتجعله Boy لكن بينما نما الأمل؛"
+        },
+        {
+          "order": 36,
+          "paragraphEn": "",
+          "paragraphAr": "شاحباً مرتجفاً. ضعفت قوته. ورغم ابتسامته الشجاعة. كان إدموند يرى الخوف في عينيه."
+        },
+        {
+          "order": 37,
+          "paragraphEn": "",
+          "paragraphAr": "قال له إدموند: \"لا تخف. سأعتني بك كما اعتنيت بي"
+        },
+        {
+          "order": 38,
+          "paragraphEn": "",
+          "paragraphAr": "بني. وقتي سينتهي قريباً. لكن حياتك ما زالت في بدايتها. عليك أن LY الكاهن رأسه برفق: jo"
+        },
+        {
+          "order": 39,
+          "paragraphEn": "",
+          "paragraphAr": "تستعد للحرية... وللكنز."
+        },
+        {
+          "order": 40,
+          "paragraphEn": "",
+          "paragraphAr": "وأعطاه قطعة صفيرة من الرق: مخبأة بعناية. في بطانة ثيايه. كانت تحتوي على خريطة مونتي"
+        },
+        {
+          "order": 41,
+          "paragraphEn": "",
+          "paragraphAr": "كريستو السرية. ضمها إدموند إلى قلبه"
+        },
+        {
+          "order": 42,
+          "paragraphEn": "",
+          "paragraphAr": "Mr.HabibEIRahman كم 0 4"
+        },
+        {
+          "order": 43,
+          "paragraphEn": "pale and his voice weak. ox",
+          "paragraphAr": "“My dear Edmond,” he whispered, “if! die, promise me that you نقحت ا"
+        },
+        {
+          "order": 44,
+          "paragraphEn": "Edmond wept, but swore the promise,",
+          "paragraphAr": "nL طال النفق. مقتربًا من البحر. خططا أن يهربا جنبًا إلى جنب. يسبحان إلى .Laa واصلا الحفر"
+        },
+        {
+          "order": 45,
+          "paragraphEn": "",
+          "paragraphAr": "ثم يبحران بعيدًا"
+        },
+        {
+          "order": 46,
+          "paragraphEn": "",
+          "paragraphAr": "كانا يعملان. انهار الأب وهو يلهث طلبًا للهواء. رفعه إدموند بين Laing لكن في إحدى الليالي."
+        },
+        {
+          "order": 47,
+          "paragraphEn": "",
+          "paragraphAr": "ذراعيه. لكن وجه الكاهن كان شاحبًا وصوته ضعيقًا."
+        },
+        {
+          "order": 48,
+          "paragraphEn": "",
+          "paragraphAr": "واهرب. واستخدم الكنز للعدل vite همس: \"يا عزيزي إدموند. إذا مت. فاعدني ألا تستسلم لليأس."
+        },
+        {
+          "order": 49,
+          "paragraphEn": "",
+          "paragraphAr": "‘aang لا للانتقام"
+        },
+        {
+          "order": 50,
+          "paragraphEn": "",
+          "paragraphAr": "بكى إدموثد, لكنه أقسم الوعد"
+        },
+        {
+          "order": 51,
+          "paragraphEn": "The abbé knew the end was near. In his final days, he spoke not mm",
+          "paragraphAr": "of riches, but of wisdom. فط"
+        },
+        {
+          "order": 52,
+          "paragraphEn": "sacred scripture.",
+          "paragraphAr": "كان الأب يعلم أن النهاية اقتربت. وفي أيامه الأخيرة. لم يتحدث عن الثروة. بل عن الحكمة."
+        },
+        {
+          "order": 53,
+          "paragraphEn": "",
+          "paragraphAr": "قال: \"تذكر يا بني... العظمة الحقيقية ليست في المال. بل في كيفية استخدامه. العالم مليء بالرجال"
+        },
+        {
+          "order": 54,
+          "paragraphEn": "",
+          "paragraphAr": "الذين يهدمون. لكن قليلين هم الذين يبنون. فكن من البنائين. سامح متى استطعت. وعاقب متى وجب."
+        },
+        {
+          "order": 55,
+          "paragraphEn": "",
+          "paragraphAr": "LAL! في نار dag) لكن الأهم لا تفقد"
+        },
+        {
+          "order": 56,
+          "paragraphEn": "",
+          "paragraphAr": "مقدساً ini استمع إدموند بانتباه. وحفظ كل كلمة كما لو كانت"
+        },
+        {
+          "order": 57,
+          "paragraphEn": "rofessional prey Novel",
+          "paragraphAr": "1 ير English"
+        },
+        {
+          "order": 58,
+          "paragraphEn": "",
+          "paragraphAr": "The Final Gift الهدية الأخيرة"
+        },
+        {
+          "order": 59,
+          "paragraphEn": "time. His hand rested in Edmond’, his face peacetul",
+          "paragraphAr": "Edmond knelt by his side, his heart breaking. “Father, teacher, د 5"
+        },
+        {
+          "order": 60,
+          "paragraphEn": "escape. | will live. And | will honor your name.”",
+          "paragraphAr": "عينيه للمرة الأخيرة. استقرت يده في يد إدموند. وارتسمت Lyle وأخيراً. في مساء هادئ. أغمض الأب"
+        },
+        {
+          "order": 61,
+          "paragraphEn": "",
+          "paragraphAr": "على وجهه سكينة أبدية."
+        },
+        {
+          "order": 62,
+          "paragraphEn": "",
+          "paragraphAr": "جا إدموند بجانبه. وقلبه ينكسر: «أبي. ومعلمي. وصديقي... ماذا سأفعل من دونك؟"
+        },
+        {
+          "order": 63,
+          "paragraphEn": "",
+          "paragraphAr": "حولت دروسه. وحبه. وسره إدموند من بحار aa) Lidl ومع ذلك. حتى في الموت. ظل حضور الكاهن"
+        },
+        {
+          "order": 64,
+          "paragraphEn": "",
+          "paragraphAr": "وغاية ومصير. ale بسيط إلى رجل ذي"
+        },
+        {
+          "order": 65,
+          "paragraphEn": "",
+          "paragraphAr": "daw! مسح إدموند دموعه. وهو ممسك بخريطة مونتي كريستو. قال: \"سأهرب. سأعيش. وسأكرّم"
+        }
+      ],
+      "questionsAndAnswers": [
+        {
+          "id": "sec3_ch5_qa_1",
+          "question": "does this change his life? هذا حياته؟",
+          "answer": "He meets Abbé Faria, who becomes his teacher, يقابل الأب فاريا. الذي يصبح معلمه\nmentor, and father figure, transforming him ومرشده وشخصًا بمثابة الأب ويغيره من\nthrough knowledge and purpose. التعليم والهدف. Js\nFP. (What does Abbé Faria's decision to share his ماذا تُظهر رغبة الأب فاريا في مشاركة",
+          "type": "sb_wb"
+        },
+        {
+          "id": "sec3_ch5_qa_2",
+          "question": "wisdom show about his character? حكمته عن شخصيته؟",
+          "answer": "It shows that he is selfless, wise, and غير أناني. حكيم. ومؤمن ail تُظهر\ncommitted to justice, even in suffering. بالعدالة حتى في المعاناة.\nFE) (Compare Edmond before and after meeting قارن بين إدموند قبل وبعد لقاء القس",
+          "type": "sb_wb"
+        },
+        {
+          "id": "sec3_ch5_qa_3",
+          "question": "Abbé Faria. How does he change? فاريا. كيف تفيّر؟",
+          "answer": "Before, he was a simple, despairing young call قبل اللقاء. كان شاباً بسيطاً ويميل\nman; after, he became educated, wise, and اليأس. وبعد اللقاء أصبح متعلماً وحكيماً\npatient. ,وصبوراً.\n151! (Do you agree that knowledge can be more توافق أن المعرفة قد تكون أكثر قيمة Ja",
+          "type": "sb_wb"
+        },
+        {
+          "id": "sec3_ch5_qa_4",
+          "question": "valuable than freedom? Why or why not? من الحرية؟ ولماذا؟",
+          "answer": "Knowledge gives a person power, hope, and المعرفة تمنح الإنسان القوة والأمل\nthe ability to change their future. والقدرة على تغيير مستقبله.\nل انالال سد professional\n15 (The “ray of hope” symbolizes more than «شعاع الأمل» إلى أكثر من الحرية. jays",
+          "type": "sb_wb"
+        },
+        {
+          "id": "sec3_ch5_qa_5",
+          "question": "freedom. What does it mean for Edmond's ماذا يعني لروح إدموند ومستقبله؟",
+          "answer": "",
+          "type": "sb_wb"
+        },
+        {
+          "id": "sec3_ch5_qa_6",
+          "question": "soul and future?",
+          "answer": "It renews Edmonds spirit and gives him يجدد روح إدموند ويمنحه القوة ليؤمن\nstrength to believe in a better future. بمستقبل أفضل.\nFI (someday, justice will come.” What does this 51a «.la قال فاريا: رسيآتي العدل يوماً\nsuggest about the relationship between jus- ةمكحلاو يدل ذلك عن العلاقة بين العدل",
+          "type": "sb_wb"
+        },
+        {
+          "id": "sec3_ch5_qa_7",
+          "question": "tice and wisdom in the story? في القصة؟",
+          "answer": "It suggests that wisdom helps reveal the truth يدل على أن الحكمة تساعد في كشف.\nand achieve justice. الحقيقة وتحقيق العدالة.\n(2. (Because Faria saw a good heart inEdmond, طيباً في إدموند أراد له Ua gly لآن فاريا\nhe wanted him to remain noble. Explain. أن يبقى نبيلاً. وضح.\nFaria encouraged Edmond to use knowledge ةفرعملا شجع فاريا إدموند على استخدام\nand wealth for justice, not evil. والثروة للعدل لا للشر.\nfF) (“God has chosen you for this destiny.” How »ريصملا لهذا alll قال فاريا: «لقد اختارك",
+          "type": "sb_wb"
+        },
+        {
+          "id": "sec3_ch5_qa_8",
+          "question": "does this relate to the theme of destiny? كيف يرتبط هذا بموضوع القدر؟",
+          "answer": "It suggests Edmond has a special role in في تحقيق. bold يدل على أن لإدموند دوراً\nbringing justice to those who betrayed him. لمن خانوه. alisail\nfF) ( Why does Faria prioritize wisdom instead of فضّل فاريا الحكمة على الثروة في Ila!",
+          "type": "sb_wb"
+        },
+        {
+          "id": "sec3_ch5_qa_9",
+          "question": "wealth in his final words? كلماته الأخيرة؟",
+          "answer": "Because wisdom guides how wealth should لأن الحكمة ترشد الإنسان إلى استخدام.\nbe used wisely and justly. بشكل صحيح وعادل. dg jill\nFF} ) 06 you think Faria would teach Edmond إدموند المعرفة alow هل تعتقد أن فاريا",
+          "type": "sb_wb"
+        },
+        {
+          "id": "sec3_ch5_qa_10",
+          "question": "knowledge instead of only helping him بدلاً من مساعدته على الهروب فقط؟",
+          "answer": "",
+          "type": "sb_wb"
+        },
+        {
+          "id": "sec3_ch5_qa_11",
+          "question": "escape? Why? ولماذا؟",
+          "answer": "Yes, because knowledge prepares Edmond lial! نعم لأن المعرفة تُعد إدموند\nfor life and future challenges. ,ولمواجهة التحديات المستقبلية.\nIF}. ) 06 you think Faria deserved to be Edmond's أن يكون الأب الروحي Lyla هل يستحق",
+          "type": "sb_wb"
+        },
+        {
+          "id": "sec3_ch5_qa_12",
+          "question": "spiritual father? Why? لإدموند؟ ولماذا؟",
+          "answer": "Yes, because he guided Edmond with إدموند بالحكمة والمعرفة. ag ail) نعم\nwisdom, knowledge, and moral values. والقيم الأخلاقية.\n191 (Why did Edmond believe in Faria, and how هذا YSii لماذا آمن إدموند بفاريا. وكيف",
+          "type": "sb_wb"
+        },
+        {
+          "id": "sec3_ch5_qa_13",
+          "question": "did his trust shape his future? الإيمان مستقبله؟",
+          "answer": "Faria proved his wisdom and honesty, giving حكمته وصدقه. مما أعطى Lyla أثبت\nEdmond hope and knowledge that changed إدموند الأمل والمعرفة التي غيّرت\nhis future. audio\nIEP. (What does Abbé Faria's character reveal ماذا تكشف شخصية الأب فاريا عن قيمة",
+          "type": "sb_wb"
+        },
+        {
+          "id": "sec3_ch5_qa_14",
+          "question": "about the value of knowledge and wisdom? المعرفة والحكمة؟",
+          "answer": "It shows that he is wise and caring, valuing حكيم ومحب للخير ويقدر ail توضح\nhelping others over keeping knowledge for مساعدة الآخرين أكثر من الاحتفاظ\nhimself. بالمعرفة لنفسه.\nFE) ) Before meeting Abbé Faria, Edmond was a كان إدموند بحاراً Lyla قبل لقاء الأب",
+          "type": "sb_wb"
+        },
+        {
+          "id": "sec3_ch5_qa_15",
+          "question": "simple sailor. How did Faria change him? بسيطاً. كيف غيّره فاريا؟",
+          "answer": "Faria educated Edmond and helped him فاريا إدموند وجعله أكثر £165 ووعياً ale\nbecome intelligent and aware of the world. بالعالم.\nEI} »6ن) did sharing Edmond's story with Faria aii كيف غيّر إخبار فاريا بقصة إدموند",
+          "type": "sb_wb"
+        },
+        {
+          "id": "sec3_ch5_qa_16",
+          "question": "change Edmond's perspective on life? للحياة؟",
+          "answer": "Ithelped Edmond understand the betrayal ساعد إدموند على فهم الخيانة والانتقال\nand move from despair to clarity and من اليأس إلى الوضوح ووجود هدف.\npurpose.\nEi. (Danglars, Fernand, and Villefort each had دانجلار وفرناند وفيلفورت كان لكل منهم\nsomething to gain from Edmond's ruin. ما يكسبه من تدمير إدموند. وضح.\nExplain.\nDanglars got a better job, Fernand married gotta على وظيفة أفضل eee\nMercédgs, and Villefort protected his career, “lutte فرنائد مرسيدس وحمى فيلفورت\nالمهني.",
+          "type": "sb_wb"
+        }
+      ],
+      "importantQuestions": [
+        {
+          "id": "sec3_ch5_qa_2",
+          "question": "wisdom show about his character? حكمته عن شخصيته؟",
+          "answer": "It shows that he is selfless, wise, and غير أناني. حكيم. ومؤمن ail تُظهر\ncommitted to justice, even in suffering. بالعدالة حتى في المعاناة.\nFE) (Compare Edmond before and after meeting قارن بين إدموند قبل وبعد لقاء القس",
+          "type": "sb_wb"
+        },
+        {
+          "id": "sec3_ch5_qa_3",
+          "question": "Abbé Faria. How does he change? فاريا. كيف تفيّر؟",
+          "answer": "Before, he was a simple, despairing young call قبل اللقاء. كان شاباً بسيطاً ويميل\nman; after, he became educated, wise, and اليأس. وبعد اللقاء أصبح متعلماً وحكيماً\npatient. ,وصبوراً.\n151! (Do you agree that knowledge can be more توافق أن المعرفة قد تكون أكثر قيمة Ja",
+          "type": "sb_wb"
+        },
+        {
+          "id": "sec3_ch5_qa_4",
+          "question": "valuable than freedom? Why or why not? من الحرية؟ ولماذا؟",
+          "answer": "Knowledge gives a person power, hope, and المعرفة تمنح الإنسان القوة والأمل\nthe ability to change their future. والقدرة على تغيير مستقبله.\nل انالال سد professional\n15 (The “ray of hope” symbolizes more than «شعاع الأمل» إلى أكثر من الحرية. jays",
+          "type": "sb_wb"
+        },
+        {
+          "id": "sec3_ch5_qa_11",
+          "question": "escape? Why? ولماذا؟",
+          "answer": "Yes, because knowledge prepares Edmond lial! نعم لأن المعرفة تُعد إدموند\nfor life and future challenges. ,ولمواجهة التحديات المستقبلية.\nIF}. ) 06 you think Faria deserved to be Edmond's أن يكون الأب الروحي Lyla هل يستحق",
+          "type": "sb_wb"
+        },
+        {
+          "id": "sec3_ch5_qa_12",
+          "question": "spiritual father? Why? لإدموند؟ ولماذا؟",
+          "answer": "Yes, because he guided Edmond with إدموند بالحكمة والمعرفة. ag ail) نعم\nwisdom, knowledge, and moral values. والقيم الأخلاقية.\n191 (Why did Edmond believe in Faria, and how هذا YSii لماذا آمن إدموند بفاريا. وكيف",
+          "type": "sb_wb"
+        },
+        {
+          "id": "sec3_ch5_qa_15",
+          "question": "simple sailor. How did Faria change him? بسيطاً. كيف غيّره فاريا؟",
+          "answer": "Faria educated Edmond and helped him فاريا إدموند وجعله أكثر £165 ووعياً ale\nbecome intelligent and aware of the world. بالعالم.\nEI} »6ن) did sharing Edmond's story with Faria aii كيف غيّر إخبار فاريا بقصة إدموند",
+          "type": "sb_wb"
+        }
+      ],
+      "homeworkQuestions": [
+        {
+          "id": "sec3_ch5_hw_1",
+          "question": "ff) How did Faria's advice shape Edmond's moral choices regarding justice and revenge?",
+          "answer": "تحليل أدبي ونقدي يعبر فيه الطالب عن رؤيته للشخصيات والأحداث وفق توجيهات د. حبيب الرحمن.",
+          "type": "homework"
+        },
+        {
+          "id": "sec3_ch5_hw_2",
+          "question": "ff) “True greatness is not in wealth, but in how you use it.” What lesson about life and",
+          "answer": "تحليل أدبي ونقدي يعبر فيه الطالب عن رؤيته للشخصيات والأحداث وفق توجيهات د. حبيب الرحمن.",
+          "type": "homework"
+        },
+        {
+          "id": "sec3_ch5_hw_3",
+          "question": "wealth did Faria teach Edmond with this quote?",
+          "answer": "تحليل أدبي ونقدي يعبر فيه الطالب عن رؤيته للشخصيات والأحداث وفق توجيهات د. حبيب الرحمن.",
+          "type": "homework"
+        },
+        {
+          "id": "sec3_ch5_hw_4",
+          "question": "(©) it you were Edmond, would you believe Faria's story about the hidden treasure?",
+          "answer": "تحليل أدبي ونقدي يعبر فيه الطالب عن رؤيته للشخصيات والأحداث وفق توجيهات د. حبيب الرحمن.",
+          "type": "homework"
+        },
+        {
+          "id": "sec3_ch5_hw_5",
+          "question": "Why? Why not?",
+          "answer": "تحليل أدبي ونقدي يعبر فيه الطالب عن رؤيته للشخصيات والأحداث وفق توجيهات د. حبيب الرحمن.",
+          "type": "homework"
+        },
+        {
+          "id": "sec3_ch5_hw_6",
+          "question": "fF) The old priest proved to have a sharp mind by solving the mystery of Edmond's",
+          "answer": "تحليل أدبي ونقدي يعبر فيه الطالب عن رؤيته للشخصيات والأحداث وفق توجيهات د. حبيب الرحمن.",
+          "type": "homework"
+        },
+        {
+          "id": "sec3_ch5_hw_7",
+          "question": "betrayal. Explain.",
+          "answer": "تحليل أدبي ونقدي يعبر فيه الطالب عن رؤيته للشخصيات والأحداث وفق توجيهات د. حبيب الرحمن.",
+          "type": "homework"
+        },
+        {
+          "id": "sec3_ch5_hw_8",
+          "question": "§F)) How did Edmond's realization of betrayal change his emotional state and sense of",
+          "answer": "تحليل أدبي ونقدي يعبر فيه الطالب عن رؤيته للشخصيات والأحداث وفق توجيهات د. حبيب الرحمن.",
+          "type": "homework"
+        }
+      ],
+      "mcqQuestions": [
+        {
+          "id": "mcq_sec3_ch5_1",
+          "question": "What is the central focus of Chapter 5 (A Ray of Hope)?",
+          "options": [
+            "Abbé Faria taught Edmond languages, history, geography, mathematics, and",
+            "Edmond decides to leave France forever without facing his enemies",
+            "The Pharaon ship is sold to a foreign country",
+            "Villefort resigns from his position as deputy prosecutor"
+          ],
+          "correctAnswer": "Abbé Faria taught Edmond languages, history, geography, mathematics, and",
+          "explanation": "Edmond's journey reflects moral resilience and enduring faith in ultimate justice."
+        },
+        {
+          "id": "mcq_sec3_ch5_2",
+          "question": "How does Edmond Dantés demonstrate his character in this chapter?",
+          "options": [
+            "Through unwavering loyalty, honesty, and moral resilience",
+            "By seeking violent revenge immediately without thought",
+            "By surrendering completely to hopelessness and giving up",
+            "By accepting money to abandon his principles"
+          ],
+          "correctAnswer": "Through unwavering loyalty, honesty, and moral resilience",
+          "explanation": "Edmond consistently maintains his dignity and integrity, holding fast to his core values."
+        }
+      ]
+    },
+    {
+      "id": "sc_sec_3_ch_6",
+      "chapterNumber": 6,
+      "titleEn": "The Secret of the Treasure",
+      "titleAr": "سر الكنز",
+      "term": "first",
+      "summaryEn": "Atter Abbé Faria’s death, Edmond promised to find the Monte Cristo treasure and justice",
+      "summaryAr": "وعد إدموند بالعثور على كنز مونتي كريستو وتحقيق العدالة. Lyla بعد وفاة الأب",
+      "chapterInPoints": [
+        {
+          "en": "Atter Abbé Faria’s death, Edmond promised to find the Monte Cristo treasure and justice",
+          "ar": "وعد إدموند بالعثور على كنز مونتي كريستو وتحقيق العدالة. Lyla بعد وفاة الأب"
+        },
+        {
+          "en": "Exmond secretly replaced the abbé’s body and hid inside the burial sack for escape.",
+          "ar": "استبدل إدموند جثمان الأب سرًا. واختبأ داخل كيس الدفن من أجل الهروب."
+        },
+        {
+          "en": "Thrown into the sea, Edmond cut the sack and swam toward long-awaited freedom.",
+          "ar": "ألقي إدموند في البحر. فقطع الكيس وسبح نحو الحرية التي طال انتظارها."
+        },
+        {
+          "en": "Rescued by fishermen, Edmond hid his identity and returned to the sea as sailor.",
+          "ar": "أنقذه الصيادون. فأخفى هويته وعاد إلى البحر بحارًا باسم مستعار."
+        },
+        {
+          "en": "Edmond patiently searched maps, waiting for the perfect chance to reach Monte Cristo",
+          "ar": "بحث إدموند في الخرائط بصبر. منتظرًا الفرصة المناسبة للوصول إلى مونتي كريستو."
+        },
+        {
+          "en": "A smuggler’s boat finally landed near Monte Cristo, fuffiling Edmond’s greatest hope.",
+          "ar": "إدموند. Jlal رسا قارب مهربين أخيرًا قرب مونتي كريستو. محققًا أعظم"
+        },
+        {
+          "en": "Following Faria’s directions, Edmond discovered the hidden place and uncovered the",
+          "ar": "على صندوق الكنز. jicg باتباع إرشادات فاريا. اكتشف إدموند المكان السري"
+        },
+        {
+          "en": "The chest contained gold, silver, diamonds, rubies, emeralds, crowns, statues, and",
+          "ar": "بثمن. jai احتوى الصندوق على الذهب والفضة والألماس والياقوت والزمرّد والتيجان والتماثيل وثروات لا"
+        }
+      ],
+      "vocabulary": [
+        {
+          "word": "chamber",
+          "meaningAr": "غرفة / حجرة"
+        },
+        {
+          "word": "greed",
+          "meaningAr": "جشع"
+        },
+        {
+          "word": "shipwrecked",
+          "meaningAr": "ناج من تحطم سفينة"
+        },
+        {
+          "word": "cliffs",
+          "meaningAr": "منحدرات صخرية"
+        },
+        {
+          "word": ". grief",
+          "meaningAr": "أسى / حزن عميق"
+        },
+        {
+          "word": "smuggler",
+          "meaningAr": "مهرب"
+        },
+        {
+          "word": "corridors Giljao hatred",
+          "meaningAr": "كراهية / حقد"
+        },
+        {
+          "word": "statues",
+          "meaningAr": "تماثيل"
+        },
+        {
+          "word": "crowns",
+          "meaningAr": "تيجان"
+        },
+        {
+          "word": "hollow",
+          "meaningAr": "أجوف"
+        },
+        {
+          "word": "steel",
+          "meaningAr": "فولاذ"
+        },
+        {
+          "word": "deserted",
+          "meaningAr": "مهجور"
+        },
+        {
+          "word": "marble",
+          "meaningAr": "ركام"
+        },
+        {
+          "word": "supplies",
+          "meaningAr": "مون / لوازم"
+        },
+        {
+          "word": "sorrow",
+          "meaningAr": "حزن"
+        },
+        {
+          "word": "opportunity",
+          "meaningAr": "فرصة"
+        },
+        {
+          "word": "destiny jad",
+          "meaningAr": "/ مصير"
+        },
+        {
+          "word": "trembling",
+          "meaningAr": "مرتجف"
+        },
+        {
+          "word": "untouchable gums",
+          "meaningAr": "/ لا يمس"
+        },
+        {
+          "word": "determination",
+          "meaningAr": "رارصإ / عزيمة"
+        },
+        {
+          "word": "pickaxe",
+          "meaningAr": "معول / فأس"
+        },
+        {
+          "word": "symbols",
+          "meaningAr": "رموز"
+        },
+        {
+          "word": "diamonds uulall plunge",
+          "meaningAr": "يهبط / يفوص"
+        },
+        {
+          "word": "vengeance",
+          "meaningAr": "انتقام"
+        },
+        {
+          "word": "duty",
+          "meaningAr": "واجب"
+        },
+        {
+          "word": "rope",
+          "meaningAr": "حبل"
+        },
+        {
+          "word": "weapons",
+          "meaningAr": "أسلحة"
+        },
+        {
+          "word": ") rubies",
+          "meaningAr": "ياقوت أحمر"
+        },
+        {
+          "word": "sack",
+          "meaningAr": "اكيس"
+        }
+      ],
+      "theText": [
+        {
+          "order": 1,
+          "paragraphEn": "had given him more than knowledge; he had given him a future. 0",
+          "paragraphAr": "إدموند دانتيس فقد صديقه الوحيد. موت الأب فاريا تركه في"
+        },
+        {
+          "order": 2,
+          "paragraphEn": "",
+          "paragraphAr": "حزن عميق. لقد كاز الكاهن معلمه وأباه ونور حياته في سنوات الظلام الطويلة."
+        },
+        {
+          "order": 3,
+          "paragraphEn": "",
+          "paragraphAr": "لكن صم الكزن. شعر إدطوند يقوة جديدة تنهطض فم قلبه. إحساس بالواجب والأمل والعزيمة. لقد"
+        },
+        {
+          "order": 4,
+          "paragraphEn": "",
+          "paragraphAr": "أكثر من مجرد علم: لقد منحه مستقبلاً patel أعطاه"
+        },
+        {
+          "order": 5,
+          "paragraphEn": "boxes of jewels, rare statues, and crowns once worn by princes.",
+          "paragraphAr": "لعدة أيام جلس إدمونداصامتاً في زنزانته. ممسكاً بالرقعة الصغيرة التي تركها له الأب. كانت"
+        },
+        {
+          "order": 6,
+          "paragraphEn": "",
+          "paragraphAr": "عليها رفور وكلمات غريبة نَمَف فبكان كنز عظيم مدفون في جزيرة مؤنتي كريشتو"
+        },
+        {
+          "order": 7,
+          "paragraphEn": "",
+          "paragraphAr": "عقله بالصور: جبال من الذهب: وأكياسٌ من الفضة tr thay الورقَة Lead في كل مثرة كان يقتر"
+        },
+        {
+          "order": 8,
+          "paragraphEn": "",
+          "paragraphAr": "ما Logs من الجواهر. وتمائيل نادرة. وتيجان لبسها الأمراء dling"
+        },
+        {
+          "order": 9,
+          "paragraphEn": "for justice, not for vengeance alone.” He repeated those words often, as if they were a prayer.",
+          "paragraphAr": "كاذباً ual ضيفي الكل الال 6 ol g.oytel vis ats مجرح pa أن aigas) GB في البداية"
+        },
+        {
+          "order": 10,
+          "paragraphEn": "",
+          "paragraphAr": "أن يجده. adgas) Aual Ad 135 فَإِذتَكدث عن الكنز قلايد أنه 2990 وذ كان فوج LAaal ولا"
+        },
+        {
+          "order": 11,
+          "paragraphEn": "",
+          "paragraphAr": "الأداة التي وهبها الله لي. به ail 'هذا الكنز\". همس لنفسه في الظلام. \"ليس من أجل الطمع."
+        },
+        {
+          "order": 12,
+          "paragraphEn": "",
+          "paragraphAr": "سأكافة الصاكينَ وأعاقب المذنيين."
+        },
+        {
+          "order": 13,
+          "paragraphEn": "",
+          "paragraphAr": "لتحقيق العدالة ji) تذكر إدموند كلمات الكاهن الأخيرة: \"لا تدع الكراهية تسيطر عليك. استكَدَمَ"
+        },
+        {
+          "order": 14,
+          "paragraphEn": "",
+          "paragraphAr": "وكانها صلاة. ysis الالتفام فقط\" كان يردد هذه بالكلمات Jal ay"
+        },
+        {
+          "order": 15,
+          "paragraphEn": "said. “We'll sew him into a sack tonight and throw him into the sea.”",
+          "paragraphAr": "ومع ذلك. كان الفضب يحترق في قلبه مثل نار خفية. دانجلار فرناند. فيلفور — تلك الأسماء تتردد"
+        },
+        {
+          "order": 16,
+          "paragraphEn": "",
+          "paragraphAr": "في ذهنه. كل واحد منهم سرق شبابه وحبه وحريته. لكن إدموند أجبر نفسه على الانتظار. أولاً"
+        },
+        {
+          "order": 17,
+          "paragraphEn": "",
+          "paragraphAr": "الهروب. ثم الكنز. ثم العدانة"
+        },
+        {
+          "order": 18,
+          "paragraphEn": "",
+          "paragraphAr": "موت الأب فاريا إدموند فرصة غير متوقعة, في صباح أحد الأيام, بينما كان الحراس يحملون alae"
+        },
+        {
+          "order": 19,
+          "paragraphEn": "",
+          "paragraphAr": "الطعام إلى زنزانته. سمعهم يتحدثون بصوت منخفض. قال أحدهم: \"الكاهن العجوز قد مات. ستخيطه"
+        },
+        {
+          "order": 20,
+          "paragraphEn": "",
+          "paragraphAr": "فب كيس الليلة ونلقيه في البحر'"
+        },
+        {
+          "order": 21,
+          "paragraphEn": "his own bed and covered it.",
+          "paragraphAr": "فريما يستطيع أن يأخذ مكان الأب. وفي Lins قفز قلب إدموند من مكانه. فإذا كان الحراس سيحملونَ"
+        },
+        {
+          "order": 22,
+          "paragraphEn": "",
+          "paragraphAr": "ظلام الليل. لن يكتشف أحد الحقيقة إلا بعد فنوات الأوان"
+        },
+        {
+          "order": 23,
+          "paragraphEn": "",
+          "paragraphAr": "تحرك إدموند بسرعة. حفر ليصل إلى زنزانة الكاهن. فوجد gly all ale في ذلك المساء. عندما"
+        },
+        {
+          "order": 24,
+          "paragraphEn": "",
+          "paragraphAr": "الجثمان وقبل جبينه للمرة الأخيترة. ثم بيدين مرتجفتين. وضع الجسد في شريره وغطاه."
+        },
+        {
+          "order": 25,
+          "paragraphEn": "the waves below. “Ready?” one guard asked. “Throw him!” said the other.",
+          "paragraphAr": "متكا بقظفة fell 5 للعوتى. وربظ الحبل من الداخل sal بعد ذنّك. انزلق داخل الكيس"
+        },
+        {
+          "order": 26,
+          "paragraphEn": "",
+          "paragraphAr": "في البحر Ls حديد حادة ليقطعها لاحقاً كان قلبه يخفق بجنون. فإذا فشّلت,الخظة. مسف يُلقى"
+        },
+        {
+          "order": 27,
+          "paragraphEn": "",
+          "paragraphAr": "Ly إن نجحت. فالحرية Lal ويشرق."
+        },
+        {
+          "order": 28,
+          "paragraphEn": "",
+          "paragraphAr": "إلى ai به عبر الممرات. ثم Lg full دخل حارسان بسرعة: ومن دون أن يتحققا. حملا الكيس"
+        },
+        {
+          "order": 29,
+          "paragraphEn": "",
+          "paragraphAr": "قال أخد الحراس. aio هدير الأمواق أسفل aug Jal إدموند ببرودة هواء jas Alla أعلى"
+        },
+        {
+          "order": 30,
+          "paragraphEn": "",
+          "paragraphAr": "teas فأجايه الآخر: «Spats"
+        },
+        {
+          "order": 31,
+          "paragraphEn": "sea. The shock of water nearly made him scream, but he bit =",
+          "paragraphAr": "his lips. Weighted down by cannonballs tied to the sack, he أ"
+        },
+        {
+          "order": 32,
+          "paragraphEn": "began to sink fast. Desperate, he cut through the canvas with 1",
+          "paragraphAr": "his iron piece, tore the rope, and swam upward with all his .م"
+        },
+        {
+          "order": 33,
+          "paragraphEn": "nightmares. In front of him stretched the endless sea—his path to freedom.",
+          "paragraphAr": "المثلج. كادت صدمة الماء تجعله يصرخ. لكنه paul انطلق الكيس في الهواء. وسقط إدموند في"
+        },
+        {
+          "order": 34,
+          "paragraphEn": "",
+          "paragraphAr": "قطع Lush بسرعة. Byes عض على شفتيه. وبسبب ثقل قذائف المدفع المريوطة بالكيس. بدأ"
+        },
+        {
+          "order": 35,
+          "paragraphEn": "",
+          "paragraphAr": "gd وسبح إلى الأعلى بكل «Jul القماش بقطعة الحديد. ومزق"
+        },
+        {
+          "order": 36,
+          "paragraphEn": "",
+          "paragraphAr": "وأخيراً. اخترق رأسه سطح الماء. ملأ رئتيه بالهواء ونظر خلفه. فإذا بالظل الأسود لقلعة إيف"
+        },
+        {
+          "order": 37,
+          "paragraphEn": "",
+          "paragraphAr": "سجن كوابيسه. يلوح بعيداً. وأمامه يمتد البحر بلا نهاية - طريقه نحو الحرية"
+        },
+        {
+          "order": 38,
+          "paragraphEn": "of Monte Cristo.",
+          "paragraphAr": "سبح إدموند طوال الليل. مسترشداً بالنجوم كما كان يفعل من قبل عندما كان بحاراً. وبالإرهاق"
+        },
+        {
+          "order": 39,
+          "paragraphEn": "",
+          "paragraphAr": "الشديد. وصل إلى جزيرة صفيرة مهجورة. هناك استراح. نصف ميت لكنه حي. وفي صباح اليوم"
+        },
+        {
+          "order": 40,
+          "paragraphEn": "",
+          "paragraphAr": "التالي. رأى قارب صيد يمر بالقرب منه. فاستخدم قطعة خشب كإشارة. فانتبه إليه الصيادون وسحبوم"
+        },
+        {
+          "order": 41,
+          "paragraphEn": "",
+          "paragraphAr": "الى القارب:"
+        },
+        {
+          "order": 42,
+          "paragraphEn": "",
+          "paragraphAr": "'من أنت؟\" فأجاب إدموّن: \"بحر عسكين حطمته العاصفة.\" لم تكن الحقيقة كاملة, لكنها ogi"
+        },
+        {
+          "order": 43,
+          "paragraphEn": "",
+          "paragraphAr": "igen esl يعمل امم lok iB امون إلى البحر باسم ac الوم IS ag انقذتيوز"
+        },
+        {
+          "order": 44,
+          "paragraphEn": "",
+          "paragraphAr": "إلى جزيرة مونتي قشت Ug Holl jell pi المشللة:"
+        },
+        {
+          "order": 45,
+          "paragraphEn": "remembered every detail of the abbé’s story: the rock",
+          "paragraphAr": "formations, the hidden cave, the chest buried deep فا"
+        },
+        {
+          "order": 46,
+          "paragraphEn": "to himself: “Monte Cristo... the key to my destiny.”",
+          "paragraphAr": "ومع تحول الأيام إلى أسايع. عاد عقل إدمون مراراً وتكراراً إلى الكنز. كان يدرس الخرائط كلما"
+        },
+        {
+          "order": 47,
+          "paragraphEn": "",
+          "paragraphAr": "استطاع. باحثاً عن موقع الجزيرة الفامضة. وتذكر كل تفصيلة من قصة الأب: التكوينات الصخرية"
+        },
+        {
+          "order": 48,
+          "paragraphEn": "",
+          "paragraphAr": "الكهف المخفي. والصندوق المدفون في أعماف الأرض"
+        },
+        {
+          "order": 49,
+          "paragraphEn": "",
+          "paragraphAr": "بينما ينام البحارة الأخرون. كان إدمون يهمس لنفسه: \"مونتي كريستو... مفتاح قدري ll وفي"
+        },
+        {
+          "order": 50,
+          "paragraphEn": "A smuggler's boat he had joined decided to land near",
+          "paragraphAr": "Monte Cristo to hide goods. Edmond’s heart raced. م"
+        },
+        {
+          "order": 51,
+          "paragraphEn": "useless rock. To Edmond, it was paradise.",
+          "paragraphAr": "لم يكن الوصول إلى الجزيرة أمرًا سهلاً. فالسفن نادرًا ما كانت تمر من هناك. ولم يكن بوسعه أن"
+        },
+        {
+          "order": 52,
+          "paragraphEn": "",
+          "paragraphAr": "المال والمؤن. وأخيرًا Lala Sl الشكوك. لذ اننظر متنقلاً من ميناء إلى Li] يسأل علنًا من دون"
+        },
+        {
+          "order": 53,
+          "paragraphEn": "",
+          "paragraphAr": "قلب AS الحظ. إذ قرر قارب مهريين أنضم إليه أن يرسو قرب مونتي كريستو لإخفاء البضائع. ela"
+        },
+        {
+          "order": 54,
+          "paragraphEn": "",
+          "paragraphAr": "بسرعة. لقد حان الوقت. Jo 23"
+        },
+        {
+          "order": 55,
+          "paragraphEn": "",
+          "paragraphAr": "بالأسبة لإدم ون Lal Lad تكن سوى صخرة مهجورة لا قيمة A) بار Ally يسكنها أحد."
+        },
+        {
+          "order": 56,
+          "paragraphEn": "",
+          "paragraphAr": "inl فكانت"
+        },
+        {
+          "order": 57,
+          "paragraphEn": "Edmond pulled it free.",
+          "paragraphAr": "وبعض gaa Salsa i ييحن عل i تظاهر فون yp sell وحين انشغل الأخرون بإنزال"
+        },
+        {
+          "order": 58,
+          "paragraphEn": "",
+          "paragraphAr": "الأب yg متجهاً إلى المكان السري الموصوف في yg All المؤن. صعد"
+        },
+        {
+          "order": 59,
+          "paragraphEn": "",
+          "paragraphAr": "لساعات. يقارن العلامات: صخرة مجوفة على شكل صليب. جدول ماء صفير يجف في day ظل"
+        },
+        {
+          "order": 60,
+          "paragraphEn": "",
+          "paragraphAr": "الصيف. وشجرة تين تنمو من بين الصخور. وأخيراً. وجد المكان."
+        },
+        {
+          "order": 61,
+          "paragraphEn": "",
+          "paragraphAr": "ارتعشت يدا إدمون وهو يحفر. كانت الأرض صلبة. لكن قوته غذاها الأمل. وسرعان قا ارتطم"
+        },
+        {
+          "order": 62,
+          "paragraphEn": "",
+          "paragraphAr": "لطت منحدح. ادل لك | لمن بلطن الأرض analy gui wuld gain ile eat algea"
+        },
+        {
+          "order": 63,
+          "paragraphEn": "He broke the lock, lifted the lid—and",
+          "paragraphAr": "gasped. Inside lay mountains of gold coins, ١8"
+        },
+        {
+          "order": 64,
+          "paragraphEn": "the sea. a",
+          "paragraphAr": "Statues carved in marble, crowns decorat- !ا | ts"
+        },
+        {
+          "order": 65,
+          "paragraphEn": "your secret lives. | am free, and | will use this gift.”",
+          "paragraphAr": "حطم القفل ورفع الغطاء فشهق من الدهشة. في الداخل تراكمت جبال من العملات"
+        },
+        {
+          "order": 66,
+          "paragraphEn": "",
+          "paragraphAr": "لذهبية. وسبائك من الفضة. وألماس يلمع كالنجوم. وياقوت أحمر كالنار. وزمرّد أخضر كالبحر"
+        },
+        {
+          "order": 67,
+          "paragraphEn": "",
+          "paragraphAr": "ملأت pall تماثيل منحوتة من الرخام.,وتيجان مرصعة بالجواهٌ. وأسلحة مصنوعة من الفولاذ"
+        },
+        {
+          "order": 68,
+          "paragraphEn": "",
+          "paragraphAr": "على ركبتيه وهمس: \"ايها Lis ثروته. ثم day إلكنز. وقد أغفاه jd إدمون طويلاً يحدق Jb"
+        },
+        {
+          "order": 69,
+          "paragraphEn": "",
+          "paragraphAr": "زالايا تلح تجزرت. ولتاشتخدم هتذه الهبة La الأب اراز سرك"
+        },
+        {
+          "order": 70,
+          "paragraphEn": "him from despair to destiny.",
+          "paragraphAr": "كريستو"
+        },
+        {
+          "order": 71,
+          "paragraphEn": "",
+          "paragraphAr": "بهذا الكنز سيبني هوية جديدة قوية ولا ثمس. وسيكافئ من كانوا طيبين معه. مثل صديقه"
+        },
+        {
+          "order": 72,
+          "paragraphEn": "",
+          "paragraphAr": "لها الك All 3.0 السجن إلبالحريق) وسيحمله كنز ولتي كريستو js pal لقد حقله"
+        }
+      ],
+      "questionsAndAnswers": [
+        {
+          "id": "sec3_ch6_qa_1",
+          "question": "with Edmond? إدموند؟",
+          "answer": "Abbé Faria tells Edmond about the hidden إدموند عن الكنز المخفي Lyla أخبر الأب\ntreasure on the island of Monte Cristo. .في جزيرة مونت كريستو.\n(PP. (Why does Abbé Faria choose Edmond to به iu! لماذا اختار القس فاريا إدموند",
+          "type": "sb_wb"
+        },
+        {
+          "id": "sec3_ch6_qa_2",
+          "question": "trust with the treasure’s location? بخصوص مكان الكنز؟",
+          "answer": "Because he saw Edmond’s good heart and قلب إدموند الطيب ونبله. sly ai\nnobility.\n[How does the idea of treasure add to the كيف تضيف فكرة الكنز إلى موضوع القدر",
+          "type": "sb_wb"
+        },
+        {
+          "id": "sec3_ch6_qa_3",
+          "question": "theme of destiny in the story? في القصة؟",
+          "answer": "The treasure represents an opportunity for لتفيير مصيره. aigasy يمثل الكنز فرصة\nEdmond to change his destiny.\n1517 (it you discovered a hidden fortune, would إذا اكتشفت ثروة مخفية. هل ستستخدمها",
+          "type": "sb_wb"
+        },
+        {
+          "id": "sec3_ch6_qa_4",
+          "question": "you use it for personal comfort or change the لراحتك الشخصية أم لتغيير حياة الآخرين؟",
+          "answer": "",
+          "type": "sb_wb"
+        },
+        {
+          "id": "sec3_ch6_qa_5",
+          "question": "lives of others? Explain. ang",
+          "answer": "| would use it to help others and improve سأستخدمها لمساعدة الآخرين وتحسين\ntheir lives. حياتهم.\nfF} (The treasure is more than gold. What does في joy ماذا umd الكنز أكثر من مجرد",
+          "type": "sb_wb"
+        },
+        {
+          "id": "sec3_ch6_qa_6",
+          "question": "it symbolize for Edmond's life, hopes, and وانتقامه؟ allalg حياة إدموند",
+          "answer": "revenge?\nIt symbolizes freedom, power, the future, and إلى الحرية والقوة والمستقبل ومصير jays\nanew destiny. a,\n1591 (Do you think the promise of great wealth can yi هل تعتقد أن وعد الثروة الكبيرة يمكن",
+          "type": "sb_wb"
+        },
+        {
+          "id": "sec3_ch6_qa_7",
+          "question": "motivate someone to survive hardships? Why ——SISLalg يدفع شخصاً لتحمل الصعوبات؟",
+          "answer": "",
+          "type": "sb_wb"
+        },
+        {
+          "id": "sec3_ch6_qa_8",
+          "question": "or why not?",
+          "answer": "Yes, because hope for a better future helps. لأن الأمل في مستقبل أفضل يساعد ani\npeople endure difficult times. على تحمل الأوقات الصعبة. yulill\nل انالال سد professional\nBIR (if you were Edmond, would you replace كنت مكان إدموند. هل ستآخذ مكان gi",
+          "type": "sb_wb"
+        },
+        {
+          "id": "sec3_ch6_qa_9",
+          "question": "Faria's body in the sack to escape? Why? فاريا في الكيس للهروب؟ ولماذا؟",
+          "answer": "Yes, because it was the only chance to كان الفرصة الوحيدة للهروب من ai نعم\nescape from prison. السجن.",
+          "type": "sb_wb"
+        },
+        {
+          "id": "sec3_ch6_qa_10",
+          "question": "[EP (What would have happened if Edmond's plan ؟دنومدإ ماذا كان سيحدث لو فشلت خطة",
+          "answer": "",
+          "type": "sb_wb"
+        },
+        {
+          "id": "sec3_ch6_qa_11",
+          "question": "had failed?",
+          "answer": "He would have been discovered and كان سينكشف أمره ويعاقب أو ربعا يُقتل.\npunished or even killed.\n1591 (How did Edmond justify his presence on the كيف برر إدموند وجوده في الجزيرة",
+          "type": "sb_wb"
+        },
+        {
+          "id": "sec3_ch6_qa_12",
+          "question": "desert island to the sailors? المهجورة للبحارة؟",
+          "answer": "He pretended to be a shipwrecked sailor who من غرق سفينته. Lai بحار ail) تظاهر\nsurvived alone.\nfT} (inside the wooden chest, it was more than داخل الصندوق الخشبي لم يكن مجرد كنز\ntreasure. It was a kingdom in a box. Illustrate. بل مملكة في صندوق. وضح.\nThe treasure gave Edmond unlimited wealth الكنز إدموند ثروة وقوة هائلة. aio\nand power.\nfF} (Eamond Dantés the poor sailor died, anda لجر مات إدموند دانتيس البحار الفقير وولد\nnew man was born—the Count of Monte جديد - كونت مونت كريستو. ماذا يعني",
+          "type": "sb_wb"
+        },
+        {
+          "id": "sec3_ch6_qa_13",
+          "question": "Cristo. What does this mean? ذلك؟",
+          "answer": "It means Edmond changed completely and يعني أن إدموند تغير تماماً وبدأ هوية.\nstarted a new identity. إجديدة.\nfF} (The treasure is the tool given 16 Edmond by حضو الكنز هو أداة أعطاها الله لإدموند.\nGod. Explain how Edmond plans to use it. كيف يخطط لاستخدامه.\nEdmond plans to use it to reward the good يخطط إدموند لاستخدامه لمكافأة\nand punish the guilty. الصالحين ومعاقبة المذنبين.\n171! (what does Edmond's patience reveal about ماذا تكشف صبر إدموند عن شخصيته",
+          "type": "sb_wb"
+        },
+        {
+          "id": "sec3_ch6_qa_14",
+          "question": "his character and motives? ودوافعه؟",
+          "answer": "It shows that he is determined and patient in مصمم وصبور لتحقيق. ail يدل على\nachieving justice. العدالة.\nfF) (why does Abbé Faria choose Edmond to لماذا اختار الأب فاريا إدموند ليأتمنه على",
+          "type": "sb_wb"
+        },
+        {
+          "id": "sec3_ch6_qa_15",
+          "question": "trust with the treasure's location? مكان الكنز؟",
+          "answer": "Because Faria sees that Edmond has a good أن إدموند يمتلك قلباً طيباً si) Lyla لأن\nand honest heart. وصادقاً.\nكيف تضيف فكرة الكنز إلى موضوع القدر (How does the idea of treasure add to the (إ(15",
+          "type": "sb_wb"
+        },
+        {
+          "id": "sec3_ch6_qa_16",
+          "question": "في القصة؟ theme of destiny in the story?",
+          "answer": "يوضح الكنز أن القدر يمنح إدموند فرصة. ‘The treasure shows that destiny gives\nالتغيير حياته. Edmond a chance to change his life.",
+          "type": "sb_wb"
+        }
+      ],
+      "importantQuestions": [
+        {
+          "id": "sec3_ch6_qa_5",
+          "question": "lives of others? Explain. ang",
+          "answer": "| would use it to help others and improve سأستخدمها لمساعدة الآخرين وتحسين\ntheir lives. حياتهم.\nfF} (The treasure is more than gold. What does في joy ماذا umd الكنز أكثر من مجرد",
+          "type": "sb_wb"
+        },
+        {
+          "id": "sec3_ch6_qa_6",
+          "question": "it symbolize for Edmond's life, hopes, and وانتقامه؟ allalg حياة إدموند",
+          "answer": "revenge?\nIt symbolizes freedom, power, the future, and إلى الحرية والقوة والمستقبل ومصير jays\nanew destiny. a,\n1591 (Do you think the promise of great wealth can yi هل تعتقد أن وعد الثروة الكبيرة يمكن",
+          "type": "sb_wb"
+        },
+        {
+          "id": "sec3_ch6_qa_7",
+          "question": "motivate someone to survive hardships? Why ——SISLalg يدفع شخصاً لتحمل الصعوبات؟",
+          "answer": "",
+          "type": "sb_wb"
+        },
+        {
+          "id": "sec3_ch6_qa_8",
+          "question": "or why not?",
+          "answer": "Yes, because hope for a better future helps. لأن الأمل في مستقبل أفضل يساعد ani\npeople endure difficult times. على تحمل الأوقات الصعبة. yulill\nل انالال سد professional\nBIR (if you were Edmond, would you replace كنت مكان إدموند. هل ستآخذ مكان gi",
+          "type": "sb_wb"
+        },
+        {
+          "id": "sec3_ch6_qa_9",
+          "question": "Faria's body in the sack to escape? Why? فاريا في الكيس للهروب؟ ولماذا؟",
+          "answer": "Yes, because it was the only chance to كان الفرصة الوحيدة للهروب من ai نعم\nescape from prison. السجن.",
+          "type": "sb_wb"
+        }
+      ],
+      "homeworkQuestions": [
+        {
+          "id": "sec3_ch6_hw_1",
+          "question": "ARP) The treasure is more than gold. What does it symbolize for Edmonds life, hopes, and",
+          "answer": "تحليل أدبي ونقدي يعبر فيه الطالب عن رؤيته للشخصيات والأحداث وفق توجيهات د. حبيب الرحمن.",
+          "type": "homework"
+        },
+        {
+          "id": "sec3_ch6_hw_2",
+          "question": "ff) The death of Abbé Faria gave Edmond an unexpected opportunity. Explain.",
+          "answer": "تحليل أدبي ونقدي يعبر فيه الطالب عن رؤيته للشخصيات والأحداث وفق توجيهات د. حبيب الرحمن.",
+          "type": "homework"
+        },
+        {
+          "id": "sec3_ch6_hw_3",
+          "question": "fh the sea carried Edmond from prison to freedom. Explain.",
+          "answer": "تحليل أدبي ونقدي يعبر فيه الطالب عن رؤيته للشخصيات والأحداث وفق توجيهات د. حبيب الرحمن.",
+          "type": "homework"
+        },
+        {
+          "id": "sec3_ch6_hw_4",
+          "question": "WFP) why do you think Edmond hid his real identity?",
+          "answer": "تحليل أدبي ونقدي يعبر فيه الطالب عن رؤيته للشخصيات والأحداث وفق توجيهات د. حبيب الرحمن.",
+          "type": "homework"
+        },
+        {
+          "id": "sec3_ch6_hw_5",
+          "question": "151 what does Monte Cristo symbolize for Edmond compared to the sailors?",
+          "answer": "تحليل أدبي ونقدي يعبر فيه الطالب عن رؤيته للشخصيات والأحداث وفق توجيهات د. حبيب الرحمن.",
+          "type": "homework"
+        },
+        {
+          "id": "sec3_ch6_hw_6",
+          "question": "fF) The treasure of Monte Cristo would carry Edmond from despair to destiny. Explain.",
+          "answer": "تحليل أدبي ونقدي يعبر فيه الطالب عن رؤيته للشخصيات والأحداث وفق توجيهات د. حبيب الرحمن.",
+          "type": "homework"
+        }
+      ],
+      "mcqQuestions": [
+        {
+          "id": "mcq_sec3_ch6_1",
+          "question": "What is the central focus of Chapter 6 (The Secret of the Treasure)?",
+          "options": [
+            "Atter Abbé Faria’s death, Edmond promised to find the Monte Cristo treasure and justice",
+            "Edmond decides to leave France forever without facing his enemies",
+            "The Pharaon ship is sold to a foreign country",
+            "Villefort resigns from his position as deputy prosecutor"
+          ],
+          "correctAnswer": "Atter Abbé Faria’s death, Edmond promised to find the Monte Cristo treasure and justice",
+          "explanation": "Edmond's journey reflects moral resilience and enduring faith in ultimate justice."
+        },
+        {
+          "id": "mcq_sec3_ch6_2",
+          "question": "How does Edmond Dantés demonstrate his character in this chapter?",
+          "options": [
+            "Through unwavering loyalty, honesty, and moral resilience",
+            "By seeking violent revenge immediately without thought",
+            "By surrendering completely to hopelessness and giving up",
+            "By accepting money to abandon his principles"
+          ],
+          "correctAnswer": "Through unwavering loyalty, honesty, and moral resilience",
+          "explanation": "Edmond consistently maintains his dignity and integrity, holding fast to his core values."
+        }
+      ]
+    }
+  ]
+}

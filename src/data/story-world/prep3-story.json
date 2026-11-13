@@ -1,0 +1,3082 @@
+{
+  "id": "story_prep_3_garden_project",
+  "gradeCode": "prep_3",
+  "gradeLabelAr": "الصف الثالث الإعدادي",
+  "gradeLabelEn": "Third Preparatory",
+  "term": "full_year",
+  "termLabelAr": "المنهج المطور للشهادة الإعدادية 2026/2027",
+  "termLabelEn": "Official 2026/2027 Novella",
+  "titleAr": "مشروع حديقة المدرسة",
+  "titleEn": "The School Garden Project",
+  "author": "Ministry of Education (وزارة التربية والتعليم)",
+  "aboutAuthorEn": "Official English reader written and published by the Ministry of Education for Third Preparatory students (Connect Plus & New Hello!).",
+  "aboutAuthorAr": "القصة الرسمية المقررة والمطورة من وزارة التربية والتعليم لطلاب الشهادة الإعدادية للعام الدراسي 2026/2027.",
+  "coverImage": "https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?w=800&auto=format&fit=crop&q=80",
+  "descriptionAr": "القصة الملهمة المقررة للشهادة الإعدادية 2026/2027: كيف حوّلت زينة ورفاقها فناء المدرسة المهمل إلى واحة بيئية خضراء بفضل المبادرة والعمل الجماعي والصدق في القيادة.",
+  "descriptionEn": "An uplifting educational story for Third Prep: Zeina and her classmates transform a barren, concrete playground into a vibrant school garden through teamwork, initiative, and determination.",
+  "plotSummaryEn": "Zeina, a new student at a preparatory school, notices the empty, gray, concrete playground covered in trash. She dreams of transforming it into a lush garden. Despite early skepticism from peers, she presents a proposal to the student council with the encouragement of Ms. Hoda, the biology teacher. Together with Nancy, Amal, Noha, and Sarah, they encounter weather setbacks, dead seedlings, and resource shortages. Through innovative eco-friendly techniques, shared responsibility, and honest leadership, they build a thriving garden that feeds the cafeteria and inspires the entire school community.",
+  "plotSummaryAr": "تلاحظ زينة، الطالبة الجديدة في المدرسة الإعدادية، كآبة فناء المدرسة الخرساني وتراكم القمامة، فتفكر في تحويله إلى حديقة خضراء تجمع الطلاب. بدعم من معلمة الأحياء مس هدى، تقدم مقترحاً لمجلس الطلاب. تشكل فريقاً متميزاً يضم نانسي وأمل ونهى وسارة. يواجه الفريق أمطاراً غزيرة وتلفاً في النباتات، لكن الإصرار والأساليب البيئية المستدامة والقيادة الصادقة تتوج جهودهم بإنشاء حديقة نموذجية تثمر خضروات طازجة للمقصف وتغير ثقافة المدرسة بأسرها.",
+  "characters": [
+    {
+      "name": "Zeina (زينة)",
+      "role": "The Visionary Leader",
+      "roleAr": "الطالبة الجديدة وقائدة المبادرة",
+      "descriptionEn": "A curious, proactive, and honest new student who conceives the school garden project, unites diverse classmates, and becomes student council president.",
+      "descriptionAr": "طالبة جديدة فضولية وشجاعة، تبادر بفكرة الحديقة المدرسية وتتحمل المسؤولية وتقود الفريق بالصدق والتواضع.",
+      "isMain": true
+    },
+    {
+      "name": "Nancy (نانسي)",
+      "role": "The Practical Craftsman",
+      "roleAr": "الصديقة الماهرة في استخدام الأدوات",
+      "descriptionEn": "Zeina's first friend at school, honest about her feelings, skilled with tools, who discovers a passion for agriculture.",
+      "descriptionAr": "أول صديقة لزينة، صريحة وماهرة في استخدام أدوات النجارة والزراعة، واكتشفت شغفها بدراسة العلوم الزراعية.",
+      "isMain": true
+    },
+    {
+      "name": "Amal (أمل)",
+      "role": "The Dedicated Gardener",
+      "roleAr": "الطالبة القوية التي تغلبت على الإحباط",
+      "descriptionEn": "A strong, hardworking student who nearly quits after heavy rain destroys early crops, but emerges as the most devoted gardener.",
+      "descriptionAr": "طالبة قوية شعرت بالإحباط بعد تلف الشتلات بالأمطار، لكنها بإصرار أصبحت أشد أعضاء الفريق تفانياً وحرصاً على ري الحديقة.",
+      "isMain": true
+    },
+    {
+      "name": "Ms. Hoda (مس هدى)",
+      "role": "The Supportive Biology Teacher",
+      "roleAr": "معلمة الأحياء الداعمة والمشجعة",
+      "descriptionEn": "An inspiring educator who mentors Zeina, validates her initiative, and bridges connections across the student body.",
+      "descriptionAr": "معلمة أحياء قديرة آمنت بفكرة زينة وساعدتها في تنظيم العرض والتواصل مع مختلف الطلاب.",
+      "isMain": true
+    },
+    {
+      "name": "Noha (نهى)",
+      "role": "The Creative Artist",
+      "roleAr": "الفنانة المبدعة",
+      "descriptionEn": "A talented student whose painted signs, decorative boards, and artwork enrich the garden's visual charm.",
+      "descriptionAr": "طالبة موهوبة زيّنت الحديقة باللافتات والرسومات الجميلة وألهمت الجميع بنشر الفنون في المدرسة.",
+      "isMain": false
+    }
+  ],
+  "themes": [
+    {
+      "themeEn": "Proactive Initiative and Responsibility",
+      "themeAr": "المبادرة الإيجابية وتحمل المسؤولية",
+      "descriptionEn": "Real leadership begins with observing a communal problem and taking constructive ownership rather than passively complaining.",
+      "descriptionAr": "القيادة الحقيقية تبدأ برؤية المشكلة وتحمل المسؤولية العملية لحلها بدلاً من الشكوى والتذمر."
+    },
+    {
+      "themeEn": "Environmental Responsibility",
+      "themeAr": "المسؤولية البيئية والزراعة النظيفة",
+      "descriptionEn": "Adopting eco-friendly methods, natural fertilizers, and zero harmful chemicals protects the soil and models sustainable living.",
+      "descriptionAr": "تطبيق الزراعة الصديقة للبيئة واستخدام الأسمدة الطبيعية وتدوير المخلفات لحماية التربة والمناخ."
+    },
+    {
+      "themeEn": "Teamwork and Diverse Talents",
+      "themeAr": "العمل الجماعي وتكامل المواهب",
+      "descriptionEn": "Every individual possesses unique strengths; when combined respectfully, small ideas blossom into transformative communal reality.",
+      "descriptionAr": "كل طالب يمتلك ميزة خاصة، وعندما تتحد السواعد باحترام متبادل تتحقق أعظم الإنجازات."
+    }
+  ],
+  "chapters": [
+    {
+      "id": "sc_prep_3_ch_1",
+      "chapterNumber": 1,
+      "titleEn": "A New Challenge",
+      "titleAr": "تحدٍ جديد",
+      "term": "first",
+      "summaryEn": "Zeina took responsibility for her idea.",
+      "summaryAr": "زينة أخذت المسؤولية عن فكرتها.",
+      "chapterInPoints": [
+        {
+          "en": "Zeina took responsibility for her idea.",
+          "ar": "زينة أخذت المسؤولية عن فكرتها."
+        },
+        {
+          "en": "She researched school gardens online.",
+          "ar": "هي بحثت عن حدائق المدارس عبر الإنترنت."
+        },
+        {
+          "en": "She wrote a simple proposal explaining both the advantages and challenges.",
+          "ar": "من المزايا والتحديات. VS هي كتبت مقترحاً بسيطاً يشرح"
+        },
+        {
+          "en": "She showed courage by speaking at the student council meeting.",
+          "ar": "هي أظهرت شجاعة بالتحدث في اجتماع مجلس الطلاب."
+        },
+        {
+          "en": "She proposed creating a garden behind the school.",
+          "ar": "هي اقترحت إنشاء حديقة خلف المدرسة."
+        },
+        {
+          "en": "She explained that vegetables could be grown for the cafeteria.",
+          "ar": "الكافتيريا. Jad £47 هي شرحت أن الخضروات يمكن أن"
+        },
+        {
+          "en": "She asked for help.",
+          "ar": "هي طلبت المساعدة."
+        },
+        {
+          "en": "Some students laughed because she was a new student.",
+          "ar": "بعض الطلاب ضحكوا لأنها كانت طالبة جديدة."
+        }
+      ],
+      "vocabulary": [
+        {
+          "word": "LZ - Cl cons CT",
+          "meaningAr": "يبدو"
+        }
+      ],
+      "theText": [
+        {
+          "order": 1,
+          "paragraphEn": "",
+          "paragraphAr": "هر Zeina was a new student at a preparatory school."
+        },
+        {
+          "order": 2,
+          "paragraphEn": "",
+          "paragraphAr": "زينة كانت طالبة جديدة في مدرسة إعدادية."
+        },
+        {
+          "order": 3,
+          "paragraphEn": "",
+          "paragraphAr": "خهر She was curious and noticed everything around her."
+        },
+        {
+          "order": 4,
+          "paragraphEn": "",
+          "paragraphAr": "lags كانت فضولية ولاحظت كل شيء"
+        },
+        {
+          "order": 5,
+          "paragraphEn": "",
+          "paragraphAr": "جر She saw that the playground was large but empty, gray, and covered with concrete."
+        },
+        {
+          "order": 6,
+          "paragraphEn": "",
+          "paragraphAr": "رأت أن الملعب كان كبيراً ولكن فارغاً. رمادياً. ومغطى بالخرسانة."
+        },
+        {
+          "order": 7,
+          "paragraphEn": "",
+          "paragraphAr": "هر There were only a few old benches."
+        },
+        {
+          "order": 8,
+          "paragraphEn": "",
+          "paragraphAr": "كان هناك فقط عدد قليل من المقاعد القديمة."
+        },
+        {
+          "order": 9,
+          "paragraphEn": "s@ Students threw trash on the ground and didn't care about the school.",
+          "paragraphAr": "يهتموا بالمدرسة. alg الطلاب رموا القمامة على الأرض"
+        },
+        {
+          "order": 10,
+          "paragraphEn": "",
+          "paragraphAr": "هر Zeina thought the playground could be much better."
+        },
+        {
+          "order": 11,
+          "paragraphEn": "",
+          "paragraphAr": "زينة اعتقدت أن الملعب يمكن أن يكون أفضل بكثير."
+        },
+        {
+          "order": 12,
+          "paragraphEn": "",
+          "paragraphAr": "هر She had the idea of creating a school garden."
+        },
+        {
+          "order": 13,
+          "paragraphEn": "",
+          "paragraphAr": "كانت لديها الفكرة لإنشاء حديقة مدرسة."
+        },
+        {
+          "order": 14,
+          "paragraphEn": "",
+          "paragraphAr": "هر She wasn't sure whether anyone would listen to a new student."
+        },
+        {
+          "order": 15,
+          "paragraphEn": "",
+          "paragraphAr": "شخص سيستمع إلى طالبة جديدة. gi إذا كان Lac هي لم تكن متأكدة"
+        },
+        {
+          "order": 16,
+          "paragraphEn": "",
+          "paragraphAr": "At lunch, she sat with her new friend Nancy. هر"
+        },
+        {
+          "order": 17,
+          "paragraphEn": "",
+          "paragraphAr": "في الغداء. هي جلست مع صديقتها الجديدة نانسي"
+        },
+        {
+          "order": 18,
+          "paragraphEn": "",
+          "paragraphAr": "Nancy said she didn't like the area because it was depressing. هر"
+        },
+        {
+          "order": 19,
+          "paragraphEn": "",
+          "paragraphAr": "نانسي قالت هي لم تحب المنطقة لأنها كانت كنيبة."
+        },
+        {
+          "order": 20,
+          "paragraphEn": "s@ Zeina suggested planting a garden.",
+          "paragraphAr": "زينة اقترحت زراعة حديقة."
+        },
+        {
+          "order": 21,
+          "paragraphEn": "s@ Nancy was surprised and asked if Zeina knew how to grow plants.",
+          "paragraphAr": "نانسي كانت متفاجئة وسألت إذا زينة عرفت كيف تزرع النباتات."
+        },
+        {
+          "order": 22,
+          "paragraphEn": "s@ Zeina honestly admitted that she didn't know but wanted to learn together.",
+          "paragraphAr": "dij بصدق اعترفت أنها لم تكن تعرف ولكن أرادت أن تتعلم ina"
+        },
+        {
+          "order": 23,
+          "paragraphEn": "",
+          "paragraphAr": "Zeina imagined students enjoying flowers, plants, vegetables, and feeling proud of the school. هر"
+        },
+        {
+          "order": 24,
+          "paragraphEn": "",
+          "paragraphAr": "زينة تخيلت الطلاب يستمتعون بالزهور. النباتات. الخضروات. ويشعرون بالفخر بالمدرسة."
+        },
+        {
+          "order": 25,
+          "paragraphEn": "s@ She realized the project would need time, hard work, help, and money.",
+          "paragraphAr": "أدركت أن المشروع سيحتاج وقتاً. عملاً شاقاً. مساعدة. ومالاً"
+        },
+        {
+          "order": 26,
+          "paragraphEn": "s@ She believed the garden could bring the whole school together.",
+          "paragraphAr": "cial أن الحديقة يمكن أن تجلب المدرسة بأكملها معاً"
+        },
+        {
+          "order": 27,
+          "paragraphEn": "ANew Student Notices a Problem",
+          "paragraphAr": "طالبة جديدة تلاحظ مشكلة"
+        },
+        {
+          "order": 28,
+          "paragraphEn": "seemed to care.",
+          "paragraphAr": "كانت زينة طالبة جديدة في مدرسة إعدادية. كانت دائم”! فضولية!\"' وتجب ملاحظة كل ما يدور حولها"
+        },
+        {
+          "order": 29,
+          "paragraphEn": "",
+          "paragraphAr": "في يومها الأول. نظرت إلى فناء المدرسة. كان واسعنا. لكنه كان PLEjLé ورمادي اللون. كانت الأرض"
+        },
+        {
+          "order": 30,
+          "paragraphEn": "",
+          "paragraphAr": "كلها من الخرسانة». alg يكن هناك سوى aac قليل من المقاعدا\"' القديمة. وكان الطلاب يلقون"
+        },
+        {
+          "order": 31,
+          "paragraphEn": "",
+          "paragraphAr": "القمامة“' على الأرض. alg يكن أحد يبدو Vaima بذلك."
+        },
+        {
+          "order": 32,
+          "paragraphEn": "",
+          "paragraphAr": "فكرة رائعة ABright Idea"
+        },
+        {
+          "order": 33,
+          "paragraphEn": "",
+          "paragraphAr": "-— حي This place could be so much better,” Zeina thought. She"
+        },
+        {
+          "order": 34,
+          "paragraphEn": "to anew student. 5",
+          "paragraphAr": "oe an اليك lunch, she sat with her new friend Nancy, who was غم"
+        },
+        {
+          "order": 35,
+          "paragraphEn": "kind and always honest” about how she felt. “I don't 3 5",
+          "paragraphAr": "أي like this area,” Nancy said. —_P"
+        },
+        {
+          "order": 36,
+          "paragraphEn": "“It's a little depressing®.”",
+          "paragraphAr": "فكرت زينة: \"يمكن أن يصبح هذا المكان أفضل بكثير.\" كانت لديها فكرة. لكنها لم تكن تعرف ما إذا"
+        },
+        {
+          "order": 37,
+          "paragraphEn": "",
+          "paragraphAr": "كان أي شخص سيستمع إلى طالبة جديدة. وفي وقت الغداء. جلست مع صديقتها الجديدة نانسي. التي"
+        },
+        {
+          "order": 38,
+          "paragraphEn": "",
+          "paragraphAr": "كانت لطيفة وصادقةا دائم'! في التعبير عن مشاعرها. قالت نانسي: “لا أحب هذا المكان. ail محبطا\""
+        },
+        {
+          "order": 39,
+          "paragraphEn": "sua",
+          "paragraphAr": "العمل مها Working Together"
+        },
+        {
+          "order": 40,
+          "paragraphEn": "learn. We could learn together.” 998 4 (10",
+          "paragraphAr": "Alla سات ey نو غررنا هذا الكل عاذ ذو Vale"
+        },
+        {
+          "order": 41,
+          "paragraphEn": "",
+          "paragraphAr": "بدت نانسي مندهشة وقالت: \"حديقة؟ هل تعرفين كيف تزرعين"
+        },
+        {
+          "order": 42,
+          "paragraphEn": "",
+          "paragraphAr": "النباتات؟” أجابت زينة بصراحةا\": \"ليس Las لكنني أريد أن أتعلم. ويمكننا أن نتعلم معنا"
+        },
+        {
+          "order": 43,
+          "paragraphEn": "",
+          "paragraphAr": "حلم من أجل المدرسة Dream for the School م"
+        },
+        {
+          "order": 44,
+          "paragraphEn": "The Idea stayed in Zeina's mind all day. She imagined gp",
+          "paragraphAr": "لد 5 ‘students eating lunch among flowers, plants, and i"
+        },
+        {
+          "order": 45,
+          "paragraphEn": "proud of the place. 1",
+          "paragraphAr": "She knew the idea wasn't easy. It would need time, ١"
+        },
+        {
+          "order": 46,
+          "paragraphEn": "bring the school together.",
+          "paragraphAr": "ظلت الفكرة في ذهن زينة طوال اليوم. تخيلت الطلاب amg يتناولون الغداء بين الزهور والنباتات. وربما"
+        },
+        {
+          "order": 47,
+          "paragraphEn": "",
+          "paragraphAr": "حتى الخضروات. كما تخيلت الطلاب وهم يشعرون بالفخر بهذا المكان. كانت تعلم أن تنفيذ الفكرة لن"
+        },
+        {
+          "order": 48,
+          "paragraphEn": "",
+          "paragraphAr": "يكون law فهو يحتاج إلى وقت وعمل شاق ومساعدة. Layg بعض المال أيظً. لكن Guid بداخلها كان"
+        },
+        {
+          "order": 49,
+          "paragraphEn": "",
+          "paragraphAr": "يخبرها أن الأمر يستحق المحاولة. وربما. فقط Lay يمكن أن تصبح هذه الحديقة أكثر من مجرد مكان"
+        },
+        {
+          "order": 50,
+          "paragraphEn": "",
+          "paragraphAr": "جميل. بل وسيلة تجمع\"'' طلاب المدرسة Veo"
+        }
+      ],
+      "questionsAndAnswers": [
+        {
+          "id": "prep3_ch1_qa_1",
+          "question": "a Why wouldn’t Zeina’s idea be easy? —",
+          "answer": "",
+          "type": "sb_wb"
+        },
+        {
+          "id": "prep3_ch1_qa_2",
+          "question": "لماذا لم تكن فكرة زينة سهلة ؟",
+          "answer": "It would need time, hard work, help, and maybe money.\nكانت تحتاج إلى وقت. وعمل جاد. ومساعدة. layg مال أيظ.",
+          "type": "sb_wb"
+        },
+        {
+          "id": "prep3_ch1_qa_3",
+          "question": "Why did Zeina feel sad when she sawthe playground? 0",
+          "answer": "",
+          "type": "sb_wb"
+        },
+        {
+          "id": "prep3_ch1_qa_4",
+          "question": "لماذا شعرت زينة بالحزن عندما رأت ساحة المدرسة؟",
+          "answer": "Because it was empty, gray, and full of trash.\nلأنها كانت فارغة. ورمادية. ومليئة بالقعامة.",
+          "type": "sb_wb"
+        },
+        {
+          "id": "prep3_ch1_qa_5",
+          "question": "What idea did Zeina have? oO",
+          "answer": "",
+          "type": "sb_wb"
+        },
+        {
+          "id": "prep3_ch1_qa_6",
+          "question": "ما الفكرة التي خطرت لزينة؟",
+          "answer": "‘She wanted to plant a garden at school.\nأرادت أن تزرع حديقة في المدرسة.",
+          "type": "sb_wb"
+        },
+        {
+          "id": "prep3_ch1_qa_7",
+          "question": "1 Why wasn’t Zeina sure anyone would listen to her? 1",
+          "answer": "",
+          "type": "sb_wb"
+        },
+        {
+          "id": "prep3_ch1_qa_8",
+          "question": "سيستمع إليها؟ Vaal لماذا لم تكن زينة متأكدة أن",
+          "answer": "Because she was a new student.\nلأنها كانت طالبة جديدة.",
+          "type": "sb_wb"
+        },
+        {
+          "id": "prep3_ch1_qa_9",
+          "question": "a What did Nancy think of the garden idea? 0",
+          "answer": "",
+          "type": "sb_wb"
+        },
+        {
+          "id": "prep3_ch1_qa_10",
+          "question": "ما رأي نانسي في فكرة الحديقة؟",
+          "answer": "‘She was surprised by the idea.\nتفاجات بالفكرة",
+          "type": "sb_wb"
+        },
+        {
+          "id": "prep3_ch1_qa_11",
+          "question": "How did Zeina show honesty? a",
+          "answer": "",
+          "type": "sb_wb"
+        },
+        {
+          "id": "prep3_ch1_qa_12",
+          "question": "كيف أظهرت زينة الصدق؟",
+          "answer": "She admitted she didn’t know how to grow plants.\nاعترفت بأنها لا تعرف كيف تزرع النباتات.",
+          "type": "sb_wb"
+        },
+        {
+          "id": "prep3_ch1_qa_13",
+          "question": ".at are some small actions students can take to improve their school environment?",
+          "answer": "",
+          "type": "sb_wb"
+        },
+        {
+          "id": "prep3_ch1_qa_14",
+          "question": "ما بعض الإجراءات البسيطة التي يمكن للطلاب القيام بها لتحسين بيئة مدرستهم؟",
+          "answer": "They can plant a garden, throw trash in bins, and take care of the school\nيمكنهم زراعة حديقة. وإلقاء القعامة في سلال المهملات. والعناية بالمدرسة.",
+          "type": "sb_wb"
+        }
+      ],
+      "importantQuestions": [
+        {
+          "id": "prep3_ch1_crit_1",
+          "question": "Why do you think Zeina wanted to improve the playground? SSCS",
+          "answer": "",
+          "type": "critical_thinking"
+        },
+        {
+          "id": "prep3_ch1_crit_2",
+          "question": "في رأيك. لماذا أرادت زينة تحسين ساحة المدرسة؟",
+          "answer": "Because she wanted to bring the school together.\n2a لأنها أرادت أن توحد طلاب المدرسة وتجعلهم يعملون",
+          "type": "critical_thinking"
+        },
+        {
+          "id": "prep3_ch1_crit_3",
+          "question": "jow can small ideas, like planting a garden, lead to bigger changes in a community?",
+          "answer": "",
+          "type": "critical_thinking"
+        },
+        {
+          "id": "prep3_ch1_crit_4",
+          "question": "زراعة حديقة. أن تؤدي إلى تغييرات أكبر في المجتمع؟ Jia كيف يمكن للأفكار الصغيرة.",
+          "answer": "They can bring people together and make them proud of their place.\nيمكنها أن تجمع الناس 20( وتجعلهم يشعرون بالفخر بمكانهم.",
+          "type": "critical_thinking"
+        }
+      ],
+      "homeworkQuestions": [
+        {
+          "id": "prep3_ch1_ex_1",
+          "question": "@ busy @colortul @empty @oreen",
+          "answer": "تدريب تطبيقي على استيعاب أحداث الفصل والمفردات اللغوية الجديدة.",
+          "type": "homework"
+        },
+        {
+          "id": "prep3_ch1_ex_2",
+          "question": "2 ‘The playground was a little to Nancy because it was all concrete and gray.",
+          "answer": "تدريب تطبيقي على استيعاب أحداث الفصل والمفردات اللغوية الجديدة.",
+          "type": "homework"
+        },
+        {
+          "id": "prep3_ch1_ex_3",
+          "question": "@ depressing @exciting @amazing @ organic",
+          "answer": "تدريب تطبيقي على استيعاب أحداث الفصل والمفردات اللغوية الجديدة.",
+          "type": "homework"
+        },
+        {
+          "id": "prep3_ch1_ex_4",
+          "question": "B When Nancy asked Zeina if she knew how to grow plants, Zeina showed",
+          "answer": "تدريب تطبيقي على استيعاب أحداث الفصل والمفردات اللغوية الجديدة.",
+          "type": "homework"
+        },
+        {
+          "id": "prep3_ch1_ex_5",
+          "question": "and said “not really”.",
+          "answer": "تدريب تطبيقي على استيعاب أحداث الفصل والمفردات اللغوية الجديدة.",
+          "type": "homework"
+        },
+        {
+          "id": "prep3_ch1_ex_6",
+          "question": "@ sadness @honesty @ courage @ anger",
+          "answer": "تدريب تطبيقي على استيعاب أحداث الفصل والمفردات اللغوية الجديدة.",
+          "type": "homework"
+        },
+        {
+          "id": "prep3_ch1_ex_7",
+          "question": "2 Zeina wasn't sure if anyone would listen to her idea because she was a ‘student.",
+          "answer": "تدريب تطبيقي على استيعاب أحداث الفصل والمفردات اللغوية الجديدة.",
+          "type": "homework"
+        },
+        {
+          "id": "prep3_ch1_ex_8",
+          "question": "@razy @new @ famous @bad",
+          "answer": "تدريب تطبيقي على استيعاب أحداث الفصل والمفردات اللغوية الجديدة.",
+          "type": "homework"
+        },
+        {
+          "id": "prep3_ch1_ex_9",
+          "question": "B Zeina imagined that the garden could be a way to the school together.",
+          "answer": "تدريب تطبيقي على استيعاب أحداث الفصل والمفردات اللغوية الجديدة.",
+          "type": "homework"
+        },
+        {
+          "id": "prep3_ch1_ex_10",
+          "question": "@ change @break @bring @leave",
+          "answer": "تدريب تطبيقي على استيعاب أحداث الفصل والمفردات اللغوية الجديدة.",
+          "type": "homework"
+        },
+        {
+          "id": "prep3_ch1_ex_11",
+          "question": "ZB Zeina was always and liked to notice everything around her in the school.",
+          "answer": "تدريب تطبيقي على استيعاب أحداث الفصل والمفردات اللغوية الجديدة.",
+          "type": "homework"
+        },
+        {
+          "id": "prep3_ch1_ex_12",
+          "question": "@ careless Q@angry @ curious @auiet",
+          "answer": "تدريب تطبيقي على استيعاب أحداث الفصل والمفردات اللغوية الجديدة.",
+          "type": "homework"
+        },
+        {
+          "id": "prep3_ch1_ex_13",
+          "question": "2 ‘The ground of the school playground was all made of .",
+          "answer": "تدريب تطبيقي على استيعاب أحداث الفصل والمفردات اللغوية الجديدة.",
+          "type": "homework"
+        },
+        {
+          "id": "prep3_ch1_ex_14",
+          "question": "@ concrete grass @ wood @ sand",
+          "answer": "تدريب تطبيقي على استيعاب أحداث الفصل والمفردات اللغوية الجديدة.",
+          "type": "homework"
+        },
+        {
+          "id": "prep3_ch1_ex_15",
+          "question": "2 In the playground, there were just a few old for students.",
+          "answer": "تدريب تطبيقي على استيعاب أحداث الفصل والمفردات اللغوية الجديدة.",
+          "type": "homework"
+        },
+        {
+          "id": "prep3_ch1_ex_16",
+          "question": "tools @benches @ proposals @seeds",
+          "answer": "تدريب تطبيقي على استيعاب أحداث الفصل والمفردات اللغوية الجديدة.",
+          "type": "homework"
+        },
+        {
+          "id": "prep3_ch1_ex_17",
+          "question": "2 Zeina noticed that students threw their ‘on the ground, and no one seemed",
+          "answer": "تدريب تطبيقي على استيعاب أحداث الفصل والمفردات اللغوية الجديدة.",
+          "type": "homework"
+        },
+        {
+          "id": "prep3_ch1_ex_18",
+          "question": "@ plants @books @trash @tiowers",
+          "answer": "تدريب تطبيقي على استيعاب أحداث الفصل والمفردات اللغوية الجديدة.",
+          "type": "homework"
+        },
+        {
+          "id": "prep3_ch1_ex_19",
+          "question": "2 Zeina imagined students eating lunch among flowers, plants, and maybe even 3",
+          "answer": "تدريب تطبيقي على استيعاب أحداث الفصل والمفردات اللغوية الجديدة.",
+          "type": "homework"
+        },
+        {
+          "id": "prep3_ch1_ex_20",
+          "question": "ظ @chemicals @vegetables @ tools @ benches",
+          "answer": "تدريب تطبيقي على استيعاب أحداث الفصل والمفردات اللغوية الجديدة.",
+          "type": "homework"
+        },
+        {
+          "id": "prep3_ch1_ex_21",
+          "question": "x@ Taking Initiative",
+          "answer": "تدريب تطبيقي على استيعاب أحداث الفصل والمفردات اللغوية الجديدة.",
+          "type": "homework"
+        },
+        {
+          "id": "prep3_ch1_ex_22",
+          "question": "and Building a Team",
+          "answer": "تدريب تطبيقي على استيعاب أحداث الفصل والمفردات اللغوية الجديدة.",
+          "type": "homework"
+        },
+        {
+          "id": "prep3_ch1_ex_23",
+          "question": "المبادرة وبناء فريق عمل",
+          "answer": "تدريب تطبيقي على استيعاب أحداث الفصل والمفردات اللغوية الجديدة.",
+          "type": "homework"
+        },
+        {
+          "id": "prep3_ch1_ex_24",
+          "question": "ano QIN inoue QI te",
+          "answer": "تدريب تطبيقي على استيعاب أحداث الفصل والمفردات اللغوية الجديدة.",
+          "type": "homework"
+        },
+        {
+          "id": "prep3_ch1_ex_25",
+          "question": "[research || يقوم بعمل بحث responsibility مسؤولية.",
+          "answer": "تدريب تطبيقي على استيعاب أحداث الفصل والمفردات اللغوية الجديدة.",
+          "type": "homework"
+        }
+      ],
+      "mcqQuestions": [
+        {
+          "id": "mcq_prep3_ch1_1",
+          "question": "What is the main achievement described in Chapter 1 (A New Challenge)?",
+          "options": [
+            "Zeina took responsibility for her idea.",
+            "The students decide to close the garden project permanently",
+            "Zeina moves to another school and stops participating",
+            "The school playground is paved with more asphalt"
+          ],
+          "correctAnswer": "Zeina took responsibility for her idea.",
+          "explanation": "Chapter events showcase student collaboration, creative problem-solving, and communal pride."
+        },
+        {
+          "id": "mcq_prep3_ch1_2",
+          "question": "What leadership quality does Zeina demonstrate?",
+          "options": [
+            "Taking responsibility, admitting limitations honestly, and encouraging everyone's talents",
+            "Blaming other students whenever problems occur",
+            "Doing all the work alone without listening to teammates",
+            "Quitting the project as soon as difficulties arise"
+          ],
+          "correctAnswer": "Taking responsibility, admitting limitations honestly, and encouraging everyone's talents",
+          "explanation": "True leadership fosters shared purpose, mutual respect, and honest communication."
+        }
+      ]
+    },
+    {
+      "id": "sc_prep_3_ch_2",
+      "chapterNumber": 2,
+      "titleEn": "Taking Initiative and Building a Team",
+      "titleAr": "المبادرة وبناء فريق عمل",
+      "term": "first",
+      "summaryEn": "The project officially began.",
+      "summaryAr": "aw, المشروع بدأ",
+      "chapterInPoints": [
+        {
+          "en": "The project officially began.",
+          "ar": "aw, المشروع بدأ"
+        },
+        {
+          "en": "The team needed money for seeds, tools, and soil",
+          "ar": "الأدوات؛ والتربة. ygaull الفريق احتاج مالاً لأجل"
+        },
+        {
+          "en": "Zeina took initiative by asking the local community for donations.",
+          "ar": "زينة أخذت المبادرة بسؤال المجتمع المحلي لأجل التبرعات."
+        },
+        {
+          "en": "She was honest about how the money would be spent.",
+          "ar": "Jlall هي كانت صادقة بشأن كيف سيتم إنفاق"
+        },
+        {
+          "en": "Some of the first plants died.",
+          "ar": "Gila بعض من النباتات الأولى"
+        },
+        {
+          "en": "Amal became upset and wanted to quit.",
+          "ar": "أصبحت متضايقة وأرادت أن تنسحب. Jol"
+        },
+        {
+          "en": "Zeina understood Amal's feelings but refused to give up.",
+          "ar": "ولكنها رفضت الاستسلام. Joi مشاعر cama زينة"
+        },
+        {
+          "en": "They changed their original plan.",
+          "ar": "هم غيتروا خطتهم الأصلية"
+        }
+      ],
+      "vocabulary": [
+        {
+          "word": "initiative",
+          "meaningAr": "المبادرة"
+        },
+        {
+          "word": "eco-friendly",
+          "meaningAr": "صديق للبيئة"
+        },
+        {
+          "word": "determination",
+          "meaningAr": "العزيمة والإصرار"
+        },
+        {
+          "word": "proposal",
+          "meaningAr": "مقترح عملي"
+        },
+        {
+          "word": "fertilizer",
+          "meaningAr": "سماد طبيعي"
+        }
+      ],
+      "theText": [
+        {
+          "order": 1,
+          "paragraphEn": "Zeina decided to take responsibility’ for her idea.",
+          "paragraphAr": "هوه She researched school gardens online and wrote a"
+        },
+        {
+          "order": 2,
+          "paragraphEn": "the difficult sides. we 7",
+          "paragraphAr": "قررت زينة أن تتحمل المسؤولية Ye فكرتها. بحثت على الإنترنت"
+        },
+        {
+          "order": 3,
+          "paragraphEn": "",
+          "paragraphAr": "5 عن حدائق المدارس. وكتبت مقترد!1 بسيظًا. وشرحت فيه الجوانب"
+        },
+        {
+          "order": 4,
+          "paragraphEn": "Speaking with Courage",
+          "paragraphAr": "التحدث بشجاعة"
+        },
+        {
+          "order": 5,
+          "paragraphEn": "The next week, she showed courage’ by speaking at the",
+          "paragraphAr": "‘student council meeting. Her hands were shaking, but 900922077 \"قينة”"
+        },
+        {
+          "order": 6,
+          "paragraphEn": "“| want to create a garden behind our school,” she said. aC: | ‘gD 3",
+          "paragraphAr": "“It would be a beautiful place to eat lunch, and we could 7002 لوز"
+        },
+        {
+          "order": 7,
+          "paragraphEn": "",
+          "paragraphAr": "grow vegetables for the cafeteria, But | need help.” د - 00 ay"
+        },
+        {
+          "order": 8,
+          "paragraphEn": "",
+          "paragraphAr": "عندما تحدثت في اجتماع \"dela في الأسبوع التالي. أظهرت زينة"
+        },
+        {
+          "order": 9,
+          "paragraphEn": "",
+          "paragraphAr": "بخطتها. Jogi مجلس\" الطلاب. كانت يداها ترتجفان. لكنها كانت"
+        },
+        {
+          "order": 10,
+          "paragraphEn": "",
+          "paragraphAr": "قالت: \"أريد إنشاء حديقة خلف مدرستنا. ستكون مكاة\" جميلًا لتناول الغداء. ويمكننا زراعة الخضروات"
+        },
+        {
+          "order": 11,
+          "paragraphEn": "",
+          "paragraphAr": "لمقصف المدرسة. لكنني أحتاج إلى المساعدة."
+        },
+        {
+          "order": 12,
+          "paragraphEn": "Facing Challenges",
+          "paragraphAr": "مواجهة التحديات"
+        },
+        {
+          "order": 13,
+          "paragraphEn": "Some students laughed. _",
+          "paragraphAr": "“You're just a new student,” one said. “Why should we pe ا"
+        },
+        {
+          "order": 14,
+          "paragraphEn": "Zeina felt hurt, but she ignored the comment. yy ie",
+          "paragraphAr": "“This is my school too. Everyone deserves“ a nice place ain ا"
+        },
+        {
+          "order": 15,
+          "paragraphEn": "",
+          "paragraphAr": "to learn and enjoy breaks.” عب )| امم WZ"
+        },
+        {
+          "order": 16,
+          "paragraphEn": "",
+          "paragraphAr": "ضحك بعض الطلاب."
+        },
+        {
+          "order": 17,
+          "paragraphEn": "",
+          "paragraphAr": "مجرد طالبة جديدة. فلماذا نستمع إليك ؟ Gil\" وقال أحدهم:"
+        },
+        {
+          "order": 18,
+          "paragraphEn": "",
+          "paragraphAr": "شعرت زينة بالأذى. لكنها تجاهلت'\" هذا التعليق."
+        },
+        {
+          "order": 19,
+          "paragraphEn": "",
+          "paragraphAr": "وكل شخص يستحق“' مكان) جميلًا ليتعلم ويستمتع بوقت الراحة. Eyl وقالت: \"هذه مدرستي"
+        },
+        {
+          "order": 20,
+          "paragraphEn": "",
+          "paragraphAr": "ممعم with Different Talents"
+        },
+        {
+          "order": 21,
+          "paragraphEn": "",
+          "paragraphAr": "فريق يمتلك مواهب مختلفة"
+        },
+        {
+          "order": 22,
+          "paragraphEn": "strong, and Sarah was very organized), vf a 4 | 3",
+          "paragraphAr": "Zeina helped everyone feel confident\" about their talents. لشي 17 4a NK Ip"
+        },
+        {
+          "order": 23,
+          "paragraphEn": "",
+          "paragraphAr": "The garden was no longer just her idea—it became their ذا"
+        },
+        {
+          "order": 24,
+          "paragraphEn": "‘shared project.",
+          "paragraphAr": "معلمة الأحياء. بإصرار''' زينة. وساعدتها في التحدث مع الطلاب المختلفين. وسرعان sam أعجبت السيدة"
+        },
+        {
+          "order": 25,
+          "paragraphEn": "",
+          "paragraphAr": "ما اكتشفت زينة أن كثيرء! من الطلاب يمتلكون مواهب\" مميزةا\" ؛ فقد كانت نانسي تجيد استخدام"
+        },
+        {
+          "order": 26,
+          "paragraphEn": "",
+          "paragraphAr": "بينما كانت سارة منظمة '\"')جد\"!. وساعدت زينة الجميع yg الأدوات. وكانت نهى تحب الرسم. وكانت أمل"
+        },
+        {
+          "order": 27,
+          "paragraphEn": "",
+          "paragraphAr": "تعد الحديقة مجرد فكرتها. بل أصبحت مشروع\"! مشتركًا للجميع. alg مواهبهم. wn\" على الثقة"
+        }
+      ],
+      "questionsAndAnswers": [
+        {
+          "id": "prep3_ch2_qa_1",
+          "question": "~~ Whyis teamwork important ina school project?",
+          "answer": "",
+          "type": "sb_wb"
+        },
+        {
+          "id": "prep3_ch2_qa_2",
+          "question": "في مشروع مدرسي؟ ama العمل الجماعي a2’ لعاذا",
+          "answer": "Because everyone has special talents and can help.\nلأن لكل شخص مواهب خاصة ويمكنه المساعدة.",
+          "type": "sb_wb"
+        },
+        {
+          "id": "prep3_ch2_qa_3",
+          "question": "001010 Howdid Zeina preparetoshareheridea? 000000:",
+          "answer": "",
+          "type": "sb_wb"
+        },
+        {
+          "id": "prep3_ch2_qa_4",
+          "question": "كيف استعدت زينة لعرض فكرتها؟",
+          "answer": "‘She researched school gardens online and wrote a simple proposal.\nبحثت عن الحدائق المدرسية على الإنترنت وكتبت مقترد”) بسيضًا",
+          "type": "sb_wb"
+        },
+        {
+          "id": "prep3_ch2_qa_5",
+          "question": "عمطي happened at the student council meeting? 07",
+          "answer": "",
+          "type": "sb_wb"
+        },
+        {
+          "id": "prep3_ch2_qa_6",
+          "question": "ماذا حدث في اجتماع مجلس الطلاب؟",
+          "answer": "‘Some students laughed at Zeina, but Ms. Hoda supported her and liked her determination.\nدعمتها وأعجبت بإصرارها sam الطلاب على زينة. لكن الأستاذة yao) ضحك",
+          "type": "sb_wb"
+        },
+        {
+          "id": "prep3_ch2_qa_7",
+          "question": "~ How did Zeina react when students laughed at her?",
+          "answer": "",
+          "type": "sb_wb"
+        },
+        {
+          "id": "prep3_ch2_qa_8",
+          "question": "كيف كان رد فعل زينة عندما ضحك عليها الطلاب؟",
+          "answer": "She ignored the comment and continued speaking, تجاهلت التعليق وواصلت الحديث.",
+          "type": "sb_wb"
+        },
+        {
+          "id": "prep3_ch2_qa_9",
+          "question": "What role did Ms. Hoda play? _ 0",
+          "answer": "",
+          "type": "sb_wb"
+        },
+        {
+          "id": "prep3_ch2_qa_10",
+          "question": "الذي قامت به الأستاذة هدى؟ gall Lo",
+          "answer": "She helped Zeina speak to different students. ساعدت زينة على التحدث مع الطلاب المختلفين.",
+          "type": "sb_wb"
+        },
+        {
+          "id": "prep3_ch2_qa_11",
+          "question": "What skills did the other students bring to the project?",
+          "answer": "",
+          "type": "sb_wb"
+        },
+        {
+          "id": "prep3_ch2_qa_12",
+          "question": "ما المهارات التي قدمها الطلاب الآخرون للمشروع؟",
+          "answer": "Nancy was good with tools, Noha loved painting, Amal was strong, and Sarah was organized.\nقوية. وكانت سارة منظمة. Jol كانت نانسي ماهرة في استخدام الأدوات. وكانت نهى تحب الرسم. وكانت",
+          "type": "sb_wb"
+        },
+        {
+          "id": "prep3_ch2_qa_13",
+          "question": "What do you think made Zeina brave when she spoke?",
+          "answer": "",
+          "type": "sb_wb"
+        },
+        {
+          "id": "prep3_ch2_qa_14",
+          "question": "تحدثت؟ laaic زينة شجاعة Jor في رأيك. ما الذي",
+          "answer": "‘She believed in her plan. لأنها كانت تؤمن بخطتها.",
+          "type": "sb_wb"
+        },
+        {
+          "id": "prep3_ch2_qa_15",
+          "question": ": Do you think Zeina's idea will succeed? Why/Why not?",
+          "answer": "",
+          "type": "sb_wb"
+        },
+        {
+          "id": "prep3_ch2_qa_16",
+          "question": "هل تعتقد أن فكرة زينة ستنجح؟ ولماذا؟",
+          "answer": "Yes, because they will work together as a team and use their talents.\nنعم. لأنهم سيعملون 20( كفريق وسيستفيدون من مواهبهم.",
+          "type": "sb_wb"
+        }
+      ],
+      "importantQuestions": [
+        {
+          "id": "prep3_ch2_qa_1",
+          "question": "~~ Whyis teamwork important ina school project?",
+          "answer": "",
+          "type": "sb_wb"
+        },
+        {
+          "id": "prep3_ch2_qa_3",
+          "question": "001010 Howdid Zeina preparetoshareheridea? 000000:",
+          "answer": "",
+          "type": "sb_wb"
+        },
+        {
+          "id": "prep3_ch2_qa_7",
+          "question": "~ How did Zeina react when students laughed at her?",
+          "answer": "",
+          "type": "sb_wb"
+        },
+        {
+          "id": "prep3_ch2_qa_9",
+          "question": "What role did Ms. Hoda play? _ 0",
+          "answer": "",
+          "type": "sb_wb"
+        },
+        {
+          "id": "prep3_ch2_qa_11",
+          "question": "What skills did the other students bring to the project?",
+          "answer": "",
+          "type": "sb_wb"
+        },
+        {
+          "id": "prep3_ch2_qa_13",
+          "question": "What do you think made Zeina brave when she spoke?",
+          "answer": "",
+          "type": "sb_wb"
+        },
+        {
+          "id": "prep3_ch2_qa_15",
+          "question": ": Do you think Zeina's idea will succeed? Why/Why not?",
+          "answer": "",
+          "type": "sb_wb"
+        }
+      ],
+      "homeworkQuestions": [
+        {
+          "id": "prep3_ch2_ex_1",
+          "question": "113 eee ia ao aah rd wg",
+          "answer": "تدريب تطبيقي على استيعاب أحداث الفصل والمفردات اللغوية الجديدة.",
+          "type": "homework"
+        },
+        {
+          "id": "prep3_ch2_ex_2",
+          "question": "@ money Q@ responsibility @ donations @rools",
+          "answer": "تدريب تطبيقي على استيعاب أحداث الفصل والمفردات اللغوية الجديدة.",
+          "type": "homework"
+        },
+        {
+          "id": "prep3_ch2_ex_3",
+          "question": "B Zeina showed when she stood up to speak at the student council meeting",
+          "answer": "تدريب تطبيقي على استيعاب أحداث الفصل والمفردات اللغوية الجديدة.",
+          "type": "homework"
+        },
+        {
+          "id": "prep3_ch2_ex_4",
+          "question": "although her hands were shaking.",
+          "answer": "تدريب تطبيقي على استيعاب أحداث الفصل والمفردات اللغوية الجديدة.",
+          "type": "homework"
+        },
+        {
+          "id": "prep3_ch2_ex_5",
+          "question": "@ disappointment — @sadness @ courage @ronesty",
+          "answer": "تدريب تطبيقي على استيعاب أحداث الفصل والمفردات اللغوية الجديدة.",
+          "type": "homework"
+        },
+        {
+          "id": "prep3_ch2_ex_6",
+          "question": "B When some students laughed at her, Zeina felt hurt but she the comment.",
+          "answer": "تدريب تطبيقي على استيعاب أحداث الفصل والمفردات اللغوية الجديدة.",
+          "type": "homework"
+        },
+        {
+          "id": "prep3_ch2_ex_7",
+          "question": "ignored @iikea @wrote @ accepted",
+          "answer": "تدريب تطبيقي على استيعاب أحداث الفصل والمفردات اللغوية الجديدة.",
+          "type": "homework"
+        },
+        {
+          "id": "prep3_ch2_ex_8",
+          "question": "BD was the biology teacher who liked Zeina’s determination and supported her.",
+          "answer": "تدريب تطبيقي على استيعاب أحداث الفصل والمفردات اللغوية الجديدة.",
+          "type": "homework"
+        },
+        {
+          "id": "prep3_ch2_ex_9",
+          "question": "@Ms. Sarah @Ms. Nancy @Ms. Noha @s. Hoda",
+          "answer": "تدريب تطبيقي على استيعاب أحداث الفصل والمفردات اللغوية الجديدة.",
+          "type": "homework"
+        },
+        {
+          "id": "prep3_ch2_ex_10",
+          "question": "ED tre team nad citterent talents; Noha loved while Nancy was good with tools.",
+          "answer": "تدريب تطبيقي على استيعاب أحداث الفصل والمفردات اللغوية الجديدة.",
+          "type": "homework"
+        },
+        {
+          "id": "prep3_ch2_ex_11",
+          "question": "@ painting @building @ organizing @ planting",
+          "answer": "تدريب تطبيقي على استيعاب أحداث الفصل والمفردات اللغوية الجديدة.",
+          "type": "homework"
+        },
+        {
+          "id": "prep3_ch2_ex_12",
+          "question": "B To share her idea clearly, Zeina researched online and wrote a simple .",
+          "answer": "تدريب تطبيقي على استيعاب أحداث الفصل والمفردات اللغوية الجديدة.",
+          "type": "homework"
+        },
+        {
+          "id": "prep3_ch2_ex_13",
+          "question": "@ donation @ proposal @ talent @ciimate",
+          "answer": "تدريب تطبيقي على استيعاب أحداث الفصل والمفردات اللغوية الجديدة.",
+          "type": "homework"
+        },
+        {
+          "id": "prep3_ch2_ex_14",
+          "question": "B Zeina spoke about her garden plan during the student meeting.",
+          "answer": "تدريب تطبيقي على استيعاب أحداث الفصل والمفردات اللغوية الجديدة.",
+          "type": "homework"
+        },
+        {
+          "id": "prep3_ch2_ex_15",
+          "question": "@ community @couneil @cateteria @system",
+          "answer": "تدريب تطبيقي على استيعاب أحداث الفصل والمفردات اللغوية الجديدة.",
+          "type": "homework"
+        },
+        {
+          "id": "prep3_ch2_ex_16",
+          "question": "2 ‘Some students laughed and told Zeina that she was just a ‘student.",
+          "answer": "تدريب تطبيقي على استيعاب أحداث الفصل والمفردات اللغوية الجديدة.",
+          "type": "homework"
+        },
+        {
+          "id": "prep3_ch2_ex_17",
+          "question": "clever @strong @new @cedicatea",
+          "answer": "تدريب تطبيقي على استيعاب أحداث الفصل والمفردات اللغوية الجديدة.",
+          "type": "homework"
+        },
+        {
+          "id": "prep3_ch2_ex_18",
+          "question": "2 Zeina said that everyone anice place to learn and enjoy breaks.",
+          "answer": "تدريب تطبيقي على استيعاب أحداث الفصل والمفردات اللغوية الجديدة.",
+          "type": "homework"
+        },
+        {
+          "id": "prep3_ch2_ex_19",
+          "question": "@ deserves @ignores @hates @avoids",
+          "answer": "تدريب تطبيقي على استيعاب أحداث الفصل والمفردات اللغوية الجديدة.",
+          "type": "homework"
+        },
+        {
+          "id": "prep3_ch2_ex_20",
+          "question": "2 Zeina helped everyone feel ‘about their special talents.",
+          "answer": "تدريب تطبيقي على استيعاب أحداث الفصل والمفردات اللغوية الجديدة.",
+          "type": "homework"
+        },
+        {
+          "id": "prep3_ch2_ex_21",
+          "question": "ظ disappointed G@rrustrated upset @contident",
+          "answer": "تدريب تطبيقي على استيعاب أحداث الفصل والمفردات اللغوية الجديدة.",
+          "type": "homework"
+        },
+        {
+          "id": "prep3_ch2_ex_22",
+          "question": "@-, Facing Problems",
+          "answer": "تدريب تطبيقي على استيعاب أحداث الفصل والمفردات اللغوية الجديدة.",
+          "type": "homework"
+        },
+        {
+          "id": "prep3_ch2_ex_23",
+          "question": "esi Chapter Three with Determination",
+          "answer": "تدريب تطبيقي على استيعاب أحداث الفصل والمفردات اللغوية الجديدة.",
+          "type": "homework"
+        },
+        {
+          "id": "prep3_ch2_ex_24",
+          "question": "a مواجهة المشكلات بإصرار",
+          "answer": "تدريب تطبيقي على استيعاب أحداث الفصل والمفردات اللغوية الجديدة.",
+          "type": "homework"
+        },
+        {
+          "id": "prep3_ch2_ex_25",
+          "question": "نص ‘Key vocabulary",
+          "answer": "تدريب تطبيقي على استيعاب أحداث الفصل والمفردات اللغوية الجديدة.",
+          "type": "homework"
+        },
+        {
+          "id": "prep3_ch2_ex_26",
+          "question": "مه CON ec, تمت 2",
+          "answer": "تدريب تطبيقي على استيعاب أحداث الفصل والمفردات اللغوية الجديدة.",
+          "type": "homework"
+        },
+        {
+          "id": "prep3_ch2_ex_27",
+          "question": "الس - Ca voc CT يناسب",
+          "answer": "تدريب تطبيقي على استيعاب أحداث الفصل والمفردات اللغوية الجديدة.",
+          "type": "homework"
+        },
+        {
+          "id": "prep3_ch2_ex_28",
+          "question": "0 متحمس - متحفز محبط - خائب الأمل .ل",
+          "answer": "تدريب تطبيقي على استيعاب أحداث الفصل والمفردات اللغوية الجديدة.",
+          "type": "homework"
+        },
+        {
+          "id": "prep3_ch2_ex_29",
+          "question": "watering system نضمري (a نبات - يزرع",
+          "answer": "تدريب تطبيقي على استيعاب أحداث الفصل والمفردات اللغوية الجديدة.",
+          "type": "homework"
+        }
+      ],
+      "mcqQuestions": [
+        {
+          "id": "mcq_prep3_ch2_1",
+          "question": "What is the main achievement described in Chapter 2 (Taking Initiative and Building a Team)?",
+          "options": [
+            "The project officially began.",
+            "The students decide to close the garden project permanently",
+            "Zeina moves to another school and stops participating",
+            "The school playground is paved with more asphalt"
+          ],
+          "correctAnswer": "The project officially began.",
+          "explanation": "Chapter events showcase student collaboration, creative problem-solving, and communal pride."
+        },
+        {
+          "id": "mcq_prep3_ch2_2",
+          "question": "What leadership quality does Zeina demonstrate?",
+          "options": [
+            "Taking responsibility, admitting limitations honestly, and encouraging everyone's talents",
+            "Blaming other students whenever problems occur",
+            "Doing all the work alone without listening to teammates",
+            "Quitting the project as soon as difficulties arise"
+          ],
+          "correctAnswer": "Taking responsibility, admitting limitations honestly, and encouraging everyone's talents",
+          "explanation": "True leadership fosters shared purpose, mutual respect, and honest communication."
+        }
+      ]
+    },
+    {
+      "id": "sc_prep_3_ch_3",
+      "chapterNumber": 3,
+      "titleEn": "Facing Problems with Determination",
+      "titleAr": "مواجهة المشكلات بإصرار",
+      "term": "first",
+      "summaryEn": "Chapter 3: Facing Problems with Determination",
+      "summaryAr": "الفصل 3: مواجهة المشكلات بإصرار",
+      "chapterInPoints": [],
+      "vocabulary": [
+        {
+          "word": "Jal",
+          "meaningAr": "التحديات"
+        }
+      ],
+      "theText": [
+        {
+          "order": 1,
+          "paragraphEn": "The project started, but it wasn't easy. First, they needed",
+          "paragraphAr": "money to buy seeds, tools, and soil. Zeina showed | i, ١"
+        },
+        {
+          "order": 2,
+          "paragraphEn": "",
+          "paragraphAr": "be P ee Be م initiative by asking local community for donations. She @ ga]"
+        },
+        {
+          "order": 3,
+          "paragraphEn": "was always honest about how the money would be used. 1 Jo Tages |\"",
+          "paragraphAr": "A st 7 (1 بدأ المشروع. لكنه لم يكن سهلا. في البداية. احتاج الفريق إلى"
+        },
+        {
+          "order": 4,
+          "paragraphEn": "",
+          "paragraphAr": "tall FEE sin CL, =| لشراء البذور والأدوات والتربة. أظهرت زينة روح العبادرة"
+        },
+        {
+          "order": 5,
+          "paragraphEn": "",
+          "paragraphAr": "عندما طلبت تبرعات من المجتمع المحلي. وكانت دائم) صادقة بشأن"
+        },
+        {
+          "order": 6,
+          "paragraphEn": "",
+          "paragraphAr": "كيفية استخدام الأموال"
+        },
+        {
+          "order": 7,
+          "paragraphEn": "Never Give Up",
+          "paragraphAr": "لا تستسلم أبذا"
+        },
+        {
+          "order": 8,
+          "paragraphEn": "stop now.”",
+          "paragraphAr": "بعد ذلك. استمر هطول المطر لمدة أسبوعين. وماتت بعض النباتات الأولى التي زرعوها. شعرت Jai بالحزن"
+        },
+        {
+          "order": 9,
+          "paragraphEn": "",
+          "paragraphAr": "وقالت: \"هذا صعب جد”. ربعا يجب أن نستسلم”"
+        },
+        {
+          "order": 10,
+          "paragraphEn": "",
+          "paragraphAr": "شعرت زينة بخيبة ey! Jol لكنها Yas من الاستسلام. أظهرت إصرار\"! كبير”!"
+        },
+        {
+          "order": 11,
+          "paragraphEn": "",
+          "paragraphAr": "وقالت بلطف\"أتفهم cil تشعرين بالإحباط. لكننا نقوم بشيء مفيد للمدرسة. ولا يمكننا التوقف الآن:"
+        },
+        {
+          "order": 12,
+          "paragraphEn": "Finding Smart Solutions",
+          "paragraphAr": "إيجاد حلول ذكية"
+        },
+        {
+          "order": 13,
+          "paragraphEn": "plants grow best in their climate and how to protect them isi , pr",
+          "paragraphAr": "اي from too much rain, een) td"
+        },
+        {
+          "order": 14,
+          "paragraphEn": "felt proud because they had solved the problems together.",
+          "paragraphAr": "عمل الفريق 20 لحل المشكلات. وقرروا تعديل خطتهم. وبحثوا عن النباتات التي gail بشكل أفضل في"
+        },
+        {
+          "order": 15,
+          "paragraphEn": "",
+          "paragraphAr": "مناخهم. وكيفية حمايتها من الأمطار الفزيرة. كما أنشأوا نظام أفضل للري. وتعلموا كيفية العناية"
+        },
+        {
+          "order": 16,
+          "paragraphEn": "",
+          "paragraphAr": "بأنواع مختلفة من النباتات."
+        },
+        {
+          "order": 17,
+          "paragraphEn": "",
+          "paragraphAr": "بدأت الحديقة تدريجيً! تبدو أفضل من جديد. وشعر الفريق بالفخر لأنهم تمكنوا من حل المشكلات a0 من"
+        },
+        {
+          "order": 18,
+          "paragraphEn": "",
+          "paragraphAr": "خلال التعاون والعمل الجماعي."
+        },
+        {
+          "order": 19,
+          "paragraphEn": "50% ‘Success",
+          "paragraphAr": "ic 90 لا"
+        },
+        {
+          "order": 20,
+          "paragraphEn": "",
+          "paragraphAr": "2-7 تحقيق النجاح"
+        },
+        {
+          "order": 21,
+          "paragraphEn": "Key vocabulary",
+          "paragraphAr": "leader (n) قاد blame (v) يلوم al Jac"
+        },
+        {
+          "order": 22,
+          "paragraphEn": "",
+          "paragraphAr": "Isolutions (n) حلول ftrash(n) | النفايات garden (n) حديقة"
+        },
+        {
+          "order": 23,
+          "paragraphEn": "",
+          "paragraphAr": "proud (adj) فخور [mistake (n) ff [Te lettuce (n) خس"
+        },
+        {
+          "order": 24,
+          "paragraphEn": "",
+          "paragraphAr": "طبيعية SIE eco-friendly methods أساليب صديقة للبيئة."
+        },
+        {
+          "order": 25,
+          "paragraphEn": "",
+          "paragraphAr": "شرت / مشاركة responsible for مسؤول عن"
+        },
+        {
+          "order": 26,
+          "paragraphEn": "",
+          "paragraphAr": "هر After three months, the garden looked beautiful"
+        },
+        {
+          "order": 27,
+          "paragraphEn": "",
+          "paragraphAr": "بعد ثلاثة أشهر. الحديقة بدت جميلة."
+        },
+        {
+          "order": 28,
+          "paragraphEn": "",
+          "paragraphAr": "هر Students started eating lunch in the garden."
+        },
+        {
+          "order": 29,
+          "paragraphEn": "",
+          "paragraphAr": "الطلاب بدؤوا يأكلون الغداء في الحديقة."
+        },
+        {
+          "order": 30,
+          "paragraphEn": "",
+          "paragraphAr": "هر The garden contained tomatoes, lettuce, and colorful flowers."
+        },
+        {
+          "order": 31,
+          "paragraphEn": "",
+          "paragraphAr": "الحديقة احتوت على طماطم. خس. وزهور ملونة."
+        },
+        {
+          "order": 32,
+          "paragraphEn": "The cafeteria began using vegetables grown in the garden.",
+          "paragraphAr": "الكافتيريا بدأت باستخدام الخضروات المزروعة في الحديقة."
+        },
+        {
+          "order": 33,
+          "paragraphEn": "",
+          "paragraphAr": "هر Everyone felt proud."
+        },
+        {
+          "order": 34,
+          "paragraphEn": "",
+          "paragraphAr": "الجميع شعروا بالفخر."
+        },
+        {
+          "order": 35,
+          "paragraphEn": "s@ Zeina learned that leadership doesn't mean knowing everything.",
+          "paragraphAr": "evul زينة تعلمت أن القيادة لا تعني معرفة كل"
+        },
+        {
+          "order": 36,
+          "paragraphEn": "s@ She learned that a leader takes responsibility for both success and failure",
+          "paragraphAr": "من النجاح والفشل. JS هي تعلمت أن القائد يأخذ المسؤولية عن"
+        },
+        {
+          "order": 37,
+          "paragraphEn": "",
+          "paragraphAr": "حمر When some plants didn't grow well, she didn't blame anyone."
+        },
+        {
+          "order": 38,
+          "paragraphEn": "",
+          "paragraphAr": "جيداً. هي لم تلم أي شخص. ‘aii عندما بعض النباتات لم"
+        },
+        {
+          "order": 39,
+          "paragraphEn": "",
+          "paragraphAr": "هر She worked with the team to find solutions."
+        },
+        {
+          "order": 40,
+          "paragraphEn": "",
+          "paragraphAr": "Ugls هي عملت مع الفريق لإيجاد"
+        },
+        {
+          "order": 41,
+          "paragraphEn": "",
+          "paragraphAr": "The students learned about global responsibility. هر"
+        },
+        {
+          "order": 42,
+          "paragraphEn": "",
+          "paragraphAr": "الطلاب تعلموا عن المسؤولية العالمية."
+        },
+        {
+          "order": 43,
+          "paragraphEn": "",
+          "paragraphAr": "They used eco-friendly methods. جر"
+        },
+        {
+          "order": 44,
+          "paragraphEn": "",
+          "paragraphAr": "هم استخدموا طرقاً صديقة للبيئة."
+        },
+        {
+          "order": 45,
+          "paragraphEn": "",
+          "paragraphAr": "They avoided harmful chemicals. هر"
+        },
+        {
+          "order": 46,
+          "paragraphEn": "",
+          "paragraphAr": "هم تجنبوا المواد الكيمياتية الضارة."
+        },
+        {
+          "order": 47,
+          "paragraphEn": "",
+          "paragraphAr": "They used only natural fertilizers. جر"
+        },
+        {
+          "order": 48,
+          "paragraphEn": "",
+          "paragraphAr": "هم استخدموا فقط الأسمدة الطبيعية."
+        },
+        {
+          "order": 49,
+          "paragraphEn": "",
+          "paragraphAr": "Their methods improved the soil and reduced trash. خهر"
+        },
+        {
+          "order": 50,
+          "paragraphEn": "",
+          "paragraphAr": "طرقهم حسدنت التربة وقللت القمامة."
+        },
+        {
+          "order": 51,
+          "paragraphEn": "s@ Students from other classes visited the garden.",
+          "paragraphAr": "طلاب من فصول أخرى زاروا الحديقة."
+        },
+        {
+          "order": 52,
+          "paragraphEn": "s@ Some wanted to help.",
+          "paragraphAr": "البعض أرادوا أن يساعدوا"
+        },
+        {
+          "order": 53,
+          "paragraphEn": "",
+          "paragraphAr": "Others simply enjoyed the beautiful place. هر"
+        },
+        {
+          "order": 54,
+          "paragraphEn": "",
+          "paragraphAr": "آخرون ببساطة استمتعوا بالمكان الجميل."
+        },
+        {
+          "order": 55,
+          "paragraphEn": "",
+          "paragraphAr": "The project changed both the school and the students. هر"
+        },
+        {
+          "order": 56,
+          "paragraphEn": "",
+          "paragraphAr": "المشروع غير كلاً من المدرسة والطلاب."
+        },
+        {
+          "order": 57,
+          "paragraphEn": "",
+          "paragraphAr": "The students became a united team with a shared purpose. هر"
+        },
+        {
+          "order": 58,
+          "paragraphEn": "",
+          "paragraphAr": "الطلاب أصبحوا فريقاً متحداً مع هدف مشترك."
+        }
+      ],
+      "questionsAndAnswers": [
+        {
+          "id": "prep3_ch3_qa_1",
+          "question": "What problems do you think a school garden project might face?",
+          "answer": "",
+          "type": "sb_wb"
+        },
+        {
+          "id": "prep3_ch3_qa_2",
+          "question": "ما المشكلات التي تعتقد أن مشروع حديقة مدرسية قد يواجهها؟",
+          "answer": "It might face a lack of money and bad weather.\nقد يواجه indi في المال وسوء الأحوال الجوية.",
+          "type": "sb_wb"
+        },
+        {
+          "id": "prep3_ch3_qa_3",
+          "question": "Howdoyou feel when your plansdon’tworkout? 00000005 ~",
+          "answer": "",
+          "type": "sb_wb"
+        },
+        {
+          "id": "prep3_ch3_qa_4",
+          "question": "كيف تشعر عندما لا تنجح خططك؟",
+          "answer": "fee! disappointed, but | don't give up. |\nأشعر بخيبة الأمل. لكنني لا أستسلم.",
+          "type": "sb_wb"
+        },
+        {
+          "id": "prep3_ch3_qa_5",
+          "question": "Could the team solve the problem they faced? ~ 3",
+          "answer": "",
+          "type": "sb_wb"
+        },
+        {
+          "id": "prep3_ch3_qa_6",
+          "question": "هل استطاع الفريق حل المشكلة التي واجهها؟",
+          "answer": "Yes, they could.\nنعم استطاعوا N is",
+          "type": "sb_wb"
+        },
+        {
+          "id": "prep3_ch3_qa_7",
+          "question": "— What problem did the team face first? a",
+          "answer": "",
+          "type": "sb_wb"
+        },
+        {
+          "id": "prep3_ch3_qa_8",
+          "question": "ما أول مشكلة واجهها الفريق؟",
+          "answer": "They needed money to buy seeds, tools, and soil\nاحتاجوا إلى المال لشراء البذور. والأدوات. والتربة.",
+          "type": "sb_wb"
+        },
+        {
+          "id": "prep3_ch3_qa_9",
+          "question": "How did Zeina tryto get money forthe project? 00",
+          "answer": "",
+          "type": "sb_wb"
+        },
+        {
+          "id": "prep3_ch3_qa_10",
+          "question": "كيف حاولت زينة الحصول على المال للمشروع؟",
+          "answer": "‘She asked the local community for donations.\nطلبت من المجتمع المحلي تقديم تبرعات.",
+          "type": "sb_wb"
+        },
+        {
+          "id": "prep3_ch3_qa_11",
+          "question": "— What happened after it rained fortwo weeks? 00",
+          "answer": "",
+          "type": "sb_wb"
+        },
+        {
+          "id": "prep3_ch3_qa_12",
+          "question": "ماذا حدث بعد هطول الأمطار لمدة أسبوعين؟",
+          "answer": "‘Some of their first plants died.\nماتت بعض النباتات التي زرعوها في البداية.",
+          "type": "sb_wb"
+        },
+        {
+          "id": "prep3_ch3_qa_13",
+          "question": "\"What was Amal’s reaction? What was Zeina's? ١",
+          "answer": "",
+          "type": "sb_wb"
+        },
+        {
+          "id": "prep3_ch3_qa_14",
+          "question": "ها كان رد فعل أمل؟ وما كان رد فعل زينة؟",
+          "answer": "Amal wanted to quit, but Zeina showed determination and didn't give up.\nتستسلم. alg أن تستسلم. لكن زينة أظهرت الإصرار Jol أرادت",
+          "type": "sb_wb"
+        },
+        {
+          "id": "prep3_ch3_qa_15",
+          "question": "— How did the team solve the plant problem? _ a",
+          "answer": "",
+          "type": "sb_wb"
+        },
+        {
+          "id": "prep3_ch3_qa_16",
+          "question": "كيف حل الفريق مشكلة النباتات؟",
+          "answer": "They changed their plan, chose suitable plants, built a better watering system, and learned how\nto care for them.\nLay أفضل للري. وتعلموا كيفية العناية Voli غيتروا خطتهم. واختاروا نباتات مناسبة. وبنوا",
+          "type": "sb_wb"
+        },
+        {
+          "id": "prep3_ch3_qa_17",
+          "question": "~ How ean failure help you learn something new?",
+          "answer": "",
+          "type": "sb_wb"
+        },
+        {
+          "id": "prep3_ch3_qa_18",
+          "question": "كيف يمكن أن يساعدك الفشل على تعلم شيء جديد؟",
+          "answer": "It وماعط us find better solutions and learn from mistakes.\nيساعدنا على إيجاد حلول أفضل والتعلم من أخطاتن.",
+          "type": "sb_wb"
+        },
+        {
+          "id": "prep3_ch3_qa_19",
+          "question": "if you were in Zeina’s place, would you مك the same thing? Why?",
+          "answer": "",
+          "type": "sb_wb"
+        },
+        {
+          "id": "prep3_ch3_qa_20",
+          "question": "إذا كنت مكان زينة. هل ستفعل الشيء نفسم؟ ولعاذا؟",
+          "answer": "Yes, because | wouldn't give up and would work with the team.\n١ لن أستسلم وسأعمل مع الفريق. wii نعم.",
+          "type": "sb_wb"
+        },
+        {
+          "id": "prep3_ch3_qa_21",
+          "question": "في رأيك. ما الذي ساعد زينة على البقاء متحمسة عندما أصبحت الأمور صعبة؟",
+          "answer": "Her determination, believing in her idea, and the team’s support\nإصرارها. وإيمانها بفكرتها. ودعم الفريق لها",
+          "type": "sb_wb"
+        },
+        {
+          "id": "prep3_ch3_qa_22",
+          "question": "لماذا من المهم احترام جميع الآراء داخل الفريق؟",
+          "answer": "Because it helps the team solve problems together.\nJY ذلك يساعد الفريق على حل المشكلات Yoo",
+          "type": "sb_wb"
+        }
+      ],
+      "importantQuestions": [
+        {
+          "id": "prep3_ch3_qa_1",
+          "question": "What problems do you think a school garden project might face?",
+          "answer": "",
+          "type": "sb_wb"
+        },
+        {
+          "id": "prep3_ch3_qa_3",
+          "question": "Howdoyou feel when your plansdon’tworkout? 00000005 ~",
+          "answer": "",
+          "type": "sb_wb"
+        },
+        {
+          "id": "prep3_ch3_qa_7",
+          "question": "— What problem did the team face first? a",
+          "answer": "",
+          "type": "sb_wb"
+        },
+        {
+          "id": "prep3_ch3_qa_9",
+          "question": "How did Zeina tryto get money forthe project? 00",
+          "answer": "",
+          "type": "sb_wb"
+        },
+        {
+          "id": "prep3_ch3_qa_11",
+          "question": "— What happened after it rained fortwo weeks? 00",
+          "answer": "",
+          "type": "sb_wb"
+        },
+        {
+          "id": "prep3_ch3_qa_13",
+          "question": "\"What was Amal’s reaction? What was Zeina's? ١",
+          "answer": "",
+          "type": "sb_wb"
+        },
+        {
+          "id": "prep3_ch3_qa_15",
+          "question": "— How did the team solve the plant problem? _ a",
+          "answer": "",
+          "type": "sb_wb"
+        },
+        {
+          "id": "prep3_ch3_qa_17",
+          "question": "~ How ean failure help you learn something new?",
+          "answer": "",
+          "type": "sb_wb"
+        },
+        {
+          "id": "prep3_ch3_qa_19",
+          "question": "if you were in Zeina’s place, would you مك the same thing? Why?",
+          "answer": "",
+          "type": "sb_wb"
+        }
+      ],
+      "homeworkQuestions": [],
+      "mcqQuestions": [
+        {
+          "id": "mcq_prep3_ch3_1",
+          "question": "What is the main achievement described in Chapter 3 (Facing Problems with Determination)?",
+          "options": [
+            "The students work as an integrated team to improve the school environment",
+            "The students decide to close the garden project permanently",
+            "Zeina moves to another school and stops participating",
+            "The school playground is paved with more asphalt"
+          ],
+          "correctAnswer": "The students work as an integrated team to improve the school environment",
+          "explanation": "Chapter events showcase student collaboration, creative problem-solving, and communal pride."
+        },
+        {
+          "id": "mcq_prep3_ch3_2",
+          "question": "What leadership quality does Zeina demonstrate?",
+          "options": [
+            "Taking responsibility, admitting limitations honestly, and encouraging everyone's talents",
+            "Blaming other students whenever problems occur",
+            "Doing all the work alone without listening to teammates",
+            "Quitting the project as soon as difficulties arise"
+          ],
+          "correctAnswer": "Taking responsibility, admitting limitations honestly, and encouraging everyone's talents",
+          "explanation": "True leadership fosters shared purpose, mutual respect, and honest communication."
+        }
+      ]
+    },
+    {
+      "id": "sc_prep_3_ch_4",
+      "chapterNumber": 4,
+      "titleEn": "Growing Success",
+      "titleAr": "تحقيق النجاح",
+      "term": "second",
+      "summaryEn": "Chapter 4: Growing Success",
+      "summaryAr": "الفصل 4: تحقيق النجاح",
+      "chapterInPoints": [],
+      "vocabulary": [
+        {
+          "word": "initiative",
+          "meaningAr": "المبادرة"
+        },
+        {
+          "word": "eco-friendly",
+          "meaningAr": "صديق للبيئة"
+        },
+        {
+          "word": "determination",
+          "meaningAr": "العزيمة والإصرار"
+        },
+        {
+          "word": "proposal",
+          "meaningAr": "مقترح عملي"
+        },
+        {
+          "word": "fertilizer",
+          "meaningAr": "سماد طبيعي"
+        }
+      ],
+      "theText": [
+        {
+          "order": 1,
+          "paragraphEn": "vegetables, which made everyone feel proud. ee",
+          "paragraphAr": "Lo ———— يتزاولون الغداء في الخارج. محاطين بالطماطم الطازجة"
+        },
+        {
+          "order": 2,
+          "paragraphEn": "",
+          "paragraphAr": "والخس والزهور الملونة. كما بدأ anda المدرسة في استخدام"
+        },
+        {
+          "order": 3,
+          "paragraphEn": "",
+          "paragraphAr": "بعض خضروات الحديقة. مما Joo الجميع يشعر بالفخر."
+        },
+        {
+          "order": 4,
+          "paragraphEn": "ALesson in Leadership",
+          "paragraphAr": "درس في القيادة"
+        },
+        {
+          "order": 5,
+          "paragraphEn": "",
+          "paragraphAr": "ars] و )ا Zeina learned something néw about being a leader."
+        },
+        {
+          "order": 6,
+          "paragraphEn": "When some plants didn't grow well, Zeina didn’t blame we OO 1",
+          "paragraphAr": "نوريا anyone. Instead, she worked with the team to find"
+        },
+        {
+          "order": 7,
+          "paragraphEn": "solutions.",
+          "paragraphAr": "تعلمت زينة شينًا جديد\"! عن القيادة. فالقيادة لا تعني أن تمتلك Vails جميع GUY! بل تعني تحمل"
+        },
+        {
+          "order": 8,
+          "paragraphEn": "",
+          "paragraphAr": "المسؤولية عن النجاحات والأخطاء. وعندما لم ‘aii بعض النباتات جيد'!. لم تلم أحد\"!. بل عملت مع الفريق"
+        },
+        {
+          "order": 9,
+          "paragraphEn": "",
+          "paragraphAr": "لإيجاد Uglall"
+        },
+        {
+          "order": 10,
+          "paragraphEn": "Protecting the Environment",
+          "paragraphAr": "حماية البيئة"
+        },
+        {
+          "order": 11,
+          "paragraphEn": "enjoy the beautiful garden.",
+          "paragraphAr": "ali الطلاب أيض”) أهمية المسؤولية العالمية تجاه البيئة. فقد"
+        },
+        {
+          "order": 12,
+          "paragraphEn": "",
+          "paragraphAr": "استخدموا طرقًا صديقة للبيئة. دون مواد كيميائية ضارة. واعتمدوا فقط على الأسمدة الطبيعية. وساعد"
+        },
+        {
+          "order": 13,
+          "paragraphEn": "",
+          "paragraphAr": "ذلك في تحسين التربة وتقليل النفايات. وبدأ طلاب من الفصول الأخرى يزورون الحديقة؛ فسأل بعضهم"
+        },
+        {
+          "order": 14,
+          "paragraphEn": "",
+          "paragraphAr": "كيف يمكنهم المساعدة. بينما جاء آخرون للاستمتاع بجمالها"
+        },
+        {
+          "order": 15,
+          "paragraphEn": "One Team, One Goal",
+          "paragraphAr": "فريق واحد وهدف واحد"
+        },
+        {
+          "order": 16,
+          "paragraphEn": "The garden had changed the school— and it had changed 59",
+          "paragraphAr": "8دوك the students. They were no longer just classmates. They Ma."
+        },
+        {
+          "order": 17,
+          "paragraphEn": "",
+          "paragraphAr": "#. 3 ف 55 were a team with a sharedpurpose."
+        },
+        {
+          "order": 18,
+          "paragraphEn": "",
+          "paragraphAr": "pla) لان a نقد غيرت الحديقة المدرسة. كما ye الطلاب ul فلم يعودوا"
+        },
+        {
+          "order": 19,
+          "paragraphEn": "",
+          "paragraphAr": "1 7 ] مجرد زملاء في الفصل. بل أصبحوا ya يعمل من أجل هدفر"
+        },
+        {
+          "order": 20,
+          "paragraphEn": "",
+          "paragraphAr": "مو She 20"
+        },
+        {
+          "order": 21,
+          "paragraphEn": "| Five of Growth",
+          "paragraphAr": "/ ل"
+        },
+        {
+          "order": 22,
+          "paragraphEn": "",
+          "paragraphAr": ".سك للحتت = || نه ww"
+        },
+        {
+          "order": 23,
+          "paragraphEn": "",
+          "paragraphAr": "”دن | Ti aac: حد دوه"
+        },
+        {
+          "order": 24,
+          "paragraphEn": "",
+          "paragraphAr": "سمه | 2 so"
+        },
+        {
+          "order": 25,
+          "paragraphEn": "s@ At the end of the school year, Zeina admired the completed garden.",
+          "paragraphAr": "في نهاية العام الدراسي. زينة أعجبت بالحديقة المكتملة."
+        },
+        {
+          "order": 26,
+          "paragraphEn": "",
+          "paragraphAr": "هر The garden became full of green plants, colors, and life."
+        },
+        {
+          "order": 27,
+          "paragraphEn": "",
+          "paragraphAr": "الحديقة أصبحت مليئة بالنباتات الخضراء. الألوان. والحياة."
+        },
+        {
+          "order": 28,
+          "paragraphEn": "",
+          "paragraphAr": "حر Zeina realized that the greatest change was in the students."
+        },
+        {
+          "order": 29,
+          "paragraphEn": "",
+          "paragraphAr": "زينة أدركت أن التغيير الأعظم كان في الطلاب."
+        },
+        {
+          "order": 30,
+          "paragraphEn": "",
+          "paragraphAr": "حمر Students became more careful with the school."
+        },
+        {
+          "order": 31,
+          "paragraphEn": "",
+          "paragraphAr": "الطلاب أصبحوا أكثر حرصاً مع المدرسة."
+        },
+        {
+          "order": 32,
+          "paragraphEn": "3 They threw less trash on the ground.",
+          "paragraphAr": "Vi ule Jai هم رموا قمامة"
+        },
+        {
+          "order": 33,
+          "paragraphEn": "",
+          "paragraphAr": "جر They respected the environment more."
+        },
+        {
+          "order": 34,
+          "paragraphEn": "",
+          "paragraphAr": "هم احترموا البيئة أكثر."
+        },
+        {
+          "order": 35,
+          "paragraphEn": "",
+          "paragraphAr": "هر Nancy discovered her love for growing food."
+        },
+        {
+          "order": 36,
+          "paragraphEn": "",
+          "paragraphAr": "انسي اكتشفت حبها لزراعة الطعام."
+        },
+        {
+          "order": 37,
+          "paragraphEn": "",
+          "paragraphAr": "*هر Nancy decided to study agriculture."
+        },
+        {
+          "order": 38,
+          "paragraphEn": "",
+          "paragraphAr": "نانسي قررت أن تدرس الزراعة."
+        },
+        {
+          "order": 39,
+          "paragraphEn": "",
+          "paragraphAr": "هر Noha's signs and drawings made the garden more beautiful."
+        },
+        {
+          "order": 40,
+          "paragraphEn": "",
+          "paragraphAr": "لافتات ورسومات نهى جعلت الحديقة أكثر جمالاً"
+        },
+        {
+          "order": 41,
+          "paragraphEn": "",
+          "paragraphAr": "حمر Noha inspired others to add art around the school."
+        },
+        {
+          "order": 42,
+          "paragraphEn": "",
+          "paragraphAr": "١ حول المدرسة. gall نهى ألهمت الآخرين لإضافة"
+        },
+        {
+          "order": 43,
+          "paragraphEn": "s@ Amal, who had once wanted to quit, became one of the most dedicated gardeners.",
+          "paragraphAr": "أمل. التي كانت ذات مرة قد أرادت أن تنسحب. أصبحت واحدة من أكثر البستانيين تفانياً"
+        },
+        {
+          "order": 44,
+          "paragraphEn": "s@ She even arrived early to water the plants.",
+          "paragraphAr": "هي حتى وصلت مبكراً لري النباتات."
+        },
+        {
+          "order": 45,
+          "paragraphEn": "",
+          "paragraphAr": "حر Zeina realized that honesty builds people's trust."
+        },
+        {
+          "order": 46,
+          "paragraphEn": "",
+          "paragraphAr": "زينة أدركت أن الصدق يبني ثقة الناس."
+        },
+        {
+          "order": 47,
+          "paragraphEn": "3 She always admitted her limitations instead of pretending to be perfect.",
+          "paragraphAr": "هي دائماً اعترفت بحدود قدراتها بدلاً من التظاهر بأنها مثالية"
+        },
+        {
+          "order": 48,
+          "paragraphEn": "s@ The project improved how students treated both their school and one another.",
+          "paragraphAr": "المشروع حسّن كيف عامل الطلاب كلاً من مدرستهم وبعضهم البعض."
+        },
+        {
+          "order": 49,
+          "paragraphEn": "",
+          "paragraphAr": "هر The students grew not only as learners but also as people."
+        },
+        {
+          "order": 50,
+          "paragraphEn": "",
+          "paragraphAr": "الطلاب نموا ليس فقط كمتعلمين ولكن أيضاً كأشخاص."
+        }
+      ],
+      "questionsAndAnswers": [
+        {
+          "id": "prep3_ch4_qa_1",
+          "question": "OO What does success mean to you? 00",
+          "answer": "",
+          "type": "sb_wb"
+        },
+        {
+          "id": "prep3_ch4_qa_2",
+          "question": "ماذا يعني النجاح بالنسبة لك؟",
+          "answer": "It means working together and achieving a shared purpose.\nيعني العمل 20 وتحقيق هدف مشترك.\nلي 0",
+          "type": "sb_wb"
+        },
+        {
+          "id": "prep3_ch4_qa_3",
+          "question": "كيف يمكننا أن نتعلم من أخطائنا؟",
+          "answer": "By finding solutions and not blaming others.\nمن خلال إيجاد الحلول وعدم إلقاء اللوم على الآخرين. :",
+          "type": "sb_wb"
+        },
+        {
+          "id": "prep3_ch4_qa_4",
+          "question": "a How would you behave if you were a leader? 7",
+          "answer": "SV auld كيف ستتصرف )15 كنت\n| would be responsible, help the team, and find solutions.\nسأكون مسؤولًا. وأساعد الفريق. وأبحث عن الحلول.",
+          "type": "sb_wb"
+        },
+        {
+          "id": "prep3_ch4_qa_5",
+          "question": "“What positive changes happened in the garden afterthree months? |",
+          "answer": "",
+          "type": "sb_wb"
+        },
+        {
+          "id": "prep3_ch4_qa_6",
+          "question": "الإيجابية التي حدثت في الحديقة بعد ثلاثة أشهر؟ sill ما",
+          "answer": "The garden looked amazing, students ate lunch there, and the cafeteria used garden vegetables.\nأصبحت الحديقة رائعة. وتناول الطلاب الغداء فيها. واستخدمت الكافتيريا خضروات الحديقة.",
+          "type": "sb_wb"
+        },
+        {
+          "id": "prep3_ch4_qa_7",
+          "question": "00010 عدوم did Zeina learn about being leader? 0000:",
+          "answer": "",
+          "type": "sb_wb"
+        },
+        {
+          "id": "prep3_ch4_qa_8",
+          "question": "ماذا تعلمت زينة عن القيادة؟",
+          "answer": "She leamed that a leader is responsible for both successes and mistakes\n‘20 تعلمت أن القائد مسؤول عن النجاحات والأخطاء",
+          "type": "sb_wb"
+        },
+        {
+          "id": "prep3_ch4_qa_9",
+          "question": "َْ ووو did the students help the environment? 0 7",
+          "answer": "",
+          "type": "sb_wb"
+        },
+        {
+          "id": "prep3_ch4_qa_10",
+          "question": "كيف ساعد الطلاب البيئة؟",
+          "answer": "‘They reduced trash and used eco-friendly methods and natural fertilizers with no harmful\nchemicals.\nقللوا القمامة. واستخدموا وسائل صديقة للبيئة وأسمدة طبيعية خالية من المواد الكيميائية الضارة.",
+          "type": "sb_wb"
+        },
+        {
+          "id": "prep3_ch4_qa_11",
+          "question": "How did the garden affect students who weren’t on the team? _",
+          "answer": "",
+          "type": "sb_wb"
+        },
+        {
+          "id": "prep3_ch4_qa_12",
+          "question": "كيف أثرت الحديقة في الطلاب الذين لم يكونوا ضمن الفريق؟",
+          "answer": "They visited the garden, wanted to help, and enjoyed it.\nزاروا الحديقة. وأرادوا المساعدة. واستمتعوا بها",
+          "type": "sb_wb"
+        },
+        {
+          "id": "prep3_ch4_qa_13",
+          "question": "Why did they use eco-friendlymethods? 0000",
+          "answer": "",
+          "type": "sb_wb"
+        },
+        {
+          "id": "prep3_ch4_qa_14",
+          "question": "لماذا استخدموا وسائل صديقة للبيئة؟",
+          "answer": "To help the soil and reduce trash. للحفاظ على التربة وتقليل القمامة.",
+          "type": "sb_wb"
+        }
+      ],
+      "importantQuestions": [
+        {
+          "id": "prep3_ch4_crit_1",
+          "question": "~ Cana small project like a garden reallyhelp the world? How?",
+          "answer": "",
+          "type": "critical_thinking"
+        },
+        {
+          "id": "prep3_ch4_crit_2",
+          "question": "مثل الحديقة أن يساعد العالم حمًا؟ كيف؟ pan هل يمكن لمشروع",
+          "answer": "Yes, because it teaches people to protect the environment and work together.\nالناس حماية البيئة والعمل مهنا alas نعم لأنه\nBecause it helps the team find solutions and improve.\nBecause she was a responsible leader and wanted to find solutions with the team.",
+          "type": "critical_thinking"
+        }
+      ],
+      "homeworkQuestions": [],
+      "mcqQuestions": [
+        {
+          "id": "mcq_prep3_ch4_1",
+          "question": "What is the main achievement described in Chapter 4 (Growing Success)?",
+          "options": [
+            "The students work as an integrated team to improve the school environment",
+            "The students decide to close the garden project permanently",
+            "Zeina moves to another school and stops participating",
+            "The school playground is paved with more asphalt"
+          ],
+          "correctAnswer": "The students work as an integrated team to improve the school environment",
+          "explanation": "Chapter events showcase student collaboration, creative problem-solving, and communal pride."
+        },
+        {
+          "id": "mcq_prep3_ch4_2",
+          "question": "What leadership quality does Zeina demonstrate?",
+          "options": [
+            "Taking responsibility, admitting limitations honestly, and encouraging everyone's talents",
+            "Blaming other students whenever problems occur",
+            "Doing all the work alone without listening to teammates",
+            "Quitting the project as soon as difficulties arise"
+          ],
+          "correctAnswer": "Taking responsibility, admitting limitations honestly, and encouraging everyone's talents",
+          "explanation": "True leadership fosters shared purpose, mutual respect, and honest communication."
+        }
+      ]
+    },
+    {
+      "id": "sc_prep_3_ch_5",
+      "chapterNumber": 5,
+      "titleEn": "The Impact of Growth",
+      "titleAr": "أثر النمو",
+      "term": "second",
+      "summaryEn": "The following year, Zeina became president of the student council.",
+      "summaryAr": "MII السنة التالية. زينة أصبحت رئيسة مجلس",
+      "chapterInPoints": [
+        {
+          "en": "The following year, Zeina became president of the student council.",
+          "ar": "MII السنة التالية. زينة أصبحت رئيسة مجلس"
+        },
+        {
+          "en": "She learned valuable lessons about true leadership.",
+          "ar": "هي تعلمت دروساً قيمة عن القيادة الحقيقية."
+        },
+        {
+          "en": "She understood that leadership means helping others rather than doing everything alone.",
+          "ar": "أن القيادة تعني مساعدة الآخرين بدلاً من فعل كل شيء بمفردها ams هي"
+        },
+        {
+          "en": "She believed honesty is important when facing difficulties.",
+          "ar": "هي أمنت أن الصدق مهم عند مواجهة الصعوبات."
+        },
+        {
+          "en": "Her ambition became greater than creating a garden.",
+          "ar": "طموحها أصبح أكبر من إنشاء حديقة."
+        },
+        {
+          "en": "She told new students that everyone has something special to offer.",
+          "ar": "هي قالت للطلاب الجدد إن كل شخص لديه شيء مميز ليقدمه"
+        },
+        {
+          "en": "The garden became a symbol of students’ ability to work together.",
+          "ar": "الحديقة أصبحت رمزاً لقدرة الطلاب على العمل معاً"
+        },
+        {
+          "en": "Zeina realized that growth happens in people as well as plants.",
+          "ar": "زينة أدركت gaill gi يحدث في الناس تماماً كما يحدث في النباتات."
+        },
+        {
+          "en": "She learned that small ideas can lead to big changes when people believe in them.",
+          "ar": "هي تعلمت أن الأفكار الصغيرة يمكن أن تؤدي إلى تغبيرات كبيرة عندما يؤمن الناس بها"
+        }
+      ],
+      "vocabulary": [
+        {
+          "word": "initiative",
+          "meaningAr": "المبادرة"
+        },
+        {
+          "word": "eco-friendly",
+          "meaningAr": "صديق للبيئة"
+        },
+        {
+          "word": "determination",
+          "meaningAr": "العزيمة والإصرار"
+        },
+        {
+          "word": "proposal",
+          "meaningAr": "مقترح عملي"
+        },
+        {
+          "word": "fertilizer",
+          "meaningAr": "سماد طبيعي"
+        }
+      ],
+      "theText": [
+        {
+          "order": 1,
+          "paragraphEn": "At the end of the school year, Zeina looked around the",
+          "paragraphAr": "garden and smiled. It started with just an idea. Now it ١"
+        },
+        {
+          "order": 2,
+          "paragraphEn": "",
+          "paragraphAr": "was a real space—tull of green plants, colors, and life. ال 0 gore"
+        },
+        {
+          "order": 3,
+          "paragraphEn": "",
+          "paragraphAr": "But the biggest change wasn’t in the garden. It was in Ma Sanaa) تر"
+        },
+        {
+          "order": 4,
+          "paragraphEn": "the students. <a 0 3",
+          "paragraphAr": "في نهاية العام الدراسي. نظرت زينة إلى الحديقة وابتسمت. لقد i OG"
+        },
+        {
+          "order": 5,
+          "paragraphEn": "",
+          "paragraphAr": "وأصبحت الآن مكان\"! حقيقي'! ملينا بالنباتات dau بدات بفكرة Een Me ali"
+        },
+        {
+          "order": 6,
+          "paragraphEn": "",
+          "paragraphAr": "الخضراء والألوان والحياة. لكن أكبر تغبير لم يكن في الحديقة. بل"
+        },
+        {
+          "order": 7,
+          "paragraphEn": "",
+          "paragraphAr": "كان في الطلاب أنفسهم"
+        },
+        {
+          "order": 8,
+          "paragraphEn": "Positive Changes Everywhere",
+          "paragraphAr": "تغييرات إيجابية في كل مكان"
+        },
+        {
+          "order": 9,
+          "paragraphEn": "",
+          "paragraphAr": "Students were now more careful with the school. They د"
+        },
+        {
+          "order": 10,
+          "paragraphEn": "spect for the environment. yee ai",
+          "paragraphAr": "Nancy discovered a love for growing food and wanted to ee 211\" 5 مان"
+        },
+        {
+          "order": 11,
+          "paragraphEn": "dedicated gardeners. She even came early to water the plants.",
+          "paragraphAr": "أكبر للبيئة. Vol ial على الأرض. وأظهروا Jai أصبح الطلاب أكثر حرص”! على مدرستهم. فقد ألقوا نفايات"
+        },
+        {
+          "order": 12,
+          "paragraphEn": "",
+          "paragraphAr": "واكتشفت نانسي حبها لزراعة الطعام. وأرادت دراسة الزراعة. كما جعلت اللافتات والرسومات التي"
+        },
+        {
+          "order": 13,
+          "paragraphEn": "",
+          "paragraphAr": "التي Joi Lol رسمتها نهى الحديقة أكثر جمالا. وألهمت الآخرين لإضافة أعمال فنية في أنحاء المدرسة."
+        },
+        {
+          "order": 14,
+          "paragraphEn": "",
+          "paragraphAr": "كادت تستسلم. فقد أصبحت واحدة من أكثر البستانيين اجتهاد”!. حتى إنها كانت تأتي مبكر' لري\" النباتات."
+        },
+        {
+          "order": 15,
+          "paragraphEn": "The Secret of Good Leadership",
+          "paragraphAr": "سر القيادة الناجحة"
+        },
+        {
+          "order": 16,
+          "paragraphEn": "others—and with yourselt—helps people trust you. She © ie",
+          "paragraphAr": "had always talked about her limits and didn’t pretend to ا التو 7ل"
+        },
+        {
+          "order": 17,
+          "paragraphEn": "treated their school and each other. It had helped ete",
+          "paragraphAr": "students grow—not just as learners, but as people. ل"
+        },
+        {
+          "order": 18,
+          "paragraphEn": "",
+          "paragraphAr": "وهو أن الصدق مع الآخرين ومع نفسك ama أدركت زينة شيئًا"
+        },
+        {
+          "order": 19,
+          "paragraphEn": "",
+          "paragraphAr": "تد“ع يوم”! أنها كاملة أو alg الناس يثقون بك. فقد كانت دائم”! تتحدث بصراحة عن حدود قدراتها. Jory"
+        },
+        {
+          "order": 20,
+          "paragraphEn": "",
+          "paragraphAr": "بلا أخطاء. وهذا ما جعلها قائدة أفضل."
+        },
+        {
+          "order": 21,
+          "paragraphEn": "",
+          "paragraphAr": "يساعد الطلاب alg io) لقد غيتر مشروع الحديقة الطريقة التي يعامل بها الناس مدرستهم وبعضهم"
+        },
+        {
+          "order": 22,
+          "paragraphEn": "",
+          "paragraphAr": "Jaa على التعلم فقط. بل ساعدهم أيض” على النمو ليصبحوا أشخاص”ا"
+        },
+        {
+          "order": 23,
+          "paragraphEn": "Nelle 77",
+          "paragraphAr": "or التطلع للأمام"
+        },
+        {
+          "order": 24,
+          "paragraphEn": "",
+          "paragraphAr": "ey vocabulary ١"
+        },
+        {
+          "order": 25,
+          "paragraphEn": "oe ay s/t ae",
+          "paragraphAr": "إصار eae شجامة"
+        },
+        {
+          "order": 26,
+          "paragraphEn": "",
+          "paragraphAr": "‘students council RNCIerevmmoffer = عرض / يقدم عرض"
+        }
+      ],
+      "questionsAndAnswers": [
+        {
+          "id": "prep3_ch5_qa_1",
+          "question": "‘What kind of impact can a school garden project have on a school ora person?",
+          "answer": "",
+          "type": "sb_wb"
+        },
+        {
+          "id": "prep3_ch5_qa_2",
+          "question": "على الشخص؟ gi نوع التأثير الذي يمكن أن يحدثه مشروع حديقة مدرسية على المدرسة Lo",
+          "answer": "Itcan change the school and help students grow not just as learners, but as people.\nكأشخاص. Vaui ليس فقط كمتعلمين. بل gaill يمكن أن يغير المدرسة ويساعد الطلاب على\n3 عدي يهو the garden project لص عط عه 00 3",
+          "type": "sb_wb"
+        },
+        {
+          "id": "prep3_ch5_qa_3",
+          "question": "كيف أصبح مشروع الحديقة في النهاية؟",
+          "answer": "Itbecame a real space full of green plants, colors, and life.\nملينًا بالنباتات الخضراء والألوان والحياة. Vagus Vila أصبح",
+          "type": "sb_wb"
+        },
+        {
+          "id": "prep3_ch5_qa_4",
+          "question": "~~ What changes happened at the school because of the garden? ~",
+          "answer": "",
+          "type": "sb_wb"
+        },
+        {
+          "id": "prep3_ch5_qa_5",
+          "question": "ما التغييرات التي حدثت في المدرسة بسبب الحديقة؟",
+          "answer": "‘Students threw less trash, respected the environment, and treated each other better.\nواحترموا البيئة. وتعاملوا مع بعضهم البعض بشكل أفضل «Jai ألقى الطلاب قمامة",
+          "type": "sb_wb"
+        },
+        {
+          "id": "prep3_ch5_qa_6",
+          "question": "3 How did the project affect Nancy and Amal? 3",
+          "answer": "",
+          "type": "sb_wb"
+        },
+        {
+          "id": "prep3_ch5_qa_7",
+          "question": "المشروع في نانسي وأمل؟ sil كيف",
+          "answer": "Nancy wanted to study agriculture, and Amal became one of the most dedicated gardeners.\nN Valais! من أكثر العاملين في الحديقة Joi أرادت نانسي دراسة الزراعة. وأصبحت",
+          "type": "sb_wb"
+        },
+        {
+          "id": "prep3_ch5_qa_8",
+          "question": "What did Zeina realize about honesty and leadership? _",
+          "answer": "",
+          "type": "sb_wb"
+        },
+        {
+          "id": "prep3_ch5_qa_9",
+          "question": "ماذا أدركت زينة عن الصدق والقيادة؟",
+          "answer": "She realized that honesty helps people trust you and makes you a better leader.\nأفضل. Vail أدركت أن الصدق يساعد الناس على الثقة بك ويجعلك",
+          "type": "sb_wb"
+        },
+        {
+          "id": "prep3_ch5_qa_10",
+          "question": "~~ How did Zeina’s limits help her become abetterleader? 000",
+          "answer": "",
+          "type": "sb_wb"
+        },
+        {
+          "id": "prep3_ch5_qa_11",
+          "question": "كيف ساعد اعتراف زينة بحدود قدراتها على أن تصبح قائدة أفضل؟",
+          "answer": "She didn't pretend to be perfect, so people trusted her.\nالناس بها dig لم تداع أنها كاملة. لذلك",
+          "type": "sb_wb"
+        },
+        {
+          "id": "prep3_ch5_qa_12",
+          "question": "~~ What was the effect of the project on NancyandAmal?(AB) 07",
+          "answer": "",
+          "type": "sb_wb"
+        },
+        {
+          "id": "prep3_ch5_qa_13",
+          "question": "ما تأثير المشروع على نانسي وأمل؟",
+          "answer": "Nancy wanted to study agriculture, and Amal became one of the most dedicated gardeners.\nمن أكثر العاملين في الحديقة اجتهاد” Jol أرادت نانسي دراسة الزراعة. وأصبحت",
+          "type": "sb_wb"
+        },
+        {
+          "id": "prep3_ch5_qa_14",
+          "question": "What things did Zeina find about honesty and leadership? (AB)",
+          "answer": "",
+          "type": "sb_wb"
+        },
+        {
+          "id": "prep3_ch5_qa_15",
+          "question": "ماذا اكتشفت زينة عن الصدق والقيادة؟",
+          "answer": "‘She found that honesty helps people trust you and makes you a better leader.\nاكتشفت أن الصدق يساعد الناس على الثقة بك ويجعلك قائد! أفضل.",
+          "type": "sb_wb"
+        },
+        {
+          "id": "prep3_ch5_qa_16",
+          "question": "3 Who do you think people respect? Why? (AB) 3",
+          "answer": "",
+          "type": "sb_wb"
+        },
+        {
+          "id": "prep3_ch5_qa_17",
+          "question": "في رأيك. من الذي يحترمه الناس؟ ولماذا؟",
+          "answer": "People respect honest and responsible leaders because they help others and tell the truth.\nيحترم الناس القادة الصادقين والمسؤولين لأنهم يساعدون الآخرين ويقولون الحقيقة",
+          "type": "sb_wb"
+        }
+      ],
+      "importantQuestions": [
+        {
+          "id": "prep3_ch5_crit_1",
+          "question": "~ Whywas this chapter called “The Impact ofGrowth\"?,",
+          "answer": "",
+          "type": "critical_thinking"
+        },
+        {
+          "id": "prep3_ch5_crit_2",
+          "question": "النمو\"؟ sil\" لعاذا سثمئي هذا الفصل",
+          "answer": "Because the garden and the students both grew and changed.\nلأن الحديقة والطلاب كليهما نما وتفيئر",
+          "type": "critical_thinking"
+        },
+        {
+          "id": "prep3_ch5_crit_3",
+          "question": "Why do you think people respect the honest?",
+          "answer": "",
+          "type": "critical_thinking"
+        },
+        {
+          "id": "prep3_ch5_crit_4",
+          "question": "في رأيك. لماذا يحترم الناس الشخص الصادق؟",
+          "answer": "Because they tell the truth and people trust them.\nلأنهم يقولون الحقيقة ويثق الناس بهم. ظ\nMention two things you think teamwork can teach students.\nاذكر شيئين تعتقد أن العمل الجماعي يمكن أن يعلمهما للطلاب.\nItcan teach them responsibilty and respect.\nيمكن أن يعلمهم المسؤولية والاحترام.",
+          "type": "critical_thinking"
+        }
+      ],
+      "homeworkQuestions": [
+        {
+          "id": "prep3_ch5_ex_1",
+          "question": "By sattte ond ot the year, students showed more for the environment and",
+          "answer": "تدريب تطبيقي على استيعاب أحداث الفصل والمفردات اللغوية الجديدة.",
+          "type": "homework"
+        },
+        {
+          "id": "prep3_ch5_ex_2",
+          "question": "threw less trash.",
+          "answer": "تدريب تطبيقي على استيعاب أحداث الفصل والمفردات اللغوية الجديدة.",
+          "type": "homework"
+        },
+        {
+          "id": "prep3_ch5_ex_3",
+          "question": "iit respect @aisappointment — @panger",
+          "answer": "تدريب تطبيقي على استيعاب أحداث الفصل والمفردات اللغوية الجديدة.",
+          "type": "homework"
+        },
+        {
+          "id": "prep3_ch5_ex_4",
+          "question": "[Epp nancy discovered a love for growing food and wanted to study in the future.",
+          "answer": "تدريب تطبيقي على استيعاب أحداث الفصل والمفردات اللغوية الجديدة.",
+          "type": "homework"
+        },
+        {
+          "id": "prep3_ch5_ex_5",
+          "question": "Qoagriculture @an @biotogy @ leadership",
+          "answer": "تدريب تطبيقي على استيعاب أحداث الفصل والمفردات اللغوية الجديدة.",
+          "type": "homework"
+        },
+        {
+          "id": "prep3_ch5_ex_6",
+          "question": "Fy Amat who had aimost quit in the past, became one of the most gardeners.",
+          "answer": "تدريب تطبيقي على استيعاب أحداث الفصل والمفردات اللغوية الجديدة.",
+          "type": "homework"
+        },
+        {
+          "id": "prep3_ch5_ex_7",
+          "question": "@ surprised careless @ cedicated @ronest",
+          "answer": "تدريب تطبيقي على استيعاب أحداث الفصل والمفردات اللغوية الجديدة.",
+          "type": "homework"
+        },
+        {
+          "id": "prep3_ch5_ex_8",
+          "question": "Fy Zeina reatized that being honest with people helps them you.",
+          "answer": "تدريب تطبيقي على استيعاب أحداث الفصل والمفردات اللغوية الجديدة.",
+          "type": "homework"
+        },
+        {
+          "id": "prep3_ch5_ex_9",
+          "question": "blame @ignore trust @rate",
+          "answer": "تدريب تطبيقي على استيعاب أحداث الفصل والمفردات اللغوية الجديدة.",
+          "type": "homework"
+        },
+        {
+          "id": "prep3_ch5_ex_10",
+          "question": "ED) zeina was a great leader because she always talked about her and didn't",
+          "answer": "تدريب تطبيقي على استيعاب أحداث الفصل والمفردات اللغوية الجديدة.",
+          "type": "homework"
+        },
+        {
+          "id": "prep3_ch5_ex_11",
+          "question": "pretend to be perfect.",
+          "answer": "تدريب تطبيقي على استيعاب أحداث الفصل والمفردات اللغوية الجديدة.",
+          "type": "homework"
+        },
+        {
+          "id": "prep3_ch5_ex_12",
+          "question": "limits @uatents @ successes @rools",
+          "answer": "تدريب تطبيقي على استيعاب أحداث الفصل والمفردات اللغوية الجديدة.",
+          "type": "homework"
+        }
+      ],
+      "mcqQuestions": [
+        {
+          "id": "mcq_prep3_ch5_1",
+          "question": "What is the main achievement described in Chapter 5 (The Impact of Growth)?",
+          "options": [
+            "The following year, Zeina became president of the student council.",
+            "The students decide to close the garden project permanently",
+            "Zeina moves to another school and stops participating",
+            "The school playground is paved with more asphalt"
+          ],
+          "correctAnswer": "The following year, Zeina became president of the student council.",
+          "explanation": "Chapter events showcase student collaboration, creative problem-solving, and communal pride."
+        },
+        {
+          "id": "mcq_prep3_ch5_2",
+          "question": "What leadership quality does Zeina demonstrate?",
+          "options": [
+            "Taking responsibility, admitting limitations honestly, and encouraging everyone's talents",
+            "Blaming other students whenever problems occur",
+            "Doing all the work alone without listening to teammates",
+            "Quitting the project as soon as difficulties arise"
+          ],
+          "correctAnswer": "Taking responsibility, admitting limitations honestly, and encouraging everyone's talents",
+          "explanation": "True leadership fosters shared purpose, mutual respect, and honest communication."
+        }
+      ]
+    },
+    {
+      "id": "sc_prep_3_ch_6",
+      "chapterNumber": 6,
+      "titleEn": "Looking Forward",
+      "titleAr": "التطلع للأمام",
+      "term": "second",
+      "summaryEn": "Chapter 6: Looking Forward",
+      "summaryAr": "الفصل 6: التطلع للأمام",
+      "chapterInPoints": [],
+      "vocabulary": [
+        {
+          "word": "initiative",
+          "meaningAr": "المبادرة"
+        },
+        {
+          "word": "eco-friendly",
+          "meaningAr": "صديق للبيئة"
+        },
+        {
+          "word": "determination",
+          "meaningAr": "العزيمة والإصرار"
+        },
+        {
+          "word": "proposal",
+          "meaningAr": "مقترح عملي"
+        },
+        {
+          "word": "fertilizer",
+          "meaningAr": "سماد طبيعي"
+        }
+      ],
+      "theText": [
+        {
+          "order": 1,
+          "paragraphEn": "The next year, Zeina was chosen president of the student 0 _",
+          "paragraphAr": "A م نا council. She learned a lot from the garden project, ry"
+        },
+        {
+          "order": 2,
+          "paragraphEn": "honest when things were hard.",
+          "paragraphAr": "في العام التالي. تم اختيار زينة Gauss لمجلس الطلاب. لقد تعلمت"
+        },
+        {
+          "order": 3,
+          "paragraphEn": "",
+          "paragraphAr": "AWE ae اركثير من مشروع الحديقة. aol معنى القيادة الحقيقية. فقد"
+        },
+        {
+          "order": 4,
+          "paragraphEn": "",
+          "paragraphAr": "أدركت أن القيادة لا تعني القيام بكل شيء بمفردها. بل تعني"
+        },
+        {
+          "order": 5,
+          "paragraphEn": "",
+          "paragraphAr": "مساعدة الآخرين والتحلي بالصدق عندما تصبح الأمور صعبة."
+        },
+        {
+          "order": 6,
+          "paragraphEn": "ABigger Dream",
+          "paragraphAr": "= = حلم أكبر"
+        },
+        {
+          "order": 7,
+          "paragraphEn": "Now, her ambition was bigger than just a garden. She | Soper we 3",
+          "paragraphAr": ",5-590 تكو wanted to help students believe they could change their"
+        },
+        {
+          "order": 8,
+          "paragraphEn": "determination, we can solve any problem.”",
+          "paragraphAr": "أصبح agab زينة الآن أكبر من مجرد إنشاء حديقة. فقد أرادت أن تساعد الطلاب على الإيمان بقدرتهم"
+        },
+        {
+          "order": 9,
+          "paragraphEn": "",
+          "paragraphAr": "على judi مدرستهم. وربما العالم aul"
+        },
+        {
+          "order": 10,
+          "paragraphEn": "",
+          "paragraphAr": "وقالت للطلاب الجدد: \"لكل شخص شيء مميز يمكنه أن يقدمه. وعندما نعمل 20' باحترام وإصرار."
+        },
+        {
+          "order": 11,
+          "paragraphEn": "",
+          "paragraphAr": "نستطيع حل أي مشكلة."
+        },
+        {
+          "order": 12,
+          "paragraphEn": "plants, painted benches, and created quiet spaces for © 25h",
+          "paragraphAr": "لك AD لذ reading. It became a symbol of what students could do"
+        },
+        {
+          "order": 13,
+          "paragraphEn": "",
+          "paragraphAr": "عات ار كيم together."
+        },
+        {
+          "order": 14,
+          "paragraphEn": "",
+          "paragraphAr": "9 د 0 Zeina had learned that growth doesn’t happen only in"
+        },
+        {
+          "order": 15,
+          "paragraphEn": "",
+          "paragraphAr": "glee eee 5 شل plants. It also happens in people— especially when they"
+        },
+        {
+          "order": 16,
+          "paragraphEn": "Small ideas can lead to big changes— when people believe in them.",
+          "paragraphAr": "استمرت الحديقة في .gaill وأضاف الطلاب المزيد من النباتات. وطلوا المقاعد. وأنشأوا أماكن هادئة"
+        },
+        {
+          "order": 17,
+          "paragraphEn": "",
+          "paragraphAr": "del All وأصبحت الحديقة رمز\"! لما يمكن للطلاب تحقيقه عندما يعملون no"
+        },
+        {
+          "order": 18,
+          "paragraphEn": "",
+          "paragraphAr": "وتعلمت زينة أن gail لا يحدث للنباتات فقط. بل يحدث أيض\"! للناس. ald عندما يتحلون بالشجاعة لتجربة"
+        },
+        {
+          "order": 19,
+          "paragraphEn": "",
+          "paragraphAr": "أشياء جديدة. وبالقوة عند مواجهة الصعوبات."
+        },
+        {
+          "order": 20,
+          "paragraphEn": "",
+          "paragraphAr": "وأدركت أنها ما زالت تملك الكثير لتتعلمه. لكنها عرفت أيض”ا dads مهمة: أن الأفكار الصفيرة يمكن أن"
+        },
+        {
+          "order": 21,
+          "paragraphEn": "",
+          "paragraphAr": "تؤدي إلى تغييرات كبيرة عندما يؤمن بها الناس."
+        }
+      ],
+      "questionsAndAnswers": [
+        {
+          "id": "prep3_ch6_qa_1",
+          "question": "a What makes someone a good leader at school? |",
+          "answer": "",
+          "type": "sb_wb"
+        },
+        {
+          "id": "prep3_ch6_qa_2",
+          "question": "ما الذي يجعل nau ما قائد\"! جيد\"! في المدرسة؟",
+          "answer": "أن يكون Lots ومسؤولًا. ويساعد الآخرين: Being honest, responsible, and helping others.",
+          "type": "sb_wb"
+        },
+        {
+          "id": "prep3_ch6_qa_3",
+          "question": "‘you think students can make big changes in their communities? Why or why not?",
+          "answer": "",
+          "type": "sb_wb"
+        },
+        {
+          "id": "prep3_ch6_qa_4",
+          "question": "هل تعتقد أن الطلاب يستطيعون إحداث تفييرات كبيرة في مجتمعاتهم؟ ولماذا؟",
+          "answer": "Yes, because they can work together to solve problems.\nasi لأنهم يستطيعون العمل مع\" لحل المشكلات.",
+          "type": "sb_wb"
+        },
+        {
+          "id": "prep3_ch6_qa_5",
+          "question": "When ean small ideasleadtobigchanges?",
+          "answer": "",
+          "type": "sb_wb"
+        },
+        {
+          "id": "prep3_ch6_qa_6",
+          "question": "متى يمكن للأفكار الصغيرة أن تؤدي إلى تغييرات كبيرة؟",
+          "answer": "عندما يؤمن الناس بها ويعملون مهن ‘When people believe in them and work together.",
+          "type": "sb_wb"
+        },
+        {
+          "id": "prep3_ch6_qa_7",
+          "question": "\"What new role did Zeinatake on at school?",
+          "answer": "",
+          "type": "sb_wb"
+        },
+        {
+          "id": "prep3_ch6_qa_8",
+          "question": "ما الدور الجديد الذي تولته زينة في المدرسة؟",
+          "answer": "‘She became president of the student council.\nأصبحت رئيسة مجلس الطلاب.",
+          "type": "sb_wb"
+        },
+        {
+          "id": "prep3_ch6_qa_9",
+          "question": "3 \"How did Zeina describe “real” leadership? 0 3",
+          "answer": "",
+          "type": "sb_wb"
+        },
+        {
+          "id": "prep3_ch6_qa_10",
+          "question": "كيف وصفت زينة القيادة الحقيقية؟",
+          "answer": "It doesn’t mean doing everything alone. It means helping others and being honest when things\nare hard.\nلا تعني القيام بكل شيء بعفردك. بل تعني مساعدة الآخرين والتحلي بالصدق عندما تصبح الأمور صعبة.",
+          "type": "sb_wb"
+        },
+        {
+          "id": "prep3_ch6_qa_11",
+          "question": "— What was Zeina’s new goal for the school? a",
+          "answer": "",
+          "type": "sb_wb"
+        },
+        {
+          "id": "prep3_ch6_qa_12",
+          "question": "ما الهدف الجديد الذي وضعته زينة للمدرسة؟",
+          "answer": "‘She wanted to help students believe they could change their school—and maybe the world.\n(aul مدرستهم. وربما العالم judi يستطيعون amily أرادت أن تساعد الطلاب على الإيمان",
+          "type": "sb_wb"
+        },
+        {
+          "id": "prep3_ch6_qa_13",
+          "question": "How did the garden continue to grow? oo",
+          "answer": "Sgaill كيف استمرت الحديقة في\nStudents added more plants, painted benches, and created quiet spaces for reading.\nأضاف الطلاب المزيد من النباتات. وطلوا المقاعد. وأنشأوا أماكن هادئة للقراءة.",
+          "type": "sb_wb"
+        },
+        {
+          "id": "prep3_ch6_qa_14",
+          "question": "What happens when a leader helps others feel strong and valuable?",
+          "answer": "",
+          "type": "sb_wb"
+        },
+        {
+          "id": "prep3_ch6_qa_15",
+          "question": "ماذا يحدث عندما يساعد القاتد الآخرين على الشعور بالقوة والقيمة؟",
+          "answer": "They work together and solve problems. يعملون 20' ويحلون المشكلات.",
+          "type": "sb_wb"
+        },
+        {
+          "id": "prep3_ch6_qa_16",
+          "question": "~~ Why do you think Zeina’s leadership helped other students? 00",
+          "answer": "",
+          "type": "sb_wb"
+        },
+        {
+          "id": "prep3_ch6_qa_17",
+          "question": "في رأيك. لماذا ساعدت قيادة زينة الطلاب الآخرين؟",
+          "answer": "Because she helped others believe مأ themselves, .مهسفنأب لأنها ساعدت الآخرين على الإيمان",
+          "type": "sb_wb"
+        },
+        {
+          "id": "prep3_ch6_qa_18",
+          "question": "\"What does the garden symbotize in the story, and how can that idea applyto reallife?",
+          "answer": "",
+          "type": "sb_wb"
+        },
+        {
+          "id": "prep3_ch6_qa_19",
+          "question": "إلى ماذا ترمز الحديقة في القصة؟ وكيف يمكن تطبيق هذه الفكرة في الحياة الواقعية؟",
+          "answer": "It symbolizes what students can do together, and in real life teamwork can create positive\nchange.\nVulul تغبير\"! gins وفي الحياة الواقعية يمكن للعمل الجماعي أن Woo ترمز إلى ما يستطيع الطلاب تحقيقه",
+          "type": "sb_wb"
+        },
+        {
+          "id": "prep3_ch6_qa_20",
+          "question": "Do you think small ideas really can lead to big changes? _",
+          "answer": "",
+          "type": "sb_wb"
+        },
+        {
+          "id": "prep3_ch6_qa_21",
+          "question": "هل تعتقد أن الأفكار الصفيرة يمكن أن تؤدي فعلا إلى تغبيرات كبيرة؟",
+          "answer": "Yes, when people believe in them and work together.\nنعم. عندما يؤمن الناس بها ويعملون معنا",
+          "type": "sb_wb"
+        },
+        {
+          "id": "prep3_ch6_qa_22",
+          "question": "~ What did Zeina understand about being honest asaleader?",
+          "answer": "",
+          "type": "sb_wb"
+        },
+        {
+          "id": "prep3_ch6_qa_23",
+          "question": "ماذا فهمت زينة عن أهمية الصدق بالنسبة للقائد؟",
+          "answer": "‘She understood that a real leader should be honest, especially when things are hard.\nفهعت أن القائد الحقيقي يجب أن يكون صادقًا. خاصة عندما تصبح الأمور صعبة.",
+          "type": "sb_wb"
+        }
+      ],
+      "importantQuestions": [
+        {
+          "id": "prep3_ch6_qa_1",
+          "question": "a What makes someone a good leader at school? |",
+          "answer": "",
+          "type": "sb_wb"
+        },
+        {
+          "id": "prep3_ch6_qa_3",
+          "question": "‘you think students can make big changes in their communities? Why or why not?",
+          "answer": "",
+          "type": "sb_wb"
+        },
+        {
+          "id": "prep3_ch6_qa_7",
+          "question": "\"What new role did Zeinatake on at school?",
+          "answer": "",
+          "type": "sb_wb"
+        },
+        {
+          "id": "prep3_ch6_qa_9",
+          "question": "3 \"How did Zeina describe “real” leadership? 0 3",
+          "answer": "",
+          "type": "sb_wb"
+        },
+        {
+          "id": "prep3_ch6_qa_11",
+          "question": "— What was Zeina’s new goal for the school? a",
+          "answer": "",
+          "type": "sb_wb"
+        },
+        {
+          "id": "prep3_ch6_qa_13",
+          "question": "How did the garden continue to grow? oo",
+          "answer": "Sgaill كيف استمرت الحديقة في\nStudents added more plants, painted benches, and created quiet spaces for reading.\nأضاف الطلاب المزيد من النباتات. وطلوا المقاعد. وأنشأوا أماكن هادئة للقراءة.",
+          "type": "sb_wb"
+        },
+        {
+          "id": "prep3_ch6_qa_14",
+          "question": "What happens when a leader helps others feel strong and valuable?",
+          "answer": "",
+          "type": "sb_wb"
+        },
+        {
+          "id": "prep3_ch6_qa_16",
+          "question": "~~ Why do you think Zeina’s leadership helped other students? 00",
+          "answer": "",
+          "type": "sb_wb"
+        },
+        {
+          "id": "prep3_ch6_qa_18",
+          "question": "\"What does the garden symbotize in the story, and how can that idea applyto reallife?",
+          "answer": "",
+          "type": "sb_wb"
+        },
+        {
+          "id": "prep3_ch6_qa_22",
+          "question": "~ What did Zeina understand about being honest asaleader?",
+          "answer": "",
+          "type": "sb_wb"
+        }
+      ],
+      "homeworkQuestions": [
+        {
+          "id": "prep3_ch6_ex_1",
+          "question": "JE) tre next year, zeina was chosen to be the of the student council.",
+          "answer": "تدريب تطبيقي على استيعاب أحداث الفصل والمفردات اللغوية الجديدة.",
+          "type": "homework"
+        },
+        {
+          "id": "prep3_ch6_ex_2",
+          "question": "@ gardener @teacher @ president @neighbor",
+          "answer": "تدريب تطبيقي على استيعاب أحداث الفصل والمفردات اللغوية الجديدة.",
+          "type": "homework"
+        },
+        {
+          "id": "prep3_ch6_ex_3",
+          "question": "179 3332 cassis wrists one tnaa at ort EIN",
+          "answer": "تدريب تطبيقي على استيعاب أحداث الفصل والمفردات اللغوية الجديدة.",
+          "type": "homework"
+        },
+        {
+          "id": "prep3_ch6_ex_4",
+          "question": "@alone Q@caretully @ successfully @honestly",
+          "answer": "تدريب تطبيقي على استيعاب أحداث الفصل والمفردات اللغوية الجديدة.",
+          "type": "homework"
+        },
+        {
+          "id": "prep3_ch6_ex_5",
+          "question": "BH Zeina’s grew bigger; she wanted to help students believe they could",
+          "answer": "تدريب تطبيقي على استيعاب أحداث الفصل والمفردات اللغوية الجديدة.",
+          "type": "homework"
+        },
+        {
+          "id": "prep3_ch6_ex_6",
+          "question": "change the world.",
+          "answer": "تدريب تطبيقي على استيعاب أحداث الفصل والمفردات اللغوية الجديدة.",
+          "type": "homework"
+        },
+        {
+          "id": "prep3_ch6_ex_7",
+          "question": "@ problem @ambition @ralent @system",
+          "answer": "تدريب تطبيقي على استيعاب أحداث الفصل والمفردات اللغوية الجديدة.",
+          "type": "homework"
+        },
+        {
+          "id": "prep3_ch6_ex_8",
+          "question": "2 The garden became a of what students could achieve when they work together.",
+          "answer": "تدريب تطبيقي على استيعاب أحداث الفصل والمفردات اللغوية الجديدة.",
+          "type": "homework"
+        },
+        {
+          "id": "prep3_ch6_ex_9",
+          "question": "@ chemical @ro01 @ proposal @ symbol",
+          "answer": "تدريب تطبيقي على استيعاب أحداث الفصل والمفردات اللغوية الجديدة.",
+          "type": "homework"
+        },
+        {
+          "id": "prep3_ch6_ex_10",
+          "question": "8 Zeina learned that doesn't happen only in plants, it also happens in people.",
+          "answer": "تدريب تطبيقي على استيعاب أحداث الفصل والمفردات اللغوية الجديدة.",
+          "type": "homework"
+        },
+        {
+          "id": "prep3_ch6_ex_11",
+          "question": "@rain @trash @ growth @damage",
+          "answer": "تدريب تطبيقي على استيعاب أحداث الفصل والمفردات اللغوية الجديدة.",
+          "type": "homework"
+        },
+        {
+          "id": "prep3_ch6_ex_12",
+          "question": "2 Zeina told the new students that everyone has something to offer.",
+          "answer": "تدريب تطبيقي على استيعاب أحداث الفصل والمفردات اللغوية الجديدة.",
+          "type": "homework"
+        },
+        {
+          "id": "prep3_ch6_ex_13",
+          "question": "@harmtut @ depressing @empty @ special",
+          "answer": "تدريب تطبيقي على استيعاب أحداث الفصل والمفردات اللغوية الجديدة.",
+          "type": "homework"
+        },
+        {
+          "id": "prep3_ch6_ex_14",
+          "question": "B Zeina believed that with respect and , they could solve any problem.",
+          "answer": "تدريب تطبيقي على استيعاب أحداث الفصل والمفردات اللغوية الجديدة.",
+          "type": "homework"
+        },
+        {
+          "id": "prep3_ch6_ex_15",
+          "question": "@ rear @eetermination @ sadness. @rools",
+          "answer": "تدريب تطبيقي على استيعاب أحداث الفصل والمفردات اللغوية الجديدة.",
+          "type": "homework"
+        },
+        {
+          "id": "prep3_ch6_ex_16",
+          "question": "2 To make the garden continue to grow, students painted the old :",
+          "answer": "تدريب تطبيقي على استيعاب أحداث الفصل والمفردات اللغوية الجديدة.",
+          "type": "homework"
+        },
+        {
+          "id": "prep3_ch6_ex_17",
+          "question": "@ proposals @systems @ benches @seeds",
+          "answer": "تدريب تطبيقي على استيعاب أحداث الفصل والمفردات اللغوية الجديدة.",
+          "type": "homework"
+        },
+        {
+          "id": "prep3_ch6_ex_18",
+          "question": "po ] ‘Students also created quiet for reading inside the garden.",
+          "answer": "تدريب تطبيقي على استيعاب أحداث الفصل والمفردات اللغوية الجديدة.",
+          "type": "homework"
+        },
+        {
+          "id": "prep3_ch6_ex_19",
+          "question": "@ spaces @ctimates @ communities @ donations",
+          "answer": "تدريب تطبيقي على استيعاب أحداث الفصل والمفردات اللغوية الجديدة.",
+          "type": "homework"
+        },
+        {
+          "id": "prep3_ch6_ex_20",
+          "question": "‘FE Feat growin happens in people when they show to try something new.",
+          "answer": "تدريب تطبيقي على استيعاب أحداث الفصل والمفردات اللغوية الجديدة.",
+          "type": "homework"
+        },
+        {
+          "id": "prep3_ch6_ex_21",
+          "question": "@ sadness @courage @disappointment — @panger",
+          "answer": "تدريب تطبيقي على استيعاب أحداث الفصل والمفردات اللغوية الجديدة.",
+          "type": "homework"
+        }
+      ],
+      "mcqQuestions": [
+        {
+          "id": "mcq_prep3_ch6_1",
+          "question": "What is the main achievement described in Chapter 6 (Looking Forward)?",
+          "options": [
+            "The students work as an integrated team to improve the school environment",
+            "The students decide to close the garden project permanently",
+            "Zeina moves to another school and stops participating",
+            "The school playground is paved with more asphalt"
+          ],
+          "correctAnswer": "The students work as an integrated team to improve the school environment",
+          "explanation": "Chapter events showcase student collaboration, creative problem-solving, and communal pride."
+        },
+        {
+          "id": "mcq_prep3_ch6_2",
+          "question": "What leadership quality does Zeina demonstrate?",
+          "options": [
+            "Taking responsibility, admitting limitations honestly, and encouraging everyone's talents",
+            "Blaming other students whenever problems occur",
+            "Doing all the work alone without listening to teammates",
+            "Quitting the project as soon as difficulties arise"
+          ],
+          "correctAnswer": "Taking responsibility, admitting limitations honestly, and encouraging everyone's talents",
+          "explanation": "True leadership fosters shared purpose, mutual respect, and honest communication."
+        }
+      ]
+    }
+  ]
+}

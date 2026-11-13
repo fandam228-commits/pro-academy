@@ -1,0 +1,717 @@
+[
+  {
+    "id": "story_prep_2_little_inventor",
+    "gradeCode": "prep_2",
+    "gradeLabelAr": "الصف الثاني الإعدادي",
+    "gradeLabelEn": "Second Preparatory",
+    "term": "first",
+    "termLabelAr": "الفصل الدراسي الأول 2026/2027",
+    "termLabelEn": "First Term 2026/2027",
+    "titleAr": "المخترعة الصغيرة (معرض الإبداع)",
+    "titleEn": "The Little Inventor",
+    "author": "Ministry of Education (وزارة التربية والتعليم)",
+    "aboutAuthorEn": "Official reader for Second Preparatory students promoting innovation, resilience, and digital safety.",
+    "aboutAuthorAr": "القصة المقررة لطلاب الصف الثاني الإعدادي الهادفة إلى غرس قيم الابتكار والثبات والمسؤولية الرقمية.",
+    "coverImage": "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=800&auto=format&fit=crop&q=80",
+    "descriptionAr": "قصة الطالبة المبدعة أمل التي تواجه سخرية بعض زملائها بصناعة روبوت متكلم لمعرض الإبداع المدرسي، متسلحة بالثقة بالنفس ودعم الصداقة الحقيقية والمسؤولية الرقمية.",
+    "descriptionEn": "The inspiring journey of Amal, an imaginative girl who builds a talking robot for the school Creative Fair, learning perseverance, self-confidence, and responsible digital research.",
+    "plotSummaryEn": "Amal loves building innovative machines from discarded toys and wires, though some peers mock her. Supported by her parents and best friend Yara, she decides to construct a talking robot for the school Creative Fair. When the robot malfunctions and wires break on the eve of the fair, Amal refuses to quit. By responsibly researching solutions online without copying others' work, she overcomes every obstacle. Her talking robot delivers an inspiring message of self-belief, winning the heartfelt admiration of teachers and classmates.",
+    "plotSummaryAr": "تعشق أمل ابتكار الآلات المفيدة من الأسلاك والألعاب القديمة في غرفتها. عندما يُعلن المعلم عن معرض الإبداع، تقرر صناعة روبوت متكلم بمساعدة صديقتها المخلصة يارا. تواجه انقطاع الأسلاك وتعطل الصوت وسخرية البعض، لكنها تثابر وتبحث في مصادر موثوقة عبر الإنترنت بأمان دون نسخ أعمال الآخرين. في يوم المعرض، يرمش الروبوت وينطق بعبارة: 'كن نفسك ولا تستسلم أبداً'، لتنال أمل تقدير الجميع على إبداعها وأمانتها.",
+    "characters": [
+      {
+        "name": "Amal (أمل)",
+        "role": "The Young Inventor",
+        "roleAr": "المخترعة الصغيرة وبطلة القصة",
+        "descriptionEn": "A curious, creative girl who loves building machines and perseveres through technical failures and peer criticism.",
+        "descriptionAr": "فتاة فضولية ومبدعة تعشق التكنولوجيا والاختراع، وتتعلم التمسك بهويتها والمثابرة حتى النجاح.",
+        "isMain": true
+      },
+      {
+        "name": "Yara (يارا)",
+        "role": "The Loyal Best Friend",
+        "roleAr": "الصديقة المخلصة والداعمة",
+        "descriptionEn": "Amal's compassionate friend who shares creative ideas, shows deep empathy, and encourages her never to give up.",
+        "descriptionAr": "صديقة أمل المقربة التي تساندها بالتشجيع والتعاطف والأفكار المبتكرة في أصعب اللحظات.",
+        "isMain": true
+      },
+      {
+        "name": "Amal's Parents (والدا أمل)",
+        "role": "The Encouraging Mentors",
+        "roleAr": "الوالدان الحكيمان",
+        "descriptionEn": "Loving parents who teach Amal that her unique identity is her greatest strength and encourage her to express herself freely.",
+        "descriptionAr": "يدعمان موهبة ابنتهما ويرسخان فيها قيم الثقة بالنفس والاعتزاز بالهوية الخاصة.",
+        "isMain": false
+      },
+      {
+        "name": "The Teacher (المعلمة)",
+        "role": "The Creative Fair Organizer",
+        "roleAr": "معلمة الفصل ومنظمة المعرض",
+        "descriptionEn": "A dedicated teacher who organizes the Creative Fair and commends Amal's integrity, hard work, and digital responsibility.",
+        "descriptionAr": "تنظم معرض الإبداع المدرسي وتشيد بإصرار أمل وأمانتها العلمية أمام جميع الطلاب.",
+        "isMain": false
+      }
+    ],
+    "themes": [
+      {
+        "themeEn": "Perseverance in the Face of Failure",
+        "themeAr": "المثابرة وتجاوز عثرات البداية",
+        "descriptionEn": "Errors and broken wires are opportunities for learning; giving up guarantees defeat, but persistent effort unlocks breakthrough.",
+        "descriptionAr": "الأخطاء والانكسارات جزء من رحلة التعلم، والنجاح الحقيقي ثمرة مواصلة المحاولة وعدم اليأس."
+      },
+      {
+        "themeEn": "Digital Responsibility and Academic Honesty",
+        "themeAr": "المسؤولية الرقمية والأمانة العلمية",
+        "descriptionEn": "Using trustworthy sources, asking permission, protecting private data, and never copying others' work without attribution.",
+        "descriptionAr": "استخدام الإنترنت بوعي وحماية البيانات الشخصية والاعتماد على المصادر الموثوقة دون سرقة أعمال الآخرين."
+      }
+    ],
+    "chapters": [
+      {
+        "id": "sc_prep_2_ch_1",
+        "chapterNumber": 1,
+        "titleEn": "The Creative Fair",
+        "titleAr": "المعرض الإبداعي",
+        "term": "first",
+        "summaryEn": "Amal decides to build a talking robot for the school Creative Fair, supported by her family and Yara.",
+        "summaryAr": "تقرر أمل ابتكار روبوت متكلم للمشاركة في معرض الإبداع، متسلحة بالتشجيع وبحث الإنترنت الآمن.",
+        "chapterInPoints": [
+          {
+            "en": "Amal was a curious girl who loved building machines from old toys.",
+            "ar": "كانت أمل فتاة فضولية تحب صنع الآلات من الألعاب القديمة."
+          },
+          {
+            "en": "Her parents advised her that her unique identity makes her special.",
+            "ar": "أخبرها والداها أن هويتها وتميزها هما سر نجاحها."
+          },
+          {
+            "en": "The teacher announced a Creative Fair for all passionate students.",
+            "ar": "أعلنت المعلمة عن معرض الإبداع لجميع الطلاب."
+          },
+          {
+            "en": "Amal decided to build a talking robot with Yara's encouragement.",
+            "ar": "قررت أمل صناعة روبوت ناطق بتشجيع من صديقتها يارا."
+          },
+          {
+            "en": "She practiced digital responsibility by asking permission before downloading.",
+            "ar": "مارست المسؤولية الرقمية بطلب الإذن وحماية بياناتها."
+          }
+        ],
+        "vocabulary": [
+          {
+            "word": "curious",
+            "meaningAr": "فضولي ومحب للاستكشاف"
+          },
+          {
+            "word": "identity",
+            "meaningAr": "الهوية الشخصية"
+          },
+          {
+            "word": "passionate",
+            "meaningAr": "شغوف ومتحمس"
+          },
+          {
+            "word": "digital responsibility",
+            "meaningAr": "المسؤولية الرقمية"
+          },
+          {
+            "word": "talking robot",
+            "meaningAr": "روبوت متكلم"
+          }
+        ],
+        "theText": [
+          {
+            "order": 1,
+            "paragraphEn": "In a village, there lived a curious girl named Amal. Amal loved to build things. Her room was full of old toys, wires, and little machines she had created. Sometimes, other children annoyed her and said, 'You are strange.' But Amal's parents always told her, 'Your identity is what makes you special. Never be afraid to express who you are.'",
+            "paragraphAr": "في إحدى القرى، عاشت فتاة فضولية تدعى أمل. كانت تحب صنع الأشياء، وكانت غرفتها مليئة بالألعاب القديمة والأسلاك والآلات الصغيرة التي ابتكرتها. كان بعض الأطفال يضايقونها قائلين: 'أنتِ غريبة'، لكن والديها كانا يذكرانها دائماً: 'هويتكِ هي ما يجعلكِ مميزة، فلا تخافي أبداً من التعبير عن نفسكِ'."
+          },
+          {
+            "order": 2,
+            "paragraphEn": "One day, the teacher announced a Creative Fair. Amal decided to build a talking robot! Her best friend, Yara, encouraged her, 'Just be yourself, Amal. We believe in you.' Amal started working day and night, making sure to use the internet safely, asking permission before downloading anything.",
+            "paragraphAr": "في يوم من الأيام، أعلنت المعلمة عن معرض الإبداع المدرسي. قررت أمل صنع روبوت متكلم! وشجعتها صديقتها المقربة يارا: 'كوني على طبيعتكِ يا أمل، نحن نثق بكِ'. وبدأت أمل العمل ليلاً ونهاراً مع الحرص على تصفح الإنترنت بأمان وطلب الإذن قبل تنزيل أي محتوى."
+          }
+        ],
+        "questionsAndAnswers": [
+          {
+            "id": "prep2_ch1_qa_1",
+            "question": "What kind of things did Amal like to build?",
+            "answer": "She liked to build little machines and devices from old toys and wires."
+          },
+          {
+            "id": "prep2_ch1_qa_2",
+            "question": "What steps did Amal take to stay safe online?",
+            "answer": "She asked for permission before downloading anything and never shared personal information."
+          }
+        ],
+        "importantQuestions": [
+          {
+            "id": "prep2_ch1_crit_1",
+            "question": "Why is having a friend like Yara a valuable support?",
+            "answer": "Because Yara provides unconditional encouragement, shares constructive ideas, and helps Amal feel strong."
+          }
+        ],
+        "homeworkQuestions": [
+          {
+            "id": "prep2_ch1_hw_1",
+            "question": "Explain how Amal's parents helped shape her self-confidence.",
+            "answer": "By reinforcing that uniqueness and individual identity are strengths rather than reasons to feel ashamed."
+          }
+        ],
+        "mcqQuestions": [
+          {
+            "id": "mcq_prep2_ch1_1",
+            "question": "What project did Amal choose to present at the Creative Fair?",
+            "options": [
+              "A talking robot",
+              "A dancing doll",
+              "A paper airplane",
+              "A painted canvas"
+            ],
+            "correctAnswer": "A talking robot",
+            "explanation": "Amal selected a talking robot to showcase her passion for invention and mechanics."
+          }
+        ]
+      },
+      {
+        "id": "sc_prep_2_ch_2",
+        "chapterNumber": 2,
+        "titleEn": "Never Stop Trying",
+        "titleAr": "لا تتوقف عن المحاولة",
+        "term": "first",
+        "summaryEn": "Facing technical breakdowns and peer mockery, Amal perseveres with Yara's empathy and trustworthy digital learning.",
+        "summaryAr": "تواجه أمل انقطاع الأسلاك وتعطل الروبوت، لكنها ترفض الاستسلام وتصلح الأعطال خطوة بخطوة.",
+        "chapterInPoints": [
+          {
+            "en": "Amal faced repeated problems with broken wires and a mute robot.",
+            "ar": "واجهت أمل مشكلات متكررة في انقطاع الأسلاك وصمت الروبوت."
+          },
+          {
+            "en": "Some children laughed behind her back, tempting her to quit.",
+            "ar": "سخر بعض الأطفال منها، مما جعلها تفكر في التراجع."
+          },
+          {
+            "en": "She remembered her parents' advice and decided to persevere.",
+            "ar": "تذكرت نصيحة والديها وقررت مواصلة المحاولة بعزم."
+          },
+          {
+            "en": "Yara showed empathy, reminding her that mistakes help us learn.",
+            "ar": "أظهرت يارا تعاطفاً كبيراً وأكدت لها أن الأخطاء تعلمنا."
+          },
+          {
+            "en": "Amal consulted trustworthy online sources and fixed the robot.",
+            "ar": "اعتمدت أمل على مصادر موثوقة وأصلحت الروبوت خطوة بخطوة."
+          }
+        ],
+        "vocabulary": [
+          {
+            "word": "persevere",
+            "meaningAr": "يثابر ويواصل المحاولة"
+          },
+          {
+            "word": "empathy",
+            "meaningAr": "التعاطف ومشاركة المشاعر"
+          },
+          {
+            "word": "frustrated",
+            "meaningAr": "محبط ومنزعج"
+          },
+          {
+            "word": "trustworthy",
+            "meaningAr": "موثوق وآمن"
+          }
+        ],
+        "theText": [
+          {
+            "order": 1,
+            "paragraphEn": "As the fair day came closer, Amal faced many problems. The robot wouldn't talk, and the wires kept breaking. Some children laughed behind her back. But she remembered her parents' words and decided to persevere: 'I won't give up. I will fix this.'",
+            "paragraphAr": "مع اقتراب يوم المعرض، واجهت أمل مشكلات كثيرة؛ فالروبوت لم يتكلم، والأسلاك انقطعت مراراً، وضحك بعض الأطفال من خلفها. لكنها تذكرت وصية والديها وقررت الثبات: 'لن أستسلم، سأصلح هذا الخلل'."
+          },
+          {
+            "order": 2,
+            "paragraphEn": "Yara helped her by showing empathy: 'It's okay to make mistakes. You can do it.' Little by little, Amal checked trustworthy sources online and solved each technical issue without copying. The night before the fair, the robot blinked its eyes and said: 'Hello!'",
+            "paragraphAr": "ساندتها يارا بتعاطف: 'لا بأس في ارتكاب الأخطاء، أنتِ قادرة على النجاح'. وشيئاً فشيئاً، راجعت أمل مصادر آمنة وحلت المشكلات بجهدها الخاص. وفي الليلة السابقة للمعرض، رمش الروبوت وقال: 'مرحباً!'."
+          }
+        ],
+        "questionsAndAnswers": [
+          {
+            "id": "prep2_ch2_qa_1",
+            "question": "Why did Yara say 'It's okay to make mistakes'?",
+            "answer": "To comfort Amal, relieve her frustration, and encourage her to keep trying until she succeeded."
+          }
+        ],
+        "importantQuestions": [
+          {
+            "id": "prep2_ch2_crit_1",
+            "question": "What does Amal's reaction to technical failure teach us about resilience?",
+            "answer": "That true resilience means confronting difficulty with problem-solving rather than giving in to despair."
+          }
+        ],
+        "homeworkQuestions": [
+          {
+            "id": "prep2_ch2_hw_1",
+            "question": "Describe the moment the robot finally spoke.",
+            "answer": "On the night before the fair, the robot blinked its eyes and said 'Hello!', filling Amal and Yara with joy."
+          }
+        ],
+        "mcqQuestions": [
+          {
+            "id": "mcq_prep2_ch2_1",
+            "question": "What value did Amal demonstrate by not copying other people's designs?",
+            "options": [
+              "Academic honesty",
+              "Impatience",
+              "Competition",
+              "Hesitation"
+            ],
+            "correctAnswer": "Academic honesty",
+            "explanation": "Amal respected original work and practiced genuine intellectual integrity."
+          }
+        ]
+      },
+      {
+        "id": "sc_prep_2_ch_3",
+        "chapterNumber": 3,
+        "titleEn": "Inspiring Success",
+        "titleAr": "نجاح ملهم",
+        "term": "first",
+        "summaryEn": "Amal's robot inspires the whole school with its message 'Be yourself. Never give up!', earning praise for honesty and determination.",
+        "summaryAr": "ينطق الروبوت بعبارة 'كن نفسك ولا تستسلم'، محققاً إعجاب المعلمين والطلاب بروح المثابرة والأمانة.",
+        "chapterInPoints": [
+          {
+            "en": "All children displayed their creative projects proudly at the fair.",
+            "ar": "عرض جميع الطلاب مشروعاتهم الابتكارية بفخر في المعرض."
+          },
+          {
+            "en": "Amal's robot spoke clearly: 'Be yourself. Never give up!'",
+            "ar": "نطق روبوت أمل بوضوح: 'كن نفسك، ولا تستسلم أبداً!'."
+          },
+          {
+            "en": "Former skeptics applauded and admired her creativity and effort.",
+            "ar": "صفق من سخروا منها سابقاً مبدين إعجابهم باجتهادها وإبداعها."
+          },
+          {
+            "en": "The teacher praised Amal's determination, honesty, and character.",
+            "ar": "أشادت المعلمة بإصرار أمل وأمانتها وشخصيتها الأصيلة."
+          },
+          {
+            "en": "Amal felt true victory because she remained authentic and helped others.",
+            "ar": "شعرت أمل بالفوز الحقيقي لأنها عبرت عن نفسها بصدق وألهمت زملاءها."
+          }
+        ],
+        "vocabulary": [
+          {
+            "word": "inspiring",
+            "meaningAr": "ملهم ومحفز للآخرين"
+          },
+          {
+            "word": "determination",
+            "meaningAr": "الإصرار والعزيمة"
+          },
+          {
+            "word": "honesty",
+            "meaningAr": "الأمانة والصدق"
+          },
+          {
+            "word": "creativity",
+            "meaningAr": "الإبداع والابتكار"
+          }
+        ],
+        "theText": [
+          {
+            "order": 1,
+            "paragraphEn": "On the day of the fair, Amal stood proudly with her robot. When she presented it, the robot spoke: 'Be yourself. Never give up!' Everyone clapped. The children who once laughed now admired Amal's hard work and creativity.",
+            "paragraphAr": "في يوم المعرض، وقفت أمل بفخر بجوار روبوتها. وعندما قدمت العرض، تكلم الروبوت: 'كن على طبيعتك، ولا تستسلم أبداً!'. صفق الجميع بحرارة، وأبدى من سخروا منها سابقاً إعجابهم باجتهادها وابتكارها."
+          },
+          {
+            "order": 2,
+            "paragraphEn": "The teacher smiled and said, 'Amal, you showed determination and honesty. You worked hard without giving up, and you stayed true to who you are.' From that day on, Amal inspired others to follow their dreams.",
+            "paragraphAr": "ابتسمت المعلمة وقالت: 'يا أمل، لقد أظهرتِ عزيمة وأمانة استثنائيتين؛ عملتِ بجد دون استسلام وبقيتِ مخلصة لنفسكِ'. ومنذ ذلك الحين، غدت أمل مصدر إلهام لزملائها لتحقيق أحلامهم."
+          }
+        ],
+        "questionsAndAnswers": [
+          {
+            "id": "prep2_ch3_qa_1",
+            "question": "What inspirational message did the robot share?",
+            "answer": "'Be yourself. Never give up!'"
+          }
+        ],
+        "importantQuestions": [
+          {
+            "id": "prep2_ch3_crit_1",
+            "question": "Why was the teacher's commendation focused on values rather than just technology?",
+            "answer": "Because character traits like persistence, ethical conduct, and authenticity are far more enduring and meaningful than mere mechanical skill."
+          }
+        ],
+        "homeworkQuestions": [
+          {
+            "id": "prep2_ch3_hw_1",
+            "question": "How did Amal's presentation transform peer relationships in her school?",
+            "answer": "It replaced mockery with mutual respect and inspired other students to pursue creative goals."
+          }
+        ],
+        "mcqQuestions": [
+          {
+            "id": "mcq_prep2_ch3_1",
+            "question": "What was the real victory Amal celebrated at the end of the fair?",
+            "options": [
+              "Expressing herself honestly and inspiring others",
+              "Winning a gold medal",
+              "Defeating her classmates",
+              "Selling the robot for money"
+            ],
+            "correctAnswer": "Expressing herself honestly and inspiring others",
+            "explanation": "True victory was personal growth, integrity, and inspiring positive change."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "story_prep_2_hidden_island",
+    "gradeCode": "prep_2",
+    "gradeLabelAr": "الصف الثاني الإعدادي",
+    "gradeLabelEn": "Second Preparatory",
+    "term": "second",
+    "termLabelAr": "الفصل الدراسي الثاني 2026/2027",
+    "termLabelEn": "Second Term 2026/2027",
+    "titleAr": "مغامرة الجزيرة المخفية",
+    "titleEn": "The Adventure of the Hidden Island",
+    "author": "Ministry of Education (وزارة التربية والتعليم)",
+    "aboutAuthorEn": "Official preparatory reader highlighting youth exploration, natural appreciation, and collaborative leadership.",
+    "aboutAuthorAr": "قصة مقررة لطلاب المرحلة الإعدادية تبرز قيم الاستكشاف واحترام البيئة والقيادة بالمشاركة والمحبة.",
+    "coverImage": "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800&auto=format&fit=crop&q=80",
+    "descriptionAr": "مغامرة شيقة لأربعة أصدقاء يستكشفون جزيرة ساحرة عبر البحر وفق قاعدة ذهبية: 'لا يوجد رئيس، بل نعمل معاً ونستمع لأفكار الجميع باحترام ومسؤولية'.",
+    "descriptionEn": "Four friends embark on a voyage to a mysterious island, learning that true freedom means mutual respect, safety, and creative collaboration.",
+    "plotSummaryEn": "In a peaceful coastal town, four friends—Hany, Faris, Malik, and Sami—discover an old map of a Hidden Island. They set sail with clear rules: no single boss, complete mutual respect, and listening to all voices. On the island, they split safely into pairs, uncovering waterfalls, mysterious caves, and unusual plants. Malik sketches maps, Faris watches over safety, and shy Sami discovers his voice and leadership. They return to their village celebrated as 'The Island Explorers', demonstrating that caring leadership makes everyone shine.",
+    "plotSummaryAr": "في بلدة ساحلية هادئة، يجد الأصدقاء الأربعة (هاني وفارس ومالك وسامي) خريطة قديمة لجزيرة مخفية. يقررون الإبحار بميثاق مشترك: لا رئيس متسلط، بل احترام متبادل وحرية مسؤولة. في الجزيرة يكتشفون شلالات وكهوفاً سرية وصخوراً براقة. يرسم مالك الخرائط بفنه، ويسهر فارس على السلامة، بينما يكتشف سامي الخجول ثقته بنفسه ويسهم باكتشاف كهف خفي. يعودون إلى قريتهم ليصبحوا قدوة في القيادة بالتعاون واللطف.",
+    "characters": [
+      {
+        "name": "Hany (هاني)",
+        "role": "The Brave Instigator",
+        "roleAr": "الصديق الشجاع وصاحب فكرة المغامرة",
+        "descriptionEn": "A courageous, dynamic boy with natural enthusiasm who suggests the expedition while championing safety.",
+        "descriptionAr": "شاب شجاع وحيوي اقترح خوض المغامرة وحث رفاقه على البقاء قريبين وآمنين.",
+        "isMain": true
+      },
+      {
+        "name": "Faris (فارس)",
+        "role": "The Thoughtful Guardian",
+        "roleAr": "الصديق الحكيم والحريص",
+        "descriptionEn": "A thoughtful, prudent boy who emphasizes environmental conservation and leads pairs carefully to avoid hazards.",
+        "descriptionAr": "صديق عاقل ومتزن، يذكر الجميع باحترام الطبيعة ويحرص على سلامة زملائه طوال الرحلة.",
+        "isMain": true
+      },
+      {
+        "name": "Malik (مالك)",
+        "role": "The Creative Artist",
+        "roleAr": "الفنان المبدع ورسام الخرائط",
+        "descriptionEn": "An observant, artistic friend who sketches natural scenery and illustrates exploratory maps of the island.",
+        "descriptionAr": "عضو مبدع يحب الرسم ويوثق المناظر الطبيعية والخرائط الاستكشافية للجزيرة.",
+        "isMain": true
+      },
+      {
+        "name": "Sami (سامي)",
+        "role": "The Observant Scout",
+        "roleAr": "الصديق الخجول ودقيق الملاحظة",
+        "descriptionEn": "Initially shy, Sami feels empowered by the team's respect, discovers a hidden cave, and blossoms with newfound confidence.",
+        "descriptionAr": "شاب خجول في البداية، وجد في احترام أصدقائه متسعاً ليعبر عن آرائه ويكتشف كهفاً مخفياً ويشعر بحريته الذاتية.",
+        "isMain": true
+      }
+    ],
+    "themes": [
+      {
+        "themeEn": "Responsible Freedom and Respect",
+        "themeAr": "الحرية المسؤولة والاحترام المتبادل",
+        "descriptionEn": "Freedom is not doing whatever one pleases recklessly, but engaging with nature and fellow humans in harmony, dialogue, and mutual consideration.",
+        "descriptionAr": "الحرية الحقيقية ليست فوضى، بل ممارسة واعية تحترم الطبيعة والآخرين وتبني الثقة."
+      },
+      {
+        "themeEn": "Empathetic, Caring Leadership",
+        "themeAr": "القيادة بالرعاية والاهتمام",
+        "descriptionEn": "'Leadership isn't about being the loudest; it's about caring for others and helping them shine.'",
+        "descriptionAr": "القيادة ليست علو الصوت أو التسلط، بل مساعدة كل عضو في الفريق على إبراز أفضل ما لديه."
+      }
+    ],
+    "chapters": [
+      {
+        "id": "sc_prep_2_ch_4",
+        "chapterNumber": 1,
+        "titleEn": "Different, but connected",
+        "titleAr": "مختلفون، لكنهم مترابطون",
+        "term": "second",
+        "summaryEn": "The four friends discover an ancient map and set sail under the egalitarian rule: 'No one is the boss.'",
+        "summaryAr": "يعثر الأصدقاء على خريطة الجزيرة المخفية وينطلقون في رحلتهم متفقين على المساواة والاحترام التام.",
+        "chapterInPoints": [
+          {
+            "en": "In a coastal town, Hany, Faris, Malik, and Sami found an old map of a Hidden Island.",
+            "ar": "في بلدة ساحلية، وجد هاني وفارس ومالك وسامي خريطة قديمة لجزيرة مخفية."
+          },
+          {
+            "en": "They packed food, water, compass, and notebooks, agreeing: 'No one is the boss.'",
+            "ar": "جهزوا طعاماً وماءً وبوصلة ودفاتر، واتفقوا: 'لا رئيس متسلط بيننا'."
+          },
+          {
+            "en": "As they sailed, Malik sketched scenery and shy Sami felt free to share thoughts.",
+            "ar": "أثناء الإبحار، رسم مالك المناظر الطبيعية وشعر سامي بالحرية لطرح أفكاره."
+          },
+          {
+            "en": "Their mutual respect allowed diverse personalities to unite harmoniously.",
+            "ar": "شكّل الاحترام المتبادل جسراً جمع شخصياتهم المختلفة في تناغم تام."
+          }
+        ],
+        "vocabulary": [
+          {
+            "word": "hidden island",
+            "meaningAr": "جزيرة مخفية"
+          },
+          {
+            "word": "sketch",
+            "meaningAr": "يرسم رسماً أولياً"
+          },
+          {
+            "word": "appreciate",
+            "meaningAr": "يقدّر ويحترم"
+          },
+          {
+            "word": "compass",
+            "meaningAr": "بوصلة ملاحية"
+          }
+        ],
+        "theText": [
+          {
+            "order": 1,
+            "paragraphEn": "In a quiet coastal town, a group of friends—Hany, Faris, Malik, and Sami—loved to explore. One sunny morning, they found an old map showing a Hidden Island across the sea. Hany said, 'Let's go on an adventure!' Faris added, 'We have freedom to explore, but we must respect nature and each other.'",
+            "paragraphAr": "في بلدة ساحلية هادئة، عاش أربعة أصدقاء—هاني وفارس ومالك وسامي—يهوون الاستكشاف. في صباح مشمس، عثروا على خريطة قديمة لجزيرة مخفية في عرض البحر. قال هاني: 'هيا في مغامرة!'، وأضاف فارس: 'نملك حرية الاستكشاف، لكن علينا احترام الطبيعة وبعضنا البعض'."
+          },
+          {
+            "order": 2,
+            "paragraphEn": "They agreed on one rule: 'No one is the boss. We work together and listen to everyone's ideas.' As they sailed, Malik sketched the scenery while Sami, who was shy, felt free to share his ideas for the first time. They were different, but united in respect.",
+            "paragraphAr": "اتفقوا على قاعدة واحدة: 'لا يوجد رئيس، بل نعمل معاً ونستمع لأفكار الجميع'. وأثناء إبحارهم، رسم مالك المناظر البحرية، بينما شعر سامي الخجول بالحرية لطرح أفكاره لأول مرة؛ كانوا مختلفين في الطباع لكنهم متحدون بالاحترام."
+          }
+        ],
+        "questionsAndAnswers": [
+          {
+            "id": "prep2_ch4_qa_1",
+            "question": "What key rule did the four friends agree on?",
+            "answer": "'No one is the boss. We work together and listen to everyone's ideas.'"
+          }
+        ],
+        "importantQuestions": [
+          {
+            "id": "prep2_ch4_crit_1",
+            "question": "Why did Sami feel free to participate for the first time?",
+            "answer": "Because the group cultivated a supportive, egalitarian environment where every opinion was received with genuine respect."
+          }
+        ],
+        "homeworkQuestions": [
+          {
+            "id": "prep2_ch4_hw_1",
+            "question": "What essential supplies did the boys pack before setting sail?",
+            "answer": "Food, fresh water, a magnetic compass, and drawing notebooks."
+          }
+        ],
+        "mcqQuestions": [
+          {
+            "id": "mcq_prep2_ch4_1",
+            "question": "What principle guided the boys' interaction on the boat?",
+            "options": [
+              "Equality and mutual listening",
+              "Obeying a single captain",
+              "Ignoring quiet members",
+              "Speed above all"
+            ],
+            "correctAnswer": "Equality and mutual listening",
+            "explanation": "They committed to teamwork with no authoritarian leader."
+          }
+        ]
+      },
+      {
+        "id": "sc_prep_2_ch_5",
+        "chapterNumber": 2,
+        "titleEn": "Freedom and Friendship",
+        "titleAr": "الحرية والصداقة",
+        "term": "second",
+        "summaryEn": "Exploring the island safely in pairs, the boys discover shiny minerals, waterfalls, and a hidden cave, realizing true freedom means collaboration.",
+        "summaryAr": "يستكشف الأصدقاء معالم الجزيرة بأمان ويكتشفون شلالات وكهفاً غامضاً، مستنتجين أن الحرية الحقيقية تعني التعاون والاحترام.",
+        "chapterInPoints": [
+          {
+            "en": "On the island, the boys saw colorful birds, strange plants, and mysterious caves.",
+            "ar": "في الجزيرة، شاهد الأصدقاء طيوراً زاهية ونباتات فريدة وكهوفاً غامضة."
+          },
+          {
+            "en": "Hany suggested splitting into pairs while maintaining proximity and safety.",
+            "ar": "اقترح هاني الانقسام إلى ثنائيات مع البقاء على مقربة لضمان السلامة."
+          },
+          {
+            "en": "Malik drafted maps while Sami made an exciting discovery of a hidden cave.",
+            "ar": "رسم مالك خرائط جغرافية، بينما اكتشف سامي كهفاً سرياً مذهلاً."
+          },
+          {
+            "en": "Resting near the water, they realized freedom thrives through mutual care.",
+            "ar": "عند استراحتهم بجانب الماء، أدركوا أن الحرية تثمر بالرعاية المتبادلة."
+          }
+        ],
+        "vocabulary": [
+          {
+            "word": "mysterious cave",
+            "meaningAr": "كهف غامض"
+          },
+          {
+            "word": "waterfall",
+            "meaningAr": "شلال ماء"
+          },
+          {
+            "word": "shiny stones",
+            "meaningAr": "أحجار براقة"
+          },
+          {
+            "word": "safe exploration",
+            "meaningAr": "استكشاف آمن"
+          }
+        ],
+        "theText": [
+          {
+            "order": 1,
+            "paragraphEn": "When they reached the Hidden Island, they found strange plants and colorful birds. Hany suggested, 'Let's split into pairs and explore, but stay close and safe.' Faris led carefully, Malik drew maps of the terrain, and Sami proudly showed them a hidden cave he discovered.",
+            "paragraphAr": "عندما وصلوا إلى الجزيرة، وجدوا نباتات بديعة وطيوراً ملونة. اقترح هاني: 'دعونا ننقسم إلى ثنائيات للاستكشاف مع البقاء قريبين وبأمان'. قاد فارس بحذر، ورسم مالك تضاريس الجزيرة، بينما قادهم سامي بفخر إلى كهف خفي اكتشفه بنفسه."
+          },
+          {
+            "order": 2,
+            "paragraphEn": "When tired, they rested by the water. 'I feel free to be myself,' Sami reflected. The friends smiled, knowing freedom wasn't about doing whatever they wanted, but about respecting each other and working together.",
+            "paragraphAr": "وعندما نال منهم التعب، استراحوا بجانب الماء. قال سامي بتأمل: 'أشعر بالحرية لأكون نفسي'. ابتسم الأصدقاء مدركين أن الحرية لا تعني التصرف بلا ضوابط، بل احترام الآخر والعمل المشترك."
+          }
+        ],
+        "questionsAndAnswers": [
+          {
+            "id": "prep2_ch5_qa_1",
+            "question": "What surprising discovery did Sami make on the island?",
+            "answer": "He discovered a mysterious hidden cave."
+          }
+        ],
+        "importantQuestions": [
+          {
+            "id": "prep2_ch5_crit_1",
+            "question": "How did the boys define 'freedom' during their rest by the waterfall?",
+            "answer": "They understood that freedom is grounded in mutual respect, active listening, and collective harmony rather than selfish whim."
+          }
+        ],
+        "homeworkQuestions": [
+          {
+            "id": "prep2_ch5_hw_1",
+            "question": "Why did Hany insist on pairing up instead of solo exploration?",
+            "answer": "To protect everyone from unforeseen hazards on an unfamiliar island."
+          }
+        ],
+        "mcqQuestions": [
+          {
+            "id": "mcq_prep2_ch5_1",
+            "question": "What did Malik use his creativity for on the island?",
+            "options": [
+              "Drawing maps of the island",
+              "Building a stone house",
+              "Catching wild birds",
+              "Writing a song"
+            ],
+            "correctAnswer": "Drawing maps of the island",
+            "explanation": "Malik utilized his artistic talents to map the terrain."
+          }
+        ]
+      },
+      {
+        "id": "sc_prep_2_ch_6",
+        "chapterNumber": 3,
+        "titleEn": "Teamwork",
+        "titleAr": "العمل الجماعي",
+        "term": "second",
+        "summaryEn": "The boys sail home as 'The Island Explorers', sharing the insight that true leadership is caring for others and helping them shine.",
+        "summaryAr": "يعود الأصدقاء كـ 'مستكشفي الجزيرة' ناشرين الحكمة القائلة بأن القيادة الحقيقية هي خدمة الآخرين ومساعدتهم على النجاح.",
+        "chapterInPoints": [
+          {
+            "en": "At sunset, the children gathered, realizing their friendship had grown much stronger.",
+            "ar": "عند الغروب، اجتمع الأطفال مدركين أن صداقتهم ازدادت متانة وقوة."
+          },
+          {
+            "en": "Hany shared: 'Leadership is about caring for others and helping them shine.'",
+            "ar": "قال هاني: 'القيادة تعني الاهتمام بالآخرين ومساعدتهم على التألق'."
+          },
+          {
+            "en": "Malik affirmed that creativity makes every adventure more fun.",
+            "ar": "أكد مالك أن الإبداع يضفي البهجة على كل مغامرة."
+          },
+          {
+            "en": "They returned home under a pink sky and inspired their entire village.",
+            "ar": "عادوا إلى موطنهم تحت سماء شفقية ملهمين مجتمع قريتهم بأكمله."
+          },
+          {
+            "en": "They became fondly known as 'The Island Explorers'.",
+            "ar": "عُرفوا في قريتهم بلقب 'مستكشفو الجزيرة'."
+          }
+        ],
+        "vocabulary": [
+          {
+            "word": "leadership",
+            "meaningAr": "القيادة الحقيقية"
+          },
+          {
+            "word": "teamwork",
+            "meaningAr": "العمل الجماعي"
+          },
+          {
+            "word": "creativity",
+            "meaningAr": "الإبداع والابتكار"
+          },
+          {
+            "word": "island explorers",
+            "meaningAr": "مستكشفو الجزيرة"
+          }
+        ],
+        "theText": [
+          {
+            "order": 1,
+            "paragraphEn": "As the sun set, the children gathered to leave. Their bond was deeper than before. Hany shared a wise thought: 'Leadership isn't about being the loudest, it's about caring for others and helping them shine.' Malik added, 'And creativity makes every adventure more fun!'",
+            "paragraphAr": "مع غروب الشمس، اجتمع الأصدقاء للرحيل، وقد غدت رابطتهم أعمق بكثير. قال هاني بحكمة: 'القيادة ليست علو الصوت، بل الاهتمام بالآخرين ومساعدتهم على التألق'. وأضاف مالك: 'والإبداع يجعل كل مغامرة أكثر بهجة!'."
+          },
+          {
+            "order": 2,
+            "paragraphEn": "Back in the village, they shared their adventure, inspiring other children to explore and lead with kindness, respect, and teamwork. From that day on, they were known as 'The Island Explorers.'",
+            "paragraphAr": "وعند عودتهم إلى القرية، رووا مغامرتهم الملهمة، محفزين أقرانهم على الاستكشاف والقيادة باللطف والاحترام والتعاون. ومنذ ذلك اليوم، لُقبوا بـ 'مستكشفي الجزيرة'."
+          }
+        ],
+        "questionsAndAnswers": [
+          {
+            "id": "prep2_ch6_qa_1",
+            "question": "What profound definition of leadership did Hany share?",
+            "answer": "'Leadership isn't about being the loudest; it's about caring for others and helping them shine.'"
+          }
+        ],
+        "importantQuestions": [
+          {
+            "id": "prep2_ch6_crit_1",
+            "question": "Why did the four friends earn the title 'The Island Explorers'?",
+            "answer": "Because they exemplified respect, creative teamwork, and thoughtful leadership that inspired their whole village."
+          }
+        ],
+        "homeworkQuestions": [
+          {
+            "id": "prep2_ch6_hw_1",
+            "question": "How did the adventure impact the boys' friendship long after the trip?",
+            "answer": "It forged an unbreakable bond of trust, mutual appreciation, and shared purpose."
+          }
+        ],
+        "mcqQuestions": [
+          {
+            "id": "mcq_prep2_ch6_1",
+            "question": "What is the core message of the Island Explorers' journey?",
+            "options": [
+              "Unity, empathy, and collaborative leadership achieve great things",
+              "Solo competition is the fastest route to success",
+              "Silence is always better than sharing ideas",
+              "Maps are never reliable"
+            ],
+            "correctAnswer": "Unity, empathy, and collaborative leadership achieve great things",
+            "explanation": "Their journey proved that mutual respect and combined strengths make every adventure richer."
+          }
+        ]
+      }
+    ]
+  }
+]
