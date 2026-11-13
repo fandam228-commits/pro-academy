@@ -1667,7 +1667,7 @@ export function StoryWorldWorkspace({ user, onNavigateHome }: StoryWorldProps) {
                 ) : (
                   <div className="py-16 text-center space-y-3">
                     <p className="text-sm font-bold text-[#475569]">
-                      اضغط على "بدء اختبار الفصل" لتوليد أسئلة نموذجية فورية!
+                      اضغط على &quot;بدء اختبار الفصل&quot; لتوليد أسئلة نموذجية فورية!
                     </p>
                   </div>
                 )}
