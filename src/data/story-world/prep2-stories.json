@@ -121,13 +121,23 @@
         "theText": [
           {
             "order": 1,
-            "paragraphEn": "In a village, there lived a curious girl named Amal. Amal loved to build things. Her room was full of old toys, wires, and little machines she had created. Sometimes, other children annoyed her and said, 'You are strange.' But Amal's parents always told her, 'Your identity is what makes you special. Never be afraid to express who you are.'",
-            "paragraphAr": "في إحدى القرى، عاشت فتاة فضولية تدعى أمل. كانت تحب صنع الأشياء، وكانت غرفتها مليئة بالألعاب القديمة والأسلاك والآلات الصغيرة التي ابتكرتها. كان بعض الأطفال يضايقونها قائلين: 'أنتِ غريبة'، لكن والديها كانا يذكرانها دائماً: 'هويتكِ هي ما يجعلكِ مميزة، فلا تخافي أبداً من التعبير عن نفسكِ'."
+            "paragraphEn": "In a village, there lived a curious girl named Amal. Amal loved to build things. Her room was full of old toys, wires, and little machines she had created. Sometimes, the other children teased her and said, 'You are strange.'",
+            "paragraphAr": "في إحدى القرى، عاشت فتاة فضولية تدعى أمل. كانت أمل تحب صنع الأشياء، وكانت غرفتها مليئة بالألعاب القديمة والأسلاك والآلات الصغيرة التي صنعتها. وكان بعض الأطفال يضايقونها أحياناً ويقولون: 'أنتِ غريبة.'"
           },
           {
             "order": 2,
-            "paragraphEn": "One day, the teacher announced a Creative Fair. Amal decided to build a talking robot! Her best friend, Yara, encouraged her, 'Just be yourself, Amal. We believe in you.' Amal started working day and night, making sure to use the internet safely, asking permission before downloading anything.",
-            "paragraphAr": "في يوم من الأيام، أعلنت المعلمة عن معرض الإبداع المدرسي. قررت أمل صنع روبوت متكلم! وشجعتها صديقتها المقربة يارا: 'كوني على طبيعتكِ يا أمل، نحن نثق بكِ'. وبدأت أمل العمل ليلاً ونهاراً مع الحرص على تصفح الإنترنت بأمان وطلب الإذن قبل تنزيل أي محتوى."
+            "paragraphEn": "But Amal's parents always told her, 'Your identity is what makes you special. Never be afraid to express who you are.'",
+            "paragraphAr": "لكن والدي أمل كانا يقولان لها دائماً: 'هويتكِ هي ما يجعلكِ مميزة. لا تخافي أبداً من التعبير عن حقيقة نفسكِ.'"
+          },
+          {
+            "order": 3,
+            "paragraphEn": "One day, the teacher announced a 'Creative Fair'. Each child had to present something they were passionate about. Amal decided to build a talking robot! She was excited but also worried. 'What if others laugh at me again?' she thought.",
+            "paragraphAr": "وفي أحد الأيام، أعلن المعلم عن 'معرض الإبداع'، حيث كان على كل طفل تقديم عمل يشعر بالشغف نحوه. فقررت أمل صنع روبوت ناطق! وكانت متحمسة لكنها قلقة في الوقت نفسه، وفكرت: 'ماذا لو سخر الآخرون مني مجدداً؟'"
+          },
+          {
+            "order": 4,
+            "paragraphEn": "Her best friend, Yara, encouraged her, 'Just be yourself, Amal. We believe in you.' Amal started working day and night. She also made sure to use the internet safely while looking for ideas, remembering her digital responsibility. She asked for permission before downloading anything and never shared personal information.",
+            "paragraphAr": "شجعتها صديقتها المقربة يارا قائلة: 'كوني على طبيعتكِ يا أمل، فنحن نؤمن بكِ.' بدأت أمل العمل ليلاً ونهاراً، وحرصت على استخدام الإنترنت بأمان أثناء بحثها عن الأفكار، متذكرة مسؤوليتها الرقمية؛ فكانت تستأذن قبل تحميل أي شيء، ولم تشارك معلوماتها الشخصية أبداً."
           }
         ],
         "questionsAndAnswers": [
@@ -222,13 +232,23 @@
         "theText": [
           {
             "order": 1,
-            "paragraphEn": "As the fair day came closer, Amal faced many problems. The robot wouldn't talk, and the wires kept breaking. Some children laughed behind her back. But she remembered her parents' words and decided to persevere: 'I won't give up. I will fix this.'",
-            "paragraphAr": "مع اقتراب يوم المعرض، واجهت أمل مشكلات كثيرة؛ فالروبوت لم يتكلم، والأسلاك انقطعت مراراً، وضحك بعض الأطفال من خلفها. لكنها تذكرت وصية والديها وقررت الثبات: 'لن أستسلم، سأصلح هذا الخلل'."
+            "paragraphEn": "As the fair day came closer, Amal faced many problems. The robot wouldn't talk, and the wires kept breaking. Some children laughed behind her back. Amal felt like giving up. But then she remembered her parents' words and decided to persevere. 'I won't give up. I will fix this,' she said.",
+            "paragraphAr": "مع اقتراب يوم المعرض، واجهت أمل مشكلات عديدة؛ فلم يكن الروبوت يتكلم، وكانت الأسلاك تنقطع باستمرار. وضحك بعض الأطفال من وراء ظهرها فشعرت بالرغبة في الاستسلام. لكنها تذكرت كلمات والديها وقررت المثابرة، وقالت: 'لن أستسلم، سأصلح هذا.'"
           },
           {
             "order": 2,
-            "paragraphEn": "Yara helped her by showing empathy: 'It's okay to make mistakes. You can do it.' Little by little, Amal checked trustworthy sources online and solved each technical issue without copying. The night before the fair, the robot blinked its eyes and said: 'Hello!'",
-            "paragraphAr": "ساندتها يارا بتعاطف: 'لا بأس في ارتكاب الأخطاء، أنتِ قادرة على النجاح'. وشيئاً فشيئاً، راجعت أمل مصادر آمنة وحلت المشكلات بجهدها الخاص. وفي الليلة السابقة للمعرض، رمش الروبوت وقال: 'مرحباً!'."
+            "paragraphEn": "Yara helped her by giving ideas. She showed empathy when Amal felt frustrated. 'It's okay to make mistakes,' she told her. 'You can do it.'",
+            "paragraphAr": "ساعدتها يارا بتقديم الأفكار وأظهرت تعاطفاً كبيراً عندما شعرت أمل بالإحباط، وقالت لها: 'لا بأس في ارتكاب الأخطاء، يمكنكِ النجاح.'"
+          },
+          {
+            "order": 3,
+            "paragraphEn": "Little by little, Amal fixed the problems. She checked her sources online to make sure she was learning from safe, trustworthy places. She stayed true to her values and never copied others' work without permission.",
+            "paragraphAr": "شيئاً فشيئاً، أصلحت أمل المشكلات. وتحققت من مصادرها عبر الإنترنت للتأكد من أنها تتعلم من مواقع آمنة وموثوقة، وظلت متمسكة بقيمها ولم تنسخ أعمال الآخرين دون إذن."
+          },
+          {
+            "order": 4,
+            "paragraphEn": "Finally, on the night before the fair, the robot blinked its eyes and said, 'Hello!' Amal and Yara cheered with joy.",
+            "paragraphAr": "وأخيراً، في الليلة التي سبقت المعرض، ومضت عينا الروبوت وقال: 'مرحباً!' فهتفت أمل ويارا من شدة الفرح."
           }
         ],
         "questionsAndAnswers": [
@@ -318,13 +338,23 @@
         "theText": [
           {
             "order": 1,
-            "paragraphEn": "On the day of the fair, Amal stood proudly with her robot. When she presented it, the robot spoke: 'Be yourself. Never give up!' Everyone clapped. The children who once laughed now admired Amal's hard work and creativity.",
-            "paragraphAr": "في يوم المعرض، وقفت أمل بفخر بجوار روبوتها. وعندما قدمت العرض، تكلم الروبوت: 'كن على طبيعتك، ولا تستسلم أبداً!'. صفق الجميع بحرارة، وأبدى من سخروا منها سابقاً إعجابهم باجتهادها وابتكارها."
+            "paragraphEn": "On the day of the fair, all the children displayed their work. Amal stood proudly with her robot. When she presented it, the robot spoke: 'Be yourself. Never give up!'",
+            "paragraphAr": "في يوم المعرض، عرض جميع الأطفال أعمالهم. ووقفت أمل بفخر بجانب روبوتها، وعندما قدمته، تحدث الروبوت قائلاً: 'كن على طبيعتك، ولا تستسلم أبداً!'"
           },
           {
             "order": 2,
-            "paragraphEn": "The teacher smiled and said, 'Amal, you showed determination and honesty. You worked hard without giving up, and you stayed true to who you are.' From that day on, Amal inspired others to follow their dreams.",
-            "paragraphAr": "ابتسمت المعلمة وقالت: 'يا أمل، لقد أظهرتِ عزيمة وأمانة استثنائيتين؛ عملتِ بجد دون استسلام وبقيتِ مخلصة لنفسكِ'. ومنذ ذلك الحين، غدت أمل مصدر إلهام لزملائها لتحقيق أحلامهم."
+            "paragraphEn": "Everyone clapped. The children who once laughed now admired Amal's hard work and creativity. The teacher smiled and said, 'Amal, you showed determination and honesty. You worked hard without giving up, and you stayed true to who you are.'",
+            "paragraphAr": "صفق الجميع، والأطفال الذين سخروا منها من قبل باتوا معجبين باجتهاد أمل وإبداعها. وابتسمت المعلمة وقالت: 'يا أمل، لقد أظهرتِ عزيمة وأمانة كبيرتين؛ عملتِ بجد دون استسلام، وظللتِ صادقة مع نفسكِ.'"
+          },
+          {
+            "order": 3,
+            "paragraphEn": "Amal felt proud, not because she won a prize, but because she had expressed herself honestly, used digital tools responsibly, and showed empathy to others.",
+            "paragraphAr": "شعرت أمل بالفخر، ليس لأنها فازت بجائزة، بل لأنها عبرت عن نفسها بصدق، واستخدمت الأدوات الرقمية بمسؤولية، وأظهرت التعاطف مع الآخرين."
+          },
+          {
+            "order": 4,
+            "paragraphEn": "From that day on, Amal inspired others to follow their dreams, express themselves, and help one another.",
+            "paragraphAr": "ومن ذلك اليوم فصاعداً، ألهمت أمل زملاءها لمتابعة أحلامهم، والتعبير عن أنفسهم، ومساعدة بعضهم البعض."
           }
         ],
         "questionsAndAnswers": [
@@ -479,13 +509,23 @@
         "theText": [
           {
             "order": 1,
-            "paragraphEn": "In a quiet coastal town, a group of friends—Hany, Faris, Malik, and Sami—loved to explore. One sunny morning, they found an old map showing a Hidden Island across the sea. Hany said, 'Let's go on an adventure!' Faris added, 'We have freedom to explore, but we must respect nature and each other.'",
-            "paragraphAr": "في بلدة ساحلية هادئة، عاش أربعة أصدقاء—هاني وفارس ومالك وسامي—يهوون الاستكشاف. في صباح مشمس، عثروا على خريطة قديمة لجزيرة مخفية في عرض البحر. قال هاني: 'هيا في مغامرة!'، وأضاف فارس: 'نملك حرية الاستكشاف، لكن علينا احترام الطبيعة وبعضنا البعض'."
+            "paragraphEn": "In a quiet coastal town, a group of friends—Hany, Faris, Malik, and Sami—loved to explore. One sunny morning, they found an old map that showed a 'Hidden Island' across the sea.",
+            "paragraphAr": "في بلدة ساحلية هادئة، كانت مجموعة من الأصدقاء—هاني، وفارس، ومالك، وسامي—يعشقون الاستكشاف. وفي صباح مشمس، عثروا على خريطة قديمة توضح 'جزيرة مخفية' عبر البحر."
           },
           {
             "order": 2,
-            "paragraphEn": "They agreed on one rule: 'No one is the boss. We work together and listen to everyone's ideas.' As they sailed, Malik sketched the scenery while Sami, who was shy, felt free to share his ideas for the first time. They were different, but united in respect.",
-            "paragraphAr": "اتفقوا على قاعدة واحدة: 'لا يوجد رئيس، بل نعمل معاً ونستمع لأفكار الجميع'. وأثناء إبحارهم، رسم مالك المناظر البحرية، بينما شعر سامي الخجول بالحرية لطرح أفكاره لأول مرة؛ كانوا مختلفين في الطباع لكنهم متحدون بالاحترام."
+            "paragraphEn": "Hany, the bravest, said, 'Let's go on an adventure!' Faris added, 'We have the freedom to explore, but we must respect nature and each other.'",
+            "paragraphAr": "قال هاني، وكان أشجعهم: 'هيا ننطلق في مغامرة!' وأضاف فارس: 'لدينا الحرية في الاستكشاف، لكن يجب أن نحترم الطبيعة ونحترم بعضنا البعض.'"
+          },
+          {
+            "order": 3,
+            "paragraphEn": "They packed their things: food, water, a compass, and notebooks to draw what they discovered. They also agreed on one rule: 'No one is the boss. We work together and listen to everyone's ideas.'",
+            "paragraphAr": "حزموا أمتعتهم: الطعام، والماء، والبوصلة، ودفاتر ليرسموا ما يكتشفونه. كما اتفقوا على قاعدة واحدة: 'لا أحد رئيس، بل نعمل معاً ونستمع لأفكار الجميع.'"
+          },
+          {
+            "order": 4,
+            "paragraphEn": "As they sailed, they sang songs and appreciated the beauty of the sea, the birds, and the fresh air. Malik, who loved drawing, sketched the scenery. Sami, who was shy, felt free to share his ideas for the first time. They were all different, but they respected each other's thoughts.",
+            "paragraphAr": "وأثناء إبحارهم، أنشدوا الأغاني واستمتعوا بجمال البحر والطيور والهواء النقي. وكان مالك، محب الرسم، يخط المناظر الطبيعية. وشعر سامي الخجول بالحرية لمشاركة أفكاره لأول مرة. كانوا مختلفين جميعاً، لكنهم احترموا أفكار بعضهم البعض."
           }
         ],
         "questionsAndAnswers": [
@@ -571,13 +611,23 @@
         "theText": [
           {
             "order": 1,
-            "paragraphEn": "When they reached the Hidden Island, they found strange plants and colorful birds. Hany suggested, 'Let's split into pairs and explore, but stay close and safe.' Faris led carefully, Malik drew maps of the terrain, and Sami proudly showed them a hidden cave he discovered.",
-            "paragraphAr": "عندما وصلوا إلى الجزيرة، وجدوا نباتات بديعة وطيوراً ملونة. اقترح هاني: 'دعونا ننقسم إلى ثنائيات للاستكشاف مع البقاء قريبين وبأمان'. قاد فارس بحذر، ورسم مالك تضاريس الجزيرة، بينما قادهم سامي بفخر إلى كهف خفي اكتشفه بنفسه."
+            "paragraphEn": "When they reached the Hidden Island, they found strange plants, colorful birds, and mysterious caves. Hany suggested, 'Let's split into pairs and explore, but stay close and safe.'",
+            "paragraphAr": "عندما وصلوا إلى الجزيرة المخفية، وجدوا نباتات غريبة، وطيوراً ملونة، وكهوفاً غامضة. واقترح هاني: 'دعونا ننقسم إلى ثنائيات ونستكشف، لكن نبقى قريبين وآمنين.'"
           },
           {
             "order": 2,
-            "paragraphEn": "When tired, they rested by the water. 'I feel free to be myself,' Sami reflected. The friends smiled, knowing freedom wasn't about doing whatever they wanted, but about respecting each other and working together.",
-            "paragraphAr": "وعندما نال منهم التعب، استراحوا بجانب الماء. قال سامي بتأمل: 'أشعر بالحرية لأكون نفسي'. ابتسم الأصدقاء مدركين أن الحرية لا تعني التصرف بلا ضوابط، بل احترام الآخر والعمل المشترك."
+            "paragraphEn": "They discovered beautiful shells, shining crystals, and tall green trees. They respected nature and took only pictures and drawings, leaving everything as it was.",
+            "paragraphAr": "واكتشفوا أصدافاً جميلة، وبلورات لامعة، وأشجاراً خضراء شاهقة. واحترموا الطبيعة فلم يأخذوا سوى الصور والرسومات، تاركين كل شيء كما كان."
+          },
+          {
+            "order": 3,
+            "paragraphEn": "Suddenly, the tide began to rise, blocking one of the pathways. Sami calmly checked the map and found a safe way through the rocks. The others praised his quick thinking, and Sami beamed with pride.",
+            "paragraphAr": "وفجأة، بدأ المد في الارتفاع وسد أحد الممرات. فحص سامي الخريطة بهدوء ووجد طريقاً آمناً عبر الصخور. أثنى الآخرون على سرعة بديهته، وابتسم سامي ممتلئاً بالفخر."
+          },
+          {
+            "order": 4,
+            "paragraphEn": "Sitting together on the warm sands, Sami smiled and said, 'Thank you for listening to me. Today I felt truly accepted.' The friends smiled back, realizing that true freedom means feeling free to be oneself among friends.",
+            "paragraphAr": "وجلسوا معاً على الرمال الدافئة، وابتسم سامي قائلاً: 'شكراً لأنكم استمعتم إليّ، لقد شعرت اليوم بالقبول الحقيقي.' ابتسم له أصدقاؤه، مدركين أن الحرية الحقيقية تعني شعور المرء بحريته ليكون نفسه بين أصدقائه."
           }
         ],
         "questionsAndAnswers": [
@@ -667,13 +717,23 @@
         "theText": [
           {
             "order": 1,
-            "paragraphEn": "As the sun set, the children gathered to leave. Their bond was deeper than before. Hany shared a wise thought: 'Leadership isn't about being the loudest, it's about caring for others and helping them shine.' Malik added, 'And creativity makes every adventure more fun!'",
-            "paragraphAr": "مع غروب الشمس، اجتمع الأصدقاء للرحيل، وقد غدت رابطتهم أعمق بكثير. قال هاني بحكمة: 'القيادة ليست علو الصوت، بل الاهتمام بالآخرين ومساعدتهم على التألق'. وأضاف مالك: 'والإبداع يجعل كل مغامرة أكثر بهجة!'."
+            "paragraphEn": "As the sun set, the children gathered to leave the island. They agreed that their friendship had grown stronger. Hany said, 'Leadership isn't about being the loudest, it's about caring for others and helping them shine.'",
+            "paragraphAr": "مع غروب الشمس، تجمع الأطفال لمغادرة الجزيرة، واتفقوا على أن صداقتهم أصبحت أقوى. وقال هاني: 'القيادة ليست بأن تكون الأعلى صوتاً، بل بأن تهتم بالآخرين وتساعدهم على التألق.'"
           },
           {
             "order": 2,
-            "paragraphEn": "Back in the village, they shared their adventure, inspiring other children to explore and lead with kindness, respect, and teamwork. From that day on, they were known as 'The Island Explorers.'",
-            "paragraphAr": "وعند عودتهم إلى القرية، رووا مغامرتهم الملهمة، محفزين أقرانهم على الاستكشاف والقيادة باللطف والاحترام والتعاون. ومنذ ذلك اليوم، لُقبوا بـ 'مستكشفي الجزيرة'."
+            "paragraphEn": "Malik added, 'And creativity makes every adventure more fun!' They sailed back home under the pink sky, their hearts full of joy and appreciation for the world and for each other.",
+            "paragraphAr": "وأضاف مالك: 'والإبداع يجعل كل مغامرة أكثر متعة!' وأبحروا عائدين نحو ديارهم تحت سماء وردية، وقلوبهم مفعمة بالفرح والتقدير للعالم ولبعضهم البعض."
+          },
+          {
+            "order": 3,
+            "paragraphEn": "Back in the village, they shared their story, inspiring other children to explore, create, and lead with kindness, respect, and teamwork.",
+            "paragraphAr": "وعند عودتهم إلى القرية، شاركوا قصتهم، فألهموا أطفالاً آخرين للاستكشاف، والإبداع، والقيادة باللطف والاحترام وروح الفريق."
+          },
+          {
+            "order": 4,
+            "paragraphEn": "From that day on, the four friends became known as 'The Island Explorers', always reminding others to appreciate freedom, show respect, and let their creativity lead the way.",
+            "paragraphAr": "ومنذ ذلك اليوم، عُرف الأصدقاء الأربعة بلقب 'مستكشفو الجزيرة'، يذكّرون الآخرين دوماً بتقدير الحرية، وإظهار الاحترام، وجعل الإبداع يرشدهم في طريقهم."
           }
         ],
         "questionsAndAnswers": [

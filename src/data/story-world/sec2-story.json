@@ -123,52 +123,64 @@
       "summaryAr": "من العمر 23 عامًا. ويريد إثبات شجاعته والعثور على هدف حقيقي وذي معنى في حياته. gly إدوارد مالون صحفي",
       "chapterInPoints": [
         {
-          "en": "Edward Malone is a 23-year-old reporter who wants to prove his courage and find a",
-          "ar": "من العمر 23 عامًا. ويريد إثبات شجاعته والعثور على هدف حقيقي وذي معنى في حياته. gly إدوارد مالون صحفي"
+          "order": 1,
+          "pointEn": "",
+          "pointAr": ""
         },
         {
-          "en": "He loves Gladys Hungerton and asks her to marry him, but she refuses because she does not",
-          "ar": "يحب جلاديس هنجرتون ويطلب منها الزواج, لكنها ترفض لأنها لا تحيه."
+          "order": 2,
+          "pointEn": "",
+          "pointAr": ""
         },
         {
-          "en": "Gladys tells Malone that she admires brave men who face danger, travel into unknown places,",
-          "ar": "تخبر جلاديس مالون أنها تُعجَب بالرجال الشجعان الذين يواجهون الخطر ويسافرون إلى أماكن مجهولة ويتصرفون"
+          "order": 3,
+          "pointEn": "",
+          "pointAr": ""
         },
         {
-          "en": "Her words make Malone realize that his safe life in London is not enough, so he seeks",
-          "ar": "لا تكفيه: لذلك يبحث عن المغامرة. gad تجعل كلماتها مالون يدرك أن حياته الآهنة في"
+          "order": 4,
+          "pointEn": "",
+          "pointAr": ""
         },
         {
-          "en": "Malone visits his editor, Mr McArdle, and asks for a dangerous assignment that can test his",
-          "ar": "يزور مالون رئيس تحزيره, السيد مكاردل. ويطلب مهمة خطرة يمكنها اختبار شجاعته."
+          "order": 5,
+          "pointEn": "",
+          "pointAr": ""
         },
         {
-          "en": "McArdle sends him to interview Professor Challenger, a brilliant zoologist famous for his",
-          "ar": "حيوان عبقري يشتهر بشخصيته صعبة المراس. alle مكاردل لمقايلة البروفيسور تشالنجر. وهو abuys"
+          "order": 6,
+          "pointEn": "",
+          "pointAr": ""
         },
         {
-          "en": "Challenger claims that unknown prehistoric animals still ive in a remote region of South",
-          "ar": "تشالنجر أن حيوانات مجهولة من عصور ما قبل التاريخ لا تزال تعيش في منطقة نائية بأمريكا الجنوبية. Gedy"
+          "order": 7,
+          "pointEn": "",
+          "pointAr": ""
         },
         {
-          "en": "Malone learns that Challenger hates journalists and often argues with people who question",
-          "ar": "يعرف مالون أن تشالنجر يكره الصحفيين. وغالبًا ما يجادل الأشخاص الذين يشككون في أفكاره العلمية"
+          "order": 8,
+          "pointEn": "",
+          "pointAr": ""
         },
         {
-          "en": "With help from Tarp Henry, Malone writes to Challenger, pretending to be a young student",
-          "ar": "بمساعدة تارب هنري. يكتب مالون إلى تشالنجر. متظاهرًا بأنه طالب شاب مهتم بالعلوم."
+          "order": 9,
+          "pointEn": "",
+          "pointAr": ""
         },
         {
-          "en": "Challenger replies and invites Malone to his house in Kensington to discuss his scientific",
-          "ar": "يرد تشالنجر ويدعو مالون إلى منزله في كنسينقتون لمناقشة سؤاله العلمي شخصيًا."
+          "order": 10,
+          "pointEn": "",
+          "pointAr": ""
         },
         {
-          "en": "Mrs Challenger warns Malone that her husband is difficult and may become angry if",
-          "ar": "تحذر السيدة تشالنجر مالون من أن زوجها صعب المراس وقد يغضب إذا جادله أحد."
+          "order": 11,
+          "pointEn": "",
+          "pointAr": ""
         },
         {
-          "en": "Malone finally meets Challenger and realizes that his search for adventure has truly begun",
-          "ar": "بحثه عن المغامرة قد بدأ بالفعل بهذه المقابلة الخطرة. of يلتقي مالون بتشالنجر أخيرًا. ويدرك"
+          "order": 12,
+          "pointEn": "",
+          "pointAr": ""
         }
       ],
       "vocabulary": [
@@ -264,258 +276,38 @@
       "theText": [
         {
           "order": 1,
-          "paragraphEn": "of energy, and certain that a great life was waiting for me. The problem 5 it",
-          "paragraphAr": "was that | had no idea how to begin it. There was also Gladys Hungerton. 7 ه"
+          "paragraphEn": "‏ ‎ My name is Edward Malone, and at the time this story began was a young reporter on the Daily Gazette in London. was twenty-three, full 1 of energy, and certain that a great life was waiting for me. The problem 5 it was that had no idea how to begin it. There was also Gladys Hungerton. 7 ‏‎ ‎admired her more than anyone had ever met, and one evening finally 5 asked her to marry me. She did not laugh at me or become angry. Instead, xa she looked serious and told me that she valued our friendship but did not . love me in the way hoped.",
+          "paragraphAr": "‏اسمي إدوارد مالون. وفي الوقت الذي بدأت فيه هذه القصة كنت مراسلاً شاباً في‎ ‏كنت في الثالثة والعشرين من عمري, مفعماً بالطاقة. وواثقاً من أن حياة عظيمة‎ ‏جازيت في‎ ‏صحيفة‎ ‏جلاديس هنجرتون. لقد أعجبت بها‎ ‏أنني لم أكن أعرف كيف أبدأها. كانت هناك‎ ‏تنتظرني. كانت‎ ‏أكثر من أي شخص قابلته على الإطلاق. وفي إحدى الأمسيات طلبت منها أخيراً الزواج. لم تضحك علي أو تغفضب.‎ ‏من ذلك. بدت جادة وأخبرتني أنها تقدر صداقتنا لكنها لا تحني بالطريقة التي كنت أتمناها.‎"
         },
         {
           "order": 2,
-          "paragraphEn": "love me in the way | hoped.",
-          "paragraphAr": "اسمي إدوارد مالون. وفي الوقت الذي بدأت فيه هذه القصة كنت مراسلاً شاباً في"
+          "paragraphEn": "\"What kind of man could you love?\" asked. Gladys thought fora moment. \"A man who has done something brave. she said. \"Someone who has faced danger, traveled into the unknown, and proved that he can act when it matters‘ tried to joke. \"So must discover a new country before you will consider me?\" \"Not for me,’ she replied. \"Ifa man is truly brave, he does not act just to impress someone else. He acts because courage is part of his character” Her words stayed with me. left her house feeling disappointed, but also strangely excited. London suddenly seemed too safe. wanted a challenge - something that would test me and give my life a clearer purpose. “TheNovel ‏1‎ ‎TheLostiworld —‏",
+          "paragraphAr": "اسألتها: \"ما نوع الرجل الذي يمكن أن تحبيه؟\" فكرت جلاديس للحظة وقالت: \"رجل قام بشيء شجاع. شخص واجه الخطر. وسافر إلى المجهول. وأثبت أنه قادر على التصرف في الأوقات الحاسمة.\" حاولت أن أمازحها قائلاً: \"إذن يجب أن أكتشف بلدا جديداً قبل أن تفكري في أمري؟\" فأجابت: \"ليس من أجلي. إذا كان الرجل شجاعاً ‎‏ فهو لا يتصرف فقط لإاثارة إعجاب شخص آخر. بل يتصرف لأن الشجاعة جزء من شخصيته.\" بقيت كلماتها في ذهني. غادرت هنزلها ‎‏ أشعر بخيبة أمل. ولكن أيضاً بحماس غريب. بدت لندن فجأة آمنة أكثر من اللازم. كنت أرغب ‏في تحدٍ - شيء يختبرني ويعطي لحياتي ‎‏ أكثر وضوحاً."
         },
         {
           "order": 3,
-          "paragraphEn": "",
-          "paragraphAr": "كنت في الثالثة والعشرين من عمري, مفعماً بالطاقة. وواثقاً من أن حياة عظيمة gall جازيت في Gls صحيفة"
+          "paragraphEn": "‎The next evening, went straight to my editor, Mr McArdle. He was an 1‏ ‎experienced newspaper man who had seen every kind of young reporter. 2‏ ‎When asked him to send me on a dangerous assignment, he pushed his‏ ‎glasses up and stared at me. \"You want danger?\" he said. \"Most sensible Ji We‏ ‎people want to avoid it” \"I want a real story, sir. Something difficult.” He wet‏ ‎studied me for a moment, then smiled. \"Perhaps do have a job for you ‏ ‎Have you heard of Professor George Edward Challenger?\" ‏",
+          "paragraphAr": "فني المساء التالي ذهبت هباشرة إلى رئيس التحرير. السيد ماكاردل. كان رجلاً صحفياً متمرساأً رأى كل أنواع المراسلين الشباب. عندما طلبت منه أن يرسلني في مهمة خطيرة. رفع نظارته وحدق في وجهي. قال: ‎\"‏ تريد الخظر؟ معظم الأشخاص العقلاء يريدون تجنبه.\" قلت: \"أريد قصة حقيقية يا سيدي. شيء صعب.\" تأقلني للحظة. ثم ابتسم قائلاً: \"ربما لدي وظيفة لك. هل سمعت عن البروفيسور جورج إدوارد تشالنجر؟\""
         },
         {
           "order": 4,
-          "paragraphEn": "",
-          "paragraphAr": "جلاديس هنجرتون. لقد أعجبت بها Last أنني لم أكن أعرف كيف أبدأها. كانت هناك dS all تنتظرني. كانت"
+          "paragraphEn": "‎Ofcourse had. Almost everyone in the newspaper world knew hisname. rm‏ ‎Challenger was a famous zoologist, brilliant but extremely difficult. He eee Pt‏ ‎had recently returned from South America with an extraordinary story 207 al a‏ ‎about unknown animals. When scientists questioned him, he refused to im ae ‏ ‎give clear details. When reporters tried to interview him, he often threw‏ ‎them out of his house - sometimes literally. \"Do you want meto interview ff ga a‏ ‎i “EZ‏ ‎him?\" asked. \"If you can get through the front door,” McArdle replied.‏ ‎“Two years ago Challenger travelled alone through a little-known part of iss i )‏ ‎South America. He came back claiming that something remarkable had‏ ‎happened. He had damaged photographs, strange sketches, and a few pieces of evidence, but‏ ‎he would not reveal the exact place. Most people think he is either mistaken or lying. Find out‏ ‎which\"‏",
+          "paragraphAr": "‏بالطيع سمعت عنه. ‎‏ كل شخص في عالم الصحافة كان يعرف اسمه. كان تشالنجر عالم حيوان مشهوراً. عبقريأ ولكنه صعب المراس للغاية: كان قد عاد مؤخراً من أمريكا الجنوبية بقصة غير عادية عن حيوانات غير معروفة. عندما انستجوبه العلماء. رفض إعطاء تفاصيل ‎‏ وعندما حاول المراسلون إجراء مقابلات معه. كان غالبا ما يطردهم من منزله - أحياناً بالمعنى الحرفي للكلمة: سألته: \"هل تريدني أن أجري مقابلة معه؟\" أجاب ماكاردل: \"إذا تمكنت. من تجاوز الباب الأمامي. قبل عامين سافر تشالنجر بمفرده عبر جزء غير معروف تقريباً من أمريكا الجنوبية. وعاد مدعياً أن شيئاً استثنائياً قد حدث. كان لديه صور تالفة. ورسومات غريبة, وبعض الأدلة. لكنه لم يكشف عن المكان الدقيق. يعتقد معظم الناس أنه ‎‏ مخطئ أو كاذب. اكتشف أي الأمرين هو الصحيح.\" ‏1ه : سح 72"
         },
         {
           "order": 5,
-          "paragraphEn": "",
-          "paragraphAr": "أكثر من أي شخص قابلته على الإطلاق. وفي إحدى الأمسيات طلبت منها أخيراً الزواج. لم تضحك علي أو تغفضب."
+          "paragraphEn": "TheLostiworld — This was exactly the kind of chance had been looking for. Yet there was re one problem: Challenger hated journalists. f arrived honestly and said worked for the Gazette, the interview would probably end before it 0 began. That night went to the Savage Club, where many writers and (se ot ”* scientists met. found my friend Tarp Henry, who worked for a scientific journal, and asked what he knew about Challenger. \"He is clever,\" Henry ‏ ‎ said, \"but impossible. He argues with everyone. Ata scientific meeting in - 0 Vienna he almost started a battle over a theory of evolution. If you want SS. 8 to speak to him, do not mention newspapers” That gave me an idea. asked Henry to find Challenger's latest scientific paper. It was full of technical language barely understood, but copied one complicated sentence and used it in a letter. I pretended to be a young student who admired Challenger's work but had a question about one of his arguments.",
+          "paragraphAr": "كانت هذه بالضبط الفرصة التي كنت أبحث عنها. ومع ذلك كانت هناك مشكلة واحدة: تشالنجر يكره الصحفيين. إذا وصلت بصدق وقلت إنني أعمل في صحيقة جازيت, فمن المحتمل أن تنتهي المقابلة قبل أن ‎‏ في تلك الليلة ذهيت إلى نادي سافاح. حيث يلتقي العديد من الكتاب والعلماء. وجدت صديقي تارب هنري. الذي يعمل في مجلة علمية. وسألته ‎‏ يعرفه عن تشالنجر. قال هنري: \"إنه ذكي. لكنه مستحيل. إنه يجادل الجميع. في اجتماع علمي في فيينا كاد أن يبدأ 2420 حول نظرية التطور. إذا كنت تريد التحدث إليه. فلا تذكر الصحف.\" أعطاني ذلك فكترة..طلبت من هنري العثوز على أحدث ورقة علمية لتشالنجر. كانت مليئة باللغة التقنية التي بالكاد فهمتها. ‎!‏ نسخت جملة واحدة معقدة واستخدمتها في رسالة. تظاهرت بأنني طالب شاب معجب ‎‏ تشالنجر ولكن ‏لدي سؤال حول إحدى حججه."
         },
         {
           "order": 6,
-          "paragraphEn": "",
-          "paragraphAr": "من ذلك. بدت جادة وأخبرتني أنها تقدر صداقتنا لكنها لا تحني بالطريقة التي كنت أتمناها. ay"
+          "paragraphEn": "‎Henry read the letter and laughed. \"You are taking a risk, Malone. He ‎may realise at once that you know nothing about the subject” \"I only ‎need to get inside his study,\" said. ‘After that, will take my chance.” ff ld Ima 3 ‎Two days later a reply arrived. The handwriting looked as aggressive idin Pani 0 ‎as the man himself. Challenger wrote that my question showed poor 7 ‎understanding, but he was willing to explain the matter in person. He ‏‎ . ‎gave me an appointment for eleven o'clock on Wednesday morning. jaa ‎I should have been nervous. Instead, felt as if my real life had finally li ‎begun. On Wednesday traveled to Professor Challenger's large house ‎in Kensington. A quiet servant named Austin opened the door. Before he could take me to ‎the study, a small, lively woman stopped me in the hall. \"You have come to see my husband?\" ‎she asked. \"Yes, Mrs Challenger.” She lowered her voice. \"Then should warn you. George is. ‎a perfectly impossible person. If he becomes angry, do not argue too long. Leave the room ‎while you still can”",
+          "paragraphAr": "‏قرأ هنري الرسالة وضحك. ‎ \"‏ مالون. قد يدرك على الفور أنك لا تعرف شيئاً عن الموضوع.\" قلت: ‏\"أحتاج فقط إلى الدخول إلى مكتبه. وبعد ذلك. سأغتثم فرصتي\" بعد يومين وصل الرد. بدا خط اليد عدوانياً مثل ‏الرجل نفسة. كتب تشالنجر أن سؤالي يظهر فهماً ضعيفاً. لكنه كان على استعداد لشرح الأمر شخصياً. أعطاني ‏موعداً في الساغة ‎‏ عشرة من صباح يوم الأربعاء. كان ينبغي أن أكون متوتراً. بدلا من ذلك, شعرت وكأن ‏حياتي الحقيقية قد بدأت أخيراً. يوم الأربعاء سافرت إلى منزل البروفيسور تشالنجر الكبير في كنسينفتون. ‎‏ خادم ‏هادئ يذعى أونستن الباب. وقبل أن يتمكن من اصطحابي إلى المكتب. أوقفتني امرأة صغيرة مفعمة بالحيوية في ‏الردهة. سألتني: \"هل جئت لرؤية زوجي؟\" ‎\"‏ السيدة تشالنجر.\" خفضت صوتها وقالت: ‎)\"‏ يجب أن أحذرك. جوارج شخص مستحيل تماماً. إذا غضب. لا تجادله طويلاً. غادر الغرفة بينما لا يزال بإمكانك ذلك.\" ‏1ه ‎١‏ س2"
         },
         {
           "order": 7,
-          "paragraphEn": "challenge - something that would test me and give my life a clearer purpose.",
-          "paragraphAr": "“TheNovel ١ 1ه"
-        },
-        {
-          "order": 8,
-          "paragraphEn": "The}Lostiworld| —",
-          "paragraphAr": "اسألتها: \"ما نوع الرجل الذي يمكن أن تحبيه؟\" فكرت جلاديس للحظة وقالت: \"رجل قام بشيء شجاع. شخص"
-        },
-        {
-          "order": 9,
-          "paragraphEn": "",
-          "paragraphAr": "واجه الخطر. وسافر إلى المجهول. وأثبت أنه قادر على التصرف في الأوقات الحاسمة.\" حاولت أن أمازحها قائلاً: \"إذن"
-        },
-        {
-          "order": 10,
-          "paragraphEn": "",
-          "paragraphAr": "يجب أن أكتشف بلدا جديداً قبل أن تفكري في أمري؟\" فأجابت: \"ليس من أجلي. إذا كان الرجل شجاعاً Las فهو"
-        },
-        {
-          "order": 11,
-          "paragraphEn": "",
-          "paragraphAr": "لا يتصرف فقط لإاثارة إعجاب شخص آخر. بل يتصرف لأن الشجاعة جزء من شخصيته.\" بقيت كلماتها في ذهني."
-        },
-        {
-          "order": 12,
-          "paragraphEn": "",
-          "paragraphAr": "غادرت هنزلها Lily أشعر بخيبة أمل. ولكن أيضاً بحماس غريب. بدت لندن فجأة آمنة أكثر من اللازم. كنت أرغب"
-        },
-        {
-          "order": 13,
-          "paragraphEn": "",
-          "paragraphAr": "في تحدٍ - شيء يختبرني ويعطي لحياتي Liam أكثر وضوحاً."
-        },
-        {
-          "order": 14,
-          "paragraphEn": "Have you heard of Professor George Edward Challenger?\" =",
-          "paragraphAr": "فني المساء التالي ذهبت هباشرة إلى رئيس التحرير. السيد ماكاردل. كان رجلاً صحفياً"
-        },
-        {
-          "order": 15,
-          "paragraphEn": "",
-          "paragraphAr": "متمرساأً رأى كل أنواع المراسلين الشباب. عندما طلبت منه أن يرسلني في مهمة خطيرة. رفع نظارته وحدق في"
-        },
-        {
-          "order": 16,
-          "paragraphEn": "",
-          "paragraphAr": "وجهي. قال: cull\" تريد الخظر؟ معظم الأشخاص العقلاء يريدون تجنبه.\" قلت: \"أريد قصة حقيقية يا سيدي. شيء"
-        },
-        {
-          "order": 17,
-          "paragraphEn": "",
-          "paragraphAr": "صعب.\" تأقلني للحظة. ثم ابتسم قائلاً: \"ربما لدي وظيفة لك. هل سمعت عن البروفيسور جورج إدوارد تشالنجر؟\""
-        },
-        {
-          "order": 18,
-          "paragraphEn": "them out of his house - sometimes literally. \"Do you want meto interview ff ga a",
-          "paragraphAr": "i “EZ لك him?\" | asked. \"If you can get through the front door,” McArdle replied."
-        },
-        {
-          "order": 19,
-          "paragraphEn": "which\"",
-          "paragraphAr": "بالطيع سمعت عنه. Li كل شخص في عالم الصحافة كان يعرف اسمه. كان تشالنجر عالم حيوان مشهوراً."
-        },
-        {
-          "order": 20,
-          "paragraphEn": "",
-          "paragraphAr": "عبقريأ ولكنه صعب المراس للغاية: كان قد عاد مؤخراً من أمريكا الجنوبية بقصة غير عادية عن حيوانات غير"
-        },
-        {
-          "order": 21,
-          "paragraphEn": "",
-          "paragraphAr": "معروفة. عندما انستجوبه العلماء. رفض إعطاء تفاصيل daly وعندما حاول المراسلون إجراء مقابلات معه. كان"
-        },
-        {
-          "order": 22,
-          "paragraphEn": "",
-          "paragraphAr": "غالبا ما يطردهم من منزله - أحياناً بالمعنى الحرفي للكلمة: سألته: \"هل تريدني أن أجري مقابلة معه؟\" أجاب"
-        },
-        {
-          "order": 23,
-          "paragraphEn": "",
-          "paragraphAr": "ماكاردل: \"إذا تمكنت. من تجاوز الباب الأمامي. قبل عامين سافر تشالنجر بمفرده عبر جزء غير معروف تقريباً من"
-        },
-        {
-          "order": 24,
-          "paragraphEn": "",
-          "paragraphAr": "أمريكا الجنوبية. وعاد مدعياً أن شيئاً استثنائياً قد حدث. كان لديه صور تالفة. ورسومات غريبة, وبعض الأدلة. لكنه"
-        },
-        {
-          "order": 25,
-          "paragraphEn": "",
-          "paragraphAr": "لم يكشف عن المكان الدقيق. يعتقد معظم الناس أنه Lol مخطئ أو كاذب. اكتشف أي الأمرين هو الصحيح.\""
-        },
-        {
-          "order": 26,
-          "paragraphEn": "",
-          "paragraphAr": "1ه : سح 72"
-        },
-        {
-          "order": 27,
-          "paragraphEn": "scientists met. | found my friend Tarp Henry, who worked for a scientific",
-          "paragraphAr": "journal, and asked what he knew about Challenger. \"He is clever,\" Henry في د"
-        },
-        {
-          "order": 28,
-          "paragraphEn": "young student who admired Challenger's work but had a question about one of his arguments.",
-          "paragraphAr": "كانت هذه بالضبط الفرصة التي كنت أبحث عنها. ومع ذلك كانت هناك مشكلة واحدة: تشالنجر يكره الصحفيين."
-        },
-        {
-          "order": 29,
-          "paragraphEn": "",
-          "paragraphAr": "إذا وصلت بصدق وقلت إنني أعمل في صحيقة جازيت, فمن المحتمل أن تنتهي المقابلة قبل أن hg في تلك"
-        },
-        {
-          "order": 30,
-          "paragraphEn": "",
-          "paragraphAr": "الليلة ذهيت إلى نادي سافاح. حيث يلتقي العديد من الكتاب والعلماء. وجدت صديقي تارب هنري. الذي يعمل في"
-        },
-        {
-          "order": 31,
-          "paragraphEn": "",
-          "paragraphAr": "مجلة علمية. وسألته Loc يعرفه عن تشالنجر. قال هنري: \"إنه ذكي. لكنه مستحيل. إنه يجادل الجميع. في اجتماع"
-        },
-        {
-          "order": 32,
-          "paragraphEn": "",
-          "paragraphAr": "علمي في فيينا كاد أن يبدأ 2420 حول نظرية التطور. إذا كنت تريد التحدث إليه. فلا تذكر الصحف.\" أعطاني"
-        },
-        {
-          "order": 33,
-          "paragraphEn": "",
-          "paragraphAr": "ذلك فكترة..طلبت من هنري العثوز على أحدث ورقة علمية لتشالنجر. كانت مليئة باللغة التقنية التي بالكاد فهمتها."
-        },
-        {
-          "order": 34,
-          "paragraphEn": "",
-          "paragraphAr": "iS! نسخت جملة واحدة معقدة واستخدمتها في رسالة. تظاهرت بأنني طالب شاب معجب Jas تشالنجر ولكن"
-        },
-        {
-          "order": 35,
-          "paragraphEn": "",
-          "paragraphAr": "لدي سؤال حول إحدى حججه."
-        },
-        {
-          "order": 36,
-          "paragraphEn": "as the man himself. Challenger wrote that my question showed poor 7",
-          "paragraphAr": "understanding, but he was willing to explain the matter in person. He الا ."
-        },
-        {
-          "order": 37,
-          "paragraphEn": "while you still can”",
-          "paragraphAr": "قرأ هنري الرسالة وضحك. Ly BLS coil\" مالون. قد يدرك على الفور أنك لا تعرف شيئاً عن الموضوع.\" قلت:"
-        },
-        {
-          "order": 38,
-          "paragraphEn": "",
-          "paragraphAr": "\"أحتاج فقط إلى الدخول إلى مكتبه. وبعد ذلك. سأغتثم فرصتي\" بعد يومين وصل الرد. بدا خط اليد عدوانياً مثل"
-        },
-        {
-          "order": 39,
-          "paragraphEn": "",
-          "paragraphAr": "الرجل نفسة. كتب تشالنجر أن سؤالي يظهر فهماً ضعيفاً. لكنه كان على استعداد لشرح الأمر شخصياً. أعطاني"
-        },
-        {
-          "order": 40,
-          "paragraphEn": "",
-          "paragraphAr": "موعداً في الساغة dyalall عشرة من صباح يوم الأربعاء. كان ينبغي أن أكون متوتراً. بدلا من ذلك, شعرت وكأن"
-        },
-        {
-          "order": 41,
-          "paragraphEn": "",
-          "paragraphAr": "حياتي الحقيقية قد بدأت أخيراً. يوم الأربعاء سافرت إلى منزل البروفيسور تشالنجر الكبير في كنسينفتون. aid خادم"
-        },
-        {
-          "order": 42,
-          "paragraphEn": "",
-          "paragraphAr": "هادئ يذعى أونستن الباب. وقبل أن يتمكن من اصطحابي إلى المكتب. أوقفتني امرأة صغيرة مفعمة بالحيوية في"
-        },
-        {
-          "order": 43,
-          "paragraphEn": "",
-          "paragraphAr": "الردهة. سألتني: \"هل جئت لرؤية زوجي؟\" asi\" السيدة تشالنجر.\" خفضت صوتها وقالت: gi)\" يجب أن أحذرك."
-        },
-        {
-          "order": 44,
-          "paragraphEn": "",
-          "paragraphAr": "جوارج شخص مستحيل تماماً. إذا غضب. لا تجادله طويلاً. غادر الغرفة بينما لا يزال بإمكانك ذلك.\""
-        },
-        {
-          "order": 45,
-          "paragraphEn": "",
-          "paragraphAr": "1ه ١ س2"
-        },
-        {
-          "order": 46,
-          "paragraphEn": "entered. Professor Challenger sat behind a wide desk covered with JM |",
-          "paragraphAr": "books, maps, fossils, and papers. He was shorter than | expected, * ل 4"
-        },
-        {
-          "order": 47,
-          "paragraphEn": "had found it sooner than | expected.",
-          "paragraphAr": "ابتسمت. لكن تعبير وجهها أخبرني أنها كانت جادة. فجأة زأرصوت عميق من خلف باب مغلق. فتحه أوستن."
-        },
-        {
-          "order": 48,
-          "paragraphEn": "",
-          "paragraphAr": "ودخلت. كان البروفيسور تشالنجر يجلس خلف مكتب واسع مغطى بالكتب والخرائط والحفريات والأوراق. كان أقصر"
-        },
-        {
-          "order": 49,
-          "paragraphEn": "",
-          "paragraphAr": "مما توقعت. لكنه كان عريضاً بشكل هائل. انتشرت لحيته السوداء عبر صدره. وبدت عيناه الرماديتان المائلتان"
-        },
-        {
-          "order": 50,
-          "paragraphEn": "",
-          "paragraphAr": "سأل بحزم: \"حسنا؟ أنت الشاب الذي يجد صعوبة في فهم gg للزرقة الحادتان وكأنهما تقيسان كل نقطة ضعف"
-        },
-        {
-          "order": 51,
-          "paragraphEn": "",
-          "paragraphAr": "العلم الواضح؟\" كنت قد دخلت أبحث عن المغامرة. ولقد وجدتها في وقت أقرب مما توقعت."
+          "paragraphEn": "sTheLostiworld oan I smiled, but her expression told me she was serious. A deep voice suddenly roared from behind a closed door. Austin opened it, and ! entered. Professor Challenger sat behind a wide desk covered with JM books, maps, fossils, and papers. He was shorter than expected, * ‏‎ 4 but enormously broad. His black beard spread across his chest, and his sharp grey-blue eyes seemed to measure every weakness in me. ee teh \"Well?\" he demanded. \"You are the young man who has difficulty Carrey: understanding plain science?\" had entered looking for adventure. had found it sooner than expected.",
+          "paragraphAr": "‏ابتسمت. لكن تعبير وجهها أخبرني أنها كانت جادة. فجأة زأرصوت عميق من خلف باب مغلق. فتحه أوستن.‎ ‏ودخلت. كان البروفيسور تشالنجر يجلس خلف مكتب واسع مغطى بالكتب والخرائط والحفريات والأوراق. كان أقصر‎ ‏مما توقعت. لكنه كان عريضاً بشكل هائل. انتشرت لحيته السوداء عبر صدره. وبدت عيناه الرماديتان المائلتان‎ ‏سأل بحزم: \"حسنا؟ أنت الشاب الذي يجد صعوبة في فهم‎ ‏للزرقة الحادتان وكأنهما تقيسان كل نقطة ضعف‎ ‏العلم الواضح؟\" كنت قد دخلت أبحث عن المغامرة. ولقد وجدتها في وقت أقرب مما توقعت.‎"
         }
       ],
       "questionsAndAnswers": [
@@ -885,44 +677,54 @@
       "summaryAr": "سأل البروفيسور تشالنجر مالون عن المقال العلمي.",
       "chapterInPoints": [
         {
-          "en": "Professor Challenger questioned Malone about the scientific article.",
-          "ar": "سأل البروفيسور تشالنجر مالون عن المقال العلمي."
+          "order": 1,
+          "pointEn": "",
+          "pointAr": ""
         },
         {
-          "en": "Challenger soon discovered that Malone did not understand the subject.",
-          "ar": "اكتشف تشالنجر سريعًا أن مالون لم يكن يفهم الموضوع."
+          "order": 2,
+          "pointEn": "",
+          "pointAr": ""
         },
         {
-          "en": "Malone confessed that he was a reporter for the Daily Gazette. 1",
-          "ar": "اعترف مالون بأنه كان مراسلًا في جريدة ديلي جازيت."
+          "order": 3,
+          "pointEn": "",
+          "pointAr": ""
         },
         {
-          "en": "Challenger and Malone began fighting in the hallway.",
-          "ar": "يتشاجران في الممر. ygllag بدأ تشالنجر"
+          "order": 4,
+          "pointEn": "",
+          "pointAr": ""
         },
         {
-          "en": "They both fell together onto the steps outside the house.",
-          "ar": "سقط الاثنان معًا على درجات السلم خارج المنزل."
+          "order": 5,
+          "pointEn": "",
+          "pointAr": ""
         },
         {
-          "en": "Malone told the policeman that he did not want to make a complaint.",
-          "ar": "الشرطة بأنه لا يريد تقديم شكوى. Joy أخبر مالون"
+          "order": 6,
+          "pointEn": "",
+          "pointAr": ""
         },
         {
-          "en": "Challenger asked Malone to return inside and promised to show him something important.",
-          "ar": "Lago يريه شيئًا ob يعود إلى الداخل ووعده of طلب تشالنجر من هالون"
+          "order": 7,
+          "pointEn": "",
+          "pointAr": ""
         },
         {
-          "en": "The sketchbook contained a drawing ofa long line of high red cliff",
-          "ar": "كان دفتر الرسوهات يحتوي على رسم لصف طويل من المنحدرات الحمراء العالية."
+          "order": 8,
+          "pointEn": "",
+          "pointAr": ""
         },
         {
-          "en": "Challenger explained that the plateau had been separated from the rest of the world for a",
-          "ar": "slip أن الهضبة كانت معزولة عن بقية العالم مند وقت طويل pailliss أوضح"
+          "order": 9,
+          "pointEn": "",
+          "pointAr": ""
         },
         {
-          "en": "Finally, Challenger told Malone about a public lecture at the Zoological Institute the next",
-          "ar": "الحيوان في مساء اليوم التالي. ale في معهد dole وأخيرًا. أخبر تشالنجر مالون عن محاضرة"
+          "order": 10,
+          "pointEn": "",
+          "pointAr": ""
         }
       ],
       "vocabulary": [
@@ -1014,358 +816,58 @@
       "theText": [
         {
           "order": 1,
-          "paragraphEn": "ly, but the questions became more technical every minute. \"And what 2 hy",
-          "paragraphAr": "do you think of the recent evidence?\" he asked. \"Very interesting,\" I said A 4 ١"
+          "paragraphEn": "‏ ‎ Professor Challenger began by asking me questions about the scientific article had mentioned in my letter. At first tried to answer confident- al ly, but the questions became more technical every minute. \"And what 2 hy do you think of the recent evidence?\" he asked. \"Very interesting,\" I said A 4 carefully. “ 3 \"Which evidence?\" hesitated. His eyes narrowed. \"You know nothing 02 about this subject\" There was no point pretending any longer. \"Very lit ‏\"‎ ‎tle,\" admitted. \"Then why are you here?\" 7",
+          "paragraphAr": "‏بدأ البروفيسور تشالنجر بتوجيه أسئلة لي حول المقال العلمي الذي ذكرته في خطابي.‎ ‏لكن الأسئلة أصبحت أكثر تخصصاً في كل دقيقة. سألني: \"وما رأيك في الدليل‎ ‏في البداية حاولت الإجابة‎ \" ‏الأخير؟” قلت بحذر: \"مثير للاهتمام‎ ‏سألني: \"أي دليل؟” ترددث. ضاقت عيناه وقال: \"أنت لا تعرف شيئاً عن هذا الموضوع.\" لم يعد هناك جدوى من‎ ‏لماذا أنت هنا؟\"‎ \" ‏التظاهر أكثر من ذلك. اعترفت قائلاً: \"القليل جداً\". قال:‎"
         },
         {
           "order": 2,
-          "paragraphEn": "\"Which evidence?\" | hesitated. His eyes narrowed. \"You know nothing 02",
-          "paragraphAr": "about this subject\" There was no point pretending any longer. \"Very lit دق\""
+          "paragraphEn": "took a breath. \" am a reporter for the Daily Gazette.\" For one silent sec- (Ja ra 1 ond, nothing happened. Then Challenger rose from his chair like a storm, 01 4 \"A journalist! ‏‎ my house!” moved towards the door. \"I came because ‘hig the public wants to understand what happened in South America.’ \"The 9 public!\" he roared. \"You mean people who laugh before they listen. Out!\" Py He came towards me. told him firmly not to touch me. He ignored the ‏‎ warning. A moment later we were struggling in the hallway, crashing se into a chair and rolling through the open front door. We landed together on the steps outside.",
+          "paragraphAr": "‏نفساً عميقاً وقلت: \"أنا صحفي في جريدة ديلي جازيت\". لثانية صامتة. لم يحدث شيء. ثم نهض تشالنجر‎ ‏من كرسيه كالعاصفة صائحاً: \"صحقي! في منزلي!\" تحركت نحو الباب وقلت: \"لقد جئت لأن الجمهور يريد أن يفهم‎ ‏ما حدث في أمريكا الجنوبية\". صرخ قائلاً: \"الجمهور! تقصد الناس الذين يضحكون قبل أن يستمعوا. اخرج.\"!‎ ‏ألا يلمسني. لكنه تجاهل التحذير. وبعد لحظة كنا نتصارع في الردهة. واصطدمنا بكرسي‎ ‏تقدم تحوي. أخبرته‎ ‏على الدرج بالخارح.‎ ‏وتدحرجنا عبر الباب الأمامي المفتوح. وسقطنا‎"
         },
         {
           "order": 3,
-          "paragraphEn": "tle,\" | admitted. \"Then why are you here?\" 7",
-          "paragraphAr": "بدأ البروفيسور تشالنجر بتوجيه أسئلة لي حول المقال العلمي الذي ذكرته في خطابي."
+          "paragraphEn": "‏‎ policeman hurried over. Several neighbors stopped to watch. \"What i happened?” the policeman asked. My eye was beginning to swell, and 3 9 Challenger's coat was torn. could easily have made a complaint. In- iam stead, remembered that had entered his house under a false name and had deliberately tricked him. \"It was partly my fault,' said. \"Iwill not press charges” The policeman looked surprised, but closed his notebook. Challenger stared at me. The anger in his face changed into something almost like respect",
+          "paragraphAr": "‏أسرع شرطي نحونا. وتوقف العديد من الجيران للمشاهدة. سأل الشرطي: \"ماذا‎ ‏حدث؟\" بدأت عيني تتورم, وكان معطف تشالنجر ممزقاً. كان بإمكاني بسهولة تقديم شكوى. لكنني بدلاً من‎ ‏أرفع دعوى.\" بدا‎ ‏ذلك. تذكرت أتني دخلت منزله باسم مستعار وخدعته عمداً. قلت: \"كان هذا خطئي‎ ‏الشرطي مندهشاً. لكنه أغلق دفتر ملاحظاته. حدق تشالنجر فن. وتحول الغضب في وجهه إلى شيء يشبه الاحترام.‎ 72 ‏1ه - سسسستح‎"
         },
         {
           "order": 4,
-          "paragraphEn": "",
-          "paragraphAr": "لكن الأسئلة أصبحت أكثر تخصصاً في كل دقيقة. سألني: \"وما رأيك في الدليل dats في البداية حاولت الإجابة"
+          "paragraphEn": "PheLostiworld — \"Come back inside,” he said. followed him, wondering whether was brave or simply foolish. Back in the study, Challenger closed the door and i became suddenly serious. \"You behaved better than would expect from Ja q a reporter” he said. \"Perhaps will show you something. But you must nt eg promise not to publish it without my permission.\" 1 ss I gave him my word. He opened a worn sketchbook. \"Two years ago Nae traveled through the Amazon region to study animal life. In a remote vil- a lage found a dying American named Maple White. He had reached the village alone after terrible hardship. He died before could question him?",
+          "paragraphAr": "‏مجرد أحمق. وبالعودة إلى غرفة المكتب. أغلق‎ ‏إذا كنت شجاعاً‎ ‏قال: \"عد إلى الداخل\". تبعته وأنا أتساءل‎ ‏سأريك شيئاً.‎ ‏تشالنجر الباب وأصبح جاداً فجأة. قال: \"“لقد تصرفت بشكل أفضل مما كنت أتوقعه من صحفي.‎ ‏لكن يجب أن تعدني بألا تنشره دون إذني.\"‎ ‏عامين سافرت عبر منطقة الأمازون لدراسة الحياة الحيوانية. وفي‎ ” ‏وقال:‎ ‏أعطيته كلمتي. فقتح دفتر رسم‎ ‏قرية نائية وجدت أمريكياً يحتضر يُدعى مابل وايت. كان قد وصل إلى القرية بمفرده بعد مشقة رهيبة. ومات قبل‎ ‏أن أتمكن من سؤاله.\"‎"
         },
         {
           "order": 5,
-          "paragraphEn": "",
-          "paragraphAr": "\"dis الأخير؟” قلت بحذر: \"مثير للاهتمام"
+          "paragraphEn": "‘Among White's belongings, Challenger had found the sketchbook. Most of the early pages showed ordinary river scenes, plants, people, and ani- mals. Then the drawings changed. One picture showed a line of high red Jaa q cliffs rising above thick forest. The cliffs seemed to form an enormous yt mg natural wall. Another showed a separate rock tower standing near them. ‏‎ 5 On top was a tree. i ae \"A strange landscape’\" said, \"but hardly impossible.\" \"Continue! The next @: drawing stopped me. It showed a huge animal with a heavy body, long tail, and plates rising along its back. \"What is that?\" \"That; said Challeng- er, “is the question. Maple White drew what he saw”",
+          "paragraphAr": "‏من بين متعلقات وايت. وجد تشّالنجر دفتر الرسم. أظهرت معظم الصفحات الأولى مشاهد عادية للنهر والنباتات‎ ‏من المنحدرات الحمراء العالية ترتفع فوق‎ ‏والناس والحيوانات. ثم تغيرت الرسومات. أظهرت إحدى الصور‎ ‏صخرياً منفصلاً يقف‎ ‏وأظهرت صورة أخرى‎ ‏كتيفة. وبدت المنحدرات وكأنها تشكل جداراً طبيعياً‎ , ‏بالقرب منها. وعلى قمته شجرة.‎ ‏استوقفتني الرسمة التالية. فقد أظهرت حيواناً‎ \" ‏قلت: \"منظر طبيعي غريب. لكنة ليس مستديلاً.\" قال:‎ ‏بجسم ثقيل وذيل طويل وصفائح ترتفع على طول ظهره. سألت: “ما هذا؟\" أجاب تشالنجر: \"هذا هو‎ ‏السؤال. لقد رسم ابل وايت ما رآه.\"‎"
         },
         {
           "order": 6,
-          "paragraphEn": "",
-          "paragraphAr": "سألني: \"أي دليل؟” ترددث. ضاقت عيناه وقال: \"أنت لا تعرف شيئاً عن هذا الموضوع.\" لم يعد هناك جدوى من"
+          "paragraphEn": "He opened a reference book and showed me an illustration of a prehis- toric stegosaurus. The similarity was remarkable. \"A man can draw an- - ything” said. “Of course. Which is why went to find the place myselt” 0 ‏ ‎ Challenger explained that he followed White's route using clues in the inet sketchbook. / ‏‎ ‎After weeks of travel, he found the red cliffs. He could not climb onto the Rar, high plateau, but he saw extraordinary creatures there. He took photo- ay 5 graphs, though most were damaged later in a river accident. He showed me one photograph. The image was unclear, but could see the cliffs and the isolated rock tower. On the tree at the top appeared a large dark shape. _The -- ‏1‎ ‎TheLostiworld —‏",
+          "paragraphAr": "فتم ‎‏ مرجعياً وأراني صورة ديناصور ستيجوسورس من عصور ‎‏ قبل التاريخ. كان التشابه ملحوظاً. قلت: \"يمكن لأي إنسان أن يرسم أي شيء\". رد قائل: \"بالطبع. وهذا السبب ذهبت للبحث عن المكان بنفسي\". أوضح تشالئجر أنه تتبع مسار وايت باستخدام أدلة في دفتر الرسم وبعد أسابيع من السفر. وجد المنحدرات الحمراء. لم يستطع تسلق الهضبة العالية. لكنه رأى مخلوقات غير عادية هناك. التقط صوراً. رغم أن معظمها تلف لاحقاً في ‎‏ بنهر. أراني صورة واحدة. كانت غير واضحة, لكنني استطعت رؤية المنحدرات والبرج الصخري المعزول. وعلى الشجرة التي في القمة ظهر شكل داكن كبير."
         },
         {
           "order": 7,
-          "paragraphEn": "",
-          "paragraphAr": "لماذا أنت هنا؟\" gif\" التظاهر أكثر من ذلك. اعترفت قائلاً: \"القليل جداً\". قال:"
+          "paragraphEn": "‎bird?\" suggested. Challenger shook his head. \"Look more closely‏ \" ‎He handed me a magnifying glass. The creature did have wings, but its 3‏ ‎at ‏ 3 ‎outline was unlike any bird knew. Then Challenger opened a‏ ‎er and removed a long curved bone with a piece of dried membrane \"a‏ ‎attached. \"This was part of the creature's wing,\" he said. \"I shot it, but 3‏ ‎most of the body was lost in the river accident.” 7 0‏ ‎At first thought it might come from a giant bat. Challenger pointed ff AEN‏ ‎‘out the structure of the bone and compared it with a diagram in a zo- i ‏ ‎ology book. Slowly understood what he was saying. ‘A pterodactyl?\" ‏ ‎whispered. \"Exactly. A flying reptile from a prehistoric age.”‏",
+          "paragraphAr": "اقترحت'قائل: \"طائر؟\" هز ‎‏ رأسه وقال: \"انظز عن كثب\". ناولني عدسة مكبرة. كان للمخلوق أجنحة بالفعل, لكن شكله الخارجي لم يكن يشبه أي طائر أعرفه. ثم فتح تشالنجر ‎‏ وأخرج عظمة طويلة منحنية متصلة بقطعة من غشاء ‎‏ قال: \"كان هذا جزءاً من جناح المخلوق. لقد أطلقت النار عليه. لكن معظم الجئة فقدت"
         },
         {
           "order": 8,
-          "paragraphEn": "ond, nothing happened. Then Challenger rose from his chair like a storm, 01 4",
-          "paragraphAr": "\"A journalist! ما my house!” | moved towards the door. \"I came because ‘hig"
+          "paragraphEn": "‎looked again at Maple White's drawing, the damaged photograph, and‏ ‎the piece of wing. One item alone might have been explained away. To- ‏ ‎gether they were much harder to dismiss. \"You really believe prehistoric 3 5‏ ‎animals are still alive on that plateau?\" \"I do not believe” Challenger said tm yg‏ ‎proudly. \"I know”‏ ‎He explained his theory. The plateau had been cut off from the surround- formes:‏ ‎ing world for an extremely long time. Its high cliffs formed a natural bar- Te:‏ ‎rier. Plants and animals that disappeared elsewhere might have survived‏ ‎there in isolation. \"Then why not return with other scientists?\" asked‏",
+          "paragraphAr": "نظرت ميرة أخرى إلى رسمة ‎ ‏ والصورة التالفة. وقطعة الجناج. كان من الممكن تفسير عنصر واحد بمفرده. لكن معأ كان من الصعب ‎‏ تجاهلهم. تسألت: \"هل تعتقد ‎‏ أن حيوانات ما قبل التاريخ لا تزال حية على تلك الهضبة؟\" قال تشالتجر بقخر: ‎\"‏ لا أعتقد, ‎‏ أعرف.\" تم شرم نظريته. ‎‏ الهضبة كانت معزولة عن العالم المديظ لفترة طويلة ‎‏ وشكلت منحدراتها العالية حاجزاً طبيعياً. ‎‏ نحت النباتات والحيوانات التي اختفت في أماكن أخرى وعاشت هناك في عزلة. سألته: ‎)\"‏ لماذا لا تعود مع ‎‏ آخرين؟.\" 1ه :- س2"
         },
         {
           "order": 9,
-          "paragraphEn": "public!\" he roared. \"You mean people who laugh before they listen. Out!\" Py",
-          "paragraphAr": "He came towards me. | told him firmly not to touch me. He ignored the الا ="
+          "paragraphEn": "TheLostiworld aon His expression darkened. He had tried to speak publicly after returning to London, but people had laughed, accused him of creating false pho- 7 tographs, and demanded exact directions. Insulted, he had refused to J 5 say more. \"Yet truth does not become false because fools refuse to ac- wd g cept it,\" he said. For the first time, saw more than the rude, explosive man described 1 od by the newspapers. Challenger was proud and difficult, but he was also eae Nal completely certain of what he had seen. believed that he believed his story. More than that, was beginning to believe it too. Before left, he told me about a public lecture at the Zoological Institute the following evening",
+          "paragraphAr": "‏بعد عودته إلى لندن. لكن الناس سخروا منه واتهموة بتزييف الصور, وطالبوه‎ ‏تجهم وجهه. لقد حاول التحدث‎ ‏لأن الحمقى‎ ‏باتجاهات دقيقة. وبشعوره بالإهانة. رفض قول المزيد. وقال: \"ومع ذلك. فإن الحقيقة لا تصبح‎ ١ ‏يرفضون قبولها.\"‎ ‏لأول مرة. رأيت أكثر من مجرد الرجل الفظ وسريع الغضب الذي وصفته الصحف. كان تشالنجر فخوراً وصعب‎ ‏المراس. لكنه كان أيضاً متأكداً تماماً مما رآه. لقد صدقت أنه مؤمن بقصته. وأكثر من ذلك. بدأت أنا أيضاً أصدقها.‎ ‏الحيوان في المساء التالي.‎ ‏في معهد‎ ‏وقبل أن أغادر. أخبرنبي عن محاضرة‎"
         },
         {
           "order": 10,
-          "paragraphEn": "on the steps outside.",
-          "paragraphAr": "نفساً عميقاً وقلت: \"أنا صحفي في جريدة ديلي جازيت\". لثانية صامتة. لم يحدث شيء. ثم نهض تشالنجر wisi"
+          "paragraphEn": "‘A well-known speaker would discuss the history of life on Earth. Chal- q lenger expected his South American claims to be mentioned. \"Attend if you wish” he said. \"You may find the evening educational.’ As stepped into the London street, the ordinary traffic seemed suddenly unreal. Somewhere beyond the Atlantic, perhaps, there was a high red wall of rock where creatures from millions of years ago still moved through the forest. had wanted a great adventure. Now knew where it might begin",
+          "paragraphAr": "‏حيث سيناقش متحدث معروف تاريخ الحياة على الأرض. وتوقع تشالنجر أن يتم ذكر‎ ‏اذعاءاته حول أمريكا الجنوبية. قال: \"احضر إذا شئت,. قد تجد الأمسية مفيدة تعليمياً\"‎ ‏حركة-المرور العادية فجأة غير واقعية. فربما في مكان ما وراء المحيط‎ ‏وبمجرد أن حَطُوت إلى شار‎ ‏الأطلسي. يوجد جدار صخري أحمر مرتفع حيث لا تزال مخلوقات من ملايين السنين تتحرك عبر الغابة. لقد أردت‎ ‏مغامرة عظيمة. والآن عرفت من أين قد تبدا‎"
         },
         {
           "order": 11,
-          "paragraphEn": "",
-          "paragraphAr": "من كرسيه كالعاصفة صائحاً: \"صحقي! في منزلي!\" تحركت نحو الباب وقلت: \"لقد جئت لأن الجمهور يريد أن يفهم"
-        },
-        {
-          "order": 12,
-          "paragraphEn": "",
-          "paragraphAr": "ما حدث في أمريكا الجنوبية\". صرخ قائلاً: \"الجمهور! تقصد الناس الذين يضحكون قبل أن يستمعوا. اخرج.\"!"
-        },
-        {
-          "order": 13,
-          "paragraphEn": "",
-          "paragraphAr": "ألا يلمسني. لكنه تجاهل التحذير. وبعد لحظة كنا نتصارع في الردهة. واصطدمنا بكرسي ajay تقدم تحوي. أخبرته"
-        },
-        {
-          "order": 14,
-          "paragraphEn": "",
-          "paragraphAr": "على الدرج بالخارح. Lae وتدحرجنا عبر الباب الأمامي المفتوح. وسقطنا"
-        },
-        {
-          "order": 15,
-          "paragraphEn": "",
-          "paragraphAr": "م policeman hurried over. Several neighbors stopped to watch. \"What i"
-        },
-        {
-          "order": 16,
-          "paragraphEn": "stead, | remembered that | had entered his house under a false name",
-          "paragraphAr": "and had deliberately tricked him. \"It was partly my fault,'| said. \"Iwill not ١"
-        },
-        {
-          "order": 17,
-          "paragraphEn": "almost like respect",
-          "paragraphAr": "أسرع شرطي نحونا. وتوقف العديد من الجيران للمشاهدة. سأل الشرطي: \"ماذا"
-        },
-        {
-          "order": 18,
-          "paragraphEn": "",
-          "paragraphAr": "حدث؟\" بدأت عيني تتورم, وكان معطف تشالنجر ممزقاً. كان بإمكاني بسهولة تقديم شكوى. لكنني بدلاً من"
-        },
-        {
-          "order": 19,
-          "paragraphEn": "",
-          "paragraphAr": "أرفع دعوى.\" بدا oly Lise ذلك. تذكرت أتني دخلت منزله باسم مستعار وخدعته عمداً. قلت: \"كان هذا خطئي"
-        },
-        {
-          "order": 20,
-          "paragraphEn": "",
-          "paragraphAr": "الشرطي مندهشاً. لكنه أغلق دفتر ملاحظاته. حدق تشالنجر فن. وتحول الغضب في وجهه إلى شيء يشبه الاحترام."
-        },
-        {
-          "order": 21,
-          "paragraphEn": "",
-          "paragraphAr": "72 1ه - سسسستح"
-        },
-        {
-          "order": 22,
-          "paragraphEn": "village alone after terrible hardship. He died before | could question him?",
-          "paragraphAr": "مجرد أحمق. وبالعودة إلى غرفة المكتب. أغلق al إذا كنت شجاعاً Lac قال: \"عد إلى الداخل\". تبعته وأنا أتساءل"
-        },
-        {
-          "order": 23,
-          "paragraphEn": "",
-          "paragraphAr": "سأريك شيئاً. Lay تشالنجر الباب وأصبح جاداً فجأة. قال: \"“لقد تصرفت بشكل أفضل مما كنت أتوقعه من صحفي."
-        },
-        {
-          "order": 24,
-          "paragraphEn": "",
-          "paragraphAr": "لكن يجب أن تعدني بألا تنشره دون إذني.\""
-        },
-        {
-          "order": 25,
-          "paragraphEn": "",
-          "paragraphAr": "عامين سافرت عبر منطقة الأمازون لدراسة الحياة الحيوانية. وفي Lin” وقال: JL أعطيته كلمتي. فقتح دفتر رسم"
-        },
-        {
-          "order": 26,
-          "paragraphEn": "",
-          "paragraphAr": "قرية نائية وجدت أمريكياً يحتضر يُدعى مابل وايت. كان قد وصل إلى القرية بمفرده بعد مشقة رهيبة. ومات قبل"
-        },
-        {
-          "order": 27,
-          "paragraphEn": "",
-          "paragraphAr": "أن أتمكن من سؤاله.\""
-        },
-        {
-          "order": 28,
-          "paragraphEn": "cliffs rising above thick forest. The cliffs seemed to form an enormous yt mg",
-          "paragraphAr": "natural wall. Another showed a separate rock tower standing near them. اا 5"
-        },
-        {
-          "order": 29,
-          "paragraphEn": "er, “is the question. Maple White drew what he saw”",
-          "paragraphAr": "من بين متعلقات وايت. وجد تشّالنجر دفتر الرسم. أظهرت معظم الصفحات الأولى مشاهد عادية للنهر والنباتات"
-        },
-        {
-          "order": 30,
-          "paragraphEn": "",
-          "paragraphAr": "من المنحدرات الحمراء العالية ترتفع فوق Lao والناس والحيوانات. ثم تغيرت الرسومات. أظهرت إحدى الصور"
-        },
-        {
-          "order": 31,
-          "paragraphEn": "",
-          "paragraphAr": "صخرياً منفصلاً يقف Lay وأظهرت صورة أخرى ila كتيفة. وبدت المنحدرات وكأنها تشكل جداراً طبيعياً ale"
-        },
-        {
-          "order": 32,
-          "paragraphEn": "",
-          "paragraphAr": ", بالقرب منها. وعلى قمته شجرة."
-        },
-        {
-          "order": 33,
-          "paragraphEn": "",
-          "paragraphAr": "استوقفتني الرسمة التالية. فقد أظهرت حيواناً \"Last قلت: \"منظر طبيعي غريب. لكنة ليس مستديلاً.\" قال:"
-        },
-        {
-          "order": 34,
-          "paragraphEn": "",
-          "paragraphAr": "بجسم ثقيل وذيل طويل وصفائح ترتفع على طول ظهره. سألت: “ما هذا؟\" أجاب تشالنجر: \"هذا هو Lado"
-        },
-        {
-          "order": 35,
-          "paragraphEn": "",
-          "paragraphAr": "السؤال. لقد رسم ابل وايت ما رآه.\""
-        },
-        {
-          "order": 36,
-          "paragraphEn": "toric stegosaurus. The similarity was remarkable. \"A man can draw an- -",
-          "paragraphAr": "ything” | said. “Of course. Which is why | went to find the place myselt” | 0 اا ب"
-        },
-        {
-          "order": 37,
-          "paragraphEn": "Challenger explained that he followed White's route using clues in the inet",
-          "paragraphAr": "sketchbook. / وو"
-        },
-        {
-          "order": 38,
-          "paragraphEn": "the isolated rock tower. On the tree at the top appeared a large dark shape.",
-          "paragraphAr": "_The Novel -- 1ه"
-        },
-        {
-          "order": 39,
-          "paragraphEn": "The}Lostiworld| —",
-          "paragraphAr": "فتم LUS مرجعياً وأراني صورة ديناصور ستيجوسورس من عصور Lo قبل التاريخ. كان التشابه ملحوظاً. قلت:"
-        },
-        {
-          "order": 40,
-          "paragraphEn": "",
-          "paragraphAr": "\"يمكن لأي إنسان أن يرسم أي شيء\". رد قائل: \"بالطبع. وهذا السبب ذهبت للبحث عن المكان بنفسي\". أوضح"
-        },
-        {
-          "order": 41,
-          "paragraphEn": "",
-          "paragraphAr": "تشالئجر أنه تتبع مسار وايت باستخدام أدلة في دفتر الرسم"
-        },
-        {
-          "order": 42,
-          "paragraphEn": "",
-          "paragraphAr": "وبعد أسابيع من السفر. وجد المنحدرات الحمراء. لم يستطع تسلق الهضبة العالية. لكنه رأى مخلوقات غير عادية"
-        },
-        {
-          "order": 43,
-          "paragraphEn": "",
-          "paragraphAr": "هناك. التقط صوراً. رغم أن معظمها تلف لاحقاً في Cals بنهر. أراني صورة واحدة. كانت غير واضحة, لكنني"
-        },
-        {
-          "order": 44,
-          "paragraphEn": "",
-          "paragraphAr": "استطعت رؤية المنحدرات والبرج الصخري المعزول. وعلى الشجرة التي في القمة ظهر شكل داكن كبير."
-        },
-        {
-          "order": 45,
-          "paragraphEn": "",
-          "paragraphAr": "ل[ bird?\" | suggested. Challenger shook his head. \"Look more closely م\""
-        },
-        {
-          "order": 46,
-          "paragraphEn": "He handed me a magnifying glass. The creature did have wings, but its 3",
-          "paragraphAr": "at | 3 سمل outline was unlike any bird | knew. Then Challenger opened a"
-        },
-        {
-          "order": 47,
-          "paragraphEn": "whispered. \"Exactly. A flying reptile from a prehistoric age.”",
-          "paragraphAr": "اقترحت'قائل: \"طائر؟\" هز alls رأسه وقال: \"انظز عن كثب\". ناولني عدسة مكبرة. كان للمخلوق أجنحة بالفعل,"
-        },
-        {
-          "order": 48,
-          "paragraphEn": "",
-          "paragraphAr": "لكن شكله الخارجي لم يكن يشبه أي طائر أعرفه. ثم فتح تشالنجر Lays وأخرج عظمة طويلة منحنية متصلة"
-        },
-        {
-          "order": 49,
-          "paragraphEn": "",
-          "paragraphAr": "بقطعة من غشاء GLa قال: \"كان هذا جزءاً من جناح المخلوق. لقد أطلقت النار عليه. لكن معظم الجئة فقدت"
-        },
-        {
-          "order": 50,
-          "paragraphEn": "",
-          "paragraphAr": "في \"Qi Gals"
-        },
-        {
-          "order": 51,
-          "paragraphEn": "",
-          "paragraphAr": "في البداية اعتقدت أنها قد تكون لخفقاش عملاق. أشار تشالنجر إلى هيكل العظمة وقارنها برسم توضيحي في"
-        },
-        {
-          "order": 52,
-          "paragraphEn": "",
-          "paragraphAr": "كتاب ale الحيوان. وببطء قهمت ما كان يقؤله. همست: \"بتروداكتيل؟\" قال: \"بالضبط. زاحف طائر من عصور ما"
-        },
-        {
-          "order": 53,
-          "paragraphEn": "",
-          "paragraphAr": "قبل التاريخ.\""
-        },
-        {
-          "order": 54,
-          "paragraphEn": "there in isolation. \"Then why not return with other scientists?\" | asked",
-          "paragraphAr": "نظرت ميرة أخرى إلى رسمة ly Jule والصورة التالفة. وقطعة الجناج. كان من الممكن تفسير عنصر واحد بمفرده."
-        },
-        {
-          "order": 55,
-          "paragraphEn": "",
-          "paragraphAr": "لكن معأ كان من الصعب lip تجاهلهم. تسألت: \"هل تعتقد Las أن حيوانات ما قبل التاريخ لا تزال حية على تلك"
-        },
-        {
-          "order": 56,
-          "paragraphEn": "",
-          "paragraphAr": "الهضبة؟\" قال تشالتجر بقخر: Li\" لا أعتقد, Ui أعرف.\""
-        },
-        {
-          "order": 57,
-          "paragraphEn": "",
-          "paragraphAr": "تم شرم نظريته. gly الهضبة كانت معزولة عن العالم المديظ لفترة طويلة ip وشكلت منحدراتها العالية حاجزاً"
-        },
-        {
-          "order": 58,
-          "paragraphEn": "",
-          "paragraphAr": "طبيعياً. Lays نحت النباتات والحيوانات التي اختفت في أماكن أخرى وعاشت هناك في عزلة. سألته: gi)\" لماذا"
-        },
-        {
-          "order": 59,
-          "paragraphEn": "",
-          "paragraphAr": "لا تعود مع clale آخرين؟.\""
-        },
-        {
-          "order": 60,
-          "paragraphEn": "",
-          "paragraphAr": "1ه :- س2"
-        },
-        {
-          "order": 61,
-          "paragraphEn": "told me about a public lecture at the Zoological Institute the following evening",
-          "paragraphAr": "بعد عودته إلى لندن. لكن الناس سخروا منه واتهموة بتزييف الصور, وطالبوه Lile تجهم وجهه. لقد حاول التحدث"
-        },
-        {
-          "order": 62,
-          "paragraphEn": "",
-          "paragraphAr": "لأن الحمقى Alloy باتجاهات دقيقة. وبشعوره بالإهانة. رفض قول المزيد. وقال: \"ومع ذلك. فإن الحقيقة لا تصبح"
-        },
-        {
-          "order": 63,
-          "paragraphEn": "",
-          "paragraphAr": "١ يرفضون قبولها.\""
-        },
-        {
-          "order": 64,
-          "paragraphEn": "",
-          "paragraphAr": "لأول مرة. رأيت أكثر من مجرد الرجل الفظ وسريع الغضب الذي وصفته الصحف. كان تشالنجر فخوراً وصعب"
-        },
-        {
-          "order": 65,
-          "paragraphEn": "",
-          "paragraphAr": "المراس. لكنه كان أيضاً متأكداً تماماً مما رآه. لقد صدقت أنه مؤمن بقصته. وأكثر من ذلك. بدأت أنا أيضاً أصدقها."
-        },
-        {
-          "order": 66,
-          "paragraphEn": "",
-          "paragraphAr": "الحيوان في المساء التالي. ple في معهد dole وقبل أن أغادر. أخبرنبي عن محاضرة"
-        },
-        {
-          "order": 67,
-          "paragraphEn": "forest. | had wanted a great adventure. Now | knew where it might begin",
-          "paragraphAr": "حيث سيناقش متحدث معروف تاريخ الحياة على الأرض. وتوقع تشالنجر أن يتم ذكر"
-        },
-        {
-          "order": 68,
-          "paragraphEn": "",
-          "paragraphAr": "اذعاءاته حول أمريكا الجنوبية. قال: \"احضر إذا شئت,. قد تجد الأمسية مفيدة تعليمياً\""
-        },
-        {
-          "order": 69,
-          "paragraphEn": "",
-          "paragraphAr": "حركة-المرور العادية فجأة غير واقعية. فربما في مكان ما وراء المحيط Gy al وبمجرد أن حَطُوت إلى شار"
-        },
-        {
-          "order": 70,
-          "paragraphEn": "",
-          "paragraphAr": "الأطلسي. يوجد جدار صخري أحمر مرتفع حيث لا تزال مخلوقات من ملايين السنين تتحرك عبر الغابة. لقد أردت"
-        },
-        {
-          "order": 71,
-          "paragraphEn": "",
-          "paragraphAr": "مغامرة عظيمة. والآن عرفت من أين قد تبدا"
+          "paragraphEn": "A-Chapter Summative",
+          "paragraphAr": "& ‏واجابات الكتاب المدرسي‎ !"
         }
       ],
       "questionsAndAnswers": [
@@ -1825,44 +1327,54 @@
       "summaryAr": "وقف البروفيسور تشالنجر فورًا عندما تحدث المتحدث عن حيوانات من عصور ما قبل التاريخ تعيش في أماكن",
       "chapterInPoints": [
         {
-          "en": "Professor Challenger immediately stood up when the speaker talked about prehistoric",
-          "ar": "وقف البروفيسور تشالنجر فورًا عندما تحدث المتحدث عن حيوانات من عصور ما قبل التاريخ تعيش في أماكن"
+          "order": 1,
+          "pointEn": "",
+          "pointAr": ""
         },
         {
-          "en": "Professor Summerlee questioned Challenger’s story and asked him to give clear proof.",
-          "ar": "دليلًا واضكا. pads أن aio شكك البروفيسور سمرلي في قصة تشالنجر وطلب"
+          "order": 2,
+          "pointEn": "",
+          "pointAr": ""
         },
         {
-          "en": "Challenger suggested forming a team to investigate his claims.",
-          "ar": "اقترم تشالنجر تكوين فريق للتحقق من ادعاءاته."
+          "order": 3,
+          "pointEn": "",
+          "pointAr": ""
         },
         {
-          "en": "Lord John told Malone that he already knew the Amazon region well",
-          "ar": "أخبر اللورد جون مالون بأنه كان يعرف منظقة الأمازون جيدًا."
+          "order": 4,
+          "pointEn": "",
+          "pointAr": ""
         },
         {
-          "en": "He had travelled there before and had helped local workers escape from Pedro Lopez's,",
-          "ar": "المحليين على الهروب من جماعة بيدرو لوبيز القوية لتجارة القطاط. Jlaall كان قد سافر إلى هناك من قبل وساعد"
+          "order": 5,
+          "pointEn": "",
+          "pointAr": ""
         },
         {
-          "en": "During the following weeks, the group prepared carefully for their journey.",
-          "ar": "خلال الأسابيع التالية. استعدت المجموعة بعناية لرحلتهم."
+          "order": 6,
+          "pointEn": "",
+          "pointAr": ""
         },
         {
-          "en": "They crossed the Atlantic to Brazil and hired Zambo, Gomez, Manuel, and several Indigenous",
-          "ar": "عبرو المحيط الأطلسي إلى البرازيل واستأجروا زامبو وجوميز ومانويل وعددًا من رجال القوارب من السكان"
+          "order": 7,
+          "pointEn": "",
+          "pointAr": ""
         },
         {
-          "en": "Challenger instructed them to open his written directions at exactly noon on 15 Julyin Wanaos",
-          "ar": "أمرهم تشالنجر بفتح تعليماته المكتوبة في تمام الساعة الثانية عشرة ظهرًا يوم 15 يوليو في هاناوس."
+          "order": 8,
+          "pointEn": "",
+          "pointAr": ""
         },
         {
-          "en": "When they opened the envelope, they found only a blank sheet of paper, but Challenger",
-          "ar": "عندما فتكوًا المظروف, وجدوا ورقة بيضاء فقط. لكن تشالنجر دخل الغرفة فجأة."
+          "order": 9,
+          "pointEn": "",
+          "pointAr": ""
         },
         {
-          "en": "Challenger explained that he had secretly come to Brazil and would guide them into a land",
-          "ar": "قليل جدًا من الغرباء. sac يرها إلا alluayl أوضح تشالنجر أنه جاء سرًا إلى البرازيل وأنه سيقودهم إلى"
+          "order": 10,
+          "pointEn": "",
+          "pointAr": ""
         }
       ],
       "vocabulary": [
@@ -1962,333 +1474,58 @@
       "theText": [
         {
           "order": 1,
-          "paragraphEn": "There was laughter from part of the audience.",
-          "paragraphAr": "الحيوان مزدحمة. ملأ العلماء والطلاب. ale المحاضرات في معهد dels كانت"
+          "paragraphEn": "‏‎ GIL! ‏‎ ‎The lecture hall of the Zoological Institute was crowded. Scientists, students, journalists, and members of the public filled every seat. Pro- fessor Challenger sat near the front, impossible to miss because of his great black beard and powerful build. At first the lecture was calm. The speaker described how life had changed over millions of years. Then he mentioned stories of prehistoric creatures surviving in remote regions. There was laughter from part of the audience.",
+          "paragraphAr": "‏الحيوان مزدحمة. ملأ العلماء والطلاب.‎ ‏المحاضرات في معهد‎ ‏كانت‎ ‏والصحقيون وأقراد الجمهور كل مقعد. جلس البروفيسور تشالنجر بالقرب من المقدمة.‎ 1 ‏وكان من المستحيل ألا تلاحظه بسبب لحيته السوداء الكبيرة وبنيته القوية. في البداية كانت المحاضرة هادئة.‎ ‏وصف المتحدث كيف تفيرت الحياة على مدى ملايين السئين. ثم ذكر قصصاً عن كائنات ما قبل التاريخ التي‎ ‏تعيش في مناطق نائية. فتعالت ضحكات بعض الحاضرين.‎"
         },
         {
           "order": 2,
-          "paragraphEn": "",
-          "paragraphAr": "والصحقيون وأقراد الجمهور كل مقعد. جلس البروفيسور تشالنجر بالقرب من المقدمة. 1"
+          "paragraphEn": "Challenger stood at once. \"There is nothing amusing about evidence; 5 a he said loudly. The chairman asked him to sit down, but the room was al- ready excited. Professor Summerlee, a thin, elderly scientist with a sharp (aa 0 face and an even sharper voice, challenged him directly. “If Professor 1 1 Challenger has really found living prehistoric animals,\" Summerlee said, ‏‎ A “let him tell us where they are and provide proof that can be tested” 7 Challenger faced him. \"Would you be willing to test it yourself?\" The room became silent. Summerlee lifted his chin. \"Yes: \"Then will give a ‏‎ 5 properly chosen committee enough information to reach the place. You may examine it with your own eyes.\" The audience exploded in cheers and questions.",
+          "paragraphAr": "‏وقف تشالنجر على الفور. وقال بصوت عال: \"لا يوجد شيء مضحك في الأدلة\". طلب منه رئيس الجلسة الجلوس,‎ ‏حاد وصوت‎ ‏مسن ونحيف ذو‎ ‏لكن القاعة كانت منفعلة بالفعل. تحداه البروفيسور سمرلي مباشرة. وهو‎ ‏أكثر حدة. قال سمرلي: \"إذا كان البروفيسور تشالنجر قد وجد حقاً حيوانات حية من عصور ما قبل التاريخ. فليخبرنا‎ ‏بمكانها ويقدم دليلاً يمكن اختباره.\"‎ ‏واجهه تشالنجر قائلاً: \"هل ستكون مستعداً لاختبار ذلك بنفسك؟\" ساد الصمت في القاعة. رفع سمرلي ذقنه‎ ‏مختارة بعناية معلومات كافية للوصول إلى المكان. ويمكنكم فحصه بأعينكم\"‎ ‏سأعطي‎ !” \"\" ‏وقال:‎ ‏انفجر الجمهور بالهتافات والأسئلة‎"
         },
         {
           "order": 3,
-          "paragraphEn": "",
-          "paragraphAr": "وكان من المستحيل ألا تلاحظه بسبب لحيته السوداء الكبيرة وبنيته القوية. في البداية كانت المحاضرة هادئة."
+          "paragraphEn": "Challenger raised a hand. \"Professor Summerlee should not travel alone. prs ne The journey will be difficult and dangerous. He will require younger com- panions. Who volunteers?\" do not remember deciding to stand. One mo- (ili 7 ment was seated; the next was on my feet. \"Edward Malone, Daily Ga- og tn zette,' called. \"I volunteer” 1 7 Another man stood at almost the same time. He was tall, thin, and sun- 1 browned, with calm blue eyes. \"Lord John Roxton,” he said. \" know the 8 ‘Amazon country and have traveled there before.’ Everyone recognized the ime 0 name. Lord John was famous as an explorer, sportsman, and hunter. Chal- lenger immediately proposed that Summerlee, Roxton, and should form the investigating party. The motion was accepted. In a few astonishing minutes, my future had changed completely. _TheNovel :: ‏1‎ ‎TheLostworld —‏",
+          "paragraphAr": "رفع تشالنجر يده وقال: \"لا ينبغي للبروفيسور ‎‏ أن يسافر وحده. ستكون الرحلة صعبة وخطيرة. سيحتاج إلى رفقاء أصغر سناً. من يتطوع؟\" لا أتذكر أنني اتخذت قراراً بالوقوف. في لحظة كنت جالساً؛ وفي اللحظة التالية ‏كنت واقفأ على قدمي. ناديت: \"إدوارد مالون. صحيفة ديلي جازيت.\" \" أنا أتطوع.\" وقف رجل آخر في نفس الوقت تقريباً. كان طويلاً ونحيفاً. وبشرته سمراء من الشمس. وعيناه زرقاوان هادئتان. قال: ‎‏ جون روكستون. أنا أعرف منطقة الأمازون وسافرت إلى هناك من قبل\". عرف الجميع الاسم. كان اللورد جون مشهوراً. كمستكشف ورياضي وصياد. اقترح تشالنجر على الفور أن نشكل ‎‏ وسمرلي وروكستون فريق التحقيق. تمت الموافقة على الاقترام. وفي بضع دقائق مذهلة . تغير مستقبلي. تماهاً"
         },
         {
           "order": 4,
-          "paragraphEn": "",
-          "paragraphAr": "وصف المتحدث كيف تفيرت الحياة على مدى ملايين السئين. ثم ذكر قصصاً عن كائنات ما قبل التاريخ التي"
+          "paragraphEn": "‎Outside the hall Lord John caught up with me. \"So we are to be travel- b‏ ‎ling companions, Mr Malone. Come to my rooms. We should get to know ‘Te‏ ‎one another’ His home was full of maps, books, equipment, and trophies ia aig ‏ ‎ ayy ‏ ‎from earlier journeys. Yet he spoke without showing off. He wanted to‏ ‎know whether could shoot, climb, swim, and keep calm under pressure. jl‏ ‎“Ican learn what do not know’' told him. \"Good answer. South America be‏ ‎is not a place for a man who thinks he already knows everything’ —‏",
+          "paragraphAr": "ه-_-- خارج القاعة. ‎‏ بي اللورد جون. وقال: \"إذن سنكون رفقاء ‎ ‏ سيد مالون: تفضل بزيارتي في غرفتي. يجب أن نتعرف على بعضنا البعض\". كان منزله مليئاً بالخرائط والكتب والمعدات والجوائز التذكارية من رحلات سابقة. ومع ذلك كان يتحدث دون تفاخر. أراد أن يعرف ما إذا كنت أستطيع الرماية والتسلق والسباحة والحفاظ على هدوئي تحت الضغط. قلت له: \"يمكنني أن أتعلم ما لا أعرفه\". \"إجابة جيدة. أمريكا الجنوبية ليست مكاناً لرجل يعتقد أنه يعرف كل شيء بالفعل.\""
         },
         {
           "order": 5,
-          "paragraphEn": "",
-          "paragraphAr": "تعيش في مناطق نائية. فتعالت ضحكات بعض الحاضرين."
+          "paragraphEn": "‎Lord John told me that during one of his earlier journeys, he had become‏ ‎involved in a serious dispute with a powerful rubber-trading group led‏ ‎by a man named Pedro Lopez. Local workers were being treated unfairly‏ ‎and forced to work under terrible conditions. Lord John helped them es:‏ ‎cape from the group's control and brought an end to Lopez's influence in‏ ‎the area. \"It made me some loyal friends,\" he said, \"and some dangerous‏ ‎enemies. But know the rivers, the language used by many local traders‏ ‎and guides, and the kind of men we may need. That could keep us alive‏",
+          "paragraphAr": "أخبرني اللورد جون أنه خلال إحدى رحلاته السابقة. تورط في نزاع خطير مع مجموعة قوية لنجارة المطاط يقودها رجل يدعى بيدرو لوبيز. كان العمال المحليون يعاملون بظلم ويجبرون على العمل في ظروف قايسية. ساعدهم اللورد جون على الهروب من سيطرة المجموعة ووضع حداً لنفوذ لوبيز في المنطقة. قال: \"لقد أكسبني ذلك بعض الأصدقاء المخلصين,\" \"وبعض الأعداء الخطرين. لكنني أعرف الأنهار, واللغة التي يستخدمها العديد من التجار والمرشدين المحليين. ونوع الرجال الذين قد نحتاجهم. وهذا قد يبقينا على قيد الحياة.\""
         },
         {
           "order": 6,
-          "paragraphEn": "face and an even sharper voice, challenged him directly. “If Professor 1 1",
-          "paragraphAr": "Challenger has really found living prehistoric animals,\" Summerlee said, لتر A"
+          "paragraphEn": "‎Over the next weeks we prepared for the expedition. Professor Summer- an‏ ‎lee remained openly doubtful about Challenger’s claims, but he was de- ‏ ‎termined to investigate them properly. respected his honesty. He might & lil‏ ‎be skeptical, but he was willing to risk a long journey to discover the wi‏ ‎truth. Before we left England, visited Gladys.\" am going to South Amer- TIL‏ ‎ica\" told her. \"There may be real danger’ For a moment her eyes bright- ,‏ ‎ened with interest. \"Then you have found your chance.\" 4 5‏ 1 :- ‎“TheNovel‏ ‎‘The)Lostworld‏",
+          "paragraphAr": "‏خلال الأسابيع التالية. استعدينا للرحلة الاستكشافية. ظل البروفيسور ‎ ‏ في ادعاءات تشالنجر, ‎!‏ كان مصمماً على التحقيق فيها بشكل صحيح. لقد احترمت صدقه. ‎‏ كان متشككاً. لكنه كان مستعداً للمخاطرة برحلة طويلة لاكتشاف الحقيقة. قبل أن نغادر إنجلترا. ‎)‏ جلاديس. قلت لها: ‎‏ ذاهب إلى أمريكا الجنوبية. قد يكون هناك خطر حقيقي\". للحظة أشرقت عيناها بالاهتمام. \"إذن لقد وجدت فرصتك.\""
         },
         {
           "order": 7,
-          "paragraphEn": "Challenger faced him. \"Would you be willing to test it yourself?\" The",
-          "paragraphAr": "room became silent. Summerlee lifted his chin. \"Yes: \"Then | will give a لب 5"
+          "paragraphEn": "wanted to say that was doing it for her, but I remembered her earlier 235 words. A brave act done only to win approval was not true courage. So 9 simply said, \"I hope I can make good use of it We sailed across the Atlan tic and reached Brazil. At Para we hired several men to help us. The most. important was Zambo, a huge, cheerful man who was strong, loyal, and practical. We also employed two experienced river men, Gomez and Ma- nuel, and several indigenous boatmen who knew the upper waterways far better than any European traveler. Z",
+          "paragraphAr": "‏أردت أن أقول إنني أفعل ذلك من أجلها. لكنني تذكرت كلماتها السابقة. العمل الشجاع‎ ‏الذي يُنجز فقط لكسب الاستحسان ليس شجاعة حقيقية. لذلك قلت ببساطة: \"آمل أن أتمكن من استغلالها‎ ‏جيداً\". أبحزنا عببز المحيط الأطلسي ووصلنا إلى البرازيل. في بارا. استأجرنا عدة رجال لمساعدتنا. كان أهمهم زامبو.‎ ‏جوميز ومانويل. والعديد‎ ‏وهو رجل ضخم ومرح وقوي ومخلص وعملي. كما وظفنا رجلين خبيرين في الأتهار.‎ ‏من المراكبية الأصليين الذين كانوا يعرفون الممرات المائية العليا أفضل بكثير من أي مسافر أوروبي.‎"
         },
         {
           "order": 8,
-          "paragraphEn": "may examine it with your own eyes.\" The audience exploded in cheers and questions.",
-          "paragraphAr": "وقف تشالنجر على الفور. وقال بصوت عال: \"لا يوجد شيء مضحك في الأدلة\". طلب منه رئيس الجلسة الجلوس,"
+          "paragraphEn": "Lord John chose the team carefully. Summerlee spent much of his time studying insects and plants. kept notes for the Gazette. Every day the 5 expedition felt more real. Our written instructions from Challenger were ‏‎ ie (Le to be opened at Manaos at exactly noon on 15 July. The envelope re- 5 6 39 2 2 mained sealed during the journey. At last the day arrived. We sat around ‏ ‎ fod a table ina shaded house outside Manaos. Lord John placed his watch ial beside the envelope. \"Noon,\" he said, and cut it open. Inside was.a single (ey sheet of paper. It was blank.",
+          "paragraphAr": "‏اختار التورد جون الفريق بعناية. قضى سمرلي معظم وقته في دراسة الحشرات‎ ‏ملاحظاتي لصحيفة الجازيت. كل يوم كانت الرحلة تبدو أكثر واقعية. كانت تعليماتنا المكتوبة‎ ‏والنباتات. وكتبت‎ ‏في ماناوس في تمام الساعة الثانية عشرة ظهراً يوم 15 يوليو. ظل المظروف مغلقاً طوال‎ ‏من تشالنجر‎ ‏الرحلة. وأخيراً جاء اليوم. جلسنا حول طاولة في منزل مظلل خارج هاناوس. وضع اللورد جون ساعته بجوار المظروف.‎ ‏قال: \"الظهيرة\". ثم قطعه. كان بداخله ورقة واحدة. كانت فارغة.‎"
         },
         {
           "order": 9,
-          "paragraphEn": "",
-          "paragraphAr": "حاد وصوت dag مسن ونحيف ذو alle لكن القاعة كانت منفعلة بالفعل. تحداه البروفيسور سمرلي مباشرة. وهو"
+          "paragraphEn": "Summerlee stared at it. \"This is ridiculous” Before anyone could answer, a deep familiar voice came from the doorway. \"On the contrary, Professor Summerlee, itis perfectly sensible.\" Professor Challenger walked into the. He Pa, room. He had secretly traveled to Brazil and planned to guide us him- 71 self. No written directions, he explained, could be as reliable as his own , 3 memory. He had kept his decision private because he did not want argu- fe g ments, reporters, or curious travelers following him. wear",
+          "paragraphAr": "‏حدق فيها سمرلي وقال: \"هذا سخف\". وقبل أن يتمكن أي شخص من الرد. جاء صوت‎ ‏منطقي‎ ‏عميق ومألوف من الباب. \"على العكس يا بروفيسور سمرلي. إنه‎ ‏دخل البروفيسور تشالنجر إلى الغرفة. كان قد سافر سراً إلى البرازيل وخطط لإرشادنا بنفسه. وأوضح أنه لا توجد‎ ‏توجيهنات مكتوبة يمكن أن تكون موثوقة مثل ذاكرته. لقد أبقى قراره سراً لأنه لم يكن يريد أي يتبعه مجادلون‎ ‏أو مراسلون أو مسافرون فضوليون.‎"
         },
         {
           "order": 10,
-          "paragraphEn": "",
-          "paragraphAr": "أكثر حدة. قال سمرلي: \"إذا كان البروفيسور تشالنجر قد وجد حقاً حيوانات حية من عصور ما قبل التاريخ. فليخبرنا"
+          "paragraphEn": "_The - ‏1‎ TheLostiworld aon Summerlee looked horrified. \"You mean must spend the whole journey with you?\" \"The scientific value of my company will more than compen- 7 sate for any personal discomfort,” Challenger replied. Lord John laughed. “Then our team is complete” Challenger spread a map across the table, ‏‎ ‎though the final destination was not marked. \"We leave tomorrow” he said. \"From this point onwards, we are going into a country that very few iN 9 outsiders have seen. Later we will go beyond even that.\" looked around é the table at the four of us - Challenger, Summerlee, Lord John, and my- self. We were different in age, character, and purpose. Yet we now shared one question. Was there truly a lost world waiting beyond the Amazon?",
+          "paragraphAr": "‏بدا سمرلي مرعوباً: \"هل تقصد أنني يجب أن أقضي الرحلة بأكملها معك؟\" أجاب تشالنجر: \"القيمة العلمية لصحبتي‎ ‏شخصي\". ضحك اللورد جون وقال: \"إذن فريقنا مكتمل\". فرد تشالنجر خريطة على‎ ! ‏ستعوضك أكثر من أي‎ ‏الطاولة. رغم أن الوجهة النهائية لم تكن محددة. قال: \"سنغادر غداً. من هذه النقطة فصاعداً. نحن ذاهبون إلى بلد‎ ‏سوى عدد قليل جداً من الغرباء. لاحقاً سنذهب إلى أبعد من ذلك\". نظرت حولي إلى الطاولة حيث نجلس‎ ‏لم‎ ‏كنا مختلفين في العمر والشخصية والهدف. ومع ذلك كنا‎ ‏تشالتجر. وسمرلي. واللورد جون.‎ - ! ‏نحن‎ ‏مفقود ينتظرنا وراء الأمازون؟‎ ‏نتشارك الآن في سؤال واحد. هل هناك‎"
         },
         {
           "order": 11,
-          "paragraphEn": "",
-          "paragraphAr": "| بمكانها ويقدم دليلاً يمكن اختباره.\""
-        },
-        {
-          "order": 12,
-          "paragraphEn": "",
-          "paragraphAr": "واجهه تشالنجر قائلاً: \"هل ستكون مستعداً لاختبار ذلك بنفسك؟\" ساد الصمت في القاعة. رفع سمرلي ذقنه"
-        },
-        {
-          "order": 13,
-          "paragraphEn": "",
-          "paragraphAr": "مختارة بعناية معلومات كافية للوصول إلى المكان. ويمكنكم فحصه بأعينكم\" dial سأعطي gi!” \"asi\" وقال:"
-        },
-        {
-          "order": 14,
-          "paragraphEn": "",
-          "paragraphAr": "انفجر الجمهور بالهتافات والأسئلة"
-        },
-        {
-          "order": 15,
-          "paragraphEn": "The motion was accepted. In a few astonishing minutes, my future had changed completely.",
-          "paragraphAr": "_TheNovel :: 1ه"
-        },
-        {
-          "order": 16,
-          "paragraphEn": "The\\Lost\\world| —",
-          "paragraphAr": "رفع تشالنجر يده وقال: \"لا ينبغي للبروفيسور shaw أن يسافر وحده. ستكون الرحلة صعبة وخطيرة. سيحتاج إلى"
-        },
-        {
-          "order": 17,
-          "paragraphEn": "",
-          "paragraphAr": "رفقاء أصغر سناً. من يتطوع؟\" لا أتذكر أنني اتخذت قراراً بالوقوف. في لحظة كنت جالساً؛ وفي اللحظة التالية"
-        },
-        {
-          "order": 18,
-          "paragraphEn": "",
-          "paragraphAr": "كنت واقفأ على قدمي. ناديت: \"إدوارد مالون. صحيفة ديلي جازيت.\" \" أنا أتطوع.\""
-        },
-        {
-          "order": 19,
-          "paragraphEn": "",
-          "paragraphAr": "وقف رجل آخر في نفس الوقت تقريباً. كان طويلاً ونحيفاً. وبشرته سمراء من الشمس. وعيناه زرقاوان هادئتان."
-        },
-        {
-          "order": 20,
-          "paragraphEn": "",
-          "paragraphAr": "قال: appl جون روكستون. أنا أعرف منطقة الأمازون وسافرت إلى هناك من قبل\". عرف الجميع الاسم. كان"
-        },
-        {
-          "order": 21,
-          "paragraphEn": "",
-          "paragraphAr": "اللورد جون مشهوراً. كمستكشف ورياضي وصياد. اقترح تشالنجر على الفور أن نشكل Lil وسمرلي وروكستون"
-        },
-        {
-          "order": 22,
-          "paragraphEn": "",
-          "paragraphAr": "فريق التحقيق. تمت الموافقة على الاقترام. وفي بضع دقائق مذهلة . تغير مستقبلي. تماهاً"
-        },
-        {
-          "order": 23,
-          "paragraphEn": "one another’ His home was full of maps, books, equipment, and trophies [ia aig [|",
-          "paragraphAr": "١ ayy | م from earlier journeys. Yet he spoke without showing off. He wanted to"
-        },
-        {
-          "order": 24,
-          "paragraphEn": "",
-          "paragraphAr": "ل لال كي know whether | could shoot, climb, swim, and keep calm under pressure. jl"
-        },
-        {
-          "order": 25,
-          "paragraphEn": "is not a place for a man who thinks he already knows everything’ —",
-          "paragraphAr": "ه-_-- خارج القاعة. Gal بي اللورد جون. وقال: \"إذن سنكون رفقاء Ly pda سيد مالون:"
-        },
-        {
-          "order": 26,
-          "paragraphEn": "",
-          "paragraphAr": "تفضل بزيارتي في غرفتي. يجب أن نتعرف على بعضنا البعض\". كان منزله مليئاً"
-        },
-        {
-          "order": 27,
-          "paragraphEn": "",
-          "paragraphAr": "بالخرائط والكتب والمعدات والجوائز التذكارية من رحلات سابقة. ومع ذلك كان يتحدث دون تفاخر. أراد أن يعرف"
-        },
-        {
-          "order": 28,
-          "paragraphEn": "",
-          "paragraphAr": "ما إذا كنت أستطيع الرماية والتسلق والسباحة والحفاظ على هدوئي تحت الضغط. قلت له: \"يمكنني أن أتعلم ما"
-        },
-        {
-          "order": 29,
-          "paragraphEn": "",
-          "paragraphAr": "لا أعرفه\". \"إجابة جيدة. أمريكا الجنوبية ليست مكاناً لرجل يعتقد أنه يعرف كل شيء بالفعل.\""
-        },
-        {
-          "order": 30,
-          "paragraphEn": "and guides, and the kind of men we may need. That could keep us alive",
-          "paragraphAr": "أخبرني اللورد جون أنه خلال إحدى رحلاته السابقة. تورط في نزاع خطير مع مجموعة"
-        },
-        {
-          "order": 31,
-          "paragraphEn": "",
-          "paragraphAr": "قوية لنجارة المطاط يقودها رجل يدعى بيدرو لوبيز. كان العمال المحليون يعاملون بظلم ويجبرون على العمل"
-        },
-        {
-          "order": 32,
-          "paragraphEn": "",
-          "paragraphAr": "في ظروف قايسية. ساعدهم اللورد جون على الهروب من سيطرة المجموعة ووضع حداً لنفوذ لوبيز في المنطقة."
-        },
-        {
-          "order": 33,
-          "paragraphEn": "",
-          "paragraphAr": "قال: \"لقد أكسبني ذلك بعض الأصدقاء المخلصين,\" \"وبعض الأعداء الخطرين. لكنني أعرف الأنهار, واللغة التي"
-        },
-        {
-          "order": 34,
-          "paragraphEn": "",
-          "paragraphAr": "يستخدمها العديد من التجار والمرشدين المحليين. ونوع الرجال الذين قد نحتاجهم. وهذا قد يبقينا على قيد الحياة.\""
-        },
-        {
-          "order": 35,
-          "paragraphEn": "be skeptical, but he was willing to risk a long journey to discover the wi",
-          "paragraphAr": "يع truth. Before we left England, visited Gladys.\"| am going to South Amer- TIL"
-        },
-        {
-          "order": 36,
-          "paragraphEn": "ened with interest. \"Then you have found your chance.\" 4 5",
-          "paragraphAr": "1ه :- “TheNovel"
-        },
-        {
-          "order": 37,
-          "paragraphEn": "",
-          "paragraphAr": "لس د ‘The)Lost}world|"
-        },
-        {
-          "order": 38,
-          "paragraphEn": "",
-          "paragraphAr": "خلال الأسابيع التالية. استعدينا للرحلة الاستكشافية. ظل البروفيسور Lie WiKi how في ادعاءات تشالنجر,"
-        },
-        {
-          "order": 39,
-          "paragraphEn": "",
-          "paragraphAr": "aid! كان مصمماً على التحقيق فيها بشكل صحيح. لقد احترمت صدقه. Lay كان متشككاً. لكنه كان مستعداً"
-        },
-        {
-          "order": 40,
-          "paragraphEn": "",
-          "paragraphAr": "للمخاطرة برحلة طويلة لاكتشاف الحقيقة. قبل أن نغادر إنجلترا. cy) جلاديس. قلت لها: Li ذاهب إلى أمريكا"
-        },
-        {
-          "order": 41,
-          "paragraphEn": "",
-          "paragraphAr": "الجنوبية. قد يكون هناك خطر حقيقي\". للحظة أشرقت عيناها بالاهتمام. \"إذن لقد وجدت فرصتك.\""
-        },
-        {
-          "order": 42,
-          "paragraphEn": "far better than any European traveler. Z",
-          "paragraphAr": "أردت أن أقول إنني أفعل ذلك من أجلها. لكنني تذكرت كلماتها السابقة. العمل الشجاع"
-        },
-        {
-          "order": 43,
-          "paragraphEn": "",
-          "paragraphAr": "الذي يُنجز فقط لكسب الاستحسان ليس شجاعة حقيقية. لذلك قلت ببساطة: \"آمل أن أتمكن من استغلالها"
-        },
-        {
-          "order": 44,
-          "paragraphEn": "",
-          "paragraphAr": "جيداً\". أبحزنا عببز المحيط الأطلسي ووصلنا إلى البرازيل. في بارا. استأجرنا عدة رجال لمساعدتنا. كان أهمهم زامبو."
-        },
-        {
-          "order": 45,
-          "paragraphEn": "",
-          "paragraphAr": "جوميز ومانويل. والعديد Lady وهو رجل ضخم ومرح وقوي ومخلص وعملي. كما وظفنا رجلين خبيرين في الأتهار."
-        },
-        {
-          "order": 46,
-          "paragraphEn": "",
-          "paragraphAr": "من المراكبية الأصليين الذين كانوا يعرفون الممرات المائية العليا أفضل بكثير من أي مسافر أوروبي."
-        },
-        {
-          "order": 47,
-          "paragraphEn": "studying insects and plants. | kept notes for the Gazette. Every day the = 5",
-          "paragraphAr": "expedition felt more real. Our written instructions from Challenger were لكك ie > (Le"
-        },
-        {
-          "order": 48,
-          "paragraphEn": "to be opened at Manaos at exactly noon on 15 July. The envelope re- 5] 6 39 2 2",
-          "paragraphAr": "mained sealed during the journey. At last the day arrived. We sat around لل ا fod"
-        },
-        {
-          "order": 49,
-          "paragraphEn": "sheet of paper. It was blank.",
-          "paragraphAr": "اختار التورد جون الفريق بعناية. قضى سمرلي معظم وقته في دراسة الحشرات"
-        },
-        {
-          "order": 50,
-          "paragraphEn": "",
-          "paragraphAr": "ملاحظاتي لصحيفة الجازيت. كل يوم كانت الرحلة تبدو أكثر واقعية. كانت تعليماتنا المكتوبة Li والنباتات. وكتبت"
-        },
-        {
-          "order": 51,
-          "paragraphEn": "",
-          "paragraphAr": "في ماناوس في تمام الساعة الثانية عشرة ظهراً يوم 15 يوليو. ظل المظروف مغلقاً طوال arias من تشالنجر"
-        },
-        {
-          "order": 52,
-          "paragraphEn": "",
-          "paragraphAr": "الرحلة. وأخيراً جاء اليوم. جلسنا حول طاولة في منزل مظلل خارج هاناوس. وضع اللورد جون ساعته بجوار المظروف."
-        },
-        {
-          "order": 53,
-          "paragraphEn": "",
-          "paragraphAr": "قال: \"الظهيرة\". ثم قطعه. كان بداخله ورقة واحدة. كانت فارغة."
-        },
-        {
-          "order": 54,
-          "paragraphEn": "ments, reporters, or curious travelers following him. wear",
-          "paragraphAr": "حدق فيها سمرلي وقال: \"هذا سخف\". وقبل أن يتمكن أي شخص من الرد. جاء صوت"
-        },
-        {
-          "order": 55,
-          "paragraphEn": "",
-          "paragraphAr": "Lalas منطقي yal عميق ومألوف من الباب. \"على العكس يا بروفيسور سمرلي. إنه"
-        },
-        {
-          "order": 56,
-          "paragraphEn": "",
-          "paragraphAr": "دخل البروفيسور تشالنجر إلى الغرفة. كان قد سافر سراً إلى البرازيل وخطط لإرشادنا بنفسه. وأوضح أنه لا توجد"
-        },
-        {
-          "order": 57,
-          "paragraphEn": "",
-          "paragraphAr": "توجيهنات مكتوبة يمكن أن تكون موثوقة مثل ذاكرته. لقد أبقى قراره سراً لأنه لم يكن يريد أي يتبعه مجادلون"
-        },
-        {
-          "order": 58,
-          "paragraphEn": "",
-          "paragraphAr": "أو مراسلون أو مسافرون فضوليون."
-        },
-        {
-          "order": 59,
-          "paragraphEn": "",
-          "paragraphAr": "_The Novel -١ 1ه"
-        },
-        {
-          "order": 60,
-          "paragraphEn": "sate for any personal discomfort,” Challenger replied. Lord John laughed.",
-          "paragraphAr": "“Then our team is complete” Challenger spread a map across the table, | ل"
-        },
-        {
-          "order": 61,
-          "paragraphEn": "one question. Was there truly a lost world waiting beyond the Amazon?",
-          "paragraphAr": "بدا سمرلي مرعوباً: \"هل تقصد أنني يجب أن أقضي الرحلة بأكملها معك؟\" أجاب تشالنجر: \"القيمة العلمية لصحبتي"
-        },
-        {
-          "order": 62,
-          "paragraphEn": "",
-          "paragraphAr": "شخصي\". ضحك اللورد جون وقال: \"إذن فريقنا مكتمل\". فرد تشالنجر خريطة على ale}! ستعوضك أكثر من أي"
-        },
-        {
-          "order": 63,
-          "paragraphEn": "",
-          "paragraphAr": "الطاولة. رغم أن الوجهة النهائية لم تكن محددة. قال: \"سنغادر غداً. من هذه النقطة فصاعداً. نحن ذاهبون إلى بلد"
-        },
-        {
-          "order": 64,
-          "paragraphEn": "",
-          "paragraphAr": "سوى عدد قليل جداً من الغرباء. لاحقاً سنذهب إلى أبعد من ذلك\". نظرت حولي إلى الطاولة حيث نجلس ay لم"
-        },
-        {
-          "order": 65,
-          "paragraphEn": "",
-          "paragraphAr": "كنا مختلفين في العمر والشخصية والهدف. ومع ذلك كنا Lily تشالتجر. وسمرلي. واللورد جون. - dey! نحن"
-        },
-        {
-          "order": 66,
-          "paragraphEn": "",
-          "paragraphAr": "مفقود ينتظرنا وراء الأمازون؟ alle Las نتشارك الآن في سؤال واحد. هل هناك"
+          "paragraphEn": "A-Chapter Summative",
+          "paragraphAr": "088 ‏أسئلة واجابات الكتاب المدرسي‎"
         }
       ],
       "questionsAndAnswers": [
@@ -2784,36 +2021,44 @@
       "summaryAr": "استأجر اللورد جون قاربًا بخاريًا يسمى إزميرالدا ليأخذ المجموعة عبر نهر الأمازون.",
       "chapterInPoints": [
         {
-          "en": "Lord John hired a steam boat called the Esmeralda to take the group up the Amazon River.",
-          "ar": "استأجر اللورد جون قاربًا بخاريًا يسمى إزميرالدا ليأخذ المجموعة عبر نهر الأمازون."
+          "order": 1,
+          "pointEn": "",
+          "pointAr": ""
         },
         {
-          "en": "Challenger refused to reveal the exact route because careless visitors might damage the un",
-          "ar": "الطريق الدقيق لأن الزوار غير الحريضين قد يضرون بالمنطقة غير المكتشفة. ye رفض تشالتجر الكشف"
+          "order": 2,
+          "pointEn": "",
+          "pointAr": ""
         },
         {
-          "en": "معطو they reached a small village beside the river, Challenger sent the Esmeralda back to",
-          "ar": "أعاد تشالنجر سفينة إزميرالدا إلى ماناوس. gill عندما وصلوا إلى قرية صغيرة بجوار"
+          "order": 3,
+          "pointEn": "",
+          "pointAr": ""
         },
         {
-          "en": "Later, they left the canoes and continued on foot with food, rifles, blankets, instruments, and",
-          "ar": "الأقدام حاملين الطعام والبنادق والبطاطين والأدوات والمستلزمات gle بعد ذلك تركوا القوارب وواصلوا السير"
+          "order": 4,
+          "pointEn": "",
+          "pointAr": ""
         },
         {
-          "en": "On the ninth day, Challenger saw a huge grey creature and shouted that it was a pterodactyl.",
-          "ar": "في اليوم التاسع. رأى تشالنجر مخلوقًا رماديًا ضخمًا وصام بأنه بتيروداكتيل."
+          "order": 5,
+          "pointEn": "",
+          "pointAr": ""
         },
         {
-          "en": "Lord John suggested cutting down a tree so that it could fall across the gap and form a bridge.",
-          "ar": "شجرة حتى تسقط فوق الفجوة وتكون جسرًا. glad اقترح اللورد جون"
+          "order": 6,
+          "pointEn": "",
+          "pointAr": ""
         },
         {
-          "en": "The four men crossed the tree bridge and finally entered Maple White Land.",
-          "ar": "الشجرة ودكلوا أخيرًا أرض مابلا وايت. pass عبر الرجال الأربعة"
+          "order": 7,
+          "pointEn": "",
+          "pointAr": ""
         },
         {
-          "en": "After they crossed, Gomez pushed the tree down and revealed that Pedro Lopez was his",
-          "ar": "جوميز الشجرة إلى الأسفل وكشف أن بيدرو لوبيز كان أخاه. ga gue بعد أن"
+          "order": 8,
+          "pointEn": "",
+          "pointAr": ""
         }
       ],
       "vocabulary": [
@@ -2901,323 +2146,43 @@
       "theText": [
         {
           "order": 1,
-          "paragraphEn": "Lord John had hired a steam launch called the Esmeralda to carry us up fuga\"",
-          "paragraphAr": "the Amazon. The river was so wide that, even far inland, the opposite و"
+          "paragraphEn": "‏ ‎ Lord John had hired a steam launch called the Esmeralda to carry us up fuga\" the Amazon. The river was so wide that, even far inland, the opposite ‏‎ ‎bank often looked like a distant shadow. Day after day we moved through rn heat, rain, brilliant sunlight, and walls of green forest. Challenger refused aay ‏‎ ‎to reveal our exact route. He made all of us promise that, even if we re- ib turned safely, we would not publish enough information for strangers 9 to locate the plateau. He said careless visitors could destroy a place that 4) science had barely discovered.",
+          "paragraphAr": "‏بخارياً ُدعى \"إسميرالدا\" ليأخذنا في رحلة عبر نهر الأمازون.‎ فاريا ‏استأجر اللورد جون‎ ‏بعد يوم.‎ ‏كان النهر واسعاً جداً لدرجة أنه حتى في عمق اليابسة. كان الضفة المقابلة تبدو غالباً كظل بعيد.‎ ‏تحركنا عبر الحرارة, والمطر. وأشعة الشمس الساطعة. وجدران من الغابات الخضراء. رفض تشالنجر الكشف عن‎ ‏بسلام. لن ننشر معلومات كافية للغرباء لتحديد موقع الهضبة.‎ ‏حتى لو‎ ‏مسارنا الدقيق. وجعلنا جميعاً نعده‎ ‏وقال إن الزوار الفهملين قد يدمرون مكاناً بالكاد اكتشفه العلم.‎ ‏وأصبح أضيق تدريجياً. وفي قرية صغيرة على ضفاف‎ ‏بعد عدة أيام تركنا النهر الرئيسي ودخلنا رافداً‎ ‏أمر تشالنجر قارب \"إسميزالدا\" بالعودة إلى ماناوس. وقال: \"من هنا سنستخدم قوارب الكانو. قريباً ستكون هناك‎ ‏قد رافقا تشالتجر خلال‎ ‏لا يمكن لقارب بخاري أن يكمل الطريق\". استأجرنا مرشدين محليين‎ ‏متحدرات‎ ‏يعرقان الطريق.‎ ‏خائقين بوضوح من قكرة العودة. لكنهما‎ ‏رحلته السابقة:‎"
         },
         {
           "order": 2,
-          "paragraphEn": "bank often looked like a distant shadow. Day after day we moved through rn",
-          "paragraphAr": "heat, rain, brilliant sunlight, and walls of green forest. Challenger refused aay كش"
+          "paragraphEn": "For several days our canoes moved through a beautiful green waterway. ES J Monkeys watched us from branches. Bright birds stood on fallen logs 4 Once we saw a puma disappear into the forest. The animals seemed less pia 0 afraid of humans the farther we traveled. Then the water became too Fy e shallow. We hid the canoes and continued on foot, carrying food, rfes, ae blankets, instruments, and medical supplies. wot The land rose steadily. Thick tropical forest gave way to palms, rocky _ slopes, orchids, bamboo, and wide areas of tree-ferns. Progress was exhausting. Sometimes we spent an entire day cutting a path through bamboo so dense that we could see only a few meters ahead. Challenger and Summerlee argued constantly. \"We should follow the compass,’ Challenger insisted one morning, \"We should follow the men who have actually walked through this country,” Summerlee replied.",
+          "paragraphAr": "‏لعدة أيام, تحركت قواربنا عبر ممر مائي أخضر جميل. كانت القرود تراقبنا من الفروع. والطيور الزاهية تقف على‎ ‏يختفي في الغابة. بدت الحيوانات أقل خوفاً من البشر‎ () ‏جذوع الأشجار الساقطة. وذات هزة زأينا أسد جبال‎ ‏كلما سافرنا أبعد. ثم أصبحت المياة ضحلة جداً. أخفينا القوارب وأكملنا سيراً على الأقدام. حاملين الطعام. والبنادق,‎ ‏والبطانيات. والأدوات. والإقدادات الظبيَة‎ ‏ارتفعت الأرض بتبات. وأفسحت القابات الاستوائية الكثيقة المجال لأشجار التخيل. والمنحدرات الصخرية. وأزهار‎ ‏كاملاً في‎ ‏الأوركيد. والخيزران ومساحات واسعة من السراخس الشجرية: كان التقدم مرهقاً. أحياناً كنا نقضي‎ ‏لم نكن نرى سوى بضعة أمتار أمامنا. كان تشالنجر وسمرلي يتجادلان‎ ‏شق طريق عبرخيزران كثيف جداً لدرجة‎ ‏باستمرار. أصر تشالتجر ذات صباح: \"يجب أن نتبع البوصلة. فرد سمرلي: \"يجب أن نتبع الرجال الذين ساروا بالفعل‎ \" ‏عبر هذا‎ ‏جح‎ ١ 11111"
         },
         {
           "order": 3,
-          "paragraphEn": "science had barely discovered.",
-          "paragraphAr": "بخارياً ُدعى \"إسميرالدا\" ليأخذنا في رحلة عبر نهر الأمازون. Lyla استأجر اللورد جون"
+          "paragraphEn": "TheLostiworld — Lord John usually prevented the arguments from becoming serious. IE ‏‎ ‎\"Save your energy, gentlemen. You may need it for something with big- ‏‎ ‎ger teeth’ On the ninth day after leaving the canoes, Challenger sudden- ‏‎ ‎ly stopped and pointed. A huge grey shape rose from the plain ahead. It flapped slowly, flew low across the tree-ferns, and disappeared behind the forest. \"A pterodactyl!\" Challenger cried. Summerlee gave a short laugh. \"A large bird” Lord John had been watching through field glasses \"Icannot tell you what it was,’ he said, but can tell you have never seen a bird shaped like that!”",
+          "paragraphAr": "‏يمنع الخلافات من أن تصبح خطيرة. \"وفروا طاقتكم يا سادة. قد تحتاجونها لشيء يمتلك‎ ‏كان اللورد جون عادة‎ ‏أسناناً أكبر\". في اليوم التاسع بعد ترك القوارب. توقف تشالنجر فجأة وأشار بيده. ارتفع شكل رمادي ضخم من‎ ‏الغابة. صرخ تشالنجر: \"بتروداكتيل‎ ‏السهل أمامنا. رفرف ببطء. وطار منخفضاً عبر السراخس الشجرية واختفى‎ ‏(ديناصور طائر)!\" أطلق سمرلي ضحكة قصيرة وقال: \"طائر كبير\". كان اللورد جون يراقب من خلال منظار ميداني.‎ وقال: \"لا أستطيع أن أخبركم ما كان ‎‏ لكن يمكتني أن أخبركم ‎‏ لم أر ‎‏ بهذا الشكل من قبل.”"
         },
         {
           "order": 4,
-          "paragraphEn": "",
-          "paragraphAr": "بعد يوم. Logy كان النهر واسعاً جداً لدرجة أنه حتى في عمق اليابسة. كان الضفة المقابلة تبدو غالباً كظل بعيد."
+          "paragraphEn": "The next day we crossed a ridge and saw the cliffs. They were exactly as Maple White had drawn them: a vast red wall rising high above the plain, with thick vegetation along the top. Near one section stood a separate rocky tower with a tree growing on its summit. Even Summerlee became quiet. \"Well?\" Challenger asked proudly. \"The cliffs exist.” Summeree ‏‎ 0 005 said, \"That proves the cliffs exist. Nothing more\" 5 We spent several days searching for a way up. The main wall was almost 0 seis ee vertical. At one point we found the entrance of an old cave, but the pas- jaieaa@amsee games sage was blocked. We climbed surrounding hills and examined cracks and ledges. Nothing reached the plateau. Then Challenger noticed that the separate rock tower stood close to the main cliff. If we could climb the tower and somehow cross the gap, we might reach the top.",
+          "paragraphAr": "في اليوم التالي عبرنا تلا ورأينا المنحدرات الصخرية. كانت ‎‏ كما رسمها مابل وايت: جدار أخمر ضخم يرتفع ‎‏ فوق السهل, مع نباتات كثيفة على طول القمة. وبالقرب من أحد الأجزاء وقف برج صخري منفصل تنمو ‏شجرة على قمته. حتى سمرلي أصبح ‎‏ سأل تشالنجر بفخر: \"حسناً؟\". قال سمرلي: \"المنحدرات موجودة. هذا ‎‏ أن المنحدرات موجودة. لا شيء أكثر من ذلك.\" ‏قضينا عدة أيام في البحث عن طريق للصعود. كان الجدار الرئيسي شبه عمودي. وفي إحدى النقاط وجدنا ‎‏ ‏كهف ‎‏ لكن الممر كان مسدوداً. تسلقنا التلال المحيظة وفحصنا الشقوق والحواف. لم يكن هناك شيء ‏يصل إلى الهضبة. ثم لاحظ تشالتجِر أن البرج الصخري المنفصل يقف قريباً من الجرف الرئيسي. إذا تمكنا من تسلق البرج وعيور الفجوة بطريقة ‎‏ فقد نصل إلى القمة. ‏1ه ‎٠١‏ ه72"
         },
         {
           "order": 5,
-          "paragraphEn": "",
-          "paragraphAr": "تحركنا عبر الحرارة, والمطر. وأشعة الشمس الساطعة. وجدران من الغابات الخضراء. رفض تشالنجر الكشف عن"
+          "paragraphEn": "TheLostiworld — The climb was difficult but possible. We carried a rope up and reached 55 the tree that grew on the tower. From there we could see the green edge of the plateau only a short distance away - but between us and it was a deep chasm. Lord John looked at the tree. “If we cut it down in the right direction, it could fall across the gap” For hours we worked with axes. At last the tree began to move. It fell slowly, then crashed across the chasm with its upper branches landing on the plateau. We had a bridge Challenger insisted on going first. He sat astride the trunk and moved carefully across. When he reached the far side, he climbed onto the pla- teau and raised both arms. “At last!” he shouted. Summerlee crossed next, carrying two rifles. followed. tried not to look down at the enormous drop beneath the tree. Lord John came last, walking with a balance and calm that could hardly believe. For the first time, all four of us stood inside Maple White Land.",
+          "paragraphAr": "‏حبلاً إلى أعلى ووصلنا إلى الشجرة التي تنمو على البرج. من هناك تمكنا من‎ ‏كان التسلق صعباً ولكنه ممكن.‎ ‏رؤية الحافة الخضراء للهضبة على مسافة قصيرة فقط - ولكن بيننا وبينها كانت هناك هوة عميقة. نظر اللورد‎ ‏بالفؤوس.‎ ‏جون إلى الشجرة وقال: \"إذا قطعناها في الاتجاه الصحيح. فقد تسقط عبر الفجوة\". لعدة ساعات‎ ‏وأخيراً بدأت الشجرة تتحرك. سقطت ببطء. ثم تحطمت عبر الهوة واستقرت قروعها العليا على الهضبة. أصبح‎ 1 ‏كويري.‎ ‏ممتطياً الجذع وتحرك بحذر للعبور. وعندما وصل إلى الجانب الآخر, تسلق إلى‎ ‏تشالنجر على الذهاب أولاً.‎ ‏ذراعيه. وضرخ: \"أخيراً!\". عبر سمرلي بعده. حاملاً بندقيتين. ثم تبعته أنا. حاولت ألا أنظر إلى‎ ‏الهضبة ورفع‎ ‏الأسفل نحو السقوط الهائل تحت الشجرة. جاء اللورد جون أخيراً. يمشي بتوازن وهدوء بالكاد أستطيع تصديقه.‎ ‏ولأول مرة. وقفنا نحن الأربعة داخل أرض مابل وايت.‎"
         },
         {
           "order": 6,
-          "paragraphEn": "",
-          "paragraphAr": "بسلام. لن ننشر معلومات كافية للغرباء لتحديد موقع الهضبة. Lise حتى لو Lily مسارنا الدقيق. وجعلنا جميعاً نعده"
+          "paragraphEn": "The air was warm and still. Thick bushes grew near the cliff, while taller trees formed a dark forest beyond. Strange calls came from somewhere in the distance. Challenger's face shone with triumph. \"Professor Sum- 1 1 merle,\" he said, \"we can now begin the investigation you demanded. ff 1 Summerlee adjusted his glasses. \"We can begin it. have not yet said how aay it will end.” We moved about fifty meters into the bushes. Then we heard aise ies a terrible cracking sound behind us. We ran back. 1 The tree bridge was gone. Far below, its broken trunk lay at the foot of , the cliff. At first we thought it had slipped. Then a face appeared on the opposite rock tower. It was Gomez. His calm expression had disappeared. He looked across the gap at Lord John with open hatred. \"You are trapped now!\" he shouted. Lord John stepped for- ward. \"Why?\" Gomez laughed. \"Think of Pedro Lopez. He was my brother. You killed him. have waited years for this”",
+          "paragraphAr": "‏كثيفة بالقرب من الجرف, بينما شكلت الأشجار الأطول غابة مظلمة في‎ ‏كان الهواء دافئاً وساكناً نمت‎ ‏الخلف. جاءت نداءات غريبة من مكان ما في المسافة. أشرق وجه تشالنجر الانتصار. وقال: \"بروفيسور سمرلي.‎ ‏أن نبدأه. لكنني لم أقل بعد كيف‎ ,” ‏وقال:‎ ‏سمرلي‎ ‏الآن أن نبدأ التحقيق الذي طلبته\".‎ : ‏سينتهي\". تحركنا خوالي خمسين مترأ داخل الشجيرات. ثم سمعنا صوت طقطقة مروع خلفنا. فركضنا عائدين.‎ ‏لقد اختفى الكوبري الشجري. وفي الأسفل بعيداً. كان جذعها المكسور ملقى عند سفح الجرف. في البداية اعتقدنا‎ ‏انزلقت: تم ظهر وجه على البرج الصخري المقابل. كان جوميز. لقد اختفى تعبيره الهادئ. نظر عبر الفجوة إلى‎ ‏اللورد جون بكراهية واضحة وصرخ: \"أنتم محاصرون الآن!\". تقدم اللورد جون خطوة للأمام وسأل: \"لماذا؟” ضحك‎ ‏جوفيز وقال: \"فكر في بيدرو لوبيز. لقد كان أخي. وأنت قتلته. لقد انتظرت سنوات من أجل هذا.\"‎"
         },
         {
           "order": 7,
-          "paragraphEn": "",
-          "paragraphAr": "وقال إن الزوار الفهملين قد يدمرون مكاناً بالكاد اكتشفه العلم."
+          "paragraphEn": "_The : ‏1‎ TheLostworld oa So the past had followed us into the unknown. Gomez had pushed the tree from the tower after we crossed. The four of us were now ona pla- ila oma teau surrounded by cliffs, with no known road down. \"Your bones will stay up there,\" Gomez called. A moment later Lord John raised his rifle. Gomez disappeared behind the rock. We heard shouting and then si 8 lence. Below us, however, Zambo had remained loyal. He climbed the opposite tower as soon as Gomez and the others were gone. \"Tell me what to do!” he shouted, We used a thin rope to pull food and ammunition across the gap. Zambo promised to stay below and help us in any way he could. As night came, we camped near the cliff with only a small lantern. Behind us stretched the unexplored forest of the plateau. We had reached the lost world. And now we could not leave it.",
+          "paragraphAr": "‏نحن الأربعة الآن على هضبة‎ ‏وهكذا. تبعنا الماضي إلى المجهول. كان جوميز قد دفع الشجرة من البرج بعد أن‎ ‏محاطة بالمنحدرات. ودون طريق معروف للنزول. نادى جوميز: \"ستبقى عظامكم هناك في الأعلى\". بعد لحظة‎ ) ‏رفع اللورد جون يندقيته. فاختفى جوميز خلف الصخرة. سمعنا صراخاً ثم صمتاً. ومع ذلك. في الأسفل. ظل‎ ‏مخلصاً. فقد تسلق البرج المقابل بمجرد رحيل جوميز والآخرين.‎ ‏بالبقاء‎ ) ‏صرة\"قائلة: \"أخبروني ماذا أفعل!\". استخدهنا حبلاً رفيعاً لسحب الطعام والذخيرة عبر الفجوة. وعد‎ ‏طريقة ممكنة. ومع حلول الليل. خيمنا بالقرب من الجرف ومعنا فانوس صغير فقط.‎ ‏في الأسفل ومساعدتنا‎ ‏وخلفنا امٌتدتبالغابة غير المستكشفة للهضبة. لقد وصلنا إى العالم المفقود. والآن لا يمكننا مغادرته.‎"
         },
         {
           "order": 8,
-          "paragraphEn": "",
-          "paragraphAr": "ll وأصبح أضيق تدريجياً. وفي قرية صغيرة على ضفاف dud بعد عدة أيام تركنا النهر الرئيسي ودخلنا رافداً"
-        },
-        {
-          "order": 9,
-          "paragraphEn": "",
-          "paragraphAr": "أمر تشالنجر قارب \"إسميزالدا\" بالعودة إلى ماناوس. وقال: \"من هنا سنستخدم قوارب الكانو. قريباً ستكون هناك"
-        },
-        {
-          "order": 10,
-          "paragraphEn": "",
-          "paragraphAr": "قد رافقا تشالتجر خلال LIS لا يمكن لقارب بخاري أن يكمل الطريق\". استأجرنا مرشدين محليين dull متحدرات"
-        },
-        {
-          "order": 11,
-          "paragraphEn": "",
-          "paragraphAr": "يعرقان الطريق. LIS خائقين بوضوح من قكرة العودة. لكنهما LIS رحلته السابقة:"
-        },
-        {
-          "order": 12,
-          "paragraphEn": "the men who have actually walked through this country,” Summerlee replied.",
-          "paragraphAr": "لعدة أيام, تحركت قواربنا عبر ممر مائي أخضر جميل. كانت القرود تراقبنا من الفروع. والطيور الزاهية تقف على"
-        },
-        {
-          "order": 13,
-          "paragraphEn": "",
-          "paragraphAr": "يختفي في الغابة. بدت الحيوانات أقل خوفاً من البشر (Logs) جذوع الأشجار الساقطة. وذات هزة زأينا أسد جبال"
-        },
-        {
-          "order": 14,
-          "paragraphEn": "",
-          "paragraphAr": "كلما سافرنا أبعد. ثم أصبحت المياة ضحلة جداً. أخفينا القوارب وأكملنا سيراً على الأقدام. حاملين الطعام. والبنادق,"
-        },
-        {
-          "order": 15,
-          "paragraphEn": "",
-          "paragraphAr": "والبطانيات. والأدوات. والإقدادات الظبيَة"
-        },
-        {
-          "order": 16,
-          "paragraphEn": "",
-          "paragraphAr": "ارتفعت الأرض بتبات. وأفسحت القابات الاستوائية الكثيقة المجال لأشجار التخيل. والمنحدرات الصخرية. وأزهار"
-        },
-        {
-          "order": 17,
-          "paragraphEn": "",
-          "paragraphAr": "كاملاً في Logs الأوركيد. والخيزران ومساحات واسعة من السراخس الشجرية: كان التقدم مرهقاً. أحياناً كنا نقضي"
-        },
-        {
-          "order": 18,
-          "paragraphEn": "",
-          "paragraphAr": "لم نكن نرى سوى بضعة أمتار أمامنا. كان تشالنجر وسمرلي يتجادلان Lil شق طريق عبرخيزران كثيف جداً لدرجة"
-        },
-        {
-          "order": 19,
-          "paragraphEn": "",
-          "paragraphAr": "باستمرار. أصر تشالتجر ذات صباح: \"يجب أن نتبع البوصلة. فرد سمرلي: \"يجب أن نتبع الرجال الذين ساروا بالفعل"
-        },
-        {
-          "order": 20,
-          "paragraphEn": "",
-          "paragraphAr": "\"alll عبر هذا"
-        },
-        {
-          "order": 21,
-          "paragraphEn": "",
-          "paragraphAr": "جح ١ 11111"
-        },
-        {
-          "order": 22,
-          "paragraphEn": "The}Lostiworld| —",
-          "paragraphAr": "Lord John usually prevented the arguments from becoming serious. IE ص"
-        },
-        {
-          "order": 23,
-          "paragraphEn": "",
-          "paragraphAr": "\"Save your energy, gentlemen. You may need it for something with big- و"
-        },
-        {
-          "order": 24,
-          "paragraphEn": "",
-          "paragraphAr": "ger teeth’ On the ninth day after leaving the canoes, Challenger sudden- وي"
-        },
-        {
-          "order": 25,
-          "paragraphEn": "a bird shaped like that!”",
-          "paragraphAr": "يمنع الخلافات من أن تصبح خطيرة. \"وفروا طاقتكم يا سادة. قد تحتاجونها لشيء يمتلك Le كان اللورد جون عادة"
-        },
-        {
-          "order": 26,
-          "paragraphEn": "",
-          "paragraphAr": "أسناناً أكبر\". في اليوم التاسع بعد ترك القوارب. توقف تشالنجر فجأة وأشار بيده. ارتفع شكل رمادي ضخم من"
-        },
-        {
-          "order": 27,
-          "paragraphEn": "",
-          "paragraphAr": "الغابة. صرخ تشالنجر: \"بتروداكتيل ALS السهل أمامنا. رفرف ببطء. وطار منخفضاً عبر السراخس الشجرية واختفى"
-        },
-        {
-          "order": 28,
-          "paragraphEn": "",
-          "paragraphAr": "(ديناصور طائر)!\" أطلق سمرلي ضحكة قصيرة وقال: \"طائر كبير\". كان اللورد جون يراقب من خلال منظار ميداني."
-        },
-        {
-          "order": 29,
-          "paragraphEn": "",
-          "paragraphAr": "وقال: \"لا أستطيع أن أخبركم ما كان Lip لكن يمكتني أن أخبركم al لم أر Hill بهذا الشكل من قبل.”"
-        },
-        {
-          "order": 30,
-          "paragraphEn": "rocky tower with a tree growing on its summit. Even Summerlee became",
-          "paragraphAr": "quiet. \"Well?\" Challenger asked proudly. \"The cliffs exist.” Summeree ا 0 005"
-        },
-        {
-          "order": 31,
-          "paragraphEn": "reach the top.",
-          "paragraphAr": "في اليوم التالي عبرنا تلا ورأينا المنحدرات الصخرية. كانت Lola كما رسمها مابل وايت: جدار أخمر ضخم يرتفع"
-        },
-        {
-          "order": 32,
-          "paragraphEn": "",
-          "paragraphAr": "Lille فوق السهل, مع نباتات كثيفة على طول القمة. وبالقرب من أحد الأجزاء وقف برج صخري منفصل تنمو"
-        },
-        {
-          "order": 33,
-          "paragraphEn": "",
-          "paragraphAr": "شجرة على قمته. حتى سمرلي أصبح Lalo سأل تشالنجر بفخر: \"حسناً؟\". قال سمرلي: \"المنحدرات موجودة. هذا"
-        },
-        {
-          "order": 34,
-          "paragraphEn": "",
-          "paragraphAr": "cuts أن المنحدرات موجودة. لا شيء أكثر من ذلك.\""
-        },
-        {
-          "order": 35,
-          "paragraphEn": "",
-          "paragraphAr": "قضينا عدة أيام في البحث عن طريق للصعود. كان الجدار الرئيسي شبه عمودي. وفي إحدى النقاط وجدنا San"
-        },
-        {
-          "order": 36,
-          "paragraphEn": "",
-          "paragraphAr": "كهف sas لكن الممر كان مسدوداً. تسلقنا التلال المحيظة وفحصنا الشقوق والحواف. لم يكن هناك شيء"
-        },
-        {
-          "order": 37,
-          "paragraphEn": "",
-          "paragraphAr": "يصل إلى الهضبة. ثم لاحظ تشالتجِر أن البرج الصخري المنفصل يقف قريباً من الجرف الرئيسي. إذا تمكنا من تسلق"
-        },
-        {
-          "order": 38,
-          "paragraphEn": "",
-          "paragraphAr": "البرج وعيور الفجوة بطريقة Lo فقد نصل إلى القمة."
-        },
-        {
-          "order": 39,
-          "paragraphEn": "",
-          "paragraphAr": "1ه ٠١ ه72"
-        },
-        {
-          "order": 40,
-          "paragraphEn": "inside Maple White Land.",
-          "paragraphAr": "حبلاً إلى أعلى ووصلنا إلى الشجرة التي تنمو على البرج. من هناك تمكنا من Liles كان التسلق صعباً ولكنه ممكن."
-        },
-        {
-          "order": 41,
-          "paragraphEn": "",
-          "paragraphAr": "رؤية الحافة الخضراء للهضبة على مسافة قصيرة فقط - ولكن بيننا وبينها كانت هناك هوة عميقة. نظر اللورد"
-        },
-        {
-          "order": 42,
-          "paragraphEn": "",
-          "paragraphAr": "بالفؤوس. Lilac جون إلى الشجرة وقال: \"إذا قطعناها في الاتجاه الصحيح. فقد تسقط عبر الفجوة\". لعدة ساعات"
-        },
-        {
-          "order": 43,
-          "paragraphEn": "",
-          "paragraphAr": "وأخيراً بدأت الشجرة تتحرك. سقطت ببطء. ثم تحطمت عبر الهوة واستقرت قروعها العليا على الهضبة. أصبح"
-        },
-        {
-          "order": 44,
-          "paragraphEn": "",
-          "paragraphAr": "1 كويري. Lal"
-        },
-        {
-          "order": 45,
-          "paragraphEn": "",
-          "paragraphAr": "ممتطياً الجذع وتحرك بحذر للعبور. وعندما وصل إلى الجانب الآخر, تسلق إلى Guile تشالنجر على الذهاب أولاً. poi"
-        },
-        {
-          "order": 46,
-          "paragraphEn": "",
-          "paragraphAr": "ذراعيه. وضرخ: \"أخيراً!\". عبر سمرلي بعده. حاملاً بندقيتين. ثم تبعته أنا. حاولت ألا أنظر إلى LS الهضبة ورفع"
-        },
-        {
-          "order": 47,
-          "paragraphEn": "",
-          "paragraphAr": "الأسفل نحو السقوط الهائل تحت الشجرة. جاء اللورد جون أخيراً. يمشي بتوازن وهدوء بالكاد أستطيع تصديقه."
-        },
-        {
-          "order": 48,
-          "paragraphEn": "",
-          "paragraphAr": "ولأول مرة. وقفنا نحن الأربعة داخل أرض مابل وايت."
-        },
-        {
-          "order": 49,
-          "paragraphEn": "waited years for this”",
-          "paragraphAr": "كثيفة بالقرب من الجرف, بينما شكلت الأشجار الأطول غابة مظلمة في Glas كان الهواء دافئاً وساكناً نمت"
-        },
-        {
-          "order": 50,
-          "paragraphEn": "",
-          "paragraphAr": "الخلف. جاءت نداءات غريبة من مكان ما في المسافة. أشرق وجه تشالنجر الانتصار. وقال: \"بروفيسور سمرلي."
-        },
-        {
-          "order": 51,
-          "paragraphEn": "",
-          "paragraphAr": "أن نبدأه. لكنني لم أقل بعد كيف Liha,” وقال: alls سمرلي Jac الآن أن نبدأ التحقيق الذي طلبته\". Lida:"
-        },
-        {
-          "order": 52,
-          "paragraphEn": "",
-          "paragraphAr": "سينتهي\". تحركنا خوالي خمسين مترأ داخل الشجيرات. ثم سمعنا صوت طقطقة مروع خلفنا. فركضنا عائدين."
-        },
-        {
-          "order": 53,
-          "paragraphEn": "",
-          "paragraphAr": "لقد اختفى الكوبري الشجري. وفي الأسفل بعيداً. كان جذعها المكسور ملقى عند سفح الجرف. في البداية اعتقدنا"
-        },
-        {
-          "order": 54,
-          "paragraphEn": "",
-          "paragraphAr": "انزلقت: تم ظهر وجه على البرج الصخري المقابل. كان جوميز. لقد اختفى تعبيره الهادئ. نظر عبر الفجوة إلى Lgl"
-        },
-        {
-          "order": 55,
-          "paragraphEn": "",
-          "paragraphAr": "اللورد جون بكراهية واضحة وصرخ: \"أنتم محاصرون الآن!\". تقدم اللورد جون خطوة للأمام وسأل: \"لماذا؟” ضحك"
-        },
-        {
-          "order": 56,
-          "paragraphEn": "",
-          "paragraphAr": "جوفيز وقال: \"فكر في بيدرو لوبيز. لقد كان أخي. وأنت قتلته. لقد انتظرت سنوات من أجل هذا.\""
-        },
-        {
-          "order": 57,
-          "paragraphEn": "",
-          "paragraphAr": "_The Novel ٠: 1ه"
-        },
-        {
-          "order": 58,
-          "paragraphEn": "could not leave it.",
-          "paragraphAr": "نحن الأربعة الآن على هضبة Liye وهكذا. تبعنا الماضي إلى المجهول. كان جوميز قد دفع الشجرة من البرج بعد أن"
-        },
-        {
-          "order": 59,
-          "paragraphEn": "",
-          "paragraphAr": "محاطة بالمنحدرات. ودون طريق معروف للنزول. نادى جوميز: \"ستبقى عظامكم هناك في الأعلى\". بعد لحظة"
-        },
-        {
-          "order": 60,
-          "paragraphEn": "",
-          "paragraphAr": "gaol) رفع اللورد جون يندقيته. فاختفى جوميز خلف الصخرة. سمعنا صراخاً ثم صمتاً. ومع ذلك. في الأسفل. ظل"
-        },
-        {
-          "order": 61,
-          "paragraphEn": "",
-          "paragraphAr": "مخلصاً. فقد تسلق البرج المقابل بمجرد رحيل جوميز والآخرين."
-        },
-        {
-          "order": 62,
-          "paragraphEn": "",
-          "paragraphAr": "بالبقاء gol) صرة\"قائلة: \"أخبروني ماذا أفعل!\". استخدهنا حبلاً رفيعاً لسحب الطعام والذخيرة عبر الفجوة. وعد"
-        },
-        {
-          "order": 63,
-          "paragraphEn": "",
-          "paragraphAr": "طريقة ممكنة. ومع حلول الليل. خيمنا بالقرب من الجرف ومعنا فانوس صغير فقط. cb في الأسفل ومساعدتنا"
-        },
-        {
-          "order": 64,
-          "paragraphEn": "",
-          "paragraphAr": "وخلفنا امٌتدتبالغابة غير المستكشفة للهضبة. لقد وصلنا إى العالم المفقود. والآن لا يمكننا مغادرته."
+          "paragraphEn": "A-Chapter Summative",
+          "paragraphAr": "088 ‏المدرسي‎ ‏أسئلة واجابات‎"
         }
       ],
       "questionsAndAnswers": [
@@ -3593,52 +2558,64 @@
       "summaryAr": "واختيار مكان آفن للمخيم. clall كانت مهمتنا الأولى هي البحث عن",
       "chapterInPoints": [
         {
-          "en": "Our first job was to look for water and choose a safe place for the camp.",
-          "ar": "واختيار مكان آفن للمخيم. clall كانت مهمتنا الأولى هي البحث عن"
+          "order": 1,
+          "pointEn": "",
+          "pointAr": ""
         },
         {
-          "en": "We made a simple shelter in an open place surrounded by thorny branches.",
-          "ar": "بنينا مأوى بسيظا في مكان مفتوح تحيط به أغصان شائكة."
+          "order": 2,
+          "pointEn": "",
+          "pointAr": ""
         },
         {
-          "en": "One morning, we saw several huge animals eating among the trees.",
-          "ar": "في أحد الصباحات, رأينا عدة حيوانات ضخمة تأكل بين الأشجار."
+          "order": 3,
+          "pointEn": "",
+          "pointAr": ""
         },
         {
-          "en": "Challenger recognized the animals as iguanodons.",
-          "ar": "تعرّف تشالنجر على هذه الحيوانات وقال إنها ديناصورات الإيجوانودون."
+          "order": 4,
+          "pointEn": "",
+          "pointAr": ""
         },
         {
-          "en": "Even Professor Summerlee was so surprised that he forgot to argue.",
-          "ar": "يجادل. of حتى البروفيسور سمرلي اندهش لدرجة أنه نسي"
+          "order": 5,
+          "pointEn": "",
+          "pointAr": ""
         },
         {
-          "en": "When we visited the place again, we found that one of the large plant-eaters had been torn",
-          "ar": "عندما عدنا إلى المكان مرة أخرى. وجدنا أن أحد الحيوانات الكبيرة آكلة النباتات قد تمزق."
+          "order": 6,
+          "pointEn": "",
+          "pointAr": ""
         },
         {
-          "en": "We heard loud cries from a rocky hollow and discovered a swamp full of pterodactyls.",
-          "ar": "من منخفض صخري واكتشفنا مستنقعًا ملينًا بالبتيروداكتيل. dille سمعنا صرخات"
+          "order": 7,
+          "pointEn": "",
+          "pointAr": ""
         },
         {
-          "en": "Lord John fired his gun, and the attack became weaker, allowing us to escape under thick",
-          "ar": "أطلق اللورد جون بندقيته. فضعف الهجوم واستطعنا الهرب تحت الأغضان الكثيفة."
+          "order": 8,
+          "pointEn": "",
+          "pointAr": ""
         },
         {
-          "en": "When we returned to Fort Challenger, we discovered that our food tins had been crushed.",
-          "ar": "عندما عدنا إلى حصن تشالنجر, اكتشفنا أن علب الطعام قد تحطمت."
+          "order": 9,
+          "pointEn": "",
+          "pointAr": ""
         },
         {
-          "en": "Our ammunition was damaged, and the other supplies were scattered everywhere.",
-          "ar": "مبعثرة في كل مكان: ofall كانت ذخيرتنا تالفة. وكانت باقي"
+          "order": 10,
+          "pointEn": "",
+          "pointAr": ""
         },
         {
-          "en": "During the following days, we explored the area carefully and noticed strange birds and un",
-          "ar": "خلال الأيام التالية, استكشفنا المنطقة بحذر ولاحظنا طيورًا غريبة وآثارا لم نعرفها."
+          "order": 11,
+          "pointEn": "",
+          "pointAr": ""
         },
         {
-          "en": "From the top of a tall tree, | saw a thin line of smoke near the caves, showing that someone",
-          "ar": "ما كان يستخدم LAS الكهوف. مما يدل على أن goo من أعلى شجرة طويلة, رأيت خظا رفيعًا من الدخان بالقرب"
+          "order": 12,
+          "pointEn": "",
+          "pointAr": ""
         }
       ],
       "vocabulary": [
@@ -3722,348 +2699,58 @@
       "theText": [
         {
           "order": 1,
-          "paragraphEn": "listen.",
-          "paragraphAr": "ومكان آمن للتخييم. تتبعنا جدولاً صغيراً في الغابة وبنينا مأوى بسيطاً clall كانت مهمتنا الأولى بسيطة: العثور على"
+          "paragraphEn": "‏ ‎ Our first task was simple: find water and a safe place to camp. We fol- Tar lowed a small stream into the forest and built a rough shelter in an Jamaal open area surrounded by thorny branches. Lord John called it \"Fort a Challenger’, Professor Challenger pretended to dislike the joke, but 7 noticed that he did not suggest a different name. 0 The plateau was unlike any place had ever seen. Some plants looked 999 7 familiar, while others seemed larger or older in form. Insects of brilliant lee colors moved through the air. Every distant sound made us stop and iid listen.",
+          "paragraphAr": "‏ومكان آمن للتخييم. تتبعنا جدولاً صغيراً في الغابة وبنينا مأوى بسيطاً‎ ‏كانت مهمتنا الأولى بسيطة: العثور على‎ ‏في منطقة مفتوحة محاطة بأغصان شائكة. أطلق عليه اللورد جون اسم \"حصن تشالنجر\". تظاهر البروفيسور‎ ‏مختلفاً.‎ ! ‏تشالنجر بعدم إعجابه بالمزحة. لكنني لاحظت أنه لم يقترح‎ ‏أو‎ ‏كانت الهضبة مختلفة عن أي مكان رأيته من قبل. بدت بعض النباتات مألوفة. بينما بدا البعض الآخر أكبر‎ ‏أقدم في الشكل. تحركت حشرات ذات ألوان زاهية في الهواء. كل صوت بعيد كان يجعلنا نتوقف ونستمع.‎"
         },
         {
           "order": 2,
-          "paragraphEn": "",
-          "paragraphAr": "في منطقة مفتوحة محاطة بأغصان شائكة. أطلق عليه اللورد جون اسم \"حصن تشالنجر\". تظاهر البروفيسور"
+          "paragraphEn": "We did not have to wait long for proof that Challenger had been right. NPB)\" aay One morning we entered a broad glade and saw several enormous ani- te 2 mals feeding among the trees. They stood on powerful back legs, using 7 ie ‏*‎ ‎shorter front legs to pull down branches. Their heads were small com- ‏‎ pared with their heavy bodies and long tails. \"Iguanodons,\" Challeng- ‏‎ 54 2 er whispered. Even Summerlee forgot to argue. His face changed from aaa doubt to amazement. There were adults and young ones. For several 007 minutes we watched them in silence. \"You were right,” Summerlee said at last. Challenger looked almost disappointed. \"Of course was right.”",
+          "paragraphAr": "‏لم نضطر للانتظار طويلاً للحصول على دليل على أن تشالنجر كان على حق. في أحد الأيام. دخلنا فسحة واسعة‎ ‏ورأينا عدة حيوانات ضخمة تتغذى بين الأشجار. كانت تقف على أرجل خلفية قوية. وتستخدم أرجلاً أمامية أقصر‎ \" ‏لسحب الأغصان إلى أسفل. كانت رؤوسها صفيرة مقارنة بأجسامها الثقيلة وذيولها الطويلة. همس تشالنجر:‎ ‏الإجوانودون”. حنى سمرلي نسي أن يجادل. وتغير وجهه من الشك إلى الذهول. كان هناك حيوانات بالغة وصغيرة.‎ ‏لعدة دقائق راقبناهم في صمت. قال سمرلي أخيرا: \"لقد كنت على حق\". بدا تشالنجر محبطأ تقريباً وقال: \"بالطبع‎ ‏كنت على حق.\"‎"
         },
         {
           "order": 3,
-          "paragraphEn": "",
-          "paragraphAr": "مختلفاً. lou! تشالنجر بعدم إعجابه بالمزحة. لكنني لاحظت أنه لم يقترح"
+          "paragraphEn": "Their peace did not last. The next time we returned, one of the great plant-eaters had been torn apart. Deep claw and tooth marks showed that a far more dangerous animal lived nearby. “A large carnivorous dino- i 2 saur’ Summerlee said. \"Possibly an allosaurus,’ Challenger replied. Lord John checked his rifle. Call it what you like. prefer not to meet it at close range.\" Another discovery was even more disturbing. 1",
+          "paragraphAr": "‏فيها. وجدنا أحد الحيوانات الكبيرة‎ ‏لم يدم سلامهم طويلاً. في المرة التالية التي‎ ‏آكلة العشب قد تم تمزيقه. أظهرت علامات المخالب والأسنان العميقة أن حيواناً أكثر‎ ‏خطورة يعيش في الجوار. قال سمرلي: \"ديناصور كبير آكل لحوم\". أجاب تشالنجر:‎ ‏\"ربما ايكون ألوصور\". فحص اللورد جون بندقيته وقال: \"سمه ها شنت. أنا أفضل ألا أقابله عن قرب\". وكان هناك‎ ‏اكتشاف آخر أكثر إزعاجاً‎ 72 ‏1ه :- سح‎"
         },
         {
           "order": 4,
-          "paragraphEn": "",
-          "paragraphAr": "أو lass كانت الهضبة مختلفة عن أي مكان رأيته من قبل. بدت بعض النباتات مألوفة. بينما بدا البعض الآخر أكبر"
+          "paragraphEn": "‘Thelostiworld ‏ ‎ We heard a constant harsh crying from a rocky hollow and crawled for- - ew ward to investigate. Below us lay a swampy basin filled with pterodactyls. jigs Hundreds of them crowded around pools of green water. Young animals moved between leathery eggs, while large adults rested on rocks with a folded wings. For Challenger and Summerlee, it was a scientific treasure. ‏‎ ‎They whispered excitedly about wings, teeth, nesting behavior, and spe- cies. Lord John and were more interested in the animals' sharp beaks and watchful eyes. We tried to withdraw quietly, but one creature saw us. Its cry was answered by others. In seconds the sky seemed full of wings. “Run!\" Lord John shouted.",
+          "paragraphAr": "‎‏ صراخاً قاسيا مستمراً من تجويف صخري وزحفنا للأمام للتحقيق. تحتنا كان يقع حوض مستنقعي هليء ‏بالزواحف المجنحة (بتروداكتيل). احتشد المثات منها حول برك من المياه الخضراء. تحركت الحيوانات الصغيرة ‏بين بيض جلدي. بيتما استراحت الحيوانات البالغة الكبيرة على الصخور بأجنحة مطوية. بالنسبة لتشالنجر وسمرلي. ‏كان هذا ‎(‏ علمياً. همسوا بحماس حول الأجنحة والأسنان وسلوك التعشيش والأنواع. كنت أنا واللورد جون ‎‏ ‏اهتماماً بمناقير الحيوانات الحادة وعيونها اليقظة. حاولنا الانسحاب بهدوء. لكن أحد المخلوقات ‎)‏ وردت مخلوقات أخرى على صرخته. في ثوان بدت السماء مليئة بالأجنحة. صرخ اللورد جون: \"اركضوا!\"."
         },
         {
           "order": 5,
-          "paragraphEn": "",
-          "paragraphAr": "أقدم في الشكل. تحركت حشرات ذات ألوان زاهية في الهواء. كل صوت بعيد كان يجعلنا نتوقف ونستمع."
+          "paragraphEn": "‎We raced towards the trees. Beaks snapped near our heads. Wings struck Jima saan ay ‎‘our shoulders. One pterodactyl stabbed me in the neck with its beak. ‏‎ ifn: ‎Lord John’s coat was torn. Challenger was knocked down. At last Lord 1 Ly ‎John fired his rifle and the attack weakened enough for us to escape be- wx lg ‎neath thicker branches. Summerlee, bleeding from a cut on his forehead, 9 ‏‎ ‎looked back toward the swamp. \"Remarkable,\" he said. \"Remarkable?\" ‏‎ a 4 ‎Lord John replied. \"They nearly killed us.\" \"That does not make them less 3 mt ‎remarkable.’ The scientists collected every fact they could, even when 9 ‎the facts had teeth.",
+          "paragraphAr": "‏زكضنا نحو الأشجار. انقضت المناقير بالقرب من رؤوسنا. وضربت الأجنحة أكتافنا. ‏طعنني أحد الزواحف المجنحة في زقبتي بمنقاره. تمزق معطف اللورد جون. وسقط تشالنجر أرضاً. أخيراً أطلق ‏اللورد جون النار من بندقيته وضعف الهجوم ‎‏ يكفي لنهرب تحت الأغصان الكثيفة. نظر سمرلي, الذي كان ينزف ‏من جرح في جبهته. إلى الخلف نحو المستنقع وقال: ‎”‏ رائع\". رد اللورد جون: \"رائع؟ لقد كادوا يقتلوننا\". فأجاب: ‏\"هذا لا يجعلهم ‎‏ روعة\". جمع العلماء كل حقيقة استطاعوا جمعها. حتى عندما كانت تلك الحقائق تمتلك أسناناً."
         },
         {
           "order": 6,
-          "paragraphEn": "One morning we entered a broad glade and saw several enormous ani- te 2",
-          "paragraphAr": "mals feeding among the trees. They stood on powerful back legs, using 7 ie ب*"
+          "paragraphEn": "‎When we returned to Fort Challenger, we found another problem. Some- ‎thing had entered the camp while we were away. Food tins had been ‎crushed. A wooden ammunition box had been broken. Supplies were ‎scattered across the ground. There were no clear footprints. \"Whatever ‎did this was strong,\" said. \"And clever enough to enter without breaking ‎the thorn wall,\" Lord John added. A large branch hung over one side of ‎the camp. Something could have climbed through the tree. That night ‎we kept two fires burning and took turns on watch.",
+          "paragraphAr": "‏عندما ‎‏ إلى حصن تشالتجر. وجدنا مشكلة أخرى. شيء ‎‏ دخل المخيم أثناء غيابنا. ‏1 انم سحق علب الطعام. وكسر صندوق ذخيرة خشبي. وتناثرت الإمدادات على الأرض. ‏لم تكن هناك آثار أقدام واضحة. قلت: ‎\"‏ كان من فعل هذا فهو قوي\". أضاف اللورد جون: \"وذكي ‎‏ يكفي ‏للدخول دون كسر جدار الأشواك\". كان هناك فرع كبير يتدلى فوق أحد جوانب المخيم. ‎‏ تسلق شيء ما عبر"
         },
         {
           "order": 7,
-          "paragraphEn": "",
-          "paragraphAr": "shorter front legs to pull down branches. Their heads were small com- | اللا ١"
+          "paragraphEn": "‎SAEs ee ee oe “TheNovel Gp TheLostiworld — In the following days we explored carefully. We saw more iguanodons, 7 ‘Say giant insects, strange birds, and tracks we could not identify. Once, at 5 dusk, a huge shadow moved between the trees. It was too large to be al any modern animal knew. Despite the danger, Challenger was happi- (alms 4 er than had ever seen him. The plateau was proving his story in every “, direction. Summerlee, now convinced that prehistoric life had survived, 5 became just as energetic. Their arguments continued, but the subject ‏‎ ‎had changed. They no longer argued about whether the lost world exist- ed; they argued about how to classify everything inside it.",
+          "paragraphAr": "‏في الأيام التالية استكشفنا بحذر. رأينا المزيد من الإجوانودون. وحشرات عملاقة. وطيوراً غريبة, وآثاراً لم نتمكن من‎ ‏عند الغسق, تحرك ظل ضخم بين الأشجار. كان أكبر من أن يكون أي حيوان حديث أعرفه.‎ ‏التعرف عليها. ذات‎ ‏قصته في كل اتجاه.‎ ‏على الرغم من الخطر. كان تشالنجر أسعد مما رأيته في أي وقت مضى. كانت الهضبة‎ ‏حياة ما قبل التاريخ قد نجت. مفعماً بالحيوية بنفس القدر. استمرت مجادلاتهم. لكن‎ ‏المقتنع الآن‎ ‏أصبح‎ ‏الموضوع قد تغير. لم يعودوا يتجادلون حول ما إذا كان العالم المفقود موجوداً: بل تجادلوا حول كيفية تصنيف كل‎ ‏اشيء بداخله.‎"
         },
         {
           "order": 8,
-          "paragraphEn": "",
-          "paragraphAr": "pared with their heavy bodies and long tails. \"Iguanodons,\" Challeng- همده 54 2"
+          "paragraphEn": "Lord John focused on survival. He chose safe paths, watched the wind, studied animal tracks, and never allowed us to walk carelessly into thick cover. tried to do both jobs: observe and survive. was a reporter, and ‏‎ ‎ knew that if we ever returned to London, people would want a clear igi 0 record of what we had seen. But returning was still the great question. Jai 1 Every day we went to the cliff and called to Zambo. He remained at his Iii : little camp below, faithful to his promise. Some of the indigenous guides Saul ‏‎ ‎had gone back toward the river, carrying letters from me and requests jig ‏‎ ‎for strong rope. We could only hope help would eventually arrive. :",
+          "paragraphAr": "‏ركز اللورد جون على البقاء. اختار مسارات آمنة. وراقب الرياح. ودرس آثار الحيوانات,‎ ‏بالسير بإهقال في الغطاء النباتي الكثيف. حاولت القيام بالوظيفتين: المراقبة والبقاء. لقد كنت‎ ‏يسمح لنا‎ ‏رأيناه. لكن العودة كانت لا تزال السؤال‎ ‏فسيريد الناس تسجيلاً واضحاً‎ ‏صحفياً. وكنت أعلم أنه إذا عدنا إلى‎ ‏الأكبر. كل يوم كنا نذهب إلى الجرف ونتادي زامبو. ظل في مخيمه الصغير بالأسفل. وفيا بوعده. عاد بعض الأدلاء‎ ‏الأصليين نحو النهر. حاملين رسائل مني وطلبات للحصول على حبل قوي. لم يكن بوسعنا سوى الأمل في وصول‎ ‏المساعدة في النهاية.‎"
         },
         {
           "order": 9,
-          "paragraphEn": "at last. Challenger looked almost disappointed. \"Of course | was right.”",
-          "paragraphAr": "لم نضطر للانتظار طويلاً للحصول على دليل على أن تشالنجر كان على حق. في أحد الأيام. دخلنا فسحة واسعة"
+          "paragraphEn": "Meanwhile the plateau held another mystery. More than once we had 53919227 iH the feeling that we were being watched. A shadow moved high in a tree - and disappeared. We heard a clicking call unlike any bird. Food vanished 4 7 from places we thought were secure. Once Lord John found a footprint that looked disturbingly human, but broader and heavier, \"There may Pega be people here,’ said. \"Or something close to people,” Challenger re- Jon plied. Summerlee frowned. \"Let us not create a theory before we have i evidence” It was good advice. Yet the forest seemed to be giving us a warning.",
+          "paragraphAr": "‏مراقبون. تحرك‎ ‏في غضون ذلك. كانت الهضبة تخفي لغزاً آخر. شعرنا أكثر من مرة‎ ‏ظل عالياً في شجرة واختفى. سمعنا نداء نقر لا يشبه أي طائر. اختفى الطعام من الأماكن التي اعتقدنا أنها آمنة.‎ ‏ذات مرة وجد اللورد جون أثر قدم يبدو بشرياً بشكل مزعج. لكنه كان أعرض وأثقل. قلت: \"قد يكون هناك أشخاص‎ ‏هنا”. أجاب تشالئجر: \"أو شيء قريب من البشر\". عبس سمرلي وقال: \"دعونا لا نبتكر نظرية قبل أن يكون لدينا‎ ‏دليل\". كانت نصيحة جيدة. ومع ذلك. بدا أن الغابة تعطينا تحذيراً.‎"
         },
         {
           "order": 10,
-          "paragraphEn": "",
-          "paragraphAr": "ورأينا عدة حيوانات ضخمة تتغذى بين الأشجار. كانت تقف على أرجل خلفية قوية. وتستخدم أرجلاً أمامية أقصر"
+          "paragraphEn": "_TheNovel Gp The)Lostiworld oan One afternoon climbed a high tree at the edge of a clearing. From the tgs! upper branches hoped to see more of the plateau and perhaps discover eS a possible escape route. The view was astonishing. The plateau was far ers 0 larger than had imagined. Forest covered most of it, but in the center lay — a broad lake shining in the sun. On the far side could make out a line of fj 2 cliffs with dark openings that might be caves. Then noticed something 3 else. A thin line of smoke rose near those caves. Smoke meant fire. And 5 fire usually meant people. climbed down with my mind racing. The lost world was not only a land of prehistoric animals. Someone - or some- thing - was living there too.",
+          "paragraphAr": "‏على حافة منطقة خالية. من الأغصان العلوية. كنت آمل أن أرى المزيد‎ ‏أيام بعد الظهر. تسلقت شجرة‎ ‏في‎ ‏أكتشف طريق هروب محتمل. كان المنظر مذهلاً. كانت الهضبة أكبر بكثير مما تخيلت. غطت‎ ‏من الهضبة‎ ‏في الشمس. على الجانب البعيد. استطعت‎ ‏الغابات معظمها. ولكن في الوسط كانت هناك بحيرة واسعة‎ ‏من المنحدرات ذات الفتحات الداكنة التي قد تكون كهوفاً. ثم لاحظت شيئاً آخر. ارتفع خط رفيع من‎ ‏أن أرى‎ ‏وجود أشخاص. نزلت وعقلي يتسابق. لم يكن‎ ‏الدخان بالقرب من تلك الكهوف. الدخان يعني النار. والنار تعني‎ ‏العالم المفقود هجرد أرض حيوانات ما قبل التاريخ. كان هناك شخص ها - أو شيء ما - يعيش هناك أيضاً.‎"
         },
         {
           "order": 11,
-          "paragraphEn": "",
-          "paragraphAr": "Lgl\" لسحب الأغصان إلى أسفل. كانت رؤوسها صفيرة مقارنة بأجسامها الثقيلة وذيولها الطويلة. همس تشالنجر:"
-        },
-        {
-          "order": 12,
-          "paragraphEn": "",
-          "paragraphAr": "الإجوانودون”. حنى سمرلي نسي أن يجادل. وتغير وجهه من الشك إلى الذهول. كان هناك حيوانات بالغة وصغيرة."
-        },
-        {
-          "order": 13,
-          "paragraphEn": "",
-          "paragraphAr": "لعدة دقائق راقبناهم في صمت. قال سمرلي أخيرا: \"لقد كنت على حق\". بدا تشالنجر محبطأ تقريباً وقال: \"بالطبع"
-        },
-        {
-          "order": 14,
-          "paragraphEn": "",
-          "paragraphAr": "كنت على حق.\""
-        },
-        {
-          "order": 15,
-          "paragraphEn": "range.\" Another discovery was even more disturbing. 1",
-          "paragraphAr": "فيها. وجدنا أحد الحيوانات الكبيرة Lise لم يدم سلامهم طويلاً. في المرة التالية التي"
-        },
-        {
-          "order": 16,
-          "paragraphEn": "",
-          "paragraphAr": "آكلة العشب قد تم تمزيقه. أظهرت علامات المخالب والأسنان العميقة أن حيواناً أكثر"
-        },
-        {
-          "order": 17,
-          "paragraphEn": "",
-          "paragraphAr": "خطورة يعيش في الجوار. قال سمرلي: \"ديناصور كبير آكل لحوم\". أجاب تشالنجر:"
-        },
-        {
-          "order": 18,
-          "paragraphEn": "",
-          "paragraphAr": "\"ربما ايكون ألوصور\". فحص اللورد جون بندقيته وقال: \"سمه ها شنت. أنا أفضل ألا أقابله عن قرب\". وكان هناك"
-        },
-        {
-          "order": 19,
-          "paragraphEn": "",
-          "paragraphAr": "اكتشاف آخر أكثر إزعاجاً"
-        },
-        {
-          "order": 20,
-          "paragraphEn": "",
-          "paragraphAr": "72 1ه :- سح"
-        },
-        {
-          "order": 21,
-          "paragraphEn": "",
-          "paragraphAr": "‘The}lostiworld| لس د"
-        },
-        {
-          "order": 22,
-          "paragraphEn": "moved between leathery eggs, while large adults rested on rocks with a",
-          "paragraphAr": "folded wings. For Challenger and Summerlee, it was a scientific treasure. م"
-        },
-        {
-          "order": 23,
-          "paragraphEn": "“Run!\" Lord John shouted.",
-          "paragraphAr": "Lina صراخاً قاسيا مستمراً من تجويف صخري وزحفنا للأمام للتحقيق. تحتنا كان يقع حوض مستنقعي هليء"
-        },
-        {
-          "order": 24,
-          "paragraphEn": "",
-          "paragraphAr": "بالزواحف المجنحة (بتروداكتيل). احتشد المثات منها حول برك من المياه الخضراء. تحركت الحيوانات الصغيرة"
-        },
-        {
-          "order": 25,
-          "paragraphEn": "",
-          "paragraphAr": "بين بيض جلدي. بيتما استراحت الحيوانات البالغة الكبيرة على الصخور بأجنحة مطوية. بالنسبة لتشالنجر وسمرلي."
-        },
-        {
-          "order": 26,
-          "paragraphEn": "",
-          "paragraphAr": "كان هذا (pis علمياً. همسوا بحماس حول الأجنحة والأسنان وسلوك التعشيش والأنواع. كنت أنا واللورد جون HST"
-        },
-        {
-          "order": 27,
-          "paragraphEn": "",
-          "paragraphAr": "اهتماماً بمناقير الحيوانات الحادة وعيونها اليقظة. حاولنا الانسحاب بهدوء. لكن أحد المخلوقات Lil) وردت مخلوقات"
-        },
-        {
-          "order": 28,
-          "paragraphEn": "",
-          "paragraphAr": "أخرى على صرخته. في ثوان بدت السماء مليئة بالأجنحة. صرخ اللورد جون: \"اركضوا!\"."
-        },
-        {
-          "order": 29,
-          "paragraphEn": "We raced towards the trees. Beaks snapped near our heads. Wings struck Jima saan ay",
-          "paragraphAr": "‘our shoulders. One pterodactyl stabbed me in the neck with its beak. |] حي ifn: \\"
-        },
-        {
-          "order": 30,
-          "paragraphEn": "John fired his rifle and the attack weakened enough for us to escape be- + wx lg",
-          "paragraphAr": "neath thicker branches. Summerlee, bleeding from a cut on his forehead, 9 اه"
-        },
-        {
-          "order": 31,
-          "paragraphEn": "",
-          "paragraphAr": "looked back toward the swamp. \"Remarkable,\" he said. \"Remarkable?\" عا a 4"
-        },
-        {
-          "order": 32,
-          "paragraphEn": "the facts had teeth.",
-          "paragraphAr": "زكضنا نحو الأشجار. انقضت المناقير بالقرب من رؤوسنا. وضربت الأجنحة أكتافنا."
-        },
-        {
-          "order": 33,
-          "paragraphEn": "",
-          "paragraphAr": "طعنني أحد الزواحف المجنحة في زقبتي بمنقاره. تمزق معطف اللورد جون. وسقط تشالنجر أرضاً. أخيراً أطلق"
-        },
-        {
-          "order": 34,
-          "paragraphEn": "",
-          "paragraphAr": "اللورد جون النار من بندقيته وضعف الهجوم Lay يكفي لنهرب تحت الأغصان الكثيفة. نظر سمرلي, الذي كان ينزف"
-        },
-        {
-          "order": 35,
-          "paragraphEn": "",
-          "paragraphAr": "من جرح في جبهته. إلى الخلف نحو المستنقع وقال: pol” رائع\". رد اللورد جون: \"رائع؟ لقد كادوا يقتلوننا\". فأجاب:"
-        },
-        {
-          "order": 36,
-          "paragraphEn": "",
-          "paragraphAr": "\"هذا لا يجعلهم Jai روعة\". جمع العلماء كل حقيقة استطاعوا جمعها. حتى عندما كانت تلك الحقائق تمتلك أسناناً."
-        },
-        {
-          "order": 37,
-          "paragraphEn": "we kept two fires burning and took turns on watch.",
-          "paragraphAr": "عندما Lise إلى حصن تشالتجر. وجدنا مشكلة أخرى. شيء Le دخل المخيم أثناء غيابنا."
-        },
-        {
-          "order": 38,
-          "paragraphEn": "",
-          "paragraphAr": "1 انم سحق علب الطعام. وكسر صندوق ذخيرة خشبي. وتناثرت الإمدادات على الأرض."
-        },
-        {
-          "order": 39,
-          "paragraphEn": "",
-          "paragraphAr": "لم تكن هناك آثار أقدام واضحة. قلت: Li\" كان من فعل هذا فهو قوي\". أضاف اللورد جون: \"وذكي Ley يكفي"
-        },
-        {
-          "order": 40,
-          "paragraphEn": "",
-          "paragraphAr": "للدخول دون كسر جدار الأشواك\". كان هناك فرع كبير يتدلى فوق أحد جوانب المخيم. Lay تسلق شيء ما عبر"
-        },
-        {
-          "order": 41,
-          "paragraphEn": "direction. Summerlee, now convinced that prehistoric life had survived, 5",
-          "paragraphAr": "became just as energetic. Their arguments continued, but the subject اح"
-        },
-        {
-          "order": 42,
-          "paragraphEn": "ed; they argued about how to classify everything inside it.",
-          "paragraphAr": "في الأيام التالية استكشفنا بحذر. رأينا المزيد من الإجوانودون. وحشرات عملاقة. وطيوراً غريبة, وآثاراً لم نتمكن من"
-        },
-        {
-          "order": 43,
-          "paragraphEn": "",
-          "paragraphAr": "عند الغسق, تحرك ظل ضخم بين الأشجار. كان أكبر من أن يكون أي حيوان حديث أعرفه. Spo التعرف عليها. ذات"
-        },
-        {
-          "order": 44,
-          "paragraphEn": "",
-          "paragraphAr": "قصته في كل اتجاه. Gus على الرغم من الخطر. كان تشالنجر أسعد مما رأيته في أي وقت مضى. كانت الهضبة"
-        },
-        {
-          "order": 45,
-          "paragraphEn": "",
-          "paragraphAr": "حياة ما قبل التاريخ قد نجت. مفعماً بالحيوية بنفس القدر. استمرت مجادلاتهم. لكن ob المقتنع الآن shaw أصبح"
-        },
-        {
-          "order": 46,
-          "paragraphEn": "",
-          "paragraphAr": "الموضوع قد تغير. لم يعودوا يتجادلون حول ما إذا كان العالم المفقود موجوداً: بل تجادلوا حول كيفية تصنيف كل"
-        },
-        {
-          "order": 47,
-          "paragraphEn": "",
-          "paragraphAr": "اشيء بداخله."
-        },
-        {
-          "order": 48,
-          "paragraphEn": "Lord John focused on survival. He chose safe paths, watched the wind,",
-          "paragraphAr": "studied animal tracks, and never allowed us to walk carelessly into thick ١"
-        },
-        {
-          "order": 49,
-          "paragraphEn": "",
-          "paragraphAr": "cover. | tried to do both jobs: observe and survive. | was a reporter, and ~ ل"
-        },
-        {
-          "order": 50,
-          "paragraphEn": "Every day we went to the cliff and called to Zambo. He remained at his Iii :",
-          "paragraphAr": "little camp below, faithful to his promise. Some of the indigenous guides Saul مح"
-        },
-        {
-          "order": 51,
-          "paragraphEn": "",
-          "paragraphAr": "had gone back toward the river, carrying letters from me and requests jig ئس"
-        },
-        {
-          "order": 52,
-          "paragraphEn": "for strong rope. We could only hope help would eventually arrive. :",
-          "paragraphAr": "ركز اللورد جون على البقاء. اختار مسارات آمنة. وراقب الرياح. ودرس آثار الحيوانات, y"
-        },
-        {
-          "order": 53,
-          "paragraphEn": "",
-          "paragraphAr": "بالسير بإهقال في الغطاء النباتي الكثيف. حاولت القيام بالوظيفتين: المراقبة والبقاء. لقد كنت Lui يسمح لنا aly"
-        },
-        {
-          "order": 54,
-          "paragraphEn": "",
-          "paragraphAr": "رأيناه. لكن العودة كانت لا تزال السؤال Lal فسيريد الناس تسجيلاً واضحاً gail صحفياً. وكنت أعلم أنه إذا عدنا إلى"
-        },
-        {
-          "order": 55,
-          "paragraphEn": "",
-          "paragraphAr": "الأكبر. كل يوم كنا نذهب إلى الجرف ونتادي زامبو. ظل في مخيمه الصغير بالأسفل. وفيا بوعده. عاد بعض الأدلاء"
-        },
-        {
-          "order": 56,
-          "paragraphEn": "",
-          "paragraphAr": "الأصليين نحو النهر. حاملين رسائل مني وطلبات للحصول على حبل قوي. لم يكن بوسعنا سوى الأمل في وصول"
-        },
-        {
-          "order": 57,
-          "paragraphEn": "",
-          "paragraphAr": "المساعدة في النهاية."
-        },
-        {
-          "order": 58,
-          "paragraphEn": "evidence” It was good advice. Yet the forest seemed to be giving us a",
-          "paragraphAr": "warning. ١"
-        },
-        {
-          "order": 59,
-          "paragraphEn": "",
-          "paragraphAr": "مراقبون. تحرك Lil في غضون ذلك. كانت الهضبة تخفي لغزاً آخر. شعرنا أكثر من مرة"
-        },
-        {
-          "order": 60,
-          "paragraphEn": "",
-          "paragraphAr": "ظل عالياً في شجرة واختفى. سمعنا نداء نقر لا يشبه أي طائر. اختفى الطعام من الأماكن التي اعتقدنا أنها آمنة."
-        },
-        {
-          "order": 61,
-          "paragraphEn": "",
-          "paragraphAr": "ذات مرة وجد اللورد جون أثر قدم يبدو بشرياً بشكل مزعج. لكنه كان أعرض وأثقل. قلت: \"قد يكون هناك أشخاص"
-        },
-        {
-          "order": 62,
-          "paragraphEn": "",
-          "paragraphAr": "هنا”. أجاب تشالئجر: \"أو شيء قريب من البشر\". عبس سمرلي وقال: \"دعونا لا نبتكر نظرية قبل أن يكون لدينا"
-        },
-        {
-          "order": 63,
-          "paragraphEn": "",
-          "paragraphAr": "دليل\". كانت نصيحة جيدة. ومع ذلك. بدا أن الغابة تعطينا تحذيراً."
-        },
-        {
-          "order": 64,
-          "paragraphEn": "thing - was living there too.",
-          "paragraphAr": "على حافة منطقة خالية. من الأغصان العلوية. كنت آمل أن أرى المزيد dulle أيام بعد الظهر. تسلقت شجرة asi في"
-        },
-        {
-          "order": 65,
-          "paragraphEn": "",
-          "paragraphAr": "أكتشف طريق هروب محتمل. كان المنظر مذهلاً. كانت الهضبة أكبر بكثير مما تخيلت. غطت Lang من الهضبة"
-        },
-        {
-          "order": 66,
-          "paragraphEn": "",
-          "paragraphAr": "في الشمس. على الجانب البعيد. استطعت VS الغابات معظمها. ولكن في الوسط كانت هناك بحيرة واسعة"
-        },
-        {
-          "order": 67,
-          "paragraphEn": "",
-          "paragraphAr": "من المنحدرات ذات الفتحات الداكنة التي قد تكون كهوفاً. ثم لاحظت شيئاً آخر. ارتفع خط رفيع من Las أن أرى"
-        },
-        {
-          "order": 68,
-          "paragraphEn": "",
-          "paragraphAr": "وجود أشخاص. نزلت وعقلي يتسابق. لم يكن Sale الدخان بالقرب من تلك الكهوف. الدخان يعني النار. والنار تعني"
-        },
-        {
-          "order": 69,
-          "paragraphEn": "",
-          "paragraphAr": "العالم المفقود هجرد أرض حيوانات ما قبل التاريخ. كان هناك شخص ها - أو شيء ما - يعيش هناك أيضاً."
+          "paragraphEn": "A-Chapter Summative",
+          "paragraphAr": "& ‏أسئلة واجابات الكتاب المارسي‎"
         }
       ],
       "questionsAndAnswers": [

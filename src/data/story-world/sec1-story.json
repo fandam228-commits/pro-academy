@@ -81,28 +81,34 @@
       "summaryAr": "يوقا AE أسانتياغو صياد عجوز لم يصطد أي سمكة منذ",
       "chapterInPoints": [
         {
-          "en": "Santiago isan old fisherman wha hasn't caught a fish in 64 days.",
-          "ar": "يوقا AE أسانتياغو صياد عجوز لم يصطد أي سمكة منذ"
+          "order": 1,
+          "pointEn": "",
+          "pointAr": ""
         },
         {
-          "en": "Manolin once fished with Santiago but was forced by his parents to join another boat.",
-          "ar": "كان مانولين يصطاد مع سانتياغو سابقًاء لكن والديه أجبراه على الذهاب مع قارب آخر"
+          "order": 2,
+          "pointEn": "",
+          "pointAr": ""
         },
         {
-          "en": "Santiago is poor but proud and full of dignity.",
-          "ar": ". أسانتياغو فقير, لكنه فخور ومليء بالكرامة"
+          "order": 3,
+          "pointEn": "",
+          "pointAr": ""
         },
         {
-          "en": "Santiago admires Joe DiMaggio, a baseball player who played despite pain",
-          "ar": "11 . يعتقد سانتياغو أن من الأفضل أن تكون \"دقيقًا” بدلاً من الاعتماد على الحظ"
+          "order": 4,
+          "pointEn": "",
+          "pointAr": ""
         },
         {
-          "en": "He plans to مو far into the sea on the sth day ما find a big fish.",
-          "ar": "يخطط للذهاب بعيذا في البحر في اليوم, الخامس والثمانين ليصطاد سمكة كبيرة"
+          "order": 5,
+          "pointEn": "",
+          "pointAr": ""
         },
         {
-          "en": "Santiago's Appearance and Spirit مظهر سانتياغو وروحه الشاب",
-          "ar": ""
+          "order": 6,
+          "pointEn": "",
+          "pointAr": ""
         }
       ],
       "vocabulary": [
@@ -138,423 +144,83 @@
       "theText": [
         {
           "order": 1,
-          "paragraphEn": "sea itself, full of life and determination.",
-          "paragraphAr": "وكان البحر رفيقه. أصبح جلده داكنا وخشنا من سنوات تحت djg-ac كان سانتياغو صيادًا"
+          "paragraphEn": "Santiago's Appearance and Spirit ‏ ‎ ‘Santiago was an old fisherman, and the sea was his companion. His skin had grown dark and leathery from years beneath the burning sun. His hands were rough, cut, and scarred from pulling heavy fishing lines day after day. Yet, when people looked into his eyes, 4 they did not see weakness. His eyes were as clear and bright as the sea itself, full of life and determination.",
+          "paragraphAr": "‏وكان البحر رفيقه. أصبح جلده داكنا وخشنا من سنوات تحت‎ - ‏كان سانتياغو صيادًا‎ ‏والندوب من سحب حبال الصيد‎ ‏الشمس الحارقة. وكانت يداه خشنتين. مليئتين‎ ‏الناس إلى عينيه. لم يروا ضعفًا. كانت عيناه‎ ‏الثقيلة يونا بعد يوم. ومع ذلك. عندما‎"
         },
         {
           "order": 2,
-          "paragraphEn": "",
-          "paragraphAr": "والندوب من سحب حبال الصيد ag UL الشمس الحارقة. وكانت يداه خشنتين. مليئتين"
+          "paragraphEn": "Santiago's Struggle and Dignity ‏ ‎ For eighty-four long days, Santiago had gone out into the Gulf Stream and returned empty-handed. Not a single fish had been caught. In his small Cuban village, whispers began to spread. The younger fishermen, who still had luck, laughed at him quietly. They called him salao—the worst kind of unlucky. Yet Santiago carried himself with dignity. He walked proudly with his fishing gear over his shoulder, his back straight, as if luck were something that could never truly defeat a man.",
+          "paragraphAr": "‏كان سانتياغو يخرج إلى تيار الخليج ويعود خالي الوفاض.‎ ‏لمدة أربعة وثمانين يوقا‎ ‏في صيد ولو سمكة واحدة. وفي قريته الكوبية الصغيرة. بدأت الهمسات تنتشر.‎ ‏لم‎ ‎ ‏بصمت. كانوا‎ ‏الصيادون الأصضغر سناء الذين لا يزال الحظ حليفهم. كانوا يسخرون‎ ‏عليه لقب \"سالاو\" - أسوأ أنواع سوء الحظ. ومع ذلك. كان سانتياغو يتحلى بالكرامة. كان‎ ‏شيء لا يمكنه‎ ‏يمشي بفخر. وأدوات الصيد على كتفه. وظهره مستقيفا. كما لو أن‎ ‏أبذا أن يهزم الرجل‎"
         },
         {
           "order": 3,
-          "paragraphEn": "",
-          "paragraphAr": "الناس إلى عينيه. لم يروا ضعفًا. كانت عيناه pis الثقيلة يونا بعد يوم. ومع ذلك. عندما"
+          "paragraphEn": "71 ‘Among all the people of the village, only one remained loyal to him: 2 ‏‎ boy named Manolin. The boy had fished with Santiago since he was just five years old. Now he was twelve, strong and full of admiration for the old man. He loved Santiago like a grandfather. / 1 For forty days, Manolin had fished with him, even when there was 1 ‏‎ catch. But finally, at his parents’ order, he had joined another boat—a luckier boat that brought back fish.",
+          "paragraphAr": "‏له: صبي يُدعى مانولين.‎ ‏من بين جميع أهل القرية, كان هناك شخص واحد فقط ظل‎ ‏أن كان في الخامسة من عمره. والآن أصبح عمره‎ ‏كان مانولين يصطاد مع سانتياغو‎ ‏اثني عشر عافاء قويًا ومعجبًا بالرجل العجوز. كان يُحب سانتياغو كما يُحب الحفيد جده.‎ ‏لمدة أربعين يوقاء كان مانولين يصطاد معه. حتى عندما لم, يكن هناك صيد. لكن في‎ ‏بالسمك.‎ ‏يعود‎ ‏النهاية, وبأمر من والديه. التحق بقارب آخر - قارب أكثر‎"
         },
         {
           "order": 4,
-          "paragraphEn": "",
-          "paragraphAr": "Santiago's Struggle and Dignity صراع سانتياغو وكرامته"
+          "paragraphEn": "Still, every evening, when the other fishermen returned with their catch, Manolin would go to Santiago's small skiff. He would help the old man carry his nets, his gaff, and his harpoon. He would fold the patched sail. He would carry the old man’s heavy lines, carefully ‏‎ ‎coiled, and walk beside him. a",
+          "paragraphAr": "‏كان‎ ; ‏الآخرون‎ ‏يعود‎ ‏كل مساءء‎ ‏ومع‎ ‏مانولين يذهب إلى قارب سانتياغو الصغير. كان يُساعد الرجل العجوز‎ ‏في حمل شباكه. وخطافه. ورمحه. وكان يطوي الشراع المرقع. ويحمل‎ ‏الحبال الثقيلة للرجل العجوز. الملفوفة بعناية. ويمشي بجانبه:‎"
         },
         {
           "order": 5,
-          "paragraphEn": "never truly defeat a man.",
-          "paragraphAr": "كان سانتياغو يخرج إلى تيار الخليج ويعود خالي الوفاض. Ligh لمدة أربعة وثمانين يوقا"
+          "paragraphEn": "“Qld man,” the boy said one evening as they reached Santiago's hut, “you are the greatest fisherman know. Someday, the luck will return to you.” Santiago smiled faintly, the lines of age deepening around his mouth. “It is better to be lucky,” he said. “But I would rather be exact. When luck finally comes, want to be ready for it.” The boy nodded. He knew Santiago's words carried wisdom. To fish was not only luck—it was skill, patience, and courage.",
+          "paragraphAr": "‏أعظم صياد‎ ‏قال الصبي ذات مساء حين وصلا إلى كوخ سانتياغو.,‎ \" 0! ‏أعرفه. سيعود الحظ إليك يوفا ما.\"‎ ‏ابتسم سانتياغو ابتسامة خفيفة. وبدت تجاعيد العمر واضحة حول فمه. قال: \"من الأفضل‎ ‏أريد أن أكون.‎ ‏أن تكون محظوضًا. لكنني أفضل أن أكون دقيقا. فعندما يأتي الحظ‎ ‏الصبي برأسه. كان يعرف أن كلمات سانتياغو تحمل حكمة. فالصيد لم يكن مجرد حظ‎ . ‏بل كان مهارة وصبرًا وشجاعة‎"
         },
         {
           "order": 6,
-          "paragraphEn": "",
-          "paragraphAr": "في صيد ولو سمكة واحدة. وفي قريته الكوبية الصغيرة. بدأت الهمسات تنتشر. aay لم"
+          "paragraphEn": "‏‎ _ The Fisherman's Home ‏ ‎ The hut where Santiago lived was small, made of faded palm leaves. Inside, it was almost bare. On the walls hung only two pictures. There was a bed made of newspapers, a single blanket, a wooden 1 jhe table, and one chair, There were no luxuries, no decorations, no treasures—except the tools of a fisherman. z cm",
+          "paragraphAr": "‏من أوراق النخيل‎ ‏الذي يعيش فيه سانتياغو صغيرًا.‎ ‏##كان‎ ‏الباهتة. ومن الداخل. كان شبه خال. على الجدران صورتان فقط. وكان هناك سرير مصنوع‎ ‏من الجرائد. وبطانية واحدة. وطاولة خشبية. وكرسي واحد. لم تكن هناك كماليات, ولا‎ ‏زينة. ولا كنوز - سوى أدوات الصياد.‎"
         },
         {
           "order": 7,
-          "paragraphEn": "",
-          "paragraphAr": "Ugly بصمت. كانوا dio الصيادون الأصضغر سناء الذين لا يزال الحظ حليفهم. كانوا يسخرون"
+          "paragraphEn": "ALife with the Sea ‏ ‎ Yet Santiago never complained. He had lived his whole life with the ‘sea, and that was enough. That evening, the boy sat with him outside the hut. They shared a \" simple meal of black beans, rice, and a little fried fish. The boy had gy brought it as a gift from his own home. Santiago ate slowly, gratefully, for food was energy, and tomorrow he would need it.",
+          "paragraphAr": "‏وكان ذلك كافيًا له.‎ ‏نقد عاش طوال حياته مع‎ ‏لم يشتك سانتياغو‎ 3 ‏ومع‎ ‏خارج الكوخ. تقاسما وجبة بسيطة من الفاصوليا‎ ‏في ذلك المساء. جلس الصبي‎ ‏السوداء والأرز وقليل من السمك المقلي. أحضرها الصبي كهدية من منزله. أكل سانتياغو‎ . ‏وامتنان: لأن الطعام كان طاقة: وكان سيحتاجها في الفد‎"
         },
         {
           "order": 8,
-          "paragraphEn": "",
-          "paragraphAr": "عليه لقب \"سالاو\" - أسوأ أنواع سوء الحظ. ومع ذلك. كان سانتياغو يتحلى بالكرامة. كان"
+          "paragraphEn": "Talking about Baseball ‏ ‎ “Tell me about baseball,” Santiago said suddenly. Baseball was one 79 of the old man's greatest loves. “How are the Yankees playing this ‏”‎ ‎“The Yankees are strong,” Manolin replied eagerly. “Joe DiMaggio is playing well. He is always the hero.”",
+          "paragraphAr": "‏قال سانتياغو فجأة: 'حدثني عن البيسبول\". كانت البيسبول من‎ “! ‏الأشياء التي يحبها الرجل العجوز. “كيف يلعب فريق اليانكيز هذا‎ . * ‏البطل‎ ‏أجاب مانولين بحماس: \"فريق اليانكيز قوي. جو ديماتجيو يلعب جيذا.‎"
         },
         {
           "order": 9,
-          "paragraphEn": "",
-          "paragraphAr": "شيء لا يمكنه Ball يمشي بفخر. وأدوات الصيد على كتفه. وظهره مستقيفا. كما لو أن"
+          "paragraphEn": "‏‎ _ Santiago’s Champion ‏ ‎ Santiago's eyes lit up. “Yes, DiMaggio. He is my champion too. He played even when he had pain in his heel, yet he never gave up. That 8 is real courage. Pain does not matter to a man.” Ee The boy grinned. “But you are stronger than DiMaggio, old man. You sf wie have the sea.” 3 7",
+          "paragraphAr": "‏عندما كان يشعر بالأنِم في كعبه. لكنه لم يستسالم أبذا. هذه هي‎ ‏الشجاعة الحقيقية. الألم لا يعني شينًا للرجل.‎ “ ‏أقوى من ديماتجيو. أيها العجوز. أنت تملك‎ ‏ابتسم الصبي وقال:‎"
         },
         {
           "order": 10,
-          "paragraphEn": "",
-          "paragraphAr": "Las أبذا أن يهزم الرجل"
+          "paragraphEn": "Peaceful Evening ‏ ‎ The old man laughed, a soft, tired laugh. “Perhaps. But baseball has its battles, and the sea has its own.” The evening grew darker. A warm breeze carried the smell of salt from the sea. The sound of waves reached their ears, steady and calming. Santiago leaned back against the wall of his hut, his face peaceful.",
+          "paragraphAr": "‏وللبحر معاركه‎ ‏لكن للبيسبول‎ \" ‏ضحكة خفيفة ومتعبة.‎ ‏ضحك الرجل‎"
         },
         {
           "order": 11,
-          "paragraphEn": "‘Among all the people of the village, only one remained loyal to him: 2",
-          "paragraphAr": "م boy named Manolin. The boy had fished with Santiago since he ="
+          "paragraphEn": "‎The Plan for Tomorrow ‏ ‎ “Tomorrow is the eighty-fifth day,” he said. “That is a lucky number. will go far out, farther than the others dare to go. Maybe too far. But must find the big fish.” The boy looked at him with admiration. “I wish could go with you.” jg",
+          "paragraphAr": "‏اليوم الخامس والثمانون. إنه رقم محظوظ. سأذهب‎ ‏قال: \"الغد‎ ‏أبعد مما يجرق الآخرون على الذهاب. ربما أبعد من اللازم. لكن.‎ ‏يجب أن أجد السمكة الكبيرة‎ . ‏استطيع الذهاب معك\"‎ ‏نظر إليه الصبي بإعجاب.‎"
         },
         {
           "order": 12,
-          "paragraphEn": "For forty days, Manolin had fished with him, even when there was 1",
-          "paragraphAr": "مم catch. But finally, at his parents’ order, he had joined another"
+          "paragraphEn": "‏‎ _ Santiago's Dream ‏ ‎ “Do you know what dream of, boy 7 ” Santiago asked softly. “Yes,” said Manolin. “You dream of lions.” A The old man smiled. “Yes, lions. Always the lions.”",
+          "paragraphAr": "‏يا فتى؟\" سأل سانتياغو بهدوء\"‎ ‏\"أتدري ما الذي أحلم‎ ‏تحلم بالأسود.\"‎ ’ ‏\"نعم”\". قال مانولين.‎ ‏ابتسم الرجل العجوز. “نعم: الأسود. دائمًا الأسود\"‎"
         },
         {
           "order": 13,
-          "paragraphEn": "boat—a luckier boat that brought back fish.",
-          "paragraphAr": "له: صبي يُدعى مانولين. Lidg من بين جميع أهل القرية, كان هناك شخص واحد فقط ظل"
+          "paragraphEn": "Santiago Remembers His Youth ‏ ‎ “You have your boat,” Santiago said gently. “But you are always 5 with me in spirit.” For a moment, silence fell between them. Santiago's thoughts drifted 7 back to his youth. He had once been strong, a sailor on great ships. ‏‎ ‎He had traveled to Africa, and on the golden beaches at night he had Ete ‘seen lions—young lions running and playing like children. Those lions had never left his mind. Even now, in his old age, he dreamed of them. They reminded him of strength, youth, and freedom.",
+          "paragraphAr": "‏معي بروحك.\"‎ ‏قاربك. لكنك‎ \" ‏قال سانتياغو بلطف:‎ ‏في يوم من‎ ‏ساد الصمت للحظة بينهما. عادت أفكار سانتياغو إلى شبابه. لقد كان‎ ‏رأى الأسود‎ ‏الأيام: بحارًا على سفن عظيمة. سافر إلى أفريقياء وعلى الشواطئ الذهبية‎ ‏في‎ ‏أسوذا شابة تركض وتلعب كالأطفال. لم تغادر تلك الأسود ذاكرته أبذا. حتى‎ - ‏والشبابء والحرية.‎ 6 ‏شيخوخته. كان يحلم بها. كانت تذكره‎"
         },
         {
           "order": 14,
-          "paragraphEn": "",
-          "paragraphAr": "أن كان في الخامسة من عمره. والآن أصبح عمره Lio كان مانولين يصطاد مع سانتياغو"
+          "paragraphEn": "Manolin Leaves ‏ ‎ When the meal was finished, Manolin cleared the dishes and prom- ised to bring food again tomorrow. Then he left for his parents’ house. Santiago watched him go, feeling both proud and lonely. The boy had strength and future ? the old man had only the sea.",
+          "paragraphAr": "‏انتهت الوجبة. قام مانولين بتنظيف الأطباق ووعد بإحضار الطعام‎ ‏مرة أخرى غذا. ثم غادر إلى منزل والديه. راقبه سانتياغو وهو يرحل”‎ ‏كان لدى الصبي القوة والمستقبل؛‎ ‏شاعرًا بالفخر والوحدة في‎ 1 \" ‏الرجل العجوز فكان لديه البحر‎"
         },
         {
           "order": 15,
-          "paragraphEn": "",
-          "paragraphAr": "اثني عشر عافاء قويًا ومعجبًا بالرجل العجوز. كان يُحب سانتياغو كما يُحب الحفيد جده."
+          "paragraphEn": "peewee Santiago's Night Thoughts ‏ ‎ Later, Santiago lay down on his bed of newspapers. The hut was dark, but the sound of the ocean filled the silence. He thought of the coming day, of the deep waters, of the great fish that waited for him. He thought of Joe DiMaggio, who played through pain, and of the lions, who never feared.",
+          "paragraphAr": "‏لاحقاء تمدد سانتياغو على سريره المصنوع من الجرائد. كان الكوخ‎ ‏الصمت. فكر في اليوم القادم: وفي‎ ‏مظلمًاء لكن صوت المحيط‎ ‏المياه العميقة. وفي السمكة العظيمة التي تنتظره. وفكر في جو ديماتجيو. الذي كان‎ ‏وفي الأسود, التي لا تعرف الخوف.‎ ‏يلعب رغم‎"
         },
         {
           "order": 16,
-          "paragraphEn": "",
-          "paragraphAr": "لمدة أربعين يوقاء كان مانولين يصطاد معه. حتى عندما لم, يكن هناك صيد. لكن في"
-        },
-        {
-          "order": 17,
-          "paragraphEn": "",
-          "paragraphAr": "بالسمك. Laila يعود LAs النهاية, وبأمر من والديه. التحق بقارب آخر - قارب أكثر"
-        },
-        {
-          "order": 18,
-          "paragraphEn": "the old man carry his nets, his gaff, and his harpoon. He would fold =",
-          "paragraphAr": "the patched sail. He would carry the old man’s heavy lines, carefully ب"
-        },
-        {
-          "order": 19,
-          "paragraphEn": "coiled, and walk beside him. a",
-          "paragraphAr": "كان aaa; الآخرون ygal wall يعود Loaic كل مساءء LJ ومع"
-        },
-        {
-          "order": 20,
-          "paragraphEn": "",
-          "paragraphAr": "مانولين يذهب إلى قارب سانتياغو الصغير. كان يُساعد الرجل العجوز"
-        },
-        {
-          "order": 21,
-          "paragraphEn": "",
-          "paragraphAr": "في حمل شباكه. وخطافه. ورمحه. وكان يطوي الشراع المرقع. ويحمل"
-        },
-        {
-          "order": 22,
-          "paragraphEn": "",
-          "paragraphAr": "الحبال الثقيلة للرجل العجوز. الملفوفة بعناية. ويمشي بجانبه:"
-        },
-        {
-          "order": 23,
-          "paragraphEn": "was not only luck—it was skill, patience, and courage.",
-          "paragraphAr": "أعظم صياد cil قال الصبي ذات مساء حين وصلا إلى كوخ سانتياغو., \"jg 0! Last"
-        },
-        {
-          "order": 24,
-          "paragraphEn": "",
-          "paragraphAr": "أعرفه. سيعود الحظ إليك يوفا ما.\""
-        },
-        {
-          "order": 25,
-          "paragraphEn": "",
-          "paragraphAr": "ابتسم سانتياغو ابتسامة خفيفة. وبدت تجاعيد العمر واضحة حول فمه. قال: \"من الأفضل"
-        },
-        {
-          "order": 26,
-          "paragraphEn": "",
-          "paragraphAr": "أريد أن أكون. UAT أن تكون محظوضًا. لكنني أفضل أن أكون دقيقا. فعندما يأتي الحظ"
-        },
-        {
-          "order": 27,
-          "paragraphEn": "",
-          "paragraphAr": "الصبي برأسه. كان يعرف أن كلمات سانتياغو تحمل حكمة. فالصيد لم يكن مجرد حظ Logi"
-        },
-        {
-          "order": 28,
-          "paragraphEn": "",
-          "paragraphAr": ". بل كان مهارة وصبرًا وشجاعة"
-        },
-        {
-          "order": 29,
-          "paragraphEn": "",
-          "paragraphAr": "The Fisherman's Home منزل الصياد"
-        },
-        {
-          "order": 30,
-          "paragraphEn": "treasures—except the tools of a fisherman. z cm",
-          "paragraphAr": "من أوراق النخيل Legian الذي يعيش فيه سانتياغو صغيرًا. og Al ##كان"
-        },
-        {
-          "order": 31,
-          "paragraphEn": "",
-          "paragraphAr": "الباهتة. ومن الداخل. كان شبه خال. على الجدران صورتان فقط. وكان هناك سرير مصنوع"
-        },
-        {
-          "order": 32,
-          "paragraphEn": "",
-          "paragraphAr": "من الجرائد. وبطانية واحدة. وطاولة خشبية. وكرسي واحد. لم تكن هناك كماليات, ولا"
-        },
-        {
-          "order": 33,
-          "paragraphEn": "",
-          "paragraphAr": "زينة. ولا كنوز - سوى أدوات الصياد."
-        },
-        {
-          "order": 34,
-          "paragraphEn": "",
-          "paragraphAr": "ALife with the Sea حياة مع البحر"
-        },
-        {
-          "order": 35,
-          "paragraphEn": "for food was energy, and tomorrow he would need it.",
-          "paragraphAr": "وكان ذلك كافيًا له. youll نقد عاش طوال حياته مع Wl لم يشتك سانتياغو U3 ومع"
-        },
-        {
-          "order": 36,
-          "paragraphEn": "",
-          "paragraphAr": "خارج الكوخ. تقاسما وجبة بسيطة من الفاصوليا deo في ذلك المساء. جلس الصبي"
-        },
-        {
-          "order": 37,
-          "paragraphEn": "",
-          "paragraphAr": "السوداء والأرز وقليل من السمك المقلي. أحضرها الصبي كهدية من منزله. أكل سانتياغو"
-        },
-        {
-          "order": 38,
-          "paragraphEn": "",
-          "paragraphAr": ". وامتنان: لأن الطعام كان طاقة: وكان سيحتاجها في الفد ely"
-        },
-        {
-          "order": 39,
-          "paragraphEn": "",
-          "paragraphAr": "Talking about Baseball الحديث عن البيسبول"
-        },
-        {
-          "order": 40,
-          "paragraphEn": "“Tell me about baseball,” Santiago said suddenly. Baseball was one 79",
-          "paragraphAr": "of the old man's greatest loves. “How are the Yankees playing this ”أ"
-        },
-        {
-          "order": 41,
-          "paragraphEn": "playing well. He is always the hero.”",
-          "paragraphAr": "el قال سانتياغو فجأة: 'حدثني عن البيسبول\". كانت البيسبول من"
-        },
-        {
-          "order": 42,
-          "paragraphEn": "",
-          "paragraphAr": "“Suga! الأشياء التي يحبها الرجل العجوز. “كيف يلعب فريق اليانكيز هذا"
-        },
-        {
-          "order": 43,
-          "paragraphEn": "",
-          "paragraphAr": ". * البطل Laila ail أجاب مانولين بحماس: \"فريق اليانكيز قوي. جو ديماتجيو يلعب جيذا."
-        },
-        {
-          "order": 44,
-          "paragraphEn": "",
-          "paragraphAr": "Santiago’s Champion بطل سانتياغو"
-        },
-        {
-          "order": 45,
-          "paragraphEn": "have the sea.” 3 7",
-          "paragraphAr": "عندما كان يشعر بالأنِم في كعبه. لكنه لم يستسالم أبذا. هذه هي"
-        },
-        {
-          "order": 46,
-          "paragraphEn": "",
-          "paragraphAr": "الشجاعة الحقيقية. الألم لا يعني شينًا للرجل."
-        },
-        {
-          "order": 47,
-          "paragraphEn": "",
-          "paragraphAr": "“yall أقوى من ديماتجيو. أيها العجوز. أنت تملك CLAS ابتسم الصبي وقال:"
-        },
-        {
-          "order": 48,
-          "paragraphEn": "",
-          "paragraphAr": "Peaceful Evening مساء هادئ"
-        },
-        {
-          "order": 49,
-          "paragraphEn": "peaceful.",
-          "paragraphAr": "وللبحر معاركه Ladjleo لكن للبيسبول Loy\" ضحكة خفيفة ومتعبة. jg roll ضحك الرجل"
-        },
-        {
-          "order": 50,
-          "paragraphEn": "“otal",
-          "paragraphAr": "حل الظلام تدريجيًا. حملت نسمة دافئة رائحة الملح من البحر. وصل صوت الأمواج إلى"
-        },
-        {
-          "order": 51,
-          "paragraphEn": "",
-          "paragraphAr": "ومريخا. اتكأ سانتياغو على حائط كوخه. وكان وجهه هادثًا. Lit آذانهماء"
-        },
-        {
-          "order": 52,
-          "paragraphEn": "",
-          "paragraphAr": "The Plan for Tomorrow خطة الغد"
-        },
-        {
-          "order": 53,
-          "paragraphEn": "The boy looked at him with admiration. “I wish | could go with you.” jg",
-          "paragraphAr": "اليوم الخامس والثمانون. إنه رقم محظوظ. سأذهب ga قال: \"الغد"
-        },
-        {
-          "order": 54,
-          "paragraphEn": "",
-          "paragraphAr": "أبعد مما يجرق الآخرون على الذهاب. ربما أبعد من اللازم. لكن. Lines"
-        },
-        {
-          "order": 55,
-          "paragraphEn": "",
-          "paragraphAr": "يجب أن أجد السمكة الكبيرة"
-        },
-        {
-          "order": 56,
-          "paragraphEn": "",
-          "paragraphAr": ". استطيع الذهاب معك\" gual نظر إليه الصبي بإعجاب."
-        },
-        {
-          "order": 57,
-          "paragraphEn": "",
-          "paragraphAr": "Santiago's Dream حلم سانتياغو"
-        },
-        {
-          "order": 58,
-          "paragraphEn": "",
-          "paragraphAr": "“Do you know what ١ dream of, boy 7 ” Santiago asked softly."
-        },
-        {
-          "order": 59,
-          "paragraphEn": "The old man smiled. “Yes, lions. Always the lions.”",
-          "paragraphAr": "يا فتى؟\" سأل سانتياغو بهدوء\" ay \"أتدري ما الذي أحلم"
-        },
-        {
-          "order": 60,
-          "paragraphEn": "",
-          "paragraphAr": "تحلم بالأسود.\" cul’ \"نعم”\". قال مانولين."
-        },
-        {
-          "order": 61,
-          "paragraphEn": "",
-          "paragraphAr": "ابتسم الرجل العجوز. “نعم: الأسود. دائمًا الأسود\""
-        },
-        {
-          "order": 62,
-          "paragraphEn": "",
-          "paragraphAr": "Santiago Remembers His Youth سانتياغو يتذكر شبابه"
-        },
-        {
-          "order": 63,
-          "paragraphEn": "For a moment, silence fell between them. Santiago's thoughts drifted 7",
-          "paragraphAr": "back to his youth. He had once been strong, a sailor on great ships. اللا"
-        },
-        {
-          "order": 64,
-          "paragraphEn": "of them. They reminded him of strength, youth, and freedom.",
-          "paragraphAr": "معي بروحك.\" Laila قاربك. لكنك Gla\" قال سانتياغو بلطف:"
-        },
-        {
-          "order": 65,
-          "paragraphEn": "",
-          "paragraphAr": "في يوم من igs ساد الصمت للحظة بينهما. عادت أفكار سانتياغو إلى شبابه. لقد كان"
-        },
-        {
-          "order": 66,
-          "paragraphEn": "",
-          "paragraphAr": "رأى الأسود Uy الأيام: بحارًا على سفن عظيمة. سافر إلى أفريقياء وعلى الشواطئ الذهبية"
-        },
-        {
-          "order": 67,
-          "paragraphEn": "",
-          "paragraphAr": "في TI أسوذا شابة تركض وتلعب كالأطفال. لم تغادر تلك الأسود ذاكرته أبذا. حتى -"
-        },
-        {
-          "order": 68,
-          "paragraphEn": "",
-          "paragraphAr": "والشبابء والحرية. 6g AIL شيخوخته. كان يحلم بها. كانت تذكره"
-        },
-        {
-          "order": 69,
-          "paragraphEn": "",
-          "paragraphAr": "Manolin Leaves رحيل مانولين"
-        },
-        {
-          "order": 70,
-          "paragraphEn": "boy had strength and future ? the old man had only the sea.",
-          "paragraphAr": "انتهت الوجبة. قام مانولين بتنظيف الأطباق ووعد بإحضار الطعام Loaic"
-        },
-        {
-          "order": 71,
-          "paragraphEn": "",
-          "paragraphAr": "مرة أخرى غذا. ثم غادر إلى منزل والديه. راقبه سانتياغو وهو يرحل”"
-        },
-        {
-          "order": 72,
-          "paragraphEn": "",
-          "paragraphAr": "كان لدى الصبي القوة والمستقبل؛ Leo yl شاعرًا بالفخر والوحدة في"
-        },
-        {
-          "order": 73,
-          "paragraphEn": "",
-          "paragraphAr": "1 \"Mo Ad الرجل العجوز فكان لديه البحر Lol"
-        },
-        {
-          "order": 74,
-          "paragraphEn": "",
-          "paragraphAr": "Santiago's Night Thoughts أفكار سانتياغو في الليل"
-        },
-        {
-          "order": 75,
-          "paragraphEn": "lions, who never feared.",
-          "paragraphAr": "لاحقاء تمدد سانتياغو على سريره المصنوع من الجرائد. كان الكوخ"
-        },
-        {
-          "order": 76,
-          "paragraphEn": "",
-          "paragraphAr": "الصمت. فكر في اليوم القادم: وفي Lo مظلمًاء لكن صوت المحيط"
-        },
-        {
-          "order": 77,
-          "paragraphEn": "",
-          "paragraphAr": "المياه العميقة. وفي السمكة العظيمة التي تنتظره. وفكر في جو ديماتجيو. الذي كان"
-        },
-        {
-          "order": 78,
-          "paragraphEn": "",
-          "paragraphAr": "وفي الأسود, التي لا تعرف الخوف. ISI يلعب رغم"
-        },
-        {
-          "order": 79,
-          "paragraphEn": "",
-          "paragraphAr": "Dreams and Hope الأحلام والأمل"
-        },
-        {
-          "order": 80,
-          "paragraphEn": "| eighty-fifth day. His luck, he believed, was about to change.",
-          "paragraphAr": "أغمض عينيه ببطء. جاءه النوم برفق, وجاء معه حلم الأسود. في حلمه. كانت الأسود"
-        },
-        {
-          "order": 81,
-          "paragraphEn": "",
-          "paragraphAr": "تلعب بحرية على شواطئ أفريقيا. وأجسادها الذهبية تتلألاً تحت الشمس. كان سانتياغو"
-        },
-        {
-          "order": 82,
-          "paragraphEn": "",
-          "paragraphAr": "بالأمل. LiLo شابًا من جديد. قويًاءلا يعرف الخوف."
-        },
-        {
-          "order": 83,
-          "paragraphEn": "",
-          "paragraphAr": "ابتسم الرجل العجوز. سيكون الغد هو اليوم الخامس والثمانون. وكان clay وبينما كان"
-        },
-        {
-          "order": 84,
-          "paragraphEn": "",
-          "paragraphAr": "يؤمن أن حظه على وشك أن يتغير."
+          "paragraphEn": "Dreams and Hope ‏ ‎ Slowly, he closed his eyes. Sleep came to him gently, and with it, the dream of lions. In his dream, they played freely on the beaches of ae Africa, their golden bodies shining in the sun. Santiago was young again, strong, fearless, full of hope. ‘And as he dreamed, the old man smiled. Tomorrow would be the eighty-fifth day. His luck, he believed, was about to change.",
+          "paragraphAr": "‏أغمض عينيه ببطء. جاءه النوم برفق, وجاء معه حلم الأسود. في حلمه. كانت الأسود‎ ‏تلعب بحرية على شواطئ أفريقيا. وأجسادها الذهبية تتلألاً تحت الشمس. كان سانتياغو‎ ‏بالأمل.‎ ‏شابًا من جديد. قويًاءلا يعرف الخوف.‎ ‏ابتسم الرجل العجوز. سيكون الغد هو اليوم الخامس والثمانون. وكان‎ ‏وبينما كان‎ ‏يؤمن أن حظه على وشك أن يتغير.‎"
         }
       ],
       "questionsAndAnswers": [
@@ -809,40 +475,49 @@
       "summaryAr": "يستيقظ سانتياغو قبل الفجر ويستعد للذهاب للصيد.",
       "chapterInPoints": [
         {
-          "en": "Santiago wakes before dawn and prepares to go fishing.",
-          "ar": "يستيقظ سانتياغو قبل الفجر ويستعد للذهاب للصيد."
+          "order": 1,
+          "pointEn": "",
+          "pointAr": ""
         },
         {
-          "en": "Santiago's boat is old but still seaworthy.",
-          "ar": "صالخا للإبحار Ufo لكنه gab قارب سانتياغو"
+          "order": 2,
+          "pointEn": "",
+          "pointAr": ""
         },
         {
-          "en": "Manolin asks to join him, but Santiago insists he must go alone.",
-          "ar": "يطلب مانولين أن ينضم إليه. لكن سانتياغو يصر على أن يذهب وحده."
+          "order": 3,
+          "pointEn": "",
+          "pointAr": ""
         },
         {
-          "en": "Santiago decides to go farther than the other fishermen, believing the big fish live there.",
-          "ar": "سانتياغو الذهاب أبعد من باقي الصيادين معتقدًا أن السمكة الكبيرة هناك. yay"
+          "order": 4,
+          "pointEn": "",
+          "pointAr": ""
         },
         {
-          "en": "He rows with strength and thinks of his youth and the lions of Africa.",
-          "ar": ". يجذف بقوة ويتذكر شبابه وأسود أفريقيا"
+          "order": 5,
+          "pointEn": "",
+          "pointAr": ""
         },
         {
-          "en": "By sunrise, he is far from the shore, alone on the sea.",
-          "ar": ". مع شروق الشمس. يصبع بعيدًا عن الشاطئ وحيدًا في البحر"
+          "order": 6,
+          "pointEn": "",
+          "pointAr": ""
         },
         {
-          "en": "Santiago baits his lines carefully and waits with patience.",
-          "ar": "+ ايضع سانتياغو الضعم في خيوطه بعناية وينتظر بصبر"
+          "order": 7,
+          "pointEn": "",
+          "pointAr": ""
         },
         {
-          "en": "He believes exactness is better than luck, and hopes for a great catch.",
-          "ar": ". ويأمل في صيد عظيم aad يعتقد أن الدقة أفضل من"
+          "order": 8,
+          "pointEn": "",
+          "pointAr": ""
         },
         {
-          "en": "By noon, he feels the heat but remains steady and focused.",
-          "ar": ". ومركز th مع حلول الظهيرة. يشعر بالحر لكنه يبقى"
+          "order": 9,
+          "pointEn": "",
+          "pointAr": ""
         }
       ],
       "vocabulary": [
@@ -878,383 +553,53 @@
       "theText": [
         {
           "order": 1,
-          "paragraphEn": "picked up his coil of lines, and stepped outside his small hut .",
-          "paragraphAr": "قبل أن تشرق الشمس,ء استيقظ سانتياغو. كان السماء SLUT في الصباح"
+          "paragraphEn": "Departure ‏‎ ‎When the stars began to fade and the first light of dawn touched the water, Santiago pushed his boat away from the shore. The boy held 2 the rope for a moment, then let go. “Good luck, old man,” Manolin said softly. \"Good luck,” Santiago answered, though he believed luck was only part of the story. Skill, patience, and endurance mattered more.",
+          "paragraphAr": "‏دفع سانتياغو‎ . ‏ضوء للفجر‎ ‏النجوم تتلاشى ولمس‎ ‏عندما‎ ‏قاربه بعيدًا عن الشاطئ. أمسك الصبي الحبل للحظة. ثم تركه.‎ ‏قال مانولين بهدوء: *حظًا سعيذا أيها العجوز.\"‎ ‏وأن المهارة.‎ ! ‏سعيذا.* لكنه كان يؤمن أن الحظ جزء فقط من‎ \" ‏أجاب سانتياغو:‎ ‏والصبر والتحمل أهم بكثير.‎ ‏وحيد في البحر‎"
         },
         {
           "order": 2,
-          "paragraphEn": "",
-          "paragraphAr": "مظلمة ومليئة بالنجوم,. كان يحب هذه الساعة, حين تكون القرية هادئة."
+          "paragraphEn": "The boat moved smoothly over the calm water. Santiago rowed with 49777777 2 steady arms, feeling the rhythm of the oars. He listened to the sounds of the sea: the splash of fish, the cries of seabirds, the gentle slap of — waves. He felt at home.",
+          "paragraphAr": "‏تحرك القارب بسلاسة فوق الماء الهادئ. كان سانتياغو يجذف بذراعين‎ ‏ثابتتين. شاعرًا بإيقاع المجاديف. استمع إلى أصوات البحر: ارتطام‎ ‏صرخات الطيور البحرية. وصفعات الأمواج الخفيفة. شعر أنه‎"
         },
         {
           "order": 3,
-          "paragraphEn": "",
-          "paragraphAr": "والبحر يهمس من بعيد. ارتدى سرواله القديم؛ وحمل لفة الحبال. وخرع"
+          "paragraphEn": "rofessional prey iy ‏‎ English ‘Memories of Youth ‏ ‎ ‘As he rowed, he thought about his life. He remembered when he 7 was young and strong, when he had sailed to Africa and seen lions mings, playing on the golden beaches. He remembered storms, battles with al giant fish, and long nights on the open sea. He was old now, but his 5 — spirit was not broken.",
+          "paragraphAr": "‏بينما كان يجذف. فكر في حياته. تذكر أيام شبابه وقوته. حين أبحر إلى‎ ‏على الشواطئ الذهبية. وتذكر العواصف»‎ ‏أفريقيا ورأى‎ ‏ومعاركه مع الأسماك العملاقة. والليالي الطويلة في عرض البحر. لقد‎ ‏لكن روحه لم تنكسر.‎ ‏شا‎"
         },
         {
           "order": 4,
-          "paragraphEn": "",
-          "paragraphAr": "من كوخه الصغير."
+          "paragraphEn": "‎Farther Than Others ‏ ‎ By sunrise, he was far from the shore. He could no longer see the lights of the village. The sea stretched wide and endless around him. Other boats had stopped closer in, but Santiago kept going. He wanted to be alone where no one else dared to fish.",
+          "paragraphAr": "‏مع شروق الشمس. كان قد ابتعد كثيزا عن الشاطوئ. لم يعد يرى أضواء‎ ‏يمتد واسغا بلا نهاية حوله. توقفت قوارب أخرى بالقرب‎ ‏القرية. كان‎ ‏من الساحل. لكن سانتياغو واصل التجديف. أراد أن يكون وحيذا حيث لا‎ ‏يجرةٍ الآخرون على الصيد.‎"
         },
         {
           "order": 5,
-          "paragraphEn": "and a little coffee,” he said proudly.",
-          "paragraphAr": "كان الصبي مانولين في انتظاره بالفعل. كان يحمل طعافا ملفوقًا في"
+          "paragraphEn": "The Waiting Game ‏ ‎ At last, he stopped and prepared his lines. He baited them carefully with fresh sardines and lowered them into the deep blue water, at — different depths. He worked with the precision of a master, for he 2 2 believed that exactness brought luck. 1",
+          "paragraphAr": "‏ثم جلس للخلف. ممسكًا بالخيط بين أصابعه برفق, شاعرًا بكل حركة‎ ‏البحر‎ ‏في الأعماق. انتظر كعادته بصبر. ارتفعت الشمس أكثر.‎ 1 ‏يلمع كالزجاج.‎ ‏بعناية من السردين الطازج. وأنزنها‎ ‏خطوطه أخيرًا. وضع‎ ‏إلى الماء الأزرق العميق على أعماق مختلفة. عمل بدقة الخبير, لأنه كان‎ ‏يعتقد أن الدقة تجلب الحظ.‎ ‏الأمل‎"
         },
         {
           "order": 6,
-          "paragraphEn": "",
-          "paragraphAr": "الفاصوليا yao أيها العجوز. La’ ورق - هدية لسانتياغو. قال بفخر:"
+          "paragraphEn": "‎The old man thought of the boy and smiled. \"He has hope,” Santiago whispered to himself. “It is good for a man to have hope. Without it, he is nothing.”",
+          "paragraphAr": "‏فكر الرجل العجوز في الصبي وابتسم. همس لنفسه: “لديه أمل. من‎ “ ‏فبدونه. لا يكون‎ ‏الجيد أن يكون لدى الرجل‎"
         },
         {
           "order": 7,
-          "paragraphEn": "",
-          "paragraphAr": "وقليل من القهوة.\" «lg السوداء."
+          "paragraphEn": "peewee Ignoring the Small Fish ‏ ‎ All morning he waited. Small fish tugged at the bait, but he ignored them. He was looking for something greater, something worthy of all ae his strength. #8",
+          "paragraphAr": "‏انتظر طوال الصباح. جذبت الأسماك الصغيرة الضُعمء لكنه تجاهلها.‎ - . ‏كان يبحث عن شويء أعظم. شيء يستحق كل قوته‎"
         },
         {
           "order": 8,
-          "paragraphEn": "The boy helped him carry the lines, gaff, harpoon, and the sall, which F",
-          "paragraphAr": "was patched many times and looked like the flag of defeat. But ير"
+          "paragraphEn": "The Heat andthe Bird ‏ ‎ By noon, the heat was strong, and sweat ran down his back. But Santiago did not complain. He kept his eyes on the sea, his hands x ready, his heart steady. He was prepared for the great test. See",
+          "paragraphAr": "‏د مع حلول الظهيرة. اشتد الحر. وانساب العرق على ظهره. لكن سانتياغو‎ ‏مستعذا للاختبار العظيم.‎ & 5-"
         },
         {
           "order": 9,
-          "paragraphEn": "his destiny.",
-          "paragraphAr": "تقبل سانتياغو الطعام بامتنان. وقال: 'أنت طيب معيء يا فتى. سأحتاج"
+          "paragraphEn": "Far out, a bird circled over the water. Santiago watched it carefully. \"Where the bird circles, there are fish,” he said aloud. His eyes followed the movement, and deep inside, he knew that soon, his moment would come.",
+          "paragraphAr": "‏كان طائر يحوم فوق الماء. راقبه سانتياغو بعناية. قال بصوت مسموع:‎ ‏بعيدًا في‎ ‏*حيثما يحوم الطائرء تكون هناك أسماك.\" تبعت عيناه الحركة. وفي أعماقه كان يعرف أن‎ ‏لحظته ستأتي قريبا.‎"
         },
         {
           "order": 10,
-          "paragraphEn": "",
-          "paragraphAr": "قوتي اليوم.*"
-        },
-        {
-          "order": 11,
-          "paragraphEn": "",
-          "paragraphAr": "ساعده مانولين في حمل الحبال والخطاف والرمح والشراع: الذي كان"
-        },
-        {
-          "order": 12,
-          "paragraphEn": "",
-          "paragraphAr": "الهزيمة\". لكن سانتياغو حمله ate’ مرققا مرات كثيرة حتى بدا وكأنه"
-        },
-        {
-          "order": 13,
-          "paragraphEn": "",
-          "paragraphAr": "بفخر. لأنه كان يؤمن أن الشراع سيقوده إلى مصيره."
-        },
-        {
-          "order": 14,
-          "paragraphEn": "rofessional prey Novel",
-          "paragraphAr": "iy و English"
-        },
-        {
-          "order": 15,
-          "paragraphEn": "",
-          "paragraphAr": "On the Way tothe Harbor في الطريق إلى المبناء"
-        },
-        {
-          "order": 16,
-          "paragraphEn": "what he must do.",
-          "paragraphAr": "بينما كانا يسيران نحو الميناء. مرا على صيادين آخرين يجهزون قواربهم."
-        },
-        {
-          "order": 17,
-          "paragraphEn": "",
-          "paragraphAr": "سانتياغو باحترام, بينما نظر إليه آخرون بشفقة. تجاهل Lis بعضهم"
-        },
-        {
-          "order": 18,
-          "paragraphEn": "",
-          "paragraphAr": "سانتياغو الاثنين. كان يعرف ما يجب أن يفعله."
-        },
-        {
-          "order": 19,
-          "paragraphEn": "neat coils so they would run freely when needed. 2",
-          "paragraphAr": "نك وصلا إلى القارب الخشبي الصغير. قارب سانتياغو. كان قديما لكنه"
-        },
-        {
-          "order": 20,
-          "paragraphEn": "",
-          "paragraphAr": "صالح للإبحار. حمل الصبي الأدوات بعناية. ورتب الحبال في لفات منظمة."
-        },
-        {
-          "order": 21,
-          "paragraphEn": "",
-          "paragraphAr": "1 لتجري بسهولة عند الحاجة."
-        },
-        {
-          "order": 22,
-          "paragraphEn": "",
-          "paragraphAr": "The Boy's Request طلب الصبي"
-        },
-        {
-          "order": 23,
-          "paragraphEn": "",
-          "paragraphAr": "“Can | come with you ?\" Manolin asked. ع"
-        },
-        {
-          "order": 24,
-          "paragraphEn": "",
-          "paragraphAr": "نولا\" are with a lucky boat now,\" Santiago replied. \"Stay with them."
-        },
-        {
-          "order": 25,
-          "paragraphEn": "carry it back.”",
-          "paragraphAr": "1 معك؟' سأل مانولين.\" gil هل استطيع أن"
-        },
-        {
-          "order": 26,
-          "paragraphEn": "",
-          "paragraphAr": "الآن مع قارب محظوظ. ابق معهم. سأدبر أمري وحدي. coil أجاب سانتياغو:"
-        },
-        {
-          "order": 27,
-          "paragraphEn": "",
-          "paragraphAr": "لكن عندما أصيد السمكة الكبيرة. ستساعدني في حملها إلى الشاطئ”"
-        },
-        {
-          "order": 28,
-          "paragraphEn": "",
-          "paragraphAr": "Coffee Before Sailing القهوة قبل الإبحار"
-        },
-        {
-          "order": 29,
-          "paragraphEn": "silently. Santiago looked at the horizon. ==",
-          "paragraphAr": "جلسا مقا للحظة على الرصيف. يحتسيان القهوة الدافثة من أكواب"
-        },
-        {
-          "order": 30,
-          "paragraphEn": "",
-          "paragraphAr": "الصفيمح. كان الهواء يحمل رائحة الملح والقار. والبحر ينتظر في صمت."
-        },
-        {
-          "order": 31,
-          "paragraphEn": "",
-          "paragraphAr": "نظر سانتياغو نحو الأفق."
-        },
-        {
-          "order": 32,
-          "paragraphEn": "",
-          "paragraphAr": "“Eighty-five is my number,” he said. “Today, | will go far out. Farther مصخي"
-        },
-        {
-          "order": 33,
-          "paragraphEn": "Santiago smiled. “That is where the big fish live.” —",
-          "paragraphAr": "قال: 'خمسة وثمانون هو رقمي. اليوم. سأذهب بعيذا. أبعد مما يجرق"
-        },
-        {
-          "order": 34,
-          "paragraphEn": "",
-          "paragraphAr": "الآخرون.*"
-        },
-        {
-          "order": 35,
-          "paragraphEn": "",
-          "paragraphAr": "“ag أوماأ الصبي برأسه: “أنت دائمًا تذهب بعيذا"
-        },
-        {
-          "order": 36,
-          "paragraphEn": "",
-          "paragraphAr": "ابتسم سانتياغو وقال: \"هناك تعيش الأسماك الكبيرة.\""
-        },
-        {
-          "order": 37,
-          "paragraphEn": "",
-          "paragraphAr": "Departure الانطلاق"
-        },
-        {
-          "order": 38,
-          "paragraphEn": "part of the story. Skill, patience, and endurance mattered more.",
-          "paragraphAr": "دفع سانتياغو .cLoll ضوء للفجر Jal النجوم تتلاشى ولمس Slay عندما"
-        },
-        {
-          "order": 39,
-          "paragraphEn": "",
-          "paragraphAr": "قاربه بعيدًا عن الشاطئ. أمسك الصبي الحبل للحظة. ثم تركه."
-        },
-        {
-          "order": 40,
-          "paragraphEn": "",
-          "paragraphAr": "قال مانولين بهدوء: *حظًا سعيذا أيها العجوز.\""
-        },
-        {
-          "order": 41,
-          "paragraphEn": "",
-          "paragraphAr": "وأن المهارة. Gad! سعيذا.* لكنه كان يؤمن أن الحظ جزء فقط من LAs\" أجاب سانتياغو:"
-        },
-        {
-          "order": 42,
-          "paragraphEn": "",
-          "paragraphAr": "والصبر والتحمل أهم بكثير."
-        },
-        {
-          "order": 43,
-          "paragraphEn": "",
-          "paragraphAr": "Alone at Sea وحيد في البحر"
-        },
-        {
-          "order": 44,
-          "paragraphEn": "waves. He felt at home.",
-          "paragraphAr": "تحرك القارب بسلاسة فوق الماء الهادئ. كان سانتياغو يجذف بذراعين"
-        },
-        {
-          "order": 45,
-          "paragraphEn": "",
-          "paragraphAr": "ثابتتين. شاعرًا بإيقاع المجاديف. استمع إلى أصوات البحر: ارتطام"
-        },
-        {
-          "order": 46,
-          "paragraphEn": "",
-          "paragraphAr": "صرخات الطيور البحرية. وصفعات الأمواج الخفيفة. شعر أنه lawl"
-        },
-        {
-          "order": 47,
-          "paragraphEn": "rofessional prey Novel",
-          "paragraphAr": "iy و English"
-        },
-        {
-          "order": 48,
-          "paragraphEn": "",
-          "paragraphAr": "‘Memories of Youth ذكريات الشباب"
-        },
-        {
-          "order": 49,
-          "paragraphEn": "spirit was not broken. ~",
-          "paragraphAr": "بينما كان يجذف. فكر في حياته. تذكر أيام شبابه وقوته. حين أبحر إلى"
-        },
-        {
-          "order": 50,
-          "paragraphEn": "",
-          "paragraphAr": "على الشواطئ الذهبية. وتذكر العواصف» Celi aq will أفريقيا ورأى"
-        },
-        {
-          "order": 51,
-          "paragraphEn": "",
-          "paragraphAr": "ومعاركه مع الأسماك العملاقة. والليالي الطويلة في عرض البحر. لقد"
-        },
-        {
-          "order": 52,
-          "paragraphEn": "",
-          "paragraphAr": "لكن روحه لم تنكسر. yl شا"
-        },
-        {
-          "order": 53,
-          "paragraphEn": "",
-          "paragraphAr": "Farther Than Others أبعد من الآخرين"
-        },
-        {
-          "order": 54,
-          "paragraphEn": "wanted to be alone where no one else dared to fish.",
-          "paragraphAr": "مع شروق الشمس. كان قد ابتعد كثيزا عن الشاطوئ. لم يعد يرى أضواء"
-        },
-        {
-          "order": 55,
-          "paragraphEn": "",
-          "paragraphAr": "يمتد واسغا بلا نهاية حوله. توقفت قوارب أخرى بالقرب paul القرية. كان"
-        },
-        {
-          "order": 56,
-          "paragraphEn": "",
-          "paragraphAr": "من الساحل. لكن سانتياغو واصل التجديف. أراد أن يكون وحيذا حيث لا"
-        },
-        {
-          "order": 57,
-          "paragraphEn": "",
-          "paragraphAr": "يجرةٍ الآخرون على الصيد."
-        },
-        {
-          "order": 58,
-          "paragraphEn": "",
-          "paragraphAr": "The Waiting Game لعبة الانتظار"
-        },
-        {
-          "order": 59,
-          "paragraphEn": "believed that exactness brought luck. 1",
-          "paragraphAr": "ثم جلس للخلف. ممسكًا بالخيط بين أصابعه برفق, شاعرًا بكل حركة"
-        },
-        {
-          "order": 60,
-          "paragraphEn": "",
-          "paragraphAr": "البحر anal في الأعماق. انتظر كعادته بصبر. ارتفعت الشمس أكثر."
-        },
-        {
-          "order": 61,
-          "paragraphEn": "",
-          "paragraphAr": "1 يلمع كالزجاج."
-        },
-        {
-          "order": 62,
-          "paragraphEn": "",
-          "paragraphAr": "بعناية من السردين الطازج. وأنزنها aol خطوطه أخيرًا. وضع acl"
-        },
-        {
-          "order": 63,
-          "paragraphEn": "",
-          "paragraphAr": "إلى الماء الأزرق العميق على أعماق مختلفة. عمل بدقة الخبير, لأنه كان"
-        },
-        {
-          "order": 64,
-          "paragraphEn": "",
-          "paragraphAr": "يعتقد أن الدقة تجلب الحظ."
-        },
-        {
-          "order": 65,
-          "paragraphEn": "",
-          "paragraphAr": "Hope الأمل"
-        },
-        {
-          "order": 66,
-          "paragraphEn": "he is nothing.”",
-          "paragraphAr": "فكر الرجل العجوز في الصبي وابتسم. همس لنفسه: “لديه أمل. من"
-        },
-        {
-          "order": 67,
-          "paragraphEn": "",
-          "paragraphAr": "“ib فبدونه. لا يكون Lol الجيد أن يكون لدى الرجل"
-        },
-        {
-          "order": 68,
-          "paragraphEn": "",
-          "paragraphAr": "Ignoring the Small Fish تجاهل الأسماك الصغيرة"
-        },
-        {
-          "order": 69,
-          "paragraphEn": "his strength. #8",
-          "paragraphAr": "انتظر طوال الصباح. جذبت الأسماك الصغيرة الضُعمء لكنه تجاهلها. -"
-        },
-        {
-          "order": 70,
-          "paragraphEn": "",
-          "paragraphAr": ". كان يبحث عن شويء أعظم. شيء يستحق كل قوته"
-        },
-        {
-          "order": 71,
-          "paragraphEn": "",
-          "paragraphAr": "The Heat andthe Bird الحر والطائر"
-        },
-        {
-          "order": 72,
-          "paragraphEn": "ready, his heart steady. He was prepared for the great test. See",
-          "paragraphAr": "د مع حلول الظهيرة. اشتد الحر. وانساب العرق على ظهره. لكن سانتياغو ="
-        },
-        {
-          "order": 73,
-          "paragraphEn": "",
-          "paragraphAr": "مستعذا للاختبار العظيم. & 5-"
-        },
-        {
-          "order": 74,
-          "paragraphEn": "inside, he knew that soon, his moment would come.",
-          "paragraphAr": "كان طائر يحوم فوق الماء. راقبه سانتياغو بعناية. قال بصوت مسموع: paul بعيدًا في"
-        },
-        {
-          "order": 75,
-          "paragraphEn": "",
-          "paragraphAr": "*حيثما يحوم الطائرء تكون هناك أسماك.\" تبعت عيناه الحركة. وفي أعماقه كان يعرف أن"
-        },
-        {
-          "order": 76,
-          "paragraphEn": "",
-          "paragraphAr": "لحظته ستأتي قريبا."
+          "paragraphEn": "‎Why did Manolin bring food to Santiago ? ‏ ‎ LHe wanted to support and care for him. ‏ ‎ yl ‏‎ ‎How did the boy help prepare the boat for the journey ?",
+          "paragraphAr": "‏كيف ساعد الصبي في تجهيز القارب للرحلة ؟‎"
         }
       ],
       "questionsAndAnswers": [
@@ -1678,20 +1023,24 @@
       "summaryAr": "رأى سانتياغو طائراً يغوص . مما يشير إلى تشتت التونة ووجود سمكة أكبر في البحر",
       "chapterInPoints": [
         {
-          "en": "Santiago saw a bird divin, signaling tuna scattering and a larger fish beneath the sea .",
-          "ar": "رأى سانتياغو طائراً يغوص . مما يشير إلى تشتت التونة ووجود سمكة أكبر في البحر"
+          "order": 1,
+          "pointEn": "",
+          "pointAr": ""
         },
         {
-          "en": "Santiago allowed the fish ما run, steadying his grip though the line cut deep -",
-          "ar": "ترك سانتياغو السمكة تنطلق, مثبتاً قبضته رغم أن الخيط غاص عميقاً في يده"
+          "order": 2,
+          "pointEn": "",
+          "pointAr": ""
         },
         {
-          "en": "Santiago wished the boy Manolin were with him to witness and help in battle",
-          "ar": "oacluyg تمنى سانتياغو لو كان الصبي مانولين معه ليشهد المعركة"
+          "order": 3,
+          "pointEn": "",
+          "pointAr": ""
         },
         {
-          "en": "Santiago whispered to the fish: “We are joined, may the stronger one finaly win.”",
-          "ar": ". همس سانتياغو للسمكة: \"لقد ارتبطناء فليَفْر الأقوى بيننا في النهاية.\""
+          "order": 4,
+          "pointEn": "",
+          "pointAr": ""
         }
       ],
       "vocabulary": [
@@ -1727,378 +1076,138 @@
       "theText": [
         {
           "order": 1,
-          "paragraphEn": "larger below. 9 =",
-          "paragraphAr": "كانت الشمس عالية في السماءء والبحر يلمع بضوء قوي ساطع. مسح سانتياغو العرق"
+          "paragraphEn": "Signs inthe Sky clawll ‏ ‎ The sun was high now, and the sea shone with a hard, bright light. Santiago wiped the sweat from his forehead and watched the bird circling. The old man knew that the bird was looking for fish near ese the surface. Suddenly, the bird dived straight down, and the water ee ee splashed. Small tuna jumped in the alr, frightened by something 1120-2 larger below. 9",
+          "paragraphAr": "‏كانت الشمس عالية في السماءء والبحر يلمع بضوء قوي ساطع. مسح سانتياغو العرق‎ ‏عن جبينه وراقب الطائر الذي كان يدور. كان الرجل العجوز يعلم أن الطائر يبحث عن سمك‎ ! ‏وتناثرت المياه. قفزت أسماك‎ ‏قرب السطح. فجأة, اندفع الطائر مباشرة إلى‎ ‏من شيء أكبر في العمق.‎ ‏الصغيرة في الهواء‎"
         },
         {
           "order": 2,
-          "paragraphEn": "",
-          "paragraphAr": "عن جبينه وراقب الطائر الذي كان يدور. كان الرجل العجوز يعلم أن الطائر يبحث عن سمك"
+          "paragraphEn": "The First Signs ‏‎ 3 Catch ‏ ‎ Jol Santiago's heart beat faster. He studied the lines with calm eyes, but inside he was excited. He had been waiting for this moment. His fingers felt the line tremble slightly. Then, without warning, the line began to move slowly, steadily. Something powerful was taking the bait.",
+          "paragraphAr": "‏خفق قلب سانتياغو بسرعة. كان يراقب الحبال بعينين هادئتين. لكن.‎ ‏بداخله كان متحمساً. لقد كان ينتظر هذه الاحظة. شعر بأصابعه أن‎ ‏وبثبات. كان‎ ‏الحبل يرتجف قليلاً. ثم بلا إنذار. بدأ الحبل يتحرك‎ ‏هناك شيء قوي يأخذ الظعم.‎"
         },
         {
           "order": 3,
-          "paragraphEn": "",
-          "paragraphAr": "Jig! وتناثرت المياه. قفزت أسماك oul قرب السطح. فجأة, اندفع الطائر مباشرة إلى"
+          "paragraphEn": "ACareful Wait ‏ ‎ The old man held the line carefully. He did not pull. He let the fish eat. “ He knew the ways of big fish. They circled, tested, and swallowed slowly. Santiago ee whispered, \"Take it, big one. Take it well.”",
+          "paragraphAr": "‏أمسك الرجل العجوز بالحبل بحذر. لم يشذه. ترك السمكة تأكل. كان‎ ‏يعرف أساليب الأسماك الكبيرة. فهي تدور وتختبر ثم تبتلع ببطء. هم‎"
         },
         {
           "order": 4,
-          "paragraphEn": "",
-          "paragraphAr": "من شيء أكبر في العمق. Liga الصغيرة في الهواء"
+          "paragraphEn": "‏‎ _ The Great Pull ‏ ‎ Then the line tightened hard, cutting deep into his hand. The fish was hooked, Santiago braced his feet and leaned back. The line stretched out into the deep water with unstoppable force. The boat began to move ‘slowly, pulled by the fish. “He is strong,\" Santiago said aloud. \"He will show me what strength is.”",
+          "paragraphAr": "‏ثم اشتد الحبل بقوة. وقطع بعمق في يده. علقت السمكة بالصنارة.‎ ‏فثبت سانتياغو قدميه واتكأ إلى الخلف. امتد الحبل إلى أعماق البحر‎ ‏القارب يتحرك ببطء. تسحبه السمكة.‎ ‏بقوة لا تُوقف.‎ “ ‏قوي. سوف يريني ما هي‎ ‏قال سانتياغو بصوت عال:‎ ‏هطع مغه1‎ ‏في أعماق البحر‎"
         },
         {
           "order": 5,
-          "paragraphEn": "",
-          "paragraphAr": "The First Signs ؟ه 3 Catch إشارات الصيد Jol"
+          "paragraphEn": "The fish did not jump. It swam steadily out into the open sea, far ws from all other boats. Santiago let it run, his hands steady though the A line cut into his skin. He felt the power of the great creature below, i 1 pulling him farther and farther away from land.",
+          "paragraphAr": "‏بعيداً عن جميع‎ ‏نحو عرض‎ ‏لم تقفز السمكة. بل سبحت‎ 4 ‏القوارب الأخرى. تركها سانتياغو تجري. وظلت يداه ثابتتين رغم أن الحبل‎ 2 ‏كان يقطع في جلده. شعر بقوة المخلوق العظيم في الأعماق. وهو‎ ‏يسحبه أبعد فابعد عن اليابسة”‎"
         },
         {
           "order": 6,
-          "paragraphEn": "bait.",
-          "paragraphAr": "خفق قلب سانتياغو بسرعة. كان يراقب الحبال بعينين هادئتين. لكن."
+          "paragraphEn": "ALong Struggle Begins ‏ ‎ For hours, the fish swam on, and the boat followed. Santiago drank ‘ alittle water and ate a piece of tuna he had caught earlier for bait. He needed strength, for this battle would not end quickly. -",
+          "paragraphAr": "‏لساعات, واصلت السمكة السباحة, وتبعها القارب. شرب سانتياغو قليلاً‎ ‏من الماء وأكل قطعة من التونة كان قد اصطادها سابقاً كظعم. كان‎ ‏يحتاج إلى القوة؛ لأن هذه المعركة لن تنتهي سريعا.\"‎"
         },
         {
           "order": 7,
-          "paragraphEn": "",
-          "paragraphAr": "بداخله كان متحمساً. لقد كان ينتظر هذه الاحظة. شعر بأصابعه أن"
+          "paragraphEn": "Talking to the Fish ‏ ‎ As the sun went down, the line still pulled tight, and the fish still swam deep. The old man spoke to it softly: \"Fish, you are my brother. But will not let you go. will fight with all my heart to take you.”",
+          "paragraphAr": "‏زالت السمكة تسبح في‎ ‏مع غروب الشمس. ظل الحبل مشدوداً.‎ ‏الأعماق. قال لها الرجل العجوز بلطف: \"أيتها السمكة, أنت أختي. لكنني‎"
         },
         {
           "order": 8,
-          "paragraphEn": "",
-          "paragraphAr": "وبثبات. كان cay الحبل يرتجف قليلاً. ثم بلا إنذار. بدأ الحبل يتحرك"
+          "paragraphEn": "rotessional ‏‎ 1 ap English Night Struggles Jw ‏‎ ‎Night fell, and the stars came out. The boat moved quietly through the dark water. Santiago felt the line burning into his hands, but he held firm. His back ached, his arms trembled, but he would not surrender.",
+          "paragraphAr": "‏حل الليل وظهرت النجوم. تحرك القارب بهدوء وسط المياه المظلمة.‎ ‏شعر سانتياغو بأن الحبل يحرق يديه. لكنه ظل ثابتاً. كان ظهره يؤلمه‎ ‏وذراعاه ترتجفان. لكنه لم يستسلم.‎"
         },
         {
           "order": 9,
-          "paragraphEn": "",
-          "paragraphAr": "هناك شيء قوي يأخذ الظعم."
+          "paragraphEn": "Inspired by DiMaggio ‏ ‎ He remembered Joe DiMaggio playing baseball with pain in his heel. “If DiMaggio could play with pain, can fight this fish,\" Santiago thought. \"Pain does not matter. Only endurance matters.”",
+          "paragraphAr": "‏تذكر جو ديماجيو وهو يلعب البيسبول رغم الألم في كعبه. قال‎ ‏سانتياغو في نفسه: \"إذا كان ديماجيو استطاع الاعب مع‎ ‏أستطيع أن أقاتل هذه السمكة. الألم لايهم. مايهم هو التحمل فقط*‎"
         },
         {
           "order": 10,
-          "paragraphEn": "",
-          "paragraphAr": "ACareful Wait انتظار حذر"
+          "paragraphEn": "All-Night Battle ‏ ‎ The fish towed the boat all night. Santiago could not sleep. He tied the line across his shoulders to take some of the strain, but he never let go. He ate ) another piece of fish to keep his strength.",
+          "paragraphAr": "‏سحبت السمكة القارب طوال الليل. لم يستطع سانتياغو النوم. ربط‎ ‏الحبل على كتفيه ليخفف بعض الإجهاد. لكنه لم يتركه أبداً. أكل‎ ‏قطعة أخرى من السمك ليحافظ على قوته.‎"
         },
         {
           "order": 11,
-          "paragraphEn": "whispered, \"Take it, big one. Take it well.”",
-          "paragraphAr": "أمسك الرجل العجوز بالحبل بحذر. لم يشذه. ترك السمكة تأكل. كان"
+          "paragraphEn": "Thinking of the Boy voll ‏ ‎ ‘Sometimes, he thought of the boy. \" wish the boy were here,” he whispered. \"He would help me, and he would see what a great fish this is.”",
+          "paragraphAr": "‏كان يفكر في الصبي. همس قائلاً: \"بيت الصبي كان هنا. كان‎ ‏سيساعدني. وكان سيرى ما أعظم هذه السمكة,.\"‎"
         },
         {
           "order": 12,
-          "paragraphEn": "",
-          "paragraphAr": "يعرف أساليب الأسماك الكبيرة. فهي تدور وتختبر ثم تبتلع ببطء. هم"
+          "paragraphEn": "protessional ‏‎ ‏‎ ‎Alone with Nature ‏ ‎ But Santiago was alone, and he knew this was his fight. The sea was silent except for the sound of water against the boat. The old man felt small under the wide sky, but also strong. He was part of the ‘sea, part of the stars, part of the eternal struggle between man and nature.",
+          "paragraphAr": "‏لكن سانتياغو كان وحيداً, وكان يعرف أن هذه معركته وحده. كان البحر‎ ‏ساكناً إلا من صوت الماء وهو يضرب القارب. شعر الرجل العجوز بالصغر‎ ‏جزءاً‎ ‏تحت السماء الواسعة. لكنه شعر أيضاً بالقوة. كان جزءاً من‎ ‏من النجوم. وجزءاً من الصراع الأبدي بين الإنسان والطبيعة.‎"
         },
         {
           "order": 13,
-          "paragraphEn": "",
-          "paragraphAr": "The Great Pull الشذة العظيمة"
+          "paragraphEn": "The Final Declaration ‏ ‎ As dawn began to break again, Santiago looked at the line. It still cut hard into the water, strong and deep. The fish had not tired. Neither had he. 7 Pa The old man said aloud: \"Now we are joined, fish, you and I. You are pulling me, and am pulling you. May the best of us win.”",
+          "paragraphAr": "‏مع بزوغ الفجر من جديد. نظر سانتياغو إلى الحبل. كان لا يزال يخترق.‎ ‏الماء بقوة وعمق. لم تتعب السمكة. ولم يتعب هو أيضاً‎ ‏مرتبطين. أيتها السمكة. أنا‎ ‏قال الرجل العجوز بصوت عال: “الآن‎"
         },
         {
           "order": 14,
-          "paragraphEn": "“He is strong,\" Santiago said aloud. \"He will show me what strength is.”",
-          "paragraphAr": "ثم اشتد الحبل بقوة. وقطع بعمق في يده. علقت السمكة بالصنارة."
+          "paragraphEn": "CHAPTER THREE IN POINTS ‏ 5 ‎ ‘The sun burned high above as Santiago waited alone in his small boat .",
+          "paragraphAr": "‏كانت الشمس حارقة في السماء بينما انتظر سانتياغو وحيًا في قاربه الصغير.‎"
         },
         {
           "order": 15,
-          "paragraphEn": "",
-          "paragraphAr": "فثبت سانتياغو قدميه واتكأ إلى الخلف. امتد الحبل إلى أعماق البحر"
+          "paragraphEn": "bird circled inthe sky, showing signs tha lsh were near the surface",
+          "paragraphAr": "‏دار طائر في السماء. مشيرًا إلى أن الأسماك قريبة من سطح الماء.‎"
         },
         {
           "order": 16,
-          "paragraphEn": "",
-          "paragraphAr": "القارب يتحرك ببطء. تسحبه السمكة. lg بقوة لا تُوقف."
+          "paragraphEn": "Suddenly, the bird dived sharply, and email tuna jumped, scared by something larger",
+          "paragraphAr": "‏شيء أكبر‎ ‏فجأة غاص الطائر بقوة. وقفزت أسماك التونة الصغيرة‎"
         },
         {
           "order": 17,
-          "paragraphEn": "",
-          "paragraphAr": "“egal قوي. سوف يريني ما هي af قال سانتياغو بصوت عال:"
+          "paragraphEn": "Santiago's heart raced as he sensed a powerful fish moving under the waves",
+          "paragraphAr": "‏خفق قلب سانتياغو بسرعة عندما شعر بسمكة قوية تتحرك تحت الأمواج.‎"
         },
         {
           "order": 18,
-          "paragraphEn": "",
-          "paragraphAr": "هطع مغه1 Deep في أعماق البحر"
+          "paragraphEn": "He felt the fishing line tremble gently, a sign that something had taken interest .",
+          "paragraphAr": ". ‏ما قد اهتم بالظعم‎ ‏شعر بخيط الصيد يهتز برفق, إشارة إلى أن‎"
         },
         {
           "order": 19,
-          "paragraphEn": "pulling him farther and farther away from land. =",
-          "paragraphAr": "بعيداً عن جميع paul نحو عرض OLY لم تقفز السمكة. بل سبحت 4"
+          "paragraphEn": "Santiago waited patiently, letting the fish test the bat before pulling away",
+          "paragraphAr": ". ‏انتظر سانتياغو بصبر, تاركًا السمكة تختبر الضعم قبل أن تبتعد عنه‎"
         },
         {
           "order": 20,
-          "paragraphEn": "",
-          "paragraphAr": "القوارب الأخرى. تركها سانتياغو تجري. وظلت يداه ثابتتين رغم أن الحبل 2"
+          "paragraphEn": "protessional ‏‎ ‏‎ ‎When the fish finally bit the line tightened hard, cutting deep ‏ ‎ hands.",
+          "paragraphAr": "‏عندما عضت السمكة أخيزا. شد الخيط بقوة. وغاص في يديه‎ ‏نحو أعماق البحر المفتوم‎ ) ‏القارب الصغير‎ ‏السمكة القوية‎"
         },
         {
           "order": 21,
-          "paragraphEn": "",
-          "paragraphAr": "كان يقطع في جلده. شعر بقوة المخلوق العظيم في الأعماق. وهو"
+          "paragraphEn": "Santiago held firm, his muscles tense, refusing ‏‎ release the precious line.",
+          "paragraphAr": ". ‏ثبت سانتياغو مكانه. واشتدت عضلاته, رافضًا أن يترك الخيط الثمين‎ ‏الجدير بالاحترام.‎ ‏.تحدث بهدوء إلى السمكة. مناديًا إياها 'أخي\"‎"
         },
         {
           "order": 22,
-          "paragraphEn": "",
-          "paragraphAr": "يسحبه أبعد فابعد عن اليابسة”"
+          "paragraphEn": "‏‎ night came, the line sil pulled hard, and Santiago's hands burned with pain -",
+          "paragraphAr": "‏واحترقت يدا سانتياغو من‎ ‏مع حلول الليل. ظل الخيط مشدوذًا‎"
         },
         {
           "order": 23,
-          "paragraphEn": "",
-          "paragraphAr": "ALong Struggle Begins بداية ضراع طويل"
+          "paragraphEn": "Hie thought of Joe DiMaggio and his courage to fight through pain and struggle -",
+          "paragraphAr": ". ‏في جو ديماجيو وشجاعته في القتال رغم الألم والمعاناة‎"
         },
         {
           "order": 24,
-          "paragraphEn": "needed strength, for this battle would not end quickly. -",
-          "paragraphAr": "لساعات, واصلت السمكة السباحة, وتبعها القارب. شرب سانتياغو قليلاً"
+          "paragraphEn": "Santiago ate a piece of fish to Keep his strength during the long battle,",
+          "paragraphAr": ". ‏السمك ليحافظ على قوته أثناء المعركة الطويلة‎ ‏أكل سانتياغو قطعة‎"
         },
         {
           "order": 25,
-          "paragraphEn": "",
-          "paragraphAr": "من الماء وأكل قطعة من التونة كان قد اصطادها سابقاً كظعم. كان"
+          "paragraphEn": "He wished the boy were with him to see the greatness of this ish.",
+          "paragraphAr": ". ‏الصبي كان معه ليرى عظمة هذه السمكة القوية‎ ‏تمنى لو‎"
         },
         {
           "order": 26,
-          "paragraphEn": "",
-          "paragraphAr": "يحتاج إلى القوة؛ لأن هذه المعركة لن تنتهي سريعا.\""
+          "paragraphEn": "‘At dawn, man and fish were sil joined in an endless fight for survival",
+          "paragraphAr": ". ‏عند الفجرءظل الرجل والسمكة متحدين في صراع لا ينتهي من أجل البقاء‎"
         },
         {
           "order": 27,
-          "paragraphEn": "",
-          "paragraphAr": "Talking to the Fish حديث مع السمكة"
-        },
-        {
-          "order": 28,
-          "paragraphEn": "will not let you go. | will fight with all my heart to take you.”",
-          "paragraphAr": "زالت السمكة تسبح في Log مع غروب الشمس. ظل الحبل مشدوداً."
-        },
-        {
-          "order": 29,
-          "paragraphEn": "",
-          "paragraphAr": "الأعماق. قال لها الرجل العجوز بلطف: \"أيتها السمكة, أنت أختي. لكنني"
-        },
-        {
-          "order": 30,
-          "paragraphEn": "",
-          "paragraphAr": "rotessional سد Novel"
-        },
-        {
-          "order": 31,
-          "paragraphEn": "1 ap English",
-          "paragraphAr": "Night Struggles Jw صراعات"
-        },
-        {
-          "order": 32,
-          "paragraphEn": "surrender.",
-          "paragraphAr": "حل الليل وظهرت النجوم. تحرك القارب بهدوء وسط المياه المظلمة."
-        },
-        {
-          "order": 33,
-          "paragraphEn": "",
-          "paragraphAr": "شعر سانتياغو بأن الحبل يحرق يديه. لكنه ظل ثابتاً. كان ظهره يؤلمه"
-        },
-        {
-          "order": 34,
-          "paragraphEn": "",
-          "paragraphAr": "وذراعاه ترتجفان. لكنه لم يستسلم."
-        },
-        {
-          "order": 35,
-          "paragraphEn": "",
-          "paragraphAr": "Inspired by DiMaggio إلهام من ديماجيو"
-        },
-        {
-          "order": 36,
-          "paragraphEn": "thought. \"Pain does not matter. Only endurance matters.”",
-          "paragraphAr": "تذكر جو ديماجيو وهو يلعب البيسبول رغم الألم في كعبه. قال"
-        },
-        {
-          "order": 37,
-          "paragraphEn": "",
-          "paragraphAr": "Gb a سانتياغو في نفسه: \"إذا كان ديماجيو استطاع الاعب مع"
-        },
-        {
-          "order": 38,
-          "paragraphEn": "",
-          "paragraphAr": "أستطيع أن أقاتل هذه السمكة. الألم لايهم. مايهم هو التحمل فقط*"
-        },
-        {
-          "order": 39,
-          "paragraphEn": "",
-          "paragraphAr": "All-Night Battle معركة طوال الليل"
-        },
-        {
-          "order": 40,
-          "paragraphEn": "|) another piece of fish to keep his strength.",
-          "paragraphAr": "سحبت السمكة القارب طوال الليل. لم يستطع سانتياغو النوم. ربط"
-        },
-        {
-          "order": 41,
-          "paragraphEn": "",
-          "paragraphAr": "الحبل على كتفيه ليخفف بعض الإجهاد. لكنه لم يتركه أبداً. أكل"
-        },
-        {
-          "order": 42,
-          "paragraphEn": "",
-          "paragraphAr": "قطعة أخرى من السمك ليحافظ على قوته."
-        },
-        {
-          "order": 43,
-          "paragraphEn": "",
-          "paragraphAr": "Thinking of the Boy voll التفكير في"
-        },
-        {
-          "order": 44,
-          "paragraphEn": "this is.”",
-          "paragraphAr": "كان يفكر في الصبي. همس قائلاً: \"بيت الصبي كان هنا. كان Lital"
-        },
-        {
-          "order": 45,
-          "paragraphEn": "",
-          "paragraphAr": "سيساعدني. وكان سيرى ما أعظم هذه السمكة,.\""
-        },
-        {
-          "order": 46,
-          "paragraphEn": "",
-          "paragraphAr": "protessional سد Novel ل"
-        },
-        {
-          "order": 47,
-          "paragraphEn": "",
-          "paragraphAr": "Alone with Nature وحده مع الطبيعة"
-        },
-        {
-          "order": 48,
-          "paragraphEn": "nature.",
-          "paragraphAr": "لكن سانتياغو كان وحيداً, وكان يعرف أن هذه معركته وحده. كان البحر"
-        },
-        {
-          "order": 49,
-          "paragraphEn": "",
-          "paragraphAr": "ساكناً إلا من صوت الماء وهو يضرب القارب. شعر الرجل العجوز بالصغر"
-        },
-        {
-          "order": 50,
-          "paragraphEn": "",
-          "paragraphAr": "جزءاً paul تحت السماء الواسعة. لكنه شعر أيضاً بالقوة. كان جزءاً من"
-        },
-        {
-          "order": 51,
-          "paragraphEn": "",
-          "paragraphAr": "من النجوم. وجزءاً من الصراع الأبدي بين الإنسان والطبيعة."
-        },
-        {
-          "order": 52,
-          "paragraphEn": "",
-          "paragraphAr": "The Final Declaration الإعلان الأخير"
-        },
-        {
-          "order": 53,
-          "paragraphEn": "pulling me, and | am pulling you. May the best of us win.”",
-          "paragraphAr": "مع بزوغ الفجر من جديد. نظر سانتياغو إلى الحبل. كان لا يزال يخترق."
-        },
-        {
-          "order": 54,
-          "paragraphEn": "",
-          "paragraphAr": "الماء بقوة وعمق. لم تتعب السمكة. ولم يتعب هو أيضاً"
-        },
-        {
-          "order": 55,
-          "paragraphEn": "",
-          "paragraphAr": "مرتبطين. أيتها السمكة. أنا Lipa قال الرجل العجوز بصوت عال: “الآن"
-        },
-        {
-          "order": 56,
-          "paragraphEn": "",
-          "paragraphAr": "CHAPTER THREE IN POINTS الفصل الثالث 5 نقاط"
-        },
-        {
-          "order": 57,
-          "paragraphEn": "‘The sun burned high above as Santiago waited alone in his small boat .",
-          "paragraphAr": "كانت الشمس حارقة في السماء بينما انتظر سانتياغو وحيًا في قاربه الصغير."
-        },
-        {
-          "order": 58,
-          "paragraphEn": "{bird circled inthe sky, showing signs tha lsh were near the surface",
-          "paragraphAr": "دار طائر في السماء. مشيرًا إلى أن الأسماك قريبة من سطح الماء."
-        },
-        {
-          "order": 59,
-          "paragraphEn": "Suddenly, the bird dived sharply, and email tuna jumped, scared by something larger",
-          "paragraphAr": "شيء أكبر yo gd فجأة غاص الطائر بقوة. وقفزت أسماك التونة الصغيرة"
-        },
-        {
-          "order": 60,
-          "paragraphEn": "Santiago's heart raced as he sensed a powerful fish moving under the waves",
-          "paragraphAr": "خفق قلب سانتياغو بسرعة عندما شعر بسمكة قوية تتحرك تحت الأمواج."
-        },
-        {
-          "order": 61,
-          "paragraphEn": "He felt the fishing line tremble gently, a sign that something had taken interest .",
-          "paragraphAr": ". ما قد اهتم بالظعم Ud شعر بخيط الصيد يهتز برفق, إشارة إلى أن"
-        },
-        {
-          "order": 62,
-          "paragraphEn": "Santiago waited patiently, letting the fish test the bat before pulling away",
-          "paragraphAr": ". انتظر سانتياغو بصبر, تاركًا السمكة تختبر الضعم قبل أن تبتعد عنه"
-        },
-        {
-          "order": 63,
-          "paragraphEn": "",
-          "paragraphAr": "protessional سس Novel ل"
-        },
-        {
-          "order": 64,
-          "paragraphEn": "",
-          "paragraphAr": "\\When the fish finally bit the line tightened hard, cutting deep قاط ماما hands."
-        },
-        {
-          "order": 65,
-          "paragraphEn": "",
-          "paragraphAr": "Liga Baro عندما عضت السمكة أخيزا. شد الخيط بقوة. وغاص في يديه"
-        },
-        {
-          "order": 66,
-          "paragraphEn": "",
-          "paragraphAr": "نحو أعماق البحر المفتوم lige) القارب الصغير jog السمكة القوية olay"
-        },
-        {
-          "order": 67,
-          "paragraphEn": "",
-          "paragraphAr": "Santiago held firm, his muscles tense, refusing ما release the precious line."
-        },
-        {
-          "order": 68,
-          "paragraphEn": "",
-          "paragraphAr": ". ثبت سانتياغو مكانه. واشتدت عضلاته, رافضًا أن يترك الخيط الثمين"
-        },
-        {
-          "order": 69,
-          "paragraphEn": "",
-          "paragraphAr": "الجدير بالاحترام. ogacg .تحدث بهدوء إلى السمكة. مناديًا إياها 'أخي\""
-        },
-        {
-          "order": 70,
-          "paragraphEn": "",
-          "paragraphAr": "فق night came, the line sil pulled hard, and Santiago's hands burned with pain -"
-        },
-        {
-          "order": 71,
-          "paragraphEn": "",
-          "paragraphAr": "AJM واحترقت يدا سانتياغو من gay مع حلول الليل. ظل الخيط مشدوذًا"
-        },
-        {
-          "order": 72,
-          "paragraphEn": "Hie thought of Joe DiMaggio and his courage to fight through pain and struggle -",
-          "paragraphAr": ". في جو ديماجيو وشجاعته في القتال رغم الألم والمعاناة Ad"
-        },
-        {
-          "order": 73,
-          "paragraphEn": "Santiago ate a piece of fish to Keep his strength during the long battle,",
-          "paragraphAr": ". السمك ليحافظ على قوته أثناء المعركة الطويلة yo أكل سانتياغو قطعة"
-        },
-        {
-          "order": 74,
-          "paragraphEn": "He wished the boy were with him to see the greatness of this ish.",
-          "paragraphAr": ". الصبي كان معه ليرى عظمة هذه السمكة القوية yl تمنى لو"
-        },
-        {
-          "order": 75,
-          "paragraphEn": "‘At dawn, man and fish were sil joined in an endless fight for survival",
-          "paragraphAr": ". عند الفجرءظل الرجل والسمكة متحدين في صراع لا ينتهي من أجل البقاء"
+          "paragraphEn": "‎Why did Santiago walt instead of pulling the line immediatly ?",
+          "paragraphAr": "‏سانتياغو بدلا من سحب الخيط‎"
         }
       ],
       "questionsAndAnswers": [
@@ -2498,16 +1607,19 @@
       "summaryAr": "تحدث سانتياغو إلى السمكة wala واعتبرها أخاه رغم أنه مضطر لقتلها .",
       "chapterInPoints": [
         {
-          "en": "Santiago spoke to the fish kindly, calling it his brother, even though he had to kill it .",
-          "ar": "تحدث سانتياغو إلى السمكة wala واعتبرها أخاه رغم أنه مضطر لقتلها ."
+          "order": 1,
+          "pointEn": "",
+          "pointAr": ""
         },
         {
-          "en": "Santiago's body ached, but he remembered Joe DiMaggio for motivation.",
-          "ar": "شعر بآلام جسدية. لكنه 557 جو ديماجيو ليستمد القوة."
+          "order": 2,
+          "pointEn": "",
+          "pointAr": ""
         },
         {
-          "en": "He remembered lions from his youth, which gave him courage.",
-          "ar": "الأسود من شبابه. مما أعطاه الشجاعة. 535"
+          "order": 3,
+          "pointEn": "",
+          "pointAr": ""
         }
       ],
       "vocabulary": [
@@ -2543,293 +1655,63 @@
       "theText": [
         {
           "order": 1,
-          "paragraphEn": "spirit unbroken.",
-          "paragraphAr": "وتحول لون السماء من الأسود youl أشرقت شمس الصباح ذهبية فوق"
+          "paragraphEn": "‎Morning Struggle ‏ ‎ The morning sun rose golden over the sea, and the sky turned 57 from black to pale blue. Santiago had not slept. His body was stiff, his hands were cut from the line, and his back ached from leaning 1 against the pull of the great fish. Yet his eyes were clear, and his iS spirit unbroken.",
+          "paragraphAr": "‏وتحول لون السماء من الأسود‎ ‏أشرقت شمس الصباح ذهبية فوق‎ ‏إلى الأزرق الشاحب. لم, ينم سانتياغو. كان جسده متيبساء ويداه مجروحتين‎ ‏من الحبل. وظهره يؤلمه من مقاومة سحب السمكة الكبيرة. ومع ذلك,‎ ‏كانت عيناه صافيتين. وروحه لم تنكسر.‎"
         },
         {
           "order": 2,
-          "paragraphEn": "",
-          "paragraphAr": "إلى الأزرق الشاحب. لم, ينم سانتياغو. كان جسده متيبساء ويداه مجروحتين"
+          "paragraphEn": "The Powerful Fish ‏‎ ‎The fish still swam powerfully, dragging the boat farther out into the guit. ‘Santiago knew they were alone now, far from other fishermen, far iid 2 from the coast. But he did not feel fear. Instead, he felt pride. “No one will see this fight,” he said aloud, “but will know it, and so will the fish.”",
+          "paragraphAr": "‏ظلت السمكة تسبح بقوة. ساحبة القارب إلى أعماق الخليج. علم‎ ‏سانتياغو أنهما الآن وحدهماء بعيدين عن الصيادين الآخرين: وبعيدين عن‎ ‏الساحل. لكنه لم يشعر بالخوف. بل شعر بالفخر. قال بصوت عال: \"لن‎ ‏يرى أحد هذه المعركة. لكنني سأعرفهاء وكذلك السمكة.\"‎"
         },
         {
           "order": 3,
-          "paragraphEn": "",
-          "paragraphAr": "من الحبل. وظهره يؤلمه من مقاومة سحب السمكة الكبيرة. ومع ذلك,"
+          "paragraphEn": "‏‎ _ Preparing forthe Long Fight ‏ ‎ He looked at the line, stretched tight into the water. “You are my brother, fish,” he whispered, “but must kill you. There is no other way.” To rest his hands, Santiago shifted the line across his shoulders, letting ii the rough hemp bite into his back instead of his palms. He breathed deeply and ate another piece of tuna, chewing slowly. He knew he must ‘save his strength. The battle was not about hours, but days.",
+          "paragraphAr": "‏نظر إلى الخيط المشدود بقوة في الماء. وهمس: “أنت أخي.ء أيتها السمكة, لكن يجب أن‎ ‏أقتلك. لا يوجد طريق آخر”‎ ‏سانتياغو الخيط إلى كتفيه. مما جعل الحبل الخشن يضغط على ظهره.‎ ‏ليرتام‎ ‏يمضغها ببطء.‎ ‏راحتي يديه. تنفس بعمق وأكل قطعة أخرى من سمكة‎ ‏كان يعلم أنه يجب أن يحافظ على قوته. فالمعركة لن تستمر لساعات فقط؛ بل لأيام.‎"
         },
         {
           "order": 4,
-          "paragraphEn": "",
-          "paragraphAr": "كانت عيناه صافيتين. وروحه لم تنكسر."
+          "paragraphEn": "The Fish Fights Back ‏ ‎ By noon, the fish suddenly pulled harder, and Santiago braced 47 a) himself. The line cut deeper into his skin, but he did not let go. His teeth clenched, sweat poured down his face. For a moment, he thought the fish might leap, but it did not. Instead, it dove deeper, dragging the skiff slowly along. The old man admired the creature's power. “He has not shown himself yet,” he thought. “He is too wise. But soon, he must come up.”",
+          "paragraphAr": "‏أكبر. فاستعد سانتياغو للمقاومة. قطع الحبل.‎ 6 ) ‏بحلول الظهر. سحبت السمكة فجأة‎ ‏جلده بعمق أكبر. لكنه لم يتركه. شد على أسنانه؛ وانهمر العرق على وجهه. لوهلة, ظن أن.‎ ‏السمكة قد تقفز. لكنها لم تفعل. بل غاصت أعمق . وسحبت القارب الصغير ببطء معها.‎ ‏إنه حكيم 19 لكن‎ ) ‏أعجب الرجل العجوز بقوة المخلوق. وقال في نفسه: \"لم يظهر‎ ‏قريباء يجب أن يظهر.*‎"
         },
         {
           "order": 5,
-          "paragraphEn": "",
-          "paragraphAr": "The Powerful Fish ةيوقلا السمكة"
+          "paragraphEn": "Pain and Endurance ‏‎ ‎The hours passed. The sun burned hot, and Santiago shaded his eyes. His muscles cramped, but he stretched them against the pain. & He thought again of Joe DiMaggio, who played baseball with a bone spur in his heel. “If he could play with pain, can fight with pain,” ‘Santiago repeated. “I am only an old man, but I can endure.”",
+          "paragraphAr": "‏مرت الساعات. وكانت الشمس حارقة, فظتل سانتياغو عينيه. تشنجت‎ ‏عضلاته. لكنه واصل رغم الألم, تذكر جو ديماجيو الذي لعب البيسبول وهو‎ ‏يعاني من عظمة زائدة في قدمه. قال: \"إذا استطاع أن يلعب مع الألم فأنا‎ ‏أستطيع أن أقاتل معه. أنا مجرد رجل عجوز. لكن يمكنني أن أتحمل.\"‎"
         },
         {
           "order": 6,
-          "paragraphEn": "the fish.”",
-          "paragraphAr": "ظلت السمكة تسبح بقوة. ساحبة القارب إلى أعماق الخليج. علم"
+          "paragraphEn": "That night, the fish made a great move. It surged suddenly, pull- 7 ing the boat faster than ever. Santiago almost fell, but he held ‘on, his body trembling with the effort. His hands bled freely, but 0 he ignored the pain. aa “You are killing me, fish,” he said aloud, “but you have the right. Never have I seen such a strong one. But will not give in.”",
+          "paragraphAr": "‏في تلك الليلة. قامت السمكة بحركة كبيرة واندفعت فجأة. ساحبة القارب بسرعة لم تحدث‎ ‏لكنه تمسك. واهتز جسده من شدة الجهد. كانت يداه‎ ‏من قبل. كاد سانتياغو أن‎ ‏تنزفان بحرية, لكنه تجاهل‎ ‏تقتلني؛ أيتها السمكة, لكنك تملكين الحق. لم أز سمكة قوية مثلك‎ ‏قال بصوت عال:‎ ‏من قبل. لكنني لن أستسلص”‎"
         },
         {
           "order": 7,
-          "paragraphEn": "",
-          "paragraphAr": "سانتياغو أنهما الآن وحدهماء بعيدين عن الصيادين الآخرين: وبعيدين عن"
+          "paragraphEn": "Loneliness and Memories ‏‎ ‎When the stars came out again, Santiago felt both loneliness and , companionship. He was alone on the sea, but the fish was with 2 him, bound by the line between them. He looked up at the stars 3 frogs and remembered the lions of his youth, playing on the beaches of 4 Africa. That dream gave him strength.",
+          "paragraphAr": "‏ظهرت النجوم مرة أخرى. شعر سانتياغو بالوحدة والرفقة مغا. كان‎ ‏مرتبطين بالخيط بينهما. نظر‎ ‏لكن السمكة كانت‎ ‏في‎ ‏إلى النجوم وتذكر الأسود في شبابه وهي تلعب على شواطئ أفريقيا.‎ ‏منحه ذلك الحلم القوة.‎"
         },
         {
           "order": 8,
-          "paragraphEn": "",
-          "paragraphAr": "الساحل. لكنه لم يشعر بالخوف. بل شعر بالفخر. قال بصوت عال: \"لن"
+          "paragraphEn": "The FishAppears ‏ ‎ The next morning, the fish finally rose. Santiago saw the line move o up , felt the great force lifting. Then, in a sudden explosion, the marlin leapt high into the air. It was enormous—longer than the boat itself, silver in the ‘sunlight, shining like a living sword. Water cascaded from its body as it crashed back into the sea.",
+          "paragraphAr": "‏ظهرت السمكة أخيرًا. رأى سانتياغو الحبل يرتفع,‎ ! ‏في صباح اليوم,‎ ‏الهواء. كانت ضخمة - أطول من القارب نفسه. فضية اللون في ضوع‎ ‏الشمس. تلمع كسيف حي. تناثرت المياه من جسدها عندما سقطت‎ ‏مجدذا في البحر.‎"
         },
         {
           "order": 9,
-          "paragraphEn": "",
-          "paragraphAr": "يرى أحد هذه المعركة. لكنني سأعرفهاء وكذلك السمكة.\""
+          "paragraphEn": "‏‎ _ The Final Struggle ‏‎ ‎Santiago's heart jumped. “Never have seen such a fish,” he whispered in awe. “Noble, strong, and full of spirit.” The marlin dived again, and the struggle continued. But now Santiago ai —— knew the size of his enemy. He spoke softly: “You are the greatest fish have ever fought. will kill you, though it will take all my strength.”",
+          "paragraphAr": "‏هذه من‎ ‏سمكة‎ ‏قفزقلب سانتياغو من الدهشة. همس: “لم‎ ‏نبيلة. قوية, ومليئة بالحياة.\"‎ ‏غطست السمكة مرة أخرى. واستمرت المعركة. لكن سانتياغو الآن يعرف‎ ‏أعظم سمكة قاتلتها في حياتي. سأقتلك,‎ ‏حجم عدوه. قال بهدوء:‎ ‏حتى لو تطلب الأمر كل قوتي.*‎"
         },
         {
           "order": 10,
-          "paragraphEn": "",
-          "paragraphAr": "Preparing forthe Long Fight الاستعداد للمعركة الطويلة"
+          "paragraphEn": "Exhaustion Without Surrender ‏ ‎ For two days and two nights, the battle continued. Santiago did not sleep. He ate little, only raw fish, and drank sparingly from his water bottle. His body was broken, but his will was like iron. At times he pitied the fish. “You are killing yourself for me,” he said. “I love you, but must take you. A man was born to work, to fight, to suffer, and to win.”",
+          "paragraphAr": "‏استمرت المعركة يومين وليلتين. لم, ينم, سانتياغو. أكل قليلا من السمك‎ 1 ‏النيء. وشرب بضع رشفات من الماء. كان جسده منهكًاء لكن إرادته كانت كالحديد.‎ ‏ولينتصر”‎ « « ) ‏\"أن أحبك, لكن يجب أن أصطادك. ولد الإنسان‎"
         },
         {
           "order": 11,
-          "paragraphEn": "‘save his strength. The battle was not about hours, but days.",
-          "paragraphAr": "نظر إلى الخيط المشدود بقوة في الماء. وهمس: “أنت أخي.ء أيتها السمكة, لكن يجب أن"
+          "paragraphEn": "The Final Morning ‏ ‎ When the third dawn came, Santiago was near exhaustion. His eyes burned, his hands were raw, his back felt as if it would break. Yet the line still held tight. The marlin swam slower now, tired but still strong. 3 3",
+          "paragraphAr": "‏عندما أتى فجراليوم الثالث. كان سانتياغو على وشك الانهيار. عيناه‎ ‏تحترقان؛ يداه مجروحتان. وظهره كآنه سينكسر. ومع ذلك,. لا يزال الحبل.‎ ‏متعبة ولكن لا تزال قوية.‎ ‏مشدوذا. كانت السمكة تسبح ببطء‎ ةريخألا ‏الكلمات‎"
         },
         {
           "order": 12,
-          "paragraphEn": "",
-          "paragraphAr": "أقتلك. لا يوجد طريق آخر”"
-        },
-        {
-          "order": 13,
-          "paragraphEn": "",
-          "paragraphAr": "سانتياغو الخيط إلى كتفيه. مما جعل الحبل الخشن يضغط على ظهره. Yas Luis ليرتام"
-        },
-        {
-          "order": 14,
-          "paragraphEn": "",
-          "paragraphAr": "يمضغها ببطء. digi راحتي يديه. تنفس بعمق وأكل قطعة أخرى من سمكة yo Yay"
-        },
-        {
-          "order": 15,
-          "paragraphEn": "",
-          "paragraphAr": "كان يعلم أنه يجب أن يحافظ على قوته. فالمعركة لن تستمر لساعات فقط؛ بل لأيام."
-        },
-        {
-          "order": 16,
-          "paragraphEn": "",
-          "paragraphAr": "The Fish Fights Back السمكة تقاوم"
-        },
-        {
-          "order": 17,
-          "paragraphEn": "yet,” he thought. “He is too wise. But soon, he must come up.”",
-          "paragraphAr": "أكبر. فاستعد سانتياغو للمقاومة. قطع الحبل. 6g a) بحلول الظهر. سحبت السمكة فجأة"
-        },
-        {
-          "order": 18,
-          "paragraphEn": "",
-          "paragraphAr": "جلده بعمق أكبر. لكنه لم يتركه. شد على أسنانه؛ وانهمر العرق على وجهه. لوهلة, ظن أن."
-        },
-        {
-          "order": 19,
-          "paragraphEn": "",
-          "paragraphAr": "السمكة قد تقفز. لكنها لم تفعل. بل غاصت أعمق . وسحبت القارب الصغير ببطء معها."
-        },
-        {
-          "order": 20,
-          "paragraphEn": "",
-          "paragraphAr": "إنه حكيم 19 لكن ae) أعجب الرجل العجوز بقوة المخلوق. وقال في نفسه: \"لم يظهر"
-        },
-        {
-          "order": 21,
-          "paragraphEn": "",
-          "paragraphAr": "قريباء يجب أن يظهر.*"
-        },
-        {
-          "order": 22,
-          "paragraphEn": "",
-          "paragraphAr": "Pain and Endurance لمحتلاو الألم"
-        },
-        {
-          "order": 23,
-          "paragraphEn": "‘Santiago repeated. “I am only an old man, but I can endure.”",
-          "paragraphAr": "مرت الساعات. وكانت الشمس حارقة, فظتل سانتياغو عينيه. تشنجت"
-        },
-        {
-          "order": 24,
-          "paragraphEn": "",
-          "paragraphAr": "عضلاته. لكنه واصل رغم الألم, تذكر جو ديماجيو الذي لعب البيسبول وهو"
-        },
-        {
-          "order": 25,
-          "paragraphEn": "",
-          "paragraphAr": "يعاني من عظمة زائدة في قدمه. قال: \"إذا استطاع أن يلعب مع الألم فأنا"
-        },
-        {
-          "order": 26,
-          "paragraphEn": "",
-          "paragraphAr": "أستطيع أن أقاتل معه. أنا مجرد رجل عجوز. لكن يمكنني أن أتحمل.\""
-        },
-        {
-          "order": 27,
-          "paragraphEn": "",
-          "paragraphAr": "The Great Surge الاندفاع الكبير"
-        },
-        {
-          "order": 28,
-          "paragraphEn": "Never have I seen such a strong one. But | will not give in.”",
-          "paragraphAr": "في تلك الليلة. قامت السمكة بحركة كبيرة واندفعت فجأة. ساحبة القارب بسرعة لم تحدث"
-        },
-        {
-          "order": 29,
-          "paragraphEn": "",
-          "paragraphAr": "لكنه تمسك. واهتز جسده من شدة الجهد. كانت يداه dad uy من قبل. كاد سانتياغو أن"
-        },
-        {
-          "order": 30,
-          "paragraphEn": "",
-          "paragraphAr": "aI تنزفان بحرية, لكنه تجاهل"
-        },
-        {
-          "order": 31,
-          "paragraphEn": "",
-          "paragraphAr": "تقتلني؛ أيتها السمكة, لكنك تملكين الحق. لم أز سمكة قوية مثلك cil قال بصوت عال:"
-        },
-        {
-          "order": 32,
-          "paragraphEn": "",
-          "paragraphAr": "من قبل. لكنني لن أستسلص”"
-        },
-        {
-          "order": 33,
-          "paragraphEn": "",
-          "paragraphAr": "Loneliness and Memories تايركذلاو الوحدة"
-        },
-        {
-          "order": 34,
-          "paragraphEn": "Africa. That dream gave him strength.",
-          "paragraphAr": "ظهرت النجوم مرة أخرى. شعر سانتياغو بالوحدة والرفقة مغا. كان Loaic"
-        },
-        {
-          "order": 35,
-          "paragraphEn": "",
-          "paragraphAr": "مرتبطين بالخيط بينهما. نظر doo لكن السمكة كانت paul في Lung"
-        },
-        {
-          "order": 36,
-          "paragraphEn": "",
-          "paragraphAr": "إلى النجوم وتذكر الأسود في شبابه وهي تلعب على شواطئ أفريقيا."
-        },
-        {
-          "order": 37,
-          "paragraphEn": "",
-          "paragraphAr": "منحه ذلك الحلم القوة."
-        },
-        {
-          "order": 38,
-          "paragraphEn": "",
-          "paragraphAr": "The FishAppears ظهور السمكة"
-        },
-        {
-          "order": 39,
-          "paragraphEn": "as it crashed back into the sea.",
-          "paragraphAr": "ظهرت السمكة أخيرًا. رأى سانتياغو الحبل يرتفع, QIU! في صباح اليوم,"
-        },
-        {
-          "order": 40,
-          "paragraphEn": "",
-          "paragraphAr": "الهواء. كانت ضخمة - أطول من القارب نفسه. فضية اللون في ضوع"
-        },
-        {
-          "order": 41,
-          "paragraphEn": "",
-          "paragraphAr": "الشمس. تلمع كسيف حي. تناثرت المياه من جسدها عندما سقطت"
-        },
-        {
-          "order": 42,
-          "paragraphEn": "",
-          "paragraphAr": "مجدذا في البحر."
-        },
-        {
-          "order": 43,
-          "paragraphEn": "",
-          "paragraphAr": "The Final Struggle ةريخألا المعركة"
-        },
-        {
-          "order": 44,
-          "paragraphEn": "have ever fought. | will kill you, though it will take all my strength.”",
-          "paragraphAr": "Jus هذه من jis سمكة ji قفزقلب سانتياغو من الدهشة. همس: “لم"
-        },
-        {
-          "order": 45,
-          "paragraphEn": "",
-          "paragraphAr": "نبيلة. قوية, ومليئة بالحياة.\""
-        },
-        {
-          "order": 46,
-          "paragraphEn": "",
-          "paragraphAr": "غطست السمكة مرة أخرى. واستمرت المعركة. لكن سانتياغو الآن يعرف"
-        },
-        {
-          "order": 47,
-          "paragraphEn": "",
-          "paragraphAr": "أعظم سمكة قاتلتها في حياتي. سأقتلك, cil حجم عدوه. قال بهدوء:"
-        },
-        {
-          "order": 48,
-          "paragraphEn": "",
-          "paragraphAr": "حتى لو تطلب الأمر كل قوتي.*"
-        },
-        {
-          "order": 49,
-          "paragraphEn": "",
-          "paragraphAr": "Exhaustion Without Surrender مالستسا الإرهاق بلا"
-        },
-        {
-          "order": 50,
-          "paragraphEn": "suffer, and to win.”",
-          "paragraphAr": "استمرت المعركة يومين وليلتين. لم, ينم, سانتياغو. أكل قليلا من السمك 1"
-        },
-        {
-          "order": 51,
-          "paragraphEn": "",
-          "paragraphAr": "النيء. وشرب بضع رشفات من الماء. كان جسده منهكًاء لكن إرادته كانت كالحديد."
-        },
-        {
-          "order": 52,
-          "paragraphEn": "",
-          "paragraphAr": "ولينتصر” «pile «ili Joon) \"أن أحبك, لكن يجب أن أصطادك. ولد الإنسان"
-        },
-        {
-          "order": 53,
-          "paragraphEn": "",
-          "paragraphAr": "The Final Morning صباح اليوم الأخير"
-        },
-        {
-          "order": 54,
-          "paragraphEn": "strong. 3 3",
-          "paragraphAr": "عندما أتى فجراليوم الثالث. كان سانتياغو على وشك الانهيار. عيناه"
-        },
-        {
-          "order": 55,
-          "paragraphEn": "",
-          "paragraphAr": "تحترقان؛ يداه مجروحتان. وظهره كآنه سينكسر. ومع ذلك,. لا يزال الحبل."
-        },
-        {
-          "order": 56,
-          "paragraphEn": "",
-          "paragraphAr": "متعبة ولكن لا تزال قوية. yl مشدوذا. كانت السمكة تسبح ببطء"
-        },
-        {
-          "order": 57,
-          "paragraphEn": "",
-          "paragraphAr": "The Final Words ةريخألا الكلمات"
-        },
-        {
-          "order": 58,
-          "paragraphEn": "us both.”",
-          "paragraphAr": "أنا. ليُساعدنا الله كلاينا.* gl همس سانتياغو إلى البحر, إلى السمكة , إلى نفسه: \"إما أنت"
+          "paragraphEn": "‎‘Santiago whispered to the sea, to the fish, to himself: “It is you or me. May God help us both.”",
+          "paragraphAr": "‏أنا. ليُساعدنا الله كلاينا.*‎ ‏همس سانتياغو إلى البحر, إلى السمكة , إلى نفسه: \"إما أنت‎"
         }
       ],
       "questionsAndAnswers": [
@@ -3217,36 +2099,44 @@
       "summaryAr": "استعد سانتياجو للمعركة الأخيرة بشجاعة وعزيمة قوية",
       "chapterInPoints": [
         {
-          "en": "Santiago prepared himseit forthe final struggle with courage and determination",
-          "ar": "استعد سانتياجو للمعركة الأخيرة بشجاعة وعزيمة قوية"
+          "order": 1,
+          "pointEn": "",
+          "pointAr": ""
         },
         {
-          "en": "He pulled the line inch by neh, ignoring the pain in his burning muscles",
-          "ar": "سحب الحبل ببطء. متجاهلاً الألم في عضلاته المشتعلة"
+          "order": 2,
+          "pointEn": "",
+          "pointAr": ""
         },
         {
-          "en": "Santiago admired the fish's beauty and strength, calling It his brother with respec.",
-          "ar": "باحترام \"gal أعجب سانتياجو بجمال السمكة وقوتهاء وسفاها"
+          "order": 3,
+          "pointEn": "",
+          "pointAr": ""
         },
         {
-          "en": "He killed the marlin and tied it beside the boat for the journey home.",
-          "ar": "gg قل السمكة وربطها بجانب القارب استعدادًا للعودة إلى"
+          "order": 4,
+          "pointEn": "",
+          "pointAr": ""
         },
         {
-          "en": "Santiago felt peaceful but knew danger awaited him from sharks inthe sea.",
-          "ar": "أسماك القرش في البحر yo أن الخطر ينتظره ale شعر سانتياجو بالسلام لكنه"
+          "order": 5,
+          "pointEn": "",
+          "pointAr": ""
         },
         {
-          "en": "He hoped the vilagers would see his catch and know he was stil strong.",
-          "ar": "Liga أن يرى القرويون صيده ويدركوا أنه ما زال Lol"
+          "order": 6,
+          "pointEn": "",
+          "pointAr": ""
         },
         {
-          "en": "He whispered thatthe fish's death gave him Ife but cost اط his .امه",
-          "ar": "لكنه كلّفه روحه. 64s موت السمكة منحه yl همس"
+          "order": 7,
+          "pointEn": "",
+          "pointAr": ""
         },
         {
-          "en": "Santiago dreamed again of the lions from his youth, symbols of freedom and strength,",
-          "ar": ". سانتياجو مرة أخرى بالأسود من شبابه. رموز الحرية والقوة ala"
+          "order": 8,
+          "pointEn": "",
+          "pointAr": ""
         }
       ],
       "vocabulary": [
@@ -3282,283 +2172,58 @@
       "theText": [
         {
           "order": 1,
-          "paragraphEn": "three long days and nights. His body was weary, his hands swollen",
-          "paragraphAr": "and bleeding, but his spirit remained sharp. He knew the fish was اد"
+          "paragraphEn": "‎The Final Struggle ‏ ‎ The sun was rising again. Santiago had been fighting the fish for three long days and nights. His body was weary, his hands swollen and bleeding, but his spirit remained sharp. He knew the fish was ‏‎ ‎weakening, though its strength was still greater than anything he 2 — had ever faced.",
+          "paragraphAr": "‏كانت الشمس تشرق من جديد. كان سانتياغو يقاتل السمكة منذ ثلاثة.‎ ‏أيام وثلاث ليال طويلة. جسده منهك. ويداه متورمتان وتنزفان. لكن‎ ‏تضعفء رغم أن قوتها ما‎ ‏روحه بقيت قوية. كان يعرف أن السمكة‎ ‏زالت أعظم من أي شيء واجهه من قبل.‎"
         },
         {
           "order": 2,
-          "paragraphEn": "had ever faced.",
-          "paragraphAr": "كانت الشمس تشرق من جديد. كان سانتياغو يقاتل السمكة منذ ثلاثة."
+          "paragraphEn": "The Turning Point ‏ ‎ The line pulled with less power now, and Santiago felt the fish circling slowly deep below the boat. He recognized the pattern: the marlin was tired, but it would not ‘surrender easily. It was preparing for its final struggle.",
+          "paragraphAr": "‏بدأ الخيط يشذ بقوة أقل, وشعر سانتياغو بالسمكة تدور ببطء في الأعماق تحت القارب. أدرك‎ ‏العلامة: كانت السمكة مرهقة. لكنها لن تستسلم بسهولة. كانت تستعد لمعركتها الأخيرة.‎"
         },
         {
           "order": 3,
-          "paragraphEn": "",
-          "paragraphAr": "أيام وثلاث ليال طويلة. جسده منهك. ويداه متورمتان وتنزفان. لكن"
+          "paragraphEn": "Pain and Perseverance ually ‏‎ ‎“Now it begins,” the old man whispered. He braced his feet against the wooden boards of the skiff and leaned back with all the strength left in him. Thefish circled widerand wider. Eachturnbroughtitalittleclosertothe surface. Santiago worked carefully, pulling in the line inch by inch. His muscles burned, but he welcomed the pain. “Pain is not an ene- my,” he thought. \"It tells me am alive.”",
+          "paragraphAr": "‏قال العجوز هامسا “الآن يبدأ الأمر.\" ثم ثبّت قدميه على ألوام القارب الخشبية. واتكأ بكل‎ ‏ماتبقى لديه من قوة.‎ ‏كانت السمكة تدور في دوائر أوسع فأوسع. ومع كل دورة تقترب أكثر من السطم. عمل‎ ‏سانتياغو بحذر. يسحب الخيط ببطء بوصة بعد بوصة. كانت عضلاته تشتعل ألفاء لكنه‎ \". ‏زلت‎ ‏ركب بذلك الألم. قال في نفسه: \"الألم ليس عدوا إنه يخبرني أنني‎"
         },
         {
           "order": 4,
-          "paragraphEn": "",
-          "paragraphAr": "تضعفء رغم أن قوتها ما lay روحه بقيت قوية. كان يعرف أن السمكة"
+          "paragraphEn": "‏‎ _ Brother of the Sea jwl ‏‎ ‎At last, the marlin rose. The giant fish came into view, silver and ‏‎ ‎purple in the water, glowing in the sunlight. Santiago gasped at its 5 size. It was longer than the boat, with a great sword-like bill and a powerful body. The marlin swam gracefully, a king of the sea. “Fish,” Santiago said aloud, his voice full of respect, \"you are my brother, but must end this. Forgive me.”",
+          "paragraphAr": "‏تحت‎ ‏وأخيزا. ظهرت السمكة. بدت هائلة الحجم. فضية اللون مع لمسات أرجوانية:‎ ‏أشعة الشمس. شهق سانتياغو دهشة من ضخامتها. كانت أطول من القارب. بسيف‎ ‏في مقدمتها وجسد 695 كانت تسبح برشاقة. كأنها ملك البحر.‎ ‏لكن يجب أن‎ ‏قال سانتياغو بصوت مفعم بالاحترام: 'أيتها السمكة. أنت أختي في‎"
         },
         {
           "order": 5,
-          "paragraphEn": "",
-          "paragraphAr": "زالت أعظم من أي شيء واجهه من قبل."
+          "paragraphEn": "Brother of the Sea ‏ ‎ At last, the marlin rose. The giant fish came into view, silver and ‏‎ ‎purple in the water, glowing in the sunlight. Santiago gasped at its size. It was longer than the boat, with a great sword-like bill and a powerful body. The marlin swam gracefully, a king of the sea. “Fish,” Santiago said aloud, his voice full of respect, \"you are my brother, but must end this. Forgive me.”",
+          "paragraphAr": "‏وأخيراء ظهرت السمكة. بدت هائلة الحجم. فضية اللون مع لمسات أرجوانية: تتلآلً تحت‎ ‏أشعة الشمس. شهق سانتياغو دهشة من ضخامتها. كانت أطول من القارب. بسيف‎ ‏في مقدمتها وجسد قويْ. كانت تسبح برشاقة. كأنها ملك البحر.‎ ‏لكن يجب أن‎ ‏قال سانتياغو بصوت مفعم بالاحترام: 'أيتها السمكة. أنت أختي في‎ ‏سامحيني.\"‎ ‏أنهي‎"
         },
         {
           "order": 6,
-          "paragraphEn": "",
-          "paragraphAr": "The Turning Point نقطة التحوّل"
+          "paragraphEn": "‎The Journey Home ‏ ‎ The boat began its long journey home. Santiago's arms were weak, but the wind carried him gently toward the coast. He looked at the marlin's shining body in the water. \"We fought well, fish,” he said e softly. \"You gave me everything you had. And I gave you everything Uhad. This was fair.”",
+          "paragraphAr": "‏سانتياغو ضعيفتين»‎ ‏بدأ القارب رحلته الطويلة نحو الشاطئ. كانت‎ ‏لكن الرياح حملته برفق نحو الساحل. نظر إلى جسد السمكة اللامع في‎ ‏الماء وقال بهدوء: \"نقد قاتلنا بشرفء أيتها السمكة. أعطيتني كل ما‎ 1 ‏وأعطيتك كل ما عندي. كانت معركة عادلة.\"‎"
         },
         {
           "order": 7,
-          "paragraphEn": "‘surrender easily. It was preparing for its final struggle.",
-          "paragraphAr": "بدأ الخيط يشذ بقوة أقل, وشعر سانتياغو بالسمكة تدور ببطء في الأعماق تحت القارب. أدرك"
+          "paragraphEn": "‏‎ _ Peace and Foresight ‏ ‎ The sea was calm, the sun warm. Santiago felt at peace, though he knew his work was. not finished. The hardest part was yet to come: bringing his prize safely home.",
+          "paragraphAr": "‏كان البحر هادنًاء والشمس دافئة. شعر سانتياغو بالسلام, رغم علمه أن عمله لم ينته بعد.‎ ‏فالأصعب مازال أمامه: أن يُعيد غنيمته إلى الوطن بسلام.‎"
         },
         {
           "order": 8,
-          "paragraphEn": "",
-          "paragraphAr": "العلامة: كانت السمكة مرهقة. لكنها لن تستسلم بسهولة. كانت تستعد لمعركتها الأخيرة."
+          "paragraphEn": "The Shadow of Danger ‏ ‎ As the boat sailed, Santiago dreamed of how the villagers would react. The fishermen would measure the marlin, and the boy would be proud. People would see that the old man was not finished, that 4 rad he was still strong, still capable of greatness. But Santiago also knew that victory carried danger. The smell of 1 blood in the water would call the sharks. He looked at the horizon, his eyes hard. “They will come,” he said. \"But will fight them.”",
+          "paragraphAr": "‏كان القارب يشق طريقه. حلم سانتياغو بكيفية استقبال أهل القرية له.‎ ‏وسيفتخر الصبي به. سيرى الناس أن العجوز لم ينته بعد. وأنه ما زال‎ ‏الصيادون‎ ‏ومازال قادرًا على العظمة.‎ ‏لكنه كان يعلم أيضًا أن النصريجلب الخطر. فرائحة الدم في الماء ستجذب أسماك القرش.‎ ‏نظر إلى الأفق بعينين قاسيتين وقال: “سياتون. لكنني ساقاتلهم.\"‎"
         },
         {
           "order": 9,
-          "paragraphEn": "",
-          "paragraphAr": "Pain and Perseverance ually الألم"
+          "paragraphEn": "Bond of Life and Death ‏ ‎ The marlin floated beside him, silent, beautiful, and dead. The old man placed his hand gently on the fish's side. \"We are joined forev- er, you and I,” he ay whispered. \"Your death gives me life, but it costs me my soul.”",
+          "paragraphAr": "‏كانت السمكة تطفو بجانبه: صامتة: جميلة. ومَيّتة. وضع العجوز يده‎ ‏مرتبطين إلى الأبد, أنا وأنت.‎ 2 \" ‏برفق على جانبها وقال هامسا:‎ ‏الأحلام والراحة‎"
         },
         {
           "order": 10,
-          "paragraphEn": "my,” he thought. \"It tells me | am alive.”",
-          "paragraphAr": "قال العجوز هامسا “الآن يبدأ الأمر.\" ثم ثبّت قدميه على ألوام القارب الخشبية. واتكأ بكل"
+          "paragraphEn": "Night fell once more, and Santiago, though exhausted, kept watch. He felt both proud and deeply sad. He had won the greatest battle of i pl ‏‎ ‎his life, but he sensed that the sea would test him again before he ) reached home. He closed his eyes briefly, and in his half-dream, he saw the lions of his youth on the African shore, running and playing freely. They gave him strength, as they always did. peewee",
+          "paragraphAr": "‏حل الليل من جديد. ورغم الإرهاق؛ بقي سانتياغو متيقظا. شعر بالفخر وبحزن عميق في‎ ‏الوقت نفسه. لقد ربع أعظم معركة في حياته. لكنه شعر أن البحر سيختبره مرة أخرى قبلٌ‎ “ ‏أن يصل إلى‎ ‏حلمه نصف اليقظ. رأى أسود شبابه على شواطئ أفريقيا‎ ( ‏أغمض عينيه للحظة.‎ . ‏منحته تلك الصورة القوة. كما كانت تفعل دائها‎ ‏تركض وتلعب‎"
         },
         {
           "order": 11,
-          "paragraphEn": "",
-          "paragraphAr": "ماتبقى لديه من قوة."
-        },
-        {
-          "order": 12,
-          "paragraphEn": "",
-          "paragraphAr": "كانت السمكة تدور في دوائر أوسع فأوسع. ومع كل دورة تقترب أكثر من السطم. عمل"
-        },
-        {
-          "order": 13,
-          "paragraphEn": "",
-          "paragraphAr": "سانتياغو بحذر. يسحب الخيط ببطء بوصة بعد بوصة. كانت عضلاته تشتعل ألفاء لكنه"
-        },
-        {
-          "order": 14,
-          "paragraphEn": "",
-          "paragraphAr": "\". Lis زلت Lo ركب بذلك الألم. قال في نفسه: \"الألم ليس عدوا إنه يخبرني أنني"
-        },
-        {
-          "order": 15,
-          "paragraphEn": "",
-          "paragraphAr": "Brother of the Sea j>wl أخو"
-        },
-        {
-          "order": 16,
-          "paragraphEn": "",
-          "paragraphAr": "At last, the marlin rose. The giant fish came into view, silver and يسيم"
-        },
-        {
-          "order": 17,
-          "paragraphEn": "brother, but | must end this. Forgive me.”",
-          "paragraphAr": "تحت WG وأخيزا. ظهرت السمكة. بدت هائلة الحجم. فضية اللون مع لمسات أرجوانية:"
-        },
-        {
-          "order": 18,
-          "paragraphEn": "",
-          "paragraphAr": "Ad أشعة الشمس. شهق سانتياغو دهشة من ضخامتها. كانت أطول من القارب. بسيف"
-        },
-        {
-          "order": 19,
-          "paragraphEn": "",
-          "paragraphAr": "في مقدمتها وجسد 695 كانت تسبح برشاقة. كأنها ملك البحر."
-        },
-        {
-          "order": 20,
-          "paragraphEn": "",
-          "paragraphAr": "لكن يجب أن paul قال سانتياغو بصوت مفعم بالاحترام: 'أيتها السمكة. أنت أختي في"
-        },
-        {
-          "order": 21,
-          "paragraphEn": "",
-          "paragraphAr": "Brother of the Sea أخو البحر"
-        },
-        {
-          "order": 22,
-          "paragraphEn": "",
-          "paragraphAr": "At last, the marlin rose. The giant fish came into view, silver and يي"
-        },
-        {
-          "order": 23,
-          "paragraphEn": "brother, but | must end this. Forgive me.”",
-          "paragraphAr": "وأخيراء ظهرت السمكة. بدت هائلة الحجم. فضية اللون مع لمسات أرجوانية: تتلآلً تحت"
-        },
-        {
-          "order": 24,
-          "paragraphEn": "",
-          "paragraphAr": "Ad أشعة الشمس. شهق سانتياغو دهشة من ضخامتها. كانت أطول من القارب. بسيف"
-        },
-        {
-          "order": 25,
-          "paragraphEn": "",
-          "paragraphAr": "في مقدمتها وجسد قويْ. كانت تسبح برشاقة. كأنها ملك البحر."
-        },
-        {
-          "order": 26,
-          "paragraphEn": "",
-          "paragraphAr": "لكن يجب أن paul قال سانتياغو بصوت مفعم بالاحترام: 'أيتها السمكة. أنت أختي في"
-        },
-        {
-          "order": 27,
-          "paragraphEn": "",
-          "paragraphAr": "سامحيني.\" Lia أنهي"
-        },
-        {
-          "order": 28,
-          "paragraphEn": "",
-          "paragraphAr": "The Journey Home رحلة العودة"
-        },
-        {
-          "order": 29,
-          "paragraphEn": "Uhad. This was fair.”",
-          "paragraphAr": "سانتياغو ضعيفتين» Lela بدأ القارب رحلته الطويلة نحو الشاطئ. كانت"
-        },
-        {
-          "order": 30,
-          "paragraphEn": "",
-          "paragraphAr": "لكن الرياح حملته برفق نحو الساحل. نظر إلى جسد السمكة اللامع في"
-        },
-        {
-          "order": 31,
-          "paragraphEn": "",
-          "paragraphAr": "الماء وقال بهدوء: \"نقد قاتلنا بشرفء أيتها السمكة. أعطيتني كل ما"
-        },
-        {
-          "order": 32,
-          "paragraphEn": "",
-          "paragraphAr": "1 وأعطيتك كل ما عندي. كانت معركة عادلة.\" Waic"
-        },
-        {
-          "order": 33,
-          "paragraphEn": "",
-          "paragraphAr": "Peace and Foresight السلام والتوقع"
-        },
-        {
-          "order": 34,
-          "paragraphEn": "not finished. The hardest part was yet to come: bringing his prize safely home.",
-          "paragraphAr": "كان البحر هادنًاء والشمس دافئة. شعر سانتياغو بالسلام, رغم علمه أن عمله لم ينته بعد."
-        },
-        {
-          "order": 35,
-          "paragraphEn": "",
-          "paragraphAr": "فالأصعب مازال أمامه: أن يُعيد غنيمته إلى الوطن بسلام."
-        },
-        {
-          "order": 36,
-          "paragraphEn": "",
-          "paragraphAr": "The Shadow of Danger ظل الخطر"
-        },
-        {
-          "order": 37,
-          "paragraphEn": "his eyes hard. “They will come,” he said. \"But | will fight them.”",
-          "paragraphAr": "vesainw كان القارب يشق طريقه. حلم سانتياغو بكيفية استقبال أهل القرية له. Loin"
-        },
-        {
-          "order": 38,
-          "paragraphEn": "",
-          "paragraphAr": "وسيفتخر الصبي به. سيرى الناس أن العجوز لم ينته بعد. وأنه ما زال Go ul الصيادون"
-        },
-        {
-          "order": 39,
-          "paragraphEn": "",
-          "paragraphAr": "ومازال قادرًا على العظمة. Lig"
-        },
-        {
-          "order": 40,
-          "paragraphEn": "",
-          "paragraphAr": "لكنه كان يعلم أيضًا أن النصريجلب الخطر. فرائحة الدم في الماء ستجذب أسماك القرش."
-        },
-        {
-          "order": 41,
-          "paragraphEn": "",
-          "paragraphAr": "نظر إلى الأفق بعينين قاسيتين وقال: “سياتون. لكنني ساقاتلهم.\""
-        },
-        {
-          "order": 42,
-          "paragraphEn": "",
-          "paragraphAr": "Bond of Life and Death رابطة الحياة والموت"
-        },
-        {
-          "order": 43,
-          "paragraphEn": "whispered. \"Your death gives me life, but it costs me my soul.” |",
-          "paragraphAr": "كانت السمكة تطفو بجانبه: صامتة: جميلة. ومَيّتة. وضع العجوز يده"
-        },
-        {
-          "order": 44,
-          "paragraphEn": "",
-          "paragraphAr": "مرتبطين إلى الأبد, أنا وأنت. Lipo 2 AJ\" برفق على جانبها وقال هامسا:"
-        },
-        {
-          "order": 45,
-          "paragraphEn": "",
-          "paragraphAr": "Dreams and Rest الأحلام والراحة"
-        },
-        {
-          "order": 46,
-          "paragraphEn": "Night fell once more, and Santiago, though exhausted, kept watch.",
-          "paragraphAr": "He felt both proud and deeply sad. He had won the greatest battle of i pl [ب"
-        },
-        {
-          "order": 47,
-          "paragraphEn": "gave him strength, as they always did.",
-          "paragraphAr": "حل الليل من جديد. ورغم الإرهاق؛ بقي سانتياغو متيقظا. شعر بالفخر وبحزن عميق في"
-        },
-        {
-          "order": 48,
-          "paragraphEn": "",
-          "paragraphAr": "الوقت نفسه. لقد ربع أعظم معركة في حياته. لكنه شعر أن البحر سيختبره مرة أخرى قبلٌ"
-        },
-        {
-          "order": 49,
-          "paragraphEn": "",
-          "paragraphAr": "“geal أن يصل إلى"
-        },
-        {
-          "order": 50,
-          "paragraphEn": "",
-          "paragraphAr": "حلمه نصف اليقظ. رأى أسود شبابه على شواطئ أفريقيا (gig أغمض عينيه للحظة."
-        },
-        {
-          "order": 51,
-          "paragraphEn": "",
-          "paragraphAr": ". منحته تلك الصورة القوة. كما كانت تفعل دائها yay تركض وتلعب"
-        },
-        {
-          "order": 52,
-          "paragraphEn": "",
-          "paragraphAr": "An Uncertain Dawn dol فجر"
-        },
-        {
-          "order": 53,
-          "paragraphEn": "The boat sailed on into the darkness, carrying the old man and his [esau",
-          "paragraphAr": "mighty prize toward an uncertain dawn. و"
-        },
-        {
-          "order": 54,
-          "paragraphEn": "",
-          "paragraphAr": "تلمع تحت grag نظر إلى السمكة المارلن ayaa عينيه من aid عندما"
-        },
-        {
-          "order": 55,
-          "paragraphEn": "",
-          "paragraphAr": "الآن فلنرتح معا.\" Lol سنواجه ما سياتي. le\" ضوء القمر وقال:"
-        },
-        {
-          "order": 56,
-          "paragraphEn": "",
-          "paragraphAr": "واصل القارب الإبحار في الظلام. حامنًا العجوز وغنيمته العظيمة نحو"
+          "paragraphEn": "An Uncertain Dawn dol ‏‎ ‎When he opened his eyes, he looked again at the marlin, shining in ry the moonlight. “Tomorrow, we will face what comes,” he said. \"For now, we rest together.” The boat sailed on into the darkness, carrying the old man and his esau mighty prize toward an uncertain dawn. ‏‎",
+          "paragraphAr": "‏تلمع تحت‎ ‏نظر إلى السمكة المارلن‎ ‏عينيه من‎ ‏عندما‎ ‏الآن فلنرتح معا.\"‎ ‏سنواجه ما سياتي.‎ \" ‏ضوء القمر وقال:‎ ‏واصل القارب الإبحار في الظلام. حامنًا العجوز وغنيمته العظيمة نحو‎"
         }
       ],
       "questionsAndAnswers": [
@@ -3928,32 +2593,39 @@
       "summaryAr": "أبحر سانتياغو عائدًا بفخر, والسمكة مربوطة بجانب قاربه الصغير.",
       "chapterInPoints": [
         {
-          "en": "Santiago sailed home proudly wit the marlin tied beside his smal skit",
-          "ar": "أبحر سانتياغو عائدًا بفخر, والسمكة مربوطة بجانب قاربه الصغير."
+          "order": 1,
+          "pointEn": "",
+          "pointAr": ""
         },
         {
-          "en": "He felt uneasy, knowing the sea always demanded a pice for its gifts",
-          "ar": "ثمن عطاياه. Laila شعر بعدم الارتيام: لأنه يعلم أن البحر يطلب"
+          "order": 2,
+          "pointEn": "",
+          "pointAr": ""
         },
         {
-          "en": "Santiago readied his harpoon, though his hands were bloody and weak.",
-          "ar": ". أعد سانتياغو رمحه. رغم أن يديه كانتا داميتين وضعيفتين"
+          "order": 3,
+          "pointEn": "",
+          "pointAr": ""
         },
         {
-          "en": "Santiago struck hard and killed the shark, but the sea turned red.",
-          "ar": ". لكن البحر تحول إلى اللون الأحمر «yp dll ضرب سانتياغو بقوة وقتل"
+          "order": 4,
+          "pointEn": "",
+          "pointAr": ""
         },
         {
-          "en": "Santiago fought bravely with Ra krife tied to an oar asa spear",
-          "ar": ". قاتل سانتياغو بشجاعة مستخدمًا سكينه المربوطة بمجذاف كسلام رمم"
+          "order": 5,
+          "pointEn": "",
+          "pointAr": ""
         },
         {
-          "en": "At night, the marlin's white skeleton glowed under the quiet moonlight .",
-          "ar": "هيكل المارلين الأبيض تحت ضوء القمر الهادئ Gils في الليل"
+          "order": 6,
+          "pointEn": "",
+          "pointAr": ""
         },
         {
-          "en": "Santiago returned home tired but undefeated, his spirit strong and proud",
-          "ar": ". عاد سانتياغو إلى منزله متعبًا لكنه غير مهزوم, بروم قوية وفخر دائص"
+          "order": 7,
+          "pointEn": "",
+          "pointAr": ""
         }
       ],
       "vocabulary": [
@@ -3989,263 +2661,68 @@
       "theText": [
         {
           "order": 1,
-          "paragraphEn": "",
-          "paragraphAr": "The morning sun rose as Santiago's small skiff sailed steadily toward و07"
+          "paragraphEn": "The Return ‏‎ ‎The morning sun rose as Santiago's small skiff sailed steadily toward ‏07‎ ‎the shore. The giant marlin was tied beside the boat, its silver body shining in the light. Santiago, though proud, felt uneasy. The sea was SESE never generous without asking for something in return, He knew the scent of blood would call predators.",
+          "paragraphAr": "‏مع طلوع شمس الصبام. كانت قارب سانتياغو الصغير يشق طريقه‎ ‏بهدوء نحو الشاطئ. كان السمك الضخم مربوظا بجانب القارب يلمع‎ ‏جسده الفضي تحت ضوء النهار. شعر سانتياغو بالفخر. لكن القلق تسلل إلى قلبه. فالبحر‎ ‏دون أن يطلب المقابل. وكان يعلم أن رائحة الدم ستجذب المفترسين.‎ ‏لا يمنح‎"
         },
         {
           "order": 2,
-          "paragraphEn": "scent of blood would call predators.",
-          "paragraphAr": "مع طلوع شمس الصبام. كانت قارب سانتياغو الصغير يشق طريقه"
+          "paragraphEn": "The First Attack ‏ ‎ ‘And then he saw it: a dark shadow moving swiftly beneath the 6 surface. A shark. . It was a mako shark, fast and strong, following the marlin’s trail of BESS see blood. is re ¢ Santiago's heart tightened. \"So, it begins,\" he muttered. He took up Pag 6 5 his harpoon, though his hands were raw and shaking. The shark ‏‎ ‎came closer, its sharp teeth glinting as it attacked the marlin's side,",
+          "paragraphAr": ". ‏الماء. كان قرشًا‎ ‏ثم رآه: ظل داكن يتحرك بسرعة تحت‎ ‏قرش الماكو. سريع 469.59 يتبع أثردم السمكة الضخمة. انقبض قلب سانتياغو وقال بصوت‎ ‏خافت: \"ها قد بدا الأمر.\" رفع رمحه رغم أن يديه كانتا مجروحتين وترتجفان. اقترب القرش,‎ ‏المارلين.‎ ‏تلمع أنيابه الحادة وهو يهجم على‎"
         },
         {
           "order": 3,
-          "paragraphEn": "",
-          "paragraphAr": "بهدوء نحو الشاطئ. كان السمك الضخم مربوظا بجانب القارب يلمع"
+          "paragraphEn": "ABitter Victory ‏ ‎ poi With all the strength left in him, Santiago drove the harpoon down 979799 into the shark's head. The iron struck deep, and the shark thrashed violently, turning the sea red. Finally, it sank, dead, into the depths. But the victory was bitter. The marlin had lost a great piece of flesh, and blood flowed freely from its wound. Santiago looked at his catch with sorrow. “They will come now, one after another,” he said. peewee",
+          "paragraphAr": "‏من قوة, غرس سانتياغو رمحه في رأس القرش. اخترق الحديد أعماقه,.‎ ‏بكل ما تبقى‎ . ‏البحر بلون الدم. وأخيرًا غاص إلى الأعماق ميا‎ ‏فاهتاج الحيوان بعنف.‎ ‏لكن النصر كان مريرًا. فقدت السمكة الضخمة جزءا كبيرًا من لحمهاء وانساب الدم من‎ ‏واحذا تلو الآخر.\"‎ « ‏جرحها بغزارة. نظر سانتياغو إلى صيده بحزن وقال: “سيأتون‎"
         },
         {
           "order": 4,
-          "paragraphEn": "",
-          "paragraphAr": "جسده الفضي تحت ضوء النهار. شعر سانتياغو بالفخر. لكن القلق تسلل إلى قلبه. فالبحر"
+          "paragraphEn": "Before long, more shadows appeared. A pair of galanos— 5 shovel-nosed sharks—rose from the deep. They were slower but a insistent. They bit at the marlin, tearing away its flesh. Santiago fought with his harpoon until it broke off in a shark's body. Now, he tied his knife to an oar and used it as a spear. He stabbed and slashed, killing one shark and driving the other away. But each battle cost him strength, and the marlin's body grew ‘smaller, its beauty ruined.",
+          "paragraphAr": "‏ظهرت ظلال جديدة. زوج من قروش الغالانوس.ء ذات الأنوف العريضة.‎ ‏لم تمض لحظات‎ ‏صعد من الأعماق. كانت أبطأء لكنها لا تعرف التراجع. بدأت تلتهم المارلين: تمزق لحمه.‎ ‏فربط سكينه على مجداف. وحوله‎ ‏قاتلها سانتياغو برمحه حتى انكسر داخل جسد‎ ‏إلى رمح جديد.‎ ‏قتل أحد القروش وأجبر الآخر على الفرار. لكن كل معركة كانت تسرق‎ ‏طعن وضرب‎ ‏وجسد السمكة يزداد نقصانا وجمالها يتلاشى.‎ ‏من‎"
         },
         {
           "order": 5,
-          "paragraphEn": "",
-          "paragraphAr": "دون أن يطلب المقابل. وكان يعلم أن رائحة الدم ستجذب المفترسين. nb لا يمنح"
+          "paragraphEn": "‎As the hours passed, more sharks came. The smell of blood had ‘spread far through the sea. Santiago fought them all, his arms burning, his vision blurring. He killed several but knew he could not ‘stop them forever. By afternoon, the marlin was only half a fish. Its head and backbone remained, but much of its flesh was gone. Santiago leaned against the mast, breathing heavily. \" was beaten,\" he whispered, \"but only by sharks, not by the fish.\"",
+          "paragraphAr": "‏البعيد. قاتل سانتياغو‎ ‏رائحة الدم انتشرت في‎ ‏مرت الساعات. وجاءت قروش‎ ‏ورؤيته تزداد ضبابًا. قتل عددًا منهاء لكنه علم أنه لا‎ ! ‏الجميع.ء وذراعاه تحترقان من‎ ‏يستطيع صذها إلى الأبد.‎ ‏اللحم فقد‎ ‏مع حلول المساء. لم يتبق من المارلين سوى نصفه. رأسه وعظمه فقط.‎ ‏تلاشى. أسند سانتياغو جسده إلى السارية وقال بصوت متعب: \"لقد هَزمت. لكن على يد‎ ‏القروش.؛ لا على يد السمكة.\"‎"
         },
         {
           "order": 6,
-          "paragraphEn": "",
-          "paragraphAr": "The First Attack الهجوم الأول"
+          "paragraphEn": "rofessional pee 1 7a English Unbroken Spirit ‏ ‎ Still, he did not surrender. Every time a new shark attacked, he stood cS 9 up and fought. He swung the oar-spear until it splintered, then used 2 ‏‎ ‎the tiller, then even the broken pieces of wood. He was an old man with nothing left but his will.",
+          "paragraphAr": "‏مع ذلك. لم يستسلم. في كل مرة يهعجم فيها قرش جديد.‎ ‏تحطم, نّم استخدم الدفة. وحتى‎ ‏ويقاتل. لوح بالمجداف الرمح‎ ‏قطع الخشب المكسورة. كان شيخًا عجورًا لم يتبق له شيء سوى إرادته.‎ ‏عط‎ ‏النهاية النبيلة‎"
         },
         {
           "order": 7,
-          "paragraphEn": "Santiago's heart tightened. \"So, it begins,\" he muttered. He took up Pag 6 5",
-          "paragraphAr": "his harpoon, though his hands were raw and shaking. The shark يه"
+          "paragraphEn": "Night fell again, and Santiago was exhausted beyond words. The marlin was now only a skeleton, stripped of nearly all its meat. But Santiago kept sailing toward home, his spirit unbroken. 1",
+          "paragraphAr": "‏وسانتياغو مرهق إلى حد العجز عن الكلام. لم‎ ‏الليل حل من‎ 0537 ‏من المارلين سوى هيكل عظميء مجرد عظام بيضاء بعد أن نهشته‎ 1 ‏القروش. ومع ذلك. واصل الإيحار نحو موطنه. وروحه لم تنكسر.‎"
         },
         {
           "order": 8,
-          "paragraphEn": "came closer, its sharp teeth glinting as it attacked the marlin's side,",
-          "paragraphAr": ". الماء. كان قرشًا alaw ثم رآه: ظل داكن يتحرك بسرعة تحت"
+          "paragraphEn": "Triumph and Tragedy ‏‎ pai At last, silence returned. No more sharks came. The marlin's 11 skeleton glowed white in the moonlight, its long sword rising like 4 a banner of both triumph and tragedy. SS it",
+          "paragraphAr": "‏أخيرًا عاد الصمت. لم تأت قروش أخرى. كان هيكل المارلين يلمع بياضًا‎ ‏واحد معنى‎ ‏تحت ضوء القمر. وسيفه الطويل يرتفع كراية تحمل في‎ ‏النصر والمأساة.‎"
         },
         {
           "order": 9,
-          "paragraphEn": "",
-          "paragraphAr": "قرش الماكو. سريع 469.59 يتبع أثردم السمكة الضخمة. انقبض قلب سانتياغو وقال بصوت"
+          "paragraphEn": "The Boy and Hope ‏‎ Gall Santiago looked at it and felt tears in his eyes. \"You were my or greatest enemy and my greatest friend,” he told the fish. \"They 0 destroyed you, but they could not destroy my pride. We fought me well.” Ne’ He thought of the boy, and a faint smile touched his lips. \"The age imide boy will not let me be alone again,” he said. “Tomorrow, he will A help me. He must.”",
+          "paragraphAr": "‏نظر سانتياغو إلى الهيكل ودمعت عيناه. قال للسمكة: “كنت أعظم أعدائي وأعز أصدقائي.‎ ‏لقد دمروك. لكنهم لم يدمروا كبريائي. لقد قاتلنا بشرف.\"‎ ‏يتركني الفتى وحيدًا بعد‎ ‏ثم تذكر الفتى, وارتسمت على شفتيه ابتسامة خافتة. قال:‎ ‏سيساعدني. لا بذ أنه سيفعل.\"‎ ‏الآن.‎"
         },
         {
           "order": 10,
-          "paragraphEn": "",
-          "paragraphAr": "خافت: \"ها قد بدا الأمر.\" رفع رمحه رغم أن يديه كانتا مجروحتين وترتجفان. اقترب القرش,"
+          "paragraphEn": "‎‏ ‎protessional‏",
+          "paragraphAr": "‏العودة إلى الديار ‎ ‏"
         },
         {
           "order": 11,
-          "paragraphEn": "",
-          "paragraphAr": "المارلين. ils تلمع أنيابه الحادة وهو يهجم على"
+          "paragraphEn": "Santiago steered the little skiff through the dark waters, his body 0 broken but his spirit still alive. He had lost his catch, but he had not lost his dignity. The sea was quiet again, carrying the old man and the skeleton 1 of the marlin slowly toward the shore.",
+          "paragraphAr": "‏قاد سانتياغو قاربه الصغير وسط المياه المظلمة. وجسده محطم. لكن‎ روحه مازالت حية. خسر صيده. لكنه لم يخسر كرامته. عاد البحر ‎ ‏ جديد. يحمل العجوز وهيكل المارلين ‎‏ نحو الشاطئ. جه سمه 19"
         },
         {
           "order": 12,
-          "paragraphEn": "",
-          "paragraphAr": "ABitter Victory بطعم الخسارة poi"
+          "paragraphEn": "‎Why does Santiago call the frst shark attack “the beginning”",
+          "paragraphAr": "لماذا يسمي سانتياغو هجوم القرش الأول \"البداية\"؟"
         },
         {
           "order": 13,
-          "paragraphEn": "with sorrow. “They will come now, one after another,” he said.",
-          "paragraphAr": "من قوة, غرس سانتياغو رمحه في رأس القرش. اخترق الحديد أعماقه,. aya بكل ما تبقى"
-        },
-        {
-          "order": 14,
-          "paragraphEn": "",
-          "paragraphAr": ". البحر بلون الدم. وأخيرًا غاص إلى الأعماق ميا Liglo فاهتاج الحيوان بعنف."
-        },
-        {
-          "order": 15,
-          "paragraphEn": "",
-          "paragraphAr": "لكن النصر كان مريرًا. فقدت السمكة الضخمة جزءا كبيرًا من لحمهاء وانساب الدم من"
-        },
-        {
-          "order": 16,
-          "paragraphEn": "",
-          "paragraphAr": "واحذا تلو الآخر.\" «yl جرحها بغزارة. نظر سانتياغو إلى صيده بحزن وقال: “سيأتون"
-        },
-        {
-          "order": 17,
-          "paragraphEn": "‘smaller, its beauty ruined.",
-          "paragraphAr": "ظهرت ظلال جديدة. زوج من قروش الغالانوس.ء ذات الأنوف العريضة. gia لم تمض لحظات"
-        },
-        {
-          "order": 18,
-          "paragraphEn": "",
-          "paragraphAr": "صعد من الأعماق. كانت أبطأء لكنها لا تعرف التراجع. بدأت تلتهم المارلين: تمزق لحمه."
-        },
-        {
-          "order": 19,
-          "paragraphEn": "",
-          "paragraphAr": "فربط سكينه على مجداف. وحوله Laaal قاتلها سانتياغو برمحه حتى انكسر داخل جسد"
-        },
-        {
-          "order": 20,
-          "paragraphEn": "",
-          "paragraphAr": "إلى رمح جديد."
-        },
-        {
-          "order": 21,
-          "paragraphEn": "",
-          "paragraphAr": "قتل أحد القروش وأجبر الآخر على الفرار. لكن كل معركة كانت تسرق Win طعن وضرب"
-        },
-        {
-          "order": 22,
-          "paragraphEn": "",
-          "paragraphAr": "وجسد السمكة يزداد نقصانا وجمالها يتلاشى. igs من"
-        },
-        {
-          "order": 23,
-          "paragraphEn": "by sharks, not by the fish.\"",
-          "paragraphAr": "البعيد. قاتل سانتياغو paul رائحة الدم انتشرت في cp Al مرت الساعات. وجاءت قروش"
-        },
-        {
-          "order": 24,
-          "paragraphEn": "",
-          "paragraphAr": "ورؤيته تزداد ضبابًا. قتل عددًا منهاء لكنه علم أنه لا aS! الجميع.ء وذراعاه تحترقان من"
-        },
-        {
-          "order": 25,
-          "paragraphEn": "",
-          "paragraphAr": "يستطيع صذها إلى الأبد."
-        },
-        {
-          "order": 26,
-          "paragraphEn": "",
-          "paragraphAr": "اللحم فقد Lol مع حلول المساء. لم يتبق من المارلين سوى نصفه. رأسه وعظمه فقط."
-        },
-        {
-          "order": 27,
-          "paragraphEn": "",
-          "paragraphAr": "تلاشى. أسند سانتياغو جسده إلى السارية وقال بصوت متعب: \"لقد هَزمت. لكن على يد"
-        },
-        {
-          "order": 28,
-          "paragraphEn": "",
-          "paragraphAr": "القروش.؛ لا على يد السمكة.\""
-        },
-        {
-          "order": 29,
-          "paragraphEn": "1 7a English",
-          "paragraphAr": "Unbroken Spirit روح لا تقهر"
-        },
-        {
-          "order": 30,
-          "paragraphEn": "Still, he did not surrender. Every time a new shark attacked, he stood cS 9",
-          "paragraphAr": "up and fought. He swung the oar-spear until it splintered, then used 2 ع"
-        },
-        {
-          "order": 31,
-          "paragraphEn": "with nothing left but his will.",
-          "paragraphAr": "veal مع ذلك. لم يستسلم. في كل مرة يهعجم فيها قرش جديد."
-        },
-        {
-          "order": 32,
-          "paragraphEn": "",
-          "paragraphAr": "تحطم, نّم استخدم الدفة. وحتى gia ويقاتل. لوح بالمجداف الرمح"
-        },
-        {
-          "order": 33,
-          "paragraphEn": "",
-          "paragraphAr": "قطع الخشب المكسورة. كان شيخًا عجورًا لم يتبق له شيء سوى إرادته."
-        },
-        {
-          "order": 34,
-          "paragraphEn": "",
-          "paragraphAr": "عط NobleEnd النهاية النبيلة"
-        },
-        {
-          "order": 35,
-          "paragraphEn": "Santiago kept sailing toward home, his spirit unbroken. 1",
-          "paragraphAr": "Sy وسانتياغو مرهق إلى حد العجز عن الكلام. لم ay الليل حل من 0537"
-        },
-        {
-          "order": 36,
-          "paragraphEn": "",
-          "paragraphAr": "من المارلين سوى هيكل عظميء مجرد عظام بيضاء بعد أن نهشته 1"
-        },
-        {
-          "order": 37,
-          "paragraphEn": "",
-          "paragraphAr": "القروش. ومع ذلك. واصل الإيحار نحو موطنه. وروحه لم تنكسر."
-        },
-        {
-          "order": 38,
-          "paragraphEn": "",
-          "paragraphAr": "Triumph and Tragedy ومأساة pai"
-        },
-        {
-          "order": 39,
-          "paragraphEn": "a banner of both triumph and tragedy. SS it",
-          "paragraphAr": "أخيرًا عاد الصمت. لم تأت قروش أخرى. كان هيكل المارلين يلمع بياضًا ree"
-        },
-        {
-          "order": 40,
-          "paragraphEn": "",
-          "paragraphAr": "واحد معنى yl تحت ضوء القمر. وسيفه الطويل يرتفع كراية تحمل في le"
-        },
-        {
-          "order": 41,
-          "paragraphEn": "",
-          "paragraphAr": "النصر والمأساة."
-        },
-        {
-          "order": 42,
-          "paragraphEn": "",
-          "paragraphAr": "The Boy and Hope والأمل Gall"
-        },
-        {
-          "order": 43,
-          "paragraphEn": "help me. He must.”",
-          "paragraphAr": "نظر سانتياغو إلى الهيكل ودمعت عيناه. قال للسمكة: “كنت أعظم أعدائي وأعز أصدقائي."
-        },
-        {
-          "order": 44,
-          "paragraphEn": "",
-          "paragraphAr": "لقد دمروك. لكنهم لم يدمروا كبريائي. لقد قاتلنا بشرف.\""
-        },
-        {
-          "order": 45,
-          "paragraphEn": "",
-          "paragraphAr": "يتركني الفتى وحيدًا بعد pI ثم تذكر الفتى, وارتسمت على شفتيه ابتسامة خافتة. قال:"
-        },
-        {
-          "order": 46,
-          "paragraphEn": "",
-          "paragraphAr": "سيساعدني. لا بذ أنه سيفعل.\" Le الآن."
-        },
-        {
-          "order": 47,
-          "paragraphEn": "",
-          "paragraphAr": "ل Novel سس protessional"
-        },
-        {
-          "order": 48,
-          "paragraphEn": "",
-          "paragraphAr": "العودة إلى الديار The Homecoming"
-        },
-        {
-          "order": 49,
-          "paragraphEn": "of the marlin slowly toward the shore.",
-          "paragraphAr": "قاد سانتياغو قاربه الصغير وسط المياه المظلمة. وجسده محطم. لكن"
-        },
-        {
-          "order": 50,
-          "paragraphEn": "",
-          "paragraphAr": "روحه مازالت حية. خسر صيده. لكنه لم يخسر كرامته."
-        },
-        {
-          "order": 51,
-          "paragraphEn": "",
-          "paragraphAr": "عاد البحر yo ala جديد. يحمل العجوز وهيكل المارلين clay نحو الشاطئ."
-        },
-        {
-          "order": 52,
-          "paragraphEn": "",
-          "paragraphAr": "جه سمه 19"
+          "paragraphEn": "Because he knows more sharks will come ‏.‎",
+          "paragraphAr": "لأنه يعلم أن المزيد من القروش ستهاجم بعده 8"
         }
       ],
       "questionsAndAnswers": [

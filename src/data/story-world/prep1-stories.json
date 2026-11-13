@@ -117,13 +117,23 @@
         "theText": [
           {
             "order": 1,
-            "paragraphEn": "In a cheerful village school, the children loved discovering new things. Mr. Adam made an announcement: 'Next week, we will enter the Magic Classroom. To succeed, you need to show responsibility and work together.'",
-            "paragraphAr": "في مدرسة ريفية مبهجة، كان الأطفال يحبون استكشاف الجديد. أعلن المعلم مستر آدم: 'في الأسبوع القادم، سندخل الفصل السحري. ولتحقيق النجاح، يلزمكم إظهار المسؤولية والعمل معاً'."
+            "paragraphEn": "In a cheerful village school, the children loved discovering new things. One day, their teacher, Mr. Adam, made an exciting announcement. 'Next week, we will enter the Magic Classroom,' he said. 'To succeed, you need to show responsibility and work together.'",
+            "paragraphAr": "في مدرسة ريفية مبهجة، كان الأطفال يحبون اكتشاف أشياء جديدة. وفي أحد الأيام، أعلن معلمهم السيد آدم إعلاناً مثيراً: 'في الأسبوع القادم، سندخل الفصل السحري. ولتحقيق النجاح، يجب أن تتحلوا بالمسؤولية وتعملوا معاً.'"
           },
           {
             "order": 2,
-            "paragraphEn": "When the day came, they walked through a glowing door into a room with floating puzzles. On the wall was a message: 'Only those who collaborate and stay curious can unlock the mysteries.' Together, Sara, Zain, and nervous Omar shared ideas and clicked the locked box open.",
-            "paragraphAr": "وعندما حان اليوم، عبروا باباً متوهجاً إلى غرفة تحوي ألغازاً عائمة، وعلى الجدار رسالة: 'فقط المتعاونون وأصحاب الفضول العلمي يستطيعون فك الألغاز'. بتكاتف سارة وزين وعمر القلق، تبادلوا الرؤى فانفتح الصندوق المغلق بنجاح."
+            "paragraphEn": "The children were curious and excited. When the day came, they walked through a glowing door and found themselves in a room filled with floating puzzles, shining books, and magical clues. On the wall, a message read: 'Only those who collaborate and stay curious can unlock the mysteries.'",
+            "paragraphAr": "كان الأطفال يشعرون بالفضول والحماس. وعندما جاء اليوم المنتظر، مروا عبر باب متوهج فوجدوا أنفسهم في غرفة مليئة بالألغاز العائمة والكتب اللامعة والأدلة السحرية. وعلى الحائط كانت هناك رسالة تقول: 'فقط الذين يتعاونون ويحافظون على فضولهم يستطيعون كشف الألغاز.'"
+          },
+          {
+            "order": 3,
+            "paragraphEn": "Sara, who was always eager to learn, said, 'Let's think carefully and help each other.' Omar, who sometimes felt shy, looked nervous. Zain, calm and kind, encouraged him, 'We'll do it together.'",
+            "paragraphAr": "قالت سارة، التي كانت دائماً متحمسة للتعلم: 'دعونا نفكر بعناية ويساعد بعضنا بعضاً.' وبدا عمر، الذي كان يشعر بالخجل أحياناً، متوتراً. وشجعه زين، الهادئ واللطيف، قائلاً: 'سننجح معاً.'"
+          },
+          {
+            "order": 4,
+            "paragraphEn": "Their first challenge was a locked box. They shared ideas and solved the challenge by working as a team. As the box clicked open, a bright light appeared, and a new challenge was waiting. They smiled, ready for whatever came next.",
+            "paragraphAr": "كان أول تحدٍ لهم صندوقاً مغلقاً. تبادلوا الأفكار وحلوا التحدي بالعمل كفريق واحد. وعندما انفتح الصندوق بنقرة خفيفة، ظهر ضوء ساطع، وكان هناك تحدٍ جديد في انتظارهم. ابتسموا وهم مستعدون لمواجهة كل ما سيأتي بعد ذلك."
           }
         ],
         "questionsAndAnswers": [
@@ -213,13 +223,23 @@
         "theText": [
           {
             "order": 1,
-            "paragraphEn": "Next, the children faced an invisible bridge. A sign read: 'Only those with respect, ambition, and courage can cross.' Holding hands and encouraging one another, every kind word made the bridge appear beneath their feet.",
-            "paragraphAr": "بعد ذلك، واجه الأطفال جسراً غير مرئي، كُتبت عليه لافتة: 'فقط أصحاب الاحترام والطموح والشجاعة يعبرون'. مسكوا بأيدي بعضهم، وكانت كل كلمة تشجيع طيبة تجعل الجسر يتجسد تدريجياً تحت خطاهم."
+            "paragraphEn": "The next time the students entered, the Magic Classroom was more difficult. In front of the children was an invisible bridge. A glowing sign read: 'Only those with respect, ambition, and courage can cross.'",
+            "paragraphAr": "في المرة التالية التي دخل فيها الطلاب، كان الفصل السحري أكثر صعوبة. كان أمام الأطفال جسر غير مرئي، وكانت هناك لافتة مضيئة كُتب عليها: 'فقط من يتحلون بالاحترام والطموح والشجاعة يمكنهم العبور.'"
           },
           {
             "order": 2,
-            "paragraphEn": "At the far side stood a locked golden door: 'Determination opens every door. Never give up.' After many failed attempts, Omar whispered, 'Let's sing together. Maybe unity is the key.' They sang, and slowly, the golden door swung open.",
-            "paragraphAr": "وعلى الجانب الآخر وقف باب ذهبي مغلق: 'الإصرار يفتح كل باب، لا تستسلم أبداً'. وبعد محاولات غير مجدية، همس عمر: 'دعونا نغني معاً، لعل الوحدة هي المفتاح'. وغنوا بتناغم، فاستجاب الباب وانفتح أمامهم."
+            "paragraphEn": "Sara thought for a moment. 'Respect means we listen and care for each other.' Zain added, 'Ambition means we believe in our success.' Omar took a deep breath. 'Courage means we try even when we are scared.'",
+            "paragraphAr": "فكرت سارة للحظة وقالت: 'الاحترام يعني أن نستمع ونهتم ببعضنا البعض.' وأضاف زين: 'الطموح يعني أن نؤمن بنجاحنا.' وأخذ عمر نفساً عميقاً وقال: 'الشجاعة تعني أن نحاول حتى عندما نكون خائفين.'"
+          },
+          {
+            "order": 3,
+            "paragraphEn": "They stepped onto the invisible bridge, holding hands and encouraging one another. Every kind word they spoke and every brave step they took made the bridge appear slowly beneath their feet. When Omar hesitated, his friends cheered him on, reminding him he wasn't alone.",
+            "paragraphAr": "خطا الأطفال فوق الجسر غير المرئي وهم يمسكون بأيدي بعضهم البعض ويشجع بعضهم بعضاً. وكانت كل كلمة طيبة يقولونها وكل خطوة شجاعة يخطونها تجعل الجسر يظهر تدريجياً تحت أقدامهم. وعندما تردد عمر، شجعه أصدقاؤه مذكرين إياه بأنه ليس بمفرده."
+          },
+          {
+            "order": 4,
+            "paragraphEn": "At the end of the bridge, a golden door appeared with a message: 'Determination opens every door. Never give up.' The team tried many ideas but nothing worked. They refused to quit. Finally, Omar suggested singing together. They sang, and slowly, the golden door opened. They clapped and laughed, proud of their teamwork.",
+            "paragraphAr": "في نهاية الجسر، ظهر باب ذهبي يحمل رسالة: 'الإصرار يفتح كل باب. لا تستسلم أبداً.' جرب الفريق أفكاراً كثيرة لكن دون جدوى، ورفضوا الاستسلام. وأخيراً اقترح عمر أن يغنوا معاً. غنوا وببطء انفتح الباب الذهبي، فصفقوا وضحكوا فخورين بعملهم الجماعي."
           }
         ],
         "questionsAndAnswers": [
@@ -309,13 +329,23 @@
         "theText": [
           {
             "order": 1,
-            "paragraphEn": "Inside the final chamber, a glowing book rested on a crystal pedestal. Mr. Adam smiled warmly: 'You have completed the Magic Classroom. But remember, the real magic was never in the puzzles—it was in the values you showed.'",
-            "paragraphAr": "في الغرفة الختامية، استقر كتاب مشع على حامل كريستالي. ابتسم مستر آدم بدفء: 'لقد أتممتم تحديات الفصل السحري بنجاح، لكن تذكروا أن السحر الحقيقي لم يكن في الألغاز بل في القيم التي تحليتم بها'."
+            "paragraphEn": "Inside the final room, the children found a glowing book on a crystal stand. Mr. Adam appeared with a warm smile. 'You have completed the Magic Classroom,' he said. 'But remember, the real magic is not in the puzzles, it is in the values you showed.'",
+            "paragraphAr": "داخل الغرفة الأخيرة، وجد الأطفال كتاباً متوهجاً على حامل كريستالي. وظهر السيد آدم بابتسامة دافئة وقال: 'لقد أتممتم الفصل السحري، ولكن تذكروا أن السحر الحقيقي ليس في الألغاز، بل في القيم التي أظهرتموها.'"
           },
           {
             "order": 2,
-            "paragraphEn": "Glowing letters revealed: 'Responsibility, Curiosity, Teamwork, Respect, Determination, Courage, and Honesty.' The children returned with proud hearts, promising to apply these virtues in their studies, at home, and across their digital lives.",
-            "paragraphAr": "أضاءت حروف الكتاب: 'المسؤولية، والفضول العلمي، والعمل الجماعي، والاحترام، والعزيمة، والشجاعة، والصدق'. عاد التلاميذ بقلوب ملؤها الفخر، متعهدين بالالتزام بهذه الفضائل في دراستهم وبيوتهم وعوالمهم الرقمية."
+            "paragraphEn": "He opened the magical book, and glowing words appeared: 'Responsibility. Curiosity. Courage. Teamwork. Respect. Perseverance.' Mr. Adam explained that these principles were the true keys to overcoming any obstacle.",
+            "paragraphAr": "فتح الكتاب السحري فظهرت كلمات مضيئة: 'المسؤولية. الفضول. الشجاعة. العمل الجماعي. الاحترام. المثابرة.' وأوضح السيد آدم أن هذه المبادئ هي المفاتيح الحقيقية للتغلب على أي عقبة."
+          },
+          {
+            "order": 3,
+            "paragraphEn": "Sara smiled, 'We solved every problem by working together.' Zain added, 'We respected each other and stayed curious.' Omar grinned, 'I had courage because my friends believed in me.' Mr. Adam nodded, 'You also showed honesty and integrity—doing the right thing even when no one was watching.'",
+            "paragraphAr": "ابتسمت سارة وقالت: 'حللنا كل مشكلة بالعمل معاً.' وأضاف زين: 'احترمنا بعضنا وحافظنا على فضولنا.' وابتسم عمر بفرح: 'كانت لدي الشجاعة لأن أصدقائي آمنوا بي.' فأومأ السيد آدم برأسه وقال: 'كما أظهرتم الصدق والنزاهة، بفعل الصواب حتى عندما لا يراكم أحد.'"
+          },
+          {
+            "order": 4,
+            "paragraphEn": "The children returned to their classroom, their hearts full of pride and happiness. From that day on, they promised to use these values in everything they did—at school, at home, and online. They knew that the greatest lessons they had learned were not about magic, but about kindness, respect, and never giving up on themselves or each other.",
+            "paragraphAr": "عاد الأطفال إلى فصلهم وقلوبهم مفعمة بالفخر والسعادة. ومنذ ذلك اليوم، وعدوا بتطبيق هذه القيم في كل ما يفعلونه—في المدرسة والمنزل وعبر الإنترنت. وأدركوا أن أعظم الدروس التي تعلموها لم تكن عن السحر، بل عن اللطف والاحترام وعدم الاستسلام لأنفسهم أو لبعضهم البعض."
           }
         ],
         "questionsAndAnswers": [
@@ -482,13 +512,23 @@
         "theText": [
           {
             "order": 1,
-            "paragraphEn": "In the cheerful village, the annual invention fair arrived. Sara, Omar, Zain, Lily, and Karim decided to build a water-saving machine. But in their first meeting, Omar rushed to take the lead, leaving Lily feeling left out. Sara stopped him gently: 'We need to be fair. Everyone's ideas matter. We are a team.'",
-            "paragraphAr": "في القرية السعيدة، حل موعد معرض الاختراعات السنوي. قررت سارة وعمر وزين وليلي وكريم صنع آلة لتوفير المياه. ولكن في لقائهم الأول، تعجل عمر القيادة فشعرت ليلي بالتهميش. أوقفته سارة بلطف: 'يجب أن نكون منصفين، أفكار الجميع مهمة فنحن فريق واحد'."
+            "paragraphEn": "In the cheerful village, there was an annual invention fair. The children were excited to create something useful. Sara, Omar, Zain, and two new friends, Lily and Karim, decided to build a water-saving machine.",
+            "paragraphAr": "في القرية السعيدة، كان هناك معرض سنوي للاختراعات. وكان الأطفال متحمسين لصنع شيء مفيد. وقررت سارة وعمر وزين، وصديقاهما الجديدان ليلي وكريم، تصميم آلة لتوفير المياه."
           },
           {
             "order": 2,
-            "paragraphEn": "Karim added wisely, 'We must have honesty.' They all agreed to respect each other. Zain designed the model, Omar fixed the pipes, Lily chose eco-friendly parts, Karim tested the water flow, and Sara organized tasks.",
-            "paragraphAr": "وأضاف كريم بحكمة: 'علينا التحلي بالصدق'. اتفق الجميع على الاحترام؛ صمم زين النموذج، وأصلح عمر الأنابيب، واختارت ليلي مواد بيئية، واختبر كريم التدفق، بينما نظمت سارة المهام."
+            "paragraphEn": "In their first meeting, Omar wanted to finish quickly and take the lead. Lily felt left out because her ideas were ignored. Sara stopped and said gently, 'We need to be fair. Everyone's ideas matter. We are a team.' Karim added wisely, 'We must have honesty. Let's make honest choices and think carefully.'",
+            "paragraphAr": "في أول اجتماع لهم، أراد عمر إنهاء العمل بسرعة وتولي القيادة. وشعرت ليلي بالتهميش لأن أفكارها تم تجاهلها. فتوقفت سارة وقالت بلطف: 'يجب أن نكون عادلين. أفكار الجميع مهمة. نحن فريق واحد.' وأضاف كريم بحكمة: 'يجب أن نتحلى بالصدق. دعونا نتخذ خيارات صادقة ونفكر بعناية.'"
+          },
+          {
+            "order": 3,
+            "paragraphEn": "They all agreed to respect each other and give everyone a chance to speak. Even when their ideas failed at first, they kept trying. 'Determination!' Sara reminded them. 'We can't give up.'",
+            "paragraphAr": "اتفق الجميع على احترام بعضهم البعض وإعطاء كل فرد فرصة للتحدث. وحتى عندما فشلت أفكارهم في البداية، استمروا في المحاولة. وذكّرتهم سارة قائلة: 'الإصرار! لا يمكننا أن نستسلم.'"
+          },
+          {
+            "order": 4,
+            "paragraphEn": "Together, they used their curiosity and good judgment to improve the machine step by step. Each member had a role: Zain designed the model, Omar fixed the pipes, Lily suggested eco-friendly materials, Karim tested the water flow, and Sara kept everyone organized. The more they worked together, the stronger their friendship became.",
+            "paragraphAr": "معاً، استخدموا فضولهم وحسن تقديرهم لتطوير الآلة خطوة بخطوة. وكان لكل عضو دور محدد: فقد صمم زين النموذج، وأصلح عمر الأنابيب، واقترحت ليلي مواد صديقة للبيئة، واختبر كريم تدفق المياه، بينما حافظت سارة على تنظيم الجميع. وكلما عملوا معاً، أصبحت صداقتهم أقوى."
           }
         ],
         "questionsAndAnswers": [
@@ -578,13 +618,23 @@
         "theText": [
           {
             "order": 1,
-            "paragraphEn": "Days passed, and the machine started to take shape, but it worked imperfectly. Some members felt discouraged. Sara rallied them: 'Our purpose isn't just to win, it's to help people. Let's not lose hope.' Omar agreed, and Lily, once shy, spoke up: 'We can make it better if we test it again and again.'",
-            "paragraphAr": "مرت الأيام وبدأت الآلة تكتمل، لكنها لم تعمل بدقة، فشعر البعض بالإحباط. شجعتهم سارة: 'هدفنا ليس مجرد الفوز، بل مساعدة الناس'. وافقها عمر، ونهضت ليلي متغلبة على خجلها: 'يمكننا تحسينها إذا كررنا الاختبار مرة بعد أخرى'."
+            "paragraphEn": "Days passed, and the Water-Saving Machine started to take shape. But when they tested it in the garden, the machine worked, but not perfectly. Water leaked from one of the joints, and some team members felt discouraged.",
+            "paragraphAr": "مرت الأيام، وبدأت آلة توفير المياه تتخذ شكلها النهائي. ولكن عندما اختبروها في الحديقة، عملت الآلة ولكن ليس بشكل مثالي؛ حيث تسربت المياه من إحدى الوصلات، وشعر بعض أعضاء الفريق بالإحباط."
           },
           {
             "order": 2,
-            "paragraphEn": "The team worked late, dividing tasks and sharing steps. When Karim made a mistake, no one blamed him; instead, they helped him fix it. Finally, the machine operated smoothly, collecting rainwater to nourish plants and clean pathways.",
-            "paragraphAr": "عمل الفريق حتى وقت متأخر يتقاسمون الخطوات؛ وعندما أخطأ كريم، لم يلمه أحد بل تكاتفوا لإصلاح الخطأ. وأخيراً، عملت الآلة بانسجام لجمع مياه الأمطار وري المزروعات وتنظيف الممرات."
+            "paragraphEn": "Sara smiled warmly and encouraged them: 'Every mistake is a chance to learn. We shouldn't lose hope.' Omar nodded firmly, 'We have an aspiration—to save water for our village. We can do this!'",
+            "paragraphAr": "ابتسمت سارة بدفء وشجعتهم: 'كل خطأ هو فرصة للتعلم. لا ينبغي أن نفقد الأمل.' وأومأ عمر بحزم: 'لدينا طموح—وهو توفير المياه لقريتنا. يمكننا تحقيق ذلك!'"
+          },
+          {
+            "order": 3,
+            "paragraphEn": "Lily, who had felt shy at the beginning, stepped forward with confidence. She suggested testing the machine step by step and using extra washers. When Karim made a mistake while tightening the pipe, no one blamed him. Instead, they helped him fix it patiently.",
+            "paragraphAr": "وتقدمت ليلي، التي كانت تشعر بالخجل في البداية، بكل ثقة. واقترحت اختبار الآلة خطوة بخطوة واستخدام حلقات إحكام إضافية. وعندما ارتكب كريم خطأ أثناء شد الأنبوب، لم يلمه أحد، بل ساعدوه على إصلاحه بصبر."
+          },
+          {
+            "order": 4,
+            "paragraphEn": "Finally, the machine was ready. It worked reliably, using collected rainwater to water the plants and clean the pathways. The children looked at their invention with immense pride—proud not only of what they had built, but of the deep friendship and mutual respect they shared.",
+            "paragraphAr": "وأخيراً أصبحت الآلة جاهزة وعملت بكفاءة، مستخدمة مياه الأمطار المجمعة لري النباتات وتنظيف الممرات. ونظر الأطفال إلى اختراعهم بفخر هائل—فخورين ليس فقط بما بنوه، بل أيضاً بالصداقة العميقة والاحترام المتبادل الذي يجمعهم."
           }
         ],
         "questionsAndAnswers": [
@@ -674,13 +724,23 @@
         "theText": [
           {
             "order": 1,
-            "paragraphEn": "On the day of the Invention Fair, the playground was filled with visitors. Sara and her team explained their Water-Saving Machine clearly and confidently. The judges were impressed not only by the machine, but also by the teamwork and respect the group showed.",
-            "paragraphAr": "في يوم المعرض، امتلأ الفناء بالزوار. شرحت سارة وفريقها آلة ترشيد المياه بوضوح وثقة؛ فأعجب الحكام ليس بالابتكار وحده بل بروح الفريق والاحترام الرفيع الذي تحلوا به."
+            "paragraphEn": "On the day of the Invention Fair, the school playground was filled with excited visitors, parents, and teachers. Colorful booths were lined up everywhere, and a panel of expert judges walked among the displays.",
+            "paragraphAr": "في يوم معرض الاختراعات، امتلأ فناء المدرسة بالزوار المتحمسين وأولياء الأمور والمعلمين. واصطفت الأجنحة الملونة في كل مكان، وتجولت لجنة من الحكام الخبراء بين المعروضات."
           },
           {
             "order": 2,
-            "paragraphEn": "Though another team took first prize, the friends did not feel sad. Their teacher clapped proudly: 'You are the real winners. You showed honesty, cooperation, and teamwork. These values are more important than any trophy.' The children smiled and held hands.",
-            "paragraphAr": "ومع أن فريقاً آخر فاز بالمركز الأول، إلا أن الأصدقاء لم يحزنوا. صفق معلمهم بفخر: 'أنتم الفائزون الحقيقيون، فقد أظهرتم الصدق والتعاون والعمل الجماعي؛ وهذه القيم أسمى من أي كأس'. ابتسم الأطفال وأمسكوا بأيدي بعضهم فخورين بما أنجزوا."
+            "paragraphEn": "When the judges approached their booth, Sara and her team explained their Water-Saving Machine clearly and confidently. Zain demonstrated the blueprints, Omar showed the pipe mechanism, Lily described the eco-friendly materials, and Karim demonstrated the clean water flow.",
+            "paragraphAr": "وعندما اقترب الحكام من جناحهم، شرحت سارة وفريقها آلة توفير المياه بوضوح وثقة. وعرض زين المخططات، وشرح عمر آلية الأنابيب، ووصفت ليلي المواد الصديقة للبيئة، وقدم كريم عرضاً لتدفق المياه النظيفة."
+          },
+          {
+            "order": 3,
+            "paragraphEn": "The judges nodded in admiration, impressed not only by the machine's ingenuity, but also by how gracefully the teammates supported one another and celebrated each person's contribution.",
+            "paragraphAr": "أومأ الحكام برؤوسهم إعجاباً، ولم يكن إعجابهم ببراعة الآلة فحسب، بل بكيفية دعم أعضاء الفريق لبعضهم البعض برقي واحتفائهم بمساهمة كل فرد منهم."
+          },
+          {
+            "order": 4,
+            "paragraphEn": "At the awards ceremony, the principal declared: 'This team proves that true success comes from unity, honesty, and perseverance. You are indeed the team of tomorrow.' The children cheered, realizing that learning to collaborate was their greatest victory of all.",
+            "paragraphAr": "وفي حفل توزيع الجوائز، أعلن مدير المدرسة: 'هذا الفريق يثبت أن النجاح الحقيقي ينبع من الاتحاد والصدق والمثابرة. إنكم حقاً فريق الغد.' وهتف الأطفال فرحاً، مدركين أن تعلم التعاون كان أعظم انتصاراتهم على الإطلاق."
           }
         ],
         "questionsAndAnswers": [

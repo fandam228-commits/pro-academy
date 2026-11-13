@@ -89,36 +89,44 @@
       "summaryAr": "زينة أخذت المسؤولية عن فكرتها.",
       "chapterInPoints": [
         {
-          "en": "Zeina took responsibility for her idea.",
-          "ar": "زينة أخذت المسؤولية عن فكرتها."
+          "order": 1,
+          "pointEn": "",
+          "pointAr": ""
         },
         {
-          "en": "She researched school gardens online.",
-          "ar": "هي بحثت عن حدائق المدارس عبر الإنترنت."
+          "order": 2,
+          "pointEn": "",
+          "pointAr": ""
         },
         {
-          "en": "She wrote a simple proposal explaining both the advantages and challenges.",
-          "ar": "من المزايا والتحديات. VS هي كتبت مقترحاً بسيطاً يشرح"
+          "order": 3,
+          "pointEn": "",
+          "pointAr": ""
         },
         {
-          "en": "She showed courage by speaking at the student council meeting.",
-          "ar": "هي أظهرت شجاعة بالتحدث في اجتماع مجلس الطلاب."
+          "order": 4,
+          "pointEn": "",
+          "pointAr": ""
         },
         {
-          "en": "She proposed creating a garden behind the school.",
-          "ar": "هي اقترحت إنشاء حديقة خلف المدرسة."
+          "order": 5,
+          "pointEn": "",
+          "pointAr": ""
         },
         {
-          "en": "She explained that vegetables could be grown for the cafeteria.",
-          "ar": "الكافتيريا. Jad £47 هي شرحت أن الخضروات يمكن أن"
+          "order": 6,
+          "pointEn": "",
+          "pointAr": ""
         },
         {
-          "en": "She asked for help.",
-          "ar": "هي طلبت المساعدة."
+          "order": 7,
+          "pointEn": "",
+          "pointAr": ""
         },
         {
-          "en": "Some students laughed because she was a new student.",
-          "ar": "بعض الطلاب ضحكوا لأنها كانت طالبة جديدة."
+          "order": 8,
+          "pointEn": "",
+          "pointAr": ""
         }
       ],
       "vocabulary": [
@@ -130,253 +138,23 @@
       "theText": [
         {
           "order": 1,
-          "paragraphEn": "",
-          "paragraphAr": "هر Zeina was a new student at a preparatory school."
+          "paragraphEn": "Zeina was a new student at a preparatory school. She was always curious and liked to notice everything around her. On her first day, she looked around the school playground. It was large but empty and gray. The ground was all concrete, and there were just a few old benches. Students threw their trash on the ground, and no one seemed to care.",
+          "paragraphAr": "كانت زينة طالبة جديدة في مدرسة إعدادية. كانت دائماً فضولية وتحب ملاحظة كل ما يدور حولها. وفي يومها الأول، نظرت إلى فناء المدرسة، فكان واسعاً لكنه كان فارغاً ورمادي اللون. وكانت الأرض كلها من الخرسانة، ولم يكن هناك سوى عدد قليل من المقاعد القديمة، وكان الطلاب يلقون القمامة على الأرض، ولم يكن أحد يكترث بذلك."
         },
         {
           "order": 2,
-          "paragraphEn": "",
-          "paragraphAr": "زينة كانت طالبة جديدة في مدرسة إعدادية."
+          "paragraphEn": "'This place could be so much better,' Zeina thought. She had an idea, but she didn't know if anyone would listen to a new student. At lunch, she sat with her new friend Nancy, who was kind and always honest about how she felt. 'I don't like this area,' Nancy said. 'It's a little depressing.'",
+          "paragraphAr": "فكرت زينة: 'يمكن أن يصبح هذا المكان أفضل بكثير.' كانت لديها فكرة، لكنها لم تكن تعرف ما إذا كان أي شخص سيستمع إلى طالبة جديدة. وفي وقت الغداء، جلست مع صديقتها الجديدة نانسي، التي كانت لطيفة وصادقة دائماً في التعبير عن مشاعرها. قالت نانسي: 'لا أحب هذا المكان، إنه كئيب ومحبط بعض الشيء.'"
         },
         {
           "order": 3,
-          "paragraphEn": "",
-          "paragraphAr": "خهر She was curious and noticed everything around her."
+          "paragraphEn": "'What if we changed it?' Zeina asked. 'What if we planted a garden?' Nancy looked surprised. 'A garden? Do you know how to grow plants?' 'Not really,' Zeina said, showing honesty. 'But I want to learn. We could learn together.'",
+          "paragraphAr": "سألتها زينة: 'ماذا لو غيرنا هذا المكان؟ ماذا لو زرعنا حديقة؟' بدت نانسي مندهشة وقالت: 'حديقة؟ هل تعرفين كيف تزرعين النباتات؟' أجابت زينة بصراحة وأمانة: 'ليس حقاً، لكنني أريد أن أتعلم، ويمكننا أن نتعلم معاً.'"
         },
         {
           "order": 4,
-          "paragraphEn": "",
-          "paragraphAr": "lags كانت فضولية ولاحظت كل شيء"
-        },
-        {
-          "order": 5,
-          "paragraphEn": "",
-          "paragraphAr": "جر She saw that the playground was large but empty, gray, and covered with concrete."
-        },
-        {
-          "order": 6,
-          "paragraphEn": "",
-          "paragraphAr": "رأت أن الملعب كان كبيراً ولكن فارغاً. رمادياً. ومغطى بالخرسانة."
-        },
-        {
-          "order": 7,
-          "paragraphEn": "",
-          "paragraphAr": "هر There were only a few old benches."
-        },
-        {
-          "order": 8,
-          "paragraphEn": "",
-          "paragraphAr": "كان هناك فقط عدد قليل من المقاعد القديمة."
-        },
-        {
-          "order": 9,
-          "paragraphEn": "s@ Students threw trash on the ground and didn't care about the school.",
-          "paragraphAr": "يهتموا بالمدرسة. alg الطلاب رموا القمامة على الأرض"
-        },
-        {
-          "order": 10,
-          "paragraphEn": "",
-          "paragraphAr": "هر Zeina thought the playground could be much better."
-        },
-        {
-          "order": 11,
-          "paragraphEn": "",
-          "paragraphAr": "زينة اعتقدت أن الملعب يمكن أن يكون أفضل بكثير."
-        },
-        {
-          "order": 12,
-          "paragraphEn": "",
-          "paragraphAr": "هر She had the idea of creating a school garden."
-        },
-        {
-          "order": 13,
-          "paragraphEn": "",
-          "paragraphAr": "كانت لديها الفكرة لإنشاء حديقة مدرسة."
-        },
-        {
-          "order": 14,
-          "paragraphEn": "",
-          "paragraphAr": "هر She wasn't sure whether anyone would listen to a new student."
-        },
-        {
-          "order": 15,
-          "paragraphEn": "",
-          "paragraphAr": "شخص سيستمع إلى طالبة جديدة. gi إذا كان Lac هي لم تكن متأكدة"
-        },
-        {
-          "order": 16,
-          "paragraphEn": "",
-          "paragraphAr": "At lunch, she sat with her new friend Nancy. هر"
-        },
-        {
-          "order": 17,
-          "paragraphEn": "",
-          "paragraphAr": "في الغداء. هي جلست مع صديقتها الجديدة نانسي"
-        },
-        {
-          "order": 18,
-          "paragraphEn": "",
-          "paragraphAr": "Nancy said she didn't like the area because it was depressing. هر"
-        },
-        {
-          "order": 19,
-          "paragraphEn": "",
-          "paragraphAr": "نانسي قالت هي لم تحب المنطقة لأنها كانت كنيبة."
-        },
-        {
-          "order": 20,
-          "paragraphEn": "s@ Zeina suggested planting a garden.",
-          "paragraphAr": "زينة اقترحت زراعة حديقة."
-        },
-        {
-          "order": 21,
-          "paragraphEn": "s@ Nancy was surprised and asked if Zeina knew how to grow plants.",
-          "paragraphAr": "نانسي كانت متفاجئة وسألت إذا زينة عرفت كيف تزرع النباتات."
-        },
-        {
-          "order": 22,
-          "paragraphEn": "s@ Zeina honestly admitted that she didn't know but wanted to learn together.",
-          "paragraphAr": "dij بصدق اعترفت أنها لم تكن تعرف ولكن أرادت أن تتعلم ina"
-        },
-        {
-          "order": 23,
-          "paragraphEn": "",
-          "paragraphAr": "Zeina imagined students enjoying flowers, plants, vegetables, and feeling proud of the school. هر"
-        },
-        {
-          "order": 24,
-          "paragraphEn": "",
-          "paragraphAr": "زينة تخيلت الطلاب يستمتعون بالزهور. النباتات. الخضروات. ويشعرون بالفخر بالمدرسة."
-        },
-        {
-          "order": 25,
-          "paragraphEn": "s@ She realized the project would need time, hard work, help, and money.",
-          "paragraphAr": "أدركت أن المشروع سيحتاج وقتاً. عملاً شاقاً. مساعدة. ومالاً"
-        },
-        {
-          "order": 26,
-          "paragraphEn": "s@ She believed the garden could bring the whole school together.",
-          "paragraphAr": "cial أن الحديقة يمكن أن تجلب المدرسة بأكملها معاً"
-        },
-        {
-          "order": 27,
-          "paragraphEn": "ANew Student Notices a Problem",
-          "paragraphAr": "طالبة جديدة تلاحظ مشكلة"
-        },
-        {
-          "order": 28,
-          "paragraphEn": "seemed to care.",
-          "paragraphAr": "كانت زينة طالبة جديدة في مدرسة إعدادية. كانت دائم”! فضولية!\"' وتجب ملاحظة كل ما يدور حولها"
-        },
-        {
-          "order": 29,
-          "paragraphEn": "",
-          "paragraphAr": "في يومها الأول. نظرت إلى فناء المدرسة. كان واسعنا. لكنه كان PLEjLé ورمادي اللون. كانت الأرض"
-        },
-        {
-          "order": 30,
-          "paragraphEn": "",
-          "paragraphAr": "كلها من الخرسانة». alg يكن هناك سوى aac قليل من المقاعدا\"' القديمة. وكان الطلاب يلقون"
-        },
-        {
-          "order": 31,
-          "paragraphEn": "",
-          "paragraphAr": "القمامة“' على الأرض. alg يكن أحد يبدو Vaima بذلك."
-        },
-        {
-          "order": 32,
-          "paragraphEn": "",
-          "paragraphAr": "فكرة رائعة ABright Idea"
-        },
-        {
-          "order": 33,
-          "paragraphEn": "",
-          "paragraphAr": "-— حي This place could be so much better,” Zeina thought. She"
-        },
-        {
-          "order": 34,
-          "paragraphEn": "to anew student. 5",
-          "paragraphAr": "oe an اليك lunch, she sat with her new friend Nancy, who was غم"
-        },
-        {
-          "order": 35,
-          "paragraphEn": "kind and always honest” about how she felt. “I don't 3 5",
-          "paragraphAr": "أي like this area,” Nancy said. —_P"
-        },
-        {
-          "order": 36,
-          "paragraphEn": "“It's a little depressing®.”",
-          "paragraphAr": "فكرت زينة: \"يمكن أن يصبح هذا المكان أفضل بكثير.\" كانت لديها فكرة. لكنها لم تكن تعرف ما إذا"
-        },
-        {
-          "order": 37,
-          "paragraphEn": "",
-          "paragraphAr": "كان أي شخص سيستمع إلى طالبة جديدة. وفي وقت الغداء. جلست مع صديقتها الجديدة نانسي. التي"
-        },
-        {
-          "order": 38,
-          "paragraphEn": "",
-          "paragraphAr": "كانت لطيفة وصادقةا دائم'! في التعبير عن مشاعرها. قالت نانسي: “لا أحب هذا المكان. ail محبطا\""
-        },
-        {
-          "order": 39,
-          "paragraphEn": "sua",
-          "paragraphAr": "العمل مها Working Together"
-        },
-        {
-          "order": 40,
-          "paragraphEn": "learn. We could learn together.” 998 4 (10",
-          "paragraphAr": "Alla سات ey نو غررنا هذا الكل عاذ ذو Vale"
-        },
-        {
-          "order": 41,
-          "paragraphEn": "",
-          "paragraphAr": "بدت نانسي مندهشة وقالت: \"حديقة؟ هل تعرفين كيف تزرعين"
-        },
-        {
-          "order": 42,
-          "paragraphEn": "",
-          "paragraphAr": "النباتات؟” أجابت زينة بصراحةا\": \"ليس Las لكنني أريد أن أتعلم. ويمكننا أن نتعلم معنا"
-        },
-        {
-          "order": 43,
-          "paragraphEn": "",
-          "paragraphAr": "حلم من أجل المدرسة Dream for the School م"
-        },
-        {
-          "order": 44,
-          "paragraphEn": "The Idea stayed in Zeina's mind all day. She imagined gp",
-          "paragraphAr": "لد 5 ‘students eating lunch among flowers, plants, and i"
-        },
-        {
-          "order": 45,
-          "paragraphEn": "proud of the place. 1",
-          "paragraphAr": "She knew the idea wasn't easy. It would need time, ١"
-        },
-        {
-          "order": 46,
-          "paragraphEn": "bring the school together.",
-          "paragraphAr": "ظلت الفكرة في ذهن زينة طوال اليوم. تخيلت الطلاب amg يتناولون الغداء بين الزهور والنباتات. وربما"
-        },
-        {
-          "order": 47,
-          "paragraphEn": "",
-          "paragraphAr": "حتى الخضروات. كما تخيلت الطلاب وهم يشعرون بالفخر بهذا المكان. كانت تعلم أن تنفيذ الفكرة لن"
-        },
-        {
-          "order": 48,
-          "paragraphEn": "",
-          "paragraphAr": "يكون law فهو يحتاج إلى وقت وعمل شاق ومساعدة. Layg بعض المال أيظً. لكن Guid بداخلها كان"
-        },
-        {
-          "order": 49,
-          "paragraphEn": "",
-          "paragraphAr": "يخبرها أن الأمر يستحق المحاولة. وربما. فقط Lay يمكن أن تصبح هذه الحديقة أكثر من مجرد مكان"
-        },
-        {
-          "order": 50,
-          "paragraphEn": "",
-          "paragraphAr": "جميل. بل وسيلة تجمع\"'' طلاب المدرسة Veo"
+          "paragraphEn": "The idea stayed in Zeina's mind all day. She imagined students eating lunch among flowers, plants, and maybe even vegetables. She imagined students being proud of the place. She knew the idea wasn't easy. It would need time, hard work, help, and maybe even money. But something inside her said it was worth it. Maybe, just maybe, this garden could be more than just a place. It could be a way to bring the school together.",
+          "paragraphAr": "ظلت الفكرة في ذهن زينة طوال اليوم. تخيلت الطلاب وهم يتناولون الغداء بين الزهور والنباتات وربما حتى الخضروات، كما تخيلت الطلاب وهم يشعرون بالفخر بهذا المكان. كانت تعلم أن تنفيذ الفكرة لن يكون سهلاً؛ فهو يحتاج إلى وقت وعمل شاق ومساعدة وربما بعض المال أيضاً. لكن شيئاً بداخلها كان يخبرها أن الأمر يستحق المحاولة؛ وربما يمكن أن تصبح هذه الحديقة أكثر من مجرد مكان، بل وسيلة تجمع طلاب المدرسة معاً."
         }
       ],
       "questionsAndAnswers": [
@@ -680,36 +458,44 @@
       "summaryAr": "aw, المشروع بدأ",
       "chapterInPoints": [
         {
-          "en": "The project officially began.",
-          "ar": "aw, المشروع بدأ"
+          "order": 1,
+          "pointEn": "",
+          "pointAr": ""
         },
         {
-          "en": "The team needed money for seeds, tools, and soil",
-          "ar": "الأدوات؛ والتربة. ygaull الفريق احتاج مالاً لأجل"
+          "order": 2,
+          "pointEn": "",
+          "pointAr": ""
         },
         {
-          "en": "Zeina took initiative by asking the local community for donations.",
-          "ar": "زينة أخذت المبادرة بسؤال المجتمع المحلي لأجل التبرعات."
+          "order": 3,
+          "pointEn": "",
+          "pointAr": ""
         },
         {
-          "en": "She was honest about how the money would be spent.",
-          "ar": "Jlall هي كانت صادقة بشأن كيف سيتم إنفاق"
+          "order": 4,
+          "pointEn": "",
+          "pointAr": ""
         },
         {
-          "en": "Some of the first plants died.",
-          "ar": "Gila بعض من النباتات الأولى"
+          "order": 5,
+          "pointEn": "",
+          "pointAr": ""
         },
         {
-          "en": "Amal became upset and wanted to quit.",
-          "ar": "أصبحت متضايقة وأرادت أن تنسحب. Jol"
+          "order": 6,
+          "pointEn": "",
+          "pointAr": ""
         },
         {
-          "en": "Zeina understood Amal's feelings but refused to give up.",
-          "ar": "ولكنها رفضت الاستسلام. Joi مشاعر cama زينة"
+          "order": 7,
+          "pointEn": "",
+          "pointAr": ""
         },
         {
-          "en": "They changed their original plan.",
-          "ar": "هم غيتروا خطتهم الأصلية"
+          "order": 8,
+          "pointEn": "",
+          "pointAr": ""
         }
       ],
       "vocabulary": [
@@ -737,138 +523,23 @@
       "theText": [
         {
           "order": 1,
-          "paragraphEn": "Zeina decided to take responsibility’ for her idea.",
-          "paragraphAr": "هوه She researched school gardens online and wrote a"
+          "paragraphEn": "Zeina decided to take responsibility for her idea. She researched school gardens online and wrote a simple proposal. She explained both the positive and the difficult sides.",
+          "paragraphAr": "قررت زينة أن تتحمل المسؤولية عن فكرتها. بحثت على الإنترنت عن حدائق المدارس وكتبت مقترحاً بسيطاً، شرحت فيه كلاً من الجوانب الإيجابية والصعوبات المحتملة."
         },
         {
           "order": 2,
-          "paragraphEn": "the difficult sides. we 7",
-          "paragraphAr": "قررت زينة أن تتحمل المسؤولية Ye فكرتها. بحثت على الإنترنت"
+          "paragraphEn": "The next week, she showed courage by speaking at the student council meeting. Her hands were shaking, but she believed in her plan. 'I want to create a garden behind our school,' she said. 'It would be a beautiful place to eat lunch, and we could grow vegetables for the cafeteria. But I need help.'",
+          "paragraphAr": "في الأسبوع التالي، أظهرت شجاعة بالتحدث في اجتماع مجلس الطلاب. كانت يداها ترتجفان، لكنها كانت مؤمنة بخطتها وقالت: 'أريد إنشاء حديقة خلف مدرستنا، ستكون مكاناً جميلاً لتناول الغداء، ويمكننا زراعة الخضروات لمقصف المدرسة، لكنني أحتاج إلى المساعدة.'"
         },
         {
           "order": 3,
-          "paragraphEn": "",
-          "paragraphAr": "5 عن حدائق المدارس. وكتبت مقترد!1 بسيظًا. وشرحت فيه الجوانب"
+          "paragraphEn": "Some students laughed. 'You're just a new student,' one said. 'Why should we listen to you?' Zeina felt hurt, but she ignored the comment. 'This is my school too. Everyone deserves a nice place to learn and enjoy breaks.'",
+          "paragraphAr": "ضحك بعض الطلاب، وقال أحدهم: 'أنتِ مجرد طالبة جديدة، فلماذا نستمع إليكِ؟' شعرت زينة بالأذى لكنها تجاهلت التعليق وقالت: 'هذه مدرستي أيضاً، وكل شخص يستحق مكاناً جميلاً ليتعلم فيه ويستمتع بالراحة.'"
         },
         {
           "order": 4,
-          "paragraphEn": "Speaking with Courage",
-          "paragraphAr": "التحدث بشجاعة"
-        },
-        {
-          "order": 5,
-          "paragraphEn": "The next week, she showed courage’ by speaking at the",
-          "paragraphAr": "‘student council meeting. Her hands were shaking, but 900922077 \"قينة”"
-        },
-        {
-          "order": 6,
-          "paragraphEn": "“| want to create a garden behind our school,” she said. aC: | ‘gD 3",
-          "paragraphAr": "“It would be a beautiful place to eat lunch, and we could 7002 لوز"
-        },
-        {
-          "order": 7,
-          "paragraphEn": "",
-          "paragraphAr": "grow vegetables for the cafeteria, But | need help.” د - 00 ay"
-        },
-        {
-          "order": 8,
-          "paragraphEn": "",
-          "paragraphAr": "عندما تحدثت في اجتماع \"dela في الأسبوع التالي. أظهرت زينة"
-        },
-        {
-          "order": 9,
-          "paragraphEn": "",
-          "paragraphAr": "بخطتها. Jogi مجلس\" الطلاب. كانت يداها ترتجفان. لكنها كانت"
-        },
-        {
-          "order": 10,
-          "paragraphEn": "",
-          "paragraphAr": "قالت: \"أريد إنشاء حديقة خلف مدرستنا. ستكون مكاة\" جميلًا لتناول الغداء. ويمكننا زراعة الخضروات"
-        },
-        {
-          "order": 11,
-          "paragraphEn": "",
-          "paragraphAr": "لمقصف المدرسة. لكنني أحتاج إلى المساعدة."
-        },
-        {
-          "order": 12,
-          "paragraphEn": "Facing Challenges",
-          "paragraphAr": "مواجهة التحديات"
-        },
-        {
-          "order": 13,
-          "paragraphEn": "Some students laughed. _",
-          "paragraphAr": "“You're just a new student,” one said. “Why should we pe ا"
-        },
-        {
-          "order": 14,
-          "paragraphEn": "Zeina felt hurt, but she ignored the comment. yy ie",
-          "paragraphAr": "“This is my school too. Everyone deserves“ a nice place ain ا"
-        },
-        {
-          "order": 15,
-          "paragraphEn": "",
-          "paragraphAr": "to learn and enjoy breaks.” عب )| امم WZ"
-        },
-        {
-          "order": 16,
-          "paragraphEn": "",
-          "paragraphAr": "ضحك بعض الطلاب."
-        },
-        {
-          "order": 17,
-          "paragraphEn": "",
-          "paragraphAr": "مجرد طالبة جديدة. فلماذا نستمع إليك ؟ Gil\" وقال أحدهم:"
-        },
-        {
-          "order": 18,
-          "paragraphEn": "",
-          "paragraphAr": "شعرت زينة بالأذى. لكنها تجاهلت'\" هذا التعليق."
-        },
-        {
-          "order": 19,
-          "paragraphEn": "",
-          "paragraphAr": "وكل شخص يستحق“' مكان) جميلًا ليتعلم ويستمتع بوقت الراحة. Eyl وقالت: \"هذه مدرستي"
-        },
-        {
-          "order": 20,
-          "paragraphEn": "",
-          "paragraphAr": "ممعم with Different Talents"
-        },
-        {
-          "order": 21,
-          "paragraphEn": "",
-          "paragraphAr": "فريق يمتلك مواهب مختلفة"
-        },
-        {
-          "order": 22,
-          "paragraphEn": "strong, and Sarah was very organized), vf a 4 | 3",
-          "paragraphAr": "Zeina helped everyone feel confident\" about their talents. لشي 17 4a NK Ip"
-        },
-        {
-          "order": 23,
-          "paragraphEn": "",
-          "paragraphAr": "The garden was no longer just her idea—it became their ذا"
-        },
-        {
-          "order": 24,
-          "paragraphEn": "‘shared project.",
-          "paragraphAr": "معلمة الأحياء. بإصرار''' زينة. وساعدتها في التحدث مع الطلاب المختلفين. وسرعان sam أعجبت السيدة"
-        },
-        {
-          "order": 25,
-          "paragraphEn": "",
-          "paragraphAr": "ما اكتشفت زينة أن كثيرء! من الطلاب يمتلكون مواهب\" مميزةا\" ؛ فقد كانت نانسي تجيد استخدام"
-        },
-        {
-          "order": 26,
-          "paragraphEn": "",
-          "paragraphAr": "بينما كانت سارة منظمة '\"')جد\"!. وساعدت زينة الجميع yg الأدوات. وكانت نهى تحب الرسم. وكانت أمل"
-        },
-        {
-          "order": 27,
-          "paragraphEn": "",
-          "paragraphAr": "تعد الحديقة مجرد فكرتها. بل أصبحت مشروع\"! مشتركًا للجميع. alg مواهبهم. wn\" على الثقة"
+          "paragraphEn": "Ms. Hoda, the biology teacher, liked Zeina's determination. She helped Zeina speak to different students. Zeina soon found that many students had special talents: Nancy was good with tools, Noha loved painting, Amal was strong, and Sarah was very organized. Zeina helped everyone feel confident about their talents. The garden was no longer just her idea—it became their shared project.",
+          "paragraphAr": "أعجبت السيدة هدى، معلمة الأحياء، بإصرار زينة، وساعدتها في التحدث إلى طلاب مختلفين. وسرعان ما اكتشفت زينة أن العديد من الطلاب يمتلكون مواهب مميزة؛ فقد كانت نانسي تجيد استخدام الأدوات، ونهى تحب الرسم، وأمل قوية، وسارة منظمة جداً. ساعدت زينة الجميع على الثقة بمواهبهم، ولم تعد الحديقة مجرد فكرتها وحدها، بل أصبحت مشروعهم المشترك."
         }
       ],
       "questionsAndAnswers": [
@@ -1234,293 +905,23 @@
       "theText": [
         {
           "order": 1,
-          "paragraphEn": "The project started, but it wasn't easy. First, they needed",
-          "paragraphAr": "money to buy seeds, tools, and soil. Zeina showed | i, ١"
+          "paragraphEn": "The project started, but it wasn't easy. First, they needed money to buy seeds, tools, and soil. Zeina showed initiative by asking the local community for donations. She was always honest about how the money would be used.",
+          "paragraphAr": "بدأ المشروع، لكنه لم يكن سهلاً؛ في البداية احتاج الفريق إلى المال لشراء البذور والأدوات والتربة. أظهرت زينة روح المبادرة بطلب تبرعات من المجتمع المحلي، وكانت دائماً صادقة بشأن أوجه إنفاق الأموال."
         },
         {
           "order": 2,
-          "paragraphEn": "",
-          "paragraphAr": "be P ee Be م initiative by asking local community for donations. She @ ga]"
+          "paragraphEn": "Then bad weather struck. Two weeks of heavy rain washed away some newly planted seeds, and several young plants died. Amal felt discouraged and wanted to quit. 'It's too much work,' she said.",
+          "paragraphAr": "ثم ضربت الأحوال الجوية السيئة، فهطلت أمطار غزيرة استمرت أسبوعين جرفت بعض البذور المزروعة حديثاً وماتت عدة شتلات صغيرة. شعرت أمل بالإحباط وأرادت الاستسلام وقالت: 'هذا عمل شاق للغاية.'"
         },
         {
           "order": 3,
-          "paragraphEn": "was always honest about how the money would be used. 1 Jo Tages |\"",
-          "paragraphAr": "A st 7 (1 بدأ المشروع. لكنه لم يكن سهلا. في البداية. احتاج الفريق إلى"
+          "paragraphEn": "Zeina showed empathy and listened to Amal's frustrations. 'Mistakes and setbacks are normal,' Zeina said gently. 'Let's find smart solutions.' Together, they designed drainage ditches and built small protective covers using recycled plastic.",
+          "paragraphAr": "أظهرت زينة التعاطف واستمعت إلى إحباط أمل وقالت بلطف: 'الأخطاء والعقبات أمر طبيعي، دعونا نجد حلولاً ذكية.' وتعاونوا معاً في حفر قنوات لتصريف المياه وبناء أغطية حماية صغيرة باستخدام البلاستيك المعاد تدويره."
         },
         {
           "order": 4,
-          "paragraphEn": "",
-          "paragraphAr": "tall FEE sin CL, =| لشراء البذور والأدوات والتربة. أظهرت زينة روح العبادرة"
-        },
-        {
-          "order": 5,
-          "paragraphEn": "",
-          "paragraphAr": "عندما طلبت تبرعات من المجتمع المحلي. وكانت دائم) صادقة بشأن"
-        },
-        {
-          "order": 6,
-          "paragraphEn": "",
-          "paragraphAr": "كيفية استخدام الأموال"
-        },
-        {
-          "order": 7,
-          "paragraphEn": "Never Give Up",
-          "paragraphAr": "لا تستسلم أبذا"
-        },
-        {
-          "order": 8,
-          "paragraphEn": "stop now.”",
-          "paragraphAr": "بعد ذلك. استمر هطول المطر لمدة أسبوعين. وماتت بعض النباتات الأولى التي زرعوها. شعرت Jai بالحزن"
-        },
-        {
-          "order": 9,
-          "paragraphEn": "",
-          "paragraphAr": "وقالت: \"هذا صعب جد”. ربعا يجب أن نستسلم”"
-        },
-        {
-          "order": 10,
-          "paragraphEn": "",
-          "paragraphAr": "شعرت زينة بخيبة ey! Jol لكنها Yas من الاستسلام. أظهرت إصرار\"! كبير”!"
-        },
-        {
-          "order": 11,
-          "paragraphEn": "",
-          "paragraphAr": "وقالت بلطف\"أتفهم cil تشعرين بالإحباط. لكننا نقوم بشيء مفيد للمدرسة. ولا يمكننا التوقف الآن:"
-        },
-        {
-          "order": 12,
-          "paragraphEn": "Finding Smart Solutions",
-          "paragraphAr": "إيجاد حلول ذكية"
-        },
-        {
-          "order": 13,
-          "paragraphEn": "plants grow best in their climate and how to protect them isi , pr",
-          "paragraphAr": "اي from too much rain, een) td"
-        },
-        {
-          "order": 14,
-          "paragraphEn": "felt proud because they had solved the problems together.",
-          "paragraphAr": "عمل الفريق 20 لحل المشكلات. وقرروا تعديل خطتهم. وبحثوا عن النباتات التي gail بشكل أفضل في"
-        },
-        {
-          "order": 15,
-          "paragraphEn": "",
-          "paragraphAr": "مناخهم. وكيفية حمايتها من الأمطار الفزيرة. كما أنشأوا نظام أفضل للري. وتعلموا كيفية العناية"
-        },
-        {
-          "order": 16,
-          "paragraphEn": "",
-          "paragraphAr": "بأنواع مختلفة من النباتات."
-        },
-        {
-          "order": 17,
-          "paragraphEn": "",
-          "paragraphAr": "بدأت الحديقة تدريجيً! تبدو أفضل من جديد. وشعر الفريق بالفخر لأنهم تمكنوا من حل المشكلات a0 من"
-        },
-        {
-          "order": 18,
-          "paragraphEn": "",
-          "paragraphAr": "خلال التعاون والعمل الجماعي."
-        },
-        {
-          "order": 19,
-          "paragraphEn": "50% ‘Success",
-          "paragraphAr": "ic 90 لا"
-        },
-        {
-          "order": 20,
-          "paragraphEn": "",
-          "paragraphAr": "2-7 تحقيق النجاح"
-        },
-        {
-          "order": 21,
-          "paragraphEn": "Key vocabulary",
-          "paragraphAr": "leader (n) قاد blame (v) يلوم al Jac"
-        },
-        {
-          "order": 22,
-          "paragraphEn": "",
-          "paragraphAr": "Isolutions (n) حلول ftrash(n) | النفايات garden (n) حديقة"
-        },
-        {
-          "order": 23,
-          "paragraphEn": "",
-          "paragraphAr": "proud (adj) فخور [mistake (n) ff [Te lettuce (n) خس"
-        },
-        {
-          "order": 24,
-          "paragraphEn": "",
-          "paragraphAr": "طبيعية SIE eco-friendly methods أساليب صديقة للبيئة."
-        },
-        {
-          "order": 25,
-          "paragraphEn": "",
-          "paragraphAr": "شرت / مشاركة responsible for مسؤول عن"
-        },
-        {
-          "order": 26,
-          "paragraphEn": "",
-          "paragraphAr": "هر After three months, the garden looked beautiful"
-        },
-        {
-          "order": 27,
-          "paragraphEn": "",
-          "paragraphAr": "بعد ثلاثة أشهر. الحديقة بدت جميلة."
-        },
-        {
-          "order": 28,
-          "paragraphEn": "",
-          "paragraphAr": "هر Students started eating lunch in the garden."
-        },
-        {
-          "order": 29,
-          "paragraphEn": "",
-          "paragraphAr": "الطلاب بدؤوا يأكلون الغداء في الحديقة."
-        },
-        {
-          "order": 30,
-          "paragraphEn": "",
-          "paragraphAr": "هر The garden contained tomatoes, lettuce, and colorful flowers."
-        },
-        {
-          "order": 31,
-          "paragraphEn": "",
-          "paragraphAr": "الحديقة احتوت على طماطم. خس. وزهور ملونة."
-        },
-        {
-          "order": 32,
-          "paragraphEn": "The cafeteria began using vegetables grown in the garden.",
-          "paragraphAr": "الكافتيريا بدأت باستخدام الخضروات المزروعة في الحديقة."
-        },
-        {
-          "order": 33,
-          "paragraphEn": "",
-          "paragraphAr": "هر Everyone felt proud."
-        },
-        {
-          "order": 34,
-          "paragraphEn": "",
-          "paragraphAr": "الجميع شعروا بالفخر."
-        },
-        {
-          "order": 35,
-          "paragraphEn": "s@ Zeina learned that leadership doesn't mean knowing everything.",
-          "paragraphAr": "evul زينة تعلمت أن القيادة لا تعني معرفة كل"
-        },
-        {
-          "order": 36,
-          "paragraphEn": "s@ She learned that a leader takes responsibility for both success and failure",
-          "paragraphAr": "من النجاح والفشل. JS هي تعلمت أن القائد يأخذ المسؤولية عن"
-        },
-        {
-          "order": 37,
-          "paragraphEn": "",
-          "paragraphAr": "حمر When some plants didn't grow well, she didn't blame anyone."
-        },
-        {
-          "order": 38,
-          "paragraphEn": "",
-          "paragraphAr": "جيداً. هي لم تلم أي شخص. ‘aii عندما بعض النباتات لم"
-        },
-        {
-          "order": 39,
-          "paragraphEn": "",
-          "paragraphAr": "هر She worked with the team to find solutions."
-        },
-        {
-          "order": 40,
-          "paragraphEn": "",
-          "paragraphAr": "Ugls هي عملت مع الفريق لإيجاد"
-        },
-        {
-          "order": 41,
-          "paragraphEn": "",
-          "paragraphAr": "The students learned about global responsibility. هر"
-        },
-        {
-          "order": 42,
-          "paragraphEn": "",
-          "paragraphAr": "الطلاب تعلموا عن المسؤولية العالمية."
-        },
-        {
-          "order": 43,
-          "paragraphEn": "",
-          "paragraphAr": "They used eco-friendly methods. جر"
-        },
-        {
-          "order": 44,
-          "paragraphEn": "",
-          "paragraphAr": "هم استخدموا طرقاً صديقة للبيئة."
-        },
-        {
-          "order": 45,
-          "paragraphEn": "",
-          "paragraphAr": "They avoided harmful chemicals. هر"
-        },
-        {
-          "order": 46,
-          "paragraphEn": "",
-          "paragraphAr": "هم تجنبوا المواد الكيمياتية الضارة."
-        },
-        {
-          "order": 47,
-          "paragraphEn": "",
-          "paragraphAr": "They used only natural fertilizers. جر"
-        },
-        {
-          "order": 48,
-          "paragraphEn": "",
-          "paragraphAr": "هم استخدموا فقط الأسمدة الطبيعية."
-        },
-        {
-          "order": 49,
-          "paragraphEn": "",
-          "paragraphAr": "Their methods improved the soil and reduced trash. خهر"
-        },
-        {
-          "order": 50,
-          "paragraphEn": "",
-          "paragraphAr": "طرقهم حسدنت التربة وقللت القمامة."
-        },
-        {
-          "order": 51,
-          "paragraphEn": "s@ Students from other classes visited the garden.",
-          "paragraphAr": "طلاب من فصول أخرى زاروا الحديقة."
-        },
-        {
-          "order": 52,
-          "paragraphEn": "s@ Some wanted to help.",
-          "paragraphAr": "البعض أرادوا أن يساعدوا"
-        },
-        {
-          "order": 53,
-          "paragraphEn": "",
-          "paragraphAr": "Others simply enjoyed the beautiful place. هر"
-        },
-        {
-          "order": 54,
-          "paragraphEn": "",
-          "paragraphAr": "آخرون ببساطة استمتعوا بالمكان الجميل."
-        },
-        {
-          "order": 55,
-          "paragraphEn": "",
-          "paragraphAr": "The project changed both the school and the students. هر"
-        },
-        {
-          "order": 56,
-          "paragraphEn": "",
-          "paragraphAr": "المشروع غير كلاً من المدرسة والطلاب."
-        },
-        {
-          "order": 57,
-          "paragraphEn": "",
-          "paragraphAr": "The students became a united team with a shared purpose. هر"
-        },
-        {
-          "order": 58,
-          "paragraphEn": "",
-          "paragraphAr": "الطلاب أصبحوا فريقاً متحداً مع هدف مشترك."
+          "paragraphEn": "The team worked side by side. Sarah organized the daily watering schedule, Nancy repaired broken planter boxes, and Noha painted wooden markers for the herbs. Seeing the progress, Amal regained her enthusiasm and returned to work with renewed dedication.",
+          "paragraphAr": "عمل الفريق جنباً إلى جنب؛ فنظمت سارة جدول الري اليومي، وأصلحت نانسي أحواض الزراعة التالفة، ورسمت نهى علامات خشبية ملونة للأعشاب. وعندما رأت أمل هذا التقدم، استعادت حماسها وعادت للعمل بعزيمة متجددة."
         }
       ],
       "questionsAndAnswers": [
@@ -1775,253 +1176,23 @@
       "theText": [
         {
           "order": 1,
-          "paragraphEn": "vegetables, which made everyone feel proud. ee",
-          "paragraphAr": "Lo ———— يتزاولون الغداء في الخارج. محاطين بالطماطم الطازجة"
+          "paragraphEn": "Weeks passed, and green sprouts turned into flourishing plants. Tomatoes, cucumbers, and fragrant mint filled the beds. During lunch breaks, students walked along the leafy paths, enjoying fresh air and colors.",
+          "paragraphAr": "مرت الأسابيع، وتحولت البراعم الخضراء إلى نباتات مزهرة؛ فامتلأت الأحواض بالطماطم والخيار والنعناع العطري. وخلال فترات الاستراحة، كان الطلاب يتجولون في الممرات الخضراء مستمتعين بالهواء النقي والألوان الجميلة."
         },
         {
           "order": 2,
-          "paragraphEn": "",
-          "paragraphAr": "والخس والزهور الملونة. كما بدأ anda المدرسة في استخدام"
+          "paragraphEn": "The school cafeteria served fresh lettuce and herbs harvested directly from the garden. The principal gave a speech in the morning assembly, praising the students' dedication and initiative.",
+          "paragraphAr": "وقدم مقصف المدرسة الخس والأعشاب الطازجة المحصودة مباشرة من الحديقة. وألقى مدير المدرسة كلمة في طابور الصباح، أشاد فيها باجتهاد الطلاب وروح المبادرة لديهم."
         },
         {
           "order": 3,
-          "paragraphEn": "",
-          "paragraphAr": "بعض خضروات الحديقة. مما Joo الجميع يشعر بالفخر."
+          "paragraphEn": "One afternoon, aphids attacked the tomato plants. Instead of using harsh chemical pesticides, the students researched natural remedies online. They made an organic garlic and soap spray and introduced ladybugs, keeping the garden safe and eco-friendly.",
+          "paragraphAr": "وفي إحدى الظهائر، هاجم حشرات المن نباتات الطماطم. وبدلاً من استخدام مبيدات كيميائية قاسية، بحث الطلاب عبر الإنترنت عن حلول طبيعية؛ فصنعوا رذاذاً عضوياً من الثوم والصابون وجلبوا حشرات الدعسوقة، مما حافظ على أمان الحديقة وصداقتها للبيئة."
         },
         {
           "order": 4,
-          "paragraphEn": "ALesson in Leadership",
-          "paragraphAr": "درس في القيادة"
-        },
-        {
-          "order": 5,
-          "paragraphEn": "",
-          "paragraphAr": "ars] و )ا Zeina learned something néw about being a leader."
-        },
-        {
-          "order": 6,
-          "paragraphEn": "When some plants didn't grow well, Zeina didn’t blame we OO 1",
-          "paragraphAr": "نوريا anyone. Instead, she worked with the team to find"
-        },
-        {
-          "order": 7,
-          "paragraphEn": "solutions.",
-          "paragraphAr": "تعلمت زينة شينًا جديد\"! عن القيادة. فالقيادة لا تعني أن تمتلك Vails جميع GUY! بل تعني تحمل"
-        },
-        {
-          "order": 8,
-          "paragraphEn": "",
-          "paragraphAr": "المسؤولية عن النجاحات والأخطاء. وعندما لم ‘aii بعض النباتات جيد'!. لم تلم أحد\"!. بل عملت مع الفريق"
-        },
-        {
-          "order": 9,
-          "paragraphEn": "",
-          "paragraphAr": "لإيجاد Uglall"
-        },
-        {
-          "order": 10,
-          "paragraphEn": "Protecting the Environment",
-          "paragraphAr": "حماية البيئة"
-        },
-        {
-          "order": 11,
-          "paragraphEn": "enjoy the beautiful garden.",
-          "paragraphAr": "ali الطلاب أيض”) أهمية المسؤولية العالمية تجاه البيئة. فقد"
-        },
-        {
-          "order": 12,
-          "paragraphEn": "",
-          "paragraphAr": "استخدموا طرقًا صديقة للبيئة. دون مواد كيميائية ضارة. واعتمدوا فقط على الأسمدة الطبيعية. وساعد"
-        },
-        {
-          "order": 13,
-          "paragraphEn": "",
-          "paragraphAr": "ذلك في تحسين التربة وتقليل النفايات. وبدأ طلاب من الفصول الأخرى يزورون الحديقة؛ فسأل بعضهم"
-        },
-        {
-          "order": 14,
-          "paragraphEn": "",
-          "paragraphAr": "كيف يمكنهم المساعدة. بينما جاء آخرون للاستمتاع بجمالها"
-        },
-        {
-          "order": 15,
-          "paragraphEn": "One Team, One Goal",
-          "paragraphAr": "فريق واحد وهدف واحد"
-        },
-        {
-          "order": 16,
-          "paragraphEn": "The garden had changed the school— and it had changed 59",
-          "paragraphAr": "8دوك the students. They were no longer just classmates. They Ma."
-        },
-        {
-          "order": 17,
-          "paragraphEn": "",
-          "paragraphAr": "#. 3 ف 55 were a team with a sharedpurpose."
-        },
-        {
-          "order": 18,
-          "paragraphEn": "",
-          "paragraphAr": "pla) لان a نقد غيرت الحديقة المدرسة. كما ye الطلاب ul فلم يعودوا"
-        },
-        {
-          "order": 19,
-          "paragraphEn": "",
-          "paragraphAr": "1 7 ] مجرد زملاء في الفصل. بل أصبحوا ya يعمل من أجل هدفر"
-        },
-        {
-          "order": 20,
-          "paragraphEn": "",
-          "paragraphAr": "مو She 20"
-        },
-        {
-          "order": 21,
-          "paragraphEn": "| Five of Growth",
-          "paragraphAr": "/ ل"
-        },
-        {
-          "order": 22,
-          "paragraphEn": "",
-          "paragraphAr": ".سك للحتت = || نه ww"
-        },
-        {
-          "order": 23,
-          "paragraphEn": "",
-          "paragraphAr": "”دن | Ti aac: حد دوه"
-        },
-        {
-          "order": 24,
-          "paragraphEn": "",
-          "paragraphAr": "سمه | 2 so"
-        },
-        {
-          "order": 25,
-          "paragraphEn": "s@ At the end of the school year, Zeina admired the completed garden.",
-          "paragraphAr": "في نهاية العام الدراسي. زينة أعجبت بالحديقة المكتملة."
-        },
-        {
-          "order": 26,
-          "paragraphEn": "",
-          "paragraphAr": "هر The garden became full of green plants, colors, and life."
-        },
-        {
-          "order": 27,
-          "paragraphEn": "",
-          "paragraphAr": "الحديقة أصبحت مليئة بالنباتات الخضراء. الألوان. والحياة."
-        },
-        {
-          "order": 28,
-          "paragraphEn": "",
-          "paragraphAr": "حر Zeina realized that the greatest change was in the students."
-        },
-        {
-          "order": 29,
-          "paragraphEn": "",
-          "paragraphAr": "زينة أدركت أن التغيير الأعظم كان في الطلاب."
-        },
-        {
-          "order": 30,
-          "paragraphEn": "",
-          "paragraphAr": "حمر Students became more careful with the school."
-        },
-        {
-          "order": 31,
-          "paragraphEn": "",
-          "paragraphAr": "الطلاب أصبحوا أكثر حرصاً مع المدرسة."
-        },
-        {
-          "order": 32,
-          "paragraphEn": "3 They threw less trash on the ground.",
-          "paragraphAr": "Vi ule Jai هم رموا قمامة"
-        },
-        {
-          "order": 33,
-          "paragraphEn": "",
-          "paragraphAr": "جر They respected the environment more."
-        },
-        {
-          "order": 34,
-          "paragraphEn": "",
-          "paragraphAr": "هم احترموا البيئة أكثر."
-        },
-        {
-          "order": 35,
-          "paragraphEn": "",
-          "paragraphAr": "هر Nancy discovered her love for growing food."
-        },
-        {
-          "order": 36,
-          "paragraphEn": "",
-          "paragraphAr": "انسي اكتشفت حبها لزراعة الطعام."
-        },
-        {
-          "order": 37,
-          "paragraphEn": "",
-          "paragraphAr": "*هر Nancy decided to study agriculture."
-        },
-        {
-          "order": 38,
-          "paragraphEn": "",
-          "paragraphAr": "نانسي قررت أن تدرس الزراعة."
-        },
-        {
-          "order": 39,
-          "paragraphEn": "",
-          "paragraphAr": "هر Noha's signs and drawings made the garden more beautiful."
-        },
-        {
-          "order": 40,
-          "paragraphEn": "",
-          "paragraphAr": "لافتات ورسومات نهى جعلت الحديقة أكثر جمالاً"
-        },
-        {
-          "order": 41,
-          "paragraphEn": "",
-          "paragraphAr": "حمر Noha inspired others to add art around the school."
-        },
-        {
-          "order": 42,
-          "paragraphEn": "",
-          "paragraphAr": "١ حول المدرسة. gall نهى ألهمت الآخرين لإضافة"
-        },
-        {
-          "order": 43,
-          "paragraphEn": "s@ Amal, who had once wanted to quit, became one of the most dedicated gardeners.",
-          "paragraphAr": "أمل. التي كانت ذات مرة قد أرادت أن تنسحب. أصبحت واحدة من أكثر البستانيين تفانياً"
-        },
-        {
-          "order": 44,
-          "paragraphEn": "s@ She even arrived early to water the plants.",
-          "paragraphAr": "هي حتى وصلت مبكراً لري النباتات."
-        },
-        {
-          "order": 45,
-          "paragraphEn": "",
-          "paragraphAr": "حر Zeina realized that honesty builds people's trust."
-        },
-        {
-          "order": 46,
-          "paragraphEn": "",
-          "paragraphAr": "زينة أدركت أن الصدق يبني ثقة الناس."
-        },
-        {
-          "order": 47,
-          "paragraphEn": "3 She always admitted her limitations instead of pretending to be perfect.",
-          "paragraphAr": "هي دائماً اعترفت بحدود قدراتها بدلاً من التظاهر بأنها مثالية"
-        },
-        {
-          "order": 48,
-          "paragraphEn": "s@ The project improved how students treated both their school and one another.",
-          "paragraphAr": "المشروع حسّن كيف عامل الطلاب كلاً من مدرستهم وبعضهم البعض."
-        },
-        {
-          "order": 49,
-          "paragraphEn": "",
-          "paragraphAr": "هر The students grew not only as learners but also as people."
-        },
-        {
-          "order": 50,
-          "paragraphEn": "",
-          "paragraphAr": "الطلاب نموا ليس فقط كمتعلمين ولكن أيضاً كأشخاص."
+          "paragraphEn": "Students who had previously littered now took pride in keeping the grounds clean. They set up compost bins for vegetable scraps and organized recycling stations. The garden had transformed not only the physical schoolyard, but the entire school culture.",
+          "paragraphAr": "والطلاب الذين كانوا يلقون القمامة سابقاً باتوا يفخرون بالحفاظ على نظافة المكان؛ فأنشأوا صناديق تسميد لبقايا الخضروات ومحطات لإعادة التدوير. لقد غيرت الحديقة ليس فقط فناء المدرسة، بل ثقافة المدرسة بأكملها."
         }
       ],
       "questionsAndAnswers": [
@@ -2162,40 +1333,49 @@
       "summaryAr": "MII السنة التالية. زينة أصبحت رئيسة مجلس",
       "chapterInPoints": [
         {
-          "en": "The following year, Zeina became president of the student council.",
-          "ar": "MII السنة التالية. زينة أصبحت رئيسة مجلس"
+          "order": 1,
+          "pointEn": "",
+          "pointAr": ""
         },
         {
-          "en": "She learned valuable lessons about true leadership.",
-          "ar": "هي تعلمت دروساً قيمة عن القيادة الحقيقية."
+          "order": 2,
+          "pointEn": "",
+          "pointAr": ""
         },
         {
-          "en": "She understood that leadership means helping others rather than doing everything alone.",
-          "ar": "أن القيادة تعني مساعدة الآخرين بدلاً من فعل كل شيء بمفردها ams هي"
+          "order": 3,
+          "pointEn": "",
+          "pointAr": ""
         },
         {
-          "en": "She believed honesty is important when facing difficulties.",
-          "ar": "هي أمنت أن الصدق مهم عند مواجهة الصعوبات."
+          "order": 4,
+          "pointEn": "",
+          "pointAr": ""
         },
         {
-          "en": "Her ambition became greater than creating a garden.",
-          "ar": "طموحها أصبح أكبر من إنشاء حديقة."
+          "order": 5,
+          "pointEn": "",
+          "pointAr": ""
         },
         {
-          "en": "She told new students that everyone has something special to offer.",
-          "ar": "هي قالت للطلاب الجدد إن كل شخص لديه شيء مميز ليقدمه"
+          "order": 6,
+          "pointEn": "",
+          "pointAr": ""
         },
         {
-          "en": "The garden became a symbol of students’ ability to work together.",
-          "ar": "الحديقة أصبحت رمزاً لقدرة الطلاب على العمل معاً"
+          "order": 7,
+          "pointEn": "",
+          "pointAr": ""
         },
         {
-          "en": "Zeina realized that growth happens in people as well as plants.",
-          "ar": "زينة أدركت gaill gi يحدث في الناس تماماً كما يحدث في النباتات."
+          "order": 8,
+          "pointEn": "",
+          "pointAr": ""
         },
         {
-          "en": "She learned that small ideas can lead to big changes when people believe in them.",
-          "ar": "هي تعلمت أن الأفكار الصغيرة يمكن أن تؤدي إلى تغبيرات كبيرة عندما يؤمن الناس بها"
+          "order": 9,
+          "pointEn": "",
+          "pointAr": ""
         }
       ],
       "vocabulary": [
@@ -2223,133 +1403,23 @@
       "theText": [
         {
           "order": 1,
-          "paragraphEn": "At the end of the school year, Zeina looked around the",
-          "paragraphAr": "garden and smiled. It started with just an idea. Now it ١"
+          "paragraphEn": "At the end of the school year, Zeina looked around the vibrant garden and smiled. It had started with just an idea on a gray, concrete lot. Now, it was a living oasis full of green plants, butterflies, and joyful laughter.",
+          "paragraphAr": "في نهاية العام الدراسي، نظرت زينة إلى الحديقة الحيوية وابتسمت؛ فقد بدأت بمجرد فكرة في مساحة خرسانية رمادية، وباتت الآن واحة نابضة بالحياة مليئة بالنباتات الخضراء والفراشات والضحكات السعيدة."
         },
         {
           "order": 2,
-          "paragraphEn": "",
-          "paragraphAr": "was a real space—tull of green plants, colors, and life. ال 0 gore"
+          "paragraphEn": "Students were now much more responsible. Vandalism had ceased entirely, and older students happily mentored younger children on composting and plant care. Nancy discovered a true passion for botany and decided she wanted to study agriculture in the future.",
+          "paragraphAr": "أصبح الطلاب أكثر تحلياً بالمسؤولية؛ فتوقف العبث بالممتلكات تماماً، وأصبح الطلاب الأكبر سناً يوجهون الصغار بسعادة في صناعة السماد ورعاية النباتات. واكتشفت نانسي شغفاً حقيقياً بعلم النبات وقررت أنها تريد دراسة الزراعة في المستقبل."
         },
         {
           "order": 3,
-          "paragraphEn": "",
-          "paragraphAr": "But the biggest change wasn’t in the garden. It was in Ma Sanaa) تر"
+          "paragraphEn": "Amal, who had once wanted to give up, became the garden's most devoted caretaker. She arrived early every morning to water the saplings and check the soil moisture. Her transformation inspired everyone who had ever doubted their own endurance.",
+          "paragraphAr": "وأمل، التي أرادت الاستسلام في السابق، أصبحت أكثر المشرفين إخلاصاً للحديقة؛ فكانت تأتي مبكراً كل صباح لري الشتلات وفحص رطوبة التربة، وألهم تحولها كل من شك يوماً في قدرته على الصمود والمثابرة."
         },
         {
           "order": 4,
-          "paragraphEn": "the students. <a 0 3",
-          "paragraphAr": "في نهاية العام الدراسي. نظرت زينة إلى الحديقة وابتسمت. لقد i OG"
-        },
-        {
-          "order": 5,
-          "paragraphEn": "",
-          "paragraphAr": "وأصبحت الآن مكان\"! حقيقي'! ملينا بالنباتات dau بدات بفكرة Een Me ali"
-        },
-        {
-          "order": 6,
-          "paragraphEn": "",
-          "paragraphAr": "الخضراء والألوان والحياة. لكن أكبر تغبير لم يكن في الحديقة. بل"
-        },
-        {
-          "order": 7,
-          "paragraphEn": "",
-          "paragraphAr": "كان في الطلاب أنفسهم"
-        },
-        {
-          "order": 8,
-          "paragraphEn": "Positive Changes Everywhere",
-          "paragraphAr": "تغييرات إيجابية في كل مكان"
-        },
-        {
-          "order": 9,
-          "paragraphEn": "",
-          "paragraphAr": "Students were now more careful with the school. They د"
-        },
-        {
-          "order": 10,
-          "paragraphEn": "spect for the environment. yee ai",
-          "paragraphAr": "Nancy discovered a love for growing food and wanted to ee 211\" 5 مان"
-        },
-        {
-          "order": 11,
-          "paragraphEn": "dedicated gardeners. She even came early to water the plants.",
-          "paragraphAr": "أكبر للبيئة. Vol ial على الأرض. وأظهروا Jai أصبح الطلاب أكثر حرص”! على مدرستهم. فقد ألقوا نفايات"
-        },
-        {
-          "order": 12,
-          "paragraphEn": "",
-          "paragraphAr": "واكتشفت نانسي حبها لزراعة الطعام. وأرادت دراسة الزراعة. كما جعلت اللافتات والرسومات التي"
-        },
-        {
-          "order": 13,
-          "paragraphEn": "",
-          "paragraphAr": "التي Joi Lol رسمتها نهى الحديقة أكثر جمالا. وألهمت الآخرين لإضافة أعمال فنية في أنحاء المدرسة."
-        },
-        {
-          "order": 14,
-          "paragraphEn": "",
-          "paragraphAr": "كادت تستسلم. فقد أصبحت واحدة من أكثر البستانيين اجتهاد”!. حتى إنها كانت تأتي مبكر' لري\" النباتات."
-        },
-        {
-          "order": 15,
-          "paragraphEn": "The Secret of Good Leadership",
-          "paragraphAr": "سر القيادة الناجحة"
-        },
-        {
-          "order": 16,
-          "paragraphEn": "others—and with yourselt—helps people trust you. She © ie",
-          "paragraphAr": "had always talked about her limits and didn’t pretend to ا التو 7ل"
-        },
-        {
-          "order": 17,
-          "paragraphEn": "treated their school and each other. It had helped ete",
-          "paragraphAr": "students grow—not just as learners, but as people. ل"
-        },
-        {
-          "order": 18,
-          "paragraphEn": "",
-          "paragraphAr": "وهو أن الصدق مع الآخرين ومع نفسك ama أدركت زينة شيئًا"
-        },
-        {
-          "order": 19,
-          "paragraphEn": "",
-          "paragraphAr": "تد“ع يوم”! أنها كاملة أو alg الناس يثقون بك. فقد كانت دائم”! تتحدث بصراحة عن حدود قدراتها. Jory"
-        },
-        {
-          "order": 20,
-          "paragraphEn": "",
-          "paragraphAr": "بلا أخطاء. وهذا ما جعلها قائدة أفضل."
-        },
-        {
-          "order": 21,
-          "paragraphEn": "",
-          "paragraphAr": "يساعد الطلاب alg io) لقد غيتر مشروع الحديقة الطريقة التي يعامل بها الناس مدرستهم وبعضهم"
-        },
-        {
-          "order": 22,
-          "paragraphEn": "",
-          "paragraphAr": "Jaa على التعلم فقط. بل ساعدهم أيض” على النمو ليصبحوا أشخاص”ا"
-        },
-        {
-          "order": 23,
-          "paragraphEn": "Nelle 77",
-          "paragraphAr": "or التطلع للأمام"
-        },
-        {
-          "order": 24,
-          "paragraphEn": "",
-          "paragraphAr": "ey vocabulary ١"
-        },
-        {
-          "order": 25,
-          "paragraphEn": "oe ay s/t ae",
-          "paragraphAr": "إصار eae شجامة"
-        },
-        {
-          "order": 26,
-          "paragraphEn": "",
-          "paragraphAr": "‘students council RNCIerevmmoffer = عرض / يقدم عرض"
+          "paragraphEn": "Zeina realized something fundamental: true leadership is not about having all the answers or doing everything alone. It is about listening, admitting when you don't know, and empowering others to share their gifts. The garden had helped everyone grow as human beings.",
+          "paragraphAr": "أدركت زينة حقيقة جوهرية: القيادة الحقيقية ليست بامتلاك جميع الإجابات أو القيام بكل شيء بمفردك، بل هي الاستماع، والاعتراف بما لا تعرفه، وتمكين الآخرين من مشاركة مواهبهم. لقد ساعدت الحديقة الجميع على النمو والارتقاء كبشر."
         }
       ],
       "questionsAndAnswers": [
@@ -2617,108 +1687,18 @@
       "theText": [
         {
           "order": 1,
-          "paragraphEn": "The next year, Zeina was chosen president of the student 0 _",
-          "paragraphAr": "A م نا council. She learned a lot from the garden project, ry"
+          "paragraphEn": "The following year, Zeina was elected president of the student council. She brought the lessons from the garden project into her new role: collaborative leadership, active listening, and unwavering honesty during difficult moments.",
+          "paragraphAr": "في العام التالي، تم انتخاب زينة رئيسة لمجلس الطلاب. وحملت الدروس المستفادة من مشروع الحديقة إلى منصبها الجديد: القيادة التعاونية، وحسن الاستماع، والصدق الثابت في اللحظات الصعبة."
         },
         {
           "order": 2,
-          "paragraphEn": "honest when things were hard.",
-          "paragraphAr": "في العام التالي. تم اختيار زينة Gauss لمجلس الطلاب. لقد تعلمت"
+          "paragraphEn": "Her ambition expanded beyond the school borders. She helped launch an initiative to share seedlings and gardening advice with neighboring schools and the local youth center. 'When we work together with respect and determination,' she told the students, 'we can solve any challenge.'",
+          "paragraphAr": "واتسع طموحها ليتجاوز أسوار المدرسة؛ فساهمت في إطلاق مبادرة لمشاركة الشتلات وإرشادات الزراعة مع المدارس المجاورة ومركز الشباب المحلي. وقالت للطلاب: 'عندما نعمل معاً باحترام وعزيمة، يمكننا التغلب على أي تحدٍ.'"
         },
         {
           "order": 3,
-          "paragraphEn": "",
-          "paragraphAr": "AWE ae اركثير من مشروع الحديقة. aol معنى القيادة الحقيقية. فقد"
-        },
-        {
-          "order": 4,
-          "paragraphEn": "",
-          "paragraphAr": "أدركت أن القيادة لا تعني القيام بكل شيء بمفردها. بل تعني"
-        },
-        {
-          "order": 5,
-          "paragraphEn": "",
-          "paragraphAr": "مساعدة الآخرين والتحلي بالصدق عندما تصبح الأمور صعبة."
-        },
-        {
-          "order": 6,
-          "paragraphEn": "ABigger Dream",
-          "paragraphAr": "= = حلم أكبر"
-        },
-        {
-          "order": 7,
-          "paragraphEn": "Now, her ambition was bigger than just a garden. She | Soper we 3",
-          "paragraphAr": ",5-590 تكو wanted to help students believe they could change their"
-        },
-        {
-          "order": 8,
-          "paragraphEn": "determination, we can solve any problem.”",
-          "paragraphAr": "أصبح agab زينة الآن أكبر من مجرد إنشاء حديقة. فقد أرادت أن تساعد الطلاب على الإيمان بقدرتهم"
-        },
-        {
-          "order": 9,
-          "paragraphEn": "",
-          "paragraphAr": "على judi مدرستهم. وربما العالم aul"
-        },
-        {
-          "order": 10,
-          "paragraphEn": "",
-          "paragraphAr": "وقالت للطلاب الجدد: \"لكل شخص شيء مميز يمكنه أن يقدمه. وعندما نعمل 20' باحترام وإصرار."
-        },
-        {
-          "order": 11,
-          "paragraphEn": "",
-          "paragraphAr": "نستطيع حل أي مشكلة."
-        },
-        {
-          "order": 12,
-          "paragraphEn": "plants, painted benches, and created quiet spaces for © 25h",
-          "paragraphAr": "لك AD لذ reading. It became a symbol of what students could do"
-        },
-        {
-          "order": 13,
-          "paragraphEn": "",
-          "paragraphAr": "عات ار كيم together."
-        },
-        {
-          "order": 14,
-          "paragraphEn": "",
-          "paragraphAr": "9 د 0 Zeina had learned that growth doesn’t happen only in"
-        },
-        {
-          "order": 15,
-          "paragraphEn": "",
-          "paragraphAr": "glee eee 5 شل plants. It also happens in people— especially when they"
-        },
-        {
-          "order": 16,
-          "paragraphEn": "Small ideas can lead to big changes— when people believe in them.",
-          "paragraphAr": "استمرت الحديقة في .gaill وأضاف الطلاب المزيد من النباتات. وطلوا المقاعد. وأنشأوا أماكن هادئة"
-        },
-        {
-          "order": 17,
-          "paragraphEn": "",
-          "paragraphAr": "del All وأصبحت الحديقة رمز\"! لما يمكن للطلاب تحقيقه عندما يعملون no"
-        },
-        {
-          "order": 18,
-          "paragraphEn": "",
-          "paragraphAr": "وتعلمت زينة أن gail لا يحدث للنباتات فقط. بل يحدث أيض\"! للناس. ald عندما يتحلون بالشجاعة لتجربة"
-        },
-        {
-          "order": 19,
-          "paragraphEn": "",
-          "paragraphAr": "أشياء جديدة. وبالقوة عند مواجهة الصعوبات."
-        },
-        {
-          "order": 20,
-          "paragraphEn": "",
-          "paragraphAr": "وأدركت أنها ما زالت تملك الكثير لتتعلمه. لكنها عرفت أيض”ا dads مهمة: أن الأفكار الصفيرة يمكن أن"
-        },
-        {
-          "order": 21,
-          "paragraphEn": "",
-          "paragraphAr": "تؤدي إلى تغييرات كبيرة عندما يؤمن بها الناس."
+          "paragraphEn": "The garden continued to thrive year after year, with new generations adding decorative benches, reading corners, and solar-powered lights. Zeina knew that small ideas, when nurtured by teamwork and perseverance, truly have the power to transform the world.",
+          "paragraphAr": "وظلت الحديقة تزدهر عاماً بعد عام، حيث أضافت الأجيال الجديدة مقاعد مزخرفة وزوايا للقراءة ومصابيح تعمل بالطاقة الشمسية. وعرفت زينة أن الأفكار الصغيرة، عندما تُغذى بالعمل الجماعي والمثابرة، تملك حقاً القدرة على تغيير العالم."
         }
       ],
       "questionsAndAnswers": [
