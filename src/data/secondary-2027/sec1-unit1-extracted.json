@@ -13,38 +13,188 @@
     "teacher": "Mr. Habib El Rahman"
   },
   "keyVocabulary": [
-    { "word": "ancestor", "pos": "n", "meaningAr": "سلف / جد", "page": 4 },
-    { "word": "archaeologist", "pos": "n", "meaningAr": "عالم آثار", "page": 4 },
-    { "word": "beloved", "pos": "adj", "meaningAr": "محبوب", "page": 4 },
-    { "word": "determination", "pos": "n", "meaningAr": "إصرار / عزم", "page": 4 },
-    { "word": "harmony", "pos": "n", "meaningAr": "انسجام / تناغم", "page": 4 },
-    { "word": "inspiration", "pos": "n", "meaningAr": "إلهام", "page": 4 },
-    { "word": "merchant", "pos": "n", "meaningAr": "تاجر", "page": 4 },
-    { "word": "national identity", "pos": "n", "meaningAr": "هوية وطنية", "page": 4 },
-    { "word": "neighborhood", "pos": "n", "meaningAr": "حي / جوار", "page": 4 },
-    { "word": "pride", "pos": "n", "meaningAr": "فخر", "page": 4 },
-    { "word": "tourist guide", "pos": "n", "meaningAr": "المرشد السياحي", "page": 4 },
-    { "word": "monument", "pos": "n", "meaningAr": "أثر / معلم تذكاري", "page": 4 },
-    { "word": "heritage", "pos": "n", "meaningAr": "التراث", "page": 4 },
-    { "word": "civilization", "pos": "n", "meaningAr": "حضارة", "page": 4 },
-    { "word": "preservation", "pos": "n", "meaningAr": "الحفاظ", "page": 4 },
-    { "word": "crossroads", "pos": "n", "meaningAr": "مفترق طرق", "page": 4 },
-    { "word": "restore", "pos": "v", "meaningAr": "يستعيد / يرمم", "page": 4 },
-    { "word": "sacrifice", "pos": "n/v", "meaningAr": "تضحية / يضحي", "page": 4 },
-    { "word": "awareness", "pos": "n", "meaningAr": "وعي", "page": 4 },
-    { "word": "homeland", "pos": "n", "meaningAr": "الوطن", "page": 4 },
-    { "word": "legacy", "pos": "n", "meaningAr": "إرث / ميراث", "page": 4 },
-    { "word": "trade", "pos": "n", "meaningAr": "تجارة", "page": 4 }
+    {
+      "word": "ancestor",
+      "pos": "n",
+      "meaningAr": "سلف / جد",
+      "page": 4
+    },
+    {
+      "word": "archaeologist",
+      "pos": "n",
+      "meaningAr": "عالم آثار",
+      "page": 4
+    },
+    {
+      "word": "beloved",
+      "pos": "adj",
+      "meaningAr": "محبوب",
+      "page": 4
+    },
+    {
+      "word": "determination",
+      "pos": "n",
+      "meaningAr": "إصرار / عزم",
+      "page": 4
+    },
+    {
+      "word": "harmony",
+      "pos": "n",
+      "meaningAr": "انسجام / تناغم",
+      "page": 4
+    },
+    {
+      "word": "inspiration",
+      "pos": "n",
+      "meaningAr": "إلهام",
+      "page": 4
+    },
+    {
+      "word": "merchant",
+      "pos": "n",
+      "meaningAr": "تاجر",
+      "page": 4
+    },
+    {
+      "word": "national identity",
+      "pos": "n",
+      "meaningAr": "هوية وطنية",
+      "page": 4
+    },
+    {
+      "word": "neighborhood",
+      "pos": "n",
+      "meaningAr": "حي / جوار",
+      "page": 4
+    },
+    {
+      "word": "pride",
+      "pos": "n",
+      "meaningAr": "فخر",
+      "page": 4
+    },
+    {
+      "word": "tourist guide",
+      "pos": "n",
+      "meaningAr": "المرشد السياحي",
+      "page": 4
+    },
+    {
+      "word": "monument",
+      "pos": "n",
+      "meaningAr": "أثر / معلم تذكاري",
+      "page": 4
+    },
+    {
+      "word": "heritage",
+      "pos": "n",
+      "meaningAr": "التراث",
+      "page": 4
+    },
+    {
+      "word": "civilization",
+      "pos": "n",
+      "meaningAr": "حضارة",
+      "page": 4
+    },
+    {
+      "word": "preservation",
+      "pos": "n",
+      "meaningAr": "الحفاظ",
+      "page": 4
+    },
+    {
+      "word": "crossroads",
+      "pos": "n",
+      "meaningAr": "مفترق طرق",
+      "page": 4
+    },
+    {
+      "word": "restore",
+      "pos": "v",
+      "meaningAr": "يستعيد / يرمم",
+      "page": 4
+    },
+    {
+      "word": "sacrifice",
+      "pos": "n/v",
+      "meaningAr": "تضحية / يضحي",
+      "page": 4
+    },
+    {
+      "word": "awareness",
+      "pos": "n",
+      "meaningAr": "وعي",
+      "page": 4
+    },
+    {
+      "word": "homeland",
+      "pos": "n",
+      "meaningAr": "الوطن",
+      "page": 4
+    },
+    {
+      "word": "legacy",
+      "pos": "n",
+      "meaningAr": "إرث / ميراث",
+      "page": 4
+    },
+    {
+      "word": "trade",
+      "pos": "n",
+      "meaningAr": "تجارة",
+      "page": 4
+    }
   ],
   "definitions": [
-    { "word": "civilization", "meaningAr": "حضارة", "definitionEn": "a developed society with its own culture", "page": 4 },
-    { "word": "crossroads", "meaningAr": "ملتقى الطرق", "definitionEn": "a place where roads or cultures meet", "page": 4 },
-    { "word": "heritage", "meaningAr": "التراث", "definitionEn": "traditions and culture from the past", "page": 4 },
-    { "word": "merchant", "meaningAr": "تاجر", "definitionEn": "someone who buys and sells goods in large quantities", "page": 4 },
-    { "word": "monument", "meaningAr": "أثر / معلم تذكاري", "definitionEn": "important historical buildings or structures", "page": 4 },
-    { "word": "neighborhood", "meaningAr": "مجاورة / حي سكني", "definitionEn": "the area around where you live", "page": 4 },
-    { "word": "pride", "meaningAr": "الفخر", "definitionEn": "a feeling of being pleased about something you or your country has done well", "page": 4 },
-    { "word": "trade", "meaningAr": "تجارة / يتاجر", "definitionEn": "selling, or exchanging goods within a country or between countries", "page": 4 }
+    {
+      "word": "civilization",
+      "meaningAr": "حضارة",
+      "definitionEn": "a developed society with its own culture",
+      "page": 4
+    },
+    {
+      "word": "crossroads",
+      "meaningAr": "ملتقى الطرق",
+      "definitionEn": "a place where roads or cultures meet",
+      "page": 4
+    },
+    {
+      "word": "heritage",
+      "meaningAr": "التراث",
+      "definitionEn": "traditions and culture from the past",
+      "page": 4
+    },
+    {
+      "word": "merchant",
+      "meaningAr": "تاجر",
+      "definitionEn": "someone who buys and sells goods in large quantities",
+      "page": 4
+    },
+    {
+      "word": "monument",
+      "meaningAr": "أثر / معلم تذكاري",
+      "definitionEn": "important historical buildings or structures",
+      "page": 4
+    },
+    {
+      "word": "neighborhood",
+      "meaningAr": "مجاورة / حي سكني",
+      "definitionEn": "the area around where you live",
+      "page": 4
+    },
+    {
+      "word": "pride",
+      "meaningAr": "الفخر",
+      "definitionEn": "a feeling of being pleased about something you or your country has done well",
+      "page": 4
+    },
+    {
+      "word": "trade",
+      "meaningAr": "تجارة / يتاجر",
+      "definitionEn": "selling, or exchanging goods within a country or between countries",
+      "page": 4
+    }
   ],
   "readingPassages": [
     {
@@ -65,7 +215,12 @@
       "questionType": "mcq",
       "domainCategory": "Vocabulary",
       "questionText": "We watched the smoke ________ slowly into the clear blue sky from the campfire.",
-      "options": ["shape", "gather", "rise", "restore"],
+      "options": [
+        "rise",
+        "shape",
+        "gather",
+        "restore"
+      ],
       "correctAnswer": "rise",
       "difficulty": "Medium",
       "points": 1
@@ -80,7 +235,12 @@
       "questionType": "mcq",
       "domainCategory": "Vocabulary",
       "questionText": "It is important to ________ your daily expenses if you want to manage your money well.",
-      "options": ["record", "contribute", "protect", "inspire"],
+      "options": [
+        "contribute",
+        "protect",
+        "inspire",
+        "record"
+      ],
       "correctAnswer": "record",
       "difficulty": "Medium",
       "points": 1
@@ -95,7 +255,12 @@
       "questionType": "mcq",
       "domainCategory": "Vocabulary",
       "questionText": "The natural ________ of the desert at sunset is truly breathtaking for photographers.",
-      "options": ["progress", "growth", "beauty", "knowledge"],
+      "options": [
+        "progress",
+        "beauty",
+        "growth",
+        "knowledge"
+      ],
       "correctAnswer": "beauty",
       "difficulty": "Easy",
       "points": 1
@@ -110,7 +275,12 @@
       "questionType": "mcq",
       "domainCategory": "Vocabulary",
       "questionText": "Modern ________ use sustainable materials to design buildings that are eco-friendly.",
-      "options": ["architects", "historians", "archaeologists", "merchants"],
+      "options": [
+        "architects",
+        "historians",
+        "archaeologists",
+        "merchants"
+      ],
       "correctAnswer": "architects",
       "difficulty": "Medium",
       "points": 1
@@ -125,7 +295,12 @@
       "questionType": "mcq",
       "domainCategory": "Vocabulary",
       "questionText": "Protecting the environment for future ________ is a global responsibility.",
-      "options": ["moments", "events", "generations", "monuments"],
+      "options": [
+        "generations",
+        "monuments",
+        "moments",
+        "events"
+      ],
       "correctAnswer": "generations",
       "difficulty": "Medium",
       "points": 1
@@ -140,7 +315,12 @@
       "questionType": "mcq",
       "domainCategory": "Vocabulary",
       "questionText": "The country's ________ depends heavily on its exports and the tourism industry.",
-      "options": ["history", "economy", "culture", "progress"],
+      "options": [
+        "progress",
+        "history",
+        "economy",
+        "culture"
+      ],
       "correctAnswer": "economy",
       "difficulty": "Medium",
       "points": 1
@@ -155,7 +335,12 @@
       "questionType": "mcq",
       "domainCategory": "Vocabulary",
       "questionText": "We must all ________ to the protection of our natural world before it is too late.",
-      "options": ["contribute", "exchange", "require", "restore"],
+      "options": [
+        "exchange",
+        "require",
+        "contribute",
+        "restore"
+      ],
       "correctAnswer": "contribute",
       "difficulty": "Medium",
       "points": 1
@@ -170,7 +355,12 @@
       "questionType": "mcq",
       "domainCategory": "Vocabulary",
       "questionText": "The scientist published his latest ________ to the study of rare plant species.",
-      "options": ["preservation", "inspiration", "determination", "contribution"],
+      "options": [
+        "preservation",
+        "inspiration",
+        "determination",
+        "contribution"
+      ],
       "correctAnswer": "contribution",
       "difficulty": "Hard",
       "points": 1
@@ -185,7 +375,12 @@
       "questionType": "mcq",
       "domainCategory": "Vocabulary",
       "questionText": "Overcoming difficult ________ is what helps a person grow stronger and wiser.",
-      "options": ["moments", "events", "challenges", "monuments"],
+      "options": [
+        "moments",
+        "events",
+        "monuments",
+        "challenges"
+      ],
       "correctAnswer": "challenges",
       "difficulty": "Medium",
       "points": 1
@@ -200,7 +395,12 @@
       "questionType": "mcq",
       "domainCategory": "Vocabulary",
       "questionText": "It is important for children to learn how to ________ turns and share their toys with others.",
-      "options": ["keep", "hold", "find", "take"],
+      "options": [
+        "keep",
+        "hold",
+        "take",
+        "find"
+      ],
       "correctAnswer": "take",
       "difficulty": "Easy",
       "points": 1
@@ -215,7 +415,12 @@
       "questionType": "mcq",
       "domainCategory": "Vocabulary",
       "questionText": "The architect's ________ to the city's skyline is visible from miles away.",
-      "options": ["contributing", "contribute", "contribution", "contributor"],
+      "options": [
+        "contributing",
+        "contribute",
+        "contribution",
+        "contributor"
+      ],
       "correctAnswer": "contribution",
       "difficulty": "Medium",
       "points": 1
@@ -230,7 +435,12 @@
       "questionType": "mcq",
       "domainCategory": "Vocabulary",
       "questionText": "Modern Egyptians take great ________ in their rich history and cultural achievements.",
-      "options": ["dignity", "pride", "value", "status"],
+      "options": [
+        "dignity",
+        "pride",
+        "value",
+        "status"
+      ],
       "correctAnswer": "pride",
       "difficulty": "Medium",
       "points": 1
@@ -245,7 +455,12 @@
       "questionType": "mcq",
       "domainCategory": "Vocabulary",
       "questionText": "Neglecting the maintenance of historic buildings can ________ to their permanent loss.",
-      "options": ["lead", "cause", "move", "bring"],
+      "options": [
+        "move",
+        "lead",
+        "bring",
+        "cause"
+      ],
       "correctAnswer": "lead",
       "difficulty": "Medium",
       "points": 1
@@ -260,7 +475,12 @@
       "questionType": "mcq",
       "domainCategory": "Vocabulary",
       "questionText": "You ought to ________ more pride in your country.",
-      "options": ["take", "give", "drop", "swell"],
+      "options": [
+        "take",
+        "give",
+        "drop",
+        "swell"
+      ],
       "correctAnswer": "take",
       "difficulty": "Medium",
       "points": 1
@@ -275,7 +495,12 @@
       "questionType": "mcq",
       "domainCategory": "Vocabulary",
       "questionText": "The High Dam was built to protect Egypt ________ floods.",
-      "options": ["on", "with", "of", "from"],
+      "options": [
+        "on",
+        "from",
+        "with",
+        "of"
+      ],
       "correctAnswer": "from",
       "difficulty": "Easy",
       "points": 1
@@ -290,7 +515,12 @@
       "questionType": "mcq",
       "domainCategory": "Vocabulary",
       "questionText": "Many cultural traditions and values are passed ________ from parents to their children.",
-      "options": ["through", "across", "over", "down"],
+      "options": [
+        "across",
+        "over",
+        "through",
+        "down"
+      ],
       "correctAnswer": "down",
       "difficulty": "Medium",
       "points": 1
@@ -305,7 +535,13 @@
       "questionType": "mcq_5_options",
       "domainCategory": "Vocabulary",
       "questionText": "Access to clean water is essential for the health of a community. The synonyms of 'essential' are ________.",
-      "options": ["optional", "necessary", "secondary", "important", "trivial"],
+      "options": [
+        "optional",
+        "necessary",
+        "secondary",
+        "important",
+        "trivial"
+      ],
       "correctAnswer": "necessary, important",
       "difficulty": "Hard",
       "points": 2,
@@ -321,7 +557,13 @@
       "questionType": "mcq_5_options",
       "domainCategory": "Vocabulary",
       "questionText": "The explorers were fascinated by the ancient structures they found in the jungle. The synonyms of 'ancient' are ________.",
-      "options": ["old", "modern", "antique", "current", "recent"],
+      "options": [
+        "old",
+        "modern",
+        "antique",
+        "current",
+        "recent"
+      ],
       "correctAnswer": "old, antique",
       "difficulty": "Medium",
       "points": 2,
@@ -337,7 +579,13 @@
       "questionType": "mcq_5_options",
       "domainCategory": "Vocabulary",
       "questionText": "She has spent her entire life seeking knowledge through travel and study. The synonyms of 'knowledge' are ________.",
-      "options": ["learning", "ignorance", "illiteracy", "wisdom", "confusion"],
+      "options": [
+        "learning",
+        "ignorance",
+        "illiteracy",
+        "wisdom",
+        "confusion"
+      ],
       "correctAnswer": "learning, wisdom",
       "difficulty": "Medium",
       "points": 2,
@@ -353,7 +601,13 @@
       "questionType": "mcq_5_options",
       "domainCategory": "Vocabulary",
       "questionText": "The team worked in perfect harmony to complete the project ahead of schedule. The synonyms of 'harmony' are ________.",
-      "options": ["conflict", "disagreement", "agreement", "coordination", "dispute"],
+      "options": [
+        "conflict",
+        "disagreement",
+        "agreement",
+        "coordination",
+        "dispute"
+      ],
       "correctAnswer": "agreement, coordination",
       "difficulty": "Medium",
       "points": 2,
@@ -369,7 +623,13 @@
       "questionType": "mcq_5_options",
       "domainCategory": "Vocabulary",
       "questionText": "There has been a significant improvement in his test scores this semester. The synonyms of 'significant' are ________.",
-      "options": ["minor", "meaningful", "important", "trivial", "slight"],
+      "options": [
+        "minor",
+        "meaningful",
+        "important",
+        "trivial",
+        "slight"
+      ],
       "correctAnswer": "meaningful, important",
       "difficulty": "Medium",
       "points": 2,
@@ -385,7 +645,13 @@
       "questionType": "mcq_5_options",
       "domainCategory": "Vocabulary",
       "questionText": "The divers were relieved to find that the rare coral reef was still alive. The antonyms of 'alive' are ________.",
-      "options": ["dead", "breathing", "living", "lifeless", "active"],
+      "options": [
+        "dead",
+        "breathing",
+        "living",
+        "lifeless",
+        "active"
+      ],
       "correctAnswer": "dead, lifeless",
       "difficulty": "Easy",
       "points": 2,
@@ -401,7 +667,13 @@
       "questionType": "mcq_5_options",
       "domainCategory": "Vocabulary",
       "questionText": "The citizens stood united to protect their neighborhood from the storm. The antonyms of 'united' are ________.",
-      "options": ["divided", "together", "joined", "separate", "combined"],
+      "options": [
+        "divided",
+        "together",
+        "joined",
+        "separate",
+        "combined"
+      ],
       "correctAnswer": "divided, separate",
       "difficulty": "Medium",
       "points": 2,
@@ -417,7 +689,13 @@
       "questionType": "mcq_5_options",
       "domainCategory": "Vocabulary",
       "questionText": "The museum contains many historical artifacts from the nineteenth century. The antonyms of 'historical' are ________.",
-      "options": ["current", "modern", "past", "old", "antique"],
+      "options": [
+        "current",
+        "modern",
+        "past",
+        "old",
+        "antique"
+      ],
       "correctAnswer": "current, modern",
       "difficulty": "Medium",
       "points": 2,
@@ -433,7 +711,13 @@
       "questionType": "mcq_5_options",
       "domainCategory": "Vocabulary",
       "questionText": "The team took great pride in their victory. The antonym of 'pride' is ________.",
-      "options": ["dishonor", "honor", "respect", "shame", "dignity"],
+      "options": [
+        "dishonor",
+        "honor",
+        "respect",
+        "shame",
+        "dignity"
+      ],
       "correctAnswer": "shame",
       "difficulty": "Medium",
       "points": 1

@@ -645,10 +645,10 @@
           "id": "mcq_sec2_ch1_1",
           "question": "What major discovery or turning point defines Chapter 1 (A Dream of Adventure)?",
           "options": [
-            "Edward Malone is a 23-year-old reporter who wants to prove his courage and find a",
+            "The team loses all their scientific instruments in London",
             "The explorers decide to abandon the quest and head home",
             "Professor Challenger admits that all his theories were false",
-            "The team loses all their scientific instruments in London"
+            "Edward Malone is a 23-year-old reporter who wants to prove his courage and find a"
           ],
           "correctAnswer": "Edward Malone is a 23-year-old reporter who wants to prove his courage and find a",
           "explanation": "Chapter events advance the scientific quest through evidence, teamwork, and bravery."
@@ -1351,9 +1351,9 @@
           "id": "mcq_sec2_ch2_1",
           "question": "What major discovery or turning point defines Chapter 2 (Professor Challenger's Secret)?",
           "options": [
-            "Professor Challenger questioned Malone about the scientific article.",
             "The explorers decide to abandon the quest and head home",
             "Professor Challenger admits that all his theories were false",
+            "Professor Challenger questioned Malone about the scientific article.",
             "The team loses all their scientific instruments in London"
           ],
           "correctAnswer": "Professor Challenger questioned Malone about the scientific article.",
@@ -2093,9 +2093,9 @@
           "id": "mcq_sec2_ch3_1",
           "question": "What major discovery or turning point defines Chapter 3 (The Expedition is Chosen)?",
           "options": [
-            "Professor Challenger immediately stood up when the speaker talked about prehistoric",
             "The explorers decide to abandon the quest and head home",
             "Professor Challenger admits that all his theories were false",
+            "Professor Challenger immediately stood up when the speaker talked about prehistoric",
             "The team loses all their scientific instruments in London"
           ],
           "correctAnswer": "Professor Challenger immediately stood up when the speaker talked about prehistoric",
@@ -2105,10 +2105,10 @@
           "id": "mcq_sec2_ch3_2",
           "question": "How does the team overcome the perilous challenges in this chapter?",
           "options": [
-            "Through complementary expertise: scientific insight, tactical hunting skills, and observant courage",
-            "By relying entirely on luck without any preparation",
             "By dividing and competing against one another",
-            "By retreating whenever danger appears"
+            "By retreating whenever danger appears",
+            "By relying entirely on luck without any preparation",
+            "Through complementary expertise: scientific insight, tactical hunting skills, and observant courage"
           ],
           "correctAnswer": "Through complementary expertise: scientific insight, tactical hunting skills, and observant courage",
           "explanation": "The characters' diverse talents are essential to their collective survival and success."
@@ -2686,10 +2686,10 @@
           "id": "mcq_sec2_ch4_1",
           "question": "What major discovery or turning point defines Chapter 4 (Into the Unknown)?",
           "options": [
+            "The team loses all their scientific instruments in London",
             "Lord John hired a steam boat called the Esmeralda to take the group up the Amazon River.",
             "The explorers decide to abandon the quest and head home",
-            "Professor Challenger admits that all his theories were false",
-            "The team loses all their scientific instruments in London"
+            "Professor Challenger admits that all his theories were false"
           ],
           "correctAnswer": "Lord John hired a steam boat called the Esmeralda to take the group up the Amazon River.",
           "explanation": "Chapter events advance the scientific quest through evidence, teamwork, and bravery."
@@ -3283,8 +3283,8 @@
           "id": "mcq_sec2_ch5_1",
           "question": "What major discovery or turning point defines Chapter 5 (Trapped in the Lost World)?",
           "options": [
-            "Our first job was to look for water and choose a safe place for the camp.",
             "The explorers decide to abandon the quest and head home",
+            "Our first job was to look for water and choose a safe place for the camp.",
             "Professor Challenger admits that all his theories were false",
             "The team loses all their scientific instruments in London"
           ],
@@ -3295,8 +3295,8 @@
           "id": "mcq_sec2_ch5_2",
           "question": "How does the team overcome the perilous challenges in this chapter?",
           "options": [
-            "Through complementary expertise: scientific insight, tactical hunting skills, and observant courage",
             "By relying entirely on luck without any preparation",
+            "Through complementary expertise: scientific insight, tactical hunting skills, and observant courage",
             "By dividing and competing against one another",
             "By retreating whenever danger appears"
           ],

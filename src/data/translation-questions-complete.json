@@ -5,10 +5,10 @@
     "questionText": "اختر الترجمة الصحيحة للجملة التالية:\n\"لقد فاز الفريق القومي المصري بكأس أفريقيا وأسعد كل المصريين.\"",
     "instructions": "اختر الترجمة الإنجليزية الأدق لقواعد وأزمنة الجملة",
     "options": [
-      "The Egyptian national team has won the Africa Cup and delighted all Egyptians.",
-      "The Egyptian national team had won Africa Cup and delighted all Egyptians.",
       "The Egyptian national team won Africa Cup and will delight all Egyptians.",
-      "The Egyptian national team is winning the African Cup and delighted every Egyptian."
+      "The Egyptian national team is winning the African Cup and delighted every Egyptian.",
+      "The Egyptian national team has won the Africa Cup and delighted all Egyptians.",
+      "The Egyptian national team had won Africa Cup and delighted all Egyptians."
     ],
     "modelAnswer": "The Egyptian national team has won the Africa Cup and delighted all Egyptians.",
     "altAnswers": [
@@ -30,9 +30,9 @@
     "instructions": "اختر الترجمة التي تعبر عن المعنى الدقيق للفعل 'يدين بـ'",
     "options": [
       "World civilization owes a great deal to the Arabs.",
-      "World civilization owes with much to the Arabs.",
       "World civilization has debt from the Arabs greatly.",
-      "The world civilization is owing a lot of the Arabs."
+      "The world civilization is owing a lot of the Arabs.",
+      "World civilization owes with much to the Arabs."
     ],
     "modelAnswer": "World civilization owes a great deal to the Arabs.",
     "altAnswers": [
@@ -53,10 +53,10 @@
     "questionText": "Choose the best Arabic translation:\n\"Distant learning makes use of educational experts in various branches of knowledge all over the world.\"",
     "instructions": "اختر الصياغة العربية الأكثر فصاحة وسلاسة",
     "options": [
+      "استفاد التعليم البعيد من العلماء في مجالات شتى على مستوى العالم.",
       "يستفيد التعلم عن بعد من خبراء التعليم في شتى فروع المعرفة حول العالم.",
       "يجعل التعلم البعيد استخدام خبراء التربية في فروع العلم العالمية.",
-      "التعليم بالمسافة يستخدم الخبراء التعليميين في كل مكان في العالم.",
-      "استفاد التعليم البعيد من العلماء في مجالات شتى على مستوى العالم."
+      "التعليم بالمسافة يستخدم الخبراء التعليميين في كل مكان في العالم."
     ],
     "modelAnswer": "يستفيد التعلم عن بعد من خبراء التعليم في شتى فروع المعرفة حول العالم.",
     "altAnswers": [

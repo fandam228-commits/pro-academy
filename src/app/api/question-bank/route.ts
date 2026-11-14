@@ -5,6 +5,7 @@ import { NextResponse } from "next/server";
 import { ensureDbSetup } from "@/db/migrate-and-seed";
 import { requireRoles, getAuthContext } from "@/lib/security";
 import { answersMatch, normalizedAnswerSet } from "@/lib/question-grading.mjs";
+import { rebalanceQuestionSet } from "@/lib/mcq-balancer.mjs";
 
 export async function GET(req: Request) {
   await ensureDbSetup();
@@ -421,6 +422,10 @@ export async function POST(req: Request) {
         }
       }
 
+      // Apply controlled balancing to eliminate option letter bias across the generated exam
+      const { rebalancedQuestions } = rebalanceQuestionSet(selected, { shuffleDistractors: true });
+      const finalQuestions = rebalancedQuestions.length > 0 ? rebalancedQuestions : selected;
+
       const examId = `exam_${Date.now()}`;
       const examObj = {
         id: examId,
@@ -430,8 +435,8 @@ export async function POST(req: Request) {
         grade: grade || "Third Secondary (Baccalaureate)",
         config: { questionCount: totalNum, easyPercent, mediumPercent, hardPercent, grammarRatio, stage, grade, curriculum, term, unit, domainCategory, questionType, difficulty, source, lesson, section, grammarTopic },
         questionIds: Array.from(usedIds),
-        questionsData: selected,
-        totalPoints: selected.reduce((sum, q) => sum + (q.points || 10), 0),
+        questionsData: finalQuestions,
+        totalPoints: finalQuestions.reduce((sum: number, q: any) => sum + (q.points || 10), 0),
         durationMinutes: Math.round(totalNum * 2.5),
       };
 
@@ -440,7 +445,7 @@ export async function POST(req: Request) {
       // Keep the answer key server-side; students receive only the playable exam.
       const safeExam = {
         ...examObj,
-        questionsData: selected.map(({ correctAnswer, ...q }) => q),
+        questionsData: finalQuestions.map(({ correctAnswer, ...q }: any) => q),
       };
 
       return NextResponse.json({

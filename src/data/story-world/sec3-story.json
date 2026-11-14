@@ -554,10 +554,10 @@
           "id": "mcq_sec3_ch1_1",
           "question": "What is the central focus of Chapter 1 (The Arrival at Marseilles)?",
           "options": [
-            "Edmond Dantés proudly returned to Marseille after safely commanding the Pharaon",
             "Edmond decides to leave France forever without facing his enemies",
             "The Pharaon ship is sold to a foreign country",
-            "Villefort resigns from his position as deputy prosecutor"
+            "Villefort resigns from his position as deputy prosecutor",
+            "Edmond Dantés proudly returned to Marseille after safely commanding the Pharaon"
           ],
           "correctAnswer": "Edmond Dantés proudly returned to Marseille after safely commanding the Pharaon",
           "explanation": "Edmond's journey reflects moral resilience and enduring faith in ultimate justice."
@@ -566,8 +566,8 @@
           "id": "mcq_sec3_ch1_2",
           "question": "How does Edmond Dantés demonstrate his character in this chapter?",
           "options": [
-            "Through unwavering loyalty, honesty, and moral resilience",
             "By seeking violent revenge immediately without thought",
+            "Through unwavering loyalty, honesty, and moral resilience",
             "By surrendering completely to hopelessness and giving up",
             "By accepting money to abandon his principles"
           ],
@@ -1601,9 +1601,9 @@
           "id": "mcq_sec3_ch2_2",
           "question": "How does Edmond Dantés demonstrate his character in this chapter?",
           "options": [
-            "Through unwavering loyalty, honesty, and moral resilience",
             "By seeking violent revenge immediately without thought",
             "By surrendering completely to hopelessness and giving up",
+            "Through unwavering loyalty, honesty, and moral resilience",
             "By accepting money to abandon his principles"
           ],
           "correctAnswer": "Through unwavering loyalty, honesty, and moral resilience",
@@ -2058,10 +2058,10 @@
           "id": "mcq_sec3_ch3_1",
           "question": "What is the central focus of Chapter 3 (Betrayal and Arrest)?",
           "options": [
-            "Danglars and Fernand twisted Edmond's loyalty into treason through a clever letter of",
-            "Edmond decides to leave France forever without facing his enemies",
             "The Pharaon ship is sold to a foreign country",
-            "Villefort resigns from his position as deputy prosecutor"
+            "Villefort resigns from his position as deputy prosecutor",
+            "Edmond decides to leave France forever without facing his enemies",
+            "Danglars and Fernand twisted Edmond's loyalty into treason through a clever letter of"
           ],
           "correctAnswer": "Danglars and Fernand twisted Edmond's loyalty into treason through a clever letter of",
           "explanation": "Edmond's journey reflects moral resilience and enduring faith in ultimate justice."
@@ -2070,10 +2070,10 @@
           "id": "mcq_sec3_ch3_2",
           "question": "How does Edmond Dantés demonstrate his character in this chapter?",
           "options": [
-            "Through unwavering loyalty, honesty, and moral resilience",
+            "By accepting money to abandon his principles",
             "By seeking violent revenge immediately without thought",
-            "By surrendering completely to hopelessness and giving up",
-            "By accepting money to abandon his principles"
+            "Through unwavering loyalty, honesty, and moral resilience",
+            "By surrendering completely to hopelessness and giving up"
           ],
           "correctAnswer": "Through unwavering loyalty, honesty, and moral resilience",
           "explanation": "Edmond consistently maintains his dignity and integrity, holding fast to his core values."
@@ -2485,8 +2485,8 @@
           "id": "mcq_sec3_ch4_1",
           "question": "What is the central focus of Chapter 4 (The Prison of Chateau d'If)?",
           "options": [
-            "Inside the Chateau 011, Edmond lost hope as lonely days blended into endless despair",
             "Edmond decides to leave France forever without facing his enemies",
+            "Inside the Chateau 011, Edmond lost hope as lonely days blended into endless despair",
             "The Pharaon ship is sold to a foreign country",
             "Villefort resigns from his position as deputy prosecutor"
           ],
@@ -2497,10 +2497,10 @@
           "id": "mcq_sec3_ch4_2",
           "question": "How does Edmond Dantés demonstrate his character in this chapter?",
           "options": [
-            "Through unwavering loyalty, honesty, and moral resilience",
             "By seeking violent revenge immediately without thought",
             "By surrendering completely to hopelessness and giving up",
-            "By accepting money to abandon his principles"
+            "By accepting money to abandon his principles",
+            "Through unwavering loyalty, honesty, and moral resilience"
           ],
           "correctAnswer": "Through unwavering loyalty, honesty, and moral resilience",
           "explanation": "Edmond consistently maintains his dignity and integrity, holding fast to his core values."
@@ -2949,9 +2949,9 @@
           "id": "mcq_sec3_ch5_1",
           "question": "What is the central focus of Chapter 5 (A Ray of Hope)?",
           "options": [
-            "Abbé Faria taught Edmond languages, history, geography, mathematics, and",
             "Edmond decides to leave France forever without facing his enemies",
             "The Pharaon ship is sold to a foreign country",
+            "Abbé Faria taught Edmond languages, history, geography, mathematics, and",
             "Villefort resigns from his position as deputy prosecutor"
           ],
           "correctAnswer": "Abbé Faria taught Edmond languages, history, geography, mathematics, and",
@@ -3442,8 +3442,8 @@
           "id": "mcq_sec3_ch6_1",
           "question": "What is the central focus of Chapter 6 (The Secret of the Treasure)?",
           "options": [
-            "Atter Abbé Faria’s death, Edmond promised to find the Monte Cristo treasure and justice",
             "Edmond decides to leave France forever without facing his enemies",
+            "Atter Abbé Faria’s death, Edmond promised to find the Monte Cristo treasure and justice",
             "The Pharaon ship is sold to a foreign country",
             "Villefort resigns from his position as deputy prosecutor"
           ],
@@ -3455,9 +3455,9 @@
           "question": "How does Edmond Dantés demonstrate his character in this chapter?",
           "options": [
             "Through unwavering loyalty, honesty, and moral resilience",
+            "By accepting money to abandon his principles",
             "By seeking violent revenge immediately without thought",
-            "By surrendering completely to hopelessness and giving up",
-            "By accepting money to abandon his principles"
+            "By surrendering completely to hopelessness and giving up"
           ],
           "correctAnswer": "Through unwavering loyalty, honesty, and moral resilience",
           "explanation": "Edmond consistently maintains his dignity and integrity, holding fast to his core values."
