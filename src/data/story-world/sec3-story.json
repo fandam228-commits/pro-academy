@@ -574,6 +574,136 @@
           "correctAnswer": "Through unwavering loyalty, honesty, and moral resilience",
           "explanation": "Edmond consistently maintains his dignity and integrity, holding fast to his core values."
         }
+      ],
+      "importantCharacters": [
+        {
+          "nameEn": "Edmond Dantès",
+          "nameAr": "إدموند دانتس",
+          "roleEn": "First Mate of the Pharaon; nineteen-year-old skilled and honest sailor.",
+          "roleAr": "مساعد قبطان سفينة فاراون؛ بحار شاب شجاع في التاسعة عشرة من عمره يتسم بالنزاهة والمهارة.",
+          "actionsEn": "Brought the ship safely into port after the captain's death; was promised the captaincy by Monsieur Morrel.",
+          "actionsAr": "قاد السفينة ببراعة إلى الميناء بعد وفاة قبطانها، وتلقى وعداً من السيد موريل بتعيينه قبطاناً رسمياً."
+        },
+        {
+          "nameEn": "Mercédès",
+          "nameAr": "ميرسيدس",
+          "roleEn": "Edmond's beautiful Catalane fiancée, devoted and deeply in love.",
+          "roleAr": "خطيبة إدموند الكتالونية الجميلة؛ مخلصة وتكن له حباً عميقاً صادقاً.",
+          "actionsEn": "Welcomed Edmond warmly at the dock, celebrating his return and impending wedding.",
+          "actionsAr": "استقبلت إدموند بحرارة عند الرصيف واحتفلت بعودته سالماً واقتراب موعد زفافهما."
+        },
+        {
+          "nameEn": "Louis Dantès (Father)",
+          "nameAr": "لويس دانتس (الوالد)",
+          "roleEn": "Edmond's elderly, loving father who sacrificed his own comforts for his son.",
+          "roleAr": "والد إدموند المسن المحب الذي ضحى بكل ما يملك في سبيل ابنه.",
+          "actionsEn": "Embraced his son with tears of joy upon hearing news of his upcoming promotion.",
+          "actionsAr": "عانق ابنه بدموع الفرح فور سماعه نبأ ترقيته المرتقبة لقيادة السفينة."
+        },
+        {
+          "nameEn": "Danglars",
+          "nameAr": "دانجلار",
+          "roleEn": "Ship's purser; envious, calculating, and resentful of Edmond's promotion.",
+          "roleAr": "المسؤول المالي بالسفينة؛ حقود ومخادع ويغلي قلبه حسداً من ترقية إدموند.",
+          "actionsEn": "Plotted with Fernand to destroy Edmond's happiness by writing a false accusation letter.",
+          "actionsAr": "تآمر مع فرناند لتدمير سعادة إدموند عبر صياغة رسالة اتهام كيدية بالخيانة العظمى."
+        },
+        {
+          "nameEn": "Fernand Mondego",
+          "nameAr": "فرناند مونديجو",
+          "roleEn": "Mercédès's cousin; fiercely jealous and desperate to marry her.",
+          "roleAr": "ابن عم ميرسيدس؛ شديد الغيرة ويتمنى الزواج منها بأي ثمن.",
+          "actionsEn": "Agreed to deliver the treacherous letter to ensure Edmond's removal.",
+          "actionsAr": "وافق على تسليم الرسالة الخبيثة للمدعي العام للتخلص من إدموند والاستحواذ على ميرسيدس."
+        },
+        {
+          "nameEn": "Monsieur Morrel",
+          "nameAr": "السيد موريل",
+          "roleEn": "Wealthy and honorable shipowner of the Pharaon.",
+          "roleAr": "مالك سفينة فاراون التاجر النبيل والشريف.",
+          "actionsEn": "Praised Edmond's courage and promised him the official captaincy of the ship.",
+          "actionsAr": "أثنى على شجاعة إدموند وكفاءته ووعده بتعيينه قبطاناً رسمياً للسفينة."
+        }
+      ],
+      "characterRelationships": [
+        {
+          "characters": [
+            "Edmond Dantès",
+            "Mercédès"
+          ],
+          "relationEn": "Betrothed Lovers",
+          "relationAr": "خطيبان متحابان",
+          "detailsEn": "United by pure love and lifelong devotion; planning their betrothal feast before sudden tragedy strikes.",
+          "detailsAr": "يجمعهما حب نقي ووفاء متبادل، وكانا يستعدان لحفل خطوبتهما قبل أن تعصف بهما المؤامرة."
+        },
+        {
+          "characters": [
+            "Edmond Dantès",
+            "Louis Dantès"
+          ],
+          "relationEn": "Devoted Father & Son",
+          "relationAr": "أب وابنه ببر عميق",
+          "detailsEn": "Edmond's primary care is providing for his elderly father, who wept with immense pride.",
+          "detailsAr": "اهتمام إدموند الأول كان رعاية والده العجوز، الذي بكى فخراً واعتزازاً بنجاح ابنه."
+        },
+        {
+          "characters": [
+            "Danglars",
+            "Fernand Mondego"
+          ],
+          "relationEn": "Conspirators in Malice",
+          "relationAr": "شريكا مؤامرة بدافع الحقد",
+          "detailsEn": "United by mutual envy of Edmond's success: Danglars craves status, Fernand craves Mercédès.",
+          "detailsAr": "جمعهما الحقد المشترك على نجاح إدموند: دانجلار يطمع في المنصب، وفرناند يطمع في ميرسيدس."
+        }
+      ],
+      "keyDialogues": [
+        {
+          "speakerEn": "Mercédès",
+          "speakerAr": "ميرسيدس",
+          "quoteEn": "Edmond, you are safe. I prayed for you every day.",
+          "quoteAr": "إدموند، لقد عدت سالماً. كنت أدعو لك كل يوم.",
+          "contextEn": "Spoken with tears of joy upon Edmond's return at the Marseille harbor.",
+          "contextAr": "قالتها بدموع الفرح فور وصول إدموند إلى رصيف ميناء مرسيليا."
+        },
+        {
+          "speakerEn": "Edmond Dantès",
+          "speakerAr": "إدموند دانتس",
+          "quoteEn": "At nineteen, I shall have my own command! Monsieur Morrel has promised to make me captain.",
+          "quoteAr": "في التاسعة عشرة من عمري سأتولى قيادة سفينتي الخاصة! لقد وعدني السيد موريل بتعييني قبطاناً.",
+          "contextEn": "Edmond sharing the joyful news with his father and fiancée.",
+          "contextAr": "إدموند يزف الخبر السار لوالده وخطيبته بعد رسو السفينة بسلام."
+        },
+        {
+          "speakerEn": "Fernand Mondego",
+          "speakerAr": "فرناند مونديجو",
+          "quoteEn": "Edmond has everything: Mercédès, success, the captaincy. While I—who has loved her since childhood—am left with nothing.",
+          "quoteAr": "إدموند نال كل شيء: ميرسيدس، النجاح، وقيادة السفينة. بينما أنا الذي أحببتها منذ الطفولة لم أنل شيئاً.",
+          "contextEn": "Fernand expressing his bitter envy to Danglars at the tavern.",
+          "contextAr": "فرناند يعبر عن غيرته وحقده لدانجلار في المقهى تمهيداً للتآمر."
+        },
+        {
+          "speakerEn": "Danglars",
+          "speakerAr": "دانجلار",
+          "quoteEn": "What if Edmond were accused of being a traitor? What if someone wrote a letter to the authorities, claiming he carries messages from Napoleon's supporters?",
+          "quoteAr": "ماذا لو اتهم إدموند بالخيانة؟ ماذا لو كتب أحدهم رسالة للسلطات يدعي فيها أنه يحمل رسائل من أنصار نابليون؟",
+          "contextEn": "Danglars proposing the deadly conspiracy to frame innocent Edmond.",
+          "contextAr": "دانجلار يقترح المؤامرة الخبيثة لتلفيق تهمة الخيانة لإدموند البريء."
+        }
+      ],
+      "themesAndLessons": [
+        {
+          "themeEn": "Merit and Integrity vs. Destructive Envy",
+          "themeAr": "الكفاءة والنزاهة في مواجهة الحقد الهدام",
+          "lessonEn": "Edmond earns admiration through exceptional seamanship and honesty, but his radiant success provokes malice from corrupt men.",
+          "lessonAr": "استحق إدموند مكانته بفضل مهارته البحرية وأمانته، لكن نجاحه الباهر أثار ضغائن النفوس المريضة."
+        },
+        {
+          "themeEn": "The Fragility of Fortune",
+          "themeAr": "تقلبات القدر المفاجئة",
+          "lessonEn": "Within hours, a celebration of pure joy and youth can turn into a tragic confrontation with injustice.",
+          "lessonAr": "في غضون ساعات قليلة، قد يتحول أوج الفرح والنجاح إلى صدمة مروعة بفعل مؤامرات الغدر."
+        }
       ]
     },
     {
@@ -1056,6 +1186,70 @@
           "correctAnswer": "Through unwavering loyalty, honesty, and moral resilience",
           "explanation": "Edmond consistently maintains his dignity and integrity, holding fast to his core values."
         }
+      ],
+      "importantCharacters": [
+        {
+          "nameEn": "Edmond Dantès",
+          "nameAr": "إدموند دانتس",
+          "roleEn": "Innocent youth suddenly arrested during his betrothal feast.",
+          "roleAr": "الشاب البريء الذي يُعتقل فجأة وسط فرحة حفل خطوبته.",
+          "actionsEn": "Defended his innocence with complete honesty, trusting the law to protect him.",
+          "actionsAr": "دافع عن براءته بصدق مطلق واثقاً في عدالة القانون ونزاهة القضاء."
+        },
+        {
+          "nameEn": "Gérard de Villefort",
+          "nameAr": "جيرار دي فيلفور",
+          "roleEn": "Ambitious deputy royal prosecutor.",
+          "roleAr": "نائب المدعي العام الملكي الطموح والانتهازي.",
+          "actionsEn": "Burned the conspiratorial letter to hide his father's treason, ordering Edmond's perpetual imprisonment to protect his own career.",
+          "actionsAr": "أحرق الرسالة لإخفاء خيانة والده وأمر بسجن إدموند سراً لحماية مستقبله السياسي."
+        },
+        {
+          "nameEn": "Noirtier de Villefort",
+          "nameAr": "نورتييه دي فيلفور",
+          "roleEn": "Villefort's father; an ardent Bonapartist leader.",
+          "roleAr": "والد فيلفور؛ زعيم موالٍ لنابليون بونابرت.",
+          "actionsEn": "The recipient of the secret letter carried inadvertently by Edmond from Elba.",
+          "actionsAr": "الشخص المرسل إليه الخطاب السري الذي حمله إدموند بحسن نية من جزيرة إلبا."
+        }
+      ],
+      "characterRelationships": [
+        {
+          "characters": [
+            "Edmond Dantès",
+            "Gérard de Villefort"
+          ],
+          "relationEn": "Innocent Accused & Corrupt Prosecutor",
+          "relationAr": "متهم بريء وقاضٍ فاسد",
+          "detailsEn": "Villefort initially believes Edmond's innocence, but sacrifices him ruthlessly once his own father is implicated.",
+          "detailsAr": "أيقن فيلفور براءة إدموند أول الأمر، لكنه ضحى به بلا رحمة عندما اكتشف أن الخطاب مرسل لوالده."
+        }
+      ],
+      "keyDialogues": [
+        {
+          "speakerEn": "Gérard de Villefort",
+          "speakerAr": "جيرار دي فيلفور",
+          "quoteEn": "To whom is this letter addressed? ... Noirtier! He stuttered with fear.",
+          "quoteAr": "إلى من وُجه هذا الخطاب؟ ... نورتييه! تلعثم خوفاً وارتجفت يداه.",
+          "contextEn": "The terrifying realization when Villefort reads his father's name on the treasonous letter.",
+          "contextAr": "لحظة الصدمة المروعة عندما قرأ فيلفور اسم والده على الخطاب التآمري."
+        },
+        {
+          "speakerEn": "Edmond Dantès",
+          "speakerAr": "إدموند دانتس",
+          "quoteEn": "I had no idea what was in the letter. I was only fulfilling the dying wish of Captain Leclère.",
+          "quoteAr": "لم أكن أعلم ما بداخل الخطاب، كنت أنفذ فقط الوصية الأخيرة للقبطان لكلير وهو يحتضر.",
+          "contextEn": "Edmond explaining why he carried the letter without reading it.",
+          "contextAr": "إدموند يوضح نزاهته وأنه حمل الرسالة التزاماً بالعهد دون أن يفتحها."
+        }
+      ],
+      "themesAndLessons": [
+        {
+          "themeEn": "Self-Interest vs. Justice",
+          "themeAr": "المصلحة الذاتية والفساد ضد العدالة",
+          "lessonEn": "Villefort abuses the power of the law to bury the truth and protect his personal ambition.",
+          "lessonAr": "استغل فيلفور سلطة القانون لدفن الحقيقة والتضحية بإنسان بريء حمايةً لمستقبله الشخصي."
+        }
       ]
     },
     {
@@ -1461,6 +1655,54 @@
           "correctAnswer": "Through unwavering loyalty, honesty, and moral resilience",
           "explanation": "Edmond consistently maintains his dignity and integrity, holding fast to his core values."
         }
+      ],
+      "importantCharacters": [
+        {
+          "nameEn": "Edmond Dantès",
+          "nameAr": "إدموند دانتس",
+          "roleEn": "Despairing prisoner locked in the subterranean dungeons of Château d'If.",
+          "roleAr": "سجين بائس ملقى في زنازين قلعة شاتو ديف المظلمة.",
+          "actionsEn": "Suffered years of solitary confinement, nearly starving himself before hearing the digging of a fellow prisoner.",
+          "actionsAr": "عانى لسنوات من العزلة واليأس حتى أوشك على الموت جوعاً قبل أن يسمع صوت حفر غامض."
+        },
+        {
+          "nameEn": "Abbé Faria",
+          "nameAr": "الأب فاريا",
+          "roleEn": "Wise Italian priest and scholar, imprisoned for his political vision.",
+          "roleAr": "قسيس وعالم إيطالي حكيم سُجن بسبب أفكاره السياسية والوطنية.",
+          "actionsEn": "Dug a tunnel for years attempting escape, breaking into Edmond's cell and bringing him knowledge and hope.",
+          "actionsAr": "حفر نفقاً لسنوات محاولاً الهروب، فنفذ إلى زنزانة إدموند مانحاً إياه العلم والأمل بالحياة."
+        }
+      ],
+      "characterRelationships": [
+        {
+          "characters": [
+            "Edmond Dantès",
+            "Abbé Faria"
+          ],
+          "relationEn": "Master & Disciple / Spiritual Father & Son",
+          "relationAr": "معلم وتلميذ / رابطة روحية كالأب وابنه",
+          "detailsEn": "Faria transforms Edmond from an ignorant despairing boy into an erudite, polyglot thinker with purpose.",
+          "detailsAr": "حول فاريا إدموند من شاب جاهل يائس إلى مفكر واسع المعرفة يتقن اللغات والعلوم."
+        }
+      ],
+      "keyDialogues": [
+        {
+          "speakerEn": "Abbé Faria",
+          "speakerAr": "الأب فاريا",
+          "quoteEn": "I am Abbé Faria. A prisoner, like you. In that moment, Edmond felt reborn.",
+          "quoteAr": "أنا الأب فاريا، سجين مثلك. وفي تلك اللحظة شعر إدموند كأنه ولد من جديد.",
+          "contextEn": "The miraculous first encounter between the two prisoners through the broken wall.",
+          "contextAr": "اللقاء الأول المعجز بين السجينين عبر فتحة الجدار المهدوم."
+        }
+      ],
+      "themesAndLessons": [
+        {
+          "themeEn": "Knowledge as Liberation",
+          "themeAr": "المعرفة طريق الحرية الحقيقية",
+          "lessonEn": "Even in the deepest subterranean dungeon, knowledge, intellectual companionship, and faith illuminate the human spirit.",
+          "lessonAr": "حتى في أظلم الزنازين، يبقى العلم وصحبة الحكماء ونور الإيمان هو المنقذ الحقيقي للروح."
+        }
       ]
     },
     {
@@ -1839,6 +2081,54 @@
           ],
           "correctAnswer": "Through unwavering loyalty, honesty, and moral resilience",
           "explanation": "Edmond consistently maintains his dignity and integrity, holding fast to his core values."
+        }
+      ],
+      "importantCharacters": [
+        {
+          "nameEn": "Edmond Dantès",
+          "nameAr": "إدموند دانتس",
+          "roleEn": "Diligent student of philosophy, languages, history, and science under Faria.",
+          "roleAr": "طالب مجد ينهل من علوم الفلسفة واللغات والتاريخ والعلوم الطبيعية على يد فاريا.",
+          "actionsEn": "Discovered the identities of his betrayers through Faria's keen deductive reasoning.",
+          "actionsAr": "اكتشف خيوط المؤامرة وأسماء خائنيه بفضل التحليل المنطقي الدقيق للأب فاريا."
+        },
+        {
+          "nameEn": "Abbé Faria",
+          "nameAr": "الأب فاريا",
+          "roleEn": "Brilliant scholar and possessor of the secret of the Spada fortune.",
+          "roleAr": "عالم عبقري ومؤتمن على سر ثروة عائلة سبادا الأسطورية.",
+          "actionsEn": "Analyzed Edmond's past, exposed Danglars and Fernand, and bequeathed the treasure of Monte Cristo to Edmond.",
+          "actionsAr": "حلل ماضي إدموند وكشف خيانة دانجلار وفرناند وفيلفور، وورّث كنز مونت كريستو لإدموند."
+        }
+      ],
+      "characterRelationships": [
+        {
+          "characters": [
+            "Edmond Dantès",
+            "Abbé Faria"
+          ],
+          "relationEn": "Heir and Benefactor",
+          "relationAr": "وارث ومورث لأعظم سر",
+          "detailsEn": "Faria entrusts Edmond with the wealth not for greed, but for justice and noble works.",
+          "detailsAr": "ائتمن فاريا إدموند على الكنز لا بدافع الجشع، بل لإحقاق الحق ونصرة المظلومين."
+        }
+      ],
+      "keyDialogues": [
+        {
+          "speakerEn": "Abbé Faria",
+          "speakerAr": "الأب فاريا",
+          "quoteEn": "I bequeath to you the treasure of the island of Monte Cristo. Promise me you will use it wisely, not for greed, but for justice.",
+          "quoteAr": "أورثك كنز جزيرة مونت كريستو. عدني أن تستخدمه بحكمة، ليس بجشع، بل لتحقيق العدالة.",
+          "contextEn": "Faria revealing the scorched parchment map to Edmond before his health fails.",
+          "contextAr": "فاريا يكشف لإدموند خريطة الكنز المكتوبة على المخطوطة المحترقة قبل اشتداد مرضه."
+        }
+      ],
+      "themesAndLessons": [
+        {
+          "themeEn": "Deduction and Truth",
+          "themeAr": "قوة العقل والاستنتاج المنطقي",
+          "lessonEn": "Clear reasoning exposes falsehoods that time attempted to bury.",
+          "lessonAr": "التفكير المنطقي والتحليل السليم قادران على كشف أعتى المؤامرات مهما طال عليها الزمن."
         }
       ]
     },
@@ -2255,6 +2545,54 @@
           ],
           "correctAnswer": "Through unwavering loyalty, honesty, and moral resilience",
           "explanation": "Edmond consistently maintains his dignity and integrity, holding fast to his core values."
+        }
+      ],
+      "importantCharacters": [
+        {
+          "nameEn": "Edmond Dantès",
+          "nameAr": "إدموند دانتس",
+          "roleEn": "Daring escapee who seizes his destiny upon Faria's death.",
+          "roleAr": "سجين شجاع ومغامر يغتنم فرصة العمر للهروب إثر وفاة الأب فاريا.",
+          "actionsEn": "Substituted himself into Faria's burial sack and was thrown from the cliff into the sea, swimming to survival.",
+          "actionsAr": "استبدل نفسه بجثمان فاريا داخل كفن الخيش وأُلقي من أعلى صخور القلعة في البحر ليسبح نحو النجاة."
+        },
+        {
+          "nameEn": "Jacopo",
+          "nameAr": "جاكوبو",
+          "roleEn": "Kind-hearted Corsican sailor on the smuggling ship Jeune-Amélie.",
+          "roleAr": "بحار كورسيكي طيب القلب على متن سفينة التهريب 'جون أميلي'.",
+          "actionsEn": "Rescued Edmond from drowning and became his devoted loyal ally.",
+          "actionsAr": "أنقذ إدموند من الغرق في عرض البحر وصار حليفه المخلص وساعده الأيمن."
+        }
+      ],
+      "characterRelationships": [
+        {
+          "characters": [
+            "Edmond Dantès",
+            "Jacopo"
+          ],
+          "relationEn": "Rescued Sailor & Devoted Comrade",
+          "relationAr": "غريق تم إنقاذه ورفيق درب مخلص",
+          "detailsEn": "Jacopo recognized Edmond's rare seamanship; Edmond repaid him with boundless generosity.",
+          "detailsAr": "أدرك جاكوبو كفاءة إدموند النادرة في الإبحار، وبادله إدموند وفاءً وسخاءً لا حدود له."
+        }
+      ],
+      "keyDialogues": [
+        {
+          "speakerEn": "Edmond Dantès",
+          "speakerAr": "إدموند دانتس",
+          "quoteEn": "Fourteen years! But now, the sea has made me free again.",
+          "quoteAr": "أربعة عشر عاماً في الظلمات! ولكن الآن، أعادني البحر حراً من جديد.",
+          "contextEn": "Edmond rising to the surface of the Mediterranean waters after cutting open the sack.",
+          "contextAr": "إدموند وهو يشق مياه البحر الأبيض المتوسط بعد أن مزق كفن الخيش بسكينه."
+        }
+      ],
+      "themesAndLessons": [
+        {
+          "themeEn": "Courage and Rebirth",
+          "themeAr": "الشجاعة والولادة من جديد",
+          "lessonEn": "Overcoming the ultimate fear of death is the only bridge to freedom.",
+          "lessonAr": "تجاوز الخوف من الموت هو الجسر الوحيد الذي يعبر بالإنسان نحو الحرية والكرامة."
         }
       ]
     },
@@ -2700,6 +3038,54 @@
           ],
           "correctAnswer": "Through unwavering loyalty, honesty, and moral resilience",
           "explanation": "Edmond consistently maintains his dignity and integrity, holding fast to his core values."
+        }
+      ],
+      "importantCharacters": [
+        {
+          "nameEn": "The Count of Monte Cristo (Edmond)",
+          "nameAr": "كونت مونت كريستو (إدموند دانتس)",
+          "roleEn": "Enormously wealthy nobleman, mysterious, refined, and determined to execute divine justice.",
+          "roleAr": "نبيل فاحش الثراء، غامض ومثقف، كرس حياته وثروته لتطبيق العدالة الإلهية.",
+          "actionsEn": "Unearthed the Spada fortune on the deserted island and prepared to reward the faithful and punish the traitors.",
+          "actionsAr": "استخرج كنز سبادا من الجزيرة المهجورة وبدأ خطته لمكافأة الأوفياء ومجازاة الخائنين."
+        },
+        {
+          "nameEn": "Jacopo",
+          "nameAr": "جاكوبو",
+          "roleEn": "Faithful assistant and confidant.",
+          "roleAr": "المساعد الوفي والأمين لكونت مونت كريستو.",
+          "actionsEn": "Purchased a ship for Edmond and carried out confidential missions with absolute loyalty.",
+          "actionsAr": "اشترى سفينة لإدموند ونفذ مهامه السرية بمنتهى الإخلاص والأمانة."
+        }
+      ],
+      "characterRelationships": [
+        {
+          "characters": [
+            "The Count of Monte Cristo",
+            "Jacopo"
+          ],
+          "relationEn": "Master & Incorruptible Ally",
+          "relationAr": "سيد وحليف لا تشوبه شائبة",
+          "detailsEn": "Bound by gratitude and unwavering trust.",
+          "detailsAr": "رابطة متينة قوامها الامتنان المتبادل والثقة المطلقة."
+        }
+      ],
+      "keyDialogues": [
+        {
+          "speakerEn": "The Count of Monte Cristo",
+          "speakerAr": "كونت مونت كريستو",
+          "quoteEn": "The world is mine! But remember: wait and hope.",
+          "quoteAr": "العالم بأسره بين يدي! ولكن تذكر دائماً: انتظر وترجَّ رحمة الله.",
+          "contextEn": "Edmond beholding the glittering chests of gold, diamonds, and rubies in the cave of Monte Cristo.",
+          "contextAr": "إدموند وهو يتأمل صناديق الذهب والألماس والياقوت المتلألئة في كهف جزيرة مونت كريستو."
+        }
+      ],
+      "themesAndLessons": [
+        {
+          "themeEn": "Divine Justice vs. Human Vengeance",
+          "themeAr": "العدالة الإلهية ومكافأة الصابرين",
+          "lessonEn": "True justice rewards enduring loyalty while ensuring that evil and betrayal will inevitably face retribution.",
+          "lessonAr": "العدالة الحقيقية تكافئ الصابرين الأوفياء وتؤكد أن قوى الشر والخيانة ستلقى جزاءها المحتوم."
         }
       ]
     }

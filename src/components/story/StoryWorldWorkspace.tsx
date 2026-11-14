@@ -64,7 +64,7 @@ export function StoryWorldWorkspace({ user, onNavigateHome }: StoryWorldProps) {
 
   // Reading sub-section filter inside "book" tab
   const [activeSectionFilter, setActiveSectionFilter] = useState<
-    "all" | "intro" | "characters" | "themes" | "points" | "text" | "vocab" | "qa" | "important" | "homework"
+    "all" | "intro" | "characters" | "themes" | "points" | "text" | "vocab" | "qa" | "important" | "homework" | "dialogues" | "relationships" | "lessons"
   >("all");
 
   const [loading, setLoading] = useState(false);
@@ -695,7 +695,7 @@ export function StoryWorldWorkspace({ user, onNavigateHome }: StoryWorldProps) {
                       <span>الأقسام:</span>
                     </span>
                     {[
-                      { id: "all", label: "عرض كل الأقسام (11)" },
+                      { id: "all", label: "عرض كل الأقسام" },
                       { id: "intro", label: "1. المقدمة والمؤلف" },
                       { id: "characters", label: "2. الشخصيات" },
                       { id: "themes", label: "3. الموضوعات الأدبية" },
@@ -705,6 +705,9 @@ export function StoryWorldWorkspace({ user, onNavigateHome }: StoryWorldProps) {
                       { id: "qa", label: "7. أسئلة الكتاب SB/WB" },
                       { id: "important", label: "8. التفكير النقدي" },
                       { id: "homework", label: "9. الواجب والامتحانات" },
+                      { id: "dialogues", label: "10. الحوارات المفتاحية" },
+                      { id: "relationships", label: "11. علاقات الشخصيات" },
+                      { id: "lessons", label: "12. الدروس المستفادة" },
                     ].map((sec) => (
                       <button
                         key={sec.id}
@@ -1274,6 +1277,190 @@ export function StoryWorldWorkspace({ user, onNavigateHome }: StoryWorldProps) {
                               />
                             </div>
                           )}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* ===================================================================== */}
+                {/* SECTION 10: KEY DIALOGUES & QUOTATIONS */}
+                {/* ===================================================================== */}
+                {(activeSectionFilter === "all" || activeSectionFilter === "dialogues") && currentChapter.keyDialogues && currentChapter.keyDialogues.length > 0 && (
+                  <div className="bg-white rounded-3xl border border-[#E2E8F0] p-6 md:p-8 shadow-sm space-y-4">
+                    <div className="flex items-center justify-between border-b border-[#F1F5F9] pb-4">
+                      <div className="flex items-center gap-2.5">
+                        <div className="w-8 h-8 rounded-xl bg-[#FDF2F8] text-[#DB2777] flex items-center justify-center font-bold">
+                          10
+                        </div>
+                        <div>
+                          <h3 className="text-lg font-black text-[#243247]">
+                            الحوارات المفتاحية المقتبسة من النص الأصلي (Key Dialogues)
+                          </h3>
+                          <p className="text-xs text-[#718096]">
+                            اقتباسات درامية حاسمة تركز عليها أسئلة الامتحان
+                          </p>
+                        </div>
+                      </div>
+                      <span className="text-xs font-bold px-3 py-1 rounded-full bg-[#FDF2F8] text-[#DB2777] border border-[#FBCFE8]">
+                        {currentChapter.keyDialogues.length} حوارات مفتاحية
+                      </span>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      {currentChapter.keyDialogues.map((dia: any, dIdx: number) => (
+                        <div
+                          key={dIdx}
+                          className="p-5 rounded-2xl bg-[#FFF1F2]/40 border border-[#FFE4E6] hover:border-[#FDA4AF] transition space-y-3"
+                        >
+                          <div className="flex items-center justify-between border-b border-[#FECDD3]/50 pb-2">
+                            <div className="flex items-center gap-2">
+                              <span className="w-6 h-6 rounded-lg bg-[#E11D48] text-white text-xs font-extrabold flex items-center justify-center">
+                                “
+                              </span>
+                              <span className="font-extrabold text-sm text-[#9F1239]">
+                                {dia.speakerEn} ({dia.speakerAr})
+                              </span>
+                            </div>
+                            <button
+                              onClick={() => speakWordOrSentence(dia.quoteEn)}
+                              className="p-1.5 rounded-lg bg-white border border-[#FECDD3] text-[#E11D48] hover:bg-[#FFE4E6] transition"
+                              title="استمع للاقتباس"
+                            >
+                              <Volume2 className="w-3.5 h-3.5" />
+                            </button>
+                          </div>
+
+                          <blockquote className="text-sm font-serif italic text-[#1E293B] leading-relaxed" dir="ltr">
+                            "{dia.quoteEn}"
+                          </blockquote>
+
+                          {showSentenceTranslation && dia.quoteAr && (
+                            <p className="text-xs font-medium text-[#BE123C] leading-relaxed pt-1 border-t border-[#FECDD3]/40">
+                              "{dia.quoteAr}"
+                            </p>
+                          )}
+
+                          {dia.contextAr && (
+                            <p className="text-[11px] text-[#64748B] bg-white/70 p-2 rounded-xl border border-[#FFE4E6]">
+                              <span className="font-bold text-[#475569]">السياق: </span>
+                              {dia.contextAr}
+                            </p>
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* ===================================================================== */}
+                {/* SECTION 11: CHARACTER RELATIONSHIPS */}
+                {/* ===================================================================== */}
+                {(activeSectionFilter === "all" || activeSectionFilter === "relationships") && currentChapter.characterRelationships && currentChapter.characterRelationships.length > 0 && (
+                  <div className="bg-white rounded-3xl border border-[#E2E8F0] p-6 md:p-8 shadow-sm space-y-4">
+                    <div className="flex items-center justify-between border-b border-[#F1F5F9] pb-4">
+                      <div className="flex items-center gap-2.5">
+                        <div className="w-8 h-8 rounded-xl bg-[#F0FDF4] text-[#16A34A] flex items-center justify-center font-bold">
+                          11
+                        </div>
+                        <div>
+                          <h3 className="text-lg font-black text-[#243247]">
+                            شبكة علاقات وتفاعلات الشخصيات (Character Relationships)
+                          </h3>
+                          <p className="text-xs text-[#718096]">
+                            ديناميكيات الصداقة، العداء، والمؤامرة في هذا الفصل
+                          </p>
+                        </div>
+                      </div>
+                      <span className="text-xs font-bold px-3 py-1 rounded-full bg-[#F0FDF4] text-[#16A34A] border border-[#BBF7D0]">
+                        {currentChapter.characterRelationships.length} علاقات
+                      </span>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                      {currentChapter.characterRelationships.map((rel: any, rIdx: number) => (
+                        <div
+                          key={rIdx}
+                          className="p-4 rounded-2xl bg-[#F8FAFC] border border-[#E2E8F0] hover:border-[#86EFAC] transition space-y-2.5"
+                        >
+                          <div className="flex items-center gap-2 flex-wrap">
+                            {rel.characters.map((cName: string, cIdx: number) => (
+                              <React.Fragment key={cIdx}>
+                                <span className="px-2.5 py-1 rounded-lg text-xs font-bold bg-[#E8F3FF] text-[#2563EB] border border-[#BFDBFE]">
+                                  {cName}
+                                </span>
+                                {cIdx < rel.characters.length - 1 && (
+                                  <span className="text-xs font-black text-[#94A3B8]">↔</span>
+                                )}
+                              </React.Fragment>
+                            ))}
+                          </div>
+
+                          <div className="pt-1">
+                            <span className="inline-block px-2 py-0.5 rounded-full text-[11px] font-extrabold bg-[#DCFCE7] text-[#16A34A] mb-1">
+                              {rel.relationAr || rel.relationEn}
+                            </span>
+                            <p className="text-xs text-[#334155] leading-relaxed">
+                              {rel.detailsAr || rel.detailsEn}
+                            </p>
+                            {rel.detailsEn && (
+                              <p className="text-[11px] text-[#64748B] italic leading-relaxed pt-1 font-serif" dir="ltr">
+                                {rel.detailsEn}
+                              </p>
+                            )}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* ===================================================================== */}
+                {/* SECTION 12: THEMES AND MORAL LESSONS */}
+                {/* ===================================================================== */}
+                {(activeSectionFilter === "all" || activeSectionFilter === "lessons") && currentChapter.themesAndLessons && currentChapter.themesAndLessons.length > 0 && (
+                  <div className="bg-white rounded-3xl border border-[#E2E8F0] p-6 md:p-8 shadow-sm space-y-4">
+                    <div className="flex items-center justify-between border-b border-[#F1F5F9] pb-4">
+                      <div className="flex items-center gap-2.5">
+                        <div className="w-8 h-8 rounded-xl bg-[#FEF3C7] text-[#D97706] flex items-center justify-center font-bold">
+                          12
+                        </div>
+                        <div>
+                          <h3 className="text-lg font-black text-[#243247]">
+                            الموضوعات الأدبية والدروس المستفادة (Themes & Moral Lessons)
+                          </h3>
+                          <p className="text-xs text-[#718096]">
+                            الأبعاد التربوية والفلسفية المستهدفة في تقييمات الوزارة
+                          </p>
+                        </div>
+                      </div>
+                      <span className="text-xs font-bold px-3 py-1 rounded-full bg-[#FEF3C7] text-[#D97706] border border-[#FDE68A]">
+                        {currentChapter.themesAndLessons.length} دروس مستفادة
+                      </span>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      {currentChapter.themesAndLessons.map((thLesson: any, tlIdx: number) => (
+                        <div
+                          key={tlIdx}
+                          className="p-5 rounded-2xl bg-[#FFFBEB] border border-[#FDE68A] hover:border-[#F59E0B] transition space-y-2.5"
+                        >
+                          <div className="flex items-center gap-2">
+                            <span className="w-6 h-6 rounded-lg bg-[#F59E0B] text-white flex items-center justify-center text-xs font-black">
+                              ★
+                            </span>
+                            <h4 className="font-extrabold text-sm text-[#92400E]">
+                              {thLesson.themeAr || thLesson.themeEn}
+                            </h4>
+                          </div>
+
+                          <p className="text-xs font-medium text-[#78350F] leading-relaxed">
+                            {thLesson.lessonAr}
+                          </p>
+
+                          <p className="text-xs text-[#92400E] italic leading-relaxed font-serif pt-1 border-t border-[#FDE68A]/60" dir="ltr">
+                            {thLesson.lessonEn}
+                          </p>
                         </div>
                       ))}
                     </div>

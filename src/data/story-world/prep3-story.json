@@ -446,6 +446,54 @@
           "correctAnswer": "Taking responsibility, admitting limitations honestly, and encouraging everyone's talents",
           "explanation": "True leadership fosters shared purpose, mutual respect, and honest communication."
         }
+      ],
+      "importantCharacters": [
+        {
+          "nameEn": "Zeina",
+          "nameAr": "زينة",
+          "roleEn": "Curious and thoughtful new preparatory student.",
+          "roleAr": "طالبة إعدادية جديدة تتميز بالفضول والشغف وحب الاستكشاف.",
+          "actionsEn": "Noticed the neglected corner of the playground and conceived the school garden idea.",
+          "actionsAr": "لاحظت إهمال فناء المدرسة وفكرت في مبادرة تحويله إلى حديقة منتجة."
+        },
+        {
+          "nameEn": "Mr. Tarek",
+          "nameAr": "مستر طارق",
+          "roleEn": "Encouraging science teacher.",
+          "roleAr": "معلم العلوم المشجع والداعم للطلاب.",
+          "actionsEn": "Listened to Zeina's proposal and urged her to present a structured action plan.",
+          "actionsAr": "استمع لفكرة زينة وشجعها على صياغة خطة عمل محددة لعرضها على الإدارة."
+        }
+      ],
+      "characterRelationships": [
+        {
+          "characters": [
+            "Zeina",
+            "Mr. Tarek"
+          ],
+          "relationEn": "Student & Supportive Mentor",
+          "relationAr": "طالبة ومعلم داعم وموجه",
+          "detailsEn": "Mr. Tarek fosters student initiative, guiding enthusiasm into practical execution.",
+          "detailsAr": "يوجه مستر طارق حماس طلابه نحو التخطيط العلمي والتنفيذ العملي المنظم."
+        }
+      ],
+      "keyDialogues": [
+        {
+          "speakerEn": "Zeina",
+          "speakerAr": "زينة",
+          "quoteEn": "Why should this ground stay empty and dry when we can make it green and full of life?",
+          "quoteAr": "لماذا تظل هذه الأرض جافة ومهملة بينما يمكننا تحويلها إلى بقعة خضراء تفيض بالحياة؟",
+          "contextEn": "Zeina proposing her idea to Mr. Tarek in the science lab.",
+          "contextAr": "زينة تعرض فكرتها على معلم العلوم في المعمل المدرسي."
+        }
+      ],
+      "themesAndLessons": [
+        {
+          "themeEn": "Taking Personal Responsibility",
+          "themeAr": "تحمل المسؤولية الشخصية والمبادرة",
+          "lessonEn": "Positive change starts when an individual chooses to care about their environment instead of complaining.",
+          "lessonAr": "التغيير الإيجابي يبدأ عندما يبادر الفرد بالاهتمام ببيئته بدلاً من الاكتفاء بالشكوى والتذمر."
+        }
       ]
     },
     {
@@ -885,6 +933,54 @@
           "correctAnswer": "Taking responsibility, admitting limitations honestly, and encouraging everyone's talents",
           "explanation": "True leadership fosters shared purpose, mutual respect, and honest communication."
         }
+      ],
+      "importantCharacters": [
+        {
+          "nameEn": "Zeina",
+          "nameAr": "زينة",
+          "roleEn": "Project founder and student team organizer.",
+          "roleAr": "صاحبة المبادرة ومنظمة فريق العمل الطلابي.",
+          "actionsEn": "Presented her idea calmly despite teasing, recruiting enthusiastic volunteers.",
+          "actionsAr": "عرضت فكرتها بثقة رغم سخرية البعض، ونجحت في ضم متطوعين متحمسين للعمل."
+        },
+        {
+          "nameEn": "Kareem",
+          "nameAr": "كريم",
+          "roleEn": "Pragmatic classmate skilled in logistics.",
+          "roleAr": "زميل دراسة عملي يمتلك مهارات تنظيمية.",
+          "actionsEn": "Helped prepare tools and assign responsibilities among volunteers.",
+          "actionsAr": "ساعد في تجهيز الأدوات الزراعية وتوزيع المهام على فريق المتطوعين."
+        }
+      ],
+      "characterRelationships": [
+        {
+          "characters": [
+            "Zeina",
+            "Kareem"
+          ],
+          "relationEn": "Team Partners",
+          "relationAr": "شريكا عمل وتعاون",
+          "detailsEn": "Complementing vision with hands-on organizing.",
+          "detailsAr": "تكامل بين الرؤية الطموحة والتنظيم الميداني العملي."
+        }
+      ],
+      "keyDialogues": [
+        {
+          "speakerEn": "Zeina",
+          "speakerAr": "زينة",
+          "quoteEn": "If we wait for everything to be easy, nothing worthwhile will ever be built.",
+          "quoteAr": "إذا انتظرنا حتى تصبح كل الأمور سهلة، فلن ننجز أي عمل ذي قيمة في حياتنا.",
+          "contextEn": "Zeina speaking to encourage her classmates when some doubted the project.",
+          "contextAr": "زينة تشجع زملاءها حين أبدى البعض شكوكهم في إمكانية نجاح المشروع."
+        }
+      ],
+      "themesAndLessons": [
+        {
+          "themeEn": "Teamwork and Resilience",
+          "themeAr": "العمل الجماعي وتجاوز التشكيك",
+          "lessonEn": "Belief in a constructive cause inspires others and overcomes social doubt.",
+          "lessonAr": "الإيمان بالهدف النبيل يلهم الآخرين ويتغلب على سخرية المشككين والمترددين."
+        }
       ]
     },
     {
@@ -895,7 +991,33 @@
       "term": "first",
       "summaryEn": "The team encounters major obstacles including poor soil and water shortages, but Zeina leads them to find innovative solutions through teamwork and resilience.",
       "summaryAr": "واجه الفريق عقبات صعبة منها فقر التربة ونقص المياه، لكن زينة قادتهم لإيجاد حلول مبتكرة بفضل التعاون والإصرار.",
-      "chapterInPoints": [],
+      "chapterInPoints": [
+        {
+          "order": 1,
+          "pointEn": "The team faced initial environmental obstacles including dry rocky soil and scarce irrigation water.",
+          "pointAr": "واجه الفريق عقبات بيئية أولية منها جفاف التربة الصخرية وشح مياه الري."
+        },
+        {
+          "order": 2,
+          "pointEn": "Zeina organized workshops with the school agriculture specialist to test soil nutrients and compost solutions.",
+          "pointAr": "نظمت زينة ورش عمل مع أخصائي الزراعة بالمدرسة لاختبار خصوبة التربة وحلول التسميد الطبيعي."
+        },
+        {
+          "order": 3,
+          "pointEn": "Students collected organic kitchen waste and fallen leaves to create rich natural mulch.",
+          "pointAr": "جمع الطلاب المخلفات العضوية وأوراق الشجر المتساقطة لإنتاج سماد عضوي غني."
+        },
+        {
+          "order": 4,
+          "pointEn": "The team established a simple drip irrigation system using recycled plastic bottles.",
+          "pointAr": "ابتكر الفريق شبكة ري بالتنقيط بسيطة ومستدامة باستخدام زجاجات البلاستيك المعاد تدويرها."
+        },
+        {
+          "order": 5,
+          "pointEn": "Zeina demonstrated that problems are learning opportunities that foster resilience and innovation.",
+          "pointAr": "أثبتت زينة أن المشكلات هي فرص للتعلم تعزز روح الابتكار والصمود والعمل الجماعي."
+        }
+      ],
       "vocabulary": [
         {
           "word": "Jal",
@@ -1140,6 +1262,46 @@
           "correctAnswer": "Taking responsibility, admitting limitations honestly, and encouraging everyone's talents",
           "explanation": "True leadership fosters shared purpose, mutual respect, and honest communication."
         }
+      ],
+      "importantCharacters": [
+        {
+          "nameEn": "Zeina",
+          "nameAr": "زينة",
+          "roleEn": "Resilient problem-solver.",
+          "roleAr": "قائدة قادرة على حل المشكلات بصبر وذكاء.",
+          "actionsEn": "Tested soil solutions and designed eco-friendly drip irrigation.",
+          "actionsAr": "أجرت اختبارات للتربة وصممت شبكة ري بالتنقيط صديقة للبيئة."
+        }
+      ],
+      "characterRelationships": [
+        {
+          "characters": [
+            "Zeina",
+            "The Team"
+          ],
+          "relationEn": "Collaborative Leadership",
+          "relationAr": "قيادة تشاركية ملهمة",
+          "detailsEn": "Listening to suggestions and solving agricultural challenges through science.",
+          "detailsAr": "الاستماع للآراء وحل التحديات الزراعية بالأسلوب العلمي."
+        }
+      ],
+      "keyDialogues": [
+        {
+          "speakerEn": "Mr. Tarek",
+          "speakerAr": "مستر طارق",
+          "quoteEn": "Science gives us tools; your determination gives them life.",
+          "quoteAr": "العلم يمنحنا الأدوات والوسائل، لكن إصراركم هو ما يمنحها الروح والحياة.",
+          "contextEn": "Mr. Tarek guiding students during soil testing.",
+          "contextAr": "مستر طارق يوجه الطلاب أثناء فحص خصوبة التربة بالمعمل."
+        }
+      ],
+      "themesAndLessons": [
+        {
+          "themeEn": "Innovation in Adversity",
+          "themeAr": "الابتكار في مواجهة التحديات",
+          "lessonEn": "Resource constraints spark innovative, sustainable recycling solutions.",
+          "lessonAr": "ندرة الموارد تحفز التفكير الابتكاري وإعادة التدوير لتحقيق الاستدامة."
+        }
       ]
     },
     {
@@ -1150,7 +1312,33 @@
       "term": "second",
       "summaryEn": "The garden begins to bloom, yielding vegetables and flowers. The project secures community funding and gains wide respect across the entire school.",
       "summaryAr": "بدأت الحديقة تزدهر وتنتج الخضروات والزهور، ونجح المشروع في تأمين دعم مالي من المجتمع ونال احترام الجميع في المدرسة.",
-      "chapterInPoints": [],
+      "chapterInPoints": [
+        {
+          "order": 1,
+          "pointEn": "Green shoots and colorful flowers began transforming the once-neglected barren playground.",
+          "pointAr": "بدأت البراعم الخضراء والزهور الملونة في تحويل الفناء المهمل إلى واحة نابضة بالحياة."
+        },
+        {
+          "order": 2,
+          "pointEn": "The garden produced its first fresh harvest of mint, basil, tomatoes, and vegetables.",
+          "pointAr": "أنتجت الحديقة أول حصاد طازج من النعناع والريحان والطماطم والخضروات المفيدة."
+        },
+        {
+          "order": 3,
+          "pointEn": "Local community members and parents visited the school to celebrate the students' green achievement.",
+          "pointAr": "زار أولياء الأمور وأبناء المجتمع المحلي المدرسة للاحتفال بالإنجاز الأخضر للطلاب."
+        },
+        {
+          "order": 4,
+          "pointEn": "The project secured financial sponsorship from the parent-teacher association for garden expansion.",
+          "pointAr": "حصل المشروع على دعم مالي من مجلس الآباء والمعلمين لتوسيع مساحة الأحواض الزراعية."
+        },
+        {
+          "order": 5,
+          "pointEn": "Students gained immense pride seeing the practical results of their continuous patience and labor.",
+          "pointAr": "شعر الطلاب بفخر واعتزاز كبير برؤية الثمار العملية لجهودهم وصبرهم المتواصل."
+        }
+      ],
       "vocabulary": [
         {
           "word": "initiative",
@@ -1320,6 +1508,46 @@
           ],
           "correctAnswer": "Taking responsibility, admitting limitations honestly, and encouraging everyone's talents",
           "explanation": "True leadership fosters shared purpose, mutual respect, and honest communication."
+        }
+      ],
+      "importantCharacters": [
+        {
+          "nameEn": "Zeina",
+          "nameAr": "زينة",
+          "roleEn": "Proud student leader enjoying first harvest.",
+          "roleAr": "قائدة طلابية فخورة بجني أول ثمار الجهد.",
+          "actionsEn": "Shared fresh herbs and vegetables with the school cafeteria and teachers.",
+          "actionsAr": "وزعت الأعشاب والخضروات الطازجة على كافتيريا المدرسة والمعلمين."
+        }
+      ],
+      "characterRelationships": [
+        {
+          "characters": [
+            "Zeina",
+            "School Community"
+          ],
+          "relationEn": "Mutual Gratitude",
+          "relationAr": "تقدير وعرفان متبادل",
+          "detailsEn": "The school celebrates the transformed garden as a source of shared pride.",
+          "detailsAr": "احتفت المدرسة بالحديقة كإنجاز يعكس وعي وتفاني طلابها."
+        }
+      ],
+      "keyDialogues": [
+        {
+          "speakerEn": "Zeina",
+          "speakerAr": "زينة",
+          "quoteEn": "This harvest is proof that what we plant with care will grow into something wonderful.",
+          "quoteAr": "هذا الحصاد دليل حي على أن ما نزرعه بعناية وإخلاص سينمو حتماً ليكون شيئاً رائعاً.",
+          "contextEn": "Zeina speaking at the school exhibition.",
+          "contextAr": "زينة تتحدث في المعرض المدرسي وهي تعرض أول حصاد للحديقة."
+        }
+      ],
+      "themesAndLessons": [
+        {
+          "themeEn": "Reaping the Rewards of Patience",
+          "themeAr": "جني ثمار الصبر والاجتهاد",
+          "lessonEn": "Patience and continuous nurturing yield tangible community benefits.",
+          "lessonAr": "الصبر والمثابرة والرعاية المستمرة تؤتي ثماراً طيبة يستفيد منها الجميع."
         }
       ]
     },
@@ -1651,6 +1879,46 @@
           "correctAnswer": "Taking responsibility, admitting limitations honestly, and encouraging everyone's talents",
           "explanation": "True leadership fosters shared purpose, mutual respect, and honest communication."
         }
+      ],
+      "importantCharacters": [
+        {
+          "nameEn": "Zeina",
+          "nameAr": "زينة",
+          "roleEn": "Newly elected Student Council President.",
+          "roleAr": "رئيسة اتحاد طلاب المدرسة المنتخبة حديثاً.",
+          "actionsEn": "Won school-wide election due to her proven dedication and leadership in the garden.",
+          "actionsAr": "فازت في انتخابات اتحاد الطلاب بفضل تفانيها ونزاهتها وإنجازها العملي الملموس."
+        }
+      ],
+      "characterRelationships": [
+        {
+          "characters": [
+            "Zeina",
+            "Her Fellow Students"
+          ],
+          "relationEn": "Elected Leader & Supportive Peers",
+          "relationAr": "قائدة منتخبة وزملاء واثقون بها",
+          "detailsEn": "Peers recognized that real leadership is shown through action, not words.",
+          "detailsAr": "أدرك الطلاب أن القيادة الحقيقية تتجسد في الأفعال والإنجازات لا في الوعود."
+        }
+      ],
+      "keyDialogues": [
+        {
+          "speakerEn": "Zeina",
+          "speakerAr": "زينة",
+          "quoteEn": "Leadership is not a title; it is a duty to serve and help others grow.",
+          "quoteAr": "القيادة ليست منصباً أو لقباً، بل هي أمانة لخدمة الآخرين ومساعدتهم على النجاح.",
+          "contextEn": "Zeina's address to the student council.",
+          "contextAr": "كلمة زينة أمام مجلس اتحاد الطلاب بعد إعلان فوزها بالانتخابات."
+        }
+      ],
+      "themesAndLessons": [
+        {
+          "themeEn": "Servant Leadership",
+          "themeAr": "القيادة الخادمة للمجتمع",
+          "lessonEn": "True leaders gain respect by working alongside others and serving the common good.",
+          "lessonAr": "القائد الحقيقي يكتسب ثقة الناس بعمله الميداني وتفانيه في خدمة الصالح العام."
+        }
       ]
     },
     {
@@ -1661,7 +1929,33 @@
       "term": "second",
       "summaryEn": "Zeina reflects on the true meaning of leadership as serving others and inspiring lasting positive change, setting new goals for future school initiatives.",
       "summaryAr": "تتأمل زينة المعنى الحقيقي للقيادة بوصفها خدمة للآخرين وإلهاماً للتغيير المستدام، واضعةً أهدافاً مستقبلية لتطوير المدرسة.",
-      "chapterInPoints": [],
+      "chapterInPoints": [
+        {
+          "order": 1,
+          "pointEn": "Zeina and the student council outlined a comprehensive long-term roadmap for sustainable school initiatives.",
+          "pointAr": "وضعت زينة ومجلس الطلاب خريطة طريق شاملة وطويلة الأجل للمبادرات المدرسية المستدامة."
+        },
+        {
+          "order": 2,
+          "pointEn": "The school established a green environmental club to ensure upcoming generations maintain the garden.",
+          "pointAr": "أنشأت المدرسة نادياً بيئياً أخضر لضمان استمرار الأجيال القادمة في رعاية وتطوير الحديقة."
+        },
+        {
+          "order": 3,
+          "pointEn": "Zeina shared her leadership philosophy: genuine leaders serve their community and empower those around them.",
+          "pointAr": "شاركت زينة فلسفتها القيادية بأن القائد الحقيقي هو من يخدم مجتمعه ويمكن زملاءه من النجاح."
+        },
+        {
+          "order": 4,
+          "pointEn": "The success inspired neighboring schools across the educational district to adopt similar green projects.",
+          "pointAr": "ألهم هذا النجاح الباهر المدارس المجاورة في الإدارة التعليمية لتبني مشاريع بيئية مماثلة."
+        },
+        {
+          "order": 5,
+          "pointEn": "The journey proved that small positive individual steps create lasting and transformative collective change.",
+          "pointAr": "أثبتت التجربة أن الخطوات الإيجابية الصغيرة تصنع فارقاً جماعياً مستداماً يغير واقع المجتمع."
+        }
+      ],
       "vocabulary": [
         {
           "word": "initiative",
@@ -2055,6 +2349,46 @@
           ],
           "correctAnswer": "Taking responsibility, admitting limitations honestly, and encouraging everyone's talents",
           "explanation": "True leadership fosters shared purpose, mutual respect, and honest communication."
+        }
+      ],
+      "importantCharacters": [
+        {
+          "nameEn": "Zeina",
+          "nameAr": "زينة",
+          "roleEn": "Visionary graduate inspiring future classes.",
+          "roleAr": "خريجة ملهمة تترك أثراً دائماً للأجيال القادمة.",
+          "actionsEn": "Created the Green School Ambassador initiative to spread sustainability.",
+          "actionsAr": "أسست مبادرة 'سفراء المدرسة الخضراء' لنشر ثقافة الاستدامة البيئية."
+        }
+      ],
+      "characterRelationships": [
+        {
+          "characters": [
+            "Zeina",
+            "Future Student Generations"
+          ],
+          "relationEn": "Inspirational Legacy",
+          "relationAr": "إرث تربوي وأثر ملهم",
+          "detailsEn": "Leaving a living green institution that continues after she graduates.",
+          "detailsAr": "تركت حديقة حية ومؤسسة بيئية تستمر في العطاء بعد تخرجها."
+        }
+      ],
+      "keyDialogues": [
+        {
+          "speakerEn": "Zeina",
+          "speakerAr": "زينة",
+          "quoteEn": "When you plant seeds today, you are giving hope to tomorrow.",
+          "quoteAr": "عندما تزرع بذرة صالحة اليوم، فإنك تهدي أملاً حقيقياً للغد.",
+          "contextEn": "Zeina's final message in the school yearbook.",
+          "contextAr": "رسالة زينة الختامية في مجلة المدرسة السنوية."
+        }
+      ],
+      "themesAndLessons": [
+        {
+          "themeEn": "Sustainable Impact and Heritage",
+          "themeAr": "الأثر المستدام والمسؤولية المجتمعية",
+          "lessonEn": "Individual initiatives can grow into enduring institutions that uplift whole communities.",
+          "lessonAr": "المبادرات الفردية الواعية تتطور إلى مؤسسات مستدامة تنهض بالمجتمع كله."
         }
       ]
     }

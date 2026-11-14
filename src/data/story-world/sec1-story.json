@@ -463,6 +463,84 @@
           "correctAnswer": "As a brother and noble opponent worthy of reverence",
           "explanation": "Santiago respects the fish's majesty, courage, and equality in the great web of nature."
         }
+      ],
+      "importantCharacters": [
+        {
+          "nameEn": "Santiago",
+          "nameAr": "سانتياغو",
+          "roleEn": "Aging Cuban fisherman; experienced, humble, and fiercely determined.",
+          "roleAr": "صياد كوبي مسن ومحنك؛ يتسم بالتواضع والصبر والعزيمة التي لا تقهر.",
+          "actionsEn": "Endured 84 days without a fish; prepares to venture far out into the Gulf Stream on the 85th day.",
+          "actionsAr": "صبر على 84 يوماً من انقطاع الرزق، وعقد العزم على الإبحار بعيداً في اليوم الـ 85."
+        },
+        {
+          "nameEn": "Manolin",
+          "nameAr": "مانولين",
+          "roleEn": "Devoted young apprentice and Santiago's loyal companion.",
+          "roleAr": "الصبي الوفي والتلميذ المخلص لسانتياغو.",
+          "actionsEn": "Cared for Santiago, bringing him food and fishing gear, despite his parents ordering him to fish on a luckier boat.",
+          "actionsAr": "اعتنى بسانتياغو وجلب له الطعام والمعدات، رغم أمر والديه بالعمل على قارب آخر أكثر حظاً."
+        },
+        {
+          "nameEn": "Younger Fishermen",
+          "nameAr": "الصيادون الشباب",
+          "roleEn": "Local fishermen in the Cuban village.",
+          "roleAr": "صيادو القرية الكوبية المحليون.",
+          "actionsEn": "Mocked Santiago and whispered about his bad luck ('salao').",
+          "actionsAr": "سخروا من سانتياغو وتهامسوا عليه بلقب 'سالاو' لشدة سوء حظه."
+        }
+      ],
+      "characterRelationships": [
+        {
+          "characters": [
+            "Santiago",
+            "Manolin"
+          ],
+          "relationEn": "Master & Loyal Disciple / Grandfather & Son",
+          "relationAr": "معلم وتلميذ وفي / رابطة أسرية نبيلة",
+          "detailsEn": "Manolin deeply respects Santiago's wisdom and dignity; Santiago treats him as his closest confidant.",
+          "detailsAr": "يكن مانولين احتراماً عميقاً لحكمة سانتياغو، بينما يعتبره سانتياغو رفيق روحه وأقرب الناس إليه."
+        }
+      ],
+      "keyDialogues": [
+        {
+          "speakerEn": "Manolin",
+          "speakerAr": "مانولين",
+          "quoteEn": "Old man, you are the greatest fisherman I know. Someday, the luck will return.",
+          "quoteAr": "يا عمي، أنت أعظم صياد عرفته، ويوماً ما سيعود إليك الحظ.",
+          "contextEn": "Manolin encouraging Santiago outside his humble shack.",
+          "contextAr": "مانولين يشد من أزر سانتياغو خارج كوخه البسيط."
+        },
+        {
+          "speakerEn": "Santiago",
+          "speakerAr": "سانتياغو",
+          "quoteEn": "Fishing is not just about luck, my boy; it is about skill, patience, and courage.",
+          "quoteAr": "الصيد لم يكن مجرد حظ يا بني، بل كان دائماً مهارة وصبراً وشجاعة.",
+          "contextEn": "Santiago explaining the true philosophy of fishing to Manolin.",
+          "contextAr": "سانتياغو يوضح فلسفته في الصيد والحياة لتلميذه الشاب."
+        },
+        {
+          "speakerEn": "Santiago",
+          "speakerAr": "سانتياغو",
+          "quoteEn": "Tomorrow is the eighty-fifth day. That is a lucky number. I will go far out, farther than the others dare to go.",
+          "quoteAr": "الغد هو اليوم الخامس والثمانون، وهو رقم محظوظ. سأبحر بعيداً، أبعد مما يجرؤ الآخرون.",
+          "contextEn": "Santiago declaring his resolution to break his unlucky streak.",
+          "contextAr": "سانتياغو يعلن عزمه على كسر طوق سوء الحظ والإبحار في عرض البحر."
+        }
+      ],
+      "themesAndLessons": [
+        {
+          "themeEn": "Dignity in Adversity",
+          "themeAr": "عزة النفس والكرامة في مواجهة الشدائد",
+          "lessonEn": "Material misfortune and bad luck cannot diminish a person's inner dignity and professional pride.",
+          "lessonAr": "سوء الحظ وانقطاع الرزق لا ينقصان من كرامة الإنسان وعزة نفسه وإيمانه بقدراته."
+        },
+        {
+          "themeEn": "Loyalty Across Generations",
+          "themeAr": "الوفاء والبر بين الأجيال",
+          "lessonEn": "Genuine affection and mutual respect bridge the divide between youth and old age.",
+          "lessonAr": "المودة الصادقة والاحترام المتبادل يوثقان الصلة النبيلة بين الشباب والشيوخ."
+        }
       ]
     },
     {
@@ -1010,6 +1088,46 @@
           ],
           "correctAnswer": "As a brother and noble opponent worthy of reverence",
           "explanation": "Santiago respects the fish's majesty, courage, and equality in the great web of nature."
+        }
+      ],
+      "importantCharacters": [
+        {
+          "nameEn": "Santiago",
+          "nameAr": "سانتياغو",
+          "roleEn": "Solitary mariner navigating the deep Gulf Stream.",
+          "roleAr": "بحار منفرد يشق عباب تيار الخليج في ساعات الفجر الأولى.",
+          "actionsEn": "Rowed steadily past the coastal lights, feeling intimate kinship with the flying fish and sea birds.",
+          "actionsAr": "جذف بقوة وثبات متجاوزاً أضواء الساحل، شاعراً بألفة عميقة مع الطيور وأسماك البحر."
+        }
+      ],
+      "characterRelationships": [
+        {
+          "characters": [
+            "Santiago",
+            "The Sea (La Mar)"
+          ],
+          "relationEn": "Man & Nature / Reverence",
+          "relationAr": "الإنسان والطبيعة / حب وتوقير",
+          "detailsEn": "Santiago thinks of the sea as a woman ('la mar') who gives or withholds great favors.",
+          "detailsAr": "ينظر سانتياغو للبحر كأنثى رقيقة ('لا مار') تمنح العطايا أو تحجبها عن محبة."
+        }
+      ],
+      "keyDialogues": [
+        {
+          "speakerEn": "Santiago",
+          "speakerAr": "سانتياغو",
+          "quoteEn": "It is better to be lucky. But I would rather be exact. Then when luck comes you are ready.",
+          "quoteAr": "من الرائع أن يحالفك الحظ، لكنني أفضل أن أكون دقيقاً ومتقناً، فإذا أقبل الحظ وجدك مستعداً له.",
+          "contextEn": "Santiago setting his baited lines at exact fathom depths.",
+          "contextAr": "سانتياغو وهو يضبط خيوط الصيد في أعماق محددة بدقة هندسية بالغة."
+        }
+      ],
+      "themesAndLessons": [
+        {
+          "themeEn": "Precision and Preparedness",
+          "themeAr": "الإتقان والجاهزية للفرص",
+          "lessonEn": "Success requires meticulous preparation so that when opportunity arises, one is completely ready.",
+          "lessonAr": "النجاح الحقيقي يتطلب الإتقان والتحضير الدقيق حتى تستثمر الفرصة متى جاءت."
         }
       ]
     },
@@ -1595,6 +1713,54 @@
           "correctAnswer": "As a brother and noble opponent worthy of reverence",
           "explanation": "Santiago respects the fish's majesty, courage, and equality in the great web of nature."
         }
+      ],
+      "importantCharacters": [
+        {
+          "nameEn": "Santiago",
+          "nameAr": "سانتياغو",
+          "roleEn": "Determined hunter locked in battle with a titan of the deep.",
+          "roleAr": "صياد صلب يواجه عملاقاً من أعماق المحيط.",
+          "actionsEn": "Hooked the giant marlin and held the taut line with his bare back and shoulders.",
+          "actionsAr": "أحكم إمساك السمكة العملاقة بصنارته، وتحمل ضغط الخيط المشدود على ظهره وكتفيه."
+        },
+        {
+          "nameEn": "The Giant Marlin",
+          "nameAr": "سمكة المارلين العملاقة",
+          "roleEn": "Magnificent, noble creature pulling the skiff for miles.",
+          "roleAr": "مخلوق نبيل وفارع القوة يجر القارب لأميال في عرض البحر.",
+          "actionsEn": "Towed the skiff steadily northwest without leaping, testing Santiago's endurance.",
+          "actionsAr": "جرت القارب بثبات نحو الشمال الغربي دون أن تقفز، مختبرةً أقصى حدود طاقة سانتياغو."
+        }
+      ],
+      "characterRelationships": [
+        {
+          "characters": [
+            "Santiago",
+            "The Giant Marlin"
+          ],
+          "relationEn": "Adversaries & Brothers",
+          "relationAr": "خصمان شريفان وأخوان في الطبيعة",
+          "detailsEn": "Santiago feels no hatred, only profound awe and kinship for the magnificent creature.",
+          "detailsAr": "لا يحمل سانتياغو أي كراهية، بل يشعر بإجلال ومحبة عميقة لخصمه النبيل."
+        }
+      ],
+      "keyDialogues": [
+        {
+          "speakerEn": "Santiago",
+          "speakerAr": "سانتياغو",
+          "quoteEn": "I love you and respect you very much. But I will kill you dead before this day ends.",
+          "quoteAr": "أحبك وأحترمك كثيراً يا أخي، لكنني سأقتلك قبل أن ينتهي هذا اليوم.",
+          "contextEn": "Santiago whispering to the fish as it pulls him far into the open sea.",
+          "contextAr": "سانتياغو يهمس للسمكة وهي تجره بعيداً في قلب المحيط المفتوح."
+        }
+      ],
+      "themesAndLessons": [
+        {
+          "themeEn": "Reverence for the Opponent",
+          "themeAr": "احترام الخصم والفروسية",
+          "lessonEn": "A noble warrior respects the dignity and strength of his adversary.",
+          "lessonAr": "المقاتل النبيل يحترم قوة خصمه وشرفه ويعامله بإجلال وتقدير."
+        }
       ]
     },
     {
@@ -2086,6 +2252,46 @@
           ],
           "correctAnswer": "As a brother and noble opponent worthy of reverence",
           "explanation": "Santiago respects the fish's majesty, courage, and equality in the great web of nature."
+        }
+      ],
+      "importantCharacters": [
+        {
+          "nameEn": "Santiago",
+          "nameAr": "سانتياغو",
+          "roleEn": "Suffering warrior enduring physical exhaustion, pain, and cramp.",
+          "roleAr": "محارب صابر يقاوم آلام الجسد والجوع وتقلصات يديه.",
+          "actionsEn": "Ate raw tuna to maintain strength; endured bleeding cuts on his hands while keeping tension on the line.",
+          "actionsAr": "أكل سمك التونة نيئاً للحفاظ على طاقته، وصبر على جروح يديه الداميتين ليحفظ شد الحبل."
+        }
+      ],
+      "characterRelationships": [
+        {
+          "characters": [
+            "Santiago",
+            "Manolin (in thought)"
+          ],
+          "relationEn": "Longing for Camaraderie",
+          "relationAr": "حنين إلى رفقة التلميذ المخلص",
+          "detailsEn": "Santiago constantly repeats: 'I wish I had the boy to help me and see this.'",
+          "detailsAr": "ردد سانتياغو مراراً وتكراراً: 'ليت الصبي معي هنا ليعاونني ويرى هذا المشهد'."
+        }
+      ],
+      "keyDialogues": [
+        {
+          "speakerEn": "Santiago",
+          "speakerAr": "سانتياغو",
+          "quoteEn": "I wish the boy were here. To help me and to see this.",
+          "quoteAr": "ليت الصبي كان هنا معي.. ليساعدني ويرى هذا الصمود الرائع.",
+          "contextEn": "Santiago speaking aloud into the empty sea as his left hand cramps.",
+          "contextAr": "سانتياغو يحدث نفسه في عرض البحر حين أصيبت يده اليسرى بالتقلص والتشنج."
+        }
+      ],
+      "themesAndLessons": [
+        {
+          "themeEn": "Mind over Matter",
+          "themeAr": "قوة الإرادة وقهر الآلام",
+          "lessonEn": "The human mind and spirit can triumph over bodily weakness and severe physical pain.",
+          "lessonAr": "عزيمة الروح وقوة الإرادة قادرتان على التغلب على إنهاك الجسد وأشد الآلام قسوة."
         }
       ]
     },
@@ -2581,6 +2787,54 @@
           "correctAnswer": "As a brother and noble opponent worthy of reverence",
           "explanation": "Santiago respects the fish's majesty, courage, and equality in the great web of nature."
         }
+      ],
+      "importantCharacters": [
+        {
+          "nameEn": "Santiago",
+          "nameAr": "سانتياغو",
+          "roleEn": "Victorious hunter delivering the decisive strike.",
+          "roleAr": "صياد جسور يوجه الضربة القاضية الحاسمة.",
+          "actionsEn": "Summoned all his remaining strength to harpoon the marlin, lashing its giant body to the side of his boat.",
+          "actionsAr": "استجمع ما تبقى من قواه وطعن المارلين برمح الصيد في قلبه، وربط جسده العملاق بجانب القارب."
+        },
+        {
+          "nameEn": "The Giant Marlin",
+          "nameAr": "سمكة المارلين",
+          "roleEn": "The great prize, longer than the skiff itself.",
+          "roleAr": "الصيد الثمين والخصم العظيم الذي فاق طول القارب نفسه.",
+          "actionsEn": "Leaped into the air in a final majestic display of beauty before dying with dignity.",
+          "actionsAr": "قفزت في الهواء قفزة أخيرة رائعة عكست جمالها وهيبتها قبل أن تفارق الحياة بشرف."
+        }
+      ],
+      "characterRelationships": [
+        {
+          "characters": [
+            "Santiago",
+            "The Giant Marlin"
+          ],
+          "relationEn": "United in Triumph and Tragedy",
+          "relationAr": "اتحاد في النصر والتراجيديا",
+          "detailsEn": "In victory, Santiago feels both sorrow and triumph for having taken the life of his noble brother.",
+          "detailsAr": "شعر سانتياغو بمزيج من نشوة الانتصار والحزن النبيل لأنه سلب حياة أخيه العظيم."
+        }
+      ],
+      "keyDialogues": [
+        {
+          "speakerEn": "Santiago",
+          "speakerAr": "سانتياغو",
+          "quoteEn": "He is my brother. But must kill him and keep strong to do it.",
+          "quoteAr": "إنه أخي ورفيق دربي، لكن يجب أن أقتله، ويجب أن أظل قوياً لتحقيق ذلك.",
+          "contextEn": "Santiago bracing for the final circular runs of the marlin.",
+          "contextAr": "سانتياغو وهو يتأهب لرمي الرمح مع اقتراب دوران السمكة حول القارب."
+        }
+      ],
+      "themesAndLessons": [
+        {
+          "themeEn": "The Tragic Cost of Victory",
+          "themeAr": "ثمن النصر وبطولة الكفاح",
+          "lessonEn": "Great achievement often demands supreme personal sacrifice and profound emotional reckoning.",
+          "lessonAr": "الإنجازات الكبرى تتطلب تضحيات جسيمة ومحاسبة عميقة للنفس أمام عظمة الكون."
+        }
       ]
     },
     {
@@ -2940,6 +3194,70 @@
           ],
           "correctAnswer": "As a brother and noble opponent worthy of reverence",
           "explanation": "Santiago respects the fish's majesty, courage, and equality in the great web of nature."
+        }
+      ],
+      "importantCharacters": [
+        {
+          "nameEn": "Santiago",
+          "nameAr": "سانتياغو",
+          "roleEn": "Undefeated hero who fought the sharks to the bitter end.",
+          "roleAr": "بطل أسطوري لم يُهزم، حارب أسماك القرش حتى آخر رمق.",
+          "actionsEn": "Defended the marlin using his harpoon, knife lashed to an oar, and tiller; returned with the magnificent skeleton.",
+          "actionsAr": "دافع عن سمكته بالرمح والسكين والمجداف، وعاد إلى الميناء بهيكلها العظمي الأبيض الشامخ."
+        },
+        {
+          "nameEn": "Manolin",
+          "nameAr": "مانولين",
+          "roleEn": "Faithful student who weeps with admiration for his master's heroism.",
+          "roleAr": "التلميذ البار الذي بكى فخراً وإجلالاً لبطولة معلمه العجوز.",
+          "actionsEn": "Brought Santiago hot coffee, comforted him, and vowed never to leave him again.",
+          "actionsAr": "أحضر القهوة الساخنة لسانتياغو وضمد جراحه وتعهد بالإبحار معه دائماً ولن يتركه أبداً."
+        },
+        {
+          "nameEn": "Tourists & Fishermen",
+          "nameAr": "السياح والصيادون",
+          "roleEn": "Amazed onlookers measuring the eighteen-foot skeleton.",
+          "roleAr": "المشاهدون المذهولون وهم يقيسون الهيكل العظمي الذي بلغ 18 قدماً.",
+          "actionsEn": "Acknowledged Santiago's unparalleled courage and mastery.",
+          "actionsAr": "أيقنوا شجاعة سانتياغو الاستثنائية التي لا نظير لها بين رجال البحر."
+        }
+      ],
+      "characterRelationships": [
+        {
+          "characters": [
+            "Santiago",
+            "Manolin"
+          ],
+          "relationEn": "Undying Loyalty and Heritage",
+          "relationAr": "وفاء خالد وتوارث للرسالة",
+          "detailsEn": "Manolin promises to learn everything from Santiago: 'Now we will fish together again.'",
+          "detailsAr": "مانولين يتعهد بالتعلم من سانتياغو: 'من الآن فصاعداً سنصطاد معاً دائماً'."
+        }
+      ],
+      "keyDialogues": [
+        {
+          "speakerEn": "Santiago",
+          "speakerAr": "سانتياغو",
+          "quoteEn": "Man is not made for defeat. A man can be destroyed but not defeated.",
+          "quoteAr": "لم يُخلق الإنسان للهزيمة.. قد يُدمر الإنسان لكنه لا يُهزم أبداً.",
+          "contextEn": "Santiago's immortal philosophy declared as the sharks tear at the marlin.",
+          "contextAr": "الفلسفة الخالدة التي أعلنها سانتياغو وهو يقاتل أسماك القرش في ظلمة البحر."
+        },
+        {
+          "speakerEn": "Manolin",
+          "speakerAr": "مانولين",
+          "quoteEn": "They beat you, Santiago. They beat you? / No. Truly. It was afterward.",
+          "quoteAr": "هل هزموك يا سانتياغو؟ .. كلا، لم تهزمني السمكة قط، بل كان ذلك بعد الصيد مع وحوش القرش.",
+          "contextEn": "The touching reunion in Santiago's hut the morning after his return.",
+          "contextAr": "اللقاء المؤثر في كوخ سانتياغو في صبيحة يوم عودته."
+        }
+      ],
+      "themesAndLessons": [
+        {
+          "themeEn": "Indomitable Human Spirit",
+          "themeAr": "الروح الإنسانية التي لا تُقهر",
+          "lessonEn": "True victory is not measured by material spoils, but by moral courage and refusing to surrender.",
+          "lessonAr": "النصر الحقيقي لا يُقاس بما تحمله اليد من غنائم، بل بشجاعة الروح والإباء وعدم الاستسلام."
         }
       ]
     }

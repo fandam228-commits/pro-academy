@@ -170,6 +170,54 @@
             "correctAnswer": "A locked box",
             "explanation": "They had to pool their ideas to unlock the enchanted box."
           }
+        ],
+        "importantCharacters": [
+          {
+            "nameEn": "Mr. Adam",
+            "nameAr": "مستر آدم",
+            "roleEn": "Wise teacher and guide.",
+            "roleAr": "معلم وموجه حكيم.",
+            "actionsEn": "Introduced the magic classroom to teach lifelong human values.",
+            "actionsAr": "قدم تجربة الفصل السحري لغرس القيم الإنسانية النبيلة."
+          },
+          {
+            "nameEn": "Sara & Omar",
+            "nameAr": "سارة وعمر",
+            "roleEn": "Curious and cooperative students.",
+            "roleAr": "طالبان متميزان بالفضول والتعاون.",
+            "actionsEn": "Solved riddles by working together and demonstrating honesty.",
+            "actionsAr": "حلا الألغاز بالتعاون وإظهار الصدق والأمانة."
+          }
+        ],
+        "characterRelationships": [
+          {
+            "characters": [
+              "Mr. Adam",
+              "The Students"
+            ],
+            "relationEn": "Inspirational Teacher & Receptive Learners",
+            "relationAr": "معلم ملهم وتلاميذ متعاونون",
+            "detailsEn": "Guiding students to discover wisdom through challenges.",
+            "detailsAr": "توجيه الطلاب لاكتشاف الحكمة من خلال التجارب العملية."
+          }
+        ],
+        "keyDialogues": [
+          {
+            "speakerEn": "Mr. Adam",
+            "speakerAr": "مستر آدم",
+            "quoteEn": "True magic is not spells; it is responsibility, teamwork, and honesty.",
+            "quoteAr": "السحر الحقيقي ليس تعويذات سحرية، بل هو المسؤولية والتعاون والصدق والأمانة.",
+            "contextEn": "Mr. Adam opening the glowing portal in the science lab.",
+            "contextAr": "مستر آدم وهو يفتح البوابة المتوهجة في معمل العلوم."
+          }
+        ],
+        "themesAndLessons": [
+          {
+            "themeEn": "Values as True Superpowers",
+            "themeAr": "القيم الأخلاقية هي القوة الحقيقية",
+            "lessonEn": "Cooperation, honesty, and mutual respect unlock doors that force cannot open.",
+            "lessonAr": "التعاون والصدق والاحترام المتبادل يفتحون أبواب النجاح التي لا تُفتح بالقوة."
+          }
         ]
       },
       {
@@ -276,6 +324,54 @@
             "correctAnswer": "Only those with respect, ambition, and courage can cross",
             "explanation": "The bridge responded only to moral qualities."
           }
+        ],
+        "importantCharacters": [
+          {
+            "nameEn": "Mr. Adam",
+            "nameAr": "مستر آدم",
+            "roleEn": "Wise teacher and guide.",
+            "roleAr": "معلم وموجه حكيم.",
+            "actionsEn": "Introduced the magic classroom to teach lifelong human values.",
+            "actionsAr": "قدم تجربة الفصل السحري لغرس القيم الإنسانية النبيلة."
+          },
+          {
+            "nameEn": "Sara & Omar",
+            "nameAr": "سارة وعمر",
+            "roleEn": "Curious and cooperative students.",
+            "roleAr": "طالبان متميزان بالفضول والتعاون.",
+            "actionsEn": "Solved riddles by working together and demonstrating honesty.",
+            "actionsAr": "حلا الألغاز بالتعاون وإظهار الصدق والأمانة."
+          }
+        ],
+        "characterRelationships": [
+          {
+            "characters": [
+              "Mr. Adam",
+              "The Students"
+            ],
+            "relationEn": "Inspirational Teacher & Receptive Learners",
+            "relationAr": "معلم ملهم وتلاميذ متعاونون",
+            "detailsEn": "Guiding students to discover wisdom through challenges.",
+            "detailsAr": "توجيه الطلاب لاكتشاف الحكمة من خلال التجارب العملية."
+          }
+        ],
+        "keyDialogues": [
+          {
+            "speakerEn": "Mr. Adam",
+            "speakerAr": "مستر آدم",
+            "quoteEn": "True magic is not spells; it is responsibility, teamwork, and honesty.",
+            "quoteAr": "السحر الحقيقي ليس تعويذات سحرية، بل هو المسؤولية والتعاون والصدق والأمانة.",
+            "contextEn": "Mr. Adam opening the glowing portal in the science lab.",
+            "contextAr": "مستر آدم وهو يفتح البوابة المتوهجة في معمل العلوم."
+          }
+        ],
+        "themesAndLessons": [
+          {
+            "themeEn": "Values as True Superpowers",
+            "themeAr": "القيم الأخلاقية هي القوة الحقيقية",
+            "lessonEn": "Cooperation, honesty, and mutual respect unlock doors that force cannot open.",
+            "lessonAr": "التعاون والصدق والاحترام المتبادل يفتحون أبواب النجاح التي لا تُفتح بالقوة."
+          }
         ]
       },
       {
@@ -381,6 +477,54 @@
             ],
             "correctAnswer": "A glowing book of values",
             "explanation": "The glowing book held the enduring lessons of character and cooperation."
+          }
+        ],
+        "importantCharacters": [
+          {
+            "nameEn": "Mr. Adam",
+            "nameAr": "مستر آدم",
+            "roleEn": "Wise teacher and guide.",
+            "roleAr": "معلم وموجه حكيم.",
+            "actionsEn": "Introduced the magic classroom to teach lifelong human values.",
+            "actionsAr": "قدم تجربة الفصل السحري لغرس القيم الإنسانية النبيلة."
+          },
+          {
+            "nameEn": "Sara & Omar",
+            "nameAr": "سارة وعمر",
+            "roleEn": "Curious and cooperative students.",
+            "roleAr": "طالبان متميزان بالفضول والتعاون.",
+            "actionsEn": "Solved riddles by working together and demonstrating honesty.",
+            "actionsAr": "حلا الألغاز بالتعاون وإظهار الصدق والأمانة."
+          }
+        ],
+        "characterRelationships": [
+          {
+            "characters": [
+              "Mr. Adam",
+              "The Students"
+            ],
+            "relationEn": "Inspirational Teacher & Receptive Learners",
+            "relationAr": "معلم ملهم وتلاميذ متعاونون",
+            "detailsEn": "Guiding students to discover wisdom through challenges.",
+            "detailsAr": "توجيه الطلاب لاكتشاف الحكمة من خلال التجارب العملية."
+          }
+        ],
+        "keyDialogues": [
+          {
+            "speakerEn": "Mr. Adam",
+            "speakerAr": "مستر آدم",
+            "quoteEn": "True magic is not spells; it is responsibility, teamwork, and honesty.",
+            "quoteAr": "السحر الحقيقي ليس تعويذات سحرية، بل هو المسؤولية والتعاون والصدق والأمانة.",
+            "contextEn": "Mr. Adam opening the glowing portal in the science lab.",
+            "contextAr": "مستر آدم وهو يفتح البوابة المتوهجة في معمل العلوم."
+          }
+        ],
+        "themesAndLessons": [
+          {
+            "themeEn": "Values as True Superpowers",
+            "themeAr": "القيم الأخلاقية هي القوة الحقيقية",
+            "lessonEn": "Cooperation, honesty, and mutual respect unlock doors that force cannot open.",
+            "lessonAr": "التعاون والصدق والاحترام المتبادل يفتحون أبواب النجاح التي لا تُفتح بالقوة."
           }
         ]
       }
@@ -565,6 +709,54 @@
             "correctAnswer": "Her ideas were initially ignored in the rush",
             "explanation": "Sara intervened to ensure Lily's voice was welcomed and valued."
           }
+        ],
+        "importantCharacters": [
+          {
+            "nameEn": "Lily",
+            "nameAr": "ليلي",
+            "roleEn": "Youngest member of the school robotics team.",
+            "roleAr": "أصغر عضوة في فريق الروبوتات المدرسي.",
+            "actionsEn": "Overcame her shyness and contributed creative programming ideas.",
+            "actionsAr": "تغلبت على خجلها وقدمت أفكاراً برمجية مبتكرة قادت الفريق للنجاح."
+          },
+          {
+            "nameEn": "Ziad",
+            "nameAr": "زياد",
+            "roleEn": "Team captain.",
+            "roleAr": "قائد الفريق المشجع.",
+            "actionsEn": "Encouraged Lily and welcomed her contributions.",
+            "actionsAr": "شجع ليلي ووثق بقدراتها ورحب بأفكارها."
+          }
+        ],
+        "characterRelationships": [
+          {
+            "characters": [
+              "Lily",
+              "Ziad"
+            ],
+            "relationEn": "Teammates",
+            "relationAr": "زميلا فريق متعاونان",
+            "detailsEn": "Empowering younger members through supportive mentorship.",
+            "detailsAr": "دعم العضوة الأصغر سناً وتحفيزها على إظهار موهبتها."
+          }
+        ],
+        "keyDialogues": [
+          {
+            "speakerEn": "Lily",
+            "speakerAr": "ليلي",
+            "quoteEn": "Age doesn't measure how much you can contribute; what matters is your willingness to try.",
+            "quoteAr": "العمر لا يقيس مدى قدرتك على العطاء؛ المهم حقاً هو استعدادك للمحاولة والاجتهاد.",
+            "contextEn": "Lily speaking after the robot completed the obstacle course.",
+            "contextAr": "ليلي تتحدث بفخر بعد اجتياز الروبوت مسار التحدي بنجاح."
+          }
+        ],
+        "themesAndLessons": [
+          {
+            "themeEn": "Self-Confidence and Inclusion",
+            "themeAr": "الثقة بالنفس واحتواء الجميع",
+            "lessonEn": "Believing in oneself and working together overcomes any initial shyness.",
+            "lessonAr": "الثقة في القدرات الذاتية والعمل بروح الفريق يتغلبان على أي تردد أو خجل."
+          }
         ]
       },
       {
@@ -671,6 +863,54 @@
             "correctAnswer": "She overcame her shyness and proposed iterative testing",
             "explanation": "Lily gained self-assurance and offered practical suggestions."
           }
+        ],
+        "importantCharacters": [
+          {
+            "nameEn": "Lily",
+            "nameAr": "ليلي",
+            "roleEn": "Youngest member of the school robotics team.",
+            "roleAr": "أصغر عضوة في فريق الروبوتات المدرسي.",
+            "actionsEn": "Overcame her shyness and contributed creative programming ideas.",
+            "actionsAr": "تغلبت على خجلها وقدمت أفكاراً برمجية مبتكرة قادت الفريق للنجاح."
+          },
+          {
+            "nameEn": "Ziad",
+            "nameAr": "زياد",
+            "roleEn": "Team captain.",
+            "roleAr": "قائد الفريق المشجع.",
+            "actionsEn": "Encouraged Lily and welcomed her contributions.",
+            "actionsAr": "شجع ليلي ووثق بقدراتها ورحب بأفكارها."
+          }
+        ],
+        "characterRelationships": [
+          {
+            "characters": [
+              "Lily",
+              "Ziad"
+            ],
+            "relationEn": "Teammates",
+            "relationAr": "زميلا فريق متعاونان",
+            "detailsEn": "Empowering younger members through supportive mentorship.",
+            "detailsAr": "دعم العضوة الأصغر سناً وتحفيزها على إظهار موهبتها."
+          }
+        ],
+        "keyDialogues": [
+          {
+            "speakerEn": "Lily",
+            "speakerAr": "ليلي",
+            "quoteEn": "Age doesn't measure how much you can contribute; what matters is your willingness to try.",
+            "quoteAr": "العمر لا يقيس مدى قدرتك على العطاء؛ المهم حقاً هو استعدادك للمحاولة والاجتهاد.",
+            "contextEn": "Lily speaking after the robot completed the obstacle course.",
+            "contextAr": "ليلي تتحدث بفخر بعد اجتياز الروبوت مسار التحدي بنجاح."
+          }
+        ],
+        "themesAndLessons": [
+          {
+            "themeEn": "Self-Confidence and Inclusion",
+            "themeAr": "الثقة بالنفس واحتواء الجميع",
+            "lessonEn": "Believing in oneself and working together overcomes any initial shyness.",
+            "lessonAr": "الثقة في القدرات الذاتية والعمل بروح الفريق يتغلبان على أي تردد أو خجل."
+          }
         ]
       },
       {
@@ -776,6 +1016,54 @@
             ],
             "correctAnswer": "Good values and teamwork are more important than winning trophies",
             "explanation": "True victory is rooted in collaborative ethics and service."
+          }
+        ],
+        "importantCharacters": [
+          {
+            "nameEn": "Lily",
+            "nameAr": "ليلي",
+            "roleEn": "Youngest member of the school robotics team.",
+            "roleAr": "أصغر عضوة في فريق الروبوتات المدرسي.",
+            "actionsEn": "Overcame her shyness and contributed creative programming ideas.",
+            "actionsAr": "تغلبت على خجلها وقدمت أفكاراً برمجية مبتكرة قادت الفريق للنجاح."
+          },
+          {
+            "nameEn": "Ziad",
+            "nameAr": "زياد",
+            "roleEn": "Team captain.",
+            "roleAr": "قائد الفريق المشجع.",
+            "actionsEn": "Encouraged Lily and welcomed her contributions.",
+            "actionsAr": "شجع ليلي ووثق بقدراتها ورحب بأفكارها."
+          }
+        ],
+        "characterRelationships": [
+          {
+            "characters": [
+              "Lily",
+              "Ziad"
+            ],
+            "relationEn": "Teammates",
+            "relationAr": "زميلا فريق متعاونان",
+            "detailsEn": "Empowering younger members through supportive mentorship.",
+            "detailsAr": "دعم العضوة الأصغر سناً وتحفيزها على إظهار موهبتها."
+          }
+        ],
+        "keyDialogues": [
+          {
+            "speakerEn": "Lily",
+            "speakerAr": "ليلي",
+            "quoteEn": "Age doesn't measure how much you can contribute; what matters is your willingness to try.",
+            "quoteAr": "العمر لا يقيس مدى قدرتك على العطاء؛ المهم حقاً هو استعدادك للمحاولة والاجتهاد.",
+            "contextEn": "Lily speaking after the robot completed the obstacle course.",
+            "contextAr": "ليلي تتحدث بفخر بعد اجتياز الروبوت مسار التحدي بنجاح."
+          }
+        ],
+        "themesAndLessons": [
+          {
+            "themeEn": "Self-Confidence and Inclusion",
+            "themeAr": "الثقة بالنفس واحتواء الجميع",
+            "lessonEn": "Believing in oneself and working together overcomes any initial shyness.",
+            "lessonAr": "الثقة في القدرات الذاتية والعمل بروح الفريق يتغلبان على أي تردد أو خجل."
           }
         ]
       }

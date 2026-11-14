@@ -665,6 +665,62 @@
           "correctAnswer": "Through complementary expertise: scientific insight, tactical hunting skills, and observant courage",
           "explanation": "The characters' diverse talents are essential to their collective survival and success."
         }
+      ],
+      "importantCharacters": [
+        {
+          "nameEn": "Edward Malone",
+          "nameAr": "إدوارد مالون",
+          "roleEn": "Twenty-three-year-old Irish reporter for the Daily Gazette.",
+          "roleAr": "صحفي أيرلندي شاب في الثالثة والعشرين من عمره يعمل بجريدة 'ديلي جازيت'.",
+          "actionsEn": "Sought a dangerous mission to win the heart of Gladys.",
+          "actionsAr": "سعى وراء مغامرة خطيرة ليثبت شجاعته ويفوز بقلب جلاديس."
+        },
+        {
+          "nameEn": "Gladys Hungerton",
+          "nameAr": "جلاديس هانجرتون",
+          "roleEn": "Malone's proud and romantic beloved.",
+          "roleAr": "محبوبة مالون الفخورة التي تحلم بفارس شجاع.",
+          "actionsEn": "Refused Malone's proposal, demanding a heroic man of action.",
+          "actionsAr": "رفضت الزواج من مالون مشترطة أن يكون فارس أحلامها بطلاً مقداماً لا يهاب الأخطار."
+        },
+        {
+          "nameEn": "Mr. McArdle",
+          "nameAr": "مستر ماكاردل",
+          "roleEn": "Demanding news editor of the Daily Gazette.",
+          "roleAr": "رئيس قسم الأخبار الصارم بجريدة ديلي جازيت.",
+          "actionsEn": "Assigned Malone to interview the violent Professor Challenger.",
+          "actionsAr": "كلف مالون بمهمة محاورة البروفيسور العنيف والمثير للجدل تشالنجر."
+        }
+      ],
+      "characterRelationships": [
+        {
+          "characters": [
+            "Edward Malone",
+            "Gladys Hungerton"
+          ],
+          "relationEn": "Romantic Suitor & Demanding Muse",
+          "relationAr": "عاشق طموح وفتاة تطلب البطولة",
+          "detailsEn": "Gladys inspires Malone to pursue reckless danger.",
+          "detailsAr": "جلاديس تدفع مالون للبحث عن أخطر المغامرات لإثبات رجولته."
+        }
+      ],
+      "keyDialogues": [
+        {
+          "speakerEn": "Gladys Hungerton",
+          "speakerAr": "جلاديس هانجرتون",
+          "quoteEn": "I want a man who can face danger with a calm face, who does great deeds without boasting.",
+          "quoteAr": "أريد رجلاً يستطيع مواجهة الخطر بوجه هادئ، ويصنع المجد دون تباهٍ أو تفاخر.",
+          "contextEn": "Gladys telling Malone what kind of man she could love.",
+          "contextAr": "جلاديس تخبر مالون بنوع الرجل الذي يمكن أن تهبه قلبها."
+        }
+      ],
+      "themesAndLessons": [
+        {
+          "themeEn": "Ambition and Romantic Idealism",
+          "themeAr": "الطموح والبحث عن البطولة",
+          "lessonEn": "The drive to prove oneself can inspire courage to step outside ordinary comfort.",
+          "lessonAr": "الرغبة في إثبات الذات تدفع الإنسان لخوض التجارب الصعبة وتجاوز حدود المألوف."
+        }
       ]
     },
     {
@@ -1314,6 +1370,54 @@
           ],
           "correctAnswer": "Through complementary expertise: scientific insight, tactical hunting skills, and observant courage",
           "explanation": "The characters' diverse talents are essential to their collective survival and success."
+        }
+      ],
+      "importantCharacters": [
+        {
+          "nameEn": "Professor George Edward Challenger",
+          "nameAr": "البروفيسور جورج تشالنجر",
+          "roleEn": "Brilliant, explosive, and gigantic zoologist.",
+          "roleAr": "عالم حيوان عبقري عملاق الجثة شديد الانفعال والذكاء.",
+          "actionsEn": "Attacked Malone when his journalistic identity was exposed, then revealed secret sketches of dinosaurs.",
+          "actionsAr": "هاجم مالون عندما اكتشف أنه صحفي، ثم كشف له رسومات وعظاماً لكائنات منقرضة."
+        },
+        {
+          "nameEn": "Edward Malone",
+          "nameAr": "إدوارد مالون",
+          "roleEn": "Reporter attempting an undercover interview.",
+          "roleAr": "صحفي يحاول استدراج العالم تحت ستار الاهتمام بالعلوم.",
+          "actionsEn": "Earned Challenger's grudging respect by not prosecuting him after their fight.",
+          "actionsAr": "نال احترام تشالنجر حين رفض مقاضاته أمام الشرطة بعد شجارهما العنيف."
+        }
+      ],
+      "characterRelationships": [
+        {
+          "characters": [
+            "Professor Challenger",
+            "Edward Malone"
+          ],
+          "relationEn": "Volatile Hostility to Mutual Respect",
+          "relationAr": "من عداء عاصف إلى احترام علمي متبادل",
+          "detailsEn": "Challenger respects courage and discretion; Malone admires authentic scientific genius.",
+          "detailsAr": "يقدر تشالنجر الشجاعة والكتمان، بينما انبهر مالون بالعبقرية العلمية الفذة."
+        }
+      ],
+      "keyDialogues": [
+        {
+          "speakerEn": "Professor Challenger",
+          "speakerAr": "البروفيسور تشالنجر",
+          "quoteEn": "I have touched prehistory! Creatures you believe long extinct still walk the earth upon an isolated plateau.",
+          "quoteAr": "لقد لمست عصور ما قبل التاريخ بيدي! كائنات تظنون أنها انقرضت لا تزال تمشي فوق هضبة معزولة.",
+          "contextEn": "Challenger revealing Maple White's diary and sketches.",
+          "contextAr": "تشالنجر وهو يعرض على مالون مذكرات ورسومات المستكشف مابل وايت."
+        }
+      ],
+      "themesAndLessons": [
+        {
+          "themeEn": "Scientific Truth vs. Dogma",
+          "themeAr": "الحقيقة العلمية في مواجهة الجمود",
+          "lessonEn": "Pioneering discoveries often face ridicule before being vindicated by evidence.",
+          "lessonAr": "الاكتشافات الرائدة تقابل غالباً بالاستهزاء والإنكار قبل أن تثبتها الأدلة الدامغة."
         }
       ]
     },
@@ -2009,6 +2113,62 @@
           "correctAnswer": "Through complementary expertise: scientific insight, tactical hunting skills, and observant courage",
           "explanation": "The characters' diverse talents are essential to their collective survival and success."
         }
+      ],
+      "importantCharacters": [
+        {
+          "nameEn": "Professor Challenger",
+          "nameAr": "البروفيسور تشالنجر",
+          "roleEn": "Defiant scientist facing a hostile public audience.",
+          "roleAr": "عالم متمرد يتحدى قاعة مكتظة بالمشككين والعلماء.",
+          "actionsEn": "Challenged the scientific establishment to test his claims.",
+          "actionsAr": "تحدى معهد الحيوان بلندن لتشكيل بعثة استكشافية للتحقق من مزاعمه."
+        },
+        {
+          "nameEn": "Professor Summerlee",
+          "nameAr": "البروفيسور سمرلي",
+          "roleEn": "Skeptical, cautious, and sarcastic anatomist.",
+          "roleAr": "عالم تشريح شكاك شديد الحذر والتهكم.",
+          "actionsEn": "Volunteered to join the expedition to expose Challenger as a fraud.",
+          "actionsAr": "تطوع للانضمام للرحلة بهدف إثبات زيف ادعاءات تشالنجر أمام العالم."
+        },
+        {
+          "nameEn": "Lord John Roxton",
+          "nameAr": "اللورد جون روكستون",
+          "roleEn": "Fearless world traveler, sportsman, and skilled hunter.",
+          "roleAr": "رحالة شجاع وصياد محنك جاب أرجاء العالم وخاض أعتى الأهوال.",
+          "actionsEn": "Agreed to join as the expedition's protector and marksman.",
+          "actionsAr": "انضم للبعثة كخبير ميداني وحامٍ للعلماء ببندقيته الدقيقة."
+        }
+      ],
+      "characterRelationships": [
+        {
+          "characters": [
+            "Professor Challenger",
+            "Professor Summerlee"
+          ],
+          "relationEn": "Fierce Academic Rivals",
+          "relationAr": "ندّان أكاديميان في سجال علمي حاد",
+          "detailsEn": "Summerlee's cold skepticism clashes with Challenger's fiery certainty.",
+          "detailsAr": "شكوك سمرلي الباردة تصطدم بيقين تشالنجر الناري واندفاعه."
+        }
+      ],
+      "keyDialogues": [
+        {
+          "speakerEn": "Lord John Roxton",
+          "speakerAr": "اللورد جون روكستون",
+          "quoteEn": "If there is danger, count me in. The world has grown too tame for my liking.",
+          "quoteAr": "إذا كان هناك خطر حقيقي، فاحسبوني معكم؛ فالعالم بات مملاً ومفرطاً في الهدوء لذوقي.",
+          "contextEn": "Lord John stepping forward at the Zoological Institute meeting.",
+          "contextAr": "اللورد جون يعلن انضمامه للبعثة في معهد الحيوان بلندن وسط هتاف الجمهور."
+        }
+      ],
+      "themesAndLessons": [
+        {
+          "themeEn": "Verification through Independent Inquiry",
+          "themeAr": "التحقق الميداني والبحث العلمي المستقل",
+          "lessonEn": "True science seeks empirical proof through direct observation rather than armchair theories.",
+          "lessonAr": "العلم النزيه يسعى وراء البرهان الميداني والملاحظة المباشرة بدلاً من النظريات النظرية."
+        }
       ]
     },
     {
@@ -2545,6 +2705,53 @@
           ],
           "correctAnswer": "Through complementary expertise: scientific insight, tactical hunting skills, and observant courage",
           "explanation": "The characters' diverse talents are essential to their collective survival and success."
+        }
+      ],
+      "importantCharacters": [
+        {
+          "nameEn": "Edward Malone",
+          "nameAr": "إدوارد مالون",
+          "roleEn": "Expedition chronicler facing primeval wilderness.",
+          "roleAr": "مسجل وقائع البعثة في مواجهة أدغال الأمازون البكر.",
+          "actionsEn": "Recorded the journey up the Amazon tributaries toward the red volcanic cliffs.",
+          "actionsAr": "دون أحداث الرحلة عبر روافد الأمازون حتى الوصول للمنحدرات الصخرية الحمراء."
+        },
+        {
+          "nameEn": "Gomez",
+          "nameAr": "جوميز",
+          "roleEn": "Deceitful local guide harboring a secret vendetta.",
+          "roleAr": "دليل محلي مخادع يضمر ثأراً قديماً وانتقاماً دفيناً.",
+          "actionsEn": "Led the party to the base of the plateau while concealing his hatred for Lord John.",
+          "actionsAr": "قاد الفريق حتى سفح الهضبة متكتماً على حقده ورغبته في الثأر لأخيه."
+        }
+      ],
+      "characterRelationships": [
+        {
+          "characters": [
+            "The Four Explorers"
+          ],
+          "relationEn": "United Fellowship",
+          "relationAr": "فريق استكشافي متحد في مواجهة المجهول",
+          "detailsEn": "Overcoming differences in discipline and age to survive the perilous jungle.",
+          "detailsAr": "تجاوز الخلافات الفكرية والسنية للتعاون والنجاة في غابات الأمازون القاتلة."
+        }
+      ],
+      "keyDialogues": [
+        {
+          "speakerEn": "Professor Summerlee",
+          "speakerAr": "البروفيسور سمرلي",
+          "quoteEn": "I must admit, Challenger: those cliffs match Maple White's drawing in every detail.",
+          "quoteAr": "يجب أن أعترف يا تشالنجر: تلك المنحدرات الصخرية تطابق رسومات مابل وايت بكل دقة.",
+          "contextEn": "Summerlee viewing the majestic red basalt cliffs for the first time.",
+          "contextAr": "سمرلي ينظر بذهول إلى المنحدرات الصخرية الحمراء لأول مرة."
+        }
+      ],
+      "themesAndLessons": [
+        {
+          "themeEn": "The Wonder of Uncharted Frontiers",
+          "themeAr": "رهبة الطبيعة البكر وعظمة الاستكشاف",
+          "lessonEn": "Nature preserves ancient mysteries in remote sanctuaries beyond human dominion.",
+          "lessonAr": "الطبيعة تحفظ أسرارها العظيمة في ملاذات نائية تتجاوز سيطرة الإنسان المعاصر."
         }
       ]
     },
@@ -3095,6 +3302,54 @@
           ],
           "correctAnswer": "Through complementary expertise: scientific insight, tactical hunting skills, and observant courage",
           "explanation": "The characters' diverse talents are essential to their collective survival and success."
+        }
+      ],
+      "importantCharacters": [
+        {
+          "nameEn": "Gomez",
+          "nameAr": "جوميز",
+          "roleEn": "The vengeful traitor.",
+          "roleAr": "الخائن المنتقم لأخيه.",
+          "actionsEn": "Pushed the felled tree bridge into the deep chasm, trapping the four explorers on the plateau.",
+          "actionsAr": "أسقط الجسر الخشبي في الهاوية السحيقة محاصراً المستكشفين الأربعة فوق الهضبة."
+        },
+        {
+          "nameEn": "Lord John Roxton",
+          "nameAr": "اللورد جون روكستون",
+          "roleEn": "Decisive protector who dispatched the traitor.",
+          "roleAr": "الحامي الجسور الذي اقتص من الخائن ببندقيته.",
+          "actionsEn": "Shot Gomez to avenge the betrayal and took command of defense against prehistoric beasts.",
+          "actionsAr": "أردى جوميز قتيلاً جزاء خيانته وتولى قيادة الدفاع ضد وحوش ما قبل التاريخ."
+        }
+      ],
+      "characterRelationships": [
+        {
+          "characters": [
+            "Gomez",
+            "Lord John Roxton"
+          ],
+          "relationEn": "Blood Feud and Retribution",
+          "relationAr": "ثأر دموي وقصاص حاسم",
+          "detailsEn": "Gomez sought revenge for his slaver brother Pedro; Lord John dispensed righteous justice.",
+          "detailsAr": "سعى جوميز للثأر لأخيه تاجر الرقيق بيدرو، فاقتص منه اللورد جون جزاء غدره."
+        }
+      ],
+      "keyDialogues": [
+        {
+          "speakerEn": "Gomez",
+          "speakerAr": "جوميز",
+          "quoteEn": "Lord Roxton! You killed my brother Pedro years ago! Now you and your professors shall die slowly on that rock!",
+          "quoteAr": "يا لورد روكستون! لقد قتلت أخي بيدرو منذ سنوات! والآن ستموت أنت وعلماؤك ببطء فوق تلك الصخرة المعزولة!",
+          "contextEn": "Gomez shouting from across the chasm after destroying the bridge.",
+          "contextAr": "جوميز يصرخ من حافة الهاوية بعد أن أسقط شجرة الجسر وحاصرهم."
+        }
+      ],
+      "themesAndLessons": [
+        {
+          "themeEn": "Unity in the Face of Peril",
+          "themeAr": "التلاحم في مواجهة الخطر المحدق",
+          "lessonEn": "When trapped in mortal danger, unity, resourcefulness, and unyielding courage are the only paths to survival.",
+          "lessonAr": "عند الحصار في مواجهة الموت، يصبح التماسك والشجاعة والاعتماد على الذات طوق النجاة الوحيد."
         }
       ]
     }

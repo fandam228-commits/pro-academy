@@ -179,6 +179,54 @@
             "correctAnswer": "A talking robot",
             "explanation": "Amal selected a talking robot to showcase her passion for invention and mechanics."
           }
+        ],
+        "importantCharacters": [
+          {
+            "nameEn": "Amal",
+            "nameAr": "أمل",
+            "roleEn": "Young inventor passionate about technology and community service.",
+            "roleAr": "مبتكرة شابة شغوفة بالتكنولوجيا وخدمة مجتمعها.",
+            "actionsEn": "Designed an automated smart talking robot to help elderly villagers.",
+            "actionsAr": "صممت روبوتاً ذكياً متكلماً لمساعدة كبار السن وذوي الاحتياجات في قريتها."
+          },
+          {
+            "nameEn": "Amal's Teacher",
+            "nameAr": "معلم أمل",
+            "roleEn": "Supportive mentor.",
+            "roleAr": "المعلم الداعم والمشجع.",
+            "actionsEn": "Encouraged Amal to participate in the Innovation Fair.",
+            "actionsAr": "شجع أمل على المشاركة في معرض الابتكارات والإبداع."
+          }
+        ],
+        "characterRelationships": [
+          {
+            "characters": [
+              "Amal",
+              "Her Community"
+            ],
+            "relationEn": "Young Innovator & Grateful Villagers",
+            "relationAr": "مبتكرة شابة ومجتمع ممتن",
+            "detailsEn": "Using technology for ethical, compassionate social benefit.",
+            "detailsAr": "توظيف التكنولوجيا لخدمة الإنسانية ونشر الخير في المجتمع."
+          }
+        ],
+        "keyDialogues": [
+          {
+            "speakerEn": "Amal",
+            "speakerAr": "أمل",
+            "quoteEn": "Inventions are not made to show off; they are made to solve real problems and bring hope to people.",
+            "quoteAr": "الابتكارات لم تُصنع للتفاخر والتباهي، بل صُنعت لحل مشكلات واقعية ونشر الأمل بين الناس.",
+            "contextEn": "Amal demonstrating her robot at the school exhibition.",
+            "contextAr": "أمل تعرض مشروع الروبوت في المعرض السنوي للإبداع."
+          }
+        ],
+        "themesAndLessons": [
+          {
+            "themeEn": "Purposeful Innovation",
+            "themeAr": "الابتكار الهادف لخدمة المجتمع",
+            "lessonEn": "True scientific success lies in compassion and solving community challenges.",
+            "lessonAr": "النجاح العلمي الحقيقي يكمن في إفادة الناس وتقديم حلول مبتكرة لخدمة المجتمع."
+          }
         ]
       },
       {
@@ -285,6 +333,54 @@
             "correctAnswer": "Academic honesty",
             "explanation": "Amal respected original work and practiced genuine intellectual integrity."
           }
+        ],
+        "importantCharacters": [
+          {
+            "nameEn": "Amal",
+            "nameAr": "أمل",
+            "roleEn": "Young inventor passionate about technology and community service.",
+            "roleAr": "مبتكرة شابة شغوفة بالتكنولوجيا وخدمة مجتمعها.",
+            "actionsEn": "Designed an automated smart talking robot to help elderly villagers.",
+            "actionsAr": "صممت روبوتاً ذكياً متكلماً لمساعدة كبار السن وذوي الاحتياجات في قريتها."
+          },
+          {
+            "nameEn": "Amal's Teacher",
+            "nameAr": "معلم أمل",
+            "roleEn": "Supportive mentor.",
+            "roleAr": "المعلم الداعم والمشجع.",
+            "actionsEn": "Encouraged Amal to participate in the Innovation Fair.",
+            "actionsAr": "شجع أمل على المشاركة في معرض الابتكارات والإبداع."
+          }
+        ],
+        "characterRelationships": [
+          {
+            "characters": [
+              "Amal",
+              "Her Community"
+            ],
+            "relationEn": "Young Innovator & Grateful Villagers",
+            "relationAr": "مبتكرة شابة ومجتمع ممتن",
+            "detailsEn": "Using technology for ethical, compassionate social benefit.",
+            "detailsAr": "توظيف التكنولوجيا لخدمة الإنسانية ونشر الخير في المجتمع."
+          }
+        ],
+        "keyDialogues": [
+          {
+            "speakerEn": "Amal",
+            "speakerAr": "أمل",
+            "quoteEn": "Inventions are not made to show off; they are made to solve real problems and bring hope to people.",
+            "quoteAr": "الابتكارات لم تُصنع للتفاخر والتباهي، بل صُنعت لحل مشكلات واقعية ونشر الأمل بين الناس.",
+            "contextEn": "Amal demonstrating her robot at the school exhibition.",
+            "contextAr": "أمل تعرض مشروع الروبوت في المعرض السنوي للإبداع."
+          }
+        ],
+        "themesAndLessons": [
+          {
+            "themeEn": "Purposeful Innovation",
+            "themeAr": "الابتكار الهادف لخدمة المجتمع",
+            "lessonEn": "True scientific success lies in compassion and solving community challenges.",
+            "lessonAr": "النجاح العلمي الحقيقي يكمن في إفادة الناس وتقديم حلول مبتكرة لخدمة المجتمع."
+          }
         ]
       },
       {
@@ -390,6 +486,54 @@
             ],
             "correctAnswer": "Expressing herself honestly and inspiring others",
             "explanation": "True victory was personal growth, integrity, and inspiring positive change."
+          }
+        ],
+        "importantCharacters": [
+          {
+            "nameEn": "Amal",
+            "nameAr": "أمل",
+            "roleEn": "Young inventor passionate about technology and community service.",
+            "roleAr": "مبتكرة شابة شغوفة بالتكنولوجيا وخدمة مجتمعها.",
+            "actionsEn": "Designed an automated smart talking robot to help elderly villagers.",
+            "actionsAr": "صممت روبوتاً ذكياً متكلماً لمساعدة كبار السن وذوي الاحتياجات في قريتها."
+          },
+          {
+            "nameEn": "Amal's Teacher",
+            "nameAr": "معلم أمل",
+            "roleEn": "Supportive mentor.",
+            "roleAr": "المعلم الداعم والمشجع.",
+            "actionsEn": "Encouraged Amal to participate in the Innovation Fair.",
+            "actionsAr": "شجع أمل على المشاركة في معرض الابتكارات والإبداع."
+          }
+        ],
+        "characterRelationships": [
+          {
+            "characters": [
+              "Amal",
+              "Her Community"
+            ],
+            "relationEn": "Young Innovator & Grateful Villagers",
+            "relationAr": "مبتكرة شابة ومجتمع ممتن",
+            "detailsEn": "Using technology for ethical, compassionate social benefit.",
+            "detailsAr": "توظيف التكنولوجيا لخدمة الإنسانية ونشر الخير في المجتمع."
+          }
+        ],
+        "keyDialogues": [
+          {
+            "speakerEn": "Amal",
+            "speakerAr": "أمل",
+            "quoteEn": "Inventions are not made to show off; they are made to solve real problems and bring hope to people.",
+            "quoteAr": "الابتكارات لم تُصنع للتفاخر والتباهي، بل صُنعت لحل مشكلات واقعية ونشر الأمل بين الناس.",
+            "contextEn": "Amal demonstrating her robot at the school exhibition.",
+            "contextAr": "أمل تعرض مشروع الروبوت في المعرض السنوي للإبداع."
+          }
+        ],
+        "themesAndLessons": [
+          {
+            "themeEn": "Purposeful Innovation",
+            "themeAr": "الابتكار الهادف لخدمة المجتمع",
+            "lessonEn": "True scientific success lies in compassion and solving community challenges.",
+            "lessonAr": "النجاح العلمي الحقيقي يكمن في إفادة الناس وتقديم حلول مبتكرة لخدمة المجتمع."
           }
         ]
       }
@@ -562,6 +706,45 @@
             "correctAnswer": "Equality and mutual listening",
             "explanation": "They committed to teamwork with no authoritarian leader."
           }
+        ],
+        "importantCharacters": [
+          {
+            "nameEn": "Youssef & Friends",
+            "nameAr": "يوسف وأصدقاؤه",
+            "roleEn": "Scout explorers on the Hidden Island.",
+            "roleAr": "كشافة ومستكشفون على الجزيرة المخفية.",
+            "actionsEn": "Worked together using map reading and mutual trust to find the ancient marker.",
+            "actionsAr": "تعاونوا مستخدمين قراءة الخرائط والثقة المتبادلة لاكتشاف العلامة الحجرية الأثرية."
+          }
+        ],
+        "characterRelationships": [
+          {
+            "characters": [
+              "Scout Explorers"
+            ],
+            "relationEn": "Loyal Brotherhood",
+            "relationAr": "أخوة كشفية وروح الفريق",
+            "detailsEn": "Relying on each other's strengths to navigate unknown terrain.",
+            "detailsAr": "الاعتماد على نقاط قوة كل فرد لاجتياز الطرق الوعرة والوصول للهدف."
+          }
+        ],
+        "keyDialogues": [
+          {
+            "speakerEn": "Youssef",
+            "speakerAr": "يوسف",
+            "quoteEn": "The treasure is not the marker; it is the brotherhood and trust we built along the path.",
+            "quoteAr": "الكنز الحقيقي ليس في الصخرة الأثرية، بل في الثقة والأخوة التي بنيناها طوال هذه الرحلة.",
+            "contextEn": "Youssef speaking at the summit of the Hidden Island.",
+            "contextAr": "يوسف يتحدث لأصدقائه عند قمة الجزيرة المخفية بعد اجتياز التحدي."
+          }
+        ],
+        "themesAndLessons": [
+          {
+            "themeEn": "Friendship and Shared Purpose",
+            "themeAr": "الصداقة والهدف المشترك",
+            "lessonEn": "Shared challenges forge unbreakable bonds of trust and mutual respect.",
+            "lessonAr": "مواجهة التحديات معاً تصنع روابط وثيقة من الثقة والاحترام المتبادل بين الأصدقاء."
+          }
         ]
       },
       {
@@ -663,6 +846,45 @@
             ],
             "correctAnswer": "Drawing maps of the island",
             "explanation": "Malik utilized his artistic talents to map the terrain."
+          }
+        ],
+        "importantCharacters": [
+          {
+            "nameEn": "Youssef & Friends",
+            "nameAr": "يوسف وأصدقاؤه",
+            "roleEn": "Scout explorers on the Hidden Island.",
+            "roleAr": "كشافة ومستكشفون على الجزيرة المخفية.",
+            "actionsEn": "Worked together using map reading and mutual trust to find the ancient marker.",
+            "actionsAr": "تعاونوا مستخدمين قراءة الخرائط والثقة المتبادلة لاكتشاف العلامة الحجرية الأثرية."
+          }
+        ],
+        "characterRelationships": [
+          {
+            "characters": [
+              "Scout Explorers"
+            ],
+            "relationEn": "Loyal Brotherhood",
+            "relationAr": "أخوة كشفية وروح الفريق",
+            "detailsEn": "Relying on each other's strengths to navigate unknown terrain.",
+            "detailsAr": "الاعتماد على نقاط قوة كل فرد لاجتياز الطرق الوعرة والوصول للهدف."
+          }
+        ],
+        "keyDialogues": [
+          {
+            "speakerEn": "Youssef",
+            "speakerAr": "يوسف",
+            "quoteEn": "The treasure is not the marker; it is the brotherhood and trust we built along the path.",
+            "quoteAr": "الكنز الحقيقي ليس في الصخرة الأثرية، بل في الثقة والأخوة التي بنيناها طوال هذه الرحلة.",
+            "contextEn": "Youssef speaking at the summit of the Hidden Island.",
+            "contextAr": "يوسف يتحدث لأصدقائه عند قمة الجزيرة المخفية بعد اجتياز التحدي."
+          }
+        ],
+        "themesAndLessons": [
+          {
+            "themeEn": "Friendship and Shared Purpose",
+            "themeAr": "الصداقة والهدف المشترك",
+            "lessonEn": "Shared challenges forge unbreakable bonds of trust and mutual respect.",
+            "lessonAr": "مواجهة التحديات معاً تصنع روابط وثيقة من الثقة والاحترام المتبادل بين الأصدقاء."
           }
         ]
       },
@@ -769,6 +991,45 @@
             ],
             "correctAnswer": "Unity, empathy, and collaborative leadership achieve great things",
             "explanation": "Their journey proved that mutual respect and combined strengths make every adventure richer."
+          }
+        ],
+        "importantCharacters": [
+          {
+            "nameEn": "Youssef & Friends",
+            "nameAr": "يوسف وأصدقاؤه",
+            "roleEn": "Scout explorers on the Hidden Island.",
+            "roleAr": "كشافة ومستكشفون على الجزيرة المخفية.",
+            "actionsEn": "Worked together using map reading and mutual trust to find the ancient marker.",
+            "actionsAr": "تعاونوا مستخدمين قراءة الخرائط والثقة المتبادلة لاكتشاف العلامة الحجرية الأثرية."
+          }
+        ],
+        "characterRelationships": [
+          {
+            "characters": [
+              "Scout Explorers"
+            ],
+            "relationEn": "Loyal Brotherhood",
+            "relationAr": "أخوة كشفية وروح الفريق",
+            "detailsEn": "Relying on each other's strengths to navigate unknown terrain.",
+            "detailsAr": "الاعتماد على نقاط قوة كل فرد لاجتياز الطرق الوعرة والوصول للهدف."
+          }
+        ],
+        "keyDialogues": [
+          {
+            "speakerEn": "Youssef",
+            "speakerAr": "يوسف",
+            "quoteEn": "The treasure is not the marker; it is the brotherhood and trust we built along the path.",
+            "quoteAr": "الكنز الحقيقي ليس في الصخرة الأثرية، بل في الثقة والأخوة التي بنيناها طوال هذه الرحلة.",
+            "contextEn": "Youssef speaking at the summit of the Hidden Island.",
+            "contextAr": "يوسف يتحدث لأصدقائه عند قمة الجزيرة المخفية بعد اجتياز التحدي."
+          }
+        ],
+        "themesAndLessons": [
+          {
+            "themeEn": "Friendship and Shared Purpose",
+            "themeAr": "الصداقة والهدف المشترك",
+            "lessonEn": "Shared challenges forge unbreakable bonds of trust and mutual respect.",
+            "lessonAr": "مواجهة التحديات معاً تصنع روابط وثيقة من الثقة والاحترام المتبادل بين الأصدقاء."
           }
         ]
       }

@@ -59,6 +59,39 @@ export interface MCQQuestion {
   explanationAr: string;
 }
 
+export interface ChapterCharacter {
+  nameEn: string;
+  nameAr: string;
+  roleEn: string;
+  roleAr: string;
+  actionsEn?: string;
+  actionsAr?: string;
+}
+
+export interface CharacterRelationship {
+  characters: string[];
+  relationEn: string;
+  relationAr: string;
+  detailsEn?: string;
+  detailsAr?: string;
+}
+
+export interface KeyDialogue {
+  speakerEn: string;
+  speakerAr: string;
+  quoteEn: string;
+  quoteAr: string;
+  contextEn: string;
+  contextAr: string;
+}
+
+export interface ChapterThemeLesson {
+  themeEn: string;
+  themeAr: string;
+  lessonEn: string;
+  lessonAr: string;
+}
+
 export interface ChapterItem {
   id: string;
   chapterNumber: number;
@@ -74,6 +107,10 @@ export interface ChapterItem {
   importantQuestions: ImportantQuestion[];
   homeworkQuestions: HomeworkQuestion[];
   mcqQuestions: MCQQuestion[];
+  importantCharacters?: ChapterCharacter[];
+  characterRelationships?: CharacterRelationship[];
+  keyDialogues?: KeyDialogue[];
+  themesAndLessons?: ChapterThemeLesson[];
   isPublished?: boolean;
   orderIndex?: number;
 }
