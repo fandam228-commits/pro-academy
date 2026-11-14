@@ -288,6 +288,8 @@ export function StoryWorldWorkspace({ user, onNavigateHome }: StoryWorldProps) {
           role: "character",
           content: json.reply,
           languageTip: json.languageTip,
+          contextCitations: json.contextCitations,
+          character: json.character,
           timestamp: new Date().toISOString(),
         };
         setChatHistory((prev) => [...prev, replyMsg]);
@@ -1651,6 +1653,12 @@ export function StoryWorldWorkspace({ user, onNavigateHome }: StoryWorldProps) {
                           }`}
                         >
                           <p>{msg.content}</p>
+                          {msg.contextCitations?.chapterNumber && (
+                            <div className="mt-2 pt-1 border-t border-[#E2E8F0] text-[11px] text-[#2563EB] flex items-center gap-1 font-bold">
+                              <BookOpen className="w-3.5 h-3.5" />
+                              <span>مرجع الأحداث: الفصل {msg.contextCitations.chapterNumber} ({msg.contextCitations.chapterTitleAr || msg.contextCitations.chapterTitleEn})</span>
+                            </div>
+                          )}
                           {msg.languageTip && (
                             <div className="mt-2 pt-2 border-t border-[#E2E8F0] text-xs text-[#D97706] font-semibold">
                               {msg.languageTip}
