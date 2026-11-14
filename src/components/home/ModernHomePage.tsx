@@ -153,6 +153,15 @@ export function ModernHomePage({
                   <Film className="w-4 h-4 text-indigo-500" />
                   <span>{lang === "ar" ? "عالم القصص" : "Story World"}</span>
                 </button>
+
+                <button
+                  onClick={() => setActiveTab("vocabulary_bank")}
+                  className="px-5 py-3.5 rounded-2xl bg-white hover:bg-slate-50 text-[#718096] hover:text-[#243247] font-semibold text-sm border border-slate-200 shadow-sm transition-all flex items-center gap-2 cursor-pointer"
+                >
+                  <BookOpen className="w-4 h-4 text-emerald-500" />
+                  <span>{lang === "ar" ? "بنك المفردات الشامل" : "Vocabulary Master Bank"}</span>
+                  <span className="text-[10px] px-1.5 py-0.5 rounded bg-emerald-100 text-emerald-800 font-black">جديد</span>
+                </button>
               </div>
 
               {/* Trust Indicators */}
