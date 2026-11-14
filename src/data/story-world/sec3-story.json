@@ -836,7 +836,8 @@
                 "safe"
               ]
             }
-          ]
+          ],
+          "sceneArtwork": "/images/story-scenes/monte-cristo-ch1-scene1.jpg"
         },
         {
           "id": "mc_ch1_scene2",

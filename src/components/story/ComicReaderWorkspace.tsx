@@ -609,8 +609,22 @@ export function ComicReaderWorkspace({
                     </div>
                   )}
 
-                  {/* Visual Background Lighting & Effects */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/40 pointer-events-none" />
+                  {/* Scene Artwork Background (if present) */}
+                  {currentScene?.sceneArtwork && (
+                    <div className="absolute inset-0 z-0">
+                      <img
+                        src={currentScene.sceneArtwork}
+                        alt={currentScene.titleAr}
+                        className="w-full h-full object-cover object-center transition-all duration-700"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/45 to-black/60 pointer-events-none" />
+                    </div>
+                  )}
+
+                  {/* Visual Background Lighting & Effects (fallback if no artwork) */}
+                  {!currentScene?.sceneArtwork && (
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/40 pointer-events-none" />
+                  )}
                 </div>
               </div>
 
