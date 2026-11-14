@@ -174,7 +174,7 @@ Keep in mind that examiners test your ability to connect narrative events with u
 ${currentChapter.summaryAr}
 
 🔍 **تسلسل أهم الأحداث في نقاط:**
-${pts.map((p, i) => `${i + 1}. ${p.pointAr || p.pointEn || (p as any).ar}`).join("\n")}
+${pts.map((p: any, i: number) => `${i + 1}. ${p.ar || p.pointAr || p.en || p.pointEn || ""}`).join("\n")}
 
 💡 **التركيز الامتحاني:** ركز على نقطة التحول الرئيسية في الفصل وكيف غيرت مسار البطل.`;
     } else {
@@ -184,7 +184,7 @@ ${pts.map((p, i) => `${i + 1}. ${p.pointAr || p.pointEn || (p as any).ar}`).join
 ${currentChapter.summaryEn}
 
 🔍 **Chronological Key Milestones:**
-${pts.map((p, i) => `${i + 1}. ${p.pointEn || p.pointAr || (p as any).en}`).join("\n")}
+${pts.map((p: any, i: number) => `${i + 1}. ${p.en || p.pointEn || p.ar || p.pointAr || ""}`).join("\n")}
 
 💡 **Exam Focus:** Pay close attention to the climactic turning point and its immediate consequences!`;
     }

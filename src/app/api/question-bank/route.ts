@@ -5,7 +5,7 @@ import { NextResponse } from "next/server";
 import { ensureDbSetup } from "@/db/migrate-and-seed";
 import { requireRoles, getAuthContext } from "@/lib/security";
 import { answersMatch, normalizedAnswerSet } from "@/lib/question-grading.mjs";
-import { rebalanceQuestionSet } from "@/lib/mcq-balancer.mjs";
+import { rebalanceQuestionSet } from "@/lib/mcq-balancer";
 
 export async function GET(req: Request) {
   await ensureDbSetup();
