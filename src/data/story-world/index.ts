@@ -92,6 +92,59 @@ export interface ChapterThemeLesson {
   lessonAr: string;
 }
 
+export interface ComicBubble {
+  id: string;
+  speakerEn: string;
+  speakerAr: string;
+  avatar?: string;
+  type: "speech" | "thought" | "narration" | "whisper";
+  textEn: string;
+  textAr: string;
+  position: {
+    top?: string;
+    bottom?: string;
+    left?: string;
+    right?: string;
+  };
+  tailDirection?: "bottom-left" | "bottom-right" | "top-left" | "top-right" | "none";
+  highlightKeywords?: string[];
+}
+
+export interface CharacterVisualReference {
+  nameEn: string;
+  nameAr: string;
+  role: string;
+  age: string;
+  appearanceEn: string;
+  appearanceAr: string;
+  clothingEn: string;
+  clothingAr: string;
+  promptKey: string;
+  avatarColor: string;
+  samplePortraitUrl?: string;
+}
+
+export interface ComicScene {
+  id: string;
+  sceneNumber: number;
+  titleEn: string;
+  titleAr: string;
+  settingEn: string;
+  settingAr: string;
+  timeOfDayEn: string;
+  timeOfDayAr: string;
+  atmosphereEn: string;
+  atmosphereAr: string;
+  charactersPresent: string[];
+  visualDescriptionEn: string;
+  visualDescriptionAr: string;
+  bgGradient: string;
+  sceneArtwork?: string;
+  bubbles: ComicBubble[];
+  narrationEn?: string;
+  narrationAr?: string;
+}
+
 export interface ChapterItem {
   id: string;
   chapterNumber: number;
@@ -111,6 +164,9 @@ export interface ChapterItem {
   characterRelationships?: CharacterRelationship[];
   keyDialogues?: KeyDialogue[];
   themesAndLessons?: ChapterThemeLesson[];
+  comicScenes?: ComicScene[];
+  characterReferences?: CharacterVisualReference[];
+  comicCoverImage?: string;
   isPublished?: boolean;
   orderIndex?: number;
 }

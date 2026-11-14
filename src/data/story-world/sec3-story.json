@@ -704,6 +704,428 @@
           "lessonEn": "Within hours, a celebration of pure joy and youth can turn into a tragic confrontation with injustice.",
           "lessonAr": "في غضون ساعات قليلة، قد يتحول أوج الفرح والنجاح إلى صدمة مروعة بفعل مؤامرات الغدر."
         }
+      ],
+      "characterReferences": [
+        {
+          "nameEn": "Edmond Dantès",
+          "nameAr": "إدموند دانتس",
+          "role": "First Mate of the Pharaon / Protagonist",
+          "age": "19 years old",
+          "appearanceEn": "Tall, athletic, youthful with determined jaw, wavy jet-black hair, earnest dark eyes full of optimism and vitality.",
+          "appearanceAr": "شاب فارع الطول، رياضي البنية، ذو فك حاسم وشعر أسود مموج، وعينين بنيتين تفيضان بالأمل والحيوية.",
+          "clothingEn": "19th-century French merchant sailor uniform: navy blue wool pea coat with brass buttons, striped linen shirt, sturdy leather boots.",
+          "clothingAr": "زي بحارة فرنسي من القرن التاسع عشر: معطف صوف كحلي بأزرار نحاسية، قميص كتان مقلم، وحذاء جلدي متين.",
+          "promptKey": "EdmondDantes_Young_Marseille1815",
+          "avatarColor": "#2563EB"
+        },
+        {
+          "nameEn": "Mercédès",
+          "nameAr": "مرسيدس",
+          "role": "Edmond's Betrothed",
+          "age": "17-18 years old",
+          "appearanceEn": "Striking Mediterranean Catalan beauty, long flowing dark curls, expressive dark eyes full of devotion, graceful demeanor.",
+          "appearanceAr": "فتاة كاتالونية ذات ملامح متوسطية ساحرة، شعر أسود مموج ينسدل على كتفيها، وعينان داكنتان تشعان صدقاً ومحبة.",
+          "clothingEn": "Simple Mediterranean white linen folk dress with delicate red-and-gold Catalan embroidery and a soft shawl.",
+          "clothingAr": "فستان كتاني أبيض ريفي أنيق بتطريزات كاتالونية باللونين الأحمر والذهبي وشال خفيف.",
+          "promptKey": "Mercedes_Young_Catalan1815",
+          "avatarColor": "#EC4899"
+        },
+        {
+          "nameEn": "Fernand Mondego",
+          "nameAr": "فرناند موندجو",
+          "role": "Edmond's Jealous Rival",
+          "age": "21 years old",
+          "appearanceEn": "Rugged Catalan fisherman-soldier, sharp angular jaw, brooding dark eyes heavy with jealousy and torment, athletic build.",
+          "appearanceAr": "صياد وجندي كاتالوني أسمر، ذو ملامح حادة وقاسية، عينان داكنتان يملؤهما الغضب والحسد، وبنية قوية.",
+          "clothingEn": "Catalan soldier-fisherman attire: dark vest over coarse brown tunic, woolen red sash at the waist.",
+          "clothingAr": "سترة داكنة فوق قميص صوفي بني خشن، ووشاح أحمر حول الخصر بنمط صيادي كاتالونيا.",
+          "promptKey": "FernandMondego_CatalanSoldier1815",
+          "avatarColor": "#DC2626"
+        },
+        {
+          "nameEn": "Danglars",
+          "nameAr": "دانجلار",
+          "role": "The Treacherous Purser",
+          "age": "32 years old",
+          "appearanceEn": "Thin, pale, calculating face, narrow sunken eyes, thin sneering lips, meticulous posture, carrying a leather ledger and quill.",
+          "appearanceAr": "رجل في أوائل الثلاثينات، وجه شاحب ونحيل، عينان غائرتان ماكرتان، ابتسامة ساخرة باردة، يحمل دفتراً وقصبة حبر.",
+          "clothingEn": "Formal dark grey merchant purser coat with stiff white collar and brass spectacles hanging from a ribbon.",
+          "clothingAr": "معطف رمادي داكن رسمي لموظفي الحسابات البحرية، مع ياقة بيضاء منشاة ونظارة نحاسية تتدلى بشريط.",
+          "promptKey": "Danglars_ShipPurser1815",
+          "avatarColor": "#D97706"
+        },
+        {
+          "nameEn": "Monsieur Morrel",
+          "nameAr": "مسيو موريل",
+          "role": "Generous Shipowner",
+          "age": "52 years old",
+          "appearanceEn": "Dignified, warm, benevolent merchant owner, grey hair and sideburns, generous smile, honest maritime countenance.",
+          "appearanceAr": "تاجر نبيل في الخمسينات من عمره، شعر رمادي أنيق وسوالف وقورة، ابتسامة دافئة وسمت بحري كريم وموثوق.",
+          "clothingEn": "Rich dark navy frock coat with velvet collar, fine white cravat, gold pocket watch chain.",
+          "clothingAr": "معطف تجاري فخم كحلي داكن بياقة مخملية، وربطة عنق بيضاء راقية، وسلسلة ساعة جيب ذهبية.",
+          "promptKey": "Morrel_ShipownerMarseille1815",
+          "avatarColor": "#059669"
+        },
+        {
+          "nameEn": "Old Father Dantès",
+          "nameAr": "الأب دانتس",
+          "role": "Edmond's Devoted Father",
+          "age": "68 years old",
+          "appearanceEn": "Frail, thin elderly man with wisps of white hair, deep loving wrinkles around his eyes, gentle trembling hands.",
+          "appearanceAr": "شيخ طاعن في السن، نحيل البنية، ذو خصلات شعر بيضاء رقيقة، وتجاعيد دافئة حول عينيه تدل على الحنان والتضحية.",
+          "clothingEn": "Simple, patched brown wool jacket and humble trousers of an honest working-class artisan.",
+          "clothingAr": "سترة صوفية بنية بسيطة مرقعة وسروال متواضع لأب مكافح من الطبقة العاملة.",
+          "promptKey": "OldFatherDantes_Marseille1815",
+          "avatarColor": "#8B5CF6"
+        }
+      ],
+      "comicScenes": [
+        {
+          "id": "mc_ch1_scene1",
+          "sceneNumber": 1,
+          "titleEn": "The Pharaon Returns to Marseille",
+          "titleAr": "وصول السفينة الفاراون إلى ميناء مارسيليا",
+          "settingEn": "Marseille Port, sunny Mediterranean afternoon, February 1815",
+          "settingAr": "ميناء مارسيليا، ظهيرة مشمسة على البحر الأبيض المتوسط، فبراير 1815",
+          "timeOfDayEn": "Sunny Afternoon",
+          "timeOfDayAr": "ظهيرة مشمسة",
+          "atmosphereEn": "Triumphant, breezy, energetic, maritime pride",
+          "atmosphereAr": "انتصار، نسيم بحري منعش، بهجة وفخر بحري",
+          "charactersPresent": [
+            "Edmond Dantès",
+            "Sailors"
+          ],
+          "visualDescriptionEn": "Cinematic graphic novel illustration of the three-masted wooden sailing ship 'Pharaon' gliding into the busy, sun-drenched stone harbor of Marseille in 1815. At the front helm stands 19-year-old Edmond Dantès [EdmondDantes_Young_Marseille1815], confident and athletic, his navy coat fluttering in the sea breeze, pointing towards the quay. Seagulls wheel above, sailors pull thick ropes on deck, and warm Mediterranean sunlight glints off emerald waters.",
+          "visualDescriptionAr": "مشهد كوميكس سينمائي احترافي يصور السفينة الشراعية الخشبية 'فاراون' ذات الصواري الثلاثة وهي تدخل ميناء مارسيليا الصخري العريق عام 1815. يقف إدموند دانتس الشاب ذو الـ19 عاماً بثقة وفخر في مقدمة السفينة، بمعطفه الكحلي والرياح تداعبه، موجهاً دفة القيادة والبحارة يسحبون الحبال.",
+          "bgGradient": "from-sky-900 via-blue-900 to-indigo-950",
+          "narrationEn": "Edmond Dantès stood proudly at the front of the Pharaon as it entered Marseille port. At only nineteen, he had taken command amidst storms when the captain fell ill, bringing the ship and its cargo home untouched.",
+          "narrationAr": "وقف إدموند دانتس بفخر في مقدمة السفينة الفاراون وهي ترسو بميناء مارسيليا. في التاسعة عشرة من عمره، تولى القيادة بشجاعة وسط العواصف بعد مرض القبطان، وأعاد السفينة وبضاعتها سالمة تماماً.",
+          "bubbles": [
+            {
+              "id": "mc_s1_b1",
+              "speakerEn": "Edmond Dantès",
+              "speakerAr": "إدموند دانتس",
+              "type": "speech",
+              "textEn": "Lower the sails! Prepare the ropes! Secure the cargo!",
+              "textAr": "أنزلوا الأشرعة! جهزوا الحبال! وثقوا البضائع!",
+              "position": {
+                "top": "12%",
+                "right": "8%"
+              },
+              "tailDirection": "bottom-right",
+              "highlightKeywords": [
+                "sails",
+                "ropes",
+                "cargo"
+              ]
+            },
+            {
+              "id": "mc_s1_b2",
+              "speakerEn": "Sailors",
+              "speakerAr": "البحارة",
+              "type": "speech",
+              "textEn": "Aye, First Mate! Safe in port at last!",
+              "textAr": "أمرك يا مساعد القبطان! وصلنا الميناء بسلام أخيراً!",
+              "position": {
+                "bottom": "16%",
+                "left": "8%"
+              },
+              "tailDirection": "top-left",
+              "highlightKeywords": [
+                "port",
+                "safe"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "mc_ch1_scene2",
+          "sceneNumber": 2,
+          "titleEn": "Reunion of Love and Duty",
+          "titleAr": "لقاء المحبة والبرّ على رصيف الميناء",
+          "settingEn": "The bustling stone dock of Marseille",
+          "settingAr": "رصيف ميناء مارسيليا الصخري المزدحم",
+          "timeOfDayEn": "Late Afternoon",
+          "timeOfDayAr": "أواخر الظهيرة",
+          "atmosphereEn": "Warm, emotional, loving, heartfelt relief",
+          "atmosphereAr": "دفء، مشاعر فياضة، راحة وامتنان عميق",
+          "charactersPresent": [
+            "Edmond Dantès",
+            "Mercédès",
+            "Old Father Dantès"
+          ],
+          "visualDescriptionEn": "Heartwarming graphic novel panel at the stone pier of Marseille. Edmond Dantès [EdmondDantes_Young_Marseille1815] has just dashed down the wooden gangplank into the loving embrace of his frail, white-haired father [OldFatherDantes_Marseille1815] whose eyes shine with joyful tears. Beside them stands Mercédès [Mercedes_Young_Catalan1815], radiant in a white folk dress with delicate embroidery, her dark curly hair catching the golden sunlight, looking at Edmond with pure tenderness.",
+          "visualDescriptionAr": "لوحة جرافيك مؤثرة على رصيف الميناء. يركض إدموند دانتس ليحتضن والده الشيخ العجوز دامع العينين من شدة الفرح، بينما تقف خطيبته مرسيدس الفاتنة بفستانها الأبيض وشعرها الأسود المتموج، وهي تنظر إليه بابتسامة تفيض عشقاً وارتياحاً لعودته سالماً.",
+          "bgGradient": "from-amber-950 via-slate-900 to-blue-950",
+          "narrationEn": "When the gangplank lowered, Edmond rushed to embrace the two people he loved most: his selfless aging father, and Mercédès, the beautiful woman promised to him in marriage.",
+          "narrationAr": "ما إن أُسدل الممر الخشبي حتى هرع إدموند لعناق أحب شخصين إلى قلبه: والده العجوز الذي ضحى بكل شيء من أجله، ومرسيدس الفتاة الجميلة التي وعدته بالزواج.",
+          "bubbles": [
+            {
+              "id": "mc_s2_b1",
+              "speakerEn": "Mercédès",
+              "speakerAr": "مرسيدس",
+              "type": "speech",
+              "textEn": "Edmond! You are safe. I prayed for you every day.",
+              "textAr": "إدموند! لقد عدت سالماً. كنت أدعو لك كل يوم.",
+              "position": {
+                "top": "14%",
+                "left": "10%"
+              },
+              "tailDirection": "bottom-left",
+              "highlightKeywords": [
+                "safe",
+                "prayed"
+              ]
+            },
+            {
+              "id": "mc_s2_b2",
+              "speakerEn": "Edmond Dantès",
+              "speakerAr": "إدموند دانتس",
+              "type": "speech",
+              "textEn": "I bring great news! Monsieur Morrel has promised to make me captain of the Pharaon! At nineteen, I shall have my own command!",
+              "textAr": "أحمل أخباراً عظيمة! لقد وعدني مسيو موريل بتعييني قبطاناً للفاراون! في التاسعة عشرة سأتولى قيادة سفينتي الخاصة!",
+              "position": {
+                "top": "12%",
+                "right": "8%"
+              },
+              "tailDirection": "bottom-right",
+              "highlightKeywords": [
+                "captain",
+                "command",
+                "nineteen"
+              ]
+            },
+            {
+              "id": "mc_s2_b3",
+              "speakerEn": "Old Father Dantès",
+              "speakerAr": "الأب دانتس",
+              "type": "speech",
+              "textEn": "Captain! My son! God has truly blessed us!",
+              "textAr": "قبطان! يا ولدي الحبيب! لقد باركنا الله حقاً!",
+              "position": {
+                "bottom": "14%",
+                "left": "25%"
+              },
+              "tailDirection": "top-left",
+              "highlightKeywords": [
+                "Captain",
+                "blessed"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "mc_ch1_scene3",
+          "sceneNumber": 3,
+          "titleEn": "The Owner's Promise & The Lurking Shadow",
+          "titleAr": "وعد المالك وظلال الحقد المتربصة",
+          "settingEn": "Marseille shipping pavilion & harbor warehouse",
+          "settingAr": "جناح الشحن ومخازن الميناء في مارسيليا",
+          "timeOfDayEn": "Golden Hour Sunset",
+          "timeOfDayAr": "ساعة الغروب الذهبية",
+          "atmosphereEn": "Inspiring honor on one side, toxic envy on the other",
+          "atmosphereAr": "شرف ونبل في المقدمة، وحسد مسموم في الظلال",
+          "charactersPresent": [
+            "Monsieur Morrel",
+            "Edmond Dantès",
+            "Danglars"
+          ],
+          "visualDescriptionEn": "Dramatic split-focus graphic novel scene. In the warm golden foreground, honest shipowner Monsieur Morrel [Morrel_ShipownerMarseille1815] clasps Edmond Dantès' hand warmly, commending his navigation and courage. In the cold violet shadows behind towering wooden shipping crates, purser Danglars [Danglars_ShipPurser1815] glares with narrow, calculating eyes, holding his quill and ledger with knuckles white from rage.",
+          "visualDescriptionAr": "مشهد درامي ذو تباين قوي. في المقدمة المشمسة، يصافح مالك السفن النبيل مسيو موريل الشاب إدموند دانتس بحرارة معلناً ترقيته لقبطان تقديراً لشجاعته. بينما في الظلال الباردة خلف صناديق البضائع، يقف المحاسب دانجلار يرمقهما بنظرات غل وحقد شيطاني، قابضاً على ريشة الحسابات بغضب.",
+          "bgGradient": "from-blue-950 via-slate-900 to-amber-950",
+          "narrationEn": "Monsieur Morrel confirmed his promise: Edmond would be named Captain of the Pharaon. But nearby in the shadows, Danglars burned with bitter jealousy.",
+          "narrationAr": "أكد مسيو موريل وعده الصادق: سيُعين إدموند رسمياً قبطاناً للفاراون. ولكن على مقربة في الظلال، كان دانجلار يحترق بنار الحقد والحسد.",
+          "bubbles": [
+            {
+              "id": "mc_s3_b1",
+              "speakerEn": "Monsieur Morrel",
+              "speakerAr": "مسيو موريل",
+              "type": "speech",
+              "textEn": "You navigated storms and saved our ship, Edmond. You have proven yourself worthy to be Captain Dantès!",
+              "textAr": "لقد واجهت العواصف وحميت سفينتنا يا إدموند. لقد أثبت أنك جدير بأن تكون القبطان دانتس!",
+              "position": {
+                "top": "14%",
+                "left": "10%"
+              },
+              "tailDirection": "bottom-left",
+              "highlightKeywords": [
+                "Captain Dantès",
+                "storms"
+              ]
+            },
+            {
+              "id": "mc_s3_b2",
+              "speakerEn": "Danglars",
+              "speakerAr": "دانجلار",
+              "type": "thought",
+              "textEn": "A boy of nineteen made captain over me? I have served twenty years! He will not enjoy this triumph...",
+              "textAr": "فتى في التاسعة عشرة يصبح قبطاناً عليّ؟ لقد خدمت عشرين عاماً! لن يهنأ بهذا النصر أبداً...",
+              "position": {
+                "bottom": "16%",
+                "right": "8%"
+              },
+              "tailDirection": "bottom-right",
+              "highlightKeywords": [
+                "nineteen",
+                "captain",
+                "triumph"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "mc_ch1_scene4",
+          "sceneNumber": 4,
+          "titleEn": "The Treason Conspiracy at La Réserve",
+          "titleAr": "مؤامرة الخيانة في حانة لا ريزيرف",
+          "settingEn": "A dark candle-lit tavern table at La Réserve, Marseille",
+          "settingAr": "طاولة خشبية مظلمة مضاءة بالشموع في حانة لا ريزيرف بمارسيليا",
+          "timeOfDayEn": "Dark Night",
+          "timeOfDayAr": "ليلة معتمة",
+          "atmosphereEn": "Sinister, conspiratorial, suffocating tension",
+          "atmosphereAr": "مؤامرة مظلمة، توتر خانق، غدر دفين",
+          "charactersPresent": [
+            "Danglars",
+            "Fernand Mondego"
+          ],
+          "visualDescriptionEn": "Moody chiaroscuro graphic novel panel inside the dim, smoke-tinged tavern of La Réserve. A solitary candle flickers across a stained oak table. Danglars [Danglars_ShipPurser1815] leans in with a venomous grin, writing a disguised letter with black ink. Opposite him, Catalan soldier Fernand Mondego [FernandMondego_CatalanSoldier1815] leans forward, his fists clenched tight, eyes wild with desperate jealousy over Mercédès.",
+          "visualDescriptionAr": "مشهد سينمائي مظلم بنمط الرسم الكلاسيكي داخل حانة لا ريزيرف. ضوء شمعة واحدة ينعكس على طاولة خشبية. يميل دانجلار بابتسامة خبيثة ليكتب رسالة وشاية بخط مشوه، وأمامه يجلس فرناند موندجو بقبضتيه المشدودتين وعينيه المتقدتين بالغيرة العمياء على مرسيدس.",
+          "bgGradient": "from-stone-950 via-neutral-900 to-amber-950",
+          "narrationEn": "At the tavern of La Réserve, Danglars forged a venomous letter accusing Edmond of carrying secret letters from exiled Napoleon Bonaparte. Fernand, desperate to steal Mercédès, willingly took the letter to the King's prosecutor.",
+          "narrationAr": "في حانة لا ريزيرف، صاغ دانجلار رسالة غدر مسمومة يتهم فيها إدموند بحمل رسالة سرية من نابليون بونابرت المنفي. وتطوع فرناند فوراً لتسليمها لمدعي الملك طمعاً في انتزاع مرسيدس لنفسه.",
+          "bubbles": [
+            {
+              "id": "mc_s4_b1",
+              "speakerEn": "Fernand Mondego",
+              "speakerAr": "فرناند موندجو",
+              "type": "speech",
+              "textEn": "Edmond has everything: Mercédès, success, and the ship! Nothing is left for me!",
+              "textAr": "إدموند يمتلك كل شيء: مرسيدس، والنجاح، والسفينة! لم يبق لي أي شيء!",
+              "position": {
+                "top": "12%",
+                "left": "8%"
+              },
+              "tailDirection": "bottom-left",
+              "highlightKeywords": [
+                "Mercédès",
+                "success",
+                "everything"
+              ]
+            },
+            {
+              "id": "mc_s4_b2",
+              "speakerEn": "Danglars",
+              "speakerAr": "دانجلار",
+              "type": "speech",
+              "textEn": "What if he is accused of treason? A letter claiming he aids Napoleon... he will never be captain from inside a prison dungeon!",
+              "textAr": "ماذا لو اتُهم بالخيانة العظمى؟ رسالة تزعم أنه يعاون نابليون... لن يصبح قبطاناً أبداً وهو في غياهب السجون!",
+              "position": {
+                "top": "25%",
+                "right": "8%"
+              },
+              "tailDirection": "bottom-right",
+              "highlightKeywords": [
+                "treason",
+                "Napoleon",
+                "prison"
+              ]
+            },
+            {
+              "id": "mc_s4_b3",
+              "speakerEn": "Fernand Mondego",
+              "speakerAr": "فرناند موندجو",
+              "type": "speech",
+              "textEn": "If he is arrested... Mercédès will be mine!",
+              "textAr": "إذا أُلقي القبض عليه... ستكون مرسيدس ملكي!",
+              "position": {
+                "bottom": "14%",
+                "left": "12%"
+              },
+              "tailDirection": "top-left",
+              "highlightKeywords": [
+                "arrested",
+                "Mercédès"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "mc_ch1_scene5",
+          "sceneNumber": 5,
+          "titleEn": "The Betrothal Shattered by Royal Arrest",
+          "titleAr": "حفل الخطوبة ينكسر تحت وطأة الاعتقال الملكي",
+          "settingEn": "Banquet room of La Réserve, Marseille",
+          "settingAr": "قاعة الاحتفالات بحانة لا ريزيرف، مارسيليا",
+          "timeOfDayEn": "Bright Festive Noon turning to Dread",
+          "timeOfDayAr": "ظهيرة احتفالية مبهجة تنقلب إلى رعب مفاجئ",
+          "atmosphereEn": "Shock, heartbreak, shattered innocence, cold tyranny",
+          "atmosphereAr": "صدمة فاجعة، انكسار، طغيان بارد وانهيار الفرح",
+          "charactersPresent": [
+            "Edmond Dantès",
+            "Mercédès",
+            "Royal Officer",
+            "Old Father Dantès"
+          ],
+          "visualDescriptionEn": "High-drama graphic novel climax. A joyous wedding feast filled with white linens and spring blossoms is abruptly violated as heavy wooden doors bang open. Stern royal gendarmes with bayonets and a high officer in a dark blue uniform step in. The officer points a cold gloved hand at Edmond Dantès [EdmondDantes_Young_Marseille1815], who stands frozen in disbelief. Mercédès [Mercedes_Young_Catalan1815] screams in despair, clinging to Edmond's arm.",
+          "visualDescriptionAr": "ذروة درامية كبرى في القصة المصورة. حفل الخطوبة المبهج بالأزهار والأثواب البيضاء ينقطع فجأة باقتحام جنود الملك المسلحين بالبنادق والقضبان الحديدية. يشير الضابط الملكي ببرود إلى إدموند المذهول، بينما تصرخ مرسيدس بلوعة ممسكة بذراعه في يأس مطلق.",
+          "bgGradient": "from-red-950 via-slate-900 to-stone-900",
+          "narrationEn": "At the pinnacle of the feast, royal soldiers stormed the celebration. Without explanation, Edmond Dantès was arrested for high treason, tearing him away from his beloved Mercédès and aging father.",
+          "narrationAr": "في ذروة بهجة حفل الخطوبة، اقتحم جنود الملك المكان. وبدون أدنى تفسير، تم اعتقال إدموند دانتس بتهمة الخيانة العظمى، لينتزعوه بالقوة من بين يدي حبيبته مرسيدس ووالده الشيخ العجوز.",
+          "bubbles": [
+            {
+              "id": "mc_s5_b1",
+              "speakerEn": "Royal Officer",
+              "speakerAr": "ضابط الملك",
+              "type": "speech",
+              "textEn": "Edmond Dantès? You are under arrest by order of the King's Prosecutor!",
+              "textAr": "إدموند دانتس؟ أنت رهن الاعتقال فوراً بأمر من المدعي العام للملك!",
+              "position": {
+                "top": "12%",
+                "left": "10%"
+              },
+              "tailDirection": "bottom-left",
+              "highlightKeywords": [
+                "arrest",
+                "King's Prosecutor"
+              ]
+            },
+            {
+              "id": "mc_s5_b2",
+              "speakerEn": "Edmond Dantès",
+              "speakerAr": "إدموند دانتس",
+              "type": "speech",
+              "textEn": "Arrest? What is this mistake? I am an innocent sailor!",
+              "textAr": "اعتقال؟ ما هذا الخطأ الفادح؟ أنا بحار بريء لم أقترف إثماً!",
+              "position": {
+                "top": "16%",
+                "right": "8%"
+              },
+              "tailDirection": "bottom-right",
+              "highlightKeywords": [
+                "mistake",
+                "innocent"
+              ]
+            },
+            {
+              "id": "mc_s5_b3",
+              "speakerEn": "Mercédès",
+              "speakerAr": "مرسيدس",
+              "type": "speech",
+              "textEn": "There must be a mistake! Edmond is innocent! Someone help him!",
+              "textAr": "لا بد أن هناك خطأ! إدموند بريء! أنقذوه أرجوكم!",
+              "position": {
+                "bottom": "14%",
+                "left": "20%"
+              },
+              "tailDirection": "top-left",
+              "highlightKeywords": [
+                "mistake",
+                "innocent",
+                "help"
+              ]
+            }
+          ]
+        }
       ]
     },
     {

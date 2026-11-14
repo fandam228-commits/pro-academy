@@ -541,6 +541,229 @@
           "lessonEn": "Genuine affection and mutual respect bridge the divide between youth and old age.",
           "lessonAr": "المودة الصادقة والاحترام المتبادل يوثقان الصلة النبيلة بين الشباب والشيوخ."
         }
+      ],
+      "characterReferences": [
+        {
+          "nameEn": "Santiago",
+          "nameAr": "سانتياجو",
+          "role": "The Old Cuban Fisherman / Protagonist",
+          "age": "Late 60s",
+          "appearanceEn": "Gaunt and weathered old fisherman, deep wrinkled neck, sun-blotched skin, yet with cheerful, undefeated eyes as blue as the sea.",
+          "appearanceAr": "صياد عجوز نحيل محفور بالسنوات، تجاعيد غائرة في رقبته، وبقع شمسية على وجهه، لكن عينيه زرقاوان كلون البحر لا تعرفان الهزيمة.",
+          "clothingEn": "Faded blue denim shirt patched multiple times, worn trousers rolled at ankles, bare feet seasoned by ocean spray.",
+          "clothingAr": "قميص جينز باهت مرقع عدة مرات، وسروال خشن مشمر، وقدمان حافيتان اعتادتا رذاذ المحيط.",
+          "promptKey": "Santiago_OldFisherman_Cuba",
+          "avatarColor": "#0284C7"
+        },
+        {
+          "nameEn": "Manolin",
+          "nameAr": "مانولين",
+          "role": "Devoted Apprentice Boy",
+          "age": "13 years old",
+          "appearanceEn": "Loyal, earnest Cuban boy, bright brown eyes full of deep reverence, sun-tanned skin, respectful and agile.",
+          "appearanceAr": "صبي كوبي وفيّ ومخلص، ذو عينين بنيتين تفيضان بالإجلال والمحبة للعجوز، بشرة برونزية رشيقة.",
+          "clothingEn": "Simple white cotton shirt with rolled sleeves, khaki shorts, canvas fisherman cap.",
+          "clothingAr": "قميص قطني أبيض بأكمام مشمرة، وسروال قصير قماشي، وقبعة صياد خفيفة.",
+          "promptKey": "Manolin_ApprenticeBoy_Cuba",
+          "avatarColor": "#F59E0B"
+        }
+      ],
+      "comicScenes": [
+        {
+          "id": "om_ch1_scene1",
+          "sceneNumber": 1,
+          "titleEn": "Eighty-Four Days of Solitude",
+          "titleAr": "أربعة وثمانون يوماً في عرض البحر",
+          "settingEn": "The open Gulf Stream waters off Havana, Cuba, scorching midday sun",
+          "settingAr": "مياه تيار الخليج قبالة شواطئ هافانا بكوبا، تحت شمس الظهيرة الحارقة",
+          "timeOfDayEn": "Blazing Midday",
+          "timeOfDayAr": "ظهيرة مشمسة حارقة",
+          "atmosphereEn": "Resilient solitude, undefeated patience, tranquil ocean expanse",
+          "atmosphereAr": "صبر أسطوري، عزلة شامخة، بحر شاسع هادئ لا ينكسر",
+          "charactersPresent": [
+            "Santiago"
+          ],
+          "visualDescriptionEn": "Poetic graphic novel panel of old Cuban fisherman Santiago [Santiago_OldFisherman_Cuba] rowing his modest wooden skiff alone on the deep blue Gulf Stream. His weathered, sun-browned face with deep neck wrinkles gazes toward the horizon with calm resolve. The skiff's patched sail is furled, and the crystal blue sea mirrors a vast tropical sky.",
+          "visualDescriptionAr": "لوحة تصويرية شعرية لصياد السمك الكوبي العجوز سانتياجو وهو يجدف بقاربه الخشبي الصغير وحيداً في مياه تيار الخليج الزرقاء العميقة. وجهه الأسمر المجعد ينظر إلى الأفق البعيد بعزم وصبر لا يلين، بينما ينعكس صفاء السماء الاستوائية على صفحة الماء.",
+          "bgGradient": "from-sky-800 via-cyan-900 to-blue-950",
+          "narrationEn": "For eighty-four long days, Santiago had gone out into the Gulf Stream alone without catching a single fish. Yet his eyes remained undefeated, as blue and cheerful as the sea itself.",
+          "narrationAr": "طوال أربعة وثمانين يوماً كاملة، خرج سانتياجو بمفرده إلى تيار الخليج دون أن يصطاد سمكة واحدة. ومع ذلك بقيت عيناه لا تعرفان الهزيمة، زرقاوين ومبتهجتين كلون البحر.",
+          "bubbles": [
+            {
+              "id": "om_s1_b1",
+              "speakerEn": "Santiago",
+              "speakerAr": "سانتياجو",
+              "type": "thought",
+              "textEn": "Eighty-four days without a fish... But tomorrow is the eighty-fifth day. That is a lucky number. I will go far out.",
+              "textAr": "أربعة وثمانون يوماً دون صيد سمكة واحدة... لكن غداً هو اليوم الخامس والثمانون، وهو رقم الحظ. سأبحر بعيداً.",
+              "position": {
+                "top": "14%",
+                "right": "10%"
+              },
+              "tailDirection": "bottom-right",
+              "highlightKeywords": [
+                "eighty-four days",
+                "eighty-fifth",
+                "lucky number"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "om_ch1_scene2",
+          "sceneNumber": 2,
+          "titleEn": "The Loyalty of the Boy Manolin",
+          "titleAr": "وفاء الصبي مانولين",
+          "settingEn": "The sandy village shoreline and rustic path to the shack",
+          "settingAr": "شاطئ القرية الرملي والطريق البسيط المؤدي إلى الكوخ",
+          "timeOfDayEn": "Dusk / Sunset",
+          "timeOfDayAr": "الغسق وساعة الغروب",
+          "atmosphereEn": "Filial devotion, intergenerational respect, humble dignity",
+          "atmosphereAr": "وفاء وبر إنساني، احترام عميق بين الأجيال، كبرياء متواضع",
+          "charactersPresent": [
+            "Santiago",
+            "Manolin"
+          ],
+          "visualDescriptionEn": "Touching graphic novel panel of young Manolin [Manolin_ApprenticeBoy_Cuba] meeting old Santiago [Santiago_OldFisherman_Cuba] on the sandy path. Manolin tenderly carries the old man's heavy furled sail wrapped in flour sacks. Sunset paints the Cuban palm trees in rich amber and purple tones as the boy looks at his mentor with deep affection.",
+          "visualDescriptionAr": "لوحة جرافيك دافئة يظهر فيها الصبي مانولين وهو يلاقي العجوز سانتياجو على الدرب الرملي، حاملاً عنه شراع القارب الثقيل الملفوف بأكياس الدقيق. تلون شمس الغروب أشجار النخيل الكوبية بظلال عنبرية وبنفسجية ساحرة بينما ينظر الصبي لمعلمه بكل تبجيل وحب.",
+          "bgGradient": "from-amber-950 via-slate-900 to-indigo-950",
+          "narrationEn": "Though Manolin's parents forced him to fish in another boat because Santiago was 'salao'—the worst kind of unlucky—the boy never abandoned the old man.",
+          "narrationAr": "رغم أن والدي مانولين أجبراه على الصيد في قارب آخر لأن سانتياجو 'منحوس' (سالاو)، إلا أن الصبي لم يتخل أبداً عن الشيخ العجوز.",
+          "bubbles": [
+            {
+              "id": "om_s2_b1",
+              "speakerEn": "Manolin",
+              "speakerAr": "مانولين",
+              "type": "speech",
+              "textEn": "Old man, let me carry the lines and the harpoon. You are the greatest fisherman in the world!",
+              "textAr": "أيها الشيخ العجوز، دعني أحمل عنك الحبال والحربة. أنت أعظم صياد في العالم كله!",
+              "position": {
+                "top": "12%",
+                "left": "10%"
+              },
+              "tailDirection": "bottom-left",
+              "highlightKeywords": [
+                "greatest fisherman",
+                "harpoon"
+              ]
+            },
+            {
+              "id": "om_s2_b2",
+              "speakerEn": "Santiago",
+              "speakerAr": "سانتياجو",
+              "type": "speech",
+              "textEn": "No, there are many good fishermen and some great ones. But there is no one like you, boy.",
+              "textAr": "كلا يا بني، هناك صيادون كثر ماهرون وبعضهم عظام. لكن ليس هناك مثيل لك في الوفاء.",
+              "position": {
+                "bottom": "16%",
+                "right": "10%"
+              },
+              "tailDirection": "top-right",
+              "highlightKeywords": [
+                "fishermen",
+                "great"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "om_ch1_scene3",
+          "sceneNumber": 3,
+          "titleEn": "Baseball Heroes & The Great DiMaggio",
+          "titleAr": "أبطال البيسبول والأسطورة ديماجيو",
+          "settingEn": "Inside Santiago's rustic palm-leaf hut, Cuba",
+          "settingAr": "داخل كوخ سانتياجو البسيط المصنوع من جريد النخل، بكوبا",
+          "timeOfDayEn": "Evening by kerosene lamp",
+          "timeOfDayAr": "أمسية هادئة على ضوء مصباح الكيروسين",
+          "atmosphereEn": "Companionship, shared passions, humble comfort",
+          "atmosphereAr": "أنس الصحبة، شغف مشترك، طمأنينة وسكينة متواضعة",
+          "charactersPresent": [
+            "Santiago",
+            "Manolin"
+          ],
+          "visualDescriptionEn": "Intimate graphic novel panel inside Santiago's small palm-leaf hut. A warm kerosene lamp illuminates an old wooden table where Manolin has brought a pot of yellow rice and fried bananas. Santiago sits on a simple stool, his eyes sparkling as they passionately discuss American baseball scores from the crumpled newspapers.",
+          "visualDescriptionAr": "مشهد داخلي حميم داخل كوخ سانتياجو المصنوع من سعف النخيل. ينير مصباح كيروسين طاولة خشبية قديمة حيث جلب مانولين طعاماً من الأرز الأصفر والموز المقلي. يجلس سانتياجو وتتألق عيناه فرحاً وهو يتناقش مع الصبي بحماس حول نتائج مباريات البيسبول المنشورة في الجريدة القديمة.",
+          "bgGradient": "from-amber-950 via-stone-900 to-slate-900",
+          "narrationEn": "Over a modest meal, they spoke of their shared passion: baseball and their hero, the great Joe DiMaggio, who played through injury and pain with unbreakable courage.",
+          "narrationAr": "تناولا وجبتهما المتواضعة وتجاذبا أطراف الحديث حول شغفهما المشترك: رياضة البيسبول وبطلهما الأسطوري جو ديماجيو، الذي يلعب رغم آلام قدمه بكبرياء وشجاعة لا تنكسر.",
+          "bubbles": [
+            {
+              "id": "om_s3_b1",
+              "speakerEn": "Santiago",
+              "speakerAr": "سانتياجو",
+              "type": "speech",
+              "textEn": "Tell me about baseball. The great DiMaggio makes the difference. He plays even with a bone spur in his heel.",
+              "textAr": "حدثني عن البيسبول. ديماجيو العظيم يصنع الفارق دائماً، ويلعب بشجاعة حتى مع شوكة عظمية في كعبه.",
+              "position": {
+                "top": "12%",
+                "right": "8%"
+              },
+              "tailDirection": "bottom-right",
+              "highlightKeywords": [
+                "baseball",
+                "DiMaggio",
+                "bone spur"
+              ]
+            },
+            {
+              "id": "om_s3_b2",
+              "speakerEn": "Manolin",
+              "speakerAr": "مانولين",
+              "type": "speech",
+              "textEn": "He is a true champion! But to me, you are the greatest champion of all.",
+              "textAr": "إنه بطل حقيقي! لكن بالنسبة لي، أنت أعظم بطل في الوجود.",
+              "position": {
+                "bottom": "16%",
+                "left": "10%"
+              },
+              "tailDirection": "top-left",
+              "highlightKeywords": [
+                "champion",
+                "greatest"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "om_ch1_scene4",
+          "sceneNumber": 4,
+          "titleEn": "Dreams of Lions on the African Shore",
+          "titleAr": "حلم الأسود الفتية على شواطئ إفريقيا",
+          "settingEn": "The shack at midnight under the Cuban moon, transitioning into a surreal African beach dreamscape",
+          "settingAr": "الكوخ في منتصف الليل تحت ضوء القمر الكوبي، متحولاً إلى حلم شاطئ إفريقيا الذهبي",
+          "timeOfDayEn": "Moonlit Night",
+          "timeOfDayAr": "ليلة مقمرة ساحرة",
+          "atmosphereEn": "Dreamlike, peaceful, poetic longing for youth and majesty",
+          "atmosphereAr": "حلم شاعري، سلام داخلي، حنين بهيج للشباب والحرية والقوة",
+          "charactersPresent": [
+            "Santiago"
+          ],
+          "visualDescriptionEn": "A breathtaking split dreamscape graphic novel panel. At the bottom, old Santiago sleeps peacefully on his bed of old newspapers under the soft silver moonbeams entering the shack window. Above him, blossoming into a glowing golden dreamscape, are the long golden sands of Africa at dusk, where young lion cubs play innocently by the surf like gentle kittens.",
+          "visualDescriptionAr": "لوحة حلم سريالية شاعرة وفائقة الجمال. في الأسفل، ينام سانتياجو بسلام على فراشه المصنوع من الجرائد القديمة تحت ضوء القمر الفضي المتسلل من نافذة الكوخ. وفي الأعلى، يتفتح حلمه الذهبي المتوهج ليعرض شواطئ إفريقيا الذهبية عند الغسق، حيث تلعب صغار الأسود بمرح ووداعة كالقطط على رمال البحر.",
+          "bgGradient": "from-indigo-950 via-slate-900 to-amber-950",
+          "narrationEn": "In his sleep, Santiago no longer dreamed of storms, women, or great fish. He only dreamed of the golden beaches of Africa from his youth, and the young lions playing in the dusk.",
+          "narrationAr": "في نومه الهادئ، لم يعد سانتياجو يحلم بالعواصف ولا بالنساء ولا بالأسماك الضخمة. كان يحلم فقط بشواطئ إفريقيا الذهبية في مقتبل شبابه، وبالأسود الفتية وهي تلعب في الغسق.",
+          "bubbles": [
+            {
+              "id": "om_s4_b1",
+              "speakerEn": "Narration",
+              "speakerAr": "راوي القصة",
+              "type": "narration",
+              "textEn": "He was asleep in a little while and he dreamed of Africa when he was a boy and the long golden beaches and the lions playing like young cats.",
+              "textAr": "استغرق في النوم بعد هنيهة، وحلم بإفريقيا حين كان فتى يافعاً، وبشواطئها الذهبية الممتدة والأسود وهي تلعب كالقطط الصغيرة.",
+              "position": {
+                "top": "14%",
+                "left": "15%"
+              },
+              "tailDirection": "none",
+              "highlightKeywords": [
+                "Africa",
+                "golden beaches",
+                "lions"
+              ]
+            }
+          ]
+        }
       ]
     },
     {

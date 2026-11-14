@@ -44,6 +44,7 @@ import {
   Compass,
 } from "lucide-react";
 import { ALL_CURRICULUM_STORIES, GRADE_DEFINITIONS, StoryItem, ChapterItem } from "@/data/story-world";
+import { ComicReaderWorkspace } from "./ComicReaderWorkspace";
 
 interface StoryWorldProps {
   user?: any;
@@ -59,7 +60,7 @@ export function StoryWorldWorkspace({ user, onNavigateHome }: StoryWorldProps) {
 
   // Active top-level mode
   const [activeTab, setActiveTab] = useState<
-    "book" | "cinema" | "listen" | "chat" | "challenges" | "exam" | "badges" | "admin"
+    "book" | "comic" | "cinema" | "listen" | "chat" | "challenges" | "exam" | "badges" | "admin"
   >("book");
 
   // Reading sub-section filter inside "book" tab
@@ -434,6 +435,21 @@ export function StoryWorldWorkspace({ user, onNavigateHome }: StoryWorldProps) {
             >
               <BookOpen className="w-4 h-4" />
               <span>القارئ التفاعلي</span>
+            </button>
+
+            <button
+              onClick={() => setActiveTab("comic")}
+              className={`px-3 py-2 rounded-xl text-xs font-bold transition flex items-center gap-1.5 ${
+                activeTab === "comic"
+                  ? "bg-gradient-to-r from-[#2563EB] to-[#4F46E5] text-white shadow-md shadow-blue-500/20"
+                  : "bg-white text-[#475569] hover:bg-[#F8FAFC] border border-[#E2E8F0]"
+              }`}
+            >
+              <Sparkles className="w-4 h-4 text-amber-400" />
+              <span>القصص المصورة (Comic)</span>
+              <span className="px-1.5 py-0.5 rounded-full text-[9px] bg-amber-400 text-slate-900 font-black">
+                جديد
+              </span>
             </button>
 
             <button
@@ -1504,57 +1520,20 @@ export function StoryWorldWorkspace({ user, onNavigateHome }: StoryWorldProps) {
             )}
 
             {/* ========================================================================= */}
-            {/* TAB 2: STORY CINEMA & VISUAL STORYBOARD */}
+            {/* TAB 2: PROFESSIONAL COMIC STORIES & GRAPHIC NOVEL (6 LEARNING STAGES) */}
             {/* ========================================================================= */}
-            {activeTab === "cinema" && (
-              <div className="space-y-6">
-                <div className="bg-white border border-[#E2E8F0] rounded-3xl overflow-hidden shadow-sm">
-                  <div className="relative aspect-video bg-gradient-to-tr from-[#1E293B] via-[#0F172A] to-[#334155] flex items-center justify-center p-6 text-center text-white">
-                    <div className="space-y-3 max-w-xl z-10">
-                      <div className="w-16 h-16 rounded-2xl bg-white/10 backdrop-blur-md border border-white/20 mx-auto flex items-center justify-center text-3xl shadow-lg">
-                        🎭
-                      </div>
-                      <span className="px-3 py-1 rounded-full text-xs font-extrabold bg-[#EABF58] text-[#243247] inline-block shadow-sm">
-                        {chapterData?.scenes?.[activeSceneIdx]?.characterName || "راوي القصة"}
-                      </span>
-                      <h3 className="text-xl md:text-2xl font-black">
-                        {chapterData?.scenes?.[activeSceneIdx]?.titleAr || "المشهد المسرحي التفاعلي"}
-                      </h3>
-                      <p className="text-xs md:text-sm text-slate-200 font-serif leading-relaxed" dir="ltr">
-                        {chapterData?.scenes?.[activeSceneIdx]?.narrationEn}
-                      </p>
-                      <p className="text-xs text-amber-200">
-                        {chapterData?.scenes?.[activeSceneIdx]?.narrationAr}
-                      </p>
-                    </div>
-                  </div>
-
-                  {/* Scene Controls */}
-                  <div className="p-4 bg-[#F8FAFC] border-t border-[#E2E8F0] flex items-center justify-between">
-                    <button
-                      onClick={() => setActiveSceneIdx((idx) => Math.max(0, idx - 1))}
-                      disabled={activeSceneIdx <= 0}
-                      className="px-4 py-2 rounded-xl bg-white border border-[#E2E8F0] text-xs font-bold disabled:opacity-40"
-                    >
-                      المشهد السابق
-                    </button>
-                    <button
-                      onClick={() => speakWordOrSentence(chapterData?.scenes?.[activeSceneIdx]?.narrationEn || "")}
-                      className="px-4 py-2 rounded-xl bg-[#2563EB] text-white text-xs font-bold flex items-center gap-1.5 shadow-sm"
-                    >
-                      <Volume2 className="w-4 h-4" />
-                      <span>استمع للحوار</span>
-                    </button>
-                    <button
-                      onClick={() => setActiveSceneIdx((idx) => Math.min((chapterData?.scenes?.length || 1) - 1, idx + 1))}
-                      disabled={activeSceneIdx >= (chapterData?.scenes?.length || 1) - 1}
-                      className="px-4 py-2 rounded-xl bg-white border border-[#E2E8F0] text-xs font-bold disabled:opacity-40"
-                    >
-                      المشهد التالي
-                    </button>
-                  </div>
-                </div>
-              </div>
+            {(activeTab === "comic" || activeTab === "cinema") && currentChapter && (
+              <ComicReaderWorkspace
+                chapter={currentChapter}
+                storyTitleEn={currentStory?.titleEn || ""}
+                storyTitleAr={currentStory?.titleAr || ""}
+                storyCoverImage={currentStory?.coverImage}
+                onOpenCharacterChat={(name) => {
+                  setChatCharacter(name);
+                  setActiveTab("chat");
+                }}
+                onNavigateTab={(tab) => setActiveTab(tab as any)}
+              />
             )}
 
             {/* ========================================================================= */}
