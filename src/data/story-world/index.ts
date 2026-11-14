@@ -59,6 +59,92 @@ export interface MCQQuestion {
   explanationAr: string;
 }
 
+export interface ChapterCharacter {
+  nameEn: string;
+  nameAr: string;
+  roleEn: string;
+  roleAr: string;
+  actionsEn?: string;
+  actionsAr?: string;
+}
+
+export interface CharacterRelationship {
+  characters: string[];
+  relationEn: string;
+  relationAr: string;
+  detailsEn?: string;
+  detailsAr?: string;
+}
+
+export interface KeyDialogue {
+  speakerEn: string;
+  speakerAr: string;
+  quoteEn: string;
+  quoteAr: string;
+  contextEn: string;
+  contextAr: string;
+}
+
+export interface ChapterThemeLesson {
+  themeEn: string;
+  themeAr: string;
+  lessonEn: string;
+  lessonAr: string;
+}
+
+export interface ComicBubble {
+  id: string;
+  speakerEn: string;
+  speakerAr: string;
+  avatar?: string;
+  type: "speech" | "thought" | "narration" | "whisper";
+  textEn: string;
+  textAr: string;
+  position: {
+    top?: string;
+    bottom?: string;
+    left?: string;
+    right?: string;
+  };
+  tailDirection?: "bottom-left" | "bottom-right" | "top-left" | "top-right" | "none";
+  highlightKeywords?: string[];
+}
+
+export interface CharacterVisualReference {
+  nameEn: string;
+  nameAr: string;
+  role: string;
+  age: string;
+  appearanceEn: string;
+  appearanceAr: string;
+  clothingEn: string;
+  clothingAr: string;
+  promptKey: string;
+  avatarColor: string;
+  samplePortraitUrl?: string;
+}
+
+export interface ComicScene {
+  id: string;
+  sceneNumber: number;
+  titleEn: string;
+  titleAr: string;
+  settingEn: string;
+  settingAr: string;
+  timeOfDayEn: string;
+  timeOfDayAr: string;
+  atmosphereEn: string;
+  atmosphereAr: string;
+  charactersPresent: string[];
+  visualDescriptionEn: string;
+  visualDescriptionAr: string;
+  bgGradient: string;
+  sceneArtwork?: string;
+  bubbles: ComicBubble[];
+  narrationEn?: string;
+  narrationAr?: string;
+}
+
 export interface ChapterItem {
   id: string;
   chapterNumber: number;
@@ -74,6 +160,13 @@ export interface ChapterItem {
   importantQuestions: ImportantQuestion[];
   homeworkQuestions: HomeworkQuestion[];
   mcqQuestions: MCQQuestion[];
+  importantCharacters?: ChapterCharacter[];
+  characterRelationships?: CharacterRelationship[];
+  keyDialogues?: KeyDialogue[];
+  themesAndLessons?: ChapterThemeLesson[];
+  comicScenes?: ComicScene[];
+  characterReferences?: CharacterVisualReference[];
+  comicCoverImage?: string;
   isPublished?: boolean;
   orderIndex?: number;
 }

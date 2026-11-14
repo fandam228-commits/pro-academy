@@ -44,6 +44,7 @@ import {
   Compass,
 } from "lucide-react";
 import { ALL_CURRICULUM_STORIES, GRADE_DEFINITIONS, StoryItem, ChapterItem } from "@/data/story-world";
+import { ComicReaderWorkspace } from "./ComicReaderWorkspace";
 
 interface StoryWorldProps {
   user?: any;
@@ -59,12 +60,12 @@ export function StoryWorldWorkspace({ user, onNavigateHome }: StoryWorldProps) {
 
   // Active top-level mode
   const [activeTab, setActiveTab] = useState<
-    "book" | "cinema" | "listen" | "chat" | "challenges" | "exam" | "badges" | "admin"
+    "book" | "comic" | "cinema" | "listen" | "chat" | "challenges" | "exam" | "badges" | "admin"
   >("book");
 
   // Reading sub-section filter inside "book" tab
   const [activeSectionFilter, setActiveSectionFilter] = useState<
-    "all" | "intro" | "characters" | "themes" | "points" | "text" | "vocab" | "qa" | "important" | "homework"
+    "all" | "intro" | "characters" | "themes" | "points" | "text" | "vocab" | "qa" | "important" | "homework" | "dialogues" | "relationships" | "lessons"
   >("all");
 
   const [loading, setLoading] = useState(false);
@@ -87,7 +88,8 @@ export function StoryWorldWorkspace({ user, onNavigateHome }: StoryWorldProps) {
   const [playbackSpeed, setPlaybackSpeed] = useState<number>(1.0);
   const [activeKaraokeSentenceIdx, setActiveKaraokeSentenceIdx] = useState<number>(0);
 
-  // Character Chat
+  // Character Chat & AI Tutor
+  const [tutorMode, setTutorMode] = useState<"character" | "teacher" | "exam_prep">("character");
   const [chatCharacter, setChatCharacter] = useState<string>("Edmond Dantés");
   const [chatMessage, setChatMessage] = useState<string>("");
   const [chatHistory, setChatHistory] = useState<any[]>([]);
@@ -262,9 +264,10 @@ export function StoryWorldWorkspace({ user, onNavigateHome }: StoryWorldProps) {
     }
   };
 
-  const handleSendChatMessage = async () => {
-    if (!chatMessage.trim() || chatSending) return;
-    const msg = chatMessage.trim();
+  const handleSendChatMessage = async (customText?: string) => {
+    const rawText = customText || chatMessage;
+    if (!rawText.trim() || chatSending) return;
+    const msg = rawText.trim();
     setChatMessage("");
     setChatSending(true);
 
@@ -272,22 +275,29 @@ export function StoryWorldWorkspace({ user, onNavigateHome }: StoryWorldProps) {
     setChatHistory((prev) => [...prev, userMsg]);
 
     try {
-      const res = await fetch("/api/story-world/character-chat", {
+      const res = await fetch("/api/story-world/tutor", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          gradeId: currentStory.gradeCode,
+          mode: tutorMode,
+          gradeCode: currentStory.gradeCode,
+          storyId: currentStory.id,
           chapterId: currentChapter.id,
           characterName: chatCharacter,
           message: msg,
+          studentAnswer: tutorMode === "exam_prep" ? msg : undefined,
         }),
       });
       const json = await res.json();
       if (json.success) {
         const replyMsg = {
-          role: "character",
+          role: tutorMode,
           content: json.reply,
           languageTip: json.languageTip,
+          contextCitations: json.contextCitations,
+          evaluation: json.evaluation,
+          suggestedQuestions: json.suggestedQuestions,
+          character: json.character,
           timestamp: new Date().toISOString(),
         };
         setChatHistory((prev) => [...prev, replyMsg]);
@@ -428,6 +438,21 @@ export function StoryWorldWorkspace({ user, onNavigateHome }: StoryWorldProps) {
             </button>
 
             <button
+              onClick={() => setActiveTab("comic")}
+              className={`px-3 py-2 rounded-xl text-xs font-bold transition flex items-center gap-1.5 ${
+                activeTab === "comic"
+                  ? "bg-gradient-to-r from-[#2563EB] to-[#4F46E5] text-white shadow-md shadow-blue-500/20"
+                  : "bg-white text-[#475569] hover:bg-[#F8FAFC] border border-[#E2E8F0]"
+              }`}
+            >
+              <Sparkles className="w-4 h-4 text-amber-400" />
+              <span>القصص المصورة (Comic)</span>
+              <span className="px-1.5 py-0.5 rounded-full text-[9px] bg-amber-400 text-slate-900 font-black">
+                جديد
+              </span>
+            </button>
+
+            <button
               onClick={() => setActiveTab("cinema")}
               className={`px-3 py-2 rounded-xl text-xs font-bold transition flex items-center gap-1.5 ${
                 activeTab === "cinema"
@@ -460,7 +485,7 @@ export function StoryWorldWorkspace({ user, onNavigateHome }: StoryWorldProps) {
               }`}
             >
               <MessageSquare className="w-4 h-4" />
-              <span>حوار الشخصيات</span>
+              <span>المعلم الذكي وحوار الشخصيات</span>
             </button>
 
             <button
@@ -695,7 +720,7 @@ export function StoryWorldWorkspace({ user, onNavigateHome }: StoryWorldProps) {
                       <span>الأقسام:</span>
                     </span>
                     {[
-                      { id: "all", label: "عرض كل الأقسام (11)" },
+                      { id: "all", label: "عرض كل الأقسام" },
                       { id: "intro", label: "1. المقدمة والمؤلف" },
                       { id: "characters", label: "2. الشخصيات" },
                       { id: "themes", label: "3. الموضوعات الأدبية" },
@@ -705,6 +730,9 @@ export function StoryWorldWorkspace({ user, onNavigateHome }: StoryWorldProps) {
                       { id: "qa", label: "7. أسئلة الكتاب SB/WB" },
                       { id: "important", label: "8. التفكير النقدي" },
                       { id: "homework", label: "9. الواجب والامتحانات" },
+                      { id: "dialogues", label: "10. الحوارات المفتاحية" },
+                      { id: "relationships", label: "11. علاقات الشخصيات" },
+                      { id: "lessons", label: "12. الدروس المستفادة" },
                     ].map((sec) => (
                       <button
                         key={sec.id}
@@ -1280,6 +1308,190 @@ export function StoryWorldWorkspace({ user, onNavigateHome }: StoryWorldProps) {
                   </div>
                 )}
 
+                {/* ===================================================================== */}
+                {/* SECTION 10: KEY DIALOGUES & QUOTATIONS */}
+                {/* ===================================================================== */}
+                {(activeSectionFilter === "all" || activeSectionFilter === "dialogues") && currentChapter.keyDialogues && currentChapter.keyDialogues.length > 0 && (
+                  <div className="bg-white rounded-3xl border border-[#E2E8F0] p-6 md:p-8 shadow-sm space-y-4">
+                    <div className="flex items-center justify-between border-b border-[#F1F5F9] pb-4">
+                      <div className="flex items-center gap-2.5">
+                        <div className="w-8 h-8 rounded-xl bg-[#FDF2F8] text-[#DB2777] flex items-center justify-center font-bold">
+                          10
+                        </div>
+                        <div>
+                          <h3 className="text-lg font-black text-[#243247]">
+                            الحوارات المفتاحية المقتبسة من النص الأصلي (Key Dialogues)
+                          </h3>
+                          <p className="text-xs text-[#718096]">
+                            اقتباسات درامية حاسمة تركز عليها أسئلة الامتحان
+                          </p>
+                        </div>
+                      </div>
+                      <span className="text-xs font-bold px-3 py-1 rounded-full bg-[#FDF2F8] text-[#DB2777] border border-[#FBCFE8]">
+                        {currentChapter.keyDialogues.length} حوارات مفتاحية
+                      </span>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      {currentChapter.keyDialogues.map((dia: any, dIdx: number) => (
+                        <div
+                          key={dIdx}
+                          className="p-5 rounded-2xl bg-[#FFF1F2]/40 border border-[#FFE4E6] hover:border-[#FDA4AF] transition space-y-3"
+                        >
+                          <div className="flex items-center justify-between border-b border-[#FECDD3]/50 pb-2">
+                            <div className="flex items-center gap-2">
+                              <span className="w-6 h-6 rounded-lg bg-[#E11D48] text-white text-xs font-extrabold flex items-center justify-center">
+                                “
+                              </span>
+                              <span className="font-extrabold text-sm text-[#9F1239]">
+                                {dia.speakerEn} ({dia.speakerAr})
+                              </span>
+                            </div>
+                            <button
+                              onClick={() => speakWordOrSentence(dia.quoteEn)}
+                              className="p-1.5 rounded-lg bg-white border border-[#FECDD3] text-[#E11D48] hover:bg-[#FFE4E6] transition"
+                              title="استمع للاقتباس"
+                            >
+                              <Volume2 className="w-3.5 h-3.5" />
+                            </button>
+                          </div>
+
+                          <blockquote className="text-sm font-serif italic text-[#1E293B] leading-relaxed" dir="ltr">
+                            "{dia.quoteEn}"
+                          </blockquote>
+
+                          {showSentenceTranslation && dia.quoteAr && (
+                            <p className="text-xs font-medium text-[#BE123C] leading-relaxed pt-1 border-t border-[#FECDD3]/40">
+                              "{dia.quoteAr}"
+                            </p>
+                          )}
+
+                          {dia.contextAr && (
+                            <p className="text-[11px] text-[#64748B] bg-white/70 p-2 rounded-xl border border-[#FFE4E6]">
+                              <span className="font-bold text-[#475569]">السياق: </span>
+                              {dia.contextAr}
+                            </p>
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* ===================================================================== */}
+                {/* SECTION 11: CHARACTER RELATIONSHIPS */}
+                {/* ===================================================================== */}
+                {(activeSectionFilter === "all" || activeSectionFilter === "relationships") && currentChapter.characterRelationships && currentChapter.characterRelationships.length > 0 && (
+                  <div className="bg-white rounded-3xl border border-[#E2E8F0] p-6 md:p-8 shadow-sm space-y-4">
+                    <div className="flex items-center justify-between border-b border-[#F1F5F9] pb-4">
+                      <div className="flex items-center gap-2.5">
+                        <div className="w-8 h-8 rounded-xl bg-[#F0FDF4] text-[#16A34A] flex items-center justify-center font-bold">
+                          11
+                        </div>
+                        <div>
+                          <h3 className="text-lg font-black text-[#243247]">
+                            شبكة علاقات وتفاعلات الشخصيات (Character Relationships)
+                          </h3>
+                          <p className="text-xs text-[#718096]">
+                            ديناميكيات الصداقة، العداء، والمؤامرة في هذا الفصل
+                          </p>
+                        </div>
+                      </div>
+                      <span className="text-xs font-bold px-3 py-1 rounded-full bg-[#F0FDF4] text-[#16A34A] border border-[#BBF7D0]">
+                        {currentChapter.characterRelationships.length} علاقات
+                      </span>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                      {currentChapter.characterRelationships.map((rel: any, rIdx: number) => (
+                        <div
+                          key={rIdx}
+                          className="p-4 rounded-2xl bg-[#F8FAFC] border border-[#E2E8F0] hover:border-[#86EFAC] transition space-y-2.5"
+                        >
+                          <div className="flex items-center gap-2 flex-wrap">
+                            {rel.characters.map((cName: string, cIdx: number) => (
+                              <React.Fragment key={cIdx}>
+                                <span className="px-2.5 py-1 rounded-lg text-xs font-bold bg-[#E8F3FF] text-[#2563EB] border border-[#BFDBFE]">
+                                  {cName}
+                                </span>
+                                {cIdx < rel.characters.length - 1 && (
+                                  <span className="text-xs font-black text-[#94A3B8]">↔</span>
+                                )}
+                              </React.Fragment>
+                            ))}
+                          </div>
+
+                          <div className="pt-1">
+                            <span className="inline-block px-2 py-0.5 rounded-full text-[11px] font-extrabold bg-[#DCFCE7] text-[#16A34A] mb-1">
+                              {rel.relationAr || rel.relationEn}
+                            </span>
+                            <p className="text-xs text-[#334155] leading-relaxed">
+                              {rel.detailsAr || rel.detailsEn}
+                            </p>
+                            {rel.detailsEn && (
+                              <p className="text-[11px] text-[#64748B] italic leading-relaxed pt-1 font-serif" dir="ltr">
+                                {rel.detailsEn}
+                              </p>
+                            )}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* ===================================================================== */}
+                {/* SECTION 12: THEMES AND MORAL LESSONS */}
+                {/* ===================================================================== */}
+                {(activeSectionFilter === "all" || activeSectionFilter === "lessons") && currentChapter.themesAndLessons && currentChapter.themesAndLessons.length > 0 && (
+                  <div className="bg-white rounded-3xl border border-[#E2E8F0] p-6 md:p-8 shadow-sm space-y-4">
+                    <div className="flex items-center justify-between border-b border-[#F1F5F9] pb-4">
+                      <div className="flex items-center gap-2.5">
+                        <div className="w-8 h-8 rounded-xl bg-[#FEF3C7] text-[#D97706] flex items-center justify-center font-bold">
+                          12
+                        </div>
+                        <div>
+                          <h3 className="text-lg font-black text-[#243247]">
+                            الموضوعات الأدبية والدروس المستفادة (Themes & Moral Lessons)
+                          </h3>
+                          <p className="text-xs text-[#718096]">
+                            الأبعاد التربوية والفلسفية المستهدفة في تقييمات الوزارة
+                          </p>
+                        </div>
+                      </div>
+                      <span className="text-xs font-bold px-3 py-1 rounded-full bg-[#FEF3C7] text-[#D97706] border border-[#FDE68A]">
+                        {currentChapter.themesAndLessons.length} دروس مستفادة
+                      </span>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      {currentChapter.themesAndLessons.map((thLesson: any, tlIdx: number) => (
+                        <div
+                          key={tlIdx}
+                          className="p-5 rounded-2xl bg-[#FFFBEB] border border-[#FDE68A] hover:border-[#F59E0B] transition space-y-2.5"
+                        >
+                          <div className="flex items-center gap-2">
+                            <span className="w-6 h-6 rounded-lg bg-[#F59E0B] text-white flex items-center justify-center text-xs font-black">
+                              ★
+                            </span>
+                            <h4 className="font-extrabold text-sm text-[#92400E]">
+                              {thLesson.themeAr || thLesson.themeEn}
+                            </h4>
+                          </div>
+
+                          <p className="text-xs font-medium text-[#78350F] leading-relaxed">
+                            {thLesson.lessonAr}
+                          </p>
+
+                          <p className="text-xs text-[#92400E] italic leading-relaxed font-serif pt-1 border-t border-[#FDE68A]/60" dir="ltr">
+                            {thLesson.lessonEn}
+                          </p>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
                 {/* BOTTOM CHAPTER NAVIGATION BAR */}
                 <div className="bg-white rounded-2xl border border-[#E2E8F0] p-4 flex items-center justify-between shadow-sm">
                   <button
@@ -1308,57 +1520,20 @@ export function StoryWorldWorkspace({ user, onNavigateHome }: StoryWorldProps) {
             )}
 
             {/* ========================================================================= */}
-            {/* TAB 2: STORY CINEMA & VISUAL STORYBOARD */}
+            {/* TAB 2: PROFESSIONAL COMIC STORIES & GRAPHIC NOVEL (6 LEARNING STAGES) */}
             {/* ========================================================================= */}
-            {activeTab === "cinema" && (
-              <div className="space-y-6">
-                <div className="bg-white border border-[#E2E8F0] rounded-3xl overflow-hidden shadow-sm">
-                  <div className="relative aspect-video bg-gradient-to-tr from-[#1E293B] via-[#0F172A] to-[#334155] flex items-center justify-center p-6 text-center text-white">
-                    <div className="space-y-3 max-w-xl z-10">
-                      <div className="w-16 h-16 rounded-2xl bg-white/10 backdrop-blur-md border border-white/20 mx-auto flex items-center justify-center text-3xl shadow-lg">
-                        🎭
-                      </div>
-                      <span className="px-3 py-1 rounded-full text-xs font-extrabold bg-[#EABF58] text-[#243247] inline-block shadow-sm">
-                        {chapterData?.scenes?.[activeSceneIdx]?.characterName || "راوي القصة"}
-                      </span>
-                      <h3 className="text-xl md:text-2xl font-black">
-                        {chapterData?.scenes?.[activeSceneIdx]?.titleAr || "المشهد المسرحي التفاعلي"}
-                      </h3>
-                      <p className="text-xs md:text-sm text-slate-200 font-serif leading-relaxed" dir="ltr">
-                        {chapterData?.scenes?.[activeSceneIdx]?.narrationEn}
-                      </p>
-                      <p className="text-xs text-amber-200">
-                        {chapterData?.scenes?.[activeSceneIdx]?.narrationAr}
-                      </p>
-                    </div>
-                  </div>
-
-                  {/* Scene Controls */}
-                  <div className="p-4 bg-[#F8FAFC] border-t border-[#E2E8F0] flex items-center justify-between">
-                    <button
-                      onClick={() => setActiveSceneIdx((idx) => Math.max(0, idx - 1))}
-                      disabled={activeSceneIdx <= 0}
-                      className="px-4 py-2 rounded-xl bg-white border border-[#E2E8F0] text-xs font-bold disabled:opacity-40"
-                    >
-                      المشهد السابق
-                    </button>
-                    <button
-                      onClick={() => speakWordOrSentence(chapterData?.scenes?.[activeSceneIdx]?.narrationEn || "")}
-                      className="px-4 py-2 rounded-xl bg-[#2563EB] text-white text-xs font-bold flex items-center gap-1.5 shadow-sm"
-                    >
-                      <Volume2 className="w-4 h-4" />
-                      <span>استمع للحوار</span>
-                    </button>
-                    <button
-                      onClick={() => setActiveSceneIdx((idx) => Math.min((chapterData?.scenes?.length || 1) - 1, idx + 1))}
-                      disabled={activeSceneIdx >= (chapterData?.scenes?.length || 1) - 1}
-                      className="px-4 py-2 rounded-xl bg-white border border-[#E2E8F0] text-xs font-bold disabled:opacity-40"
-                    >
-                      المشهد التالي
-                    </button>
-                  </div>
-                </div>
-              </div>
+            {(activeTab === "comic" || activeTab === "cinema") && currentChapter && (
+              <ComicReaderWorkspace
+                chapter={currentChapter}
+                storyTitleEn={currentStory?.titleEn || ""}
+                storyTitleAr={currentStory?.titleAr || ""}
+                storyCoverImage={currentStory?.coverImage}
+                onOpenCharacterChat={(name) => {
+                  setChatCharacter(name);
+                  setActiveTab("chat");
+                }}
+                onNavigateTab={(tab) => setActiveTab(tab as any)}
+              />
             )}
 
             {/* ========================================================================= */}
@@ -1407,48 +1582,154 @@ export function StoryWorldWorkspace({ user, onNavigateHome }: StoryWorldProps) {
             )}
 
             {/* ========================================================================= */}
-            {/* TAB 4: CHARACTER CHAT */}
+            {/* TAB 4: STORY AI TUTOR & CHARACTER CHAT (3 MODES) */}
             {/* ========================================================================= */}
             {activeTab === "chat" && (
-              <div className="bg-white border border-[#E2E8F0] rounded-3xl overflow-hidden shadow-sm flex flex-col h-[600px]">
-                {/* Character Picker Header */}
-                <div className="p-4 border-b border-[#E2E8F0] bg-[#F8FAFC] flex flex-wrap items-center justify-between gap-3">
-                  <div className="flex items-center gap-2">
-                    <span className="text-xs font-bold text-[#718096]">تحدث مع:</span>
-                    <div className="flex gap-1.5 overflow-x-auto">
-                      {currentStory.characters.map((c, idx) => (
-                        <button
-                          key={idx}
-                          onClick={() => setChatCharacter(c.nameEn)}
-                          className={`px-3 py-1.5 rounded-xl text-xs font-bold transition ${
-                            chatCharacter === c.nameEn
-                              ? "bg-[#2563EB] text-white shadow-sm"
-                              : "bg-white text-[#475569] border border-[#E2E8F0]"
-                          }`}
-                        >
-                          {c.nameEn}
-                        </button>
-                      ))}
-                    </div>
+              <div className="bg-white border border-[#E2E8F0] rounded-3xl overflow-hidden shadow-sm flex flex-col h-[650px]">
+                {/* 3-Mode Selector Bar */}
+                <div className="p-3 bg-[#1E293B] text-white flex flex-wrap items-center justify-between gap-2">
+                  <div className="flex items-center gap-1.5">
+                    <span className="text-xs font-bold text-[#94A3B8] ml-2">نمط المساعد الذكي:</span>
+                    <button
+                      onClick={() => setTutorMode("character")}
+                      className={`px-3 py-1.5 rounded-xl text-xs font-bold transition flex items-center gap-1.5 ${
+                        tutorMode === "character"
+                          ? "bg-[#2563EB] text-white shadow-sm"
+                          : "bg-[#334155] text-[#CBD5E1] hover:bg-[#475569]"
+                      }`}
+                    >
+                      <span>🎭 حوار الشخصيات</span>
+                    </button>
+
+                    <button
+                      onClick={() => setTutorMode("teacher")}
+                      className={`px-3 py-1.5 rounded-xl text-xs font-bold transition flex items-center gap-1.5 ${
+                        tutorMode === "teacher"
+                          ? "bg-[#16A34A] text-white shadow-sm"
+                          : "bg-[#334155] text-[#CBD5E1] hover:bg-[#475569]"
+                      }`}
+                    >
+                      <span>👨‍🏫 المعلم (مستر حبيب)</span>
+                    </button>
+
+                    <button
+                      onClick={() => setTutorMode("exam_prep")}
+                      className={`px-3 py-1.5 rounded-xl text-xs font-bold transition flex items-center gap-1.5 ${
+                        tutorMode === "exam_prep"
+                          ? "bg-[#D97706] text-white shadow-sm"
+                          : "bg-[#334155] text-[#CBD5E1] hover:bg-[#475569]"
+                      }`}
+                    >
+                      <span>📝 مراجعة وتصحيح الامتحانات</span>
+                    </button>
                   </div>
-                  <span className="text-[11px] font-extrabold text-[#16A34A] bg-[#DCFCE7] px-2.5 py-1 rounded-full border border-[#BBF7D0]">
-                    تعليمي نشط
+
+                  <span className="text-[11px] font-extrabold text-[#BBF7D0] bg-[#14532D] px-2.5 py-0.5 rounded-full border border-[#166534]">
+                    ذكاء اصطناعي تعليمي موثق
                   </span>
                 </div>
 
-                {/* Messages Feed */}
-                <div className="flex-1 p-6 overflow-y-auto space-y-4 bg-[#F8FAFC]">
-                  {chatHistory.length === 0 ? (
-                    <div className="text-center py-16 space-y-2">
-                      <div className="w-12 h-12 rounded-full bg-[#E8F3FF] text-[#2563EB] flex items-center justify-center text-xl mx-auto">
-                        💬
+                {/* Sub-Header depending on mode */}
+                <div className="p-3 border-b border-[#E2E8F0] bg-[#F8FAFC] flex flex-wrap items-center justify-between gap-2">
+                  {tutorMode === "character" ? (
+                    <div className="flex items-center gap-2 overflow-x-auto w-full scrollbar-none">
+                      <span className="text-xs font-bold text-[#718096] whitespace-nowrap">اختر الشخصية:</span>
+                      <div className="flex gap-1.5">
+                        {currentStory.characters.map((c, idx) => (
+                          <button
+                            key={idx}
+                            onClick={() => setChatCharacter(c.nameEn)}
+                            className={`px-3 py-1 rounded-xl text-xs font-bold transition whitespace-nowrap ${
+                              chatCharacter === c.nameEn
+                                ? "bg-[#2563EB] text-white shadow-sm"
+                                : "bg-white text-[#475569] border border-[#E2E8F0] hover:bg-[#F1F5F9]"
+                            }`}
+                          >
+                            {c.nameEn}
+                          </button>
+                        ))}
                       </div>
-                      <p className="text-sm font-bold text-[#243247]">
-                        ابدأ محادثة تعليمية مع {chatCharacter}
-                      </p>
-                      <p className="text-xs text-[#718096] max-w-sm mx-auto">
-                        يمكنك توجيه أسئلة حول قرارات الشخصية، أحداث الفصل، أو معاني الكلمات والمفاهيم الأدبية!
-                      </p>
+                    </div>
+                  ) : tutorMode === "teacher" ? (
+                    <div className="flex items-center justify-between w-full">
+                      <div className="flex items-center gap-2">
+                        <span className="w-6 h-6 rounded-lg bg-[#DCFCE7] text-[#16A34A] flex items-center justify-center text-xs font-black">
+                          ✓
+                        </span>
+                        <span className="text-xs font-extrabold text-[#1E293B]">
+                          نمط المعلم الخبير: شرح العلاقات، الدوافع، والموضوعات الأدبية للفصل {currentChapter.chapterNumber}
+                        </span>
+                      </div>
+                      <span className="text-[11px] text-[#2563EB] font-bold">Mr. Habib El Rahman</span>
+                    </div>
+                  ) : (
+                    <div className="flex items-center justify-between w-full">
+                      <div className="flex items-center gap-2">
+                        <span className="w-6 h-6 rounded-lg bg-[#FEF3C7] text-[#D97706] flex items-center justify-center text-xs font-black">
+                          ★
+                        </span>
+                        <span className="text-xs font-extrabold text-[#1E293B]">
+                          نمط التدريب الامتحاني: تقييم الإجابات المقالية وتدقيق الكلمات المفتاحية
+                        </span>
+                      </div>
+                      <span className="text-[11px] text-[#D97706] font-bold">معايير التصحيح الوزاري</span>
+                    </div>
+                  )}
+                </div>
+
+                {/* Messages Feed */}
+                <div className="flex-1 p-5 overflow-y-auto space-y-4 bg-[#F8FAFC]">
+                  {chatHistory.length === 0 ? (
+                    <div className="text-center py-12 space-y-3">
+                      <div className="w-14 h-14 rounded-2xl bg-[#E8F3FF] text-[#2563EB] flex items-center justify-center text-2xl mx-auto shadow-xs">
+                        {tutorMode === "character" ? "🎭" : tutorMode === "teacher" ? "👨‍🏫" : "📝"}
+                      </div>
+                      <div className="space-y-1">
+                        <p className="text-sm font-extrabold text-[#1E293B]">
+                          {tutorMode === "character"
+                            ? `تحدث مباشرة مع ${chatCharacter}`
+                            : tutorMode === "teacher"
+                            ? `المعلم الذكي لمستر حبيب جاهز لمساعدتك`
+                            : `ابدأ تدريب الامتحانات والتفكير النقدي`}
+                        </p>
+                        <p className="text-xs text-[#64748B] max-w-md mx-auto">
+                          {tutorMode === "character"
+                            ? `اسأل الشخصية عن قراراتها، مشاعرها، أو دوافعها في أحداث القصة، وستجيبك بصوتها الأصلي!`
+                            : tutorMode === "teacher"
+                            ? `اسأل عن شرح الأحداث، علاقات الشخصيات، أو الموضوعات الأدبية المقررة بالمنهج.`
+                            : `اطرح إجابتك على أي سؤال امتحاني وسيقوم المعلم بتقييمها فوراً بنظام الدرجات ونموذج الوزارة!`}
+                        </p>
+                      </div>
+
+                      {/* Quick suggested prompt buttons */}
+                      <div className="flex flex-wrap justify-center gap-2 pt-2 max-w-lg mx-auto">
+                        {(tutorMode === "character"
+                          ? [
+                              `لماذا اتخذت هذا القرار في الفصل ${currentChapter.chapterNumber}؟`,
+                              `How did you feel during this ordeal?`,
+                              `ما هي أصعب لحظة واجهتها في القصة؟`
+                            ]
+                          : tutorMode === "teacher"
+                          ? [
+                              `اشرح لي أهم أحداث الفصل ${currentChapter.chapterNumber}`,
+                              `ما هي شبكة علاقات الشخصيات في هذا الفصل؟`,
+                              `ما هي الدروس المستفادة المتوقعة بالامتحان؟`
+                            ]
+                          : [
+                              `اختبرني في سؤال تفكير نقدي من الفصل ${currentChapter.chapterNumber}`,
+                              `كيف أكتب إجابة نموذجية في سؤال القصة؟`,
+                              `ما هي أهم الكلمات المفتاحية في هذا الفصل؟`
+                            ]
+                        ).map((prompt, pIdx) => (
+                          <button
+                            key={pIdx}
+                            onClick={() => handleSendChatMessage(prompt)}
+                            className="px-3 py-1.5 rounded-xl bg-white border border-[#E2E8F0] hover:border-[#BFDBFE] hover:bg-[#E8F3FF] text-[#334155] hover:text-[#2563EB] text-[11px] font-bold transition shadow-2xs"
+                          >
+                            {prompt}
+                          </button>
+                        ))}
+                      </div>
                     </div>
                   ) : (
                     chatHistory.map((msg, mIdx) => (
@@ -1457,15 +1738,53 @@ export function StoryWorldWorkspace({ user, onNavigateHome }: StoryWorldProps) {
                         className={`flex flex-col ${msg.role === "user" ? "items-start" : "items-end"}`}
                       >
                         <div
-                          className={`max-w-md p-4 rounded-2xl text-xs md:text-sm leading-relaxed shadow-xs ${
+                          className={`max-w-xl p-4 rounded-2xl text-xs md:text-sm leading-relaxed shadow-xs space-y-2 ${
                             msg.role === "user"
                               ? "bg-[#2563EB] text-white rounded-br-none"
-                              : "bg-white text-[#243247] border border-[#E2E8F0] rounded-bl-none"
+                              : "bg-white text-[#1E293B] border border-[#E2E8F0] rounded-bl-none"
                           }`}
                         >
-                          <p>{msg.content}</p>
+                          <div className="whitespace-pre-line leading-relaxed font-sans">{msg.content}</div>
+
+                          {/* Evaluation Box if in Exam Prep */}
+                          {msg.evaluation && (
+                            <div className="p-3 rounded-xl bg-[#F8FAFC] border border-[#E2E8F0] space-y-2 mt-2">
+                              <div className="flex items-center justify-between">
+                                <span className="text-xs font-black text-[#1E293B]">نتيجة التقييم الامتحاني:</span>
+                                <span className={`text-xs font-black px-2.5 py-0.5 rounded-full ${
+                                  msg.evaluation.score >= 80
+                                    ? "bg-[#DCFCE7] text-[#16A34A]"
+                                    : msg.evaluation.score >= 60
+                                    ? "bg-[#FEF3C7] text-[#D97706]"
+                                    : "bg-red-50 text-red-600"
+                                }`}>
+                                  {msg.evaluation.grade} ({msg.evaluation.score}/100)
+                                </span>
+                              </div>
+                              {msg.evaluation.matchedKeywords && msg.evaluation.matchedKeywords.length > 0 && (
+                                <p className="text-[11px] text-[#16A34A] font-bold">
+                                  ✓ كلمات مفتاحية موفقة: {msg.evaluation.matchedKeywords.join("، ")}
+                                </p>
+                              )}
+                              {msg.evaluation.missingKeywords && msg.evaluation.missingKeywords.length > 0 && (
+                                <p className="text-[11px] text-[#D97706] font-bold">
+                                  ⚠ كلمات مفتاحية ينصح بإضافتها: {msg.evaluation.missingKeywords.join("، ")}
+                                </p>
+                              )}
+                            </div>
+                          )}
+
+                          {/* Context Citation */}
+                          {msg.contextCitations?.chapterNumber && (
+                            <div className="pt-2 border-t border-[#E2E8F0] text-[11px] text-[#2563EB] flex items-center gap-1 font-bold">
+                              <BookOpen className="w-3.5 h-3.5" />
+                              <span>مرجع الأحداث: الفصل {msg.contextCitations.chapterNumber} ({msg.contextCitations.chapterTitleAr || msg.contextCitations.chapterTitleEn})</span>
+                            </div>
+                          )}
+
+                          {/* Language Tip */}
                           {msg.languageTip && (
-                            <div className="mt-2 pt-2 border-t border-[#E2E8F0] text-xs text-[#D97706] font-semibold">
+                            <div className="pt-2 border-t border-[#E2E8F0] text-xs text-[#D97706] font-semibold">
                               {msg.languageTip}
                             </div>
                           )}
@@ -1476,21 +1795,28 @@ export function StoryWorldWorkspace({ user, onNavigateHome }: StoryWorldProps) {
                 </div>
 
                 {/* Chat Input */}
-                <div className="p-4 bg-white border-t border-[#E2E8F0] flex gap-2">
+                <div className="p-3.5 bg-white border-t border-[#E2E8F0] flex gap-2">
                   <input
                     type="text"
                     value={chatMessage}
                     onChange={(e) => setChatMessage(e.target.value)}
                     onKeyDown={(e) => e.key === "Enter" && handleSendChatMessage()}
-                    placeholder={`اسأل ${chatCharacter} بالإنجليزية أو العربية...`}
+                    placeholder={
+                      tutorMode === "character"
+                        ? `اسأل ${chatCharacter} بالإنجليزية أو العربية...`
+                        : tutorMode === "teacher"
+                        ? `اسأل مستر حبيب عن أحداث الفصل، الشخصيات، أو المفردات...`
+                        : `اكتب إجابتك التحليلية لتقييمها بنظام امتحانات الثانوية العامة...`
+                    }
                     className="flex-1 p-3 rounded-xl border border-[#E2E8F0] text-xs focus:border-[#2563EB] outline-none"
                   />
                   <button
-                    onClick={handleSendChatMessage}
+                    onClick={() => handleSendChatMessage()}
                     disabled={chatSending || !chatMessage.trim()}
-                    className="px-5 py-3 rounded-xl bg-[#2563EB] hover:bg-[#1D4ED8] text-white text-xs font-bold disabled:opacity-50 transition shadow-sm"
+                    className="px-5 py-3 rounded-xl bg-[#2563EB] hover:bg-[#1D4ED8] text-white text-xs font-bold disabled:opacity-50 transition shadow-sm flex items-center gap-1.5"
                   >
                     <Send className="w-4 h-4" />
+                    <span>إرسال</span>
                   </button>
                 </div>
               </div>

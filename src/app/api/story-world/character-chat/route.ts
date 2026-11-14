@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { getAuthContext } from "@/lib/security";
+import { interactWithCharacterAgent } from "@/lib/story-world/character-agents";
 
 export async function POST(req: Request) {
   try {
@@ -23,30 +24,16 @@ export async function POST(req: Request) {
 
     const cleanMsg = String(message).trim();
 
-    // Educational In-Character Persona responses
-    const charNameLower = characterName.toLowerCase();
-    let reply = "";
-    let languageTip = "";
+    // Process message through Dedicated Educational Character Agent
+    const agentResult = await interactWithCharacterAgent({
+      characterName,
+      message: cleanMsg,
+      chapterId,
+      gradeId,
+    });
 
-    if (charNameLower.includes("santiago")) {
-      reply = `Ah, young friend! The sea teaches patience. When you speak of "${cleanMsg.slice(0, 40)}", remember: a man can be destroyed, but not defeated. Keep your line straight and trust your strength.`;
-      languageTip = `💡 Tip from Mr. Habib: Notice Santiago's use of compound sentences with coordinating conjunctions ('but', 'and'). Use them to connect your ideas smoothly!`;
-    } else if (charNameLower.includes("fogg")) {
-      reply = `Precision, my friend! Eight hundred and forty hours—neither a minute more nor less. Regarding your point: every obstacle can be calculated and overcome with discipline and timely composure.`;
-      languageTip = `💡 Tip from Mr. Habib: Phileas Fogg values precision! When discussing schedules, remember that fixed future events often use the Present Simple (e.g. *The train leaves at 8:00 PM*).`;
-    } else if (charNameLower.includes("dantès") || charNameLower.includes("monte cristo") || charNameLower.includes("dantes") || charNameLower.includes("edmond")) {
-      reply = `All human wisdom is contained in these two words: 'Wait and hope.' Through the darkest trials, knowledge, patience, and unwavering justice shall always prevail. What question weighs on your mind regarding my journey?`;
-      languageTip = `💡 Tip from Mr. Habib: Notice Edmond Dantès' use of imperative maxims ('Wait and hope'). It is an effective rhetorical technique in advanced English essays!`;
-    } else if (charNameLower.includes("faria") || charNameLower.includes("abbé") || charNameLower.includes("abbe")) {
-      reply = `My son, knowledge is the only treasure that no tyrant can steal. In Chateau d'If, books and wisdom became my wings. Study with diligence, and remember that justice must never become malice.`;
-      languageTip = `💡 Tip from Mr. Habib: Abbé Faria emphasizes moral wisdom. Pay attention to noun clauses such as 'that no tyrant can steal' acting as adjective clauses!`;
-    } else if (charNameLower.includes("challenger")) {
-      reply = `Preposterous doubts! Science demands evidence, not timid speculation. The plateau exists, and only those with fortitude and an observant eye can comprehend its living wonders!`;
-      languageTip = `💡 Tip from Mr. Habib: Professor Challenger speaks with strong academic adjectives ('preposterous', 'observant'). Enrich your Thanawya Amma essays by replacing basic words with precise academic vocabulary!`;
-    } else {
-      reply = `Greetings! In our story, every action carries meaning. Regarding your observation: literature invites us to think critically and learn from the journeys of others.`;
-      languageTip = `💡 Tip from Mr. Habib: Great phrasing! Consistent daily practice with active recall is the secret to mastering fluent English conversation.`;
-    }
+    const reply = agentResult.reply;
+    const languageTip = agentResult.languageTip;
 
     let badgeEarned = false;
     let earnedBadgeObj = null;
@@ -138,6 +125,8 @@ export async function POST(req: Request) {
       success: true,
       reply,
       languageTip,
+      character: agentResult.character,
+      contextCitations: agentResult.contextCitations,
       badgeEarned,
       newBadge: earnedBadgeObj,
     });

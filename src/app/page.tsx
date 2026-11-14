@@ -181,6 +181,11 @@ const StoryWorldWorkspace = dynamic(
   { loading: () => <TabLoadingSkeleton label="جاري تحميل عالم القصص الاحترافي..." />, ssr: false }
 );
 
+const VocabularyMasterBankWorkspace = dynamic(
+  () => import("@/components/vocabulary/VocabularyMasterBankWorkspace").then((m) => m.VocabularyMasterBankWorkspace),
+  { loading: () => <TabLoadingSkeleton label="جاري تحميل بنك المفردات والتعبيرات الأكاديمي..." />, ssr: false }
+);
+
 const ModernHomePage = dynamic(
   () => import("@/components/home/ModernHomePage").then((m) => m.ModernHomePage),
   { loading: () => <TabLoadingSkeleton label="جاري تحميل الصفحة الرئيسية الحديثة..." />, ssr: false }
@@ -589,6 +594,13 @@ function MainAppContent() {
 
           /* VIEW: PROFESSIONAL STORY WORLD — Mr. Habib El Rahman */
           <StoryWorldWorkspace
+            user={user}
+            onNavigateHome={() => setActiveTab(user ? "dashboard" : "home")}
+          />
+        ) : activeTab === "vocabulary_bank" ? (
+
+          /* VIEW: PROFESSIONAL VOCABULARY MASTER BANK — Mr. Habib El Rahman */
+          <VocabularyMasterBankWorkspace
             user={user}
             onNavigateHome={() => setActiveTab(user ? "dashboard" : "home")}
           />
