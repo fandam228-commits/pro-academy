@@ -179,12 +179,19 @@ export function saveFallbackUser(user: FallbackUser): void {
   }
 }
 
-const SESSION_TTL_MS = 7 * 24 * 60 * 60 * 1000; // 7 days
+export const DEFAULT_PERSISTENT_SESSION_TTL_MS = 30 * 24 * 60 * 60 * 1000; // 30 days persistent login
+export const DEFAULT_STANDARD_SESSION_TTL_MS = 24 * 60 * 60 * 1000; // 1 day standard login
 
-export async function createSession(userId: string, role: string, userAgent?: string) {
+export async function createSession(
+  userId: string,
+  role: string,
+  userAgent?: string,
+  rememberMe: boolean = true
+) {
   const token = generateToken();
   const id = `sess_${Date.now()}_${Math.random().toString(36).substring(2, 8)}`;
-  const expiresAt = new Date(Date.now() + SESSION_TTL_MS);
+  const ttlMs = rememberMe ? DEFAULT_PERSISTENT_SESSION_TTL_MS : DEFAULT_STANDARD_SESSION_TTL_MS;
+  const expiresAt = new Date(Date.now() + ttlMs);
 
   // Always register in memory session cache (for immediate lookup & preview resilience)
   globalAuth.__paMemorySessions?.set(token, {
@@ -216,6 +223,21 @@ export async function createSession(userId: string, role: string, userAgent?: st
   }
 
   return { token, expiresAt };
+}
+
+export async function touchSession(token: string, rememberMe: boolean = true): Promise<Date | null> {
+  const mem = globalAuth.__paMemorySessions?.get(token);
+  if (!mem) return null;
+  const ttlMs = rememberMe ? DEFAULT_PERSISTENT_SESSION_TTL_MS : DEFAULT_STANDARD_SESSION_TTL_MS;
+  const newExpiresAt = new Date(Date.now() + ttlMs);
+  mem.expiresAt = newExpiresAt;
+
+  if (process.env.DATABASE_URL) {
+    try {
+      await db.update(sessions).set({ expiresAt: newExpiresAt }).where(eq(sessions.token, token));
+    } catch {}
+  }
+  return newExpiresAt;
 }
 
 export async function destroySession(token: string) {

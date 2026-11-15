@@ -326,10 +326,12 @@ export const Navbar: React.FC<{ activeTab?: string; setActiveTab?: (tab: string)
                       setMobileMenuOpen(false);
                       await logout();
                     }}
-                    className="p-2 rounded-xl bg-red-50 hover:bg-red-100 text-red-600 border border-red-200 transition"
+                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-red-50 hover:bg-red-100 text-red-600 border border-red-200 transition text-xs font-bold cursor-pointer"
                     title={lang === "ar" ? "تسجيل الخروج" : "Log out"}
+                    aria-label="Log out"
                   >
-                    <LogOut className="w-4 h-4" />
+                    <LogOut className="w-3.5 h-3.5" />
+                    <span>{lang === "ar" ? "تسجيل الخروج" : "Logout"}</span>
                   </button>
                 </div>
               ) : (

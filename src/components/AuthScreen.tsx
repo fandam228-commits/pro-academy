@@ -23,10 +23,17 @@ import {
   ArrowRight,
 } from "lucide-react";
 
-export const AuthScreen: React.FC<{ onBack?: () => void }> = ({ onBack }) => {
+export interface AuthScreenProps {
+  onBack?: () => void;
+  returnUrl?: string;
+  onLoginSuccess?: () => void;
+}
+
+export const AuthScreen: React.FC<AuthScreenProps> = ({ onBack, returnUrl, onLoginSuccess }) => {
   const { lang, login, register, authLoading, authError, clearAuthError } = useApp();
   const [mode, setMode] = useState<"login" | "register">("login");
   const [showPassword, setShowPassword] = useState(false);
+  const [rememberMe, setRememberMe] = useState(true);
 
   // Login state
   const [email, setEmail] = useState("");
@@ -62,7 +69,14 @@ export const AuthScreen: React.FC<{ onBack?: () => void }> = ({ onBack }) => {
       setLocalError(lang === "ar" ? "أدخل البريد الإلكتروني وكلمة المرور" : "Enter email & password");
       return;
     }
-    await login(email, password);
+    const ok = await login(email, password, rememberMe);
+    if (ok) {
+      if (onLoginSuccess) {
+        onLoginSuccess();
+      } else if (returnUrl) {
+        window.location.href = returnUrl;
+      }
+    }
   };
 
   const handleRegister = async () => {
@@ -79,7 +93,7 @@ export const AuthScreen: React.FC<{ onBack?: () => void }> = ({ onBack }) => {
       setLocalError(lang === "ar" ? "كلمة المرور يجب ألا تقل عن 8 أحرف" : "Password must be at least 8 characters");
       return;
     }
-    await register({
+    const ok = await register({
       name: regName,
       email: regEmail,
       password: regPassword,
@@ -89,6 +103,13 @@ export const AuthScreen: React.FC<{ onBack?: () => void }> = ({ onBack }) => {
       phone: regPhone,
       parentPhone: regParentPhone,
     });
+    if (ok) {
+      if (onLoginSuccess) {
+        onLoginSuccess();
+      } else if (returnUrl) {
+        window.location.href = returnUrl;
+      }
+    }
   };
 
   const strength = passwordStrength(regPassword);
@@ -259,6 +280,21 @@ export const AuthScreen: React.FC<{ onBack?: () => void }> = ({ onBack }) => {
                     {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                   </button>
                 </div>
+              </div>
+
+              {/* REMEMBER ME PERSISTENT LOGIN */}
+              <div className="flex items-center justify-between py-1 px-1">
+                <label className="flex items-center gap-2 cursor-pointer select-none text-[#243247] font-bold text-xs">
+                  <input
+                    type="checkbox"
+                    checked={rememberMe}
+                    onChange={(e) => setRememberMe(e.target.checked)}
+                    className="w-4 h-4 rounded text-[#2563EB] focus:ring-blue-500 border-slate-300 cursor-pointer"
+                  />
+                  <span>
+                    {lang === "ar" ? "تذكر تسجيل الدخول (30 يوماً)" : "Remember me (30 days)"}
+                  </span>
+                </label>
               </div>
 
               <button

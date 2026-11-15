@@ -321,7 +321,8 @@ function MainAppContent() {
       title: lang === "ar" ? "كورس الشهادة الثانوية العامة 2025/2026" : "Third Secondary Master Class 2025/2026",
       grade: lang === "ar" ? "الصف الثالث الثانوي (البوكليت)" : "Third Secondary (Baccalaureate)",
       desc: lang === "ar" ? "تغطية شاملة للقواعد، الكلمات المعقدة، قطع الفهم، والترجمة مع المستر" : "Comprehensive Thanawya Amma mastery: Grammar, Vocabulary, Translation & Novel Analysis.",
-      price: "350.00 EGP",
+      price: lang === "ar" ? "مجانا حتى نهاية الترم" : "FREE UNTIL THE END OF THE TERM",
+      originalPrice: "350.00 EGP",
       badge: "Thanawya Amma Core",
       image: "https://images.unsplash.com/photo-1434030216411-0b793f4b4173?w=800&auto=format&fit=crop&q=80",
     },
@@ -330,7 +331,8 @@ function MainAppContent() {
       title: lang === "ar" ? "كورس تانية بكالوريا المصرية 2026/2027" : "Second Year Egyptian Baccalaureate 2026/2027",
       grade: lang === "ar" ? "تانية بكالوريا (Egyptian Baccalaureate)" : "Second Year Baccalaureate",
       desc: lang === "ar" ? "منهج البكالوريا المستقل: 10 وحدات، 5 مراجعات، ورواية The Lost World لآرثر كونان دويل" : "Independent Baccalaureate: 10 Units, 5 Consolidation Reviews & The Lost World novel.",
-      price: "320.00 EGP",
+      price: lang === "ar" ? "مجانا حتى نهاية الترم" : "FREE UNTIL THE END OF THE TERM",
+      originalPrice: "320.00 EGP",
       badge: "Egyptian Baccalaureate",
       image: "https://images.unsplash.com/photo-1457369804613-52c61a468e7d?w=800&auto=format&fit=crop&q=80",
     },
@@ -339,7 +341,8 @@ function MainAppContent() {
       title: lang === "ar" ? "كورس الصف الثاني الثانوي المكثف" : "Second Secondary Intensive English Program",
       grade: lang === "ar" ? "الصف الثاني الثانوي" : "Second Secondary",
       desc: lang === "ar" ? "المباشر والغير مباشر، الحالات الشرطية، وتنمية مهارات التعبير" : "Direct/Indirect speech, conditionals, passive voice & essay structures.",
-      price: "280.00 EGP",
+      price: lang === "ar" ? "مجانا حتى نهاية الترم" : "FREE UNTIL THE END OF THE TERM",
+      originalPrice: "280.00 EGP",
       badge: "Secondary Core",
       image: "https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=800&auto=format&fit=crop&q=80",
     },
@@ -348,7 +351,8 @@ function MainAppContent() {
       title: lang === "ar" ? "كورس تأسيس الصف الأول الثانوي" : "First Secondary Foundation & Grammar",
       grade: lang === "ar" ? "الصف الأول الثانوي" : "First Secondary",
       desc: lang === "ar" ? "الانتقال السلس من الإعدادي للثانوي وتأسيس قواعد الأزمنة" : "Smooth transition to secondary level with core tenses and vocab.",
-      price: "250.00 EGP",
+      price: lang === "ar" ? "مجانا حتى نهاية الترم" : "FREE UNTIL THE END OF THE TERM",
+      originalPrice: "250.00 EGP",
       badge: "Secondary Foundation",
       image: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=800&auto=format&fit=crop&q=80",
     },
@@ -357,11 +361,33 @@ function MainAppContent() {
       title: lang === "ar" ? "كورس الشهادة الإعدادية (الدرجة النهائية)" : "Third Prep High Score Booster",
       grade: lang === "ar" ? "الصف الثالث الإعدادي" : "Third Prep",
       desc: lang === "ar" ? "حل المحادثات، قطع القراءة، وأسرار امتحانات المحافظات" : "Complete preparation for final prep exams, dialogues & structural drills.",
-      price: "200.00 EGP",
+      price: lang === "ar" ? "مجانا حتى نهاية الترم" : "FREE UNTIL THE END OF THE TERM",
+      originalPrice: "200.00 EGP",
       badge: "Preparatory Excellence",
       image: "https://images.unsplash.com/photo-1509062522246-3755977927d7?w=800&auto=format&fit=crop&q=80",
     },
   ];
+
+  if (authLoading) {
+    return (
+      <div className="min-h-screen bg-[#F7F9FC] dark:bg-[#0c071a] flex flex-col items-center justify-center p-4">
+        <TabLoadingSkeleton label={lang === "ar" ? "جاري استعادة جلستك الآمنة..." : "Restoring secure session..."} />
+      </div>
+    );
+  }
+
+  if (!user) {
+    return (
+      <div className="min-h-screen bg-[#F7F9FC] dark:bg-[#0c071a]">
+        <AuthScreen
+          returnUrl={typeof window !== "undefined" ? window.location.pathname + window.location.search : "/"}
+          onLoginSuccess={() => {
+            setActiveTab("home");
+          }}
+        />
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen flex flex-col bg-slate-50 dark:bg-[#0c071a] text-slate-900 dark:text-slate-100 transition-colors">
@@ -456,7 +482,12 @@ function MainAppContent() {
                   </div>
 
                   <div className="mt-6 pt-4 border-t border-slate-100 dark:border-purple-900/40 flex justify-between items-center text-xs font-extrabold">
-                    <span className="text-amber-600 dark:text-amber-400 font-black text-sm">{c.price}</span>
+                    <div className="flex flex-col">
+                      <span className="text-emerald-600 dark:text-emerald-400 font-black text-sm">{c.price}</span>
+                      {c.originalPrice && (
+                        <span className="text-[10px] text-slate-400 line-through">{c.originalPrice}</span>
+                      )}
+                    </div>
                     <span className="text-purple-600 dark:text-sky-400 font-extrabold">{lang === "ar" ? "تصفح الوحدات" : "Inspect Units"} →</span>
                   </div>
                 </div>

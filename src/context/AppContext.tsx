@@ -35,7 +35,7 @@ interface AppContextType {
   token: string | null;
   authLoading: boolean;
   authError: string | null;
-  login: (email: string, password: string) => Promise<boolean>;
+  login: (email: string, password: string, rememberMe?: boolean) => Promise<boolean>;
   register: (payload: RegisterPayload) => Promise<boolean>;
   logout: () => Promise<void>;
   clearAuthError: () => void;
@@ -75,13 +75,13 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     } catch {}
   };
 
-  // Restore session from the HttpOnly cookie; non-blocking with 800ms abort guarantee
+  // Restore session from the HttpOnly cookie; resilient timeout guarantee (4000ms)
   useEffect(() => {
     const controller = new AbortController();
     const timeoutId = setTimeout(() => {
       try { controller.abort(); } catch {}
       setAuthLoading(false);
-    }, 800);
+    }, 4000);
 
     (async () => {
       try {
@@ -135,14 +135,14 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const toggleLang = () => setLang((prev) => (prev === "en" ? "ar" : "en"));
   const clearAuthError = () => setAuthError(null);
 
-  const login = async (email: string, password: string): Promise<boolean> => {
+  const login = async (email: string, password: string, rememberMe: boolean = true): Promise<boolean> => {
     setAuthError(null);
     setAuthLoading(true);
     try {
       const res = await fetch("/api/auth", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ action: "login", email, username: email, password }),
+        body: JSON.stringify({ action: "login", email, username: email, password, rememberMe }),
       });
       const data = await res.json();
       if (data.success && data.user) {
@@ -195,6 +195,9 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     } catch {}
     setUser(null);
     setToken(null);
+    if (typeof window !== "undefined" && window.location.pathname !== "/login") {
+      window.location.href = "/login";
+    }
   };
 
   const t = (key: string): string => translations[key]?.[lang] ?? key;

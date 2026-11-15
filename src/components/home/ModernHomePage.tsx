@@ -447,7 +447,14 @@ export function ModernHomePage({
               </div>
 
               <div className="p-5 pt-0 border-t border-slate-100 flex items-center justify-between mt-4">
-                <span className="text-sm font-black text-[#EABF58]">{c.price}</span>
+                <div className="flex flex-col">
+                  <span className="text-xs sm:text-sm font-black text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-md inline-block">
+                    {c.price}
+                  </span>
+                  {c.originalPrice && (
+                    <span className="text-[10px] text-slate-400 line-through mt-0.5">{c.originalPrice}</span>
+                  )}
+                </div>
                 <span className="text-xs font-bold text-[#2563EB] flex items-center gap-1 group-hover:translate-x-1 rtl:group-hover:-translate-x-1 transition-transform">
                   <span>{lang === "ar" ? "تصفح المنهج" : "Inspect"}</span>
                   <ArrowRight className="w-3.5 h-3.5 rtl:rotate-180" />
