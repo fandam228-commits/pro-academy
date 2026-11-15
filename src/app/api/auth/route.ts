@@ -28,7 +28,7 @@ function sanitizeUser(u: any) {
   return rest;
 }
 
-async function performLogin(loginId: string, password: string, userAgent?: string) {
+async function performLogin(loginId: string, password: string, userAgent?: string, rememberMe: boolean = true) {
   const normalizedLogin = loginId.trim().toLowerCase();
   const lockKey = normalizedLogin;
   const lockMinutes = checkLoginLock(lockKey);
@@ -73,7 +73,7 @@ async function performLogin(loginId: string, password: string, userAgent?: strin
     }
 
     clearFailedLogins(lockKey);
-    const { token, expiresAt } = await createSession(fallbackUser.id, fallbackUser.role, userAgent);
+    const { token, expiresAt } = await createSession(fallbackUser.id, fallbackUser.role, userAgent, rememberMe);
     return { user: sanitizeUser(fallbackUser), token, expiresAt };
   }
 
@@ -94,7 +94,7 @@ async function performLogin(loginId: string, password: string, userAgent?: strin
           password === "123456";
         if (isMatch) {
           clearFailedLogins(lockKey);
-          const { token, expiresAt } = await createSession(fallbackUser.id, fallbackUser.role, userAgent);
+          const { token, expiresAt } = await createSession(fallbackUser.id, fallbackUser.role, userAgent, rememberMe);
           return { user: sanitizeUser(fallbackUser), token, expiresAt };
         }
       }
@@ -122,7 +122,7 @@ async function performLogin(loginId: string, password: string, userAgent?: strin
     }
 
     clearFailedLogins(lockKey);
-    const { token, expiresAt } = await createSession(user.id, user.role, userAgent);
+    const { token, expiresAt } = await createSession(user.id, user.role, userAgent, rememberMe);
     return { user: sanitizeUser(user), token, expiresAt };
   } catch (dbError) {
     console.error("DB Login Error, attempting fallback authentication:", dbError);
@@ -135,7 +135,7 @@ async function performLogin(loginId: string, password: string, userAgent?: strin
         password === "123456";
       if (isMatch) {
         clearFailedLogins(lockKey);
-        const { token, expiresAt } = await createSession(fallbackUser.id, fallbackUser.role, userAgent);
+        const { token, expiresAt } = await createSession(fallbackUser.id, fallbackUser.role, userAgent, rememberMe);
         return { user: sanitizeUser(fallbackUser), token, expiresAt };
       }
     }
@@ -159,7 +159,12 @@ export async function GET(req: Request) {
     if (!ctx) {
       return NextResponse.json({ error: "Session expired or not logged in." }, { status: 401 });
     }
-    return NextResponse.json({ success: true, user: sanitizeUser(ctx.user) });
+    const response = NextResponse.json({ success: true, user: sanitizeUser(ctx.user) });
+    // Keep cookie updated with current session expiresAt
+    if (ctx.session?.expiresAt) {
+      response.headers.set("Set-Cookie", sessionCookie(token, new Date(ctx.session.expiresAt)));
+    }
+    return response;
   } catch (error: any) {
     console.error("Auth GET error:", error);
     return NextResponse.json({ error: error?.message || "Session check failed" }, { status: 500 });
@@ -184,7 +189,8 @@ export async function POST(req: Request) {
       if (!loginId || !password) {
         return NextResponse.json({ error: "Username/email and password are required." }, { status: 400 });
       }
-      const result = await performLogin(loginId, password, userAgent);
+      const rememberMe = body.rememberMe !== false; // Persistent login enabled by default (30 days)
+      const result = await performLogin(loginId, password, userAgent, rememberMe);
       if (result.errorResponse) return result.errorResponse;
       const response = NextResponse.json({ success: true, user: result.user, expiresAt: result.expiresAt });
       response.headers.set("Set-Cookie", sessionCookie(result.token, result.expiresAt));

@@ -25,13 +25,21 @@ import {
   ShieldCheck,
   RefreshCw,
   Video,
+  Sparkles,
+  Calendar,
 } from "lucide-react";
 
 export const SuperAdminDashboard: React.FC = () => {
   const { lang } = useApp();
   const [data, setData] = useState<any>(null);
   const [loading, setLoading] = useState(true);
-  const [activeTab, setActiveTab] = useState<"analytics" | "users" | "groups" | "codes" | "parent_connect" | "curriculum" | "live_classes" | "training_questions" | "announcements" | "backup">("analytics");
+  const [activeTab, setActiveTab] = useState<"analytics" | "users" | "groups" | "codes" | "parent_connect" | "curriculum" | "live_classes" | "training_questions" | "announcements" | "backup" | "free_access">("analytics");
+
+  // Free Courses Access Until End of Term State
+  const [freeEnabled, setFreeEnabled] = useState(true);
+  const [freeUntilDate, setFreeUntilDate] = useState("");
+  const [freeSettingMessage, setFreeSettingMessage] = useState("");
+  const [freeSettingSaving, setFreeSettingSaving] = useState(false);
 
   // Code Generator Form State
   const [codeCourseId, setCodeCourseId] = useState("crs_sec_3");
@@ -118,10 +126,41 @@ export const SuperAdminDashboard: React.FC = () => {
       const res = await fetch("/api/admin");
       const json = await res.json();
       setData(json);
+      if (json.freeCoursesSettings) {
+        setFreeEnabled(Boolean(json.freeCoursesSettings.isFreeUntilEndOfTerm));
+        setFreeUntilDate(json.freeCoursesSettings.freeCoursesAccessUntil || "");
+      }
     } catch (e) {
       console.error(e);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleSaveFreeSettings = async () => {
+    setFreeSettingSaving(true);
+    setFreeSettingMessage("");
+    try {
+      const res = await fetch("/api/admin", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", ...authHeaders() },
+        body: JSON.stringify({
+          action: "update_free_courses_setting",
+          isFreeUntilEndOfTerm: freeEnabled,
+          freeCoursesAccessUntil: freeUntilDate.trim() || null,
+        }),
+      });
+      const json = await res.json();
+      if (json.success) {
+        setFreeSettingMessage(lang === "ar" ? "✅ تم حفظ إعدادات إتاحة الكورسات بنجاح" : "✅ Free courses access settings saved successfully");
+        fetchAdminData();
+      } else {
+        setFreeSettingMessage(json.error || (lang === "ar" ? "تعذر حفظ الإعدادات" : "Failed to save settings"));
+      }
+    } catch {
+      setFreeSettingMessage(lang === "ar" ? "خطأ في الاتصال بالخادم" : "Network error");
+    } finally {
+      setFreeSettingSaving(false);
     }
   };
 
@@ -353,6 +392,17 @@ export const SuperAdminDashboard: React.FC = () => {
             }`}
           >
             {lang === "ar" ? "النسخ الاحتياطي" : "Backup"}
+          </button>
+          <button
+            onClick={() => setActiveTab("free_access")}
+            className={`px-3.5 py-2 rounded-xl transition-all flex items-center gap-1.5 ${
+              activeTab === "free_access"
+                ? "bg-gradient-to-r from-emerald-600 to-teal-600 text-white shadow-sm font-bold"
+                : "text-slate-600 dark:text-slate-400 font-bold"
+            }`}
+          >
+            <Sparkles className="w-4 h-4 text-emerald-400" />
+            <span>{lang === "ar" ? "🎁 مجانية الكورسات" : "🎁 Free Courses"}</span>
           </button>
         </div>
       </div>
@@ -630,6 +680,117 @@ export const SuperAdminDashboard: React.FC = () => {
 
       {/* TRAINING CENTER & QUESTION BANK AUDIT */}
       {activeTab === "training_questions" && <TrainingCenterWorkspace initialTopic="all" />}
+
+      {/* FREE COURSES ACCESS UNTIL END OF TERM SETTINGS */}
+      {activeTab === "free_access" && (
+        <div className="space-y-6 max-w-3xl">
+          <div className="bg-white dark:bg-slate-900 p-6 sm:p-8 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-xl space-y-6">
+            <div className="flex items-start gap-4">
+              <div className="w-12 h-12 rounded-2xl bg-emerald-100 dark:bg-emerald-950/60 text-emerald-600 flex items-center justify-center shrink-0">
+                <Sparkles className="w-6 h-6" />
+              </div>
+              <div className="flex-1">
+                <span className="text-[11px] font-black uppercase tracking-wider px-3 py-1 rounded-full bg-emerald-50 dark:bg-emerald-950/70 text-emerald-700 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-800/60">
+                  Global Promotion Settings
+                </span>
+                <h3 className="text-lg sm:text-xl font-black text-slate-900 dark:text-white mt-2">
+                  {lang === "ar" ? "إتاحة جميع الكورسات المدفوعة مجاناً حتى نهاية الترم" : "All Paid Courses Free Until End of Term"}
+                </h3>
+                <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 leading-relaxed">
+                  {lang === "ar"
+                    ? "عند التفعيل، يتم فتح جميع الدروس والمحاضرات والـ PDFs لجميع الطلاب المسجلين دون طلب دفع، مع الاحتفاظ بأسعار الكورسات الأصلية في قاعدة البيانات للرجوع إليها لاحقاً."
+                    : "When enabled, all lessons, lectures, and PDFs are unlocked for all enrolled students without paywalls. Original course prices remain safely stored in the database."}
+                </p>
+              </div>
+            </div>
+
+            {/* Toggle Switch */}
+            <div className="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 flex items-center justify-between gap-4">
+              <div>
+                <label className="text-xs font-black text-slate-900 dark:text-white block cursor-pointer">
+                  {lang === "ar" ? "حالة الإتاحة المجانية الشاملة" : "Global Free Access Status"}
+                </label>
+                <span className="text-[11px] text-slate-500 dark:text-slate-400">
+                  {freeEnabled
+                    ? (lang === "ar" ? "مفعلة حالياً: الكورسات تظهر مجاناً للجميع" : "Active: All courses are freely accessible")
+                    : (lang === "ar" ? "معطلة: يتطلب الدخول الاشتراك والدفع المعتاد" : "Disabled: Standard pricing and paywalls apply")}
+                </span>
+              </div>
+              <label className="relative inline-flex items-center cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={freeEnabled}
+                  onChange={(e) => setFreeEnabled(e.target.checked)}
+                  className="sr-only peer"
+                />
+                <div className="w-11 h-6 bg-slate-300 peer-focus:outline-none rounded-full peer dark:bg-slate-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-slate-600 peer-checked:bg-emerald-600"></div>
+              </label>
+            </div>
+
+            {/* Date Configuration */}
+            <div className="space-y-2">
+              <label className="text-xs font-black text-slate-900 dark:text-white flex items-center gap-2">
+                <Calendar className="w-4 h-4 text-purple-600" />
+                <span>{lang === "ar" ? "Free Courses Access Until (تاريخ انتهاء الإتاحة المجانية)" : "Free Courses Access Until"}</span>
+              </label>
+              <input
+                type="date"
+                value={freeUntilDate}
+                onChange={(e) => setFreeUntilDate(e.target.value)}
+                className="w-full p-3 rounded-2xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs text-slate-900 dark:text-white font-medium outline-none focus:border-emerald-500"
+              />
+              <p className="text-[11px] text-slate-500 dark:text-slate-400 leading-relaxed">
+                {lang === "ar"
+                  ? "💡 ملاحظة: عند ترك التاريخ فارغاً، يتم إظهار عبارة «مجانا حتى نهاية الترم» لجميع الطلاب تلقائياً دون فرض تاريخ غير محدد."
+                  : "💡 Note: If left blank, the platform automatically displays 'FREE UNTIL THE END OF THE TERM' without an arbitrary expiration date."}
+              </p>
+            </div>
+
+            {/* Visual Preview Box */}
+            <div className="p-4 rounded-2xl bg-gradient-to-r from-emerald-950/20 to-teal-950/20 border border-emerald-500/30 flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <div className="w-9 h-9 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center font-bold">
+                  ✓
+                </div>
+                <div>
+                  <div className="text-[11px] font-bold text-slate-400">
+                    {lang === "ar" ? "طريقة الظهور في بطاقات الكورسات:" : "Course Badge Preview:"}
+                  </div>
+                  <div className="text-xs font-black text-emerald-400">
+                    {freeEnabled
+                      ? (freeUntilDate ? `مجانا حتى ${freeUntilDate}` : "مجانا حتى نهاية الترم")
+                      : "سعر الكورس المعتاد (250 - 350 EGP)"}
+                  </div>
+                </div>
+              </div>
+              <span className={`text-[10px] font-black px-2.5 py-1 rounded-full ${freeEnabled ? "bg-emerald-500 text-white" : "bg-slate-500 text-white"}`}>
+                {freeEnabled ? "نشط ومفعل" : "معطل"}
+              </span>
+            </div>
+
+            {/* Message Feedback */}
+            {freeSettingMessage && (
+              <div className="p-3.5 rounded-2xl bg-slate-100 dark:bg-slate-800 text-xs font-bold text-slate-800 dark:text-slate-200 border border-slate-200 dark:border-slate-700">
+                {freeSettingMessage}
+              </div>
+            )}
+
+            {/* Action Button */}
+            <button
+              onClick={handleSaveFreeSettings}
+              disabled={freeSettingSaving}
+              className="px-8 py-3.5 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-extrabold text-xs rounded-2xl shadow-xl shadow-emerald-600/20 disabled:opacity-50 transition-all cursor-pointer flex items-center gap-2"
+            >
+              <CheckCircle className="w-4 h-4" />
+              <span>
+                {freeSettingSaving
+                  ? (lang === "ar" ? "جاري الحفظ..." : "Saving...")
+                  : (lang === "ar" ? "حفظ إعدادات إتاحة الكورسات" : "Save Free Access Settings")}
+              </span>
+            </button>
+          </div>
+        </div>
+      )}
 
       {/* 5. SYSTEM BACKUP */}
       {activeTab === "backup" && (
