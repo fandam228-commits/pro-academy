@@ -1045,4 +1045,76 @@ export const PREPOSITIONS_EXPRESSIONS_TABLE: PrepositionExpressionItem[] = [
     sourceBook: "ثالثة  ثانوي ترم أول 2027 - Habib El Rahman.pdf",
     sourcePage: 4,
   },
+
+  // --- FIRST SECONDARY (UNIT 2: Hands Help, Hearts Care) ---
+  {
+    "id": "EXP-SEC1-U2-001",
+    "expression": "overwhelmed by",
+    "expressionType": "Adjective + Preposition",
+    "meaningAr": "يشعر بالإرهاق أو الثقل من",
+    "exampleEn": "She felt overwhelmed by her heavy workload before the midterms.",
+    "gradeCode": "sec_1",
+    "term": "first",
+    "unitNumber": 2,
+    "unitTitleEn": "Hands Help, Hearts Care",
+    "lessonNumber": "Lesson 1",
+    "sourceBook": "أولي ثانوي ترم أول 2027 - Habib El Rahman (1).pdf",
+    "sourcePage": 63
+  },
+  {
+    "id": "EXP-SEC1-U2-002",
+    "expression": "make a big difference",
+    "expressionType": "Collocation",
+    "meaningAr": "يحدث فرقاً كبيراً وإيجابياً",
+    "exampleEn": "A warm smile and a kind word can make a big difference in someone life.",
+    "gradeCode": "sec_1",
+    "term": "first",
+    "unitNumber": 2,
+    "unitTitleEn": "Hands Help, Hearts Care",
+    "lessonNumber": "Lesson 1",
+    "sourceBook": "أولي ثانوي ترم أول 2027 - Habib El Rahman (1).pdf",
+    "sourcePage": 63
+  },
+  {
+    "id": "EXP-SEC1-U2-003",
+    "expression": "lend a helping hand",
+    "expressionType": "Idiom",
+    "meaningAr": "يمد يد العون / يقدم المساعدة",
+    "exampleEn": "Our neighbors were always ready to lend a helping hand when needed.",
+    "gradeCode": "sec_1",
+    "term": "first",
+    "unitNumber": 2,
+    "unitTitleEn": "Hands Help, Hearts Care",
+    "lessonNumber": "Lesson 1",
+    "sourceBook": "أولي ثانوي ترم أول 2027 - Habib El Rahman (1).pdf",
+    "sourcePage": 63
+  },
+  {
+    "id": "EXP-SEC1-U2-004",
+    "expression": "mirror someone mood",
+    "expressionType": "Collocation",
+    "meaningAr": "يعكس الحالة المزاجية لشخص ما",
+    "exampleEn": "The dark stormy weather seemed to mirror her sad mood perfectly.",
+    "gradeCode": "sec_1",
+    "term": "first",
+    "unitNumber": 2,
+    "unitTitleEn": "Hands Help, Hearts Care",
+    "lessonNumber": "Lesson 2",
+    "sourceBook": "أولي ثانوي ترم أول 2027 - Habib El Rahman (1).pdf",
+    "sourcePage": 63
+  },
+  {
+    "id": "EXP-SEC1-U2-005",
+    "expression": "light up someone face",
+    "expressionType": "Idiom",
+    "meaningAr": "يُبهج فلاناً / تشرق أساريره فرحاً",
+    "exampleEn": "Seeing her old teacher caused a joyful smile to light up her face.",
+    "gradeCode": "sec_1",
+    "term": "first",
+    "unitNumber": 2,
+    "unitTitleEn": "Hands Help, Hearts Care",
+    "lessonNumber": "Lesson 2",
+    "sourceBook": "أولي ثانوي ترم أول 2027 - Habib El Rahman (1).pdf",
+    "sourcePage": 63
+  }
 ];
