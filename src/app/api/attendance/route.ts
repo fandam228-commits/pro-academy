@@ -56,7 +56,7 @@ async function notifyParents(params: {
 export async function GET(req: Request) {
   await ensureDbSetup();
   const ctx = await getAuthContext(req);
-  if (!ctx.authenticated || !ctx.user) {
+  if (!ctx || !ctx.user) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
@@ -361,7 +361,7 @@ export async function GET(req: Request) {
 export async function POST(req: Request) {
   await ensureDbSetup();
   const ctx = await getAuthContext(req);
-  if (!ctx.authenticated || !ctx.user) {
+  if (!ctx || !ctx.user) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
