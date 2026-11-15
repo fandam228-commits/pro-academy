@@ -4,6 +4,7 @@ import { eq, and, sql, or } from "drizzle-orm";
 import { NextResponse } from "next/server";
 import { ensureDbSetup } from "@/db/migrate-and-seed";
 import { requireRoles, getAuthContext } from "@/lib/security";
+import { dispatchAttendanceNotification, getNotificationDeliveryLogs } from "@/lib/notifications/dispatcher";
 
 function computeRate(records: any[]) {
   if (records.length === 0) return 100;
@@ -124,6 +125,14 @@ export async function GET(req: Request) {
           sessionTitles,
           recentDates,
           allGroups,
+        });
+      }
+
+      // --- VIEW: NOTIFICATIONS AUDIT LOG ---
+      if (view === "notifications") {
+        return NextResponse.json({
+          view: "notifications",
+          logs: getNotificationDeliveryLogs(),
         });
       }
 
@@ -308,6 +317,16 @@ export async function POST(req: Request) {
 
       await db.insert(attendanceRecords).values(newRecord);
 
+      // Automated Parent Notification Dispatch (Phase 6: WhatsApp & Telegram)
+      dispatchAttendanceNotification({
+        studentId: matchedStudent.id,
+        studentName: matchedStudent.name,
+        status: "present",
+        sessionTitle: targetTitle,
+        sessionDate: targetDate,
+        parentPhone: matchedStudent.parentPhone,
+      }).catch((e) => console.error("Notification dispatch error:", e));
+
       return NextResponse.json({
         success: true,
         message: `تم تسجيل حضور الطالب بنجاح: ${matchedStudent.name}`,
@@ -361,6 +380,16 @@ export async function POST(req: Request) {
           markedBy: ctx.user.name || ctx.user.id,
         });
       }
+
+      // Automated Parent Notification Dispatch (Phase 6: WhatsApp & Telegram)
+      dispatchAttendanceNotification({
+        studentId,
+        studentName: studentName || "Student",
+        status: status as any,
+        sessionTitle,
+        sessionDate,
+        parentPhone: body.parentPhone,
+      }).catch((e) => console.error("Notification dispatch error:", e));
 
       return NextResponse.json({ success: true, status });
     }
