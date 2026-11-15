@@ -343,11 +343,13 @@
         "have to"
       ],
       "correctAnswer": "must",
-      "correctIndex": 0,
+      "correctIndex": 1,
       "explanationAr": "تستخدم must هنا للتعبير عن دعوة حارة وودية (warm invitation).",
       "governorate": "أسوان - إدفو",
       "examYear": "2023",
-      "sourcePage": 82
+      "sourcePage": 82,
+      "stemEn": "You ______ come and try mum's food. I'm sure you will like it.",
+      "correctOptionIndex": 1
     },
     {
       "id": "sec1_u2_q02",
@@ -362,11 +364,13 @@
         "need"
       ],
       "correctAnswer": "have to",
-      "correctIndex": 0,
+      "correctIndex": 2,
       "explanationAr": "صيغة السؤال في المضارع مع Do هي Do + فاعل + have to + المصدر.",
       "governorate": "دمياط",
       "examYear": "2024",
-      "sourcePage": 82
+      "sourcePage": 82,
+      "stemEn": "Do you ______ tell your parents about your fault?",
+      "correctOptionIndex": 2
     },
     {
       "id": "sec1_u2_q03",
@@ -385,7 +389,9 @@
       "explanationAr": "تعبير عن عدم الضرورة في المضارع: don't have to (لا داعي لأن تشتري قلماً سأعيرك واحداً).",
       "governorate": "الإسكندرية - العجمي",
       "examYear": "2024",
-      "sourcePage": 82
+      "sourcePage": 82,
+      "stemEn": "You ______ buy a pen. I'll lend you one.",
+      "correctOptionIndex": 0
     },
     {
       "id": "sec1_u2_q04",
@@ -400,11 +406,13 @@
         "needn't"
       ],
       "correctAnswer": "must",
-      "correctIndex": 0,
+      "correctIndex": 2,
       "explanationAr": "تستخدم must للتوصية القوية (strong recommendation).",
       "governorate": "بني سويف - ببا",
       "examYear": "2024",
-      "sourcePage": 82
+      "sourcePage": 82,
+      "stemEn": "When you go to Egypt, you ______ visit the Pyramids. They are fantastic!",
+      "correctOptionIndex": 2
     },
     {
       "id": "sec1_u2_q05",
@@ -419,11 +427,13 @@
         "needn't"
       ],
       "correctAnswer": "needn't",
-      "correctIndex": 0,
+      "correctIndex": 3,
       "explanationAr": "needn't + inf تعبر عن عدم وجود ضرورة في الوقت الحاضر.",
       "governorate": "الدقهلية - ميت غمر",
       "examYear": "2023",
-      "sourcePage": 82
+      "sourcePage": 82,
+      "stemEn": "We ______ do the shopping now. I'll do it later.",
+      "correctOptionIndex": 3
     },
     {
       "id": "sec1_u2_q06",
@@ -438,11 +448,13 @@
         "warm invitation"
       ],
       "correctAnswer": "warm invitation",
-      "correctIndex": 0,
+      "correctIndex": 3,
       "explanationAr": "الجملة تعبر عن دعوة حارة (warm invitation) لتناول الكعك.",
       "governorate": "القليوبية",
       "examYear": "2024",
-      "sourcePage": 82
+      "sourcePage": 82,
+      "stemEn": "\"We must try some of this cake.\" This is a/an ______.",
+      "correctOptionIndex": 3
     },
     {
       "id": "sec1_u2_q07",
@@ -457,11 +469,13 @@
         "must"
       ],
       "correctAnswer": "mustn't",
-      "correctIndex": 0,
+      "correctIndex": 1,
       "explanationAr": "mustn't تعبر عن المنع والتحريم لخطورة الفعل ومخالفته لقواعد السلامة.",
       "governorate": "المنوفية",
       "examYear": "2024",
-      "sourcePage": 82
+      "sourcePage": 82,
+      "stemEn": "You ______ use your phone while you're driving. It's dangerous.",
+      "correctOptionIndex": 1
     },
     {
       "id": "sec1_u2_q08",
@@ -476,11 +490,13 @@
         "needn't"
       ],
       "correctAnswer": "don't need",
-      "correctIndex": 0,
+      "correctIndex": 1,
       "explanationAr": "وجود to بعد الفراغ يتطلب don't need لأن needn't يأتي بعدها المصدر بدون to مباشرة.",
       "governorate": "الشرقية",
       "examYear": "2024",
-      "sourcePage": 82
+      "sourcePage": 82,
+      "stemEn": "I've already watered the plants; you ______ to do it again.",
+      "correctOptionIndex": 1
     },
     {
       "id": "sec1_u2_q09",
@@ -499,7 +515,9 @@
       "explanationAr": "كلمة forbidden تدل على التحريم القاطع باستخدام mustn't.",
       "governorate": "سوهاج - ساقلتة",
       "examYear": "2024",
-      "sourcePage": 83
+      "sourcePage": 83,
+      "stemEn": "You ______ park your car here; it's forbidden.",
+      "correctOptionIndex": 0
     },
     {
       "id": "sec1_u2_q10",
@@ -514,11 +532,13 @@
         "have to"
       ],
       "correctAnswer": "has to",
-      "correctIndex": 0,
+      "correctIndex": 1,
       "explanationAr": "everyone تعامل معاملة المفرد وقواعد النوادي تمثل التزاماً خارجياً (has to).",
       "governorate": "أسوان - أبو تيج",
       "examYear": "2024",
-      "sourcePage": 83
+      "sourcePage": 83,
+      "stemEn": "In this sports club, everyone ______ wear flat shoes. It is an important rule.",
+      "correctOptionIndex": 1
     },
     {
       "id": "sec1_u2_q11",
@@ -533,11 +553,13 @@
         "shouldn't"
       ],
       "correctAnswer": "mustn't",
-      "correctIndex": 0,
+      "correctIndex": 1,
       "explanationAr": "المناطق العسكرية يُحظر فيها التصوير حظراً قانونياً (mustn't).",
       "governorate": "قنا",
       "examYear": "2024",
-      "sourcePage": 83
+      "sourcePage": 83,
+      "stemEn": "You ______ take photographs here; it is a military area.",
+      "correctOptionIndex": 1
     },
     {
       "id": "sec1_u2_q12",
@@ -552,11 +574,13 @@
         "should"
       ],
       "correctAnswer": "should",
-      "correctIndex": 0,
+      "correctIndex": 3,
       "explanationAr": "العبارة I only advise you تدل على تقديم نصيحة باستخدام should.",
       "governorate": "الجيزة",
       "examYear": "2024",
-      "sourcePage": 83
+      "sourcePage": 83,
+      "stemEn": "You ______ attend the next meeting. I only advise you.",
+      "correctOptionIndex": 3
     },
     {
       "id": "sec1_u2_q13",
@@ -571,11 +595,13 @@
         "ought not"
       ],
       "correctAnswer": "ought not",
-      "correctIndex": 0,
+      "correctIndex": 3,
       "explanationAr": "وجود to eat يستلزم ought not لأن shouldn't وmustn't يأتي بعدهما المصدر بدون to.",
       "governorate": "قنا",
       "examYear": "2023",
-      "sourcePage": 83
+      "sourcePage": 83,
+      "stemEn": "You ______ to eat a lot of sweets; this isn't healthy.",
+      "correctOptionIndex": 3
     },
     {
       "id": "sec1_u2_q14",
@@ -590,11 +616,13 @@
         "should"
       ],
       "correctAnswer": "had better not",
-      "correctIndex": 0,
+      "correctIndex": 1,
       "explanationAr": "تساوي صيغة النصيحة السلبية had better not + المصدر (eat بدون to).",
       "governorate": "الإسماعيلية",
       "examYear": "2024",
-      "sourcePage": 83
+      "sourcePage": 83,
+      "stemEn": "\"I advise my brother not to eat a lot of carbohydrates.\" This means he ______ eat a lot of carbohydrates.",
+      "correctOptionIndex": 1
     },
     {
       "id": "sec1_u2_q15",
@@ -613,7 +641,9 @@
       "explanationAr": "التوقف عند الإشارة الحمراء يمثل قانوناً مرورياً إلزامياً (law).",
       "governorate": "القليوبية",
       "examYear": "2024",
-      "sourcePage": 83
+      "sourcePage": 83,
+      "stemEn": "When driving, we must stop at the red light. It's a/an ______.",
+      "correctOptionIndex": 0
     },
     {
       "id": "sec1_u2_q16",
@@ -632,7 +662,9 @@
       "explanationAr": "لافتات منع التدخين تعبر عن تحريم قاطع (mustn't).",
       "governorate": "الغربية",
       "examYear": "2023",
-      "sourcePage": 83
+      "sourcePage": 83,
+      "stemEn": "There's a 'No Smoking' sign. We ______ smoke here.",
+      "correctOptionIndex": 0
     },
     {
       "id": "sec1_u2_q17",
@@ -647,11 +679,13 @@
         "had to"
       ],
       "correctAnswer": "had to",
-      "correctIndex": 0,
+      "correctIndex": 3,
       "explanationAr": "الحدث وقع في الماضي (hurt) لذا يُعبر عن الاضطرار في الماضي بـ had to.",
       "governorate": "الجيزة",
       "examYear": "2024",
-      "sourcePage": 83
+      "sourcePage": 83,
+      "stemEn": "Emam Ashour hurt his shoulder during the match and ______ go to hospital for treatment.",
+      "correctOptionIndex": 3
     },
     {
       "id": "sec1_u2_q18",
@@ -670,7 +704,9 @@
       "explanationAr": "المقال يحتاج إلى مراجعة مبني للمجهول: should + be + P.P.",
       "governorate": "البحيرة",
       "examYear": "2023",
-      "sourcePage": 83
+      "sourcePage": 83,
+      "stemEn": "Your essay has some mistakes. It ______ again.",
+      "correctOptionIndex": 0
     },
     {
       "id": "sec1_u2_q19",
@@ -685,11 +721,13 @@
         "needn't have"
       ],
       "correctAnswer": "didn't have to",
-      "correctIndex": 0,
+      "correctIndex": 2,
       "explanationAr": "didn't have to تعبر عن عدم وجود ضرورة في الماضي.",
       "governorate": "المنوفية - أشمون",
       "examYear": "2023",
-      "sourcePage": 83
+      "sourcePage": 83,
+      "stemEn": "We ______ run to the museum because it was already closed when we got there.",
+      "correctOptionIndex": 2
     },
     {
       "id": "sec1_u2_q20",
@@ -704,11 +742,13 @@
         "needn't have"
       ],
       "correctAnswer": "didn't have to",
-      "correctIndex": 0,
+      "correctIndex": 1,
       "explanationAr": "بما أنه استيقظ متأخراً (لم يفعل الفعل)، فإن الصيغة الصحيحة هي didn't have to.",
       "governorate": "القاهرة - روض الفرج",
       "examYear": "2024",
-      "sourcePage": 84
+      "sourcePage": 84,
+      "stemEn": "He ______ get up early because it was a holiday yesterday, so he slept till late.",
+      "correctOptionIndex": 1
     },
     {
       "id": "sec1_u2_q21",
@@ -727,7 +767,9 @@
       "explanationAr": "تستخدم Must you في صيغة السؤال للتعبير عن الضيق والانتقاد (annoyance / criticism).",
       "governorate": "الإسكندرية - شرق",
       "examYear": "2024",
-      "sourcePage": 84
+      "sourcePage": 84,
+      "stemEn": "______ you play music so loudly? I have to concentrate on my study.",
+      "correctOptionIndex": 0
     },
     {
       "id": "sec1_u2_q22",
@@ -742,11 +784,13 @@
         "Do"
       ],
       "correctAnswer": "Never",
-      "correctIndex": 0,
+      "correctIndex": 1,
       "explanationAr": "Never تستخدم في صيغة الأمر المنفي للتعبير عن تحريم قاطع ضد القانون.",
       "governorate": "مطروح",
       "examYear": "2024",
-      "sourcePage": 84
+      "sourcePage": 84,
+      "stemEn": "______ drive a car without having a driving licence; it is against the law.",
+      "correctOptionIndex": 1
     },
     {
       "id": "sec1_u2_q23",
@@ -761,11 +805,13 @@
         "should"
       ],
       "correctAnswer": "should",
-      "correctIndex": 0,
+      "correctIndex": 3,
       "explanationAr": "تستخدم should لتقديم النصيحة، مع ملاحظة أن ought تحتاج إلى to.",
       "governorate": "المنيا",
       "examYear": "2024",
-      "sourcePage": 84
+      "sourcePage": 84,
+      "stemEn": "I think you ______ sleep early and get up early to be healthy. I only advise you.",
+      "correctOptionIndex": 3
     },
     {
       "id": "sec1_u2_q24",
@@ -780,11 +826,13 @@
         "had to"
       ],
       "correctAnswer": "had to",
-      "correctIndex": 0,
+      "correctIndex": 3,
       "explanationAr": "فعل cut في الماضي، لذا استلزم الأمر الذهاب للمستشفى في الماضي باستخدام had to.",
       "governorate": "الشرقية - بلبيس",
       "examYear": "2024",
-      "sourcePage": 84
+      "sourcePage": 84,
+      "stemEn": "Adel cut his finger and ______ go to hospital for treatment.",
+      "correctOptionIndex": 3
     },
     {
       "id": "sec1_u2_q25",
@@ -799,11 +847,13 @@
         "have to"
       ],
       "correctAnswer": "better",
-      "correctIndex": 0,
+      "correctIndex": 2,
       "explanationAr": "الاختصار you'd يتبعه better لتكوين التركيب you had better + المصدر للنصيحة.",
       "governorate": "قليوب",
       "examYear": "2024",
-      "sourcePage": 84
+      "sourcePage": 84,
+      "stemEn": "A: I've got a cold. B: Then you'd ______ stay in bed.",
+      "correctOptionIndex": 2
     },
     {
       "id": "sec1_u2_q26",
@@ -818,11 +868,13 @@
         "follow"
       ],
       "correctAnswer": "be followed",
-      "correctIndex": 0,
+      "correctIndex": 2,
       "explanationAr": "قواعد المدرسة تُتبع (مبني للمجهول بعد must): be + P.P.",
       "governorate": "بني سويف",
       "examYear": "2024",
-      "sourcePage": 84
+      "sourcePage": 84,
+      "stemEn": "Why must school rules ______?",
+      "correctOptionIndex": 2
     },
     {
       "id": "sec1_u2_q27",
@@ -837,11 +889,13 @@
         "needn't go"
       ],
       "correctAnswer": "needn't have gone",
-      "correctIndex": 0,
+      "correctIndex": 1,
       "explanationAr": "needn't have gone تعبر عن فعل تم في الماضي ولم تكن هناك حاجة لفعله.",
       "governorate": "الشرقية - منيا القمح",
       "examYear": "2023",
-      "sourcePage": 84
+      "sourcePage": 84,
+      "stemEn": "You ______ to the factory yesterday as it was an official holiday.",
+      "correctOptionIndex": 1
     },
     {
       "id": "sec1_u2_q28",
@@ -856,11 +910,13 @@
         "mustn't use your camera here"
       ],
       "correctAnswer": "mustn't use your camera here",
-      "correctIndex": 0,
+      "correctIndex": 3,
       "explanationAr": "It is banned = You mustn't (ممنوع ومحرم).",
       "governorate": "قنا",
       "examYear": "2024",
-      "sourcePage": 84
+      "sourcePage": 84,
+      "stemEn": "'It is banned to use your camera here'. That means you ______.",
+      "correctOptionIndex": 3
     },
     {
       "id": "sec1_u2_q29",
@@ -879,7 +935,9 @@
       "explanationAr": "طلب النصيحة: what I should do (ما ينبغي علي فعله).",
       "governorate": "الدقهلية",
       "examYear": "2024",
-      "sourcePage": 84
+      "sourcePage": 84,
+      "stemEn": "I don't know what I ______ to solve this problem; I need your urgent advice.",
+      "correctOptionIndex": 0
     },
     {
       "id": "sec1_u2_q30",
@@ -894,11 +952,13 @@
         "didn't buy"
       ],
       "correctAnswer": "bought",
-      "correctIndex": 0,
+      "correctIndex": 2,
       "explanationAr": "needn't have + P.P تعني أن الشخص اشترى الحلوى بالفعل ولكن دون داعٍ.",
       "governorate": "أسيوط",
       "examYear": "2023",
-      "sourcePage": 84
+      "sourcePage": 84,
+      "stemEn": "'I needn't have bought sweets'. This means that the speaker ______ sweets.",
+      "correctOptionIndex": 2
     },
     {
       "id": "sec1_u2_q31",
@@ -913,11 +973,13 @@
         "You mustn't lean against the door of the metro."
       ],
       "correctAnswer": "You needn't buy more bread today.",
-      "correctIndex": 0,
+      "correctIndex": 2,
       "explanationAr": "جملة You needn't buy more bread تعبر عن عدم الضرورة وليس التحريم، بينما باقي الجمل تعبر عن تحريم صريح.",
       "governorate": "قليوب",
       "examYear": "2024",
-      "sourcePage": 85
+      "sourcePage": 85,
+      "stemEn": "Which of the following DOESN'T show prohibition?",
+      "correctOptionIndex": 2
     },
     {
       "id": "sec1_u2_q32",
@@ -936,7 +998,9 @@
       "explanationAr": "جملة had to تعبر عن إلزام واضطرار ماضٍ، في حين أن بقية الجمل تعبر عن عدم وجود ضرورة.",
       "governorate": "قليوب",
       "examYear": "2024",
-      "sourcePage": 85
+      "sourcePage": 85,
+      "stemEn": "Which of the following DOESN'T show lack of necessity?",
+      "correctOptionIndex": 0
     },
     {
       "id": "sec1_u2_q33",
@@ -951,11 +1015,13 @@
         "approval"
       ],
       "correctAnswer": "annoyance",
-      "correctIndex": 0,
+      "correctIndex": 2,
       "explanationAr": "صيغة السؤال بـ Must you للتعبير عن الضيق والانتقاد (annoyance).",
       "governorate": "الجيزة",
       "examYear": "2024",
-      "sourcePage": 85
+      "sourcePage": 85,
+      "stemEn": "'Must you wear this heavy pullover in summer?' This shows ______.",
+      "correctOptionIndex": 2
     },
     {
       "id": "sec1_u2_q34",
@@ -974,7 +1040,9 @@
       "explanationAr": "بما أن جميع الأطعمة متوفرة، فسيكون من غير الضروري الذهاب للسوق (unnecessary).",
       "governorate": "الدقهلية",
       "examYear": "2024",
-      "sourcePage": 85
+      "sourcePage": 85,
+      "stemEn": "It will be ______ to go to the market tomorrow. We have all foodstuffs.",
+      "correctOptionIndex": 0
     },
     {
       "id": "sec1_u2_q35",
@@ -989,11 +1057,13 @@
         "cleaning"
       ],
       "correctAnswer": "cleaning",
-      "correctIndex": 0,
+      "correctIndex": 3,
       "explanationAr": "الفعل need عندما يتبعه اسم فاعل (cleaning) يعطي معنى المبني للمجهول (تحتاج الغرفة إلى تنظيف).",
       "governorate": "المنوفية",
       "examYear": "2024",
-      "sourcePage": 85
+      "sourcePage": 85,
+      "stemEn": "This room needs ______ before the guests arrive.",
+      "correctOptionIndex": 3
     },
     {
       "id": "sec1_u2_q36",
@@ -1008,11 +1078,13 @@
         "didn't have to pay"
       ],
       "correctAnswer": "needn't have paid",
-      "correctIndex": 0,
+      "correctIndex": 2,
       "explanationAr": "needn't have paid تعبر عن دفع المال دون داعٍ حقيقي لكون الطعام أُهدر.",
       "governorate": "القاهرة",
       "examYear": "2024",
-      "sourcePage": 85
+      "sourcePage": 85,
+      "stemEn": "He ______ for the extra food; it was wasteful since most of it went uneaten.",
+      "correctOptionIndex": 2
     }
   ]
 }

@@ -8,7 +8,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const rootDir = path.resolve(__dirname, "..");
 
-test("Secondary 2027 Master Content Extraction - Pilot Unit 1 Validation", async (t) => {
+test("Secondary 2027 Master Content Extraction - Unit 1 Validation", async (t) => {
   const filePath = path.join(rootDir, "src/data/secondary-2027/sec1-unit1-extracted.json");
   assert.ok(fs.existsSync(filePath), "Extracted JSON file must exist");
 
@@ -51,5 +51,96 @@ test("Secondary 2027 Master Content Extraction - Pilot Unit 1 Validation", async
       assert.ok([15, 16].includes(q.sourcePage), "Question source page must be 15 or 16");
       assert.equal(q.sourceDocument, "أولي ثانوي ترم أول 2027 - Habib El Rahman (1).pdf");
     });
+  });
+});
+
+test("Secondary 2027 Master Content Extraction - Unit 2 Validation", async (t) => {
+  const filePath = path.join(rootDir, "src/data/secondary-2027/sec1-unit2-extracted.json");
+  assert.ok(fs.existsSync(filePath), "Unit 2 JSON file must exist");
+
+  const data = JSON.parse(fs.readFileSync(filePath, "utf-8"));
+
+  await t.test("Curriculum Metadata Integrity", () => {
+    assert.equal(data.curriculumMetadata.stage, "Secondary");
+    assert.equal(data.curriculumMetadata.grade, "First Secondary");
+    assert.equal(data.curriculumMetadata.unitNumber, 2);
+    assert.equal(data.curriculumMetadata.unitTitleEn, "Hands Help, Hearts Care");
+  });
+
+  await t.test("Balanced Questions Integrity (36 questions, 9 of each letter, streak <= 2)", () => {
+    assert.ok(Array.isArray(data.extractedQuestions) && data.extractedQuestions.length === 36);
+
+    const counts = { 0: 0, 1: 0, 2: 0, 3: 0 };
+    let currentStreak = 1;
+    let maxStreak = 1;
+
+    data.extractedQuestions.forEach((q, idx) => {
+      assert.ok(q.id && q.stemEn && q.correctAnswer);
+      assert.equal(q.options.length, 4);
+      assert.equal(q.options[q.correctOptionIndex], q.correctAnswer);
+      counts[q.correctOptionIndex]++;
+
+      if (idx > 0) {
+        if (q.correctOptionIndex === data.extractedQuestions[idx - 1].correctOptionIndex) {
+          currentStreak++;
+          if (currentStreak > maxStreak) maxStreak = currentStreak;
+        } else {
+          currentStreak = 1;
+        }
+      }
+    });
+
+    assert.deepEqual(counts, { 0: 9, 1: 9, 2: 9, 3: 9 });
+    assert.ok(maxStreak <= 2, `Max streak ${maxStreak} must be <= 2`);
+  });
+});
+
+test("Secondary 2027 Master Content Extraction - Unit 3 Validation", async (t) => {
+  const filePath = path.join(rootDir, "src/data/secondary-2027/sec1-unit3-extracted.json");
+  assert.ok(fs.existsSync(filePath), "Unit 3 JSON file must exist");
+
+  const data = JSON.parse(fs.readFileSync(filePath, "utf-8"));
+
+  await t.test("Curriculum Metadata Integrity", () => {
+    assert.equal(data.curriculumMetadata.stage, "Secondary");
+    assert.equal(data.curriculumMetadata.grade, "First Secondary");
+    assert.equal(data.curriculumMetadata.unitNumber, 3);
+    assert.equal(data.curriculumMetadata.unitTitleEn, "Truth Vs. Lies");
+    assert.equal(data.curriculumMetadata.grammarTopicEn.includes("Conditionals"), true);
+  });
+
+  await t.test("Key Vocabulary, Definitions, Synonyms & Prepositions", () => {
+    assert.ok(Array.isArray(data.keyVocabulary) && data.keyVocabulary.length >= 30);
+    assert.ok(Array.isArray(data.definitions) && data.definitions.length >= 6);
+    assert.ok(Array.isArray(data.synonymsAndAntonyms) && data.synonymsAndAntonyms.length >= 6);
+    assert.ok(Array.isArray(data.expressionsAndPrepositions) && data.expressionsAndPrepositions.length >= 6);
+    assert.ok(Array.isArray(data.readingPassages) && data.readingPassages.length >= 3);
+  });
+
+  await t.test("Balanced Questions Integrity (36 questions, 9 of each letter, streak <= 2)", () => {
+    assert.ok(Array.isArray(data.extractedQuestions) && data.extractedQuestions.length === 36);
+
+    const counts = { 0: 0, 1: 0, 2: 0, 3: 0 };
+    let currentStreak = 1;
+    let maxStreak = 1;
+
+    data.extractedQuestions.forEach((q, idx) => {
+      assert.ok(q.id && q.stemEn && q.correctAnswer);
+      assert.equal(q.options.length, 4);
+      assert.equal(q.options[q.correctOptionIndex], q.correctAnswer);
+      counts[q.correctOptionIndex]++;
+
+      if (idx > 0) {
+        if (q.correctOptionIndex === data.extractedQuestions[idx - 1].correctOptionIndex) {
+          currentStreak++;
+          if (currentStreak > maxStreak) maxStreak = currentStreak;
+        } else {
+          currentStreak = 1;
+        }
+      }
+    });
+
+    assert.deepEqual(counts, { 0: 9, 1: 9, 2: 9, 3: 9 });
+    assert.ok(maxStreak <= 2, `Max streak ${maxStreak} must be <= 2`);
   });
 });

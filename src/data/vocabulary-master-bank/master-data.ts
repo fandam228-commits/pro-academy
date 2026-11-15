@@ -641,6 +641,237 @@ export const CORE_VOCABULARY_TABLE: CoreVocabularyItem[] = [
     sourcePage: 4,
     isCore: true,
   },
+
+
+  // --- FIRST SECONDARY (UNIT 3: Truth Vs. Lies) ---
+  {
+    "id": "CORE-SEC1-U3-001",
+    "word": "betray",
+    "pos": "v",
+    "meaningAr": "يخون",
+    "definitionEn": "to be disloyal to someone who trusts you",
+    "exampleEn": "A true friend will never betray your trust or reveal your secrets.",
+    "gradeCode": "sec_1",
+    "gradeLabelEn": "First Secondary",
+    "gradeLabelAr": "الصف الأول الثانوي",
+    "term": "first",
+    "unitNumber": 3,
+    "unitTitleEn": "Truth Vs. Lies",
+    "unitTitleAr": "الحقيقة في مواجهة الأكاذيب",
+    "lessonNumber": "Lesson 1",
+    "sourceFile": "أولي ثانوي ترم أول 2027 - Habib El Rahman (1).pdf",
+    "sourcePage": 115,
+    "isCore": true
+  },
+  {
+    "id": "CORE-SEC1-U3-002",
+    "word": "exploit",
+    "pos": "v",
+    "meaningAr": "يستغل",
+    "definitionEn": "to use someone or something unfairly for your own advantage",
+    "exampleEn": "Dishonest companies try to exploit young job seekers with low pay.",
+    "gradeCode": "sec_1",
+    "gradeLabelEn": "First Secondary",
+    "gradeLabelAr": "الصف الأول الثانوي",
+    "term": "first",
+    "unitNumber": 3,
+    "unitTitleEn": "Truth Vs. Lies",
+    "unitTitleAr": "الحقيقة في مواجهة الأكاذيب",
+    "lessonNumber": "Lesson 1",
+    "sourceFile": "أولي ثانوي ترم أول 2027 - Habib El Rahman (1).pdf",
+    "sourcePage": 115,
+    "isCore": true
+  },
+  {
+    "id": "CORE-SEC1-U3-003",
+    "word": "support",
+    "pos": "v/n",
+    "meaningAr": "يدعم / دعم",
+    "definitionEn": "to give help, encouragement, or assistance to someone",
+    "exampleEn": "Teachers always provide full support to their students during exams.",
+    "gradeCode": "sec_1",
+    "gradeLabelEn": "First Secondary",
+    "gradeLabelAr": "الصف الأول الثانوي",
+    "term": "first",
+    "unitNumber": 3,
+    "unitTitleEn": "Truth Vs. Lies",
+    "unitTitleAr": "الحقيقة في مواجهة الأكاذيب",
+    "lessonNumber": "Lesson 1",
+    "sourceFile": "أولي ثانوي ترم أول 2027 - Habib El Rahman (1).pdf",
+    "sourcePage": 115,
+    "isCore": true
+  },
+  {
+    "id": "CORE-SEC1-U3-004",
+    "word": "supportive",
+    "pos": "adj",
+    "meaningAr": "داعم",
+    "definitionEn": "providing encouragement and emotional support",
+    "exampleEn": "My parents were very supportive when I decided to learn robotics.",
+    "gradeCode": "sec_1",
+    "gradeLabelEn": "First Secondary",
+    "gradeLabelAr": "الصف الأول الثانوي",
+    "term": "first",
+    "unitNumber": 3,
+    "unitTitleEn": "Truth Vs. Lies",
+    "unitTitleAr": "الحقيقة في مواجهة الأكاذيب",
+    "lessonNumber": "Lesson 1",
+    "sourceFile": "أولي ثانوي ترم أول 2027 - Habib El Rahman (1).pdf",
+    "sourcePage": 115,
+    "isCore": true
+  },
+  {
+    "id": "CORE-SEC1-U3-005",
+    "word": "deceive",
+    "pos": "v",
+    "meaningAr": "يخدع",
+    "definitionEn": "to cause someone to believe something that is not true",
+    "exampleEn": "Scammers use fake emails to deceive innocent people into sending money.",
+    "gradeCode": "sec_1",
+    "gradeLabelEn": "First Secondary",
+    "gradeLabelAr": "الصف الأول الثانوي",
+    "term": "first",
+    "unitNumber": 3,
+    "unitTitleEn": "Truth Vs. Lies",
+    "unitTitleAr": "الحقيقة في مواجهة الأكاذيب",
+    "lessonNumber": "Lesson 1",
+    "sourceFile": "أولي ثانوي ترم أول 2027 - Habib El Rahman (1).pdf",
+    "sourcePage": 115,
+    "isCore": true
+  },
+  {
+    "id": "CORE-SEC1-U3-006",
+    "word": "deception",
+    "pos": "n",
+    "meaningAr": "خداع",
+    "definitionEn": "the act of deliberately deceiving someone with untruths",
+    "exampleEn": "In the end, honesty and kindness always shine brighter than lies and deception.",
+    "gradeCode": "sec_1",
+    "gradeLabelEn": "First Secondary",
+    "gradeLabelAr": "الصف الأول الثانوي",
+    "term": "first",
+    "unitNumber": 3,
+    "unitTitleEn": "Truth Vs. Lies",
+    "unitTitleAr": "الحقيقة في مواجهة الأكاذيب",
+    "lessonNumber": "Lesson 1",
+    "sourceFile": "أولي ثانوي ترم أول 2027 - Habib El Rahman (1).pdf",
+    "sourcePage": 115,
+    "isCore": true
+  },
+  {
+    "id": "CORE-SEC1-U3-007",
+    "word": "tactics",
+    "pos": "n",
+    "meaningAr": "أساليب / تكتيكات",
+    "definitionEn": "carefully planned actions to achieve a specific goal",
+    "exampleEn": "The team used smart defensive tactics to protect their lead.",
+    "gradeCode": "sec_1",
+    "gradeLabelEn": "First Secondary",
+    "gradeLabelAr": "الصف الأول الثانوي",
+    "term": "first",
+    "unitNumber": 3,
+    "unitTitleEn": "Truth Vs. Lies",
+    "unitTitleAr": "الحقيقة في مواجهة الأكاذيب",
+    "lessonNumber": "Lesson 1",
+    "sourceFile": "أولي ثانوي ترم أول 2027 - Habib El Rahman (1).pdf",
+    "sourcePage": 115,
+    "isCore": true
+  },
+  {
+    "id": "CORE-SEC1-U3-008",
+    "word": "scam",
+    "pos": "n/v",
+    "meaningAr": "عملية احتيال / يحتال",
+    "definitionEn": "a dishonest scheme or fraudulent business trick",
+    "exampleEn": "Never click on suspicious links to protect your accounts from an online scam.",
+    "gradeCode": "sec_1",
+    "gradeLabelEn": "First Secondary",
+    "gradeLabelAr": "الصف الأول الثانوي",
+    "term": "first",
+    "unitNumber": 3,
+    "unitTitleEn": "Truth Vs. Lies",
+    "unitTitleAr": "الحقيقة في مواجهة الأكاذيب",
+    "lessonNumber": "Lesson 2",
+    "sourceFile": "أولي ثانوي ترم أول 2027 - Habib El Rahman (1).pdf",
+    "sourcePage": 126,
+    "isCore": true
+  },
+  {
+    "id": "CORE-SEC1-U3-009",
+    "word": "cautious",
+    "pos": "adj",
+    "meaningAr": "حذر",
+    "definitionEn": "careful to avoid potential problems or dangers",
+    "exampleEn": "Drivers must be very cautious when navigating slippery roads in rainy weather.",
+    "gradeCode": "sec_1",
+    "gradeLabelEn": "First Secondary",
+    "gradeLabelAr": "الصف الأول الثانوي",
+    "term": "first",
+    "unitNumber": 3,
+    "unitTitleEn": "Truth Vs. Lies",
+    "unitTitleAr": "الحقيقة في مواجهة الأكاذيب",
+    "lessonNumber": "Lesson 2",
+    "sourceFile": "أولي ثانوي ترم أول 2027 - Habib El Rahman (1).pdf",
+    "sourcePage": 127,
+    "isCore": true
+  },
+  {
+    "id": "CORE-SEC1-U3-010",
+    "word": "reliable",
+    "pos": "adj",
+    "meaningAr": "موثوق به",
+    "definitionEn": "consistently good in quality, trustworthy and dependable",
+    "exampleEn": "Our teacher recommended this encyclopedia as a reliable source of information.",
+    "gradeCode": "sec_1",
+    "gradeLabelEn": "First Secondary",
+    "gradeLabelAr": "الصف الأول الثانوي",
+    "term": "first",
+    "unitNumber": 3,
+    "unitTitleEn": "Truth Vs. Lies",
+    "unitTitleAr": "الحقيقة في مواجهة الأكاذيب",
+    "lessonNumber": "Lesson 2",
+    "sourceFile": "أولي ثانوي ترم أول 2027 - Habib El Rahman (1).pdf",
+    "sourcePage": 127,
+    "isCore": true
+  },
+  {
+    "id": "CORE-SEC1-U3-011",
+    "word": "misinformation",
+    "pos": "n",
+    "meaningAr": "معلومات مضللة",
+    "definitionEn": "fake or misleading information meant to deceive people",
+    "exampleEn": "It is crucial to verify news from official authorities to combat misinformation.",
+    "gradeCode": "sec_1",
+    "gradeLabelEn": "First Secondary",
+    "gradeLabelAr": "الصف الأول الثانوي",
+    "term": "first",
+    "unitNumber": 3,
+    "unitTitleEn": "Truth Vs. Lies",
+    "unitTitleAr": "الحقيقة في مواجهة الأكاذيب",
+    "lessonNumber": "Review & Exam",
+    "sourceFile": "أولي ثانوي ترم أول 2027 - Habib El Rahman (1).pdf",
+    "sourcePage": 162,
+    "isCore": true
+  },
+  {
+    "id": "CORE-SEC1-U3-012",
+    "word": "appreciate",
+    "pos": "v",
+    "meaningAr": "يقدر / يثمن",
+    "definitionEn": "to recognize the full worth and value of someone or something",
+    "exampleEn": "We deeply appreciate all the efforts of medical workers in our community.",
+    "gradeCode": "sec_1",
+    "gradeLabelEn": "First Secondary",
+    "gradeLabelAr": "الصف الأول الثانوي",
+    "term": "first",
+    "unitNumber": 3,
+    "unitTitleEn": "Truth Vs. Lies",
+    "unitTitleAr": "الحقيقة في مواجهة الأكاذيب",
+    "lessonNumber": "Lesson 3",
+    "sourceFile": "أولي ثانوي ترم أول 2027 - Habib El Rahman (1).pdf",
+    "sourcePage": 145,
+    "isCore": true
+  }
 ];
 
 // =========================================================================
@@ -899,6 +1130,125 @@ export const SYNONYMS_ANTONYMS_TABLE: SynonymAntonymItem[] = [
     sourceFile: "ثالثة  ثانوي ترم أول 2027 - Habib El Rahman.pdf",
     sourcePage: 7,
   },
+
+
+  // --- FIRST SECONDARY (UNIT 3: Truth Vs. Lies) ---
+  {
+    "id": "SYN-SEC1-U3-001",
+    "mainWord": "betray",
+    "meaningAr": "يخون",
+    "synonyms": [
+      "deceive",
+      "double-cross"
+    ],
+    "antonyms": [
+      "protect",
+      "defend"
+    ],
+    "gradeCode": "sec_1",
+    "term": "first",
+    "unitNumber": 3,
+    "unitTitleEn": "Truth Vs. Lies",
+    "sourceFile": "أولي ثانوي ترم أول 2027 - Habib El Rahman (1).pdf",
+    "sourcePage": 119
+  },
+  {
+    "id": "SYN-SEC1-U3-002",
+    "mainWord": "cautious",
+    "meaningAr": "حذر",
+    "synonyms": [
+      "careful",
+      "alert"
+    ],
+    "antonyms": [
+      "careless",
+      "rash"
+    ],
+    "gradeCode": "sec_1",
+    "term": "first",
+    "unitNumber": 3,
+    "unitTitleEn": "Truth Vs. Lies",
+    "sourceFile": "أولي ثانوي ترم أول 2027 - Habib El Rahman (1).pdf",
+    "sourcePage": 119
+  },
+  {
+    "id": "SYN-SEC1-U3-003",
+    "mainWord": "deceive",
+    "meaningAr": "يخدع",
+    "synonyms": [
+      "mislead",
+      "cheat",
+      "trick"
+    ],
+    "antonyms": [
+      "guide",
+      "enlighten"
+    ],
+    "gradeCode": "sec_1",
+    "term": "first",
+    "unitNumber": 3,
+    "unitTitleEn": "Truth Vs. Lies",
+    "sourceFile": "أولي ثانوي ترم أول 2027 - Habib El Rahman (1).pdf",
+    "sourcePage": 119
+  },
+  {
+    "id": "SYN-SEC1-U3-004",
+    "mainWord": "exploit",
+    "meaningAr": "يستغل",
+    "synonyms": [
+      "abuse",
+      "misuse",
+      "take advantage of"
+    ],
+    "antonyms": [
+      "protect",
+      "preserve"
+    ],
+    "gradeCode": "sec_1",
+    "term": "first",
+    "unitNumber": 3,
+    "unitTitleEn": "Truth Vs. Lies",
+    "sourceFile": "أولي ثانوي ترم أول 2027 - Habib El Rahman (1).pdf",
+    "sourcePage": 119
+  },
+  {
+    "id": "SYN-SEC1-U3-005",
+    "mainWord": "reliable",
+    "meaningAr": "موثوق به",
+    "synonyms": [
+      "trustworthy",
+      "dependable"
+    ],
+    "antonyms": [
+      "unreliable",
+      "dishonest"
+    ],
+    "gradeCode": "sec_1",
+    "term": "first",
+    "unitNumber": 3,
+    "unitTitleEn": "Truth Vs. Lies",
+    "sourceFile": "أولي ثانوي ترم أول 2027 - Habib El Rahman (1).pdf",
+    "sourcePage": 119
+  },
+  {
+    "id": "SYN-SEC1-U3-006",
+    "mainWord": "appreciate",
+    "meaningAr": "يقدر / يثمن",
+    "synonyms": [
+      "value",
+      "respect"
+    ],
+    "antonyms": [
+      "neglect",
+      "criticize"
+    ],
+    "gradeCode": "sec_1",
+    "term": "first",
+    "unitNumber": 3,
+    "unitTitleEn": "Truth Vs. Lies",
+    "sourceFile": "أولي ثانوي ترم أول 2027 - Habib El Rahman (1).pdf",
+    "sourcePage": 145
+  }
 ];
 
 // =========================================================================
@@ -1116,5 +1466,92 @@ export const PREPOSITIONS_EXPRESSIONS_TABLE: PrepositionExpressionItem[] = [
     "lessonNumber": "Lesson 2",
     "sourceBook": "أولي ثانوي ترم أول 2027 - Habib El Rahman (1).pdf",
     "sourcePage": 63
+  }
+,
+
+  // --- FIRST SECONDARY (UNIT 3: Truth Vs. Lies) ---
+  {
+    "id": "EXP-SEC1-U3-001",
+    "expression": "(be) aware of",
+    "expressionType": "Collocation",
+    "meaningAr": "يكون مدركاً لـ",
+    "exampleEn": "You should always be aware of the privacy settings on your smartphone.",
+    "gradeCode": "sec_1",
+    "term": "first",
+    "unitNumber": 3,
+    "unitTitleEn": "Truth Vs. Lies",
+    "lessonNumber": "Lesson 1",
+    "sourceBook": "أولي ثانوي ترم أول 2027 - Habib El Rahman (1).pdf",
+    "sourcePage": 118
+  },
+  {
+    "id": "EXP-SEC1-U3-002",
+    "expression": "act with honesty",
+    "expressionType": "Fixed Expression",
+    "meaningAr": "يتصرف بأمانة",
+    "exampleEn": "While many people act with honesty, others hide their real intentions.",
+    "gradeCode": "sec_1",
+    "term": "first",
+    "unitNumber": 3,
+    "unitTitleEn": "Truth Vs. Lies",
+    "lessonNumber": "Lesson 1",
+    "sourceBook": "أولي ثانوي ترم أول 2027 - Habib El Rahman (1).pdf",
+    "sourcePage": 118
+  },
+  {
+    "id": "EXP-SEC1-U3-003",
+    "expression": "apply pressure",
+    "expressionType": "Collocation",
+    "meaningAr": "يمارس ضغطاً",
+    "exampleEn": "Scammers often apply pressure to force victims to make quick decisions.",
+    "gradeCode": "sec_1",
+    "term": "first",
+    "unitNumber": 3,
+    "unitTitleEn": "Truth Vs. Lies",
+    "lessonNumber": "Lesson 1",
+    "sourceBook": "أولي ثانوي ترم أول 2027 - Habib El Rahman (1).pdf",
+    "sourcePage": 118
+  },
+  {
+    "id": "EXP-SEC1-U3-004",
+    "expression": "as the saying goes",
+    "expressionType": "Idiom",
+    "meaningAr": "كما يقول المثل",
+    "exampleEn": "As the saying goes, 'Trust, but verify' before you agree to any deal.",
+    "gradeCode": "sec_1",
+    "term": "first",
+    "unitNumber": 3,
+    "unitTitleEn": "Truth Vs. Lies",
+    "lessonNumber": "Lesson 1",
+    "sourceBook": "أولي ثانوي ترم أول 2027 - Habib El Rahman (1).pdf",
+    "sourcePage": 118
+  },
+  {
+    "id": "EXP-SEC1-U3-005",
+    "expression": "set a trap",
+    "expressionType": "Collocation",
+    "meaningAr": "ينصب فخاً",
+    "exampleEn": "Detectives set a trap to catch the cyber scammers red-handed.",
+    "gradeCode": "sec_1",
+    "term": "first",
+    "unitNumber": 3,
+    "unitTitleEn": "Truth Vs. Lies",
+    "lessonNumber": "Lesson 1",
+    "sourceBook": "أولي ثانوي ترم أول 2027 - Habib El Rahman (1).pdf",
+    "sourcePage": 118
+  },
+  {
+    "id": "EXP-SEC1-U3-006",
+    "expression": "take control of",
+    "expressionType": "Verb + Preposition",
+    "meaningAr": "يسيطر على",
+    "exampleEn": "The experienced manager was able to take control of the entire crisis.",
+    "gradeCode": "sec_1",
+    "term": "first",
+    "unitNumber": 3,
+    "unitTitleEn": "Truth Vs. Lies",
+    "lessonNumber": "Lesson 1",
+    "sourceBook": "أولي ثانوي ترم أول 2027 - Habib El Rahman (1).pdf",
+    "sourcePage": 118
   }
 ];
