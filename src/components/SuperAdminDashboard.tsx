@@ -3,6 +3,11 @@
 import React, { useState, useEffect } from "react";
 import { useApp } from "@/context/AppContext";
 import { authHeaders } from "@/lib/client-auth";
+import { BulkCodesGenerator } from "@/components/BulkCodesGenerator";
+import { ParentConnectAdminHub } from "@/components/ParentConnectAdminHub";
+import { AdminCurriculumManager } from "@/components/AdminCurriculumManager";
+import { LiveClassroomManager } from "@/components/LiveClassroomManager";
+import { TrainingCenterWorkspace } from "@/components/training/TrainingCenterWorkspace";
 import {
   Users,
   GraduationCap,
@@ -19,13 +24,22 @@ import {
   Smartphone,
   ShieldCheck,
   RefreshCw,
+  Video,
+  Sparkles,
+  Calendar,
 } from "lucide-react";
 
 export const SuperAdminDashboard: React.FC = () => {
   const { lang } = useApp();
   const [data, setData] = useState<any>(null);
   const [loading, setLoading] = useState(true);
-  const [activeTab, setActiveTab] = useState<"analytics" | "users" | "groups" | "codes" | "announcements" | "backup">("analytics");
+  const [activeTab, setActiveTab] = useState<"analytics" | "users" | "groups" | "codes" | "parent_connect" | "curriculum" | "live_classes" | "training_questions" | "announcements" | "backup" | "free_access">("analytics");
+
+  // Free Courses Access Until End of Term State
+  const [freeEnabled, setFreeEnabled] = useState(true);
+  const [freeUntilDate, setFreeUntilDate] = useState("");
+  const [freeSettingMessage, setFreeSettingMessage] = useState("");
+  const [freeSettingSaving, setFreeSettingSaving] = useState(false);
 
   // Code Generator Form State
   const [codeCourseId, setCodeCourseId] = useState("crs_sec_3");
@@ -112,10 +126,41 @@ export const SuperAdminDashboard: React.FC = () => {
       const res = await fetch("/api/admin");
       const json = await res.json();
       setData(json);
+      if (json.freeCoursesSettings) {
+        setFreeEnabled(Boolean(json.freeCoursesSettings.isFreeUntilEndOfTerm));
+        setFreeUntilDate(json.freeCoursesSettings.freeCoursesAccessUntil || "");
+      }
     } catch (e) {
       console.error(e);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleSaveFreeSettings = async () => {
+    setFreeSettingSaving(true);
+    setFreeSettingMessage("");
+    try {
+      const res = await fetch("/api/admin", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", ...authHeaders() },
+        body: JSON.stringify({
+          action: "update_free_courses_setting",
+          isFreeUntilEndOfTerm: freeEnabled,
+          freeCoursesAccessUntil: freeUntilDate.trim() || null,
+        }),
+      });
+      const json = await res.json();
+      if (json.success) {
+        setFreeSettingMessage(lang === "ar" ? "✅ تم حفظ إعدادات إتاحة الكورسات بنجاح" : "✅ Free courses access settings saved successfully");
+        fetchAdminData();
+      } else {
+        setFreeSettingMessage(json.error || (lang === "ar" ? "تعذر حفظ الإعدادات" : "Failed to save settings"));
+      }
+    } catch {
+      setFreeSettingMessage(lang === "ar" ? "خطأ في الاتصال بالخادم" : "Network error");
+    } finally {
+      setFreeSettingSaving(false);
     }
   };
 
@@ -294,6 +339,45 @@ export const SuperAdminDashboard: React.FC = () => {
             {lang === "ar" ? "أكواد التفعيل" : "Codes Generator"}
           </button>
           <button
+            onClick={() => setActiveTab("parent_connect")}
+            className={`px-3.5 py-2 rounded-xl transition-all flex items-center gap-1.5 ${
+              activeTab === "parent_connect" ? "bg-white dark:bg-slate-900 text-purple-600 dark:text-purple-400 shadow-sm font-bold" : "text-slate-600 dark:text-slate-400 font-bold"
+            }`}
+          >
+            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+            <span>{lang === "ar" ? "أولياء الأمور (Parent Connect)" : "Parent Connect"}</span>
+          </button>
+          <button
+            onClick={() => setActiveTab("curriculum")}
+            className={`px-3.5 py-2 rounded-xl transition-all flex items-center gap-1.5 ${
+              activeTab === "curriculum" ? "bg-white dark:bg-slate-900 text-purple-600 dark:text-purple-400 shadow-sm font-bold" : "text-slate-600 dark:text-slate-400 font-bold"
+            }`}
+          >
+            <span>{lang === "ar" ? "📚 المناهج والقصة" : "📚 Curriculum & Story"}</span>
+          </button>
+          <button
+            onClick={() => setActiveTab("live_classes")}
+            className={`px-3.5 py-2 rounded-xl transition-all flex items-center gap-1.5 ${
+              activeTab === "live_classes"
+                ? "bg-gradient-to-r from-red-600 to-purple-600 text-white shadow-sm font-bold"
+                : "text-slate-600 dark:text-slate-400 font-bold"
+            }`}
+          >
+            <Video className="w-4 h-4 text-red-500" />
+            <span>{lang === "ar" ? "الحصص المباشرة و Meet" : "Live Classes & Meet"}</span>
+          </button>
+          <button
+            onClick={() => setActiveTab("training_questions")}
+            className={`px-3.5 py-2 rounded-xl transition-all flex items-center gap-1.5 ${
+              activeTab === "training_questions"
+                ? "bg-gradient-to-r from-amber-600 to-purple-600 text-white shadow-sm font-bold"
+                : "text-slate-600 dark:text-slate-400 font-bold"
+            }`}
+          >
+            <ShieldCheck className="w-4 h-4 text-amber-500" />
+            <span>{lang === "ar" ? "بنك الأسئلة والتدريب" : "Training Question Bank"}</span>
+          </button>
+          <button
             onClick={() => setActiveTab("announcements")}
             className={`px-3.5 py-2 rounded-xl transition-all ${
               activeTab === "announcements" ? "bg-white dark:bg-slate-900 text-purple-600 dark:text-purple-400 shadow-sm" : "text-slate-600 dark:text-slate-400"
@@ -308,6 +392,17 @@ export const SuperAdminDashboard: React.FC = () => {
             }`}
           >
             {lang === "ar" ? "النسخ الاحتياطي" : "Backup"}
+          </button>
+          <button
+            onClick={() => setActiveTab("free_access")}
+            className={`px-3.5 py-2 rounded-xl transition-all flex items-center gap-1.5 ${
+              activeTab === "free_access"
+                ? "bg-gradient-to-r from-emerald-600 to-teal-600 text-white shadow-sm font-bold"
+                : "text-slate-600 dark:text-slate-400 font-bold"
+            }`}
+          >
+            <Sparkles className="w-4 h-4 text-emerald-400" />
+            <span>{lang === "ar" ? "🎁 مجانية الكورسات" : "🎁 Free Courses"}</span>
           </button>
         </div>
       </div>
@@ -511,61 +606,20 @@ export const SuperAdminDashboard: React.FC = () => {
         </div>
       )}
 
-      {/* 3. ACTIVATION CODES GENERATOR */}
+      {/* 3. BULK ACTIVATION & PRINTABLE CARDS */}
       {activeTab === "codes" && (
         <div className="space-y-6">
-          <div className="bg-white dark:bg-slate-900 p-6 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-lg">
-            <h3 className="font-extrabold text-sm text-slate-900 dark:text-white mb-4">
-              {lang === "ar" ? "مولد أكواد التفعيل الفورية" : "Activation Code Generator"}
-            </h3>
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-              <input
-                type="text"
-                value={codePrefix}
-                onChange={(e) => setCodePrefix(e.target.value)}
-                placeholder="Prefix e.g. HABIB3SEC"
-                className="p-3 rounded-2xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs font-bold text-slate-900 dark:text-white uppercase"
-              />
-              <input
-                type="number"
-                value={codeCount}
-                onChange={(e) => setCodeCount(parseInt(e.target.value) || 1)}
-                placeholder="Number of codes"
-                className="p-3 rounded-2xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs font-bold text-slate-900 dark:text-white"
-              />
-              <button
-                onClick={handleGenerateCodes}
-                className="px-6 py-3 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white font-extrabold text-xs rounded-2xl shadow-lg transition-all"
-              >
-                {lang === "ar" ? "توليد كروت التفعيل" : "Generate Batch Codes"}
-              </button>
-            </div>
+          <BulkCodesGenerator />
 
-            {generatedCodes.length > 0 && (
-              <div className="mt-6 p-4 bg-emerald-50 dark:bg-emerald-950/40 rounded-2xl border border-emerald-200 dark:border-emerald-800">
-                <p className="text-xs font-bold text-emerald-700 dark:text-emerald-300 mb-2">
-                  🎉 {generatedCodes.length} Codes Generated Successfully:
-                </p>
-                <div className="flex flex-wrap gap-2">
-                  {generatedCodes.map((c, i) => (
-                    <span key={i} className="font-mono text-xs font-bold px-3 py-1 bg-white dark:bg-slate-900 rounded-lg shadow text-emerald-600 border border-emerald-300">
-                      {c}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            )}
-          </div>
-
-          <div className="bg-white dark:bg-slate-900 p-6 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-lg">
+          <div className="bg-white dark:bg-[#100a26] p-6 rounded-3xl border border-slate-200 dark:border-purple-900/40 shadow-lg">
             <h3 className="font-extrabold text-sm text-slate-900 dark:text-white mb-4">
-              {lang === "ar" ? "سجل الأكواد الحالية بالمنظومة" : "Active System Activation Codes"}
+              {lang === "ar" ? "أرشيف جميع أكواد المنظومة المسجلة" : "All System Activation Codes Ledger"}
             </h3>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 max-h-72 overflow-y-auto pr-1">
               {codes?.map((c: any) => (
-                <div key={c.id} className="p-3 rounded-2xl bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 flex justify-between items-center text-xs font-mono">
+                <div key={c.id} className="p-3 rounded-2xl bg-slate-50 dark:bg-purple-950/30 border border-slate-200 dark:border-purple-900/40 flex justify-between items-center text-xs font-mono">
                   <span className="font-bold text-slate-800 dark:text-slate-100">{c.code}</span>
-                  <span className={`px-2 py-0.5 rounded text-[10px] font-sans font-bold ${c.isUsed ? "bg-red-100 text-red-600" : "bg-emerald-100 text-emerald-600"}`}>
+                  <span className={`px-2 py-0.5 rounded text-[10px] font-sans font-bold ${c.isUsed ? "bg-red-100 text-red-600 dark:bg-red-950/60 dark:text-red-400" : "bg-emerald-100 text-emerald-600 dark:bg-emerald-950/60 dark:text-emerald-400"}`}>
                     {c.isUsed ? "USED" : "AVAILABLE"}
                   </span>
                 </div>
@@ -575,7 +629,12 @@ export const SuperAdminDashboard: React.FC = () => {
         </div>
       )}
 
-      {/* 4. BROADCAST ANNOUNCEMENTS */}
+      {/* 4. PARENT CONNECT SYSTEM (Meta WhatsApp Cloud API & Telegram Bot) */}
+      {activeTab === "parent_connect" && (
+        <ParentConnectAdminHub />
+      )}
+
+      {/* 5. BROADCAST ANNOUNCEMENTS */}
       {activeTab === "announcements" && (
         <div className="bg-white dark:bg-slate-900 p-6 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-lg max-w-2xl">
           <h3 className="font-extrabold text-sm text-slate-900 dark:text-white mb-4">
@@ -609,6 +668,126 @@ export const SuperAdminDashboard: React.FC = () => {
                 <span>{lang === "ar" ? "تم بث الإشعار بنجاح!" : "Broadcast sent to all active students!"}</span>
               </p>
             )}
+          </div>
+        </div>
+      )}
+
+      {/* CURRICULUM & STORY MANAGER */}
+      {activeTab === "curriculum" && <AdminCurriculumManager />}
+
+      {/* LIVE CLASSROOM & GOOGLE MEET MANAGER */}
+      {activeTab === "live_classes" && <LiveClassroomManager />}
+
+      {/* TRAINING CENTER & QUESTION BANK AUDIT */}
+      {activeTab === "training_questions" && <TrainingCenterWorkspace initialTopic="all" />}
+
+      {/* FREE COURSES ACCESS UNTIL END OF TERM SETTINGS */}
+      {activeTab === "free_access" && (
+        <div className="space-y-6 max-w-3xl">
+          <div className="bg-white dark:bg-slate-900 p-6 sm:p-8 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-xl space-y-6">
+            <div className="flex items-start gap-4">
+              <div className="w-12 h-12 rounded-2xl bg-emerald-100 dark:bg-emerald-950/60 text-emerald-600 flex items-center justify-center shrink-0">
+                <Sparkles className="w-6 h-6" />
+              </div>
+              <div className="flex-1">
+                <span className="text-[11px] font-black uppercase tracking-wider px-3 py-1 rounded-full bg-emerald-50 dark:bg-emerald-950/70 text-emerald-700 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-800/60">
+                  Global Promotion Settings
+                </span>
+                <h3 className="text-lg sm:text-xl font-black text-slate-900 dark:text-white mt-2">
+                  {lang === "ar" ? "إتاحة جميع الكورسات المدفوعة مجاناً حتى نهاية الترم" : "All Paid Courses Free Until End of Term"}
+                </h3>
+                <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 leading-relaxed">
+                  {lang === "ar"
+                    ? "عند التفعيل، يتم فتح جميع الدروس والمحاضرات والـ PDFs لجميع الطلاب المسجلين دون طلب دفع، مع الاحتفاظ بأسعار الكورسات الأصلية في قاعدة البيانات للرجوع إليها لاحقاً."
+                    : "When enabled, all lessons, lectures, and PDFs are unlocked for all enrolled students without paywalls. Original course prices remain safely stored in the database."}
+                </p>
+              </div>
+            </div>
+
+            {/* Toggle Switch */}
+            <div className="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 flex items-center justify-between gap-4">
+              <div>
+                <label className="text-xs font-black text-slate-900 dark:text-white block cursor-pointer">
+                  {lang === "ar" ? "حالة الإتاحة المجانية الشاملة" : "Global Free Access Status"}
+                </label>
+                <span className="text-[11px] text-slate-500 dark:text-slate-400">
+                  {freeEnabled
+                    ? (lang === "ar" ? "مفعلة حالياً: الكورسات تظهر مجاناً للجميع" : "Active: All courses are freely accessible")
+                    : (lang === "ar" ? "معطلة: يتطلب الدخول الاشتراك والدفع المعتاد" : "Disabled: Standard pricing and paywalls apply")}
+                </span>
+              </div>
+              <label className="relative inline-flex items-center cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={freeEnabled}
+                  onChange={(e) => setFreeEnabled(e.target.checked)}
+                  className="sr-only peer"
+                />
+                <div className="w-11 h-6 bg-slate-300 peer-focus:outline-none rounded-full peer dark:bg-slate-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-slate-600 peer-checked:bg-emerald-600"></div>
+              </label>
+            </div>
+
+            {/* Date Configuration */}
+            <div className="space-y-2">
+              <label className="text-xs font-black text-slate-900 dark:text-white flex items-center gap-2">
+                <Calendar className="w-4 h-4 text-purple-600" />
+                <span>{lang === "ar" ? "Free Courses Access Until (تاريخ انتهاء الإتاحة المجانية)" : "Free Courses Access Until"}</span>
+              </label>
+              <input
+                type="date"
+                value={freeUntilDate}
+                onChange={(e) => setFreeUntilDate(e.target.value)}
+                className="w-full p-3 rounded-2xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs text-slate-900 dark:text-white font-medium outline-none focus:border-emerald-500"
+              />
+              <p className="text-[11px] text-slate-500 dark:text-slate-400 leading-relaxed">
+                {lang === "ar"
+                  ? "💡 ملاحظة: عند ترك التاريخ فارغاً، يتم إظهار عبارة «مجانا حتى نهاية الترم» لجميع الطلاب تلقائياً دون فرض تاريخ غير محدد."
+                  : "💡 Note: If left blank, the platform automatically displays 'FREE UNTIL THE END OF THE TERM' without an arbitrary expiration date."}
+              </p>
+            </div>
+
+            {/* Visual Preview Box */}
+            <div className="p-4 rounded-2xl bg-gradient-to-r from-emerald-950/20 to-teal-950/20 border border-emerald-500/30 flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <div className="w-9 h-9 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center font-bold">
+                  ✓
+                </div>
+                <div>
+                  <div className="text-[11px] font-bold text-slate-400">
+                    {lang === "ar" ? "طريقة الظهور في بطاقات الكورسات:" : "Course Badge Preview:"}
+                  </div>
+                  <div className="text-xs font-black text-emerald-400">
+                    {freeEnabled
+                      ? (freeUntilDate ? `مجانا حتى ${freeUntilDate}` : "مجانا حتى نهاية الترم")
+                      : "سعر الكورس المعتاد (250 - 350 EGP)"}
+                  </div>
+                </div>
+              </div>
+              <span className={`text-[10px] font-black px-2.5 py-1 rounded-full ${freeEnabled ? "bg-emerald-500 text-white" : "bg-slate-500 text-white"}`}>
+                {freeEnabled ? "نشط ومفعل" : "معطل"}
+              </span>
+            </div>
+
+            {/* Message Feedback */}
+            {freeSettingMessage && (
+              <div className="p-3.5 rounded-2xl bg-slate-100 dark:bg-slate-800 text-xs font-bold text-slate-800 dark:text-slate-200 border border-slate-200 dark:border-slate-700">
+                {freeSettingMessage}
+              </div>
+            )}
+
+            {/* Action Button */}
+            <button
+              onClick={handleSaveFreeSettings}
+              disabled={freeSettingSaving}
+              className="px-8 py-3.5 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-extrabold text-xs rounded-2xl shadow-xl shadow-emerald-600/20 disabled:opacity-50 transition-all cursor-pointer flex items-center gap-2"
+            >
+              <CheckCircle className="w-4 h-4" />
+              <span>
+                {freeSettingSaving
+                  ? (lang === "ar" ? "جاري الحفظ..." : "Saving...")
+                  : (lang === "ar" ? "حفظ إعدادات إتاحة الكورسات" : "Save Free Access Settings")}
+              </span>
+            </button>
           </div>
         </div>
       )}

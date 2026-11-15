@@ -1,5 +1,5 @@
 import { db } from "@/db";
-import { payments, activationCodes, enrollments, notifications } from "@/db/schema";
+import { payments, activationCodes, enrollments, notifications, courses } from "@/db/schema";
 import { eq, and } from "drizzle-orm";
 import { NextResponse } from "next/server";
 import { ensureDbSetup } from "@/db/migrate-and-seed";
@@ -58,21 +58,42 @@ export async function POST(req: Request) {
         return NextResponse.json({ error: "This activation code was just redeemed. Please use another code." }, { status: 409 });
       }
 
-      const existingEnr = await db
-        .select()
-        .from(enrollments)
-        .where(and(eq(enrollments.studentId, user!.id), eq(enrollments.courseId, ac.courseId)));
+      if (ac.courseId === "all_courses") {
+        const allAvailableCourses = await db.select({ id: courses.id }).from(courses);
+        for (const c of allAvailableCourses) {
+          const existing = await db
+            .select()
+            .from(enrollments)
+            .where(and(eq(enrollments.studentId, user!.id), eq(enrollments.courseId, c.id)));
+          if (existing.length === 0) {
+            await db.insert(enrollments).values({
+              id: `enr_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`,
+              studentId: user!.id,
+              courseId: c.id,
+              status: "active",
+              progress: 0,
+              completedLessonIds: [],
+              paymentMethod: "activation_code",
+            });
+          }
+        }
+      } else {
+        const existingEnr = await db
+          .select()
+          .from(enrollments)
+          .where(and(eq(enrollments.studentId, user!.id), eq(enrollments.courseId, ac.courseId)));
 
-      if (existingEnr.length === 0) {
-        await db.insert(enrollments).values({
-          id: `enr_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`,
-          studentId: user!.id,
-          courseId: ac.courseId,
-          status: "active",
-          progress: 0,
-          completedLessonIds: [],
-          paymentMethod: "activation_code",
-        });
+        if (existingEnr.length === 0) {
+          await db.insert(enrollments).values({
+            id: `enr_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`,
+            studentId: user!.id,
+            courseId: ac.courseId,
+            status: "active",
+            progress: 0,
+            completedLessonIds: [],
+            paymentMethod: "activation_code",
+          });
+        }
       }
 
       await db.insert(notifications).values({

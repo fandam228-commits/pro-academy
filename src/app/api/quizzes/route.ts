@@ -136,8 +136,9 @@ export async function POST(req: Request) {
       for (const q of qList) {
         const qPoints = q.points ?? 10;
         totalPossible += qPoints;
-        const studentAns = (userAnswers[q.id] || "").trim();
-        const isCorrect = studentAns.toLowerCase() === q.correctAnswer.trim().toLowerCase();
+        const studentAns = typeof userAnswers[q.id] === "string" ? userAnswers[q.id].trim() : String(userAnswers[q.id] || "").trim();
+        const cleanCorrect = q.correctAnswer != null ? String(q.correctAnswer).trim() : "";
+        const isCorrect = Boolean(cleanCorrect && studentAns && studentAns.toLowerCase() === cleanCorrect.toLowerCase());
         
         if (isCorrect) {
           earnedScore += qPoints;
@@ -146,9 +147,9 @@ export async function POST(req: Request) {
         detailedFeedback[q.id] = {
           questionText: q.questionText,
           studentAnswer: studentAns,
-          correctAnswer: q.correctAnswer,
+          correctAnswer: cleanCorrect || "(No correct answer recorded)",
           isCorrect,
-          explanation: q.explanation,
+          explanation: q.explanation || "",
         };
       }
 

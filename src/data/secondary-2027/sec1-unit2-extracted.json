@@ -1,0 +1,1090 @@
+{
+  "curriculumMetadata": {
+    "stage": "Secondary",
+    "grade": "First Secondary",
+    "gradeAr": "الصف الأول الثانوي",
+    "term": "First",
+    "termAr": "الترم الأول",
+    "academicYear": "2026/2027",
+    "unitNumber": 2,
+    "unitTitleEn": "Hands Help, Hearts Care",
+    "unitTitleAr": "أيدٍ تساعد، وقلوب تهتم",
+    "sourceFile": "أولي ثانوي ترم أول 2027 - Habib El Rahman (1).pdf",
+    "teacher": "Mr. Habib El Rahman",
+    "grammarTopicEn": "Expressing Obligation, Necessity, Lack of Necessity, Prohibition and Advice (must, have to, need to, should, ought to)",
+    "grammarTopicAr": "التعبير عن الإلزام والضرورة وعدم الضرورة والتحريم والنصيحة"
+  },
+  "keyVocabulary": [
+    {
+      "word": "care",
+      "pos": "v/n",
+      "meaningAr": "يهتم / رعاية",
+      "page": 61
+    },
+    {
+      "word": "community",
+      "pos": "n",
+      "meaningAr": "مجتمع محلي",
+      "page": 61
+    },
+    {
+      "word": "confidence",
+      "pos": "n",
+      "meaningAr": "ثقة بالنفس",
+      "page": 61
+    },
+    {
+      "word": "fade",
+      "pos": "v",
+      "meaningAr": "يتلاشى / يختفي",
+      "page": 61
+    },
+    {
+      "word": "irresistible",
+      "pos": "adj",
+      "meaningAr": "لا يُقاوم / جذاب للغاية",
+      "page": 61
+    },
+    {
+      "word": "isolate",
+      "pos": "v",
+      "meaningAr": "يعزل / يفصل",
+      "page": 61
+    },
+    {
+      "word": "isolated",
+      "pos": "adj",
+      "meaningAr": "معزول / منفصل",
+      "page": 61
+    },
+    {
+      "word": "mirror",
+      "pos": "v",
+      "meaningAr": "يعكس / يماثل",
+      "page": 61
+    },
+    {
+      "word": "mood",
+      "pos": "n",
+      "meaningAr": "مزاج / حالة نفسية",
+      "page": 61
+    },
+    {
+      "word": "optimism",
+      "pos": "n",
+      "meaningAr": "تفاؤل",
+      "page": 61
+    },
+    {
+      "word": "overwhelm",
+      "pos": "v",
+      "meaningAr": "يرهق / يثقل كاهل",
+      "page": 61
+    },
+    {
+      "word": "overwhelmed",
+      "pos": "adj",
+      "meaningAr": "مثقل بالهموم / مجهد",
+      "page": 61
+    },
+    {
+      "word": "recycle",
+      "pos": "v",
+      "meaningAr": "يعيد تدوير",
+      "page": 61
+    },
+    {
+      "word": "sapling",
+      "pos": "n",
+      "meaningAr": "غرسة / شتلة شجرة صغيرة",
+      "page": 61
+    },
+    {
+      "word": "slip",
+      "pos": "v",
+      "meaningAr": "ينزلق / يتراجع تدريجياً",
+      "page": 61
+    },
+    {
+      "word": "stare",
+      "pos": "v",
+      "meaningAr": "يحدق / ينظر باهتمام",
+      "page": 62
+    },
+    {
+      "word": "support",
+      "pos": "v/n",
+      "meaningAr": "يدعم / دعم ومساعدة",
+      "page": 62
+    },
+    {
+      "word": "teamwork",
+      "pos": "n",
+      "meaningAr": "عمل جماعي / تعاون",
+      "page": 61
+    },
+    {
+      "word": "transform",
+      "pos": "v",
+      "meaningAr": "يحول / يغير جذرياً",
+      "page": 62
+    },
+    {
+      "word": "transformed",
+      "pos": "adj",
+      "meaningAr": "متحول إيجابياً / متغير للأفضل",
+      "page": 62
+    },
+    {
+      "word": "volunteer",
+      "pos": "n/v",
+      "meaningAr": "متطوع / يتطوع",
+      "page": 62
+    }
+  ],
+  "definitions": [
+    {
+      "word": "community",
+      "meaningAr": "مجتمع محلي",
+      "definitionEn": "people who live in the same area or have something in common",
+      "page": 61
+    },
+    {
+      "word": "confidence",
+      "meaningAr": "ثقة",
+      "definitionEn": "belief in your own abilities",
+      "page": 61
+    },
+    {
+      "word": "stare",
+      "meaningAr": "يحدق",
+      "definitionEn": "to look at someone or something for a long time without moving your eyes",
+      "page": 62
+    },
+    {
+      "word": "support",
+      "meaningAr": "يدعم / يساند",
+      "definitionEn": "to give help or encouragement to someone",
+      "page": 62
+    },
+    {
+      "word": "transformed",
+      "meaningAr": "متغير للأفضل",
+      "definitionEn": "completely changed in a positive way",
+      "page": 62
+    },
+    {
+      "word": "volunteer",
+      "meaningAr": "متطوع",
+      "definitionEn": "a person who works without pay to help others",
+      "page": 62
+    },
+    {
+      "word": "optimism",
+      "meaningAr": "تفاؤل",
+      "definitionEn": "a feeling or belief that good things will happen or that the future will be positive",
+      "page": 62
+    }
+  ],
+  "synonymsAndAntonyms": [
+    {
+      "word": "connected",
+      "meaningAr": "متصل / اجتماعي",
+      "synonyms": [
+        "sociable"
+      ],
+      "antonyms": [
+        "isolated",
+        "remote",
+        "detached"
+      ],
+      "page": 64
+    },
+    {
+      "word": "irresistible",
+      "meaningAr": "لا يقاوم",
+      "synonyms": [
+        "compelling",
+        "captivating",
+        "attractive"
+      ],
+      "antonyms": [
+        "resistible",
+        "avoidable"
+      ],
+      "page": 64
+    },
+    {
+      "word": "overwhelmed",
+      "meaningAr": "مرهق / مثقل",
+      "synonyms": [
+        "stressed",
+        "frustrated"
+      ],
+      "antonyms": [
+        "calm",
+        "relaxed"
+      ],
+      "page": 64
+    },
+    {
+      "word": "optimism",
+      "meaningAr": "تفاؤل",
+      "synonyms": [
+        "hopefulness",
+        "confidence"
+      ],
+      "antonyms": [
+        "pessimism"
+      ],
+      "page": 64
+    },
+    {
+      "word": "fade",
+      "meaningAr": "يتلاشى / يختفي",
+      "synonyms": [
+        "disappear",
+        "vanish"
+      ],
+      "antonyms": [
+        "appear",
+        "brighten"
+      ],
+      "page": 64
+    },
+    {
+      "word": "positive",
+      "meaningAr": "إيجابي",
+      "synonyms": [
+        "effective",
+        "good"
+      ],
+      "antonyms": [
+        "negative",
+        "harmful"
+      ],
+      "page": 64
+    },
+    {
+      "word": "support",
+      "meaningAr": "يدعم / يساند",
+      "synonyms": [
+        "reinforce",
+        "encourage"
+      ],
+      "antonyms": [
+        "oppose",
+        "neglect"
+      ],
+      "page": 64
+    }
+  ],
+  "expressionsAndPrepositions": [
+    {
+      "phrase": "overwhelmed by",
+      "meaningAr": "يشعر بالإرهاق أو الثقل من",
+      "page": 63
+    },
+    {
+      "phrase": "make a big difference",
+      "meaningAr": "يحدث فرقاً كبيراً",
+      "page": 63
+    },
+    {
+      "phrase": "lend a helping hand",
+      "meaningAr": "يمد يد العون / يقدم المساعدة",
+      "page": 63
+    },
+    {
+      "phrase": "mirror her mood",
+      "meaningAr": "يعكس مزاجها",
+      "page": 63
+    },
+    {
+      "phrase": "stay in my mind",
+      "meaningAr": "يبقى عالقاً في ذهني",
+      "page": 63
+    },
+    {
+      "phrase": "light up someone's face",
+      "meaningAr": "يضيء وجهه فرحاً / يبهجه",
+      "page": 63
+    }
+  ],
+  "readingPassages": [
+    {
+      "id": "sec1_u2_reading_1",
+      "titleEn": "Sama's Story: The Kindness Upstairs",
+      "titleAr": "قصة سما: لطف الجارة في الطابق العلوي",
+      "page": 66,
+      "textEn": "It was a difficult week for Sama. Her grades were slipping, and she felt overwhelmed by all her schoolwork. On Thursday afternoon, she sat by her bedroom window, watching the grey clouds that seemed to mirror her mood. She hadn't spoken to many people lately and felt isolated from her friends. Then, there was a knock at the door; it was Mrs. Aya, the friendly neighbor who lived upstairs. She held a small basket covered with a clean white cloth, still warm from the oven. 'I baked some fresh bread this morning,' Mrs. Aya said warmly. 'I thought you might like some.' The smell was irresistible, and Mrs. Aya's warm smile seemed to brighten the whole room. They sat together chatting about small things—school, plants, and Mrs. Aya's garden. By the time Mrs. Aya left, Sama felt as if a heavy weight had been lifted off her shoulders. She realized that sometimes, a simple act of neighborly kindness can make a world of difference.",
+      "textAr": "كان أسبوعاً صعباً على سما؛ حيث كانت درجاتها تتراجع، وشعرت بالإرهاق الشديد من الواجبات المدرسية. بعد ظهر يوم الخميس، جلست بجوار نافذة غرفتها تتأمل الغيوم الرمادية التي بدت وكأنها تعكس حالتها النفسية. لم تكن قد تحدثت إلى الكثير من الناس مؤخراً وشعرت بالعزلة عن صديقاتها. فجأة، طُرق الباب؛ كانت الأستاذة آية، الجارة الودودة التي تسكن في الطابق العلوي، حاملة سلة صغيرة مغطاة بقماش أبيض نظيف لا تزال دافئة من الفرن. قالت الأستاذة آية بحرارة: 'لقد خبزت بعض الخبز الطازج هذا الصباح وظننت أنكِ قد ترغبين في تذوقه'. كانت الرائحة لا تقاوم، وابتسامة الجارة أضاءت الغرفة بأكملها. جلسنا معاً نتجاذب أطراف الحديث حول أمور بسيطة، وحين غادرت، شعرت سما وكأن حملاً ثقيلاً قد أُزيح عن كاهلها، مدركة أن عملاً بسيطاً من اللطف يمكن أن يصنع فارقاً هائلاً."
+    },
+    {
+      "id": "sec1_u2_reading_2",
+      "titleEn": "Ahmed's Story: The Community Tree-Planting Project",
+      "titleAr": "قصة أحمد: مشروع زراعة الأشجار المجتمعي",
+      "page": 67,
+      "textEn": "My name is Ahmed, and I'm 17 years old. Last year, I joined a community tree-planting project in my village. At first, I only wanted to get volunteering hours for school, but what happened during the project truly transformed me. We worked in teams to dig holes, plant saplings, and water them. It was hard work under the hot sun, but we laughed a lot and supported each other. That's when I learned the meaning of real teamwork—not just working together, but caring if someone was tired or needed water. When the project finished, our village looked greener, and our community felt much more connected.",
+      "textAr": "اسمي أحمد وعمري 17 عاماً. في العام الماضي، شاركت في مشروع مجتمعي لغرس الأشجار في قريتي. في البداية، كنت أريد فقط الحصول على ساعات تطوعية للمدرسة، لكن ما حدث خلال المشروع غيّرني حقاً. عملنا في فرق لحفر التربة وغرس الشتلات وريّها. كان عملاً شاقاً تحت أشعة الشمس، لكننا تبادلنا الضحك ودعمنا بعضنا البعض. هناك تعلمت المعنى الحقيقي للعمل الجماعي—ليس فقط العمل سوياً، بل الاهتمام بالآخر إذا شعر بالتعب. عندما انتهى المشروع، بدت قريتنا أكثر خضرة، وبات مجتمعنا أكثر ترابطاً وتماسكاً."
+    }
+  ],
+  "extractedQuestions": [
+    {
+      "id": "sec1_u2_q01",
+      "unit": 2,
+      "lesson": "Grammar - Obligation & Warm Invitation",
+      "questionType": "multiple_choice",
+      "stem": "You ______ come and try mum's food. I'm sure you will like it.",
+      "options": [
+        "had to",
+        "must",
+        "ought to",
+        "have to"
+      ],
+      "correctAnswer": "must",
+      "correctIndex": 1,
+      "explanationAr": "تستخدم must هنا للتعبير عن دعوة حارة وودية (warm invitation).",
+      "governorate": "أسوان - إدفو",
+      "examYear": "2023",
+      "sourcePage": 82,
+      "stemEn": "You ______ come and try mum's food. I'm sure you will like it.",
+      "correctOptionIndex": 1
+    },
+    {
+      "id": "sec1_u2_q02",
+      "unit": 2,
+      "lesson": "Grammar - Question Form of Obligation",
+      "questionType": "multiple_choice",
+      "stem": "Do you ______ tell your parents about your fault?",
+      "options": [
+        "had",
+        "should",
+        "have to",
+        "need"
+      ],
+      "correctAnswer": "have to",
+      "correctIndex": 2,
+      "explanationAr": "صيغة السؤال في المضارع مع Do هي Do + فاعل + have to + المصدر.",
+      "governorate": "دمياط",
+      "examYear": "2024",
+      "sourcePage": 82,
+      "stemEn": "Do you ______ tell your parents about your fault?",
+      "correctOptionIndex": 2
+    },
+    {
+      "id": "sec1_u2_q03",
+      "unit": 2,
+      "lesson": "Grammar - Lack of Necessity",
+      "questionType": "multiple_choice",
+      "stem": "You ______ buy a pen. I'll lend you one.",
+      "options": [
+        "don't have to",
+        "needn't to",
+        "have to",
+        "mustn't"
+      ],
+      "correctAnswer": "don't have to",
+      "correctIndex": 0,
+      "explanationAr": "تعبير عن عدم الضرورة في المضارع: don't have to (لا داعي لأن تشتري قلماً سأعيرك واحداً).",
+      "governorate": "الإسكندرية - العجمي",
+      "examYear": "2024",
+      "sourcePage": 82,
+      "stemEn": "You ______ buy a pen. I'll lend you one.",
+      "correctOptionIndex": 0
+    },
+    {
+      "id": "sec1_u2_q04",
+      "unit": 2,
+      "lesson": "Grammar - Strong Recommendation",
+      "questionType": "multiple_choice",
+      "stem": "When you go to Egypt, you ______ visit the Pyramids. They are fantastic!",
+      "options": [
+        "need to",
+        "have",
+        "must",
+        "needn't"
+      ],
+      "correctAnswer": "must",
+      "correctIndex": 2,
+      "explanationAr": "تستخدم must للتوصية القوية (strong recommendation).",
+      "governorate": "بني سويف - ببا",
+      "examYear": "2024",
+      "sourcePage": 82,
+      "stemEn": "When you go to Egypt, you ______ visit the Pyramids. They are fantastic!",
+      "correctOptionIndex": 2
+    },
+    {
+      "id": "sec1_u2_q05",
+      "unit": 2,
+      "lesson": "Grammar - Lack of Necessity (needn't)",
+      "questionType": "multiple_choice",
+      "stem": "We ______ do the shopping now. I'll do it later.",
+      "options": [
+        "have to",
+        "must",
+        "mustn't",
+        "needn't"
+      ],
+      "correctAnswer": "needn't",
+      "correctIndex": 3,
+      "explanationAr": "needn't + inf تعبر عن عدم وجود ضرورة في الوقت الحاضر.",
+      "governorate": "الدقهلية - ميت غمر",
+      "examYear": "2023",
+      "sourcePage": 82,
+      "stemEn": "We ______ do the shopping now. I'll do it later.",
+      "correctOptionIndex": 3
+    },
+    {
+      "id": "sec1_u2_q06",
+      "unit": 2,
+      "lesson": "Grammar - Speech Functions",
+      "questionType": "multiple_choice",
+      "stem": "\"We must try some of this cake.\" This is a/an ______.",
+      "options": [
+        "strong reminder",
+        "deduction",
+        "law",
+        "warm invitation"
+      ],
+      "correctAnswer": "warm invitation",
+      "correctIndex": 3,
+      "explanationAr": "الجملة تعبر عن دعوة حارة (warm invitation) لتناول الكعك.",
+      "governorate": "القليوبية",
+      "examYear": "2024",
+      "sourcePage": 82,
+      "stemEn": "\"We must try some of this cake.\" This is a/an ______.",
+      "correctOptionIndex": 3
+    },
+    {
+      "id": "sec1_u2_q07",
+      "unit": 2,
+      "lesson": "Grammar - Prohibition",
+      "questionType": "multiple_choice",
+      "stem": "You ______ use your phone while you're driving. It's dangerous.",
+      "options": [
+        "should",
+        "mustn't",
+        "can",
+        "must"
+      ],
+      "correctAnswer": "mustn't",
+      "correctIndex": 1,
+      "explanationAr": "mustn't تعبر عن المنع والتحريم لخطورة الفعل ومخالفته لقواعد السلامة.",
+      "governorate": "المنوفية",
+      "examYear": "2024",
+      "sourcePage": 82,
+      "stemEn": "You ______ use your phone while you're driving. It's dangerous.",
+      "correctOptionIndex": 1
+    },
+    {
+      "id": "sec1_u2_q08",
+      "unit": 2,
+      "lesson": "Grammar - Lack of Necessity (don't need to)",
+      "questionType": "multiple_choice",
+      "stem": "I've already watered the plants; you ______ to do it again.",
+      "options": [
+        "haven't",
+        "don't need",
+        "mustn't",
+        "needn't"
+      ],
+      "correctAnswer": "don't need",
+      "correctIndex": 1,
+      "explanationAr": "وجود to بعد الفراغ يتطلب don't need لأن needn't يأتي بعدها المصدر بدون to مباشرة.",
+      "governorate": "الشرقية",
+      "examYear": "2024",
+      "sourcePage": 82,
+      "stemEn": "I've already watered the plants; you ______ to do it again.",
+      "correctOptionIndex": 1
+    },
+    {
+      "id": "sec1_u2_q09",
+      "unit": 2,
+      "lesson": "Grammar - Prohibition",
+      "questionType": "multiple_choice",
+      "stem": "You ______ park your car here; it's forbidden.",
+      "options": [
+        "mustn't",
+        "should",
+        "might",
+        "must"
+      ],
+      "correctAnswer": "mustn't",
+      "correctIndex": 0,
+      "explanationAr": "كلمة forbidden تدل على التحريم القاطع باستخدام mustn't.",
+      "governorate": "سوهاج - ساقلتة",
+      "examYear": "2024",
+      "sourcePage": 83,
+      "stemEn": "You ______ park your car here; it's forbidden.",
+      "correctOptionIndex": 0
+    },
+    {
+      "id": "sec1_u2_q10",
+      "unit": 2,
+      "lesson": "Grammar - External Obligation / Rules",
+      "questionType": "multiple_choice",
+      "stem": "In this sports club, everyone ______ wear flat shoes. It is an important rule.",
+      "options": [
+        "need to",
+        "has to",
+        "must to",
+        "have to"
+      ],
+      "correctAnswer": "has to",
+      "correctIndex": 1,
+      "explanationAr": "everyone تعامل معاملة المفرد وقواعد النوادي تمثل التزاماً خارجياً (has to).",
+      "governorate": "أسوان - أبو تيج",
+      "examYear": "2024",
+      "sourcePage": 83,
+      "stemEn": "In this sports club, everyone ______ wear flat shoes. It is an important rule.",
+      "correctOptionIndex": 1
+    },
+    {
+      "id": "sec1_u2_q11",
+      "unit": 2,
+      "lesson": "Grammar - Military Prohibition",
+      "questionType": "multiple_choice",
+      "stem": "You ______ take photographs here; it is a military area.",
+      "options": [
+        "should",
+        "mustn't",
+        "must",
+        "shouldn't"
+      ],
+      "correctAnswer": "mustn't",
+      "correctIndex": 1,
+      "explanationAr": "المناطق العسكرية يُحظر فيها التصوير حظراً قانونياً (mustn't).",
+      "governorate": "قنا",
+      "examYear": "2024",
+      "sourcePage": 83,
+      "stemEn": "You ______ take photographs here; it is a military area.",
+      "correctOptionIndex": 1
+    },
+    {
+      "id": "sec1_u2_q12",
+      "unit": 2,
+      "lesson": "Grammar - Giving Advice",
+      "questionType": "multiple_choice",
+      "stem": "You ______ attend the next meeting. I only advise you.",
+      "options": [
+        "mustn't",
+        "must",
+        "shouldn't",
+        "should"
+      ],
+      "correctAnswer": "should",
+      "correctIndex": 3,
+      "explanationAr": "العبارة I only advise you تدل على تقديم نصيحة باستخدام should.",
+      "governorate": "الجيزة",
+      "examYear": "2024",
+      "sourcePage": 83,
+      "stemEn": "You ______ attend the next meeting. I only advise you.",
+      "correctOptionIndex": 3
+    },
+    {
+      "id": "sec1_u2_q13",
+      "unit": 2,
+      "lesson": "Grammar - Advice with ought not to",
+      "questionType": "multiple_choice",
+      "stem": "You ______ to eat a lot of sweets; this isn't healthy.",
+      "options": [
+        "needn't",
+        "mustn't",
+        "shouldn't",
+        "ought not"
+      ],
+      "correctAnswer": "ought not",
+      "correctIndex": 3,
+      "explanationAr": "وجود to eat يستلزم ought not لأن shouldn't وmustn't يأتي بعدهما المصدر بدون to.",
+      "governorate": "قنا",
+      "examYear": "2023",
+      "sourcePage": 83,
+      "stemEn": "You ______ to eat a lot of sweets; this isn't healthy.",
+      "correctOptionIndex": 3
+    },
+    {
+      "id": "sec1_u2_q14",
+      "unit": 2,
+      "lesson": "Grammar - Had better not",
+      "questionType": "multiple_choice",
+      "stem": "\"I advise my brother not to eat a lot of carbohydrates.\" This means he ______ eat a lot of carbohydrates.",
+      "options": [
+        "must",
+        "had better not",
+        "ought not",
+        "should"
+      ],
+      "correctAnswer": "had better not",
+      "correctIndex": 1,
+      "explanationAr": "تساوي صيغة النصيحة السلبية had better not + المصدر (eat بدون to).",
+      "governorate": "الإسماعيلية",
+      "examYear": "2024",
+      "sourcePage": 83,
+      "stemEn": "\"I advise my brother not to eat a lot of carbohydrates.\" This means he ______ eat a lot of carbohydrates.",
+      "correctOptionIndex": 1
+    },
+    {
+      "id": "sec1_u2_q15",
+      "unit": 2,
+      "lesson": "Grammar - Speech Functions",
+      "questionType": "multiple_choice",
+      "stem": "When driving, we must stop at the red light. It's a/an ______.",
+      "options": [
+        "law",
+        "suggestion",
+        "invitation",
+        "advice"
+      ],
+      "correctAnswer": "law",
+      "correctIndex": 0,
+      "explanationAr": "التوقف عند الإشارة الحمراء يمثل قانوناً مرورياً إلزامياً (law).",
+      "governorate": "القليوبية",
+      "examYear": "2024",
+      "sourcePage": 83,
+      "stemEn": "When driving, we must stop at the red light. It's a/an ______.",
+      "correctOptionIndex": 0
+    },
+    {
+      "id": "sec1_u2_q16",
+      "unit": 2,
+      "lesson": "Grammar - Signs & Prohibition",
+      "questionType": "multiple_choice",
+      "stem": "There's a 'No Smoking' sign. We ______ smoke here.",
+      "options": [
+        "mustn't",
+        "must",
+        "should",
+        "shouldn't"
+      ],
+      "correctAnswer": "mustn't",
+      "correctIndex": 0,
+      "explanationAr": "لافتات منع التدخين تعبر عن تحريم قاطع (mustn't).",
+      "governorate": "الغربية",
+      "examYear": "2023",
+      "sourcePage": 83,
+      "stemEn": "There's a 'No Smoking' sign. We ______ smoke here.",
+      "correctOptionIndex": 0
+    },
+    {
+      "id": "sec1_u2_q17",
+      "unit": 2,
+      "lesson": "Grammar - Past Obligation (had to)",
+      "questionType": "multiple_choice",
+      "stem": "Emam Ashour hurt his shoulder during the match and ______ go to hospital for treatment.",
+      "options": [
+        "has to",
+        "need to",
+        "should",
+        "had to"
+      ],
+      "correctAnswer": "had to",
+      "correctIndex": 3,
+      "explanationAr": "الحدث وقع في الماضي (hurt) لذا يُعبر عن الاضطرار في الماضي بـ had to.",
+      "governorate": "الجيزة",
+      "examYear": "2024",
+      "sourcePage": 83,
+      "stemEn": "Emam Ashour hurt his shoulder during the match and ______ go to hospital for treatment.",
+      "correctOptionIndex": 3
+    },
+    {
+      "id": "sec1_u2_q18",
+      "unit": 2,
+      "lesson": "Grammar - Passive Advice",
+      "questionType": "multiple_choice",
+      "stem": "Your essay has some mistakes. It ______ again.",
+      "options": [
+        "should be revised",
+        "shouldn't be revised",
+        "should have revised",
+        "should revise"
+      ],
+      "correctAnswer": "should be revised",
+      "correctIndex": 0,
+      "explanationAr": "المقال يحتاج إلى مراجعة مبني للمجهول: should + be + P.P.",
+      "governorate": "البحيرة",
+      "examYear": "2023",
+      "sourcePage": 83,
+      "stemEn": "Your essay has some mistakes. It ______ again.",
+      "correctOptionIndex": 0
+    },
+    {
+      "id": "sec1_u2_q19",
+      "unit": 2,
+      "lesson": "Grammar - Past Lack of Necessity",
+      "questionType": "multiple_choice",
+      "stem": "We ______ run to the museum because it was already closed when we got there.",
+      "options": [
+        "don't need to",
+        "don't have to",
+        "didn't have to",
+        "needn't have"
+      ],
+      "correctAnswer": "didn't have to",
+      "correctIndex": 2,
+      "explanationAr": "didn't have to تعبر عن عدم وجود ضرورة في الماضي.",
+      "governorate": "المنوفية - أشمون",
+      "examYear": "2023",
+      "sourcePage": 83,
+      "stemEn": "We ______ run to the museum because it was already closed when we got there.",
+      "correctOptionIndex": 2
+    },
+    {
+      "id": "sec1_u2_q20",
+      "unit": 2,
+      "lesson": "Grammar - Past Lack of Necessity",
+      "questionType": "multiple_choice",
+      "stem": "He ______ get up early because it was a holiday yesterday, so he slept till late.",
+      "options": [
+        "shouldn't",
+        "didn't have to",
+        "mustn't",
+        "needn't have"
+      ],
+      "correctAnswer": "didn't have to",
+      "correctIndex": 1,
+      "explanationAr": "بما أنه استيقظ متأخراً (لم يفعل الفعل)، فإن الصيغة الصحيحة هي didn't have to.",
+      "governorate": "القاهرة - روض الفرج",
+      "examYear": "2024",
+      "sourcePage": 84,
+      "stemEn": "He ______ get up early because it was a holiday yesterday, so he slept till late.",
+      "correctOptionIndex": 1
+    },
+    {
+      "id": "sec1_u2_q21",
+      "unit": 2,
+      "lesson": "Grammar - Annoyance & Criticism",
+      "questionType": "multiple_choice",
+      "stem": "______ you play music so loudly? I have to concentrate on my study.",
+      "options": [
+        "Must",
+        "Ought to",
+        "Could",
+        "Can"
+      ],
+      "correctAnswer": "Must",
+      "correctIndex": 0,
+      "explanationAr": "تستخدم Must you في صيغة السؤال للتعبير عن الضيق والانتقاد (annoyance / criticism).",
+      "governorate": "الإسكندرية - شرق",
+      "examYear": "2024",
+      "sourcePage": 84,
+      "stemEn": "______ you play music so loudly? I have to concentrate on my study.",
+      "correctOptionIndex": 0
+    },
+    {
+      "id": "sec1_u2_q22",
+      "unit": 2,
+      "lesson": "Grammar - Strong Prohibition",
+      "questionType": "multiple_choice",
+      "stem": "______ drive a car without having a driving licence; it is against the law.",
+      "options": [
+        "Won't",
+        "Never",
+        "Doesn't",
+        "Do"
+      ],
+      "correctAnswer": "Never",
+      "correctIndex": 1,
+      "explanationAr": "Never تستخدم في صيغة الأمر المنفي للتعبير عن تحريم قاطع ضد القانون.",
+      "governorate": "مطروح",
+      "examYear": "2024",
+      "sourcePage": 84,
+      "stemEn": "______ drive a car without having a driving licence; it is against the law.",
+      "correctOptionIndex": 1
+    },
+    {
+      "id": "sec1_u2_q23",
+      "unit": 2,
+      "lesson": "Grammar - Advice",
+      "questionType": "multiple_choice",
+      "stem": "I think you ______ sleep early and get up early to be healthy. I only advise you.",
+      "options": [
+        "ought",
+        "have to",
+        "must",
+        "should"
+      ],
+      "correctAnswer": "should",
+      "correctIndex": 3,
+      "explanationAr": "تستخدم should لتقديم النصيحة، مع ملاحظة أن ought تحتاج إلى to.",
+      "governorate": "المنيا",
+      "examYear": "2024",
+      "sourcePage": 84,
+      "stemEn": "I think you ______ sleep early and get up early to be healthy. I only advise you.",
+      "correctOptionIndex": 3
+    },
+    {
+      "id": "sec1_u2_q24",
+      "unit": 2,
+      "lesson": "Grammar - Past Obligation",
+      "questionType": "multiple_choice",
+      "stem": "Adel cut his finger and ______ go to hospital for treatment.",
+      "options": [
+        "has to",
+        "need to",
+        "should",
+        "had to"
+      ],
+      "correctAnswer": "had to",
+      "correctIndex": 3,
+      "explanationAr": "فعل cut في الماضي، لذا استلزم الأمر الذهاب للمستشفى في الماضي باستخدام had to.",
+      "governorate": "الشرقية - بلبيس",
+      "examYear": "2024",
+      "sourcePage": 84,
+      "stemEn": "Adel cut his finger and ______ go to hospital for treatment.",
+      "correctOptionIndex": 3
+    },
+    {
+      "id": "sec1_u2_q25",
+      "unit": 2,
+      "lesson": "Grammar - Had better",
+      "questionType": "multiple_choice",
+      "stem": "A: I've got a cold. B: Then you'd ______ stay in bed.",
+      "options": [
+        "should",
+        "need to",
+        "better",
+        "have to"
+      ],
+      "correctAnswer": "better",
+      "correctIndex": 2,
+      "explanationAr": "الاختصار you'd يتبعه better لتكوين التركيب you had better + المصدر للنصيحة.",
+      "governorate": "قليوب",
+      "examYear": "2024",
+      "sourcePage": 84,
+      "stemEn": "A: I've got a cold. B: Then you'd ______ stay in bed.",
+      "correctOptionIndex": 2
+    },
+    {
+      "id": "sec1_u2_q26",
+      "unit": 2,
+      "lesson": "Grammar - Passive Modal",
+      "questionType": "multiple_choice",
+      "stem": "Why must school rules ______?",
+      "options": [
+        "be following",
+        "followed",
+        "be followed",
+        "follow"
+      ],
+      "correctAnswer": "be followed",
+      "correctIndex": 2,
+      "explanationAr": "قواعد المدرسة تُتبع (مبني للمجهول بعد must): be + P.P.",
+      "governorate": "بني سويف",
+      "examYear": "2024",
+      "sourcePage": 84,
+      "stemEn": "Why must school rules ______?",
+      "correctOptionIndex": 2
+    },
+    {
+      "id": "sec1_u2_q27",
+      "unit": 2,
+      "lesson": "Grammar - Needn't have + P.P",
+      "questionType": "multiple_choice",
+      "stem": "You ______ to the factory yesterday as it was an official holiday.",
+      "options": [
+        "mustn't go",
+        "needn't have gone",
+        "had to",
+        "needn't go"
+      ],
+      "correctAnswer": "needn't have gone",
+      "correctIndex": 1,
+      "explanationAr": "needn't have gone تعبر عن فعل تم في الماضي ولم تكن هناك حاجة لفعله.",
+      "governorate": "الشرقية - منيا القمح",
+      "examYear": "2023",
+      "sourcePage": 84,
+      "stemEn": "You ______ to the factory yesterday as it was an official holiday.",
+      "correctOptionIndex": 1
+    },
+    {
+      "id": "sec1_u2_q28",
+      "unit": 2,
+      "lesson": "Grammar - Prohibition Equivalence",
+      "questionType": "multiple_choice",
+      "stem": "'It is banned to use your camera here'. That means you ______.",
+      "options": [
+        "are allowed to use your camera",
+        "couldn't use your camera here",
+        "can use your camera here",
+        "mustn't use your camera here"
+      ],
+      "correctAnswer": "mustn't use your camera here",
+      "correctIndex": 3,
+      "explanationAr": "It is banned = You mustn't (ممنوع ومحرم).",
+      "governorate": "قنا",
+      "examYear": "2024",
+      "sourcePage": 84,
+      "stemEn": "'It is banned to use your camera here'. That means you ______.",
+      "correctOptionIndex": 3
+    },
+    {
+      "id": "sec1_u2_q29",
+      "unit": 2,
+      "lesson": "Grammar - Asking for Advice",
+      "questionType": "multiple_choice",
+      "stem": "I don't know what I ______ to solve this problem; I need your urgent advice.",
+      "options": [
+        "should do",
+        "shouldn't do",
+        "needn't do",
+        "did have to do"
+      ],
+      "correctAnswer": "should do",
+      "correctIndex": 0,
+      "explanationAr": "طلب النصيحة: what I should do (ما ينبغي علي فعله).",
+      "governorate": "الدقهلية",
+      "examYear": "2024",
+      "sourcePage": 84,
+      "stemEn": "I don't know what I ______ to solve this problem; I need your urgent advice.",
+      "correctOptionIndex": 0
+    },
+    {
+      "id": "sec1_u2_q30",
+      "unit": 2,
+      "lesson": "Grammar - Meaning of needn't have",
+      "questionType": "multiple_choice",
+      "stem": "'I needn't have bought sweets'. This means that the speaker ______ sweets.",
+      "options": [
+        "should have bought",
+        "had to buy",
+        "bought",
+        "didn't buy"
+      ],
+      "correctAnswer": "bought",
+      "correctIndex": 2,
+      "explanationAr": "needn't have + P.P تعني أن الشخص اشترى الحلوى بالفعل ولكن دون داعٍ.",
+      "governorate": "أسيوط",
+      "examYear": "2023",
+      "sourcePage": 84,
+      "stemEn": "'I needn't have bought sweets'. This means that the speaker ______ sweets.",
+      "correctOptionIndex": 2
+    },
+    {
+      "id": "sec1_u2_q31",
+      "unit": 2,
+      "lesson": "Grammar - Negative Identification",
+      "questionType": "multiple_choice",
+      "stem": "Which of the following DOESN'T show prohibition?",
+      "options": [
+        "You aren't permitted to drive your car without wearing a seat belt.",
+        "You aren't allowed to take photographs here.",
+        "You needn't buy more bread today.",
+        "You mustn't lean against the door of the metro."
+      ],
+      "correctAnswer": "You needn't buy more bread today.",
+      "correctIndex": 2,
+      "explanationAr": "جملة You needn't buy more bread تعبر عن عدم الضرورة وليس التحريم، بينما باقي الجمل تعبر عن تحريم صريح.",
+      "governorate": "قليوب",
+      "examYear": "2024",
+      "sourcePage": 85,
+      "stemEn": "Which of the following DOESN'T show prohibition?",
+      "correctOptionIndex": 2
+    },
+    {
+      "id": "sec1_u2_q32",
+      "unit": 2,
+      "lesson": "Grammar - Negative Identification",
+      "questionType": "multiple_choice",
+      "stem": "Which of the following DOESN'T show lack of necessity?",
+      "options": [
+        "She had to tell the police about that accident.",
+        "We don't have to sleep early; tomorrow is a holiday.",
+        "It isn't important to rewrite your composition.",
+        "You needn't hurry; you aren't late."
+      ],
+      "correctAnswer": "She had to tell the police about that accident.",
+      "correctIndex": 0,
+      "explanationAr": "جملة had to تعبر عن إلزام واضطرار ماضٍ، في حين أن بقية الجمل تعبر عن عدم وجود ضرورة.",
+      "governorate": "قليوب",
+      "examYear": "2024",
+      "sourcePage": 85,
+      "stemEn": "Which of the following DOESN'T show lack of necessity?",
+      "correctOptionIndex": 0
+    },
+    {
+      "id": "sec1_u2_q33",
+      "unit": 2,
+      "lesson": "Grammar - Speech Functions",
+      "questionType": "multiple_choice",
+      "stem": "'Must you wear this heavy pullover in summer?' This shows ______.",
+      "options": [
+        "necessity",
+        "permission",
+        "annoyance",
+        "approval"
+      ],
+      "correctAnswer": "annoyance",
+      "correctIndex": 2,
+      "explanationAr": "صيغة السؤال بـ Must you للتعبير عن الضيق والانتقاد (annoyance).",
+      "governorate": "الجيزة",
+      "examYear": "2024",
+      "sourcePage": 85,
+      "stemEn": "'Must you wear this heavy pullover in summer?' This shows ______.",
+      "correctOptionIndex": 2
+    },
+    {
+      "id": "sec1_u2_q34",
+      "unit": 2,
+      "lesson": "Grammar - Adjective of Necessity",
+      "questionType": "multiple_choice",
+      "stem": "It will be ______ to go to the market tomorrow. We have all foodstuffs.",
+      "options": [
+        "unnecessary",
+        "advice",
+        "necessity",
+        "necessary"
+      ],
+      "correctAnswer": "unnecessary",
+      "correctIndex": 0,
+      "explanationAr": "بما أن جميع الأطعمة متوفرة، فسيكون من غير الضروري الذهاب للسوق (unnecessary).",
+      "governorate": "الدقهلية",
+      "examYear": "2024",
+      "sourcePage": 85,
+      "stemEn": "It will be ______ to go to the market tomorrow. We have all foodstuffs.",
+      "correctOptionIndex": 0
+    },
+    {
+      "id": "sec1_u2_q35",
+      "unit": 2,
+      "lesson": "Grammar - Need + v-ing",
+      "questionType": "multiple_choice",
+      "stem": "This room needs ______ before the guests arrive.",
+      "options": [
+        "to cleaning",
+        "cleaned",
+        "to clean",
+        "cleaning"
+      ],
+      "correctAnswer": "cleaning",
+      "correctIndex": 3,
+      "explanationAr": "الفعل need عندما يتبعه اسم فاعل (cleaning) يعطي معنى المبني للمجهول (تحتاج الغرفة إلى تنظيف).",
+      "governorate": "المنوفية",
+      "examYear": "2024",
+      "sourcePage": 85,
+      "stemEn": "This room needs ______ before the guests arrive.",
+      "correctOptionIndex": 3
+    },
+    {
+      "id": "sec1_u2_q36",
+      "unit": 2,
+      "lesson": "Grammar - Needn't have paid",
+      "questionType": "multiple_choice",
+      "stem": "He ______ for the extra food; it was wasteful since most of it went uneaten.",
+      "options": [
+        "needn't pay",
+        "needn't to pay",
+        "needn't have paid",
+        "didn't have to pay"
+      ],
+      "correctAnswer": "needn't have paid",
+      "correctIndex": 2,
+      "explanationAr": "needn't have paid تعبر عن دفع المال دون داعٍ حقيقي لكون الطعام أُهدر.",
+      "governorate": "القاهرة",
+      "examYear": "2024",
+      "sourcePage": 85,
+      "stemEn": "He ______ for the extra food; it was wasteful since most of it went uneaten.",
+      "correctOptionIndex": 2
+    }
+  ]
+}

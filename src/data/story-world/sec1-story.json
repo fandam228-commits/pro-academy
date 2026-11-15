@@ -1,0 +1,3488 @@
+{
+  "id": "story_sec_1_old_man_sea",
+  "gradeCode": "sec_1",
+  "gradeLabelAr": "الصف الأول الثانوي",
+  "gradeLabelEn": "First Secondary",
+  "term": "full_year",
+  "termLabelAr": "المنهج المقرر 2026/2027",
+  "termLabelEn": "Full Academic Year 2026/2027",
+  "titleAr": "العجوز والبحر",
+  "titleEn": "The Old Man and the Sea",
+  "author": "Ernest Hemingway (إرنست همنغواي)",
+  "aboutAuthorEn": "Ernest Hemingway (1899-1961) was an American novelist and journalist who won the Nobel Prize for Literature in 1954. The Old Man and the Sea is considered his supreme masterpiece.",
+  "aboutAuthorAr": "إرنست همنغواي (1899-1961) روائي وصحفي أمريكي نال جائزة نوبل في الأدب عام 1954، وتعتبر رواية العجوز والبحر درة تاجه الأدبي وإحدى أعظم روايات الأدب العالمي.",
+  "coverImage": "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800&auto=format&fit=crop&q=80",
+  "descriptionAr": "رواية نوبل الخالدة للصف الأول الثانوي: كفاح الصياد العجوز سانتياغو ضد سمكة المارلين وأسماك القرش، رمز الصمود الإنساني والكرامة والروح التي لا تُقهر.",
+  "descriptionEn": "Hemingway's Nobel-winning masterpiece for First Secondary: Santiago's epic contest with a giant marlin and marauding sharks, celebrating human endurance and dignity.",
+  "plotSummaryEn": "Santiago, an aging Cuban fisherman down on his luck after 84 days without a fish, sails far into the Gulf Stream. On the 85th day, he hooks an immense marlin. For days and nights, Santiago endures immense pain, physical strain, and exhaustion, seeing the noble fish as his brother. After finally subduing the marlin, sharks scent the blood and attack. Despite fighting heroically with harpoon, knife, and tiller, only the marlin's skeleton remains upon his return. Yet his spirit is triumphantly undefeated, gaining the profound respect of his village and devoted apprentice Manolin.",
+  "plotSummaryAr": "سانتياغو صياد كوبي مسن لم يصطد سمكة منذ 84 يوماً. في اليوم الـ 85 يبحر بعيداً في عرض البحر حيث تعلق بصنارته سمكة مارلين عملاقة تجر قاربه ليومين وليلتين. يقاوم سانتياغو الآلام والإرهاق باحترام عميق لخصمه النبيل، وينجح في صيدها. لكن هجمات أسماك القرش المتتالية تلتهم لحم السمكة رغم دفاعه البطولي بالرمح والسكين والمجداف. يعود سانتياغو بهيكل السمكة العظمي فقط، محتفظاً بكرامته وكبريائه، معلناً أن الإنسان قد يُدمر لكن لا يُهزم أبداً.",
+  "characters": [
+    {
+      "name": "Santiago (سانتياغو)",
+      "role": "The Resilient Cuban Fisherman",
+      "roleAr": "الصياد الكوبي العجوز وبطل الرواية",
+      "descriptionEn": "An aging, humble fisherman whose weathered hands and poverty contrast with clear, undefeated eyes reflecting perseverance, dignity, and deep affinity with nature.",
+      "descriptionAr": "صياد مسن صبور وذو كرامة شامخة، يمثل جوهر الصمود الإنساني في وجه الشدائد وعلاقته العميقة بأسرار البحر.",
+      "isMain": true
+    },
+    {
+      "name": "Manolin (مانولين)",
+      "role": "The Loyal Apprentice & Boy",
+      "roleAr": "الصبي الوفي والتلميذ المخلص",
+      "descriptionEn": "A devoted young boy who cares for Santiago like family, honoring his wisdom, supplying him with food, and promising to fish together again.",
+      "descriptionAr": "فتى وفي يحب سانتياغو حباً جماً، يرعاه ويجلب له الطعام ويصر على التعلم من خبرته وأخلاقه العالية.",
+      "isMain": true
+    },
+    {
+      "name": "The Great Marlin (سمكة المارلين)",
+      "role": "The Noble Adversary",
+      "roleAr": "السمكة العملاقة والمنافس النبيل",
+      "descriptionEn": "A magnificent, powerful marlin that tests Santiago to his utmost limits. Santiago regards the fish with reverence and brotherhood.",
+      "descriptionAr": "سمكة ضخمة وسريعة وفضية، قاتلت بشرف وشجاعة حتى الموت، واعتبرها سانتياغو أخاً وخصماً جديراً بكل احترام.",
+      "isMain": true
+    },
+    {
+      "name": "The Sharks (أسماك القرش)",
+      "role": "The Merciless Scavengers",
+      "roleAr": "قروش البحر والمفترسات القاسية",
+      "descriptionEn": "Predatory scavengers (Mako and Galanos) that strip the marlin's flesh, symbolizing ruthless destructive forces and inevitable material loss.",
+      "descriptionAr": "قروش شرسة ترمز إلى القوى المدمرة في الحياة التي تسلب المكاسب المادية دون أن تنال من الكرامة الروحية.",
+      "isMain": false
+    }
+  ],
+  "themes": [
+    {
+      "themeEn": "Endurance and Undefeated Spirit",
+      "themeAr": "الصمود والروح التي لا تهزم",
+      "descriptionEn": "'A man can be destroyed but not defeated.' True victory lies in fighting with all one's might and maintaining dignity through suffering.",
+      "descriptionAr": "الإنسان يمكن أن يُدمر لكن لا يُهزم أبداً، فالانتصار الحقيقي يكمن في المحاولة بشرف والصمود حتى النهاية."
+    },
+    {
+      "themeEn": "Respect for the Natural World",
+      "themeAr": "احترام الطبيعة والارتباط بالكون",
+      "descriptionEn": "Santiago perceives the sea (la mar) as a feminine living entity and views creatures as fellow brothers sharing life's struggle.",
+      "descriptionAr": "يرى سانتياغو البحر كائناً حياً محباً، ويعامل المخلوقات بروح الإخاء والتقدير العميق لعظمة الخلق."
+    },
+    {
+      "themeEn": "Mentorship and Generational Love",
+      "themeAr": "الوفاء وتوارث الخبرة بين الأجيال",
+      "descriptionEn": "The pure bond between Santiago and Manolin exemplifies how wisdom, empathy, and loyalty transcend age.",
+      "descriptionAr": "علاقة سانتياغو بمانولين تمثل أسمى معاني الوفاء وانتقال الحكمة والخبرة من جيل إلى جيل."
+    }
+  ],
+  "chapters": [
+    {
+      "id": "sc_sec_1_ch_1",
+      "chapterNumber": 1,
+      "titleEn": "Santiago's Appearance and Spirit",
+      "titleAr": "صراع سانتياغو وكرامته",
+      "term": "first",
+      "summaryEn": "Santiago is an old fisherman who has gone 84 days without catching a fish. On the 85th day, he ventures far out into the Gulf Stream, determined to break his unlucky streak.",
+      "summaryAr": "سانتياجو صياد عجوز لم يصطد أي سمكة لمدة ٨٤ يومًا، وفي اليوم الخامس والثمانين يقرر الإبحار بعيدًا بمفرده في تيار الخليج متمسكًا بالأمل والعزيمة.",
+      "chapterInPoints": [
+        {
+          "order": 1,
+          "pointEn": "",
+          "pointAr": ""
+        },
+        {
+          "order": 2,
+          "pointEn": "",
+          "pointAr": ""
+        },
+        {
+          "order": 3,
+          "pointEn": "",
+          "pointAr": ""
+        },
+        {
+          "order": 4,
+          "pointEn": "",
+          "pointAr": ""
+        },
+        {
+          "order": 5,
+          "pointEn": "",
+          "pointAr": ""
+        },
+        {
+          "order": 6,
+          "pointEn": "",
+          "pointAr": ""
+        }
+      ],
+      "vocabulary": [
+        {
+          "word": "saláo",
+          "meaningAr": "أسوأ أنواع سوء الحظ"
+        },
+        {
+          "word": "skiff",
+          "meaningAr": "قارب صيد صغير خفيف"
+        },
+        {
+          "word": "harpoon",
+          "meaningAr": "حربة صيد الأسماك الكبيرة"
+        },
+        {
+          "word": "endurance",
+          "meaningAr": "الصمود والجلد وتحمل المشاق"
+        },
+        {
+          "word": "gaff",
+          "meaningAr": "خطاف معدني لجذب الصيد"
+        },
+        {
+          "word": "marlin",
+          "meaningAr": "سمكة المارلين العملاقة ذات السيف"
+        },
+        {
+          "word": "scavenger",
+          "meaningAr": "مخلوق مفترس أو ناهش للفضلات"
+        }
+      ],
+      "theText": [
+        {
+          "order": 1,
+          "paragraphEn": "Santiago's Appearance and Spirit ‏ ‎ ‘Santiago was an old fisherman, and the sea was his companion. His skin had grown dark and leathery from years beneath the burning sun. His hands were rough, cut, and scarred from pulling heavy fishing lines day after day. Yet, when people looked into his eyes, 4 they did not see weakness. His eyes were as clear and bright as the sea itself, full of life and determination.",
+          "paragraphAr": "كان سانتياغو صياداً عجوزاً، وكان البحر رفيقه الدائم. أصبح جلده داكناً وخشناً من سنوات العمل تحت الشمس الحارقة، وكانت يداه خشنتين مليئتين بالندوب من سحب حبال الصيد الثقيلة يوماً بعد يوم. ومع ذلك، عندما كان الناس ينظرون إلى عينيه، لم يكونوا يرون ضعفاً، بل كانتا تعكسان العزيمة والإصرار كزرقة البحر الصافي."
+        },
+        {
+          "order": 2,
+          "paragraphEn": "Santiago's Struggle and Dignity ‏ ‎ For eighty-four long days, Santiago had gone out into the Gulf Stream and returned empty-handed. Not a single fish had been caught. In his small Cuban village, whispers began to spread. The younger fishermen, who still had luck, laughed at him quietly. They called him salao—the worst kind of unlucky. Yet Santiago carried himself with dignity. He walked proudly with his fishing gear over his shoulder, his back straight, as if luck were something that could never truly defeat a man.",
+          "paragraphAr": "لمدة أربعة وثمانين يوماً، كان سانتياغو يخرج إلى تيار الخليج ويعود خالي الوفاض دون أن يظفر بسمكة واحدة. وفي قريته الكوبية، بدأت الهمسات تسري بين الصيادين الأصغر سناً الذين كان الحظ حليفهم، حتى أطلقوا عليه لقب 'سالاو' وهو أسوأ درجات سوء الحظ. ومع ذلك، احتفظ سانتياغو بكبريائه وكرامته، وكان يمشي مرفوع الرأس حاملاً أدوات صيده على كتفه، وظهره مستقيماً كما لو أنه لا يمكن لأي حظ عاثر أن يهزم هذا الرجل."
+        },
+        {
+          "order": 3,
+          "paragraphEn": "71 ‘Among all the people of the village, only one remained loyal to him: 2 ‏‎ boy named Manolin. The boy had fished with Santiago since he was just five years old. Now he was twelve, strong and full of admiration for the old man. He loved Santiago like a grandfather. / 1 For forty days, Manolin had fished with him, even when there was 1 ‏‎ catch. But finally, at his parents’ order, he had joined another boat—a luckier boat that brought back fish.",
+          "paragraphAr": "من بين جميع أهل القرية، ظل شخص واحد فقط وفياً له: صبي يُدعى مانولين. كان مانولين يخرج للصيد مع سانتياغو منذ أن كان في الخامسة من عمره، والآن بعد أن بلغ الثانية عشرة، كان يفيض إعجاباً ومحبة للرجل العجوز كأنه جده. ظل يصطاد معه طوال أربعين يوماً رغم خلو القارب من الصيد، لكن تنفيذاً لأوامر والديه الصارمة، اضطر للالتحاق بقارب آخر أكثر حظاً."
+        },
+        {
+          "order": 4,
+          "paragraphEn": "Still, every evening, when the other fishermen returned with their catch, Manolin would go to Santiago's small skiff. He would help the old man carry his nets, his gaff, and his harpoon. He would fold the patched sail. He would carry the old man’s heavy lines, carefully  coiled, and walk beside him.",
+          "paragraphAr": "ومع ذلك، كان مانولين يذهب كل مساء للقاء سانتياغو عند قاربه الصغير فور عودة الصيادين، فيساعده في حمل الشباك والخطاف والرمح، ويطوي معه الشراع المرقع، ويحمل عنه حبال الصيد الثقيلة الملفوفة بعناية ويمشي بجانبه باحترام."
+        },
+        {
+          "order": 5,
+          "paragraphEn": "“Qld man,” the boy said one evening as they reached Santiago's hut, “you are the greatest fisherman know. Someday, the luck will return to you.” Santiago smiled faintly, the lines of age deepening around his mouth. “It is better to be lucky,” he said. “But I would rather be exact. When luck finally comes, want to be ready for it.” The boy nodded. He knew Santiago's words carried wisdom. To fish was not only luck—it was skill, patience, and courage.",
+          "paragraphAr": "قال الصبي ذات مساء عند وصولهما إلى الكوخ: 'يا عمي، أنت أعظم صياد عرفته، ويوماً ما سيعود إليك الحظ'. ابتسم سانتياغو وربت على كتفه قائلاً: 'الصيد لم يكن مجرد حظ يا بني، بل كان دائماً مهارة وصبراً وشجاعة'."
+        },
+        {
+          "order": 6,
+          "paragraphEn": "_ The Fisherman's Home   The hut where Santiago lived was small, made of faded palm leaves. Inside, it was almost bare. On the walls hung only two pictures. There was a bed made of newspapers, a single blanket, a wooden 1 jhe table, and one chair, There were no luxuries, no decorations, no treasures—except the tools of a fisherman.",
+          "paragraphAr": "‏من أوراق النخيل‎ ‏الذي يعيش فيه سانتياغو صغيرًا.‎ ‏##كان‎ ‏الباهتة. ومن الداخل. كان شبه خال. على الجدران صورتان فقط. وكان هناك سرير مصنوع‎ ‏من الجرائد. وبطانية واحدة. وطاولة خشبية. وكرسي واحد. لم تكن هناك كماليات, ولا‎ ‏زينة. ولا كنوز - سوى أدوات الصياد.‎"
+        },
+        {
+          "order": 7,
+          "paragraphEn": "ALife with the Sea ‏ ‎ Yet Santiago never complained. He had lived his whole life with the ‘sea, and that was enough. That evening, the boy sat with him outside the hut. They shared a \" simple meal of black beans, rice, and a little fried fish. The boy had gy brought it as a gift from his own home. Santiago ate slowly, gratefully, for food was energy, and tomorrow he would need it.",
+          "paragraphAr": "ومع ذلك لم يشتكِ سانتياغو قط، فقد عاش حياته كلها مع البحر وكان ذلك يكفيه. وفي ذلك المساء، جلس معه الصبي خارج الكوخ يقتسمان وجبة بسيطة من الفاصوليا السوداء والأرز وقليل من السمك المقلي أحضرها كهدية من منزله. تناول سانتياغو طعامه بامتنان، مدركاً أن جسده بحاجة للطاقة لما ينتظره في الغد."
+        },
+        {
+          "order": 8,
+          "paragraphEn": "Talking about Baseball ‏ ‎ “Tell me about baseball,” Santiago said suddenly. Baseball was one 79 of the old man's greatest loves. “How are the Yankees playing this ‏”‎ ‎“The Yankees are strong,” Manolin replied eagerly. “Joe DiMaggio is playing well. He is always the hero.”",
+          "paragraphAr": "قال سانتياغو فجأة: 'حدثني عن البيسبول'. كانت البيسبول من أحب الرياضات إلى قلب الرجل العجوز. 'كيف حال فريق نيويورك يانكيز هذا الموسم؟' فأجاب مانولين بحماس: 'فريق اليانكيز قوي جداً، وجو ديماجيو يلعب جيداً كعادته دائماً بطلاً للفريق'."
+        },
+        {
+          "order": 9,
+          "paragraphEn": "‏‎ _ Santiago’s Champion ‏ ‎ Santiago's eyes lit up. “Yes, DiMaggio. He is my champion too. He played even when he had pain in his heel, yet he never gave up. That 8 is real courage. Pain does not matter to a man.” Ee The boy grinned. “But you are stronger than DiMaggio, old man. You sf wie have the sea.” 3 7",
+          "paragraphAr": "‏عندما كان يشعر بالأنِم في كعبه. لكنه لم يستسالم أبذا. هذه هي‎ ‏الشجاعة الحقيقية. الألم لا يعني شينًا للرجل.‎ “ ‏أقوى من ديماتجيو. أيها العجوز. أنت تملك‎ ‏ابتسم الصبي وقال:‎"
+        },
+        {
+          "order": 10,
+          "paragraphEn": "Peaceful Evening ‏ ‎ The old man laughed, a soft, tired laugh. “Perhaps. But baseball has its battles, and the sea has its own.” The evening grew darker. A warm breeze carried the smell of salt from the sea. The sound of waves reached their ears, steady and calming. Santiago leaned back against the wall of his hut, his face peaceful.",
+          "paragraphAr": "‏وللبحر معاركه‎ ‏لكن للبيسبول‎ \" ‏ضحكة خفيفة ومتعبة.‎ ‏ضحك الرجل‎"
+        },
+        {
+          "order": 11,
+          "paragraphEn": "The Plan for Tomorrow   “Tomorrow is the eighty-fifth day,” he said. “That is a lucky number. will go far out, farther than the others dare to go. Maybe too far. But must find the big fish.” The boy looked at him with admiration. “I wish could go with you.”",
+          "paragraphAr": "‏اليوم الخامس والثمانون. إنه رقم محظوظ. سأذهب‎ ‏قال: \"الغد‎ ‏أبعد مما يجرق الآخرون على الذهاب. ربما أبعد من اللازم. لكن.‎ ‏يجب أن أجد السمكة الكبيرة‎ . ‏استطيع الذهاب معك\"‎ ‏نظر إليه الصبي بإعجاب.‎"
+        },
+        {
+          "order": 12,
+          "paragraphEn": "‏‎ _ Santiago's Dream ‏ ‎ “Do you know what dream of, boy 7 ” Santiago asked softly. “Yes,” said Manolin. “You dream of lions.” A The old man smiled. “Yes, lions. Always the lions.”",
+          "paragraphAr": "‏يا فتى؟\" سأل سانتياغو بهدوء\"‎ ‏\"أتدري ما الذي أحلم‎ ‏تحلم بالأسود.\"‎ ’ ‏\"نعم”\". قال مانولين.‎ ‏ابتسم الرجل العجوز. “نعم: الأسود. دائمًا الأسود\"‎"
+        },
+        {
+          "order": 13,
+          "paragraphEn": "Santiago Remembers His Youth ‏ ‎ “You have your boat,” Santiago said gently. “But you are always 5 with me in spirit.” For a moment, silence fell between them. Santiago's thoughts drifted 7 back to his youth. He had once been strong, a sailor on great ships. ‏‎ ‎He had traveled to Africa, and on the golden beaches at night he had Ete ‘seen lions—young lions running and playing like children. Those lions had never left his mind. Even now, in his old age, he dreamed of them. They reminded him of strength, youth, and freedom.",
+          "paragraphAr": "‏معي بروحك.\"‎ ‏قاربك. لكنك‎ \" ‏قال سانتياغو بلطف:‎ ‏في يوم من‎ ‏ساد الصمت للحظة بينهما. عادت أفكار سانتياغو إلى شبابه. لقد كان‎ ‏رأى الأسود‎ ‏الأيام: بحارًا على سفن عظيمة. سافر إلى أفريقياء وعلى الشواطئ الذهبية‎ ‏في‎ ‏أسوذا شابة تركض وتلعب كالأطفال. لم تغادر تلك الأسود ذاكرته أبذا. حتى‎ - ‏والشبابء والحرية.‎ 6 ‏شيخوخته. كان يحلم بها. كانت تذكره‎"
+        },
+        {
+          "order": 14,
+          "paragraphEn": "Manolin Leaves ‏ ‎ When the meal was finished, Manolin cleared the dishes and prom- ised to bring food again tomorrow. Then he left for his parents’ house. Santiago watched him go, feeling both proud and lonely. The boy had strength and future ? the old man had only the sea.",
+          "paragraphAr": "‏انتهت الوجبة. قام مانولين بتنظيف الأطباق ووعد بإحضار الطعام‎ ‏مرة أخرى غذا. ثم غادر إلى منزل والديه. راقبه سانتياغو وهو يرحل”‎ ‏كان لدى الصبي القوة والمستقبل؛‎ ‏شاعرًا بالفخر والوحدة في‎ 1 \" ‏الرجل العجوز فكان لديه البحر‎"
+        },
+        {
+          "order": 15,
+          "paragraphEn": "peewee Santiago's Night Thoughts ‏ ‎ Later, Santiago lay down on his bed of newspapers. The hut was dark, but the sound of the ocean filled the silence. He thought of the coming day, of the deep waters, of the great fish that waited for him. He thought of Joe DiMaggio, who played through pain, and of the lions, who never feared.",
+          "paragraphAr": "‏لاحقاء تمدد سانتياغو على سريره المصنوع من الجرائد. كان الكوخ‎ ‏الصمت. فكر في اليوم القادم: وفي‎ ‏مظلمًاء لكن صوت المحيط‎ ‏المياه العميقة. وفي السمكة العظيمة التي تنتظره. وفكر في جو ديماتجيو. الذي كان‎ ‏وفي الأسود, التي لا تعرف الخوف.‎ ‏يلعب رغم‎"
+        },
+        {
+          "order": 16,
+          "paragraphEn": "Dreams and Hope ‏ ‎ Slowly, he closed his eyes. Sleep came to him gently, and with it, the dream of lions. In his dream, they played freely on the beaches of ae Africa, their golden bodies shining in the sun. Santiago was young again, strong, fearless, full of hope. ‘And as he dreamed, the old man smiled. Tomorrow would be the eighty-fifth day. His luck, he believed, was about to change.",
+          "paragraphAr": "‏أغمض عينيه ببطء. جاءه النوم برفق, وجاء معه حلم الأسود. في حلمه. كانت الأسود‎ ‏تلعب بحرية على شواطئ أفريقيا. وأجسادها الذهبية تتلألاً تحت الشمس. كان سانتياغو‎ ‏بالأمل.‎ ‏شابًا من جديد. قويًاءلا يعرف الخوف.‎ ‏ابتسم الرجل العجوز. سيكون الغد هو اليوم الخامس والثمانون. وكان‎ ‏وبينما كان‎ ‏يؤمن أن حظه على وشك أن يتغير.‎"
+        }
+      ],
+      "questionsAndAnswers": [
+        {
+          "id": "sec1_ch1_qa_1",
+          "question": "Why did the villagers think Santiago was unlucky? Saad! لماذا اعتقد القرويون أن سانتياغو سيئ",
+          "answer": "Because he hadn't caught a fish in 84 days. لأنه لم يصطد سمكة واحدة خلال 84 يوماً.",
+          "type": "sb_wb"
+        },
+        {
+          "id": "sec1_ch1_qa_2",
+          "question": "How did Manolin show loyalty to Santiago even after leaving his boat?",
+          "answer": "",
+          "type": "sb_wb"
+        },
+        {
+          "id": "sec1_ch1_qa_3",
+          "question": "بعد أن ترك قاربه؟ gia كيف أظهر مانولين وفاءه لسانتياغو",
+          "answer": "He brought him food and helped him daily. كان يجلب له الطعام, ويساعده يوميا",
+          "type": "sb_wb"
+        },
+        {
+          "id": "sec1_ch1_qa_4",
+          "question": "Why does Santiago admire Joe DiMaggio ? الماذا يُعجب سانتياغو بجو ديماجيو؟",
+          "answer": "Because he played through pain and never gave واصل اللعب رغم الألم ولم يستسلم . .من a9",
+          "type": "sb_wb"
+        },
+        {
+          "id": "sec1_ch1_qa_5",
+          "question": "What is the importance of the number eighty-five in this chapter ?",
+          "answer": "",
+          "type": "sb_wb"
+        },
+        {
+          "id": "sec1_ch1_qa_6",
+          "question": "في هذا الفصل؟ Ae أهمية الرقم Lo",
+          "answer": "Santiago belleved it would bring him luck . سانتياغو كان يعتقد أنه سيجلب له الحظ\nHow does Santiago show dignity in the face of failure +",
+          "type": "sb_wb"
+        },
+        {
+          "id": "sec1_ch1_qa_7",
+          "question": "كيف يُظهر سانتياغو الكرامة في مواجهة الفشل؟",
+          "answer": "He remains proud and doesn't complain يبقى فخورًا ولا يشتكي\n822222222222222 ا\nWhy do you think the boy still spends his evenings with Santiago +",
+          "type": "sb_wb"
+        },
+        {
+          "id": "sec1_ch1_qa_8",
+          "question": "الماذا تعتقد أن الصبي لا يزال يقضي أمسياته مع سانتياغو ؟",
+          "answer": "Because he loves and respects him . الأنه يحبه ويحترمه",
+          "type": "sb_wb"
+        },
+        {
+          "id": "sec1_ch1_qa_9",
+          "question": "How do the lions in Santiago's dreams symbolize youth and strength ?",
+          "answer": "",
+          "type": "sb_wb"
+        },
+        {
+          "id": "sec1_ch1_qa_10",
+          "question": "كيف ترمز الأسود في أحلام سانتياغو إلى الشباب والقوة ؟",
+          "answer": "‘They remind him of his younger, stronger self. ig تذكره بشبابه\n‘What does Santiago mean by saying: \"It is better to be exact” +\n5 ماذا يقصد سانتياغو بقوله: \"من الأفضل أن تكون دقيقًا'\nSkill and precision matter more than luck . المهارة والدقة أهم من الحظ",
+          "type": "sb_wb"
+        },
+        {
+          "id": "sec1_ch1_qa_11",
+          "question": "‘What lesson can we learn about perseverance from this chapter ?",
+          "answer": "",
+          "type": "sb_wb"
+        },
+        {
+          "id": "sec1_ch1_qa_12",
+          "question": "هذا الفصل ؟ yo ما الدرس الذي نتعلمه عن المثابرة",
+          "answer": "To never give up, even after many failures ألا نستسلم معما كثرت الفشل\neee وول",
+          "type": "sb_wb"
+        }
+      ],
+      "importantQuestions": [
+        {
+          "id": "sec1_ch1_crit_1",
+          "question": "How does Hemingway use Santiago's eyes to show his inner spirit ?",
+          "answer": "",
+          "type": "critical_thinking"
+        },
+        {
+          "id": "sec1_ch1_crit_2",
+          "question": "روحه الداخلية؟ aA كيف استخدم همنغواي عيني سانتياغو",
+          "answer": "Hemingway describes Santiago's eyes as clear and bright like the sea.\nوصف همنفواي عيني سانتياغو بانهما صافيتان ومضيئتان كالبحر",
+          "type": "critical_thinking"
+        },
+        {
+          "id": "sec1_ch1_crit_3",
+          "question": "Why does the patched sail symbolize more than just an old piece of cloth ?",
+          "answer": "",
+          "type": "critical_thinking"
+        },
+        {
+          "id": "sec1_ch1_crit_4",
+          "question": "لماذا ترمز الشراع المرقع إلى أكثر من مجرد قطعة قماش قديمة ؟",
+          "answer": "It represents Santiago's struggle and spirit يرمز إلى نضال سانتياغو وروحه القوية",
+          "type": "critical_thinking"
+        },
+        {
+          "id": "sec1_ch1_crit_5",
+          "question": "In what ways does Santiago represent courage even before the big journey begins ?",
+          "answer": "",
+          "type": "critical_thinking"
+        },
+        {
+          "id": "sec1_ch1_crit_6",
+          "question": "كيف يُظهر سانتياغو الشجاعة حتى قبل بدء الرحلة الكبرى ؟",
+          "answer": "He keeps fishing dally despite fallure واصل الصيد يوميا رغم الفشل",
+          "type": "critical_thinking"
+        },
+        {
+          "id": "sec1_ch1_crit_7",
+          "question": "What role does baseball play in the old man’s life ? )ل في حياة العجوز ؟ ١١ ما دور لعبة",
+          "answer": "Itgives him hope and strength ٠ Bq. منحه الأمل\nWhy does Hemingway show the boy’s loyalty, even when he fishes on another boat 7",
+          "type": "critical_thinking"
+        },
+        {
+          "id": "sec1_ch1_crit_8",
+          "question": "يصطاد على قارب آخر؟ gag لماذا يُظهر همنفواي ولاء الصبي حتى",
+          "answer": "To show their emotional bond الرابط العاطفي بينهما jad\nHow do Santiago's dreams reveal his true character 7",
+          "type": "critical_thinking"
+        },
+        {
+          "id": "sec1_ch1_crit_9",
+          "question": "كيف تكشف أحلام سانتياغو عن شخصيته الحقيقية ؟",
+          "answer": "They reflect youth, hope, and strength . تعكس الشباب والأمل والقوة.",
+          "type": "critical_thinking"
+        },
+        {
+          "id": "sec1_ch1_crit_10",
+          "question": "Do you think luck oF skill is more important for success ? Why +",
+          "answer": "",
+          "type": "critical_thinking"
+        },
+        {
+          "id": "sec1_ch1_crit_11",
+          "question": "المهارة أهم للنجام؟ ولماذا ؟ ol هل تعتقد أن الحظ",
+          "answer": "Skil is more important than luck. Wall المهارة أهم من",
+          "type": "critical_thinking"
+        },
+        {
+          "id": "sec1_ch1_crit_12",
+          "question": "How does this chapter introduce the theme of man versus nature ?",
+          "answer": "",
+          "type": "critical_thinking"
+        },
+        {
+          "id": "sec1_ch1_crit_13",
+          "question": "الطبيعة ؟ go كيف )38 هذا الفصل موضوع صراع الإنسان",
+          "answer": "Santiago respects and challenges the se . يحترم سانتياغو البحر ويتحذاه",
+          "type": "critical_thinking"
+        },
+        {
+          "id": "sec1_ch1_crit_14",
+          "question": "In what way does Santiago's hut reflect his personality ?",
+          "answer": "",
+          "type": "critical_thinking"
+        },
+        {
+          "id": "sec1_ch1_crit_15",
+          "question": "كيف تعكس كوخ سانتياغو شخصيته؟",
+          "answer": "Itis simple like his lifestyle . بسيط مثل أسلوب حياته",
+          "type": "critical_thinking"
+        },
+        {
+          "id": "sec1_ch1_crit_16",
+          "question": "Why is hope so important for both Santiago and Manolin ?",
+          "answer": "",
+          "type": "critical_thinking"
+        },
+        {
+          "id": "sec1_ch1_crit_17",
+          "question": "لماذا الأمل مهم لكل من سانتياغو ومانولين ؟",
+          "answer": "Itkeeps them going despite struggles . هو ما يدفعهما للاستمرار رغم الصعاب\nأسئلة من امتخانات الادارات التعليمية دور أول وثان >\nAnswer the following questions :",
+          "type": "critical_thinking"
+        },
+        {
+          "id": "sec1_ch1_crit_18",
+          "question": "7) Why is hope necessary for both Santiago and Manolin?",
+          "answer": "",
+          "type": "critical_thinking"
+        },
+        {
+          "id": "sec1_ch1_crit_19",
+          "question": "(©) How does Santiago's small home show what kind of person he is ?",
+          "answer": "{5} what do Santiago's dreams tell us about his real personality 7\n{@) why does Manolin remain loyal to Santiago although he works on another\nboat ?",
+          "type": "critical_thinking"
+        },
+        {
+          "id": "sec1_ch1_crit_20",
+          "question": "{G) How does the patched sail represent Santiago's difficult life and poverty ?",
+          "answer": "",
+          "type": "critical_thinking"
+        },
+        {
+          "id": "sec1_ch1_crit_21",
+          "question": "{G) what does baseball mean to Santiago in his daily life ?",
+          "answer": "fi) How do Santiago's eyes show that he is still strong and hopeful 7\n(©) How does Santiago show bravery before starting his important journey 7",
+          "type": "critical_thinking"
+        },
+        {
+          "id": "sec1_ch1_crit_22",
+          "question": "12! ما your opinion, which is more important for success: luck or skill?",
+          "answer": "Give a reason 7\nVs بصمت |\nدغ النجا\nCoutts\nogee |\n—_ cm -oZ_ ا\n—_<-cm- om -\n= om + om.\n—— ca -~ Com\n<=—_~Ccm “Cm” ~\na Ci Come\n<= “coum\nCi cai fy a\nbron | = oe يضم تعب\nsone my nono انع ما يجرة رمدم\n[exactness brought luck | الدقة تجلب الحظ Farther than the | عليه الأخرون (يدل\nexactness brought luck 0\nت others dare على الشجاعة)\nThe flag of defeat تدل على تهالك الشراع",
+          "type": "critical_thinking"
+        },
+        {
+          "id": "sec1_ch1_crit_23",
+          "question": "Faith and determination الإيمان والإصرار؟ Wa Respect and humility الاحترام والتواضع",
+          "answer": "Santiago believes in his lucky number, 85 He ignores pity and pride from others.\nPreparation and patience التجهيز والصبر [companionship الصحبة\nExact care in setting lines reflects discipline. bond with Manolin shows love beyond duty,",
+          "type": "critical_thinking"
+        }
+      ],
+      "homeworkQuestions": [],
+      "mcqQuestions": [
+        {
+          "id": "mcq_sec1_ch1_1",
+          "question": "What key moral lesson is demonstrated in Chapter 1 (Santiago's Appearance and Spirit)?",
+          "options": [
+            "Giving up early prevents unnecessary suffering",
+            "Material wealth is more important than personal honor",
+            "Santiago regrets choosing the fisherman's life",
+            "Santiago is an old fisherman who has gone 84 days without catching a fish."
+          ],
+          "correctAnswer": "Santiago is an old fisherman who has gone 84 days without catching a fish.",
+          "explanation": "Santiago embodies persistent effort, self-respect, and unbreakable determination."
+        },
+        {
+          "id": "mcq_sec1_ch1_2",
+          "question": "How does Santiago view his relationship with the great marlin?",
+          "options": [
+            "As a brother and noble opponent worthy of reverence",
+            "With indifference and emotional detachment",
+            "As a cruel enemy to be hated and reviled",
+            "As an easy catch with no real challenge"
+          ],
+          "correctAnswer": "As a brother and noble opponent worthy of reverence",
+          "explanation": "Santiago respects the fish's majesty, courage, and equality in the great web of nature."
+        }
+      ],
+      "importantCharacters": [
+        {
+          "nameEn": "Santiago",
+          "nameAr": "سانتياغو",
+          "roleEn": "Aging Cuban fisherman; experienced, humble, and fiercely determined.",
+          "roleAr": "صياد كوبي مسن ومحنك؛ يتسم بالتواضع والصبر والعزيمة التي لا تقهر.",
+          "actionsEn": "Endured 84 days without a fish; prepares to venture far out into the Gulf Stream on the 85th day.",
+          "actionsAr": "صبر على 84 يوماً من انقطاع الرزق، وعقد العزم على الإبحار بعيداً في اليوم الـ 85."
+        },
+        {
+          "nameEn": "Manolin",
+          "nameAr": "مانولين",
+          "roleEn": "Devoted young apprentice and Santiago's loyal companion.",
+          "roleAr": "الصبي الوفي والتلميذ المخلص لسانتياغو.",
+          "actionsEn": "Cared for Santiago, bringing him food and fishing gear, despite his parents ordering him to fish on a luckier boat.",
+          "actionsAr": "اعتنى بسانتياغو وجلب له الطعام والمعدات، رغم أمر والديه بالعمل على قارب آخر أكثر حظاً."
+        },
+        {
+          "nameEn": "Younger Fishermen",
+          "nameAr": "الصيادون الشباب",
+          "roleEn": "Local fishermen in the Cuban village.",
+          "roleAr": "صيادو القرية الكوبية المحليون.",
+          "actionsEn": "Mocked Santiago and whispered about his bad luck ('salao').",
+          "actionsAr": "سخروا من سانتياغو وتهامسوا عليه بلقب 'سالاو' لشدة سوء حظه."
+        }
+      ],
+      "characterRelationships": [
+        {
+          "characters": [
+            "Santiago",
+            "Manolin"
+          ],
+          "relationEn": "Master & Loyal Disciple / Grandfather & Son",
+          "relationAr": "معلم وتلميذ وفي / رابطة أسرية نبيلة",
+          "detailsEn": "Manolin deeply respects Santiago's wisdom and dignity; Santiago treats him as his closest confidant.",
+          "detailsAr": "يكن مانولين احتراماً عميقاً لحكمة سانتياغو، بينما يعتبره سانتياغو رفيق روحه وأقرب الناس إليه."
+        }
+      ],
+      "keyDialogues": [
+        {
+          "speakerEn": "Manolin",
+          "speakerAr": "مانولين",
+          "quoteEn": "Old man, you are the greatest fisherman I know. Someday, the luck will return.",
+          "quoteAr": "يا عمي، أنت أعظم صياد عرفته، ويوماً ما سيعود إليك الحظ.",
+          "contextEn": "Manolin encouraging Santiago outside his humble shack.",
+          "contextAr": "مانولين يشد من أزر سانتياغو خارج كوخه البسيط."
+        },
+        {
+          "speakerEn": "Santiago",
+          "speakerAr": "سانتياغو",
+          "quoteEn": "Fishing is not just about luck, my boy; it is about skill, patience, and courage.",
+          "quoteAr": "الصيد لم يكن مجرد حظ يا بني، بل كان دائماً مهارة وصبراً وشجاعة.",
+          "contextEn": "Santiago explaining the true philosophy of fishing to Manolin.",
+          "contextAr": "سانتياغو يوضح فلسفته في الصيد والحياة لتلميذه الشاب."
+        },
+        {
+          "speakerEn": "Santiago",
+          "speakerAr": "سانتياغو",
+          "quoteEn": "Tomorrow is the eighty-fifth day. That is a lucky number. I will go far out, farther than the others dare to go.",
+          "quoteAr": "الغد هو اليوم الخامس والثمانون، وهو رقم محظوظ. سأبحر بعيداً، أبعد مما يجرؤ الآخرون.",
+          "contextEn": "Santiago declaring his resolution to break his unlucky streak.",
+          "contextAr": "سانتياغو يعلن عزمه على كسر طوق سوء الحظ والإبحار في عرض البحر."
+        }
+      ],
+      "themesAndLessons": [
+        {
+          "themeEn": "Dignity in Adversity",
+          "themeAr": "عزة النفس والكرامة في مواجهة الشدائد",
+          "lessonEn": "Material misfortune and bad luck cannot diminish a person's inner dignity and professional pride.",
+          "lessonAr": "سوء الحظ وانقطاع الرزق لا ينقصان من كرامة الإنسان وعزة نفسه وإيمانه بقدراته."
+        },
+        {
+          "themeEn": "Loyalty Across Generations",
+          "themeAr": "الوفاء والبر بين الأجيال",
+          "lessonEn": "Genuine affection and mutual respect bridge the divide between youth and old age.",
+          "lessonAr": "المودة الصادقة والاحترام المتبادل يوثقان الصلة النبيلة بين الشباب والشيوخ."
+        }
+      ],
+      "characterReferences": [
+        {
+          "nameEn": "Santiago",
+          "nameAr": "سانتياجو",
+          "role": "The Old Cuban Fisherman / Protagonist",
+          "age": "Late 60s",
+          "appearanceEn": "Gaunt and weathered old fisherman, deep wrinkled neck, sun-blotched skin, yet with cheerful, undefeated eyes as blue as the sea.",
+          "appearanceAr": "صياد عجوز نحيل محفور بالسنوات، تجاعيد غائرة في رقبته، وبقع شمسية على وجهه، لكن عينيه زرقاوان كلون البحر لا تعرفان الهزيمة.",
+          "clothingEn": "Faded blue denim shirt patched multiple times, worn trousers rolled at ankles, bare feet seasoned by ocean spray.",
+          "clothingAr": "قميص جينز باهت مرقع عدة مرات، وسروال خشن مشمر، وقدمان حافيتان اعتادتا رذاذ المحيط.",
+          "promptKey": "Santiago_OldFisherman_Cuba",
+          "avatarColor": "#0284C7"
+        },
+        {
+          "nameEn": "Manolin",
+          "nameAr": "مانولين",
+          "role": "Devoted Apprentice Boy",
+          "age": "13 years old",
+          "appearanceEn": "Loyal, earnest Cuban boy, bright brown eyes full of deep reverence, sun-tanned skin, respectful and agile.",
+          "appearanceAr": "صبي كوبي وفيّ ومخلص، ذو عينين بنيتين تفيضان بالإجلال والمحبة للعجوز، بشرة برونزية رشيقة.",
+          "clothingEn": "Simple white cotton shirt with rolled sleeves, khaki shorts, canvas fisherman cap.",
+          "clothingAr": "قميص قطني أبيض بأكمام مشمرة، وسروال قصير قماشي، وقبعة صياد خفيفة.",
+          "promptKey": "Manolin_ApprenticeBoy_Cuba",
+          "avatarColor": "#F59E0B"
+        }
+      ],
+      "comicScenes": [
+        {
+          "id": "om_ch1_scene1",
+          "sceneNumber": 1,
+          "titleEn": "Eighty-Four Days of Solitude",
+          "titleAr": "أربعة وثمانون يوماً في عرض البحر",
+          "settingEn": "The open Gulf Stream waters off Havana, Cuba, scorching midday sun",
+          "settingAr": "مياه تيار الخليج قبالة شواطئ هافانا بكوبا، تحت شمس الظهيرة الحارقة",
+          "timeOfDayEn": "Blazing Midday",
+          "timeOfDayAr": "ظهيرة مشمسة حارقة",
+          "atmosphereEn": "Resilient solitude, undefeated patience, tranquil ocean expanse",
+          "atmosphereAr": "صبر أسطوري، عزلة شامخة، بحر شاسع هادئ لا ينكسر",
+          "charactersPresent": [
+            "Santiago"
+          ],
+          "visualDescriptionEn": "Poetic graphic novel panel of old Cuban fisherman Santiago [Santiago_OldFisherman_Cuba] rowing his modest wooden skiff alone on the deep blue Gulf Stream. His weathered, sun-browned face with deep neck wrinkles gazes toward the horizon with calm resolve. The skiff's patched sail is furled, and the crystal blue sea mirrors a vast tropical sky.",
+          "visualDescriptionAr": "لوحة تصويرية شعرية لصياد السمك الكوبي العجوز سانتياجو وهو يجدف بقاربه الخشبي الصغير وحيداً في مياه تيار الخليج الزرقاء العميقة. وجهه الأسمر المجعد ينظر إلى الأفق البعيد بعزم وصبر لا يلين، بينما ينعكس صفاء السماء الاستوائية على صفحة الماء.",
+          "bgGradient": "from-sky-800 via-cyan-900 to-blue-950",
+          "narrationEn": "For eighty-four long days, Santiago had gone out into the Gulf Stream alone without catching a single fish. Yet his eyes remained undefeated, as blue and cheerful as the sea itself.",
+          "narrationAr": "طوال أربعة وثمانين يوماً كاملة، خرج سانتياجو بمفرده إلى تيار الخليج دون أن يصطاد سمكة واحدة. ومع ذلك بقيت عيناه لا تعرفان الهزيمة، زرقاوين ومبتهجتين كلون البحر.",
+          "bubbles": [
+            {
+              "id": "om_s1_b1",
+              "speakerEn": "Santiago",
+              "speakerAr": "سانتياجو",
+              "type": "thought",
+              "textEn": "Eighty-four days without a fish... But tomorrow is the eighty-fifth day. That is a lucky number. I will go far out.",
+              "textAr": "أربعة وثمانون يوماً دون صيد سمكة واحدة... لكن غداً هو اليوم الخامس والثمانون، وهو رقم الحظ. سأبحر بعيداً.",
+              "position": {
+                "top": "14%",
+                "right": "10%"
+              },
+              "tailDirection": "bottom-right",
+              "highlightKeywords": [
+                "eighty-four days",
+                "eighty-fifth",
+                "lucky number"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "om_ch1_scene2",
+          "sceneNumber": 2,
+          "titleEn": "The Loyalty of the Boy Manolin",
+          "titleAr": "وفاء الصبي مانولين",
+          "settingEn": "The sandy village shoreline and rustic path to the shack",
+          "settingAr": "شاطئ القرية الرملي والطريق البسيط المؤدي إلى الكوخ",
+          "timeOfDayEn": "Dusk / Sunset",
+          "timeOfDayAr": "الغسق وساعة الغروب",
+          "atmosphereEn": "Filial devotion, intergenerational respect, humble dignity",
+          "atmosphereAr": "وفاء وبر إنساني، احترام عميق بين الأجيال، كبرياء متواضع",
+          "charactersPresent": [
+            "Santiago",
+            "Manolin"
+          ],
+          "visualDescriptionEn": "Touching graphic novel panel of young Manolin [Manolin_ApprenticeBoy_Cuba] meeting old Santiago [Santiago_OldFisherman_Cuba] on the sandy path. Manolin tenderly carries the old man's heavy furled sail wrapped in flour sacks. Sunset paints the Cuban palm trees in rich amber and purple tones as the boy looks at his mentor with deep affection.",
+          "visualDescriptionAr": "لوحة جرافيك دافئة يظهر فيها الصبي مانولين وهو يلاقي العجوز سانتياجو على الدرب الرملي، حاملاً عنه شراع القارب الثقيل الملفوف بأكياس الدقيق. تلون شمس الغروب أشجار النخيل الكوبية بظلال عنبرية وبنفسجية ساحرة بينما ينظر الصبي لمعلمه بكل تبجيل وحب.",
+          "bgGradient": "from-amber-950 via-slate-900 to-indigo-950",
+          "narrationEn": "Though Manolin's parents forced him to fish in another boat because Santiago was 'salao'—the worst kind of unlucky—the boy never abandoned the old man.",
+          "narrationAr": "رغم أن والدي مانولين أجبراه على الصيد في قارب آخر لأن سانتياجو 'منحوس' (سالاو)، إلا أن الصبي لم يتخل أبداً عن الشيخ العجوز.",
+          "bubbles": [
+            {
+              "id": "om_s2_b1",
+              "speakerEn": "Manolin",
+              "speakerAr": "مانولين",
+              "type": "speech",
+              "textEn": "Old man, let me carry the lines and the harpoon. You are the greatest fisherman in the world!",
+              "textAr": "أيها الشيخ العجوز، دعني أحمل عنك الحبال والحربة. أنت أعظم صياد في العالم كله!",
+              "position": {
+                "top": "12%",
+                "left": "10%"
+              },
+              "tailDirection": "bottom-left",
+              "highlightKeywords": [
+                "greatest fisherman",
+                "harpoon"
+              ]
+            },
+            {
+              "id": "om_s2_b2",
+              "speakerEn": "Santiago",
+              "speakerAr": "سانتياجو",
+              "type": "speech",
+              "textEn": "No, there are many good fishermen and some great ones. But there is no one like you, boy.",
+              "textAr": "كلا يا بني، هناك صيادون كثر ماهرون وبعضهم عظام. لكن ليس هناك مثيل لك في الوفاء.",
+              "position": {
+                "bottom": "16%",
+                "right": "10%"
+              },
+              "tailDirection": "top-right",
+              "highlightKeywords": [
+                "fishermen",
+                "great"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "om_ch1_scene3",
+          "sceneNumber": 3,
+          "titleEn": "Baseball Heroes & The Great DiMaggio",
+          "titleAr": "أبطال البيسبول والأسطورة ديماجيو",
+          "settingEn": "Inside Santiago's rustic palm-leaf hut, Cuba",
+          "settingAr": "داخل كوخ سانتياجو البسيط المصنوع من جريد النخل، بكوبا",
+          "timeOfDayEn": "Evening by kerosene lamp",
+          "timeOfDayAr": "أمسية هادئة على ضوء مصباح الكيروسين",
+          "atmosphereEn": "Companionship, shared passions, humble comfort",
+          "atmosphereAr": "أنس الصحبة، شغف مشترك، طمأنينة وسكينة متواضعة",
+          "charactersPresent": [
+            "Santiago",
+            "Manolin"
+          ],
+          "visualDescriptionEn": "Intimate graphic novel panel inside Santiago's small palm-leaf hut. A warm kerosene lamp illuminates an old wooden table where Manolin has brought a pot of yellow rice and fried bananas. Santiago sits on a simple stool, his eyes sparkling as they passionately discuss American baseball scores from the crumpled newspapers.",
+          "visualDescriptionAr": "مشهد داخلي حميم داخل كوخ سانتياجو المصنوع من سعف النخيل. ينير مصباح كيروسين طاولة خشبية قديمة حيث جلب مانولين طعاماً من الأرز الأصفر والموز المقلي. يجلس سانتياجو وتتألق عيناه فرحاً وهو يتناقش مع الصبي بحماس حول نتائج مباريات البيسبول المنشورة في الجريدة القديمة.",
+          "bgGradient": "from-amber-950 via-stone-900 to-slate-900",
+          "narrationEn": "Over a modest meal, they spoke of their shared passion: baseball and their hero, the great Joe DiMaggio, who played through injury and pain with unbreakable courage.",
+          "narrationAr": "تناولا وجبتهما المتواضعة وتجاذبا أطراف الحديث حول شغفهما المشترك: رياضة البيسبول وبطلهما الأسطوري جو ديماجيو، الذي يلعب رغم آلام قدمه بكبرياء وشجاعة لا تنكسر.",
+          "bubbles": [
+            {
+              "id": "om_s3_b1",
+              "speakerEn": "Santiago",
+              "speakerAr": "سانتياجو",
+              "type": "speech",
+              "textEn": "Tell me about baseball. The great DiMaggio makes the difference. He plays even with a bone spur in his heel.",
+              "textAr": "حدثني عن البيسبول. ديماجيو العظيم يصنع الفارق دائماً، ويلعب بشجاعة حتى مع شوكة عظمية في كعبه.",
+              "position": {
+                "top": "12%",
+                "right": "8%"
+              },
+              "tailDirection": "bottom-right",
+              "highlightKeywords": [
+                "baseball",
+                "DiMaggio",
+                "bone spur"
+              ]
+            },
+            {
+              "id": "om_s3_b2",
+              "speakerEn": "Manolin",
+              "speakerAr": "مانولين",
+              "type": "speech",
+              "textEn": "He is a true champion! But to me, you are the greatest champion of all.",
+              "textAr": "إنه بطل حقيقي! لكن بالنسبة لي، أنت أعظم بطل في الوجود.",
+              "position": {
+                "bottom": "16%",
+                "left": "10%"
+              },
+              "tailDirection": "top-left",
+              "highlightKeywords": [
+                "champion",
+                "greatest"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "om_ch1_scene4",
+          "sceneNumber": 4,
+          "titleEn": "Dreams of Lions on the African Shore",
+          "titleAr": "حلم الأسود الفتية على شواطئ إفريقيا",
+          "settingEn": "The shack at midnight under the Cuban moon, transitioning into a surreal African beach dreamscape",
+          "settingAr": "الكوخ في منتصف الليل تحت ضوء القمر الكوبي، متحولاً إلى حلم شاطئ إفريقيا الذهبي",
+          "timeOfDayEn": "Moonlit Night",
+          "timeOfDayAr": "ليلة مقمرة ساحرة",
+          "atmosphereEn": "Dreamlike, peaceful, poetic longing for youth and majesty",
+          "atmosphereAr": "حلم شاعري، سلام داخلي، حنين بهيج للشباب والحرية والقوة",
+          "charactersPresent": [
+            "Santiago"
+          ],
+          "visualDescriptionEn": "A breathtaking split dreamscape graphic novel panel. At the bottom, old Santiago sleeps peacefully on his bed of old newspapers under the soft silver moonbeams entering the shack window. Above him, blossoming into a glowing golden dreamscape, are the long golden sands of Africa at dusk, where young lion cubs play innocently by the surf like gentle kittens.",
+          "visualDescriptionAr": "لوحة حلم سريالية شاعرة وفائقة الجمال. في الأسفل، ينام سانتياجو بسلام على فراشه المصنوع من الجرائد القديمة تحت ضوء القمر الفضي المتسلل من نافذة الكوخ. وفي الأعلى، يتفتح حلمه الذهبي المتوهج ليعرض شواطئ إفريقيا الذهبية عند الغسق، حيث تلعب صغار الأسود بمرح ووداعة كالقطط على رمال البحر.",
+          "bgGradient": "from-indigo-950 via-slate-900 to-amber-950",
+          "narrationEn": "In his sleep, Santiago no longer dreamed of storms, women, or great fish. He only dreamed of the golden beaches of Africa from his youth, and the young lions playing in the dusk.",
+          "narrationAr": "في نومه الهادئ، لم يعد سانتياجو يحلم بالعواصف ولا بالنساء ولا بالأسماك الضخمة. كان يحلم فقط بشواطئ إفريقيا الذهبية في مقتبل شبابه، وبالأسود الفتية وهي تلعب في الغسق.",
+          "bubbles": [
+            {
+              "id": "om_s4_b1",
+              "speakerEn": "Narration",
+              "speakerAr": "راوي القصة",
+              "type": "narration",
+              "textEn": "He was asleep in a little while and he dreamed of Africa when he was a boy and the long golden beaches and the lions playing like young cats.",
+              "textAr": "استغرق في النوم بعد هنيهة، وحلم بإفريقيا حين كان فتى يافعاً، وبشواطئها الذهبية الممتدة والأسود وهي تلعب كالقطط الصغيرة.",
+              "position": {
+                "top": "14%",
+                "left": "15%"
+              },
+              "tailDirection": "none",
+              "highlightKeywords": [
+                "Africa",
+                "golden beaches",
+                "lions"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sc_sec_1_ch_2",
+      "chapterNumber": 2,
+      "titleEn": "Departure & Farther Than Others",
+      "titleAr": "الانطلاق وأبعد من الآخرين",
+      "term": "first",
+      "summaryEn": "Santiago wakes before dawn and prepares to go fishing.",
+      "summaryAr": "يستيقظ سانتياغو قبل الفجر ويستعد للذهاب للصيد.",
+      "chapterInPoints": [
+        {
+          "order": 1,
+          "pointEn": "",
+          "pointAr": ""
+        },
+        {
+          "order": 2,
+          "pointEn": "",
+          "pointAr": ""
+        },
+        {
+          "order": 3,
+          "pointEn": "",
+          "pointAr": ""
+        },
+        {
+          "order": 4,
+          "pointEn": "",
+          "pointAr": ""
+        },
+        {
+          "order": 5,
+          "pointEn": "",
+          "pointAr": ""
+        },
+        {
+          "order": 6,
+          "pointEn": "",
+          "pointAr": ""
+        },
+        {
+          "order": 7,
+          "pointEn": "",
+          "pointAr": ""
+        },
+        {
+          "order": 8,
+          "pointEn": "",
+          "pointAr": ""
+        },
+        {
+          "order": 9,
+          "pointEn": "",
+          "pointAr": ""
+        }
+      ],
+      "vocabulary": [
+        {
+          "word": "saláo",
+          "meaningAr": "أسوأ أنواع سوء الحظ"
+        },
+        {
+          "word": "skiff",
+          "meaningAr": "قارب صيد صغير خفيف"
+        },
+        {
+          "word": "harpoon",
+          "meaningAr": "حربة صيد الأسماك الكبيرة"
+        },
+        {
+          "word": "endurance",
+          "meaningAr": "الصمود والجلد وتحمل المشاق"
+        },
+        {
+          "word": "gaff",
+          "meaningAr": "خطاف معدني لجذب الصيد"
+        },
+        {
+          "word": "marlin",
+          "meaningAr": "سمكة المارلين العملاقة ذات السيف"
+        },
+        {
+          "word": "scavenger",
+          "meaningAr": "مخلوق مفترس أو ناهش للفضلات"
+        }
+      ],
+      "theText": [
+        {
+          "order": 1,
+          "paragraphEn": "Departure ‏‎ ‎When the stars began to fade and the first light of dawn touched the water, Santiago pushed his boat away from the shore. The boy held 2 the rope for a moment, then let go. “Good luck, old man,” Manolin said softly. \"Good luck,” Santiago answered, though he believed luck was only part of the story. Skill, patience, and endurance mattered more.",
+          "paragraphAr": "‏دفع سانتياغو‎ . ‏ضوء للفجر‎ ‏النجوم تتلاشى ولمس‎ ‏عندما‎ ‏قاربه بعيدًا عن الشاطئ. أمسك الصبي الحبل للحظة. ثم تركه.‎ ‏قال مانولين بهدوء: *حظًا سعيذا أيها العجوز.\"‎ ‏وأن المهارة.‎ ! ‏سعيذا.* لكنه كان يؤمن أن الحظ جزء فقط من‎ \" ‏أجاب سانتياغو:‎ ‏والصبر والتحمل أهم بكثير.‎ ‏وحيد في البحر‎"
+        },
+        {
+          "order": 2,
+          "paragraphEn": "The boat moved smoothly over the calm water. Santiago rowed with  steady arms, feeling the rhythm of the oars. He listened to the sounds of the sea: the splash of fish, the cries of seabirds, the gentle slap of waves. He felt at home.",
+          "paragraphAr": "‏تحرك القارب بسلاسة فوق الماء الهادئ. كان سانتياغو يجذف بذراعين‎ ‏ثابتتين. شاعرًا بإيقاع المجاديف. استمع إلى أصوات البحر: ارتطام‎ ‏صرخات الطيور البحرية. وصفعات الأمواج الخفيفة. شعر أنه‎"
+        },
+        {
+          "order": 3,
+          "paragraphEn": "rofessional prey iy ‏‎ English ‘Memories of Youth ‏ ‎ ‘As he rowed, he thought about his life. He remembered when he 7 was young and strong, when he had sailed to Africa and seen lions mings, playing on the golden beaches. He remembered storms, battles with al giant fish, and long nights on the open sea. He was old now, but his 5 — spirit was not broken.",
+          "paragraphAr": "‏بينما كان يجذف. فكر في حياته. تذكر أيام شبابه وقوته. حين أبحر إلى‎ ‏على الشواطئ الذهبية. وتذكر العواصف»‎ ‏أفريقيا ورأى‎ ‏ومعاركه مع الأسماك العملاقة. والليالي الطويلة في عرض البحر. لقد‎ ‏لكن روحه لم تنكسر.‎ ‏شا‎"
+        },
+        {
+          "order": 4,
+          "paragraphEn": "‎Farther Than Others ‏ ‎ By sunrise, he was far from the shore. He could no longer see the lights of the village. The sea stretched wide and endless around him. Other boats had stopped closer in, but Santiago kept going. He wanted to be alone where no one else dared to fish.",
+          "paragraphAr": "‏مع شروق الشمس. كان قد ابتعد كثيزا عن الشاطوئ. لم يعد يرى أضواء‎ ‏يمتد واسغا بلا نهاية حوله. توقفت قوارب أخرى بالقرب‎ ‏القرية. كان‎ ‏من الساحل. لكن سانتياغو واصل التجديف. أراد أن يكون وحيذا حيث لا‎ ‏يجرةٍ الآخرون على الصيد.‎"
+        },
+        {
+          "order": 5,
+          "paragraphEn": "The Waiting Game ‏ ‎ At last, he stopped and prepared his lines. He baited them carefully with fresh sardines and lowered them into the deep blue water, at — different depths. He worked with the precision of a master, for he 2 2 believed that exactness brought luck. 1",
+          "paragraphAr": "‏ثم جلس للخلف. ممسكًا بالخيط بين أصابعه برفق, شاعرًا بكل حركة‎ ‏البحر‎ ‏في الأعماق. انتظر كعادته بصبر. ارتفعت الشمس أكثر.‎ 1 ‏يلمع كالزجاج.‎ ‏بعناية من السردين الطازج. وأنزنها‎ ‏خطوطه أخيرًا. وضع‎ ‏إلى الماء الأزرق العميق على أعماق مختلفة. عمل بدقة الخبير, لأنه كان‎ ‏يعتقد أن الدقة تجلب الحظ.‎ ‏الأمل‎"
+        },
+        {
+          "order": 6,
+          "paragraphEn": "‎The old man thought of the boy and smiled. \"He has hope,” Santiago whispered to himself. “It is good for a man to have hope. Without it, he is nothing.”",
+          "paragraphAr": "‏فكر الرجل العجوز في الصبي وابتسم. همس لنفسه: “لديه أمل. من‎ “ ‏فبدونه. لا يكون‎ ‏الجيد أن يكون لدى الرجل‎"
+        },
+        {
+          "order": 7,
+          "paragraphEn": "peewee Ignoring the Small Fish ‏ ‎ All morning he waited. Small fish tugged at the bait, but he ignored them. He was looking for something greater, something worthy of all ae his strength. #8",
+          "paragraphAr": "‏انتظر طوال الصباح. جذبت الأسماك الصغيرة الضُعمء لكنه تجاهلها.‎ - . ‏كان يبحث عن شويء أعظم. شيء يستحق كل قوته‎"
+        },
+        {
+          "order": 8,
+          "paragraphEn": "The Heat andthe Bird ‏ ‎ By noon, the heat was strong, and sweat ran down his back. But Santiago did not complain. He kept his eyes on the sea, his hands x ready, his heart steady. He was prepared for the great test. See",
+          "paragraphAr": "‏د مع حلول الظهيرة. اشتد الحر. وانساب العرق على ظهره. لكن سانتياغو‎ ‏مستعذا للاختبار العظيم.‎ & 5-"
+        },
+        {
+          "order": 9,
+          "paragraphEn": "Far out, a bird circled over the water. Santiago watched it carefully. \"Where the bird circles, there are fish,” he said aloud. His eyes followed the movement, and deep inside, he knew that soon, his moment would come.",
+          "paragraphAr": "‏كان طائر يحوم فوق الماء. راقبه سانتياغو بعناية. قال بصوت مسموع:‎ ‏بعيدًا في‎ ‏*حيثما يحوم الطائرء تكون هناك أسماك.\" تبعت عيناه الحركة. وفي أعماقه كان يعرف أن‎ ‏لحظته ستأتي قريبا.‎"
+        },
+        {
+          "order": 10,
+          "paragraphEn": "‎Why did Manolin bring food to Santiago ? ‏ ‎ LHe wanted to support and care for him. ‏ ‎ yl ‏‎ ‎How did the boy help prepare the boat for the journey ?",
+          "paragraphAr": "‏كيف ساعد الصبي في تجهيز القارب للرحلة ؟‎"
+        }
+      ],
+      "questionsAndAnswers": [
+        {
+          "id": "sec1_ch2_qa_1",
+          "question": "Why did Manolin bring food to Santiago ? لماذا أحضر مانولين الطعام لسانتياغو؟",
+          "answer": "LHe wanted to support and care for him. يدعمه ويعتني به yl أراد",
+          "type": "sb_wb"
+        },
+        {
+          "id": "sec1_ch2_qa_2",
+          "question": "How did the boy help prepare the boat for the journey ?",
+          "answer": "",
+          "type": "sb_wb"
+        },
+        {
+          "id": "sec1_ch2_qa_3",
+          "question": "كيف ساعد الصبي في تجهيز القارب للرحلة ؟",
+          "answer": "He carried the gear and arranged the lines حمل الأدوات ورتب الحبال",
+          "type": "sb_wb"
+        },
+        {
+          "id": "sec1_ch2_qa_4",
+          "question": "Why does the patched sail symbolize Santiago's past struggles ?",
+          "answer": "",
+          "type": "sb_wb"
+        },
+        {
+          "id": "sec1_ch2_qa_5",
+          "question": "الشراع المرقع إلى معاناة سانتياغو الماضية ؟ joy لماذا",
+          "answer": "Itshows his many hardships but also his endurance. . يُظهر معاناته الكثيرة لكنه يدل على صعوده\neee\nWhy did some fishermen respect Santiago while others pitied him +",
+          "type": "sb_wb"
+        },
+        {
+          "id": "sec1_ch2_qa_6",
+          "question": "الماذا احترمه بعض الصيادين بينما أشفق عليه آخرون ؟",
+          "answer": "Respect for his skill, pity for his bad luck احتراماً لمعارته, وشفقة على سوء حظه\n| +<سسسس 992292990929900",
+          "type": "sb_wb"
+        },
+        {
+          "id": "sec1_ch2_qa_7",
+          "question": "How does Santiago show humility when talking with the boy ?",
+          "answer": "",
+          "type": "sb_wb"
+        },
+        {
+          "id": "sec1_ch2_qa_8",
+          "question": "كيف يُظهر سانتياغو التواضع عندما يتحدث مع الصبي ؟",
+          "answer": "He admits he can manage alone and values the boy's hope .\n8 الصبي Jol يعترف بقدرته على الاعتماد على نفسه ويقدّر\nWhy is the number eighty-five important for Santiago +",
+          "type": "sb_wb"
+        },
+        {
+          "id": "sec1_ch2_qa_9",
+          "question": "لماذا يعذ رقم خمسة وثمانين مهما لسانتياغو ؟",
+          "answer": "He believes it will be his lucky day . يعتقد أنه سيكون يوم حظه",
+          "type": "sb_wb"
+        },
+        {
+          "id": "sec1_ch2_qa_10",
+          "question": "What does the early morning setting tell us about Santiago's character ?",
+          "answer": "",
+          "type": "sb_wb"
+        },
+        {
+          "id": "sec1_ch2_qa_11",
+          "question": "ماذا يخبرنا مشهد الصباح الباكر عن شخصية سانتياغو ؟",
+          "answer": "(LHe is disciplined and loves the sea’s quiet . إنه منضبط ويحب هدوء البحر",
+          "type": "sb_wb"
+        },
+        {
+          "id": "sec1_ch2_qa_12",
+          "question": "Why did Santiago choose to go farther than the other fishermen ?",
+          "answer": "",
+          "type": "sb_wb"
+        },
+        {
+          "id": "sec1_ch2_qa_13",
+          "question": "الصيادين ؟ dl لماذا اختار سانتياغو أن يذهب أبعد من",
+          "answer": "He wanted a greater challenge and bigger fish . 0 أراد تحدياً أكبر وسمكة أعظم\nWhat does Santiago mean by saying \"without hope, a man is nothing\" +\nigs يساوي الرجل Jol ماذا يقصد سانتياغو بقوله: \"من دون\nHope gives purpose and strength to life. الأمل يمنع الحياة معنى وقوة.",
+          "type": "sb_wb"
+        },
+        {
+          "id": "sec1_ch2_qa_14",
+          "question": "How does Santiago's preparation show the value of patience and skill ?",
+          "answer": "",
+          "type": "sb_wb"
+        },
+        {
+          "id": "sec1_ch2_qa_15",
+          "question": "كيف يُظهر استعداد سانتياغو قيمة الصبر والمهارة ؟",
+          "answer": "He baited lines carefully and waited calmly . وضع الظعم بعناية وانتظر بعدوء",
+          "type": "sb_wb"
+        }
+      ],
+      "importantQuestions": [
+        {
+          "id": "sec1_ch2_crit_1",
+          "question": "How does Hemingway create an atmosphere of hope at the start of Santiago's journey ?",
+          "answer": "",
+          "type": "critical_thinking"
+        },
+        {
+          "id": "sec1_ch2_crit_2",
+          "question": "كيف يخلق همنغواي جوأ من الأمل في بداية رحلة سانتياغو؟",
+          "answer": "Through the boy's faith and Santiago's determination . من خلال إيمان الصبي وإصرار سانتياغو",
+          "type": "critical_thinking"
+        },
+        {
+          "id": "sec1_ch2_crit_3",
+          "question": "Why do you think Santiago Is described as both pitied and respected by others ?",
+          "answer": "",
+          "type": "critical_thinking"
+        },
+        {
+          "id": "sec1_ch2_crit_4",
+          "question": "بالاحترام والشفقة في آن واحد ؟ nd لماذا تظن أن سانتياغو",
+          "answer": "Because he is skilled but unlucky . 1 all ماهر لكنه سيّئ ad",
+          "type": "critical_thinking"
+        },
+        {
+          "id": "sec1_ch2_crit_5",
+          "question": "How does the patched sail act as a metaphor for human struggle ?",
+          "answer": "",
+          "type": "critical_thinking"
+        },
+        {
+          "id": "sec1_ch2_crit_6",
+          "question": "لمعاناة الإنسان ؟ |joy كيف يُمثل الشراع المرقع",
+          "answer": "It shows hardship and survival . إنه يُضعر المعاناة والبقاء.\nWhat does Santiago's decision to fish farther than others reveal about his spirit 7\nSaag) ماذا يكشف قرار سانتياغو بالصيد أبعد من الآخرين عن\nHis courage and ambition . شجاعته وطموحه\nHow is Manolin’s loyalty important for the old man’s dignity +",
+          "type": "critical_thinking"
+        },
+        {
+          "id": "sec1_ch2_crit_7",
+          "question": "ما أهمية وفاء مانولين لكرامة الرجل العجوز ؟",
+          "answer": "tt makes Santiago feel valued . يجعل سانتياغو يشعر بقيمته",
+          "type": "critical_thinking"
+        },
+        {
+          "id": "sec1_ch2_crit_8",
+          "question": "Do you think luck or preparation ذا more Important مأ life ? Why ?",
+          "answer": "",
+          "type": "critical_thinking"
+        },
+        {
+          "id": "sec1_ch2_crit_9",
+          "question": "الاستعداد في الحياة؟ ولماذا ؟ ol هل تظن أن الحظ أهم",
+          "answer": "Preparation, because it leads to success even without luck .\nيقود إلى النجام حتى من دون حظ GY. الاستعداد",
+          "type": "critical_thinking"
+        },
+        {
+          "id": "sec1_ch2_crit_10",
+          "question": "How does this chapter prepare readers for the great challenge to come ?",
+          "answer": "",
+          "type": "critical_thinking"
+        },
+        {
+          "id": "sec1_ch2_crit_11",
+          "question": "الفصل القزاء للتحدي الكبير القادم ؟ Limo كيف",
+          "answer": "By showing Santiago's patience and persistence . من خلال إظهار صبر سانتياغو وإصرارة",
+          "type": "critical_thinking"
+        },
+        {
+          "id": "sec1_ch2_crit_12",
+          "question": "In what way does Santiago's skiff represent his lite? بأي طريقة يُمثل قارب سانتياغو حياته ؟",
+          "answer": "Old but strong and enduring . قديم لكنه قوي ومتماسك",
+          "type": "critical_thinking"
+        },
+        {
+          "id": "sec1_ch2_crit_13",
+          "question": "Why might Hemingway show Santiago rowing ما silence at sunrise ?",
+          "answer": "",
+          "type": "critical_thinking"
+        },
+        {
+          "id": "sec1_ch2_crit_14",
+          "question": "قد يُظهر همنغواي سانتياغو وهو يجدف بصمت عند الشروق ؟ ital",
+          "answer": "To show peace and focus before struggle ليُظهر السكينة والتركيز قبل التحدي",
+          "type": "critical_thinking"
+        },
+        {
+          "id": "sec1_ch2_crit_15",
+          "question": "How does Santiago's belief مأ hope make him a symbol of resilience ?",
+          "answer": "",
+          "type": "critical_thinking"
+        },
+        {
+          "id": "sec1_ch2_crit_16",
+          "question": "رمزأ للصمود ؟ aio كيف يجعل إيمان سانتياغو بالأمل",
+          "answer": "Hope keeps him strong despite hardships . الأمل يجعله قوياً رغم الصعوبات",
+          "type": "critical_thinking"
+        }
+      ],
+      "homeworkQuestions": [
+        {
+          "id": "sec1_ch2_exam_1",
+          "question": "Answer the following questions :",
+          "answer": "سؤال امتحاني وزاري معتمد يتطلب استيعاباً دقيقاً لمعاني الصمود والرمزية في رواية العجوز والبحر.",
+          "type": "homework"
+        },
+        {
+          "id": "sec1_ch2_exam_2",
+          "question": "fA) How does Santiago's hope help him remain strong during difficult times?",
+          "answer": "سؤال امتحاني وزاري معتمد يتطلب استيعاباً دقيقاً لمعاني الصمود والرمزية في رواية العجوز والبحر.",
+          "type": "homework"
+        },
+        {
+          "id": "sec1_ch2_exam_3",
+          "question": "591 why does Hemingway describe Santiago rowing quietly at sunrise?",
+          "answer": "سؤال امتحاني وزاري معتمد يتطلب استيعاباً دقيقاً لمعاني الصمود والرمزية في رواية العجوز والبحر.",
+          "type": "homework"
+        },
+        {
+          "id": "sec1_ch2_exam_4",
+          "question": "{6} what does Santiago's small boat tell us about his life and character?",
+          "answer": "سؤال امتحاني وزاري معتمد يتطلب استيعاباً دقيقاً لمعاني الصمود والرمزية في رواية العجوز والبحر.",
+          "type": "homework"
+        },
+        {
+          "id": "sec1_ch2_exam_5",
+          "question": "(@) why do some people feel sorry for Santiago while others respect him?",
+          "answer": "سؤال امتحاني وزاري معتمد يتطلب استيعاباً دقيقاً لمعاني الصمود والرمزية في رواية العجوز والبحر.",
+          "type": "homework"
+        },
+        {
+          "id": "sec1_ch2_exam_6",
+          "question": "(5) What does Santiago's choice to sail farther than the other fishermen show",
+          "answer": "سؤال امتحاني وزاري معتمد يتطلب استيعاباً دقيقاً لمعاني الصمود والرمزية في رواية العجوز والبحر.",
+          "type": "homework"
+        },
+        {
+          "id": "sec1_ch2_exam_7",
+          "question": "about his personality?",
+          "answer": "سؤال امتحاني وزاري معتمد يتطلب استيعاباً دقيقاً لمعاني الصمود والرمزية في رواية العجوز والبحر.",
+          "type": "homework"
+        },
+        {
+          "id": "sec1_ch2_exam_8",
+          "question": "(5) How does Manolin's support help Santiago keep his pride and self-respect?",
+          "answer": "سؤال امتحاني وزاري معتمد يتطلب استيعاباً دقيقاً لمعاني الصمود والرمزية في رواية العجوز والبحر.",
+          "type": "homework"
+        },
+        {
+          "id": "sec1_ch2_exam_9",
+          "question": "fi) How does the old patched sail represent the difficulties people face in life?",
+          "answer": "سؤال امتحاني وزاري معتمد يتطلب استيعاباً دقيقاً لمعاني الصمود والرمزية في رواية العجوز والبحر.",
+          "type": "homework"
+        },
+        {
+          "id": "sec1_ch2_exam_10",
+          "question": "{Gin your opinion, which is more important for success: good luck or careful",
+          "answer": "سؤال امتحاني وزاري معتمد يتطلب استيعاباً دقيقاً لمعاني الصمود والرمزية في رواية العجوز والبحر.",
+          "type": "homework"
+        },
+        {
+          "id": "sec1_ch2_exam_11",
+          "question": "preparation? Give a reason.",
+          "answer": "سؤال امتحاني وزاري معتمد يتطلب استيعاباً دقيقاً لمعاني الصمود والرمزية في رواية العجوز والبحر.",
+          "type": "homework"
+        },
+        {
+          "id": "sec1_ch2_exam_12",
+          "question": "(©) How does Hemingway create a hopeful feeling at the beginning of",
+          "answer": "سؤال امتحاني وزاري معتمد يتطلب استيعاباً دقيقاً لمعاني الصمود والرمزية في رواية العجوز والبحر.",
+          "type": "homework"
+        },
+        {
+          "id": "sec1_ch2_exam_13",
+          "question": "Santiago's journey?",
+          "answer": "سؤال امتحاني وزاري معتمد يتطلب استيعاباً دقيقاً لمعاني الصمود والرمزية في رواية العجوز والبحر.",
+          "type": "homework"
+        },
+        {
+          "id": "sec1_ch2_exam_14",
+          "question": "professional 1 اماي",
+          "answer": "سؤال امتحاني وزاري معتمد يتطلب استيعاباً دقيقاً لمعاني الصمود والرمزية في رواية العجوز والبحر.",
+          "type": "homework"
+        },
+        {
+          "id": "sec1_ch2_exam_15",
+          "question": "<= Co شد coe",
+          "answer": "سؤال امتحاني وزاري معتمد يتطلب استيعاباً دقيقاً لمعاني الصمود والرمزية في رواية العجوز والبحر.",
+          "type": "homework"
+        },
+        {
+          "id": "sec1_ch2_exam_16",
+          "question": "= 01) CEES 92 eosin",
+          "answer": "سؤال امتحاني وزاري معتمد يتطلب استيعاباً دقيقاً لمعاني الصمود والرمزية في رواية العجوز والبحر.",
+          "type": "homework"
+        },
+        {
+          "id": "sec1_ch2_exam_17",
+          "question": "Jeera | a at | ae",
+          "answer": "سؤال امتحاني وزاري معتمد يتطلب استيعاباً دقيقاً لمعاني الصمود والرمزية في رواية العجوز والبحر.",
+          "type": "homework"
+        },
+        {
+          "id": "sec1_ch2_exam_18",
+          "question": "Cm > Ca > ste",
+          "answer": "سؤال امتحاني وزاري معتمد يتطلب استيعاباً دقيقاً لمعاني الصمود والرمزية في رواية العجوز والبحر.",
+          "type": "homework"
+        },
+        {
+          "id": "sec1_ch2_exam_19",
+          "question": "cc ~ Com a Cy oes",
+          "answer": "سؤال امتحاني وزاري معتمد يتطلب استيعاباً دقيقاً لمعاني الصمود والرمزية في رواية العجوز والبحر.",
+          "type": "homework"
+        },
+        {
+          "id": "sec1_ch2_exam_20",
+          "question": "حدم ندع مسع العرق",
+          "answer": "سؤال امتحاني وزاري معتمد يتطلب استيعاباً دقيقاً لمعاني الصمود والرمزية في رواية العجوز والبحر.",
+          "type": "homework"
+        },
+        {
+          "id": "sec1_ch2_exam_21",
+          "question": "يشعر بقوة . .. feel the power of بعباعن | [tartrom",
+          "answer": "سؤال امتحاني وزاري معتمد يتطلب استيعاباً دقيقاً لمعاني الصمود والرمزية في رواية العجوز والبحر.",
+          "type": "homework"
+        },
+        {
+          "id": "sec1_ch2_exam_22",
+          "question": "الأفضل | May the best of us win ال | his heart beat faster",
+          "answer": "سؤال امتحاني وزاري معتمد يتطلب استيعاباً دقيقاً لمعاني الصمود والرمزية في رواية العجوز والبحر.",
+          "type": "homework"
+        },
+        {
+          "id": "sec1_ch2_exam_23",
+          "question": "ينتظر Ch يعبر عن الاحترام حتى للعده | my brother, the fish",
+          "answer": "سؤال امتحاني وزاري معتمد يتطلب استيعاباً دقيقاً لمعاني الصمود والرمزية في رواية العجوز والبحر.",
+          "type": "homework"
+        },
+        {
+          "id": "sec1_ch2_exam_24",
+          "question": "[Courage in the face of struggle الشجاعة في مواجهة الصراع",
+          "answer": "سؤال امتحاني وزاري معتمد يتطلب استيعاباً دقيقاً لمعاني الصمود والرمزية في رواية العجوز والبحر.",
+          "type": "homework"
+        },
+        {
+          "id": "sec1_ch2_exam_25",
+          "question": "‘Santiago meets the marlin with calm strength.",
+          "answer": "سؤال امتحاني وزاري معتمد يتطلب استيعاباً دقيقاً لمعاني الصمود والرمزية في رواية العجوز والبحر.",
+          "type": "homework"
+        },
+        {
+          "id": "sec1_ch2_exam_26",
+          "question": "Patience and timing الصبر والتوقيت",
+          "answer": "سؤال امتحاني وزاري معتمد يتطلب استيعاباً دقيقاً لمعاني الصمود والرمزية في رواية العجوز والبحر.",
+          "type": "homework"
+        },
+        {
+          "id": "sec1_ch2_exam_27",
+          "question": "He waits for the fish to take the bait fully.",
+          "answer": "سؤال امتحاني وزاري معتمد يتطلب استيعاباً دقيقاً لمعاني الصمود والرمزية في رواية العجوز والبحر.",
+          "type": "homework"
+        },
+        {
+          "id": "sec1_ch2_exam_28",
+          "question": "protessional سس Novel ل",
+          "answer": "سؤال امتحاني وزاري معتمد يتطلب استيعاباً دقيقاً لمعاني الصمود والرمزية في رواية العجوز والبحر.",
+          "type": "homework"
+        },
+        {
+          "id": "sec1_ch2_exam_29",
+          "question": "Endurance التحمل والجلد",
+          "answer": "سؤال امتحاني وزاري معتمد يتطلب استيعاباً دقيقاً لمعاني الصمود والرمزية في رواية العجوز والبحر.",
+          "type": "homework"
+        },
+        {
+          "id": "sec1_ch2_exam_30",
+          "question": "His fight begins with quiet determination.",
+          "answer": "سؤال امتحاني وزاري معتمد يتطلب استيعاباً دقيقاً لمعاني الصمود والرمزية في رواية العجوز والبحر.",
+          "type": "homework"
+        },
+        {
+          "id": "sec1_ch2_exam_31",
+          "question": "Respect for the opponent dliall احترام",
+          "answer": "سؤال امتحاني وزاري معتمد يتطلب استيعاباً دقيقاً لمعاني الصمود والرمزية في رواية العجوز والبحر.",
+          "type": "homework"
+        },
+        {
+          "id": "sec1_ch2_exam_32",
+          "question": "Santiago cals the fish “brother.”",
+          "answer": "سؤال امتحاني وزاري معتمد يتطلب استيعاباً دقيقاً لمعاني الصمود والرمزية في رواية العجوز والبحر.",
+          "type": "homework"
+        }
+      ],
+      "mcqQuestions": [
+        {
+          "id": "mcq_sec1_ch2_1",
+          "question": "What key moral lesson is demonstrated in Chapter 2 (Departure & Farther Than Others)?",
+          "options": [
+            "Santiago wakes before dawn and prepares to go fishing.",
+            "Material wealth is more important than personal honor",
+            "Santiago regrets choosing the fisherman's life",
+            "Giving up early prevents unnecessary suffering"
+          ],
+          "correctAnswer": "Santiago wakes before dawn and prepares to go fishing.",
+          "explanation": "Santiago embodies persistent effort, self-respect, and unbreakable determination."
+        },
+        {
+          "id": "mcq_sec1_ch2_2",
+          "question": "How does Santiago view his relationship with the great marlin?",
+          "options": [
+            "As a cruel enemy to be hated and reviled",
+            "As a brother and noble opponent worthy of reverence",
+            "As an easy catch with no real challenge",
+            "With indifference and emotional detachment"
+          ],
+          "correctAnswer": "As a brother and noble opponent worthy of reverence",
+          "explanation": "Santiago respects the fish's majesty, courage, and equality in the great web of nature."
+        }
+      ],
+      "importantCharacters": [
+        {
+          "nameEn": "Santiago",
+          "nameAr": "سانتياغو",
+          "roleEn": "Solitary mariner navigating the deep Gulf Stream.",
+          "roleAr": "بحار منفرد يشق عباب تيار الخليج في ساعات الفجر الأولى.",
+          "actionsEn": "Rowed steadily past the coastal lights, feeling intimate kinship with the flying fish and sea birds.",
+          "actionsAr": "جذف بقوة وثبات متجاوزاً أضواء الساحل، شاعراً بألفة عميقة مع الطيور وأسماك البحر."
+        }
+      ],
+      "characterRelationships": [
+        {
+          "characters": [
+            "Santiago",
+            "The Sea (La Mar)"
+          ],
+          "relationEn": "Man & Nature / Reverence",
+          "relationAr": "الإنسان والطبيعة / حب وتوقير",
+          "detailsEn": "Santiago thinks of the sea as a woman ('la mar') who gives or withholds great favors.",
+          "detailsAr": "ينظر سانتياغو للبحر كأنثى رقيقة ('لا مار') تمنح العطايا أو تحجبها عن محبة."
+        }
+      ],
+      "keyDialogues": [
+        {
+          "speakerEn": "Santiago",
+          "speakerAr": "سانتياغو",
+          "quoteEn": "It is better to be lucky. But I would rather be exact. Then when luck comes you are ready.",
+          "quoteAr": "من الرائع أن يحالفك الحظ، لكنني أفضل أن أكون دقيقاً ومتقناً، فإذا أقبل الحظ وجدك مستعداً له.",
+          "contextEn": "Santiago setting his baited lines at exact fathom depths.",
+          "contextAr": "سانتياغو وهو يضبط خيوط الصيد في أعماق محددة بدقة هندسية بالغة."
+        }
+      ],
+      "themesAndLessons": [
+        {
+          "themeEn": "Precision and Preparedness",
+          "themeAr": "الإتقان والجاهزية للفرص",
+          "lessonEn": "Success requires meticulous preparation so that when opportunity arises, one is completely ready.",
+          "lessonAr": "النجاح الحقيقي يتطلب الإتقان والتحضير الدقيق حتى تستثمر الفرصة متى جاءت."
+        }
+      ]
+    },
+    {
+      "id": "sc_sec_1_ch_3",
+      "chapterNumber": 3,
+      "titleEn": "Signs in the Sky & The Great Pull",
+      "titleAr": "علامات في السماء والشدة العظيمة",
+      "term": "first",
+      "summaryEn": "Santiago saw a bird divin, signaling tuna scattering and a larger fish beneath the sea .",
+      "summaryAr": "رأى سانتياغو طائراً يغوص . مما يشير إلى تشتت التونة ووجود سمكة أكبر في البحر",
+      "chapterInPoints": [
+        {
+          "order": 1,
+          "pointEn": "",
+          "pointAr": ""
+        },
+        {
+          "order": 2,
+          "pointEn": "",
+          "pointAr": ""
+        },
+        {
+          "order": 3,
+          "pointEn": "",
+          "pointAr": ""
+        },
+        {
+          "order": 4,
+          "pointEn": "",
+          "pointAr": ""
+        }
+      ],
+      "vocabulary": [
+        {
+          "word": "saláo",
+          "meaningAr": "أسوأ أنواع سوء الحظ"
+        },
+        {
+          "word": "skiff",
+          "meaningAr": "قارب صيد صغير خفيف"
+        },
+        {
+          "word": "harpoon",
+          "meaningAr": "حربة صيد الأسماك الكبيرة"
+        },
+        {
+          "word": "endurance",
+          "meaningAr": "الصمود والجلد وتحمل المشاق"
+        },
+        {
+          "word": "gaff",
+          "meaningAr": "خطاف معدني لجذب الصيد"
+        },
+        {
+          "word": "marlin",
+          "meaningAr": "سمكة المارلين العملاقة ذات السيف"
+        },
+        {
+          "word": "scavenger",
+          "meaningAr": "مخلوق مفترس أو ناهش للفضلات"
+        }
+      ],
+      "theText": [
+        {
+          "order": 1,
+          "paragraphEn": "Signs inthe Sky clawll ‏ ‎ The sun was high now, and the sea shone with a hard, bright light. Santiago wiped the sweat from his forehead and watched the bird circling. The old man knew that the bird was looking for fish near ese the surface. Suddenly, the bird dived straight down, and the water ee ee splashed. Small tuna jumped in the alr, frightened by something 1120-2 larger below. 9",
+          "paragraphAr": "‏كانت الشمس عالية في السماءء والبحر يلمع بضوء قوي ساطع. مسح سانتياغو العرق‎ ‏عن جبينه وراقب الطائر الذي كان يدور. كان الرجل العجوز يعلم أن الطائر يبحث عن سمك‎ ! ‏وتناثرت المياه. قفزت أسماك‎ ‏قرب السطح. فجأة, اندفع الطائر مباشرة إلى‎ ‏من شيء أكبر في العمق.‎ ‏الصغيرة في الهواء‎"
+        },
+        {
+          "order": 2,
+          "paragraphEn": "The First Signs ‏‎ 3 Catch ‏ ‎ Jol Santiago's heart beat faster. He studied the lines with calm eyes, but inside he was excited. He had been waiting for this moment. His fingers felt the line tremble slightly. Then, without warning, the line began to move slowly, steadily. Something powerful was taking the bait.",
+          "paragraphAr": "‏خفق قلب سانتياغو بسرعة. كان يراقب الحبال بعينين هادئتين. لكن.‎ ‏بداخله كان متحمساً. لقد كان ينتظر هذه الاحظة. شعر بأصابعه أن‎ ‏وبثبات. كان‎ ‏الحبل يرتجف قليلاً. ثم بلا إنذار. بدأ الحبل يتحرك‎ ‏هناك شيء قوي يأخذ الظعم.‎"
+        },
+        {
+          "order": 3,
+          "paragraphEn": "ACareful Wait ‏ ‎ The old man held the line carefully. He did not pull. He let the fish eat. “ He knew the ways of big fish. They circled, tested, and swallowed slowly. Santiago ee whispered, \"Take it, big one. Take it well.”",
+          "paragraphAr": "‏أمسك الرجل العجوز بالحبل بحذر. لم يشذه. ترك السمكة تأكل. كان‎ ‏يعرف أساليب الأسماك الكبيرة. فهي تدور وتختبر ثم تبتلع ببطء. هم‎"
+        },
+        {
+          "order": 4,
+          "paragraphEn": "‏‎ _ The Great Pull ‏ ‎ Then the line tightened hard, cutting deep into his hand. The fish was hooked, Santiago braced his feet and leaned back. The line stretched out into the deep water with unstoppable force. The boat began to move ‘slowly, pulled by the fish. “He is strong,\" Santiago said aloud. \"He will show me what strength is.”",
+          "paragraphAr": "‏ثم اشتد الحبل بقوة. وقطع بعمق في يده. علقت السمكة بالصنارة.‎ ‏فثبت سانتياغو قدميه واتكأ إلى الخلف. امتد الحبل إلى أعماق البحر‎ ‏القارب يتحرك ببطء. تسحبه السمكة.‎ ‏بقوة لا تُوقف.‎ “ ‏قوي. سوف يريني ما هي‎ ‏قال سانتياغو بصوت عال:‎ ‏هطع مغه1‎ ‏في أعماق البحر‎"
+        },
+        {
+          "order": 5,
+          "paragraphEn": "The fish did not jump. It swam steadily out into the open sea, far ws from all other boats. Santiago let it run, his hands steady though the A line cut into his skin. He felt the power of the great creature below, i 1 pulling him farther and farther away from land.",
+          "paragraphAr": "‏بعيداً عن جميع‎ ‏نحو عرض‎ ‏لم تقفز السمكة. بل سبحت‎ 4 ‏القوارب الأخرى. تركها سانتياغو تجري. وظلت يداه ثابتتين رغم أن الحبل‎ 2 ‏كان يقطع في جلده. شعر بقوة المخلوق العظيم في الأعماق. وهو‎ ‏يسحبه أبعد فابعد عن اليابسة”‎"
+        },
+        {
+          "order": 6,
+          "paragraphEn": "ALong Struggle Begins ‏ ‎ For hours, the fish swam on, and the boat followed. Santiago drank ‘ alittle water and ate a piece of tuna he had caught earlier for bait. He needed strength, for this battle would not end quickly. -",
+          "paragraphAr": "‏لساعات, واصلت السمكة السباحة, وتبعها القارب. شرب سانتياغو قليلاً‎ ‏من الماء وأكل قطعة من التونة كان قد اصطادها سابقاً كظعم. كان‎ ‏يحتاج إلى القوة؛ لأن هذه المعركة لن تنتهي سريعا.\"‎"
+        },
+        {
+          "order": 7,
+          "paragraphEn": "Talking to the Fish ‏ ‎ As the sun went down, the line still pulled tight, and the fish still swam deep. The old man spoke to it softly: \"Fish, you are my brother. But will not let you go. will fight with all my heart to take you.”",
+          "paragraphAr": "‏زالت السمكة تسبح في‎ ‏مع غروب الشمس. ظل الحبل مشدوداً.‎ ‏الأعماق. قال لها الرجل العجوز بلطف: \"أيتها السمكة, أنت أختي. لكنني‎"
+        },
+        {
+          "order": 8,
+          "paragraphEn": "rotessional ‏‎ 1 ap English Night Struggles Jw ‏‎ ‎Night fell, and the stars came out. The boat moved quietly through the dark water. Santiago felt the line burning into his hands, but he held firm. His back ached, his arms trembled, but he would not surrender.",
+          "paragraphAr": "‏حل الليل وظهرت النجوم. تحرك القارب بهدوء وسط المياه المظلمة.‎ ‏شعر سانتياغو بأن الحبل يحرق يديه. لكنه ظل ثابتاً. كان ظهره يؤلمه‎ ‏وذراعاه ترتجفان. لكنه لم يستسلم.‎"
+        },
+        {
+          "order": 9,
+          "paragraphEn": "Inspired by DiMaggio ‏ ‎ He remembered Joe DiMaggio playing baseball with pain in his heel. “If DiMaggio could play with pain, can fight this fish,\" Santiago thought. \"Pain does not matter. Only endurance matters.”",
+          "paragraphAr": "‏تذكر جو ديماجيو وهو يلعب البيسبول رغم الألم في كعبه. قال‎ ‏سانتياغو في نفسه: \"إذا كان ديماجيو استطاع الاعب مع‎ ‏أستطيع أن أقاتل هذه السمكة. الألم لايهم. مايهم هو التحمل فقط*‎"
+        },
+        {
+          "order": 10,
+          "paragraphEn": "All-Night Battle ‏ ‎ The fish towed the boat all night. Santiago could not sleep. He tied the line across his shoulders to take some of the strain, but he never let go. He ate ) another piece of fish to keep his strength.",
+          "paragraphAr": "‏سحبت السمكة القارب طوال الليل. لم يستطع سانتياغو النوم. ربط‎ ‏الحبل على كتفيه ليخفف بعض الإجهاد. لكنه لم يتركه أبداً. أكل‎ ‏قطعة أخرى من السمك ليحافظ على قوته.‎"
+        },
+        {
+          "order": 11,
+          "paragraphEn": "Thinking of the Boy voll ‏ ‎ ‘Sometimes, he thought of the boy. \" wish the boy were here,” he whispered. \"He would help me, and he would see what a great fish this is.”",
+          "paragraphAr": "‏كان يفكر في الصبي. همس قائلاً: \"بيت الصبي كان هنا. كان‎ ‏سيساعدني. وكان سيرى ما أعظم هذه السمكة,.\"‎"
+        },
+        {
+          "order": 12,
+          "paragraphEn": "protessional ‏‎ ‏‎ ‎Alone with Nature ‏ ‎ But Santiago was alone, and he knew this was his fight. The sea was silent except for the sound of water against the boat. The old man felt small under the wide sky, but also strong. He was part of the ‘sea, part of the stars, part of the eternal struggle between man and nature.",
+          "paragraphAr": "‏لكن سانتياغو كان وحيداً, وكان يعرف أن هذه معركته وحده. كان البحر‎ ‏ساكناً إلا من صوت الماء وهو يضرب القارب. شعر الرجل العجوز بالصغر‎ ‏جزءاً‎ ‏تحت السماء الواسعة. لكنه شعر أيضاً بالقوة. كان جزءاً من‎ ‏من النجوم. وجزءاً من الصراع الأبدي بين الإنسان والطبيعة.‎"
+        },
+        {
+          "order": 13,
+          "paragraphEn": "The Final Declaration ‏ ‎ As dawn began to break again, Santiago looked at the line. It still cut hard into the water, strong and deep. The fish had not tired. Neither had he. 7 Pa The old man said aloud: \"Now we are joined, fish, you and I. You are pulling me, and am pulling you. May the best of us win.”",
+          "paragraphAr": "‏مع بزوغ الفجر من جديد. نظر سانتياغو إلى الحبل. كان لا يزال يخترق.‎ ‏الماء بقوة وعمق. لم تتعب السمكة. ولم يتعب هو أيضاً‎ ‏مرتبطين. أيتها السمكة. أنا‎ ‏قال الرجل العجوز بصوت عال: “الآن‎"
+        },
+        {
+          "order": 14,
+          "paragraphEn": "CHAPTER THREE IN POINTS ‏ 5 ‎ ‘The sun burned high above as Santiago waited alone in his small boat .",
+          "paragraphAr": "‏كانت الشمس حارقة في السماء بينما انتظر سانتياغو وحيًا في قاربه الصغير.‎"
+        },
+        {
+          "order": 15,
+          "paragraphEn": "bird circled inthe sky, showing signs tha lsh were near the surface",
+          "paragraphAr": "‏دار طائر في السماء. مشيرًا إلى أن الأسماك قريبة من سطح الماء.‎"
+        },
+        {
+          "order": 16,
+          "paragraphEn": "Suddenly, the bird dived sharply, and email tuna jumped, scared by something larger",
+          "paragraphAr": "‏شيء أكبر‎ ‏فجأة غاص الطائر بقوة. وقفزت أسماك التونة الصغيرة‎"
+        },
+        {
+          "order": 17,
+          "paragraphEn": "Santiago's heart raced as he sensed a powerful fish moving under the waves",
+          "paragraphAr": "‏خفق قلب سانتياغو بسرعة عندما شعر بسمكة قوية تتحرك تحت الأمواج.‎"
+        },
+        {
+          "order": 18,
+          "paragraphEn": "He felt the fishing line tremble gently, a sign that something had taken interest .",
+          "paragraphAr": ". ‏ما قد اهتم بالظعم‎ ‏شعر بخيط الصيد يهتز برفق, إشارة إلى أن‎"
+        },
+        {
+          "order": 19,
+          "paragraphEn": "Santiago waited patiently, letting the fish test the bat before pulling away",
+          "paragraphAr": ". ‏انتظر سانتياغو بصبر, تاركًا السمكة تختبر الضعم قبل أن تبتعد عنه‎"
+        },
+        {
+          "order": 20,
+          "paragraphEn": "protessional ‏‎ ‏‎ ‎When the fish finally bit the line tightened hard, cutting deep ‏ ‎ hands.",
+          "paragraphAr": "‏عندما عضت السمكة أخيزا. شد الخيط بقوة. وغاص في يديه‎ ‏نحو أعماق البحر المفتوم‎ ) ‏القارب الصغير‎ ‏السمكة القوية‎"
+        },
+        {
+          "order": 21,
+          "paragraphEn": "Santiago held firm, his muscles tense, refusing ‏‎ release the precious line.",
+          "paragraphAr": ". ‏ثبت سانتياغو مكانه. واشتدت عضلاته, رافضًا أن يترك الخيط الثمين‎ ‏الجدير بالاحترام.‎ ‏.تحدث بهدوء إلى السمكة. مناديًا إياها 'أخي\"‎"
+        },
+        {
+          "order": 22,
+          "paragraphEn": "‏‎ night came, the line sil pulled hard, and Santiago's hands burned with pain -",
+          "paragraphAr": "‏واحترقت يدا سانتياغو من‎ ‏مع حلول الليل. ظل الخيط مشدوذًا‎"
+        },
+        {
+          "order": 23,
+          "paragraphEn": "Hie thought of Joe DiMaggio and his courage to fight through pain and struggle -",
+          "paragraphAr": ". ‏في جو ديماجيو وشجاعته في القتال رغم الألم والمعاناة‎"
+        },
+        {
+          "order": 24,
+          "paragraphEn": "Santiago ate a piece of fish to Keep his strength during the long battle,",
+          "paragraphAr": ". ‏السمك ليحافظ على قوته أثناء المعركة الطويلة‎ ‏أكل سانتياغو قطعة‎"
+        },
+        {
+          "order": 25,
+          "paragraphEn": "He wished the boy were with him to see the greatness of this ish.",
+          "paragraphAr": ". ‏الصبي كان معه ليرى عظمة هذه السمكة القوية‎ ‏تمنى لو‎"
+        },
+        {
+          "order": 26,
+          "paragraphEn": "‘At dawn, man and fish were sil joined in an endless fight for survival",
+          "paragraphAr": ". ‏عند الفجرءظل الرجل والسمكة متحدين في صراع لا ينتهي من أجل البقاء‎"
+        },
+        {
+          "order": 27,
+          "paragraphEn": "‎Why did Santiago walt instead of pulling the line immediatly ?",
+          "paragraphAr": "‏سانتياغو بدلا من سحب الخيط‎"
+        }
+      ],
+      "questionsAndAnswers": [
+        {
+          "id": "sec1_ch3_qa_1",
+          "question": "Why did Santiago walt instead of pulling the line immediatly ?",
+          "answer": "gb سانتياغو بدلا من سحب الخيط ad\nBecause he knew bg fish eat slowly, and he wanted to hook it propery",
+          "type": "sb_wb"
+        },
+        {
+          "id": "sec1_ch3_qa_2",
+          "question": "How does the bird help Santiago know tha ish are near ?",
+          "answer": "",
+          "type": "sb_wb"
+        },
+        {
+          "id": "sec1_ch3_qa_3",
+          "question": "كيف ساعد الطائر سانتياغو في معرفة أن السمك قريب ؟",
+          "answer": "‘The bird circles and dives into the water, showing that fish are near the surface .\n) | يدور الطائر في السماء ثم يغوص في الماء. مما يدل على وجود سمك قريب من السطم",
+          "type": "sb_wb"
+        },
+        {
+          "id": "sec1_ch3_qa_4",
+          "question": "ماذا يكشف قفز سمك التونة عن البحر؟",
+          "answer": "It shows that something larger, maybe a big fish, ها hunting Below the surtace\nيُظهر أن هناك شيئا أكبر.ربما سمكة ضخمة, تصطاد تحت السطم\nBecause he respects the fsh’s strength and feels a deep connection with It.\nلأنه يحترم قوة السمخة ويشعر برابطة عميقة تجمعه بعا",
+          "type": "sb_wb"
+        },
+        {
+          "id": "sec1_ch3_qa_5",
+          "question": "How does Santiago endure the pain in his hands ?",
+          "answer": "Say كيف يتحمل سانتياغو الألم في\nHe stays calm, focuses on his goal, and ignores the pain to keep fighting .\na Uli ويركز على هدفه. ويتجاهل الألم ليستمر في Lala يبقى",
+          "type": "sb_wb"
+        },
+        {
+          "id": "sec1_ch3_qa_6",
+          "question": "Why does Santiago remember Joe DiMaggio during the struggle ?",
+          "answer": "",
+          "type": "sb_wb"
+        },
+        {
+          "id": "sec1_ch3_qa_7",
+          "question": "تذكر سانتياغو جو ديماجيو أثناء الصراع ؟ ital",
+          "answer": "Because DiMaggio played with pain, inspiring Santiago to stay strong and endure .\na ويتحمل Lah سانتياغو ليبقى aail ديماجيو كان يلعب رغم الألم. مما yi",
+          "type": "sb_wb"
+        },
+        {
+          "id": "sec1_ch3_qa_8",
+          "question": "What shows Santiago's determination through the night ?",
+          "answer": "",
+          "type": "sb_wb"
+        },
+        {
+          "id": "sec1_ch3_qa_9",
+          "question": "ما الذي يُظهر إصرار سانتياغو طوال الليل ؟",
+          "answer": "He doesn't sleep, never lets go of the line, and keeps holding it firmly .\n8 وظل متمسكاً به بإصرار day ولم يترك الخيط Jal لم ينم طوال",
+          "type": "sb_wb"
+        },
+        {
+          "id": "sec1_ch3_qa_10",
+          "question": "Why does Santiago wish the boy were with him ?",
+          "answer": "5 الماذا تمنى سانتياغو لو أن الصبي كان معه\nHe wishes for help and wants the boy to see the greatness of the fish .\nتمنى وجوده ليساعده. وليرى عظمة السمكة التي يصطادها\nHow does the night sky affect Santiago's thoughts 7",
+          "type": "sb_wb"
+        },
+        {
+          "id": "sec1_ch3_qa_11",
+          "question": "كيف أثر عليه منظر السماء ليلاً؟",
+          "answer": "makes him feel small but also peaceful and part of the universe .\nجعله يشعر يصغره. لكنه أحس بالسلام والانتماء للكون\nWhat does Santiago mean when he says, “May the best of us win’ +",
+          "type": "sb_wb"
+        },
+        {
+          "id": "sec1_ch3_qa_12",
+          "question": "ماذا يقصد سانتياغو بقوله: “ليفز الأفضل بيننا\" ؟",
+          "answer": "He accepts the fight as fair and respects the fish as a worthy opponent .\na يقصد أنه يتقبل المعركة بعدل ويحترم السمكة كخصم يستحق القتال",
+          "type": "sb_wb"
+        }
+      ],
+      "importantQuestions": [
+        {
+          "id": "sec1_ch3_crit_1",
+          "question": "How does Hemingway use the bird to symbolize guidance and hope ?",
+          "answer": "",
+          "type": "critical_thinking"
+        },
+        {
+          "id": "sec1_ch3_crit_2",
+          "question": "كيف يستخدم همنفواي الطائر كرمز للإرشاد والأمل ؟",
+          "answer": "The bird helps Santiago find fish and gives him hope .\noH يساعد الطائر سانتياغو في إيجاد السمك ويمنحه",
+          "type": "critical_thinking"
+        },
+        {
+          "id": "sec1_ch3_crit_3",
+          "question": "Why does Santiago speak to the fish as it were human ?",
+          "answer": "",
+          "type": "critical_thinking"
+        },
+        {
+          "id": "sec1_ch3_crit_4",
+          "question": "لماذا يتحدث سانتياغو إلى السمكة كما لو كانت إنساناً ؟",
+          "answer": "He feels close to It and respects Its strength يشعر بالقرب منها ويحترم قوتها",
+          "type": "critical_thinking"
+        },
+        {
+          "id": "sec1_ch3_crit_5",
+          "question": "What does the steady, deep swimming of the fish suggest about its nature ?",
+          "answer": "",
+          "type": "critical_thinking"
+        },
+        {
+          "id": "sec1_ch3_crit_6",
+          "question": "ماذا توحي السباحة العميقة والثابتة للسمكة عن طبيعتها ؟",
+          "answer": "It shows the fish Is strong and calm السمكة قوية وهادئة yl sala\nHow is Santiago's endurance compared to DiMaggio's 7",
+          "type": "critical_thinking"
+        },
+        {
+          "id": "sec1_ch3_crit_7",
+          "question": "كيف ثقارن قدرة سانتياغو على التحمل بقدرة ديماجيو ؟",
+          "answer": "Both stay strong and brave despite pain . وشجاعًا رغم الألم tad كلاهما يبقى\nWhy does Santiago accept pain as part of the struggle +",
+          "type": "critical_thinking"
+        },
+        {
+          "id": "sec1_ch3_crit_8",
+          "question": "لماذا يتقبل سانتياغو الألم كجزء من الصراع ؟",
+          "answer": "He knows pain is part of winning alll يعرف أن الآلم جزء من\nWhat does the endless pull into the sea symbolize about life's challenges +",
+          "type": "critical_thinking"
+        },
+        {
+          "id": "sec1_ch3_crit_9",
+          "question": "السحب المستمر نحو البحر عن تحديات الحياة ؟ joy ماذا",
+          "answer": "It shows life's struggles never stop. (geal يُظهر أن صعوبات الحياة لا",
+          "type": "critical_thinking"
+        },
+        {
+          "id": "sec1_ch3_crit_10",
+          "question": "In what ways does Santiago's solitude make the battle more meaningful ?",
+          "answer": "",
+          "type": "critical_thinking"
+        },
+        {
+          "id": "sec1_ch3_crit_11",
+          "question": "كيف يجعل انفراد سانتياغو المعركة أكثر معنى ؟",
+          "answer": "It shows his courage and strength alone. يُظهر شجاعته وقوته وحده تنتهي\nHow does the sea act as both a friend and an enemy in this chapter 7",
+          "type": "critical_thinking"
+        },
+        {
+          "id": "sec1_ch3_crit_12",
+          "question": "كيف يظهر البحر كصديق وعدو في هذا الفصل ؟",
+          "answer": "It gives fish but also causes pain. (2081) يمنحه السمك لكنه يسبب\nWhy does Hemingway describe Santiago as part of the sea and the stars 7",
+          "type": "critical_thinking"
+        },
+        {
+          "id": "sec1_ch3_crit_13",
+          "question": "لماذا يصف همنغواي سانتياغو كجزء من البحر والنجوم ؟",
+          "answer": "To show his deep link with nature. ارتباطه العميق بالطبيعة palais",
+          "type": "critical_thinking"
+        },
+        {
+          "id": "sec1_ch3_crit_14",
+          "question": "Do you think Santiago وأ fighting the fish, or Is he fighting himself 7 Explain ?",
+          "answer": "",
+          "type": "critical_thinking"
+        },
+        {
+          "id": "sec1_ch3_crit_15",
+          "question": "نفسه؟ وضع ؟ ol هل يقاتل سانتياغو السمكة",
+          "answer": "He fights both the fish and himself . يقاتل السمكة ونفسه في الوقت نفسه\nلهالا © Exercises",
+          "type": "critical_thinking"
+        }
+      ],
+      "homeworkQuestions": [
+        {
+          "id": "sec1_ch3_exam_1",
+          "question": "Answer the following questions :",
+          "answer": "سؤال امتحاني وزاري معتمد يتطلب استيعاباً دقيقاً لمعاني الصمود والرمزية في رواية العجوز والبحر.",
+          "type": "homework"
+        },
+        {
+          "id": "sec1_ch3_exam_2",
+          "question": "fi) why does Santiago think about Joe DiMaggio while fighting the fish 7",
+          "answer": "سؤال امتحاني وزاري معتمد يتطلب استيعاباً دقيقاً لمعاني الصمود والرمزية في رواية العجوز والبحر.",
+          "type": "homework"
+        },
+        {
+          "id": "sec1_ch3_exam_3",
+          "question": "f ©) How does Santiago stay strong despite the pain in his hands ?",
+          "answer": "سؤال امتحاني وزاري معتمد يتطلب استيعاباً دقيقاً لمعاني الصمود والرمزية في رواية العجوز والبحر.",
+          "type": "homework"
+        },
+        {
+          "id": "sec1_ch3_exam_4",
+          "question": "15) Why does Santiago want Manolin to be with him during the struggle 7",
+          "answer": "سؤال امتحاني وزاري معتمد يتطلب استيعاباً دقيقاً لمعاني الصمود والرمزية في رواية العجوز والبحر.",
+          "type": "homework"
+        },
+        {
+          "id": "sec1_ch3_exam_5",
+          "question": "{@) How does the bird help Santiago discover that fish are nearby ?",
+          "answer": "سؤال امتحاني وزاري معتمد يتطلب استيعاباً دقيقاً لمعاني الصمود والرمزية في رواية العجوز والبحر.",
+          "type": "homework"
+        },
+        {
+          "id": "sec1_ch3_exam_6",
+          "question": "{1G} What does Santiago mean when he says, “May the best one win” 7",
+          "answer": "سؤال امتحاني وزاري معتمد يتطلب استيعاباً دقيقاً لمعاني الصمود والرمزية في رواية العجوز والبحر.",
+          "type": "homework"
+        },
+        {
+          "id": "sec1_ch3_exam_7",
+          "question": "professional 1 اساي",
+          "answer": "سؤال امتحاني وزاري معتمد يتطلب استيعاباً دقيقاً لمعاني الصمود والرمزية في رواية العجوز والبحر.",
+          "type": "homework"
+        },
+        {
+          "id": "sec1_ch3_exam_8",
+          "question": "(إز] What does the jumping tuna show Santiago about life in the sea 7",
+          "answer": "سؤال امتحاني وزاري معتمد يتطلب استيعاباً دقيقاً لمعاني الصمود والرمزية في رواية العجوز والبحر.",
+          "type": "homework"
+        },
+        {
+          "id": "sec1_ch3_exam_9",
+          "question": "7\" How does Santiago prove his determination throughout the night 7",
+          "answer": "سؤال امتحاني وزاري معتمد يتطلب استيعاباً دقيقاً لمعاني الصمود والرمزية في رواية العجوز والبحر.",
+          "type": "homework"
+        },
+        {
+          "id": "sec1_ch3_exam_10",
+          "question": "(3) Why does Santiago describe the fish as his brother 7",
+          "answer": "سؤال امتحاني وزاري معتمد يتطلب استيعاباً دقيقاً لمعاني الصمود والرمزية في رواية العجوز والبحر.",
+          "type": "homework"
+        },
+        {
+          "id": "sec1_ch3_exam_11",
+          "question": "1) How does looking at the night sky influence Santiago's thoughts 7",
+          "answer": "سؤال امتحاني وزاري معتمد يتطلب استيعاباً دقيقاً لمعاني الصمود والرمزية في رواية العجوز والبحر.",
+          "type": "homework"
+        },
+        {
+          "id": "sec1_ch3_exam_12",
+          "question": "{1 Why does Santiago wait before pulling the fishing line ?",
+          "answer": "سؤال امتحاني وزاري معتمد يتطلب استيعاباً دقيقاً لمعاني الصمود والرمزية في رواية العجوز والبحر.",
+          "type": "homework"
+        },
+        {
+          "id": "sec1_ch3_exam_13",
+          "question": "rofessional ewe Novel",
+          "answer": "سؤال امتحاني وزاري معتمد يتطلب استيعاباً دقيقاً لمعاني الصمود والرمزية في رواية العجوز والبحر.",
+          "type": "homework"
+        },
+        {
+          "id": "sec1_ch3_exam_14",
+          "question": "1 ير English",
+          "answer": "سؤال امتحاني وزاري معتمد يتطلب استيعاباً دقيقاً لمعاني الصمود والرمزية في رواية العجوز والبحر.",
+          "type": "homework"
+        },
+        {
+          "id": "sec1_ch3_exam_15",
+          "question": "—--om com ~",
+          "answer": "سؤال امتحاني وزاري معتمد يتطلب استيعاباً دقيقاً لمعاني الصمود والرمزية في رواية العجوز والبحر.",
+          "type": "homework"
+        },
+        {
+          "id": "sec1_ch3_exam_16",
+          "question": "شتت .~ الت اتن",
+          "answer": "سؤال امتحاني وزاري معتمد يتطلب استيعاباً دقيقاً لمعاني الصمود والرمزية في رواية العجوز والبحر.",
+          "type": "homework"
+        },
+        {
+          "id": "sec1_ch3_exam_17",
+          "question": "تت - om اتح --",
+          "answer": "سؤال امتحاني وزاري معتمد يتطلب استيعاباً دقيقاً لمعاني الصمود والرمزية في رواية العجوز والبحر.",
+          "type": "homework"
+        },
+        {
+          "id": "sec1_ch3_exam_18",
+          "question": "— cm “oom ~",
+          "answer": "سؤال امتحاني وزاري معتمد يتطلب استيعاباً دقيقاً لمعاني الصمود والرمزية في رواية العجوز والبحر.",
+          "type": "homework"
+        },
+        {
+          "id": "sec1_ch3_exam_19",
+          "question": "33 ل companionship رفقة",
+          "answer": "سؤال امتحاني وزاري معتمد يتطلب استيعاباً دقيقاً لمعاني الصمود والرمزية في رواية العجوز والبحر.",
+          "type": "homework"
+        },
+        {
+          "id": "sec1_ch3_exam_20",
+          "question": "‘You are my brother, fish Pain doesn't matter",
+          "answer": "سؤال امتحاني وزاري معتمد يتطلب استيعاباً دقيقاً لمعاني الصمود والرمزية في رواية العجوز والبحر.",
+          "type": "homework"
+        },
+        {
+          "id": "sec1_ch3_exam_21",
+          "question": "‘Abond between man and nature Endurance is more important than suffering",
+          "answer": "سؤال امتحاني وزاري معتمد يتطلب استيعاباً دقيقاً لمعاني الصمود والرمزية في رواية العجوز والبحر.",
+          "type": "homework"
+        },
+        {
+          "id": "sec1_ch3_exam_22",
+          "question": "علاقة قوية بين الإنسان والطبيعة. ANSI الشكوى من yo التحمّل أهم",
+          "answer": "سؤال امتحاني وزاري معتمد يتطلب استيعاباً دقيقاً لمعاني الصمود والرمزية في رواية العجوز والبحر.",
+          "type": "homework"
+        },
+        {
+          "id": "sec1_ch3_exam_23",
+          "question": "The sea tests me Killing me, fish",
+          "answer": "سؤال امتحاني وزاري معتمد يتطلب استيعاباً دقيقاً لمعاني الصمود والرمزية في رواية العجوز والبحر.",
+          "type": "homework"
+        },
+        {
+          "id": "sec1_ch3_exam_24",
+          "question": "Nature as a challenger Recognition of the fish's power",
+          "answer": "سؤال امتحاني وزاري معتمد يتطلب استيعاباً دقيقاً لمعاني الصمود والرمزية في رواية العجوز والبحر.",
+          "type": "homework"
+        },
+        {
+          "id": "sec1_ch3_exam_25",
+          "question": "الالال سه professional",
+          "answer": "سؤال امتحاني وزاري معتمد يتطلب استيعاباً دقيقاً لمعاني الصمود والرمزية في رواية العجوز والبحر.",
+          "type": "homework"
+        },
+        {
+          "id": "sec1_ch3_exam_26",
+          "question": "احترام الطبيعة Respect for nature الفخر في Pride in endurance Jamul",
+          "answer": "سؤال امتحاني وزاري معتمد يتطلب استيعاباً دقيقاً لمعاني الصمود والرمزية في رواية العجوز والبحر.",
+          "type": "homework"
+        },
+        {
+          "id": "sec1_ch3_exam_27",
+          "question": "Santiago refuses to surrender despite pain. He admires the fish's power.",
+          "answer": "سؤال امتحاني وزاري معتمد يتطلب استيعاباً دقيقاً لمعاني الصمود والرمزية في رواية العجوز والبحر.",
+          "type": "homework"
+        },
+        {
+          "id": "sec1_ch3_exam_28",
+          "question": "يُعجب بقوة السمكة يرفض سانتياغو الاستسلام رغم الألم",
+          "answer": "سؤال امتحاني وزاري معتمد يتطلب استيعاباً دقيقاً لمعاني الصمود والرمزية في رواية العجوز والبحر.",
+          "type": "homework"
+        },
+        {
+          "id": "sec1_ch3_exam_29",
+          "question": "الوحدة والإيمان Loneliness and faith أشجاعة الإنسان [Human courage",
+          "answer": "سؤال امتحاني وزاري معتمد يتطلب استيعاباً دقيقاً لمعاني الصمود والرمزية في رواية العجوز والبحر.",
+          "type": "homework"
+        },
+        {
+          "id": "sec1_ch3_exam_30",
+          "question": "‘Strength of spirit matters more than the body. Santiago is alone, yet strengthened by memory",
+          "answer": "سؤال امتحاني وزاري معتمد يتطلب استيعاباً دقيقاً لمعاني الصمود والرمزية في رواية العجوز والبحر.",
+          "type": "homework"
+        },
+        {
+          "id": "sec1_ch3_exam_31",
+          "question": "and hope. قوة الروح أهم من قوة الجسد",
+          "answer": "سؤال امتحاني وزاري معتمد يتطلب استيعاباً دقيقاً لمعاني الصمود والرمزية في رواية العجوز والبحر.",
+          "type": "homework"
+        },
+        {
+          "id": "sec1_ch3_exam_32",
+          "question": "سانتياغو وحيد. لكنه يستمد القوة من الذكريات.",
+          "answer": "سؤال امتحاني وزاري معتمد يتطلب استيعاباً دقيقاً لمعاني الصمود والرمزية في رواية العجوز والبحر.",
+          "type": "homework"
+        }
+      ],
+      "mcqQuestions": [
+        {
+          "id": "mcq_sec1_ch3_1",
+          "question": "What key moral lesson is demonstrated in Chapter 3 (Signs in the Sky & The Great Pull)?",
+          "options": [
+            "Material wealth is more important than personal honor",
+            "Santiago saw a bird divin, signaling tuna scattering and a larger fish beneath the sea .",
+            "Santiago regrets choosing the fisherman's life",
+            "Giving up early prevents unnecessary suffering"
+          ],
+          "correctAnswer": "Santiago saw a bird divin, signaling tuna scattering and a larger fish beneath the sea .",
+          "explanation": "Santiago embodies persistent effort, self-respect, and unbreakable determination."
+        },
+        {
+          "id": "mcq_sec1_ch3_2",
+          "question": "How does Santiago view his relationship with the great marlin?",
+          "options": [
+            "As a cruel enemy to be hated and reviled",
+            "As an easy catch with no real challenge",
+            "With indifference and emotional detachment",
+            "As a brother and noble opponent worthy of reverence"
+          ],
+          "correctAnswer": "As a brother and noble opponent worthy of reverence",
+          "explanation": "Santiago respects the fish's majesty, courage, and equality in the great web of nature."
+        }
+      ],
+      "importantCharacters": [
+        {
+          "nameEn": "Santiago",
+          "nameAr": "سانتياغو",
+          "roleEn": "Determined hunter locked in battle with a titan of the deep.",
+          "roleAr": "صياد صلب يواجه عملاقاً من أعماق المحيط.",
+          "actionsEn": "Hooked the giant marlin and held the taut line with his bare back and shoulders.",
+          "actionsAr": "أحكم إمساك السمكة العملاقة بصنارته، وتحمل ضغط الخيط المشدود على ظهره وكتفيه."
+        },
+        {
+          "nameEn": "The Giant Marlin",
+          "nameAr": "سمكة المارلين العملاقة",
+          "roleEn": "Magnificent, noble creature pulling the skiff for miles.",
+          "roleAr": "مخلوق نبيل وفارع القوة يجر القارب لأميال في عرض البحر.",
+          "actionsEn": "Towed the skiff steadily northwest without leaping, testing Santiago's endurance.",
+          "actionsAr": "جرت القارب بثبات نحو الشمال الغربي دون أن تقفز، مختبرةً أقصى حدود طاقة سانتياغو."
+        }
+      ],
+      "characterRelationships": [
+        {
+          "characters": [
+            "Santiago",
+            "The Giant Marlin"
+          ],
+          "relationEn": "Adversaries & Brothers",
+          "relationAr": "خصمان شريفان وأخوان في الطبيعة",
+          "detailsEn": "Santiago feels no hatred, only profound awe and kinship for the magnificent creature.",
+          "detailsAr": "لا يحمل سانتياغو أي كراهية، بل يشعر بإجلال ومحبة عميقة لخصمه النبيل."
+        }
+      ],
+      "keyDialogues": [
+        {
+          "speakerEn": "Santiago",
+          "speakerAr": "سانتياغو",
+          "quoteEn": "I love you and respect you very much. But I will kill you dead before this day ends.",
+          "quoteAr": "أحبك وأحترمك كثيراً يا أخي، لكنني سأقتلك قبل أن ينتهي هذا اليوم.",
+          "contextEn": "Santiago whispering to the fish as it pulls him far into the open sea.",
+          "contextAr": "سانتياغو يهمس للسمكة وهي تجره بعيداً في قلب المحيط المفتوح."
+        }
+      ],
+      "themesAndLessons": [
+        {
+          "themeEn": "Reverence for the Opponent",
+          "themeAr": "احترام الخصم والفروسية",
+          "lessonEn": "A noble warrior respects the dignity and strength of his adversary.",
+          "lessonAr": "المقاتل النبيل يحترم قوة خصمه وشرفه ويعامله بإجلال وتقدير."
+        }
+      ]
+    },
+    {
+      "id": "sc_sec_1_ch_4",
+      "chapterNumber": 4,
+      "titleEn": "Morning Struggle & The Powerful Fish",
+      "titleAr": "صراع الصباح والسمكة القوية",
+      "term": "second",
+      "summaryEn": "Santiago spoke to the fish kindly, calling it his brother, even though he had to kill it .",
+      "summaryAr": "تحدث سانتياغو إلى السمكة wala واعتبرها أخاه رغم أنه مضطر لقتلها .",
+      "chapterInPoints": [
+        {
+          "order": 1,
+          "pointEn": "",
+          "pointAr": ""
+        },
+        {
+          "order": 2,
+          "pointEn": "",
+          "pointAr": ""
+        },
+        {
+          "order": 3,
+          "pointEn": "",
+          "pointAr": ""
+        }
+      ],
+      "vocabulary": [
+        {
+          "word": "saláo",
+          "meaningAr": "أسوأ أنواع سوء الحظ"
+        },
+        {
+          "word": "skiff",
+          "meaningAr": "قارب صيد صغير خفيف"
+        },
+        {
+          "word": "harpoon",
+          "meaningAr": "حربة صيد الأسماك الكبيرة"
+        },
+        {
+          "word": "endurance",
+          "meaningAr": "الصمود والجلد وتحمل المشاق"
+        },
+        {
+          "word": "gaff",
+          "meaningAr": "خطاف معدني لجذب الصيد"
+        },
+        {
+          "word": "marlin",
+          "meaningAr": "سمكة المارلين العملاقة ذات السيف"
+        },
+        {
+          "word": "scavenger",
+          "meaningAr": "مخلوق مفترس أو ناهش للفضلات"
+        }
+      ],
+      "theText": [
+        {
+          "order": 1,
+          "paragraphEn": "‎Morning Struggle ‏ ‎ The morning sun rose golden over the sea, and the sky turned 57 from black to pale blue. Santiago had not slept. His body was stiff, his hands were cut from the line, and his back ached from leaning 1 against the pull of the great fish. Yet his eyes were clear, and his iS spirit unbroken.",
+          "paragraphAr": "‏وتحول لون السماء من الأسود‎ ‏أشرقت شمس الصباح ذهبية فوق‎ ‏إلى الأزرق الشاحب. لم, ينم سانتياغو. كان جسده متيبساء ويداه مجروحتين‎ ‏من الحبل. وظهره يؤلمه من مقاومة سحب السمكة الكبيرة. ومع ذلك,‎ ‏كانت عيناه صافيتين. وروحه لم تنكسر.‎"
+        },
+        {
+          "order": 2,
+          "paragraphEn": "The Powerful Fish ‏‎ ‎The fish still swam powerfully, dragging the boat farther out into the guit. ‘Santiago knew they were alone now, far from other fishermen, far iid 2 from the coast. But he did not feel fear. Instead, he felt pride. “No one will see this fight,” he said aloud, “but will know it, and so will the fish.”",
+          "paragraphAr": "‏ظلت السمكة تسبح بقوة. ساحبة القارب إلى أعماق الخليج. علم‎ ‏سانتياغو أنهما الآن وحدهماء بعيدين عن الصيادين الآخرين: وبعيدين عن‎ ‏الساحل. لكنه لم يشعر بالخوف. بل شعر بالفخر. قال بصوت عال: \"لن‎ ‏يرى أحد هذه المعركة. لكنني سأعرفهاء وكذلك السمكة.\"‎"
+        },
+        {
+          "order": 3,
+          "paragraphEn": "_ Preparing for the Long Fight   He looked at the line, stretched tight into the water. “You are my brother, fish,” he whispered, “but must kill you. There is no other way.” To rest his hands, Santiago shifted the line across his shoulders, letting the rough hemp bite into his back instead of his palms. He breathed deeply and ate another piece of tuna, chewing slowly. He knew he must ‘save his strength. The battle was not about hours, but days.",
+          "paragraphAr": "‏نظر إلى الخيط المشدود بقوة في الماء. وهمس: “أنت أخي.ء أيتها السمكة, لكن يجب أن‎ ‏أقتلك. لا يوجد طريق آخر”‎ ‏سانتياغو الخيط إلى كتفيه. مما جعل الحبل الخشن يضغط على ظهره.‎ ‏ليرتام‎ ‏يمضغها ببطء.‎ ‏راحتي يديه. تنفس بعمق وأكل قطعة أخرى من سمكة‎ ‏كان يعلم أنه يجب أن يحافظ على قوته. فالمعركة لن تستمر لساعات فقط؛ بل لأيام.‎"
+        },
+        {
+          "order": 4,
+          "paragraphEn": "The Fish Fights Back ‏ ‎ By noon, the fish suddenly pulled harder, and Santiago braced 47 a) himself. The line cut deeper into his skin, but he did not let go. His teeth clenched, sweat poured down his face. For a moment, he thought the fish might leap, but it did not. Instead, it dove deeper, dragging the skiff slowly along. The old man admired the creature's power. “He has not shown himself yet,” he thought. “He is too wise. But soon, he must come up.”",
+          "paragraphAr": "‏أكبر. فاستعد سانتياغو للمقاومة. قطع الحبل.‎ 6 ) ‏بحلول الظهر. سحبت السمكة فجأة‎ ‏جلده بعمق أكبر. لكنه لم يتركه. شد على أسنانه؛ وانهمر العرق على وجهه. لوهلة, ظن أن.‎ ‏السمكة قد تقفز. لكنها لم تفعل. بل غاصت أعمق . وسحبت القارب الصغير ببطء معها.‎ ‏إنه حكيم 19 لكن‎ ) ‏أعجب الرجل العجوز بقوة المخلوق. وقال في نفسه: \"لم يظهر‎ ‏قريباء يجب أن يظهر.*‎"
+        },
+        {
+          "order": 5,
+          "paragraphEn": "Pain and Endurance ‏‎ ‎The hours passed. The sun burned hot, and Santiago shaded his eyes. His muscles cramped, but he stretched them against the pain. & He thought again of Joe DiMaggio, who played baseball with a bone spur in his heel. “If he could play with pain, can fight with pain,” ‘Santiago repeated. “I am only an old man, but I can endure.”",
+          "paragraphAr": "‏مرت الساعات. وكانت الشمس حارقة, فظتل سانتياغو عينيه. تشنجت‎ ‏عضلاته. لكنه واصل رغم الألم, تذكر جو ديماجيو الذي لعب البيسبول وهو‎ ‏يعاني من عظمة زائدة في قدمه. قال: \"إذا استطاع أن يلعب مع الألم فأنا‎ ‏أستطيع أن أقاتل معه. أنا مجرد رجل عجوز. لكن يمكنني أن أتحمل.\"‎"
+        },
+        {
+          "order": 6,
+          "paragraphEn": "That night, the fish made a great move. It surged suddenly, pull- 7 ing the boat faster than ever. Santiago almost fell, but he held ‘on, his body trembling with the effort. His hands bled freely, but 0 he ignored the pain. aa “You are killing me, fish,” he said aloud, “but you have the right. Never have I seen such a strong one. But will not give in.”",
+          "paragraphAr": "‏في تلك الليلة. قامت السمكة بحركة كبيرة واندفعت فجأة. ساحبة القارب بسرعة لم تحدث‎ ‏لكنه تمسك. واهتز جسده من شدة الجهد. كانت يداه‎ ‏من قبل. كاد سانتياغو أن‎ ‏تنزفان بحرية, لكنه تجاهل‎ ‏تقتلني؛ أيتها السمكة, لكنك تملكين الحق. لم أز سمكة قوية مثلك‎ ‏قال بصوت عال:‎ ‏من قبل. لكنني لن أستسلص”‎"
+        },
+        {
+          "order": 7,
+          "paragraphEn": "Loneliness and Memories ‏‎ ‎When the stars came out again, Santiago felt both loneliness and , companionship. He was alone on the sea, but the fish was with 2 him, bound by the line between them. He looked up at the stars 3 frogs and remembered the lions of his youth, playing on the beaches of 4 Africa. That dream gave him strength.",
+          "paragraphAr": "‏ظهرت النجوم مرة أخرى. شعر سانتياغو بالوحدة والرفقة مغا. كان‎ ‏مرتبطين بالخيط بينهما. نظر‎ ‏لكن السمكة كانت‎ ‏في‎ ‏إلى النجوم وتذكر الأسود في شبابه وهي تلعب على شواطئ أفريقيا.‎ ‏منحه ذلك الحلم القوة.‎"
+        },
+        {
+          "order": 8,
+          "paragraphEn": "The FishAppears ‏ ‎ The next morning, the fish finally rose. Santiago saw the line move o up , felt the great force lifting. Then, in a sudden explosion, the marlin leapt high into the air. It was enormous—longer than the boat itself, silver in the ‘sunlight, shining like a living sword. Water cascaded from its body as it crashed back into the sea.",
+          "paragraphAr": "‏ظهرت السمكة أخيرًا. رأى سانتياغو الحبل يرتفع,‎ ! ‏في صباح اليوم,‎ ‏الهواء. كانت ضخمة - أطول من القارب نفسه. فضية اللون في ضوع‎ ‏الشمس. تلمع كسيف حي. تناثرت المياه من جسدها عندما سقطت‎ ‏مجدذا في البحر.‎"
+        },
+        {
+          "order": 9,
+          "paragraphEn": "‏‎ _ The Final Struggle ‏‎ ‎Santiago's heart jumped. “Never have seen such a fish,” he whispered in awe. “Noble, strong, and full of spirit.” The marlin dived again, and the struggle continued. But now Santiago ai —— knew the size of his enemy. He spoke softly: “You are the greatest fish have ever fought. will kill you, though it will take all my strength.”",
+          "paragraphAr": "‏هذه من‎ ‏سمكة‎ ‏قفزقلب سانتياغو من الدهشة. همس: “لم‎ ‏نبيلة. قوية, ومليئة بالحياة.\"‎ ‏غطست السمكة مرة أخرى. واستمرت المعركة. لكن سانتياغو الآن يعرف‎ ‏أعظم سمكة قاتلتها في حياتي. سأقتلك,‎ ‏حجم عدوه. قال بهدوء:‎ ‏حتى لو تطلب الأمر كل قوتي.*‎"
+        },
+        {
+          "order": 10,
+          "paragraphEn": "Exhaustion Without Surrender ‏ ‎ For two days and two nights, the battle continued. Santiago did not sleep. He ate little, only raw fish, and drank sparingly from his water bottle. His body was broken, but his will was like iron. At times he pitied the fish. “You are killing yourself for me,” he said. “I love you, but must take you. A man was born to work, to fight, to suffer, and to win.”",
+          "paragraphAr": "‏استمرت المعركة يومين وليلتين. لم, ينم, سانتياغو. أكل قليلا من السمك‎ 1 ‏النيء. وشرب بضع رشفات من الماء. كان جسده منهكًاء لكن إرادته كانت كالحديد.‎ ‏ولينتصر”‎ « « ) ‏\"أن أحبك, لكن يجب أن أصطادك. ولد الإنسان‎"
+        },
+        {
+          "order": 11,
+          "paragraphEn": "The Final Morning ‏ ‎ When the third dawn came, Santiago was near exhaustion. His eyes burned, his hands were raw, his back felt as if it would break. Yet the line still held tight. The marlin swam slower now, tired but still strong. 3 3",
+          "paragraphAr": "‏عندما أتى فجراليوم الثالث. كان سانتياغو على وشك الانهيار. عيناه‎ ‏تحترقان؛ يداه مجروحتان. وظهره كآنه سينكسر. ومع ذلك,. لا يزال الحبل.‎ ‏متعبة ولكن لا تزال قوية.‎ ‏مشدوذا. كانت السمكة تسبح ببطء‎ ةريخألا ‏الكلمات‎"
+        },
+        {
+          "order": 12,
+          "paragraphEn": "‎‘Santiago whispered to the sea, to the fish, to himself: “It is you or me. May God help us both.”",
+          "paragraphAr": "‏أنا. ليُساعدنا الله كلاينا.*‎ ‏همس سانتياغو إلى البحر, إلى السمكة , إلى نفسه: \"إما أنت‎"
+        }
+      ],
+      "questionsAndAnswers": [
+        {
+          "id": "sec1_ch4_qa_1",
+          "question": "Why does Santiago foe pride instead أه far when far from land ?",
+          "answer": "",
+          "type": "sb_wb"
+        },
+        {
+          "id": "sec1_ch4_qa_2",
+          "question": "لماذا يشعر سانتياجو بالفخر بدلا من الخوف عندما يبتعد عن اليابسة ؟",
+          "answer": "He eels proud because he وز brave and wants to prove قاط strength .\nu يشعر بالفخرلانه شجاء ويريد أن يثبت قوته",
+          "type": "sb_wb"
+        },
+        {
+          "id": "sec1_ch4_qa_3",
+          "question": "نقل الحبل إلى كتفيه عن قدرة سانتياجو على التحمل ؟ aj ماذا",
+          "answer": "It shows he can suffer pain but still keep fighting .\nأنه يستطيع تحمل الألم ويواصل القتال لا pals",
+          "type": "sb_wb"
+        },
+        {
+          "id": "sec1_ch4_qa_4",
+          "question": "How does Santiago balance his need for food and strength during the battle?",
+          "answer": "1 كيف يوازن سانتياجو بين حاجته للطعام والقوة أثناء المعركة\nHe eats smal pleces of fis to stay strong.\n8 صغيرة من السمك ليحافظ على قوته tad يأكل",
+          "type": "sb_wb"
+        },
+        {
+          "id": "sec1_ch4_qa_5",
+          "question": "Why does Santiago compare himself to Joe DiMaggio ?",
+          "answer": "",
+          "type": "sb_wb"
+        },
+        {
+          "id": "sec1_ch4_qa_6",
+          "question": "يقارن سانتياجو نفسه بجو ديماغيو؟ tad",
+          "answer": "Because DiMaggio played through pain ust as Santiago fights through pan\n|) |] مثلما يقائل سائتياجو رغم الألم Nady لأن ديماغيو لعب",
+          "type": "sb_wb"
+        },
+        {
+          "id": "sec1_ch4_qa_7",
+          "question": "How does the marlin's leap affect Santiago emotionally ?",
+          "answer": "",
+          "type": "sb_wb"
+        },
+        {
+          "id": "sec1_ch4_qa_8",
+          "question": "كيف أثر قفز السمكة الضخمة على سانتياجو عاطفيًا ؟",
+          "answer": "He feels amazed and fl of respect forthe fish.\na يشعر بالدهشة والاحترام تجاه السمكة\nWhy does Santiago admire the marlin even while trying to kilt 7",
+          "type": "sb_wb"
+        },
+        {
+          "id": "sec1_ch4_qa_9",
+          "question": "لماذا يُعجب سانتياجو بالسمكة رغم محاولته قلعا ؟",
+          "answer": "Because he respects its strength and spirit .\na. الأنه يحترم قوتها وروحها القتالية",
+          "type": "sb_wb"
+        },
+        {
+          "id": "sec1_ch4_qa_10",
+          "question": "What role do Santiago's memories ofthe lions play in his struggle?",
+          "answer": "",
+          "type": "sb_wb"
+        },
+        {
+          "id": "sec1_ch4_qa_11",
+          "question": "ما دور ذكريات سانتياجي عن الأسود في صراعه ؟",
+          "answer": "‘They give him hope and remind him of his youth .\n0 تعطيه الأمل وتذكره بشبابه",
+          "type": "sb_wb"
+        },
+        {
+          "id": "sec1_ch4_qa_12",
+          "question": "How does Santiago express both love and duty toward the fish?",
+          "answer": "",
+          "type": "sb_wb"
+        },
+        {
+          "id": "sec1_ch4_qa_13",
+          "question": "كيف يُظهر سانتياجو الحب والواجب تجاه السمكة مها ؟",
+          "answer": "He loves the fish but knows he must kil it to survive .\nu Ua يحب السعكة لكنه يعلم أنه يجب أن يقتلها لييقى\nWhy does Hemingway describe Santiago's will as “like iron\" +",
+          "type": "sb_wb"
+        },
+        {
+          "id": "sec1_ch4_qa_14",
+          "question": "لماذا وصف همنغواي إرادة سانتياجو بأنها \"مثل الحديد ؟",
+          "answer": "Because nothing can break his determination .\n||] لآن لاشيء يستطيع كسرعزيمته\nprotessional سس Novel ل",
+          "type": "sb_wb"
+        },
+        {
+          "id": "sec1_ch4_qa_15",
+          "question": "What does Santiago mean by ‘It is you or me”?",
+          "answer": "Ul يقصد سانتياجو بعبارته “إما أنت أو to\nHe means one of them must die to win .\n0 يقصد أن أحدهما يجب أن يموت لينتصر الآخر",
+          "type": "sb_wb"
+        }
+      ],
+      "importantQuestions": [
+        {
+          "id": "sec1_ch4_crit_1",
+          "question": "How does the sea serve as both a setting of danger and a stage of glory in this chapter ?",
+          "answer": "",
+          "type": "critical_thinking"
+        },
+        {
+          "id": "sec1_ch4_crit_2",
+          "question": "للمجد في هذا الفصل ؟ Gyatog كيف تكون البحر مانا للخطر",
+          "answer": "Ite dangerous but also where Santiago proves his greatness .\nفيه سانتياجو عظمته cul إنه خطير لكنه المكان الذي",
+          "type": "critical_thinking"
+        },
+        {
+          "id": "sec1_ch4_crit_3",
+          "question": "Why does Hemingway show Santiago epeaking tothe fish asi it were human ?",
+          "answer": "",
+          "type": "critical_thinking"
+        },
+        {
+          "id": "sec1_ch4_crit_4",
+          "question": "يتحدث إلى السمكة كأنها إنسان ؟ gag يَظهر همنفواي سانتياجو ial",
+          "answer": "To show his deep connection and respect for the fish . ارتباضه العميق واحتراه للسمكة sala",
+          "type": "critical_thinking"
+        },
+        {
+          "id": "sec1_ch4_crit_5",
+          "question": "in what way does the fish symbolize both an opponent and a partner?",
+          "answer": "",
+          "type": "critical_thinking"
+        },
+        {
+          "id": "sec1_ch4_crit_6",
+          "question": "كيف ترمز السمكة إلى خصم وشريك في الوقت نفسه ؟",
+          "answer": "It fights Santiago but also shares his struggle إنها تقاتل سانتياجو لكنها تشاركه المعاناة”\n.ج90 صا مات ا ee",
+          "type": "critical_thinking"
+        },
+        {
+          "id": "sec1_ch4_crit_7",
+          "question": "Wow does Santiago's endurance highlight the theme of human resilience ?",
+          "answer": "",
+          "type": "critical_thinking"
+        },
+        {
+          "id": "sec1_ch4_crit_8",
+          "question": "كيف ثبرز قدرة سانتياجو على التحمل موضوع صمود الإنسان ؟",
+          "answer": "It shows humans can stay strong even in great pain\nالإنسان يمكنه أن يظل قويًا رغم الألم الكبير yl تظهر",
+          "type": "critical_thinking"
+        },
+        {
+          "id": "sec1_ch4_crit_9",
+          "question": "‘What does the marlin's leap symbolize inthe story? ماذا ترمز قفزة السمكة الضخمة في القصة ؟",
+          "answer": "It symbolizes beauty, power, and the spit of Ite. ترمز إلى الجمال والقوة وروم الحياة\n——EEeeEEEOrrrvrve en ee\nWhy is admiration forthe fish important in understanding Santiago's character ®",
+          "type": "critical_thinking"
+        },
+        {
+          "id": "sec1_ch4_crit_10",
+          "question": "الإعجاب بالسمكة مهم لفهم, شخصية سانتياجو ؟ al",
+          "answer": "| | يُظهر أنه يقاتل بشرف وليس بكراهية\nHow does the description of stars and dreams connect Santiago to nature +",
+          "type": "critical_thinking"
+        },
+        {
+          "id": "sec1_ch4_crit_11",
+          "question": "بالطبيعة ؟ gals تريط اوصاف النجوم والأحلام cas",
+          "answer": "They show he امه part of the world around him. alga انه يشعر بأنه جزم من العالم من ass\nWhat message does Hemingway send about suffering and greatness through this battle +",
+          "type": "critical_thinking"
+        },
+        {
+          "id": "sec1_ch4_crit_12",
+          "question": "ما الرسالة التي يرسلها همنغواي عن المعاناة والعظمة من خلال هذه المعركة ؟",
+          "answer": "True greatness comes through suffering and endurance .\nsilly العظمة الحقيقية تأتي من خلال المعاناة\nHow does Santiago's loneliness deepen the meaning ofthe fight +",
+          "type": "critical_thinking"
+        },
+        {
+          "id": "sec1_ch4_crit_13",
+          "question": "كيف تُعمق وحدة سانتياجو معنى القتال ؟",
+          "answer": "It makes the struggle more personal and heroic . تجعل الصراع أكثر شخصية وبطولية.",
+          "type": "critical_thinking"
+        },
+        {
+          "id": "sec1_ch4_crit_14",
+          "question": "Do you agree with Santiago that \"a man was born to work, to fight, to suffer, and to win\" ? Why,",
+          "answer": "",
+          "type": "critical_thinking"
+        },
+        {
+          "id": "sec1_ch4_crit_15",
+          "question": "or why not?",
+          "answer": "",
+          "type": "critical_thinking"
+        },
+        {
+          "id": "sec1_ch4_crit_16",
+          "question": "هل توافق سانتياجو على قوله \"ؤلد الإنسان ليعمل. ليقاتل. ليعاني. ولينتصر:؟ ولماذا ؟",
+          "answer": "Yes, because life's value comes from struggle and effort.\nنعم. لآن قيمة الحياة تأتي من الصراع والجهد",
+          "type": "critical_thinking"
+        }
+      ],
+      "homeworkQuestions": [
+        {
+          "id": "sec1_ch4_exam_1",
+          "question": "Answer the following questions :",
+          "answer": "سؤال امتحاني وزاري معتمد يتطلب استيعاباً دقيقاً لمعاني الصمود والرمزية في رواية العجوز والبحر.",
+          "type": "homework"
+        },
+        {
+          "id": "sec1_ch4_exam_2",
+          "question": "5[( How does Santiago's loneliness make his struggle with the fish more",
+          "answer": "سؤال امتحاني وزاري معتمد يتطلب استيعاباً دقيقاً لمعاني الصمود والرمزية في رواية العجوز والبحر.",
+          "type": "homework"
+        },
+        {
+          "id": "sec1_ch4_exam_3",
+          "question": "meaningful ?",
+          "answer": "سؤال امتحاني وزاري معتمد يتطلب استيعاباً دقيقاً لمعاني الصمود والرمزية في رواية العجوز والبحر.",
+          "type": "homework"
+        },
+        {
+          "id": "sec1_ch4_exam_4",
+          "question": "159 why does Santiago speak to the fish as though it were a person 7",
+          "answer": "سؤال امتحاني وزاري معتمد يتطلب استيعاباً دقيقاً لمعاني الصمود والرمزية في رواية العجوز والبحر.",
+          "type": "homework"
+        },
+        {
+          "id": "sec1_ch4_exam_5",
+          "question": "15 What does the marlin’s jump represent in the story ?",
+          "answer": "سؤال امتحاني وزاري معتمد يتطلب استيعاباً دقيقاً لمعاني الصمود والرمزية في رواية العجوز والبحر.",
+          "type": "homework"
+        },
+        {
+          "id": "sec1_ch4_exam_6",
+          "question": "(GJ) How do the stars and Santiago's dreams show his close relationship with",
+          "answer": "سؤال امتحاني وزاري معتمد يتطلب استيعاباً دقيقاً لمعاني الصمود والرمزية في رواية العجوز والبحر.",
+          "type": "homework"
+        },
+        {
+          "id": "sec1_ch4_exam_7",
+          "question": "{How does Santiago's ability to continue fighting show human strength",
+          "answer": "سؤال امتحاني وزاري معتمد يتطلب استيعاباً دقيقاً لمعاني الصمود والرمزية في رواية العجوز والبحر.",
+          "type": "homework"
+        },
+        {
+          "id": "sec1_ch4_exam_8",
+          "question": "and determination ?",
+          "answer": "سؤال امتحاني وزاري معتمد يتطلب استيعاباً دقيقاً لمعاني الصمود والرمزية في رواية العجوز والبحر.",
+          "type": "homework"
+        },
+        {
+          "id": "sec1_ch4_exam_9",
+          "question": "{G) why is Santiago's respect for the fish important for understanding his",
+          "answer": "سؤال امتحاني وزاري معتمد يتطلب استيعاباً دقيقاً لمعاني الصمود والرمزية في رواية العجوز والبحر.",
+          "type": "homework"
+        },
+        {
+          "id": "sec1_ch4_exam_10",
+          "question": "personality ?",
+          "answer": "سؤال امتحاني وزاري معتمد يتطلب استيعاباً دقيقاً لمعاني الصمود والرمزية في رواية العجوز والبحر.",
+          "type": "homework"
+        },
+        {
+          "id": "sec1_ch4_exam_11",
+          "question": "fi How is the fish both Santiago's rival and his companion 7",
+          "answer": "سؤال امتحاني وزاري معتمد يتطلب استيعاباً دقيقاً لمعاني الصمود والرمزية في رواية العجوز والبحر.",
+          "type": "homework"
+        },
+        {
+          "id": "sec1_ch4_exam_12",
+          "question": "10! How does the sea become a place of both danger and achievement ?",
+          "answer": "سؤال امتحاني وزاري معتمد يتطلب استيعاباً دقيقاً لمعاني الصمود والرمزية في رواية العجوز والبحر.",
+          "type": "homework"
+        },
+        {
+          "id": "sec1_ch4_exam_13",
+          "question": "(©) What does the struggle teach us about the connection between suffering",
+          "answer": "سؤال امتحاني وزاري معتمد يتطلب استيعاباً دقيقاً لمعاني الصمود والرمزية في رواية العجوز والبحر.",
+          "type": "homework"
+        },
+        {
+          "id": "sec1_ch4_exam_14",
+          "question": "and greatness ?",
+          "answer": "سؤال امتحاني وزاري معتمد يتطلب استيعاباً دقيقاً لمعاني الصمود والرمزية في رواية العجوز والبحر.",
+          "type": "homework"
+        },
+        {
+          "id": "sec1_ch4_exam_15",
+          "question": "RID) Do you agree that people are born to work, struggle, suffer, and succeed?",
+          "answer": "سؤال امتحاني وزاري معتمد يتطلب استيعاباً دقيقاً لمعاني الصمود والرمزية في رواية العجوز والبحر.",
+          "type": "homework"
+        },
+        {
+          "id": "sec1_ch4_exam_16",
+          "question": "Give a reason for your answer.",
+          "answer": "سؤال امتحاني وزاري معتمد يتطلب استيعاباً دقيقاً لمعاني الصمود والرمزية في رواية العجوز والبحر.",
+          "type": "homework"
+        },
+        {
+          "id": "sec1_ch4_exam_17",
+          "question": "هد للحن Ca Cm >",
+          "answer": "سؤال امتحاني وزاري معتمد يتطلب استيعاباً دقيقاً لمعاني الصمود والرمزية في رواية العجوز والبحر.",
+          "type": "homework"
+        },
+        {
+          "id": "sec1_ch4_exam_18",
+          "question": "لامج شم سس *",
+          "answer": "سؤال امتحاني وزاري معتمد يتطلب استيعاباً دقيقاً لمعاني الصمود والرمزية في رواية العجوز والبحر.",
+          "type": "homework"
+        },
+        {
+          "id": "sec1_ch4_exam_19",
+          "question": "cm “Camm -aom",
+          "answer": "سؤال امتحاني وزاري معتمد يتطلب استيعاباً دقيقاً لمعاني الصمود والرمزية في رواية العجوز والبحر.",
+          "type": "homework"
+        },
+        {
+          "id": "sec1_ch4_exam_20",
+          "question": "Cm لمعنه —_",
+          "answer": "سؤال امتحاني وزاري معتمد يتطلب استيعاباً دقيقاً لمعاني الصمود والرمزية في رواية العجوز والبحر.",
+          "type": "homework"
+        },
+        {
+          "id": "sec1_ch4_exam_21",
+          "question": "Respect for the noble opponent Dignity in victory’",
+          "answer": "سؤال امتحاني وزاري معتمد يتطلب استيعاباً دقيقاً لمعاني الصمود والرمزية في رواية العجوز والبحر.",
+          "type": "homework"
+        },
+        {
+          "id": "sec1_ch4_exam_22",
+          "question": "He asks the fish's forgiveness. His pride is mixed with sorrow.",
+          "answer": "سؤال امتحاني وزاري معتمد يتطلب استيعاباً دقيقاً لمعاني الصمود والرمزية في رواية العجوز والبحر.",
+          "type": "homework"
+        },
+        {
+          "id": "sec1_ch4_exam_23",
+          "question": "الكرامة في النصر احترام المنافس النبيل",
+          "answer": "سؤال امتحاني وزاري معتمد يتطلب استيعاباً دقيقاً لمعاني الصمود والرمزية في رواية العجوز والبحر.",
+          "type": "homework"
+        },
+        {
+          "id": "sec1_ch4_exam_24",
+          "question": "‘Triumph through suffering Man and nature",
+          "answer": "سؤال امتحاني وزاري معتمد يتطلب استيعاباً دقيقاً لمعاني الصمود والرمزية في رواية العجوز والبحر.",
+          "type": "homework"
+        },
+        {
+          "id": "sec1_ch4_exam_25",
+          "question": "Santiago kills the marlin but at great cost. Victory binds them together forever.",
+          "answer": "سؤال امتحاني وزاري معتمد يتطلب استيعاباً دقيقاً لمعاني الصمود والرمزية في رواية العجوز والبحر.",
+          "type": "homework"
+        },
+        {
+          "id": "sec1_ch4_exam_26",
+          "question": "خلال المعاناة yo paill الإنسان والطبيعة.",
+          "answer": "سؤال امتحاني وزاري معتمد يتطلب استيعاباً دقيقاً لمعاني الصمود والرمزية في رواية العجوز والبحر.",
+          "type": "homework"
+        }
+      ],
+      "mcqQuestions": [
+        {
+          "id": "mcq_sec1_ch4_1",
+          "question": "What key moral lesson is demonstrated in Chapter 4 (Morning Struggle & The Powerful Fish)?",
+          "options": [
+            "Santiago regrets choosing the fisherman's life",
+            "Giving up early prevents unnecessary suffering",
+            "Santiago spoke to the fish kindly, calling it his brother, even though he had to kill it .",
+            "Material wealth is more important than personal honor"
+          ],
+          "correctAnswer": "Santiago spoke to the fish kindly, calling it his brother, even though he had to kill it .",
+          "explanation": "Santiago embodies persistent effort, self-respect, and unbreakable determination."
+        },
+        {
+          "id": "mcq_sec1_ch4_2",
+          "question": "How does Santiago view his relationship with the great marlin?",
+          "options": [
+            "With indifference and emotional detachment",
+            "As a cruel enemy to be hated and reviled",
+            "As a brother and noble opponent worthy of reverence",
+            "As an easy catch with no real challenge"
+          ],
+          "correctAnswer": "As a brother and noble opponent worthy of reverence",
+          "explanation": "Santiago respects the fish's majesty, courage, and equality in the great web of nature."
+        }
+      ],
+      "importantCharacters": [
+        {
+          "nameEn": "Santiago",
+          "nameAr": "سانتياغو",
+          "roleEn": "Suffering warrior enduring physical exhaustion, pain, and cramp.",
+          "roleAr": "محارب صابر يقاوم آلام الجسد والجوع وتقلصات يديه.",
+          "actionsEn": "Ate raw tuna to maintain strength; endured bleeding cuts on his hands while keeping tension on the line.",
+          "actionsAr": "أكل سمك التونة نيئاً للحفاظ على طاقته، وصبر على جروح يديه الداميتين ليحفظ شد الحبل."
+        }
+      ],
+      "characterRelationships": [
+        {
+          "characters": [
+            "Santiago",
+            "Manolin (in thought)"
+          ],
+          "relationEn": "Longing for Camaraderie",
+          "relationAr": "حنين إلى رفقة التلميذ المخلص",
+          "detailsEn": "Santiago constantly repeats: 'I wish I had the boy to help me and see this.'",
+          "detailsAr": "ردد سانتياغو مراراً وتكراراً: 'ليت الصبي معي هنا ليعاونني ويرى هذا المشهد'."
+        }
+      ],
+      "keyDialogues": [
+        {
+          "speakerEn": "Santiago",
+          "speakerAr": "سانتياغو",
+          "quoteEn": "I wish the boy were here. To help me and to see this.",
+          "quoteAr": "ليت الصبي كان هنا معي.. ليساعدني ويرى هذا الصمود الرائع.",
+          "contextEn": "Santiago speaking aloud into the empty sea as his left hand cramps.",
+          "contextAr": "سانتياغو يحدث نفسه في عرض البحر حين أصيبت يده اليسرى بالتقلص والتشنج."
+        }
+      ],
+      "themesAndLessons": [
+        {
+          "themeEn": "Mind over Matter",
+          "themeAr": "قوة الإرادة وقهر الآلام",
+          "lessonEn": "The human mind and spirit can triumph over bodily weakness and severe physical pain.",
+          "lessonAr": "عزيمة الروح وقوة الإرادة قادرتان على التغلب على إنهاك الجسد وأشد الآلام قسوة."
+        }
+      ]
+    },
+    {
+      "id": "sc_sec_1_ch_5",
+      "chapterNumber": 5,
+      "titleEn": "The Final Struggle & Brother of the Sea",
+      "titleAr": "المعركة الأخيرة وأخو البحر",
+      "term": "second",
+      "summaryEn": "Santiago prepared himself for the final struggle with courage and determination.",
+      "summaryAr": "استعد سانتياجو للمعركة الأخيرة بشجاعة وعزيمة قوية",
+      "chapterInPoints": [
+        {
+          "order": 1,
+          "pointEn": "",
+          "pointAr": ""
+        },
+        {
+          "order": 2,
+          "pointEn": "",
+          "pointAr": ""
+        },
+        {
+          "order": 3,
+          "pointEn": "",
+          "pointAr": ""
+        },
+        {
+          "order": 4,
+          "pointEn": "",
+          "pointAr": ""
+        },
+        {
+          "order": 5,
+          "pointEn": "",
+          "pointAr": ""
+        },
+        {
+          "order": 6,
+          "pointEn": "",
+          "pointAr": ""
+        },
+        {
+          "order": 7,
+          "pointEn": "",
+          "pointAr": ""
+        },
+        {
+          "order": 8,
+          "pointEn": "",
+          "pointAr": ""
+        }
+      ],
+      "vocabulary": [
+        {
+          "word": "saláo",
+          "meaningAr": "أسوأ أنواع سوء الحظ"
+        },
+        {
+          "word": "skiff",
+          "meaningAr": "قارب صيد صغير خفيف"
+        },
+        {
+          "word": "harpoon",
+          "meaningAr": "حربة صيد الأسماك الكبيرة"
+        },
+        {
+          "word": "endurance",
+          "meaningAr": "الصمود والجلد وتحمل المشاق"
+        },
+        {
+          "word": "gaff",
+          "meaningAr": "خطاف معدني لجذب الصيد"
+        },
+        {
+          "word": "marlin",
+          "meaningAr": "سمكة المارلين العملاقة ذات السيف"
+        },
+        {
+          "word": "scavenger",
+          "meaningAr": "مخلوق مفترس أو ناهش للفضلات"
+        }
+      ],
+      "theText": [
+        {
+          "order": 1,
+          "paragraphEn": "‎The Final Struggle ‏ ‎ The sun was rising again. Santiago had been fighting the fish for three long days and nights. His body was weary, his hands swollen and bleeding, but his spirit remained sharp. He knew the fish was ‏‎ ‎weakening, though its strength was still greater than anything he 2 — had ever faced.",
+          "paragraphAr": "‏كانت الشمس تشرق من جديد. كان سانتياغو يقاتل السمكة منذ ثلاثة.‎ ‏أيام وثلاث ليال طويلة. جسده منهك. ويداه متورمتان وتنزفان. لكن‎ ‏تضعفء رغم أن قوتها ما‎ ‏روحه بقيت قوية. كان يعرف أن السمكة‎ ‏زالت أعظم من أي شيء واجهه من قبل.‎"
+        },
+        {
+          "order": 2,
+          "paragraphEn": "The Turning Point ‏ ‎ The line pulled with less power now, and Santiago felt the fish circling slowly deep below the boat. He recognized the pattern: the marlin was tired, but it would not ‘surrender easily. It was preparing for its final struggle.",
+          "paragraphAr": "‏بدأ الخيط يشذ بقوة أقل, وشعر سانتياغو بالسمكة تدور ببطء في الأعماق تحت القارب. أدرك‎ ‏العلامة: كانت السمكة مرهقة. لكنها لن تستسلم بسهولة. كانت تستعد لمعركتها الأخيرة.‎"
+        },
+        {
+          "order": 3,
+          "paragraphEn": "Pain and Perseverance ually ‏‎ ‎“Now it begins,” the old man whispered. He braced his feet against the wooden boards of the skiff and leaned back with all the strength left in him. Thefish circled widerand wider. Eachturnbroughtitalittleclosertothe surface. Santiago worked carefully, pulling in the line inch by inch. His muscles burned, but he welcomed the pain. “Pain is not an ene- my,” he thought. \"It tells me am alive.”",
+          "paragraphAr": "‏قال العجوز هامسا “الآن يبدأ الأمر.\" ثم ثبّت قدميه على ألوام القارب الخشبية. واتكأ بكل‎ ‏ماتبقى لديه من قوة.‎ ‏كانت السمكة تدور في دوائر أوسع فأوسع. ومع كل دورة تقترب أكثر من السطم. عمل‎ ‏سانتياغو بحذر. يسحب الخيط ببطء بوصة بعد بوصة. كانت عضلاته تشتعل ألفاء لكنه‎ \". ‏زلت‎ ‏ركب بذلك الألم. قال في نفسه: \"الألم ليس عدوا إنه يخبرني أنني‎"
+        },
+        {
+          "order": 4,
+          "paragraphEn": "‏‎ _ Brother of the Sea jwl ‏‎ ‎At last, the marlin rose. The giant fish came into view, silver and ‏‎ ‎purple in the water, glowing in the sunlight. Santiago gasped at its 5 size. It was longer than the boat, with a great sword-like bill and a powerful body. The marlin swam gracefully, a king of the sea. “Fish,” Santiago said aloud, his voice full of respect, \"you are my brother, but must end this. Forgive me.”",
+          "paragraphAr": "‏تحت‎ ‏وأخيزا. ظهرت السمكة. بدت هائلة الحجم. فضية اللون مع لمسات أرجوانية:‎ ‏أشعة الشمس. شهق سانتياغو دهشة من ضخامتها. كانت أطول من القارب. بسيف‎ ‏في مقدمتها وجسد 695 كانت تسبح برشاقة. كأنها ملك البحر.‎ ‏لكن يجب أن‎ ‏قال سانتياغو بصوت مفعم بالاحترام: 'أيتها السمكة. أنت أختي في‎"
+        },
+        {
+          "order": 5,
+          "paragraphEn": "Brother of the Sea ‏ ‎ At last, the marlin rose. The giant fish came into view, silver and ‏‎ ‎purple in the water, glowing in the sunlight. Santiago gasped at its size. It was longer than the boat, with a great sword-like bill and a powerful body. The marlin swam gracefully, a king of the sea. “Fish,” Santiago said aloud, his voice full of respect, \"you are my brother, but must end this. Forgive me.”",
+          "paragraphAr": "‏وأخيراء ظهرت السمكة. بدت هائلة الحجم. فضية اللون مع لمسات أرجوانية: تتلآلً تحت‎ ‏أشعة الشمس. شهق سانتياغو دهشة من ضخامتها. كانت أطول من القارب. بسيف‎ ‏في مقدمتها وجسد قويْ. كانت تسبح برشاقة. كأنها ملك البحر.‎ ‏لكن يجب أن‎ ‏قال سانتياغو بصوت مفعم بالاحترام: 'أيتها السمكة. أنت أختي في‎ ‏سامحيني.\"‎ ‏أنهي‎"
+        },
+        {
+          "order": 6,
+          "paragraphEn": "‎The Journey Home ‏ ‎ The boat began its long journey home. Santiago's arms were weak, but the wind carried him gently toward the coast. He looked at the marlin's shining body in the water. \"We fought well, fish,” he said e softly. \"You gave me everything you had. And I gave you everything Uhad. This was fair.”",
+          "paragraphAr": "‏سانتياغو ضعيفتين»‎ ‏بدأ القارب رحلته الطويلة نحو الشاطئ. كانت‎ ‏لكن الرياح حملته برفق نحو الساحل. نظر إلى جسد السمكة اللامع في‎ ‏الماء وقال بهدوء: \"نقد قاتلنا بشرفء أيتها السمكة. أعطيتني كل ما‎ 1 ‏وأعطيتك كل ما عندي. كانت معركة عادلة.\"‎"
+        },
+        {
+          "order": 7,
+          "paragraphEn": "‏‎ _ Peace and Foresight ‏ ‎ The sea was calm, the sun warm. Santiago felt at peace, though he knew his work was. not finished. The hardest part was yet to come: bringing his prize safely home.",
+          "paragraphAr": "‏كان البحر هادنًاء والشمس دافئة. شعر سانتياغو بالسلام, رغم علمه أن عمله لم ينته بعد.‎ ‏فالأصعب مازال أمامه: أن يُعيد غنيمته إلى الوطن بسلام.‎"
+        },
+        {
+          "order": 8,
+          "paragraphEn": "The Shadow of Danger ‏ ‎ As the boat sailed, Santiago dreamed of how the villagers would react. The fishermen would measure the marlin, and the boy would be proud. People would see that the old man was not finished, that 4 rad he was still strong, still capable of greatness. But Santiago also knew that victory carried danger. The smell of 1 blood in the water would call the sharks. He looked at the horizon, his eyes hard. “They will come,” he said. \"But will fight them.”",
+          "paragraphAr": "‏كان القارب يشق طريقه. حلم سانتياغو بكيفية استقبال أهل القرية له.‎ ‏وسيفتخر الصبي به. سيرى الناس أن العجوز لم ينته بعد. وأنه ما زال‎ ‏الصيادون‎ ‏ومازال قادرًا على العظمة.‎ ‏لكنه كان يعلم أيضًا أن النصريجلب الخطر. فرائحة الدم في الماء ستجذب أسماك القرش.‎ ‏نظر إلى الأفق بعينين قاسيتين وقال: “سياتون. لكنني ساقاتلهم.\"‎"
+        },
+        {
+          "order": 9,
+          "paragraphEn": "Bond of Life and Death ‏ ‎ The marlin floated beside him, silent, beautiful, and dead. The old man placed his hand gently on the fish's side. \"We are joined forev- er, you and I,” he ay whispered. \"Your death gives me life, but it costs me my soul.”",
+          "paragraphAr": "‏كانت السمكة تطفو بجانبه: صامتة: جميلة. ومَيّتة. وضع العجوز يده‎ ‏مرتبطين إلى الأبد, أنا وأنت.‎ 2 \" ‏برفق على جانبها وقال هامسا:‎ ‏الأحلام والراحة‎"
+        },
+        {
+          "order": 10,
+          "paragraphEn": "Night fell once more, and Santiago, though exhausted, kept watch. He felt both proud and deeply sad. He had won the greatest battle of i pl ‏‎ ‎his life, but he sensed that the sea would test him again before he ) reached home. He closed his eyes briefly, and in his half-dream, he saw the lions of his youth on the African shore, running and playing freely. They gave him strength, as they always did. peewee",
+          "paragraphAr": "‏حل الليل من جديد. ورغم الإرهاق؛ بقي سانتياغو متيقظا. شعر بالفخر وبحزن عميق في‎ ‏الوقت نفسه. لقد ربع أعظم معركة في حياته. لكنه شعر أن البحر سيختبره مرة أخرى قبلٌ‎ “ ‏أن يصل إلى‎ ‏حلمه نصف اليقظ. رأى أسود شبابه على شواطئ أفريقيا‎ ( ‏أغمض عينيه للحظة.‎ . ‏منحته تلك الصورة القوة. كما كانت تفعل دائها‎ ‏تركض وتلعب‎"
+        },
+        {
+          "order": 11,
+          "paragraphEn": "An Uncertain Dawn dol ‏‎ ‎When he opened his eyes, he looked again at the marlin, shining in ry the moonlight. “Tomorrow, we will face what comes,” he said. \"For now, we rest together.” The boat sailed on into the darkness, carrying the old man and his esau mighty prize toward an uncertain dawn. ‏‎",
+          "paragraphAr": "‏تلمع تحت‎ ‏نظر إلى السمكة المارلن‎ ‏عينيه من‎ ‏عندما‎ ‏الآن فلنرتح معا.\"‎ ‏سنواجه ما سياتي.‎ \" ‏ضوء القمر وقال:‎ ‏واصل القارب الإبحار في الظلام. حامنًا العجوز وغنيمته العظيمة نحو‎"
+        }
+      ],
+      "questionsAndAnswers": [
+        {
+          "id": "sec1_ch5_qa_1",
+          "question": "How does Santiago show respect for the marlin even as he kils it?",
+          "answer": "",
+          "type": "sb_wb"
+        },
+        {
+          "id": "sec1_ch5_qa_2",
+          "question": "سانتياغو احترامه للسمكة رغم أنه يقتلها ؟ yaks) كيف",
+          "answer": "He speaks to the marlin kindly and calls it his brother .\nيتحدث إلى السمكة بلطف ويسميها أخاه\nWhy does Santiago describe pain as something positive +",
+          "type": "sb_wb"
+        },
+        {
+          "id": "sec1_ch5_qa_3",
+          "question": "لماذا يصف سانتياغو الألم بأنه شيء إيجابي ؟",
+          "answer": "He believes pain shows he Is stil alive and strong.\na وقويًا is الأنلم يثبت أنه مازال yl يعتقد",
+          "type": "sb_wb"
+        },
+        {
+          "id": "sec1_ch5_qa_4",
+          "question": "How does the description of the marlin emphasize its greatness ?",
+          "answer": "§ كيف تؤكد أوصاف السمكة عظمتها\nIts shown as huge, beautiful, and noble lke a king.\na ضخمة وجميلة ونبيلة مثل الملك Lally توصف\nWhy does ع —S~*~“~*~*~*‘“‘*~*“‘*‘“‘~s*CS*st‘sSt‘Ss*«~*S",
+          "type": "sb_wb"
+        },
+        {
+          "id": "sec1_ch5_qa_5",
+          "question": "الماذا ييكي سانتياغو بعد انتصاره ؟",
+          "answer": "He feels proud but also sad for killing the fish\n| | يشعر بالفخر لكنه حزين لأنه قتل السمكة",
+          "type": "sb_wb"
+        },
+        {
+          "id": "sec1_ch5_qa_6",
+          "question": "What does tying the marlin to the side of the boat reveal about its size ?",
+          "answer": "",
+          "type": "sb_wb"
+        },
+        {
+          "id": "sec1_ch5_qa_7",
+          "question": "القارب عن حجمها ؟ lay عاذا يُظهر ربط السمكة",
+          "answer": "It shows the fish is bigger than the boat\nيُظهر أن السمكة أكبر من القارب\nHow does Santiago's vision of the villagers reflect his need for dignity 7",
+          "type": "sb_wb"
+        },
+        {
+          "id": "sec1_ch5_qa_8",
+          "question": "كيف تظهر رؤيته لأهل القرية حاجته للكرامة ؟",
+          "answer": "He wants people to respect him and see his worth .\n0 يريد من الناس أن يحترموه ويروا قيمته.",
+          "type": "sb_wb"
+        },
+        {
+          "id": "sec1_ch5_qa_9",
+          "question": "Why does Santiago fear the sharks ?",
+          "answer": "",
+          "type": "sb_wb"
+        },
+        {
+          "id": "sec1_ch5_qa_10",
+          "question": "لماذا يخاف سانتياغو من أسماك القرش ؟",
+          "answer": "He fears they will destroy the marlin he caught\n8 يخاف أن تدم أسماك القرش السمكة التي اصطادها",
+          "type": "sb_wb"
+        },
+        {
+          "id": "sec1_ch5_qa_11",
+          "question": "What does Santiago mean by saying, “Your death gives me life, but it costs me my soul” ?",
+          "answer": "",
+          "type": "sb_wb"
+        },
+        {
+          "id": "sec1_ch5_qa_12",
+          "question": "ماذا يقصد سانتياغو بقوله: “موتك يمنحني الحياة, لكنه يكلفني روحي' ؟",
+          "answer": "He means killing the fish saves him but hurts his spirit .\n8 ang) يعني أن قتل السمكة أنقذه لكنه آذى",
+          "type": "sb_wb"
+        },
+        {
+          "id": "sec1_ch5_qa_13",
+          "question": "How do the lions of his youth continue to support him in this chapter ?",
+          "answer": "",
+          "type": "sb_wb"
+        },
+        {
+          "id": "sec1_ch5_qa_14",
+          "question": "في شبابه في هذا الفصل ؟ Lal كيف تدعمه الأسود التي",
+          "answer": "They remind him of his youth and give him hope\n| | تذخره بشبابه وتمنحه الأمل\nHow does this chapter mark both victory and tragedy for Santiago +",
+          "type": "sb_wb"
+        },
+        {
+          "id": "sec1_ch5_qa_15",
+          "question": "كيف يُظعر هذا الفصل النصر والمأساة ما لسانتياغج ؟",
+          "answer": "He wins the battle but loses peace and strength .\n0 ينتصر في المعركة لكنه يفقد السلام والقوة.",
+          "type": "sb_wb"
+        },
+        {
+          "id": "sec1_ch5_qa_16",
+          "question": "What did Santiago recognize about the fish's movements ?",
+          "answer": "",
+          "type": "sb_wb"
+        },
+        {
+          "id": "sec1_ch5_qa_17",
+          "question": "ماذا أدرك سانتياغو عن حركات السمكة ؟",
+          "answer": "He saw the fish was tired and circling before the final fight .\n0 أن السمكة متعبة وتدور استعداذا للمعركة الأخيرة. Bo\nHow did Santiago prepare himself for the fish's last fight +",
+          "type": "sb_wb"
+        },
+        {
+          "id": "sec1_ch5_qa_18",
+          "question": "كيف استعد سانتياغو للمعركة الأخيرة مع السمكة ؟",
+          "answer": "He braced his feet and used all his remaining strength .\n) | ثبت قدميه واستخدم, كل قوته المتبقية.",
+          "type": "sb_wb"
+        },
+        {
+          "id": "sec1_ch5_qa_19",
+          "question": "How did Santiago describe the marlin when it rose ?",
+          "answer": "",
+          "type": "sb_wb"
+        },
+        {
+          "id": "sec1_ch5_qa_20",
+          "question": "كيف وصف سانتياغو السمكة عندما ظهرت ؟",
+          "answer": "He called it huge, silver, and beautiful lke a king -\n| | وصفها بأنها ضخمة وفضية وجميلة مثل الملك",
+          "type": "sb_wb"
+        }
+      ],
+      "importantQuestions": [
+        {
+          "id": "sec1_ch5_crit_1",
+          "question": "كيف يجمع همنغواي بين الفخر والحزن في انتصار سانتياغو ؟",
+          "answer": "Santiago wins but feels lonely and sad سانتياغو لكنه يشعر بالوحدة والحزن pay",
+          "type": "critical_thinking"
+        },
+        {
+          "id": "sec1_ch5_crit_2",
+          "question": "Why does Santiago view the marlin as both a brother and an enemy ?",
+          "answer": "S وعدو في الوقت نفسه Alo الماذا يرى سانتياغو السمكة\nHe admires it but must fight it to live يعجب بها لكنه يجب أن يقاتلها ليعيش",
+          "type": "critical_thinking"
+        },
+        {
+          "id": "sec1_ch5_crit_3",
+          "question": "What does the marlin aymbolize in this chapter ? ماذا ترمز السمكة في هذا الفصل ؟",
+          "answer": "tt symbolizes strength, honor, and nature's beauty . ترمز إلى القوة والشرف وجمال الطبيعة",
+          "type": "critical_thinking"
+        },
+        {
+          "id": "sec1_ch5_crit_4",
+          "question": "How does the fight reflect the theme of man versus nature ?",
+          "answer": "",
+          "type": "critical_thinking"
+        },
+        {
+          "id": "sec1_ch5_crit_5",
+          "question": "الصراع فكرة الإنسان ضد الطبيعة ؟ sala كيف",
+          "answer": "It shows man’s struggle against nature's power .\n| | يُظهر صراع الإنسان ضد قوة الطبيعة.\nWhy does Hemingway describe the marlin as majestic and noble 7",
+          "type": "critical_thinking"
+        },
+        {
+          "id": "sec1_ch5_crit_6",
+          "question": "لماذا وصف همنفواي السمكة بأنها مهيبة ونبيلة ؟",
+          "answer": "To show it deserves respect, not hate . °\na ليُظعر أنها تستحق الاحترام لا الكراهية",
+          "type": "critical_thinking"
+        },
+        {
+          "id": "sec1_ch5_crit_7",
+          "question": "What does Santiago's statement \"They will not believe me\" suggest about human achievement ?",
+          "answer": "",
+          "type": "critical_thinking"
+        },
+        {
+          "id": "sec1_ch5_crit_8",
+          "question": "ماذا تعني عبارة سانتياغو \"لن يصدقوني\" عن إنجاز الإنسان ؟",
+          "answer": "People doubt great effort unless they see proof .\na الناس يشحُون في الإنجاز ما لم يروا دلينا\nHow does the presence of sharks foreshadow the next conflict 7",
+          "type": "critical_thinking"
+        },
+        {
+          "id": "sec1_ch5_crit_9",
+          "question": "كيف تنذر أسماك القرش بالصراع القادم ؟",
+          "answer": "They hint that danger and loss are coming .\n8 أن الخطر والخسارة قادمان gu تشير\nPare Exercises",
+          "type": "critical_thinking"
+        }
+      ],
+      "homeworkQuestions": [
+        {
+          "id": "sec1_ch5_exam_1",
+          "question": "Answer the following questions :",
+          "answer": "سؤال امتحاني وزاري معتمد يتطلب استيعاباً دقيقاً لمعاني الصمود والرمزية في رواية العجوز والبحر.",
+          "type": "homework"
+        },
+        {
+          "id": "sec1_ch5_exam_2",
+          "question": "1151 How does Santiago's victory make him feel both proud and sad?",
+          "answer": "سؤال امتحاني وزاري معتمد يتطلب استيعاباً دقيقاً لمعاني الصمود والرمزية في رواية العجوز والبحر.",
+          "type": "homework"
+        },
+        {
+          "id": "sec1_ch5_exam_3",
+          "question": "[) why does Santiago see the marlin as both a close companion and an enemy?",
+          "answer": "سؤال امتحاني وزاري معتمد يتطلب استيعاباً دقيقاً لمعاني الصمود والرمزية في رواية العجوز والبحر.",
+          "type": "homework"
+        },
+        {
+          "id": "sec1_ch5_exam_4",
+          "question": "[G)) How does Santiago's fight with the marlin show the conflict between man and nature?",
+          "answer": "سؤال امتحاني وزاري معتمد يتطلب استيعاباً دقيقاً لمعاني الصمود والرمزية في رواية العجوز والبحر.",
+          "type": "homework"
+        },
+        {
+          "id": "sec1_ch5_exam_5",
+          "question": "§@) why does Hemingway present the marlin as a great and honorable creature?",
+          "answer": "سؤال امتحاني وزاري معتمد يتطلب استيعاباً دقيقاً لمعاني الصمود والرمزية في رواية العجوز والبحر.",
+          "type": "homework"
+        },
+        {
+          "id": "sec1_ch5_exam_6",
+          "question": "(63) what does Santiago mean when he says, “They will not believe me\"?",
+          "answer": "سؤال امتحاني وزاري معتمد يتطلب استيعاباً دقيقاً لمعاني الصمود والرمزية في رواية العجوز والبحر.",
+          "type": "homework"
+        },
+        {
+          "id": "sec1_ch5_exam_7",
+          "question": "3) How do the sharks prepare the reader for the next struggle?",
+          "answer": "سؤال امتحاني وزاري معتمد يتطلب استيعاباً دقيقاً لمعاني الصمود والرمزية في رواية العجوز والبحر.",
+          "type": "homework"
+        },
+        {
+          "id": "sec1_ch5_exam_8",
+          "question": "15717 Do you think Santiago is a real winner, or has he lost more than he has gained? Give",
+          "answer": "سؤال امتحاني وزاري معتمد يتطلب استيعاباً دقيقاً لمعاني الصمود والرمزية في رواية العجوز والبحر.",
+          "type": "homework"
+        },
+        {
+          "id": "sec1_ch5_exam_9",
+          "question": "reasons for your answer.?",
+          "answer": "سؤال امتحاني وزاري معتمد يتطلب استيعاباً دقيقاً لمعاني الصمود والرمزية في رواية العجوز والبحر.",
+          "type": "homework"
+        },
+        {
+          "id": "sec1_ch5_exam_10",
+          "question": "ine Novel _",
+          "answer": "سؤال امتحاني وزاري معتمد يتطلب استيعاباً دقيقاً لمعاني الصمود والرمزية في رواية العجوز والبحر.",
+          "type": "homework"
+        },
+        {
+          "id": "sec1_ch5_exam_11",
+          "question": "[spear مد sorrow | حزن EY eeu",
+          "answer": "سؤال امتحاني وزاري معتمد يتطلب استيعاباً دقيقاً لمعاني الصمود والرمزية في رواية العجوز والبحر.",
+          "type": "homework"
+        },
+        {
+          "id": "sec1_ch5_exam_12",
+          "question": "ته 'Ums< um «“",
+          "answer": "سؤال امتحاني وزاري معتمد يتطلب استيعاباً دقيقاً لمعاني الصمود والرمزية في رواية العجوز والبحر.",
+          "type": "homework"
+        },
+        {
+          "id": "sec1_ch5_exam_13",
+          "question": "Ca أثر Coe كت cuts",
+          "answer": "سؤال امتحاني وزاري معتمد يتطلب استيعاباً دقيقاً لمعاني الصمود والرمزية في رواية العجوز والبحر.",
+          "type": "homework"
+        },
+        {
+          "id": "sec1_ch5_exam_14",
+          "question": "[stike/struck ROI owitty | ا tach RR",
+          "answer": "سؤال امتحاني وزاري معتمد يتطلب استيعاباً دقيقاً لمعاني الصمود والرمزية في رواية العجوز والبحر.",
+          "type": "homework"
+        },
+        {
+          "id": "sec1_ch5_exam_15",
+          "question": "SSS cvesvay Mean",
+          "answer": "سؤال امتحاني وزاري معتمد يتطلب استيعاباً دقيقاً لمعاني الصمود والرمزية في رواية العجوز والبحر.",
+          "type": "homework"
+        },
+        {
+          "id": "sec1_ch5_exam_16",
+          "question": "ce يغرك في الأععاك لا",
+          "answer": "سؤال امتحاني وزاري معتمد يتطلب استيعاباً دقيقاً لمعاني الصمود والرمزية في رواية العجوز والبحر.",
+          "type": "homework"
+        },
+        {
+          "id": "sec1_ch5_exam_17",
+          "question": "Livro | سمبر ٠ ينع سوس",
+          "answer": "سؤال امتحاني وزاري معتمد يتطلب استيعاباً دقيقاً لمعاني الصمود والرمزية في رواية العجوز والبحر.",
+          "type": "homework"
+        },
+        {
+          "id": "sec1_ch5_exam_18",
+          "question": "CT امه مر ننه مع م",
+          "answer": "سؤال امتحاني وزاري معتمد يتطلب استيعاباً دقيقاً لمعاني الصمود والرمزية في رواية العجوز والبحر.",
+          "type": "homework"
+        },
+        {
+          "id": "sec1_ch5_exam_19",
+          "question": "protessional سد Novel _",
+          "answer": "سؤال امتحاني وزاري معتمد يتطلب استيعاباً دقيقاً لمعاني الصمود والرمزية في رواية العجوز والبحر.",
+          "type": "homework"
+        },
+        {
+          "id": "sec1_ch5_exam_20",
+          "question": "‘Courage against destruction Persistence despite loss",
+          "answer": "سؤال امتحاني وزاري معتمد يتطلب استيعاباً دقيقاً لمعاني الصمود والرمزية في رواية العجوز والبحر.",
+          "type": "homework"
+        },
+        {
+          "id": "sec1_ch5_exam_21",
+          "question": "Santiago fights to protect his catch. He refuses to stop even when hopeless.",
+          "answer": "سؤال امتحاني وزاري معتمد يتطلب استيعاباً دقيقاً لمعاني الصمود والرمزية في رواية العجوز والبحر.",
+          "type": "homework"
+        },
+        {
+          "id": "sec1_ch5_exam_22",
+          "question": "المثابرة بالرغم من الخسارة الشجاعة ضد الدمار",
+          "answer": "سؤال امتحاني وزاري معتمد يتطلب استيعاباً دقيقاً لمعاني الصمود والرمزية في رواية العجوز والبحر.",
+          "type": "homework"
+        },
+        {
+          "id": "sec1_ch5_exam_23",
+          "question": "Pride in the fight Tragic acceptance",
+          "answer": "سؤال امتحاني وزاري معتمد يتطلب استيعاباً دقيقاً لمعاني الصمود والرمزية في رواية العجوز والبحر.",
+          "type": "homework"
+        },
+        {
+          "id": "sec1_ch5_exam_24",
+          "question": "His dignity les in never giving up. He knows sharks will come, yet ressts them.",
+          "answer": "سؤال امتحاني وزاري معتمد يتطلب استيعاباً دقيقاً لمعاني الصمود والرمزية في رواية العجوز والبحر.",
+          "type": "homework"
+        },
+        {
+          "id": "sec1_ch5_exam_25",
+          "question": "القبول بالماساة الخبرياء في القتال",
+          "answer": "سؤال امتحاني وزاري معتمد يتطلب استيعاباً دقيقاً لمعاني الصمود والرمزية في رواية العجوز والبحر.",
+          "type": "homework"
+        }
+      ],
+      "mcqQuestions": [
+        {
+          "id": "mcq_sec1_ch5_1",
+          "question": "What key moral lesson is demonstrated in Chapter 5 (The Final Struggle & Brother of the Sea)?",
+          "options": [
+            "Santiago prepared himseit forthe final struggle with courage and determination",
+            "Material wealth is more important than personal honor",
+            "Santiago regrets choosing the fisherman's life",
+            "Giving up early prevents unnecessary suffering"
+          ],
+          "correctAnswer": "Santiago prepared himseit forthe final struggle with courage and determination",
+          "explanation": "Santiago embodies persistent effort, self-respect, and unbreakable determination."
+        },
+        {
+          "id": "mcq_sec1_ch5_2",
+          "question": "How does Santiago view his relationship with the great marlin?",
+          "options": [
+            "As a cruel enemy to be hated and reviled",
+            "As an easy catch with no real challenge",
+            "As a brother and noble opponent worthy of reverence",
+            "With indifference and emotional detachment"
+          ],
+          "correctAnswer": "As a brother and noble opponent worthy of reverence",
+          "explanation": "Santiago respects the fish's majesty, courage, and equality in the great web of nature."
+        }
+      ],
+      "importantCharacters": [
+        {
+          "nameEn": "Santiago",
+          "nameAr": "سانتياغو",
+          "roleEn": "Victorious hunter delivering the decisive strike.",
+          "roleAr": "صياد جسور يوجه الضربة القاضية الحاسمة.",
+          "actionsEn": "Summoned all his remaining strength to harpoon the marlin, lashing its giant body to the side of his boat.",
+          "actionsAr": "استجمع ما تبقى من قواه وطعن المارلين برمح الصيد في قلبه، وربط جسده العملاق بجانب القارب."
+        },
+        {
+          "nameEn": "The Giant Marlin",
+          "nameAr": "سمكة المارلين",
+          "roleEn": "The great prize, longer than the skiff itself.",
+          "roleAr": "الصيد الثمين والخصم العظيم الذي فاق طول القارب نفسه.",
+          "actionsEn": "Leaped into the air in a final majestic display of beauty before dying with dignity.",
+          "actionsAr": "قفزت في الهواء قفزة أخيرة رائعة عكست جمالها وهيبتها قبل أن تفارق الحياة بشرف."
+        }
+      ],
+      "characterRelationships": [
+        {
+          "characters": [
+            "Santiago",
+            "The Giant Marlin"
+          ],
+          "relationEn": "United in Triumph and Tragedy",
+          "relationAr": "اتحاد في النصر والتراجيديا",
+          "detailsEn": "In victory, Santiago feels both sorrow and triumph for having taken the life of his noble brother.",
+          "detailsAr": "شعر سانتياغو بمزيج من نشوة الانتصار والحزن النبيل لأنه سلب حياة أخيه العظيم."
+        }
+      ],
+      "keyDialogues": [
+        {
+          "speakerEn": "Santiago",
+          "speakerAr": "سانتياغو",
+          "quoteEn": "He is my brother. But must kill him and keep strong to do it.",
+          "quoteAr": "إنه أخي ورفيق دربي، لكن يجب أن أقتله، ويجب أن أظل قوياً لتحقيق ذلك.",
+          "contextEn": "Santiago bracing for the final circular runs of the marlin.",
+          "contextAr": "سانتياغو وهو يتأهب لرمي الرمح مع اقتراب دوران السمكة حول القارب."
+        }
+      ],
+      "themesAndLessons": [
+        {
+          "themeEn": "The Tragic Cost of Victory",
+          "themeAr": "ثمن النصر وبطولة الكفاح",
+          "lessonEn": "Great achievement often demands supreme personal sacrifice and profound emotional reckoning.",
+          "lessonAr": "الإنجازات الكبرى تتطلب تضحيات جسيمة ومحاسبة عميقة للنفس أمام عظمة الكون."
+        }
+      ]
+    },
+    {
+      "id": "sc_sec_1_ch_6",
+      "chapterNumber": 6,
+      "titleEn": "The Return & The Sharks Attack",
+      "titleAr": "العودة وهجوم القروش",
+      "term": "second",
+      "summaryEn": "Santiago sailed home proudly wit the marlin tied beside his smal skit",
+      "summaryAr": "أبحر سانتياغو عائدًا بفخر, والسمكة مربوطة بجانب قاربه الصغير.",
+      "chapterInPoints": [
+        {
+          "order": 1,
+          "pointEn": "",
+          "pointAr": ""
+        },
+        {
+          "order": 2,
+          "pointEn": "",
+          "pointAr": ""
+        },
+        {
+          "order": 3,
+          "pointEn": "",
+          "pointAr": ""
+        },
+        {
+          "order": 4,
+          "pointEn": "",
+          "pointAr": ""
+        },
+        {
+          "order": 5,
+          "pointEn": "",
+          "pointAr": ""
+        },
+        {
+          "order": 6,
+          "pointEn": "",
+          "pointAr": ""
+        },
+        {
+          "order": 7,
+          "pointEn": "",
+          "pointAr": ""
+        }
+      ],
+      "vocabulary": [
+        {
+          "word": "saláo",
+          "meaningAr": "أسوأ أنواع سوء الحظ"
+        },
+        {
+          "word": "skiff",
+          "meaningAr": "قارب صيد صغير خفيف"
+        },
+        {
+          "word": "harpoon",
+          "meaningAr": "حربة صيد الأسماك الكبيرة"
+        },
+        {
+          "word": "endurance",
+          "meaningAr": "الصمود والجلد وتحمل المشاق"
+        },
+        {
+          "word": "gaff",
+          "meaningAr": "خطاف معدني لجذب الصيد"
+        },
+        {
+          "word": "marlin",
+          "meaningAr": "سمكة المارلين العملاقة ذات السيف"
+        },
+        {
+          "word": "scavenger",
+          "meaningAr": "مخلوق مفترس أو ناهش للفضلات"
+        }
+      ],
+      "theText": [
+        {
+          "order": 1,
+          "paragraphEn": "The Return ‏‎ ‎The morning sun rose as Santiago's small skiff sailed steadily toward ‏07‎ ‎the shore. The giant marlin was tied beside the boat, its silver body shining in the light. Santiago, though proud, felt uneasy. The sea was SESE never generous without asking for something in return, He knew the scent of blood would call predators.",
+          "paragraphAr": "‏مع طلوع شمس الصبام. كانت قارب سانتياغو الصغير يشق طريقه‎ ‏بهدوء نحو الشاطئ. كان السمك الضخم مربوظا بجانب القارب يلمع‎ ‏جسده الفضي تحت ضوء النهار. شعر سانتياغو بالفخر. لكن القلق تسلل إلى قلبه. فالبحر‎ ‏دون أن يطلب المقابل. وكان يعلم أن رائحة الدم ستجذب المفترسين.‎ ‏لا يمنح‎"
+        },
+        {
+          "order": 2,
+          "paragraphEn": "The First Attack ‏ ‎ ‘And then he saw it: a dark shadow moving swiftly beneath the 6 surface. A shark. . It was a mako shark, fast and strong, following the marlin’s trail of BESS see blood. is re ¢ Santiago's heart tightened. \"So, it begins,\" he muttered. He took up Pag 6 5 his harpoon, though his hands were raw and shaking. The shark ‏‎ ‎came closer, its sharp teeth glinting as it attacked the marlin's side,",
+          "paragraphAr": ". ‏الماء. كان قرشًا‎ ‏ثم رآه: ظل داكن يتحرك بسرعة تحت‎ ‏قرش الماكو. سريع 469.59 يتبع أثردم السمكة الضخمة. انقبض قلب سانتياغو وقال بصوت‎ ‏خافت: \"ها قد بدا الأمر.\" رفع رمحه رغم أن يديه كانتا مجروحتين وترتجفان. اقترب القرش,‎ ‏المارلين.‎ ‏تلمع أنيابه الحادة وهو يهجم على‎"
+        },
+        {
+          "order": 3,
+          "paragraphEn": "ABitter Victory ‏ ‎ poi With all the strength left in him, Santiago drove the harpoon down 979799 into the shark's head. The iron struck deep, and the shark thrashed violently, turning the sea red. Finally, it sank, dead, into the depths. But the victory was bitter. The marlin had lost a great piece of flesh, and blood flowed freely from its wound. Santiago looked at his catch with sorrow. “They will come now, one after another,” he said. peewee",
+          "paragraphAr": "‏من قوة, غرس سانتياغو رمحه في رأس القرش. اخترق الحديد أعماقه,.‎ ‏بكل ما تبقى‎ . ‏البحر بلون الدم. وأخيرًا غاص إلى الأعماق ميا‎ ‏فاهتاج الحيوان بعنف.‎ ‏لكن النصر كان مريرًا. فقدت السمكة الضخمة جزءا كبيرًا من لحمهاء وانساب الدم من‎ ‏واحذا تلو الآخر.\"‎ « ‏جرحها بغزارة. نظر سانتياغو إلى صيده بحزن وقال: “سيأتون‎"
+        },
+        {
+          "order": 4,
+          "paragraphEn": "Before long, more shadows appeared. A pair of galanos— 5 shovel-nosed sharks—rose from the deep. They were slower but a insistent. They bit at the marlin, tearing away its flesh. Santiago fought with his harpoon until it broke off in a shark's body. Now, he tied his knife to an oar and used it as a spear. He stabbed and slashed, killing one shark and driving the other away. But each battle cost him strength, and the marlin's body grew ‘smaller, its beauty ruined.",
+          "paragraphAr": "‏ظهرت ظلال جديدة. زوج من قروش الغالانوس.ء ذات الأنوف العريضة.‎ ‏لم تمض لحظات‎ ‏صعد من الأعماق. كانت أبطأء لكنها لا تعرف التراجع. بدأت تلتهم المارلين: تمزق لحمه.‎ ‏فربط سكينه على مجداف. وحوله‎ ‏قاتلها سانتياغو برمحه حتى انكسر داخل جسد‎ ‏إلى رمح جديد.‎ ‏قتل أحد القروش وأجبر الآخر على الفرار. لكن كل معركة كانت تسرق‎ ‏طعن وضرب‎ ‏وجسد السمكة يزداد نقصانا وجمالها يتلاشى.‎ ‏من‎"
+        },
+        {
+          "order": 5,
+          "paragraphEn": "‎As the hours passed, more sharks came. The smell of blood had ‘spread far through the sea. Santiago fought them all, his arms burning, his vision blurring. He killed several but knew he could not ‘stop them forever. By afternoon, the marlin was only half a fish. Its head and backbone remained, but much of its flesh was gone. Santiago leaned against the mast, breathing heavily. \" was beaten,\" he whispered, \"but only by sharks, not by the fish.\"",
+          "paragraphAr": "‏البعيد. قاتل سانتياغو‎ ‏رائحة الدم انتشرت في‎ ‏مرت الساعات. وجاءت قروش‎ ‏ورؤيته تزداد ضبابًا. قتل عددًا منهاء لكنه علم أنه لا‎ ! ‏الجميع.ء وذراعاه تحترقان من‎ ‏يستطيع صذها إلى الأبد.‎ ‏اللحم فقد‎ ‏مع حلول المساء. لم يتبق من المارلين سوى نصفه. رأسه وعظمه فقط.‎ ‏تلاشى. أسند سانتياغو جسده إلى السارية وقال بصوت متعب: \"لقد هَزمت. لكن على يد‎ ‏القروش.؛ لا على يد السمكة.\"‎"
+        },
+        {
+          "order": 6,
+          "paragraphEn": "rofessional pee 1 7a English Unbroken Spirit ‏ ‎ Still, he did not surrender. Every time a new shark attacked, he stood cS 9 up and fought. He swung the oar-spear until it splintered, then used 2 ‏‎ ‎the tiller, then even the broken pieces of wood. He was an old man with nothing left but his will.",
+          "paragraphAr": "‏مع ذلك. لم يستسلم. في كل مرة يهعجم فيها قرش جديد.‎ ‏تحطم, نّم استخدم الدفة. وحتى‎ ‏ويقاتل. لوح بالمجداف الرمح‎ ‏قطع الخشب المكسورة. كان شيخًا عجورًا لم يتبق له شيء سوى إرادته.‎ ‏عط‎ ‏النهاية النبيلة‎"
+        },
+        {
+          "order": 7,
+          "paragraphEn": "Night fell again, and Santiago was exhausted beyond words. The marlin was now only a skeleton, stripped of nearly all its meat. But Santiago kept sailing toward home, his spirit unbroken. 1",
+          "paragraphAr": "‏وسانتياغو مرهق إلى حد العجز عن الكلام. لم‎ ‏الليل حل من‎ 0537 ‏من المارلين سوى هيكل عظميء مجرد عظام بيضاء بعد أن نهشته‎ 1 ‏القروش. ومع ذلك. واصل الإيحار نحو موطنه. وروحه لم تنكسر.‎"
+        },
+        {
+          "order": 8,
+          "paragraphEn": "Triumph and Tragedy ‏‎ pai At last, silence returned. No more sharks came. The marlin's 11 skeleton glowed white in the moonlight, its long sword rising like 4 a banner of both triumph and tragedy. SS it",
+          "paragraphAr": "‏أخيرًا عاد الصمت. لم تأت قروش أخرى. كان هيكل المارلين يلمع بياضًا‎ ‏واحد معنى‎ ‏تحت ضوء القمر. وسيفه الطويل يرتفع كراية تحمل في‎ ‏النصر والمأساة.‎"
+        },
+        {
+          "order": 9,
+          "paragraphEn": "The Boy and Hope ‏‎ Gall Santiago looked at it and felt tears in his eyes. \"You were my or greatest enemy and my greatest friend,” he told the fish. \"They 0 destroyed you, but they could not destroy my pride. We fought me well.” Ne’ He thought of the boy, and a faint smile touched his lips. \"The age imide boy will not let me be alone again,” he said. “Tomorrow, he will A help me. He must.”",
+          "paragraphAr": "‏نظر سانتياغو إلى الهيكل ودمعت عيناه. قال للسمكة: “كنت أعظم أعدائي وأعز أصدقائي.‎ ‏لقد دمروك. لكنهم لم يدمروا كبريائي. لقد قاتلنا بشرف.\"‎ ‏يتركني الفتى وحيدًا بعد‎ ‏ثم تذكر الفتى, وارتسمت على شفتيه ابتسامة خافتة. قال:‎ ‏سيساعدني. لا بذ أنه سيفعل.\"‎ ‏الآن.‎"
+        },
+        {
+          "order": 10,
+          "paragraphEn": "‎‏ ‎protessional‏",
+          "paragraphAr": "‏العودة إلى الديار ‎ ‏"
+        },
+        {
+          "order": 11,
+          "paragraphEn": "Santiago steered the little skiff through the dark waters, his body 0 broken but his spirit still alive. He had lost his catch, but he had not lost his dignity. The sea was quiet again, carrying the old man and the skeleton 1 of the marlin slowly toward the shore.",
+          "paragraphAr": "‏قاد سانتياغو قاربه الصغير وسط المياه المظلمة. وجسده محطم. لكن‎ روحه مازالت حية. خسر صيده. لكنه لم يخسر كرامته. عاد البحر ‎ ‏ جديد. يحمل العجوز وهيكل المارلين ‎‏ نحو الشاطئ. جه سمه 19"
+        },
+        {
+          "order": 12,
+          "paragraphEn": "‎Why does Santiago call the frst shark attack “the beginning”",
+          "paragraphAr": "لماذا يسمي سانتياغو هجوم القرش الأول \"البداية\"؟"
+        },
+        {
+          "order": 13,
+          "paragraphEn": "Because he knows more sharks will come ‏.‎",
+          "paragraphAr": "لأنه يعلم أن المزيد من القروش ستهاجم بعده 8"
+        }
+      ],
+      "questionsAndAnswers": [
+        {
+          "id": "sec1_ch6_qa_1",
+          "question": "لماذا يسمي سانتياغو هجوم القرش الأول \"البداية\"؟",
+          "answer": "Because he knows more sharks will come .ماله\nلأنه يعلم أن المزيد من القروش ستهاجم بعده 8",
+          "type": "sb_wb"
+        },
+        {
+          "id": "sec1_ch6_qa_2",
+          "question": "How does Santiago show courage when facing the mako shark ?",
+          "answer": "",
+          "type": "sb_wb"
+        },
+        {
+          "id": "sec1_ch6_qa_3",
+          "question": "كيف أظهر سانتياغو شجاعته عند مواجهة قرش الماكو ؟",
+          "answer": "He fights it bravely even though he is tired and weak.\nقاتله بشجاعة رغم أنه كان متعبًا وضعيفا",
+          "type": "sb_wb"
+        },
+        {
+          "id": "sec1_ch6_qa_4",
+          "question": "What does the breaking ofthe harpoon symbolize? يرمز إليه كسر الرمم ؟ io",
+          "answer": "It shows the loss of hie strength and hope lg يرم إلى فقدانه القوة",
+          "type": "sb_wb"
+        },
+        {
+          "id": "sec1_ch6_qa_5",
+          "question": "Why does Santiago keep fighting even when the marlin i nearly gone?",
+          "answer": "pais الماذا يواصل سانتياغو القتال حتى عندما تكاد سمكة المارلين\nBecause he refuses to give up his pride and honor.\n8 يرفض أن يتخلى عن كبريائه وشرفه. GY",
+          "type": "sb_wb"
+        },
+        {
+          "id": "sec1_ch6_qa_6",
+          "question": "How do the galanos difer from the mako shark? ١ كيف تختلف قروش الشالانوس عن قرش الماكو؟",
+          "answer": "They are slower but attack in groupe أبطا لكنها تعاجم في مجموعات Lal",
+          "type": "sb_wb"
+        },
+        {
+          "id": "sec1_ch6_qa_7",
+          "question": "What does Santiago mean when he says he was beaten by sharks, not the fish ?",
+          "answer": "",
+          "type": "sb_wb"
+        },
+        {
+          "id": "sec1_ch6_qa_8",
+          "question": "ماذا يقصد سانتياغي عندما يقول إنه هزم من القروش وليس من السمكة ؟",
+          "answer": "He means he lost to destruction, not to weakness\nيقصد أنه خسر أمام التدمير. وليس بسبب الضعف",
+          "type": "sb_wb"
+        },
+        {
+          "id": "sec1_ch6_qa_9",
+          "question": "Why does Hemingway describe Santiago using even broken pleces of wood to fight?",
+          "answer": "",
+          "type": "sb_wb"
+        },
+        {
+          "id": "sec1_ch6_qa_10",
+          "question": "لماذا وصف همنغواي سانتياغو gag يقائل حتى بقطع الخشب المكسورة ؟",
+          "answer": "To show his strong will and determination\n‘What role does dignity play in Santiago's battle with the sharks 7\n5 ما دور الكرامة في معركة سانتياغو مع القروش\nIt keeps him fighting even when he has nothing let\nتجعله يواصل القتال حتى عندما لا يملك شيفا",
+          "type": "sb_wb"
+        },
+        {
+          "id": "sec1_ch6_qa_11",
+          "question": "How is the marlin both a victory and a tragedy in this chapter ?",
+          "answer": "",
+          "type": "sb_wb"
+        },
+        {
+          "id": "sec1_ch6_qa_12",
+          "question": "كيف تعتبر سمكة المارلين نصرًا وماساة في هذا الفصل ؟",
+          "answer": "It shows his success but also his loss .\nخسارته Lay! تمثل نجاحه ولكن\nاق elon cl ts\nHow does Santiago's hope in the boy give meaning to his suffering +",
+          "type": "sb_wb"
+        },
+        {
+          "id": "sec1_ch6_qa_13",
+          "question": "سانتياغو في الصبي معنى لمعاناته ؟ Jal كيف يمنع",
+          "answer": "It gives him comfort and reason to keep living\nللاستمرار في الحياة. lag يمنحه الراحة",
+          "type": "sb_wb"
+        }
+      ],
+      "importantQuestions": [
+        {
+          "id": "sec1_ch6_crit_1",
+          "question": "How do the sharks symbolize destruction in contrast to the nobility of the marlin ?",
+          "answer": "",
+          "type": "critical_thinking"
+        },
+        {
+          "id": "sec1_ch6_crit_2",
+          "question": "سمكة المارلين ؟ ub كيف ترمز القروش إلى التدمير مقارنة",
+          "answer": "They destroy beauty, while the marlin represents greatness .\n0 تدمر الجمال. بينما المارلين ترمز للعظمة yoy Al",
+          "type": "critical_thinking"
+        },
+        {
+          "id": "sec1_ch6_crit_3",
+          "question": "Why does Hemingway emphasize the endless nature of Santiago's struggle ?",
+          "answer": "",
+          "type": "critical_thinking"
+        },
+        {
+          "id": "sec1_ch6_crit_4",
+          "question": "لماذا يؤكد همنغواي على طبيعة صراع سانتياغو المستمرة ؟",
+          "answer": "To show that true strength is never giving .من\nليُضعر أن القوة الحقيقية هي عدم الاستسلام",
+          "type": "critical_thinking"
+        },
+        {
+          "id": "sec1_ch6_crit_5",
+          "question": "What does the skeleton of the marlin symbolize in the story ?",
+          "answer": "",
+          "type": "critical_thinking"
+        },
+        {
+          "id": "sec1_ch6_crit_6",
+          "question": "هيكل المارلين العظمي في القصة ؟ joy ماذا",
+          "answer": "It symbolizes lost glory and lasting pride\nيرمز إلى المجد الضائع والكبرياء الدائمم",
+          "type": "critical_thinking"
+        },
+        {
+          "id": "sec1_ch6_crit_7",
+          "question": "How does Santiago's refusal to surrender show the theme of human dignity ?",
+          "answer": "",
+          "type": "critical_thinking"
+        },
+        {
+          "id": "sec1_ch6_crit_8",
+          "question": "كيف يُظهر رفض سانتياغو الاستسلام موضوع كرامة الإنسان ؟",
+          "answer": "It proves that dignity survives even in defeat .\n| | يُثبت أن الكرامة تبقى حتى في الهزيمة\nWhy does Hemingway describe the sharks coming “one after another” 7",
+          "type": "critical_thinking"
+        },
+        {
+          "id": "sec1_ch6_crit_9",
+          "question": "لماذا وصف همنغواي القروش بأنها تأتي \"واحدة تلو الأخرى\" ؟",
+          "answer": "To show how endless and painful the fight is.\nمدى استمرار المعركة وألمها palais",
+          "type": "critical_thinking"
+        },
+        {
+          "id": "sec1_ch6_crit_10",
+          "question": "What message does this chapter send about pride and loss ?",
+          "answer": "",
+          "type": "critical_thinking"
+        },
+        {
+          "id": "sec1_ch6_crit_11",
+          "question": "ما الرسالة التي يوجعها هذا الفصل عن الكبرياء والخسارة ؟",
+          "answer": "That pride can live even after great loss .\na أن الكبرياء يمكن أن يبقى رغم الخسارة الكبيرة.\nمل what way Is Santiago's battle with sharks different from his battle with the martin +",
+          "type": "critical_thinking"
+        },
+        {
+          "id": "sec1_ch6_crit_12",
+          "question": "كيف تختلف معركة سانتياغو مع القروش عن معركته مع المارلين ؟",
+          "answer": "With the martin, it was noble ; with sharks, it was desperate\nddl كانت مع المارلين نبيلة. أما مع القروش فكانت\nWhy does Santiago still call the marlin his “greatest friend” even after its death +\n5 لماذا لا يزال سانتياغو يسمي المارلين \"أعظم أصدقائه\" حتى بعد موته\nBecause he respects its strength and spirit\n0 الأنه يحترم قوته وروحه",
+          "type": "critical_thinking"
+        },
+        {
+          "id": "sec1_ch6_crit_13",
+          "question": "How does this chapter deepen the theme of man versus nature ?",
+          "answer": "",
+          "type": "critical_thinking"
+        },
+        {
+          "id": "sec1_ch6_crit_14",
+          "question": "الطبيعة ؟ go كيف يعمق هذا الفصل موضوع صراع الإنسان",
+          "answer": "ال shows both beauty and cruelty in nature .\na يَظهر جمال الطبيعة وقسوتها في الوقت نفسه",
+          "type": "critical_thinking"
+        },
+        {
+          "id": "sec1_ch6_crit_15",
+          "question": "مه you think Santiago's fight against the sharks was hopeless or heroic ? Why ?",
+          "answer": "",
+          "type": "critical_thinking"
+        },
+        {
+          "id": "sec1_ch6_crit_16",
+          "question": "بطولية؟ ولماذا ؟ ol هل تعتقد أن معركة سانتياغو مع القروش كانت يائسة",
+          "answer": "It was heroic because he never gave up .\nكانت بطولية لأنه لم يستسلم أبذا\nأسئلة من امتجانات الادارات التعليمية دور أول وثان _\nAnswer the following questions :\n1511 why does Santiago continue fighting although the battle against the sharks seems",
+          "type": "critical_thinking"
+        },
+        {
+          "id": "sec1_ch6_crit_17",
+          "question": "impossible ?",
+          "answer": "(what does the marlin’s skeleton represent at the end of the story 7\n§)) How is Santiago's fight with the sharks different from his struggle with the marlin 7\nإل why does Santiago continue to call the marlin his “greatest friend” after its death 7\n{63} How does Santiago's refusal to give up show his courage and dignity 7\n(G5) why does Hemingway describe the sharks as arriving “one after another” 7\nfi) How do the sharks represent destruction, while the marlin represents greatness and\nhonor ?\n(إ] How does Santiago's long and repeated struggle show that his difficulties never",
+          "type": "critical_thinking"
+        },
+        {
+          "id": "sec1_ch6_crit_18",
+          "question": "seem to end?",
+          "answer": "",
+          "type": "critical_thinking"
+        }
+      ],
+      "homeworkQuestions": [],
+      "mcqQuestions": [
+        {
+          "id": "mcq_sec1_ch6_1",
+          "question": "What key moral lesson is demonstrated in Chapter 6 (The Return & The Sharks Attack)?",
+          "options": [
+            "Material wealth is more important than personal honor",
+            "Santiago regrets choosing the fisherman's life",
+            "Giving up early prevents unnecessary suffering",
+            "Santiago sailed home proudly wit the marlin tied beside his smal skit"
+          ],
+          "correctAnswer": "Santiago sailed home proudly wit the marlin tied beside his smal skit",
+          "explanation": "Santiago embodies persistent effort, self-respect, and unbreakable determination."
+        },
+        {
+          "id": "mcq_sec1_ch6_2",
+          "question": "How does Santiago view his relationship with the great marlin?",
+          "options": [
+            "As a cruel enemy to be hated and reviled",
+            "As a brother and noble opponent worthy of reverence",
+            "As an easy catch with no real challenge",
+            "With indifference and emotional detachment"
+          ],
+          "correctAnswer": "As a brother and noble opponent worthy of reverence",
+          "explanation": "Santiago respects the fish's majesty, courage, and equality in the great web of nature."
+        }
+      ],
+      "importantCharacters": [
+        {
+          "nameEn": "Santiago",
+          "nameAr": "سانتياغو",
+          "roleEn": "Undefeated hero who fought the sharks to the bitter end.",
+          "roleAr": "بطل أسطوري لم يُهزم، حارب أسماك القرش حتى آخر رمق.",
+          "actionsEn": "Defended the marlin using his harpoon, knife lashed to an oar, and tiller; returned with the magnificent skeleton.",
+          "actionsAr": "دافع عن سمكته بالرمح والسكين والمجداف، وعاد إلى الميناء بهيكلها العظمي الأبيض الشامخ."
+        },
+        {
+          "nameEn": "Manolin",
+          "nameAr": "مانولين",
+          "roleEn": "Faithful student who weeps with admiration for his master's heroism.",
+          "roleAr": "التلميذ البار الذي بكى فخراً وإجلالاً لبطولة معلمه العجوز.",
+          "actionsEn": "Brought Santiago hot coffee, comforted him, and vowed never to leave him again.",
+          "actionsAr": "أحضر القهوة الساخنة لسانتياغو وضمد جراحه وتعهد بالإبحار معه دائماً ولن يتركه أبداً."
+        },
+        {
+          "nameEn": "Tourists & Fishermen",
+          "nameAr": "السياح والصيادون",
+          "roleEn": "Amazed onlookers measuring the eighteen-foot skeleton.",
+          "roleAr": "المشاهدون المذهولون وهم يقيسون الهيكل العظمي الذي بلغ 18 قدماً.",
+          "actionsEn": "Acknowledged Santiago's unparalleled courage and mastery.",
+          "actionsAr": "أيقنوا شجاعة سانتياغو الاستثنائية التي لا نظير لها بين رجال البحر."
+        }
+      ],
+      "characterRelationships": [
+        {
+          "characters": [
+            "Santiago",
+            "Manolin"
+          ],
+          "relationEn": "Undying Loyalty and Heritage",
+          "relationAr": "وفاء خالد وتوارث للرسالة",
+          "detailsEn": "Manolin promises to learn everything from Santiago: 'Now we will fish together again.'",
+          "detailsAr": "مانولين يتعهد بالتعلم من سانتياغو: 'من الآن فصاعداً سنصطاد معاً دائماً'."
+        }
+      ],
+      "keyDialogues": [
+        {
+          "speakerEn": "Santiago",
+          "speakerAr": "سانتياغو",
+          "quoteEn": "Man is not made for defeat. A man can be destroyed but not defeated.",
+          "quoteAr": "لم يُخلق الإنسان للهزيمة.. قد يُدمر الإنسان لكنه لا يُهزم أبداً.",
+          "contextEn": "Santiago's immortal philosophy declared as the sharks tear at the marlin.",
+          "contextAr": "الفلسفة الخالدة التي أعلنها سانتياغو وهو يقاتل أسماك القرش في ظلمة البحر."
+        },
+        {
+          "speakerEn": "Manolin",
+          "speakerAr": "مانولين",
+          "quoteEn": "They beat you, Santiago. They beat you? / No. Truly. It was afterward.",
+          "quoteAr": "هل هزموك يا سانتياغو؟ .. كلا، لم تهزمني السمكة قط، بل كان ذلك بعد الصيد مع وحوش القرش.",
+          "contextEn": "The touching reunion in Santiago's hut the morning after his return.",
+          "contextAr": "اللقاء المؤثر في كوخ سانتياغو في صبيحة يوم عودته."
+        }
+      ],
+      "themesAndLessons": [
+        {
+          "themeEn": "Indomitable Human Spirit",
+          "themeAr": "الروح الإنسانية التي لا تُقهر",
+          "lessonEn": "True victory is not measured by material spoils, but by moral courage and refusing to surrender.",
+          "lessonAr": "النصر الحقيقي لا يُقاس بما تحمله اليد من غنائم، بل بشجاعة الروح والإباء وعدم الاستسلام."
+        }
+      ]
+    }
+  ]
+}

@@ -1,10 +1,11 @@
 import { db } from "@/db";
-import { attendanceRecords, users, parentLinks, centerGroups } from "@/db/schema";
-import { eq, and, sql, or } from "drizzle-orm";
+import { attendanceRecords, users, parentLinks, centerGroups, payments } from "@/db/schema";
+import { eq, and, sql, or, desc } from "drizzle-orm";
 import { NextResponse } from "next/server";
 import { ensureDbSetup } from "@/db/migrate-and-seed";
 import { requireRoles, getAuthContext } from "@/lib/security";
-import { dispatchAttendanceNotification, getNotificationDeliveryLogs } from "@/lib/notifications/dispatcher";
+import { dispatchAttendanceNotification as dispatchAlwaledNotification, getNotificationDeliveryLogs } from "@/lib/notifications/dispatcher";
+import { dispatchAttendanceNotification as dispatchParentConnectNotification } from "@/lib/parent-connect-dispatcher";
 
 function computeRate(records: any[]) {
   if (records.length === 0) return 100;
@@ -16,10 +17,46 @@ function computeRate(records: any[]) {
   return Math.round(score * 100);
 }
 
+async function notifyParents(params: {
+  attendanceRecordId?: string;
+  studentId: string;
+  studentName?: string;
+  sessionTitle: string;
+  sessionDate: string;
+  status: "present" | "absent" | "late" | "excused";
+  parentPhone?: string;
+  markedBy?: string;
+}) {
+  try {
+    await dispatchAlwaledNotification({
+      studentId: params.studentId,
+      studentName: params.studentName || "Student",
+      status: params.status,
+      sessionTitle: params.sessionTitle,
+      sessionDate: params.sessionDate,
+      parentPhone: params.parentPhone,
+    }).catch((e) => console.error("Al Waled notification error:", e));
+
+    if (params.attendanceRecordId && params.status !== "excused") {
+      await dispatchParentConnectNotification({
+        attendanceRecordId: params.attendanceRecordId,
+        studentId: params.studentId,
+        studentName: params.studentName,
+        sessionTitle: params.sessionTitle,
+        sessionDate: params.sessionDate,
+        status: params.status as any,
+        markedBy: params.markedBy,
+      }).catch((e) => console.error("Parent connect notification error:", e));
+    }
+  } catch (err) {
+    console.error("Parent notification dispatch failed:", err);
+  }
+}
+
 export async function GET(req: Request) {
   await ensureDbSetup();
   const ctx = await getAuthContext(req);
-  if (!ctx) {
+  if (!ctx.authenticated || !ctx.user) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
@@ -29,18 +66,18 @@ export async function GET(req: Request) {
   const groupFilter = searchParams.get("groupId");
   const sessionFilter = searchParams.get("sessionTitle");
   const monthFilter = searchParams.get("month"); // e.g. "2026-11"
-  const view = searchParams.get("view") || "roster"; // 'roster', 'history', 'reports'
+  const view = searchParams.get("view") || "roster"; // 'roster', 'history', 'reports', 'notifications'
   const role = ctx.user.role as string;
+  const currentMonth = new Date().toISOString().slice(0, 7); // YYYY-MM
 
   try {
-    // ============ TEACHER / ADMIN: Enhanced Roster, History & Reports ============
+    // ============ TEACHER / ADMIN: Enhanced Roster, History, Reports, and Fees ============
     if (role === "teacher" || role === "admin") {
-      // 1. Load All Groups
+      // 1. Load All Active Center Groups
       const allGroups = await db.select().from(centerGroups).where(eq(centerGroups.isActive, true));
 
       // 2. Load Students
-      let studentQuery = db.select().from(users).where(eq(users.role, "student"));
-      const allStudents = await studentQuery;
+      const allStudents = await db.select().from(users).where(eq(users.role, "student"));
 
       // Filter students by grade/group if specified
       const filteredStudents = allStudents.filter((st) => {
@@ -49,8 +86,11 @@ export async function GET(req: Request) {
         return true;
       });
 
-      // 3. Load Attendance Records
+      // 3. Load Attendance Records & Payments
       const allRecords = await db.select().from(attendanceRecords);
+      const allPayments = await db.select().from(payments);
+
+      const monthlyFee = 250;
 
       // Session Titles & Recent Dates for dropdowns
       const sessionTitles = [...new Set(allRecords.map((r) => r.sessionTitle).filter(Boolean))];
@@ -102,33 +142,61 @@ export async function GET(req: Request) {
           studentReports,
           groupReports,
           allGroups,
-        });
-      }
-
-      // --- VIEW: HISTORY ---
-      if (view === "history") {
-        let historyRecords = allRecords;
-        if (date && date !== "all") {
-          historyRecords = historyRecords.filter((r) => r.sessionDate === date);
-        }
-        if (sessionFilter && sessionFilter !== "all") {
-          historyRecords = historyRecords.filter((r) => r.sessionTitle === sessionFilter);
-        }
-        if (gradeFilter && gradeFilter !== "all") {
-          historyRecords = historyRecords.filter((r) => r.grade === gradeFilter);
-        }
-
-        const sorted = historyRecords.sort((a, b) => (a.createdAt < b.createdAt ? 1 : -1)).slice(0, 200);
-        return NextResponse.json({
-          view: "history",
-          records: sorted,
           sessionTitles,
           recentDates,
-          allGroups,
         });
       }
 
-      // --- VIEW: NOTIFICATIONS AUDIT LOG ---
+      // --- VIEW: DETAILED ATTENDANCE HISTORY LOG ---
+      if (view === "history") {
+        const studentMap = new Map(allStudents.map((s) => [s.id, s]));
+        const groupMap = new Map(allGroups.map((g) => [g.id, g.name]));
+
+        let historyList = allRecords.map((r) => {
+          const st = studentMap.get(r.studentId);
+          return {
+            id: r.id,
+            studentId: r.studentId,
+            studentCode: st?.studentCode,
+            studentName: r.studentName || st?.name || "طالب",
+            grade: r.grade || st?.grade,
+            groupId: r.groupId || st?.groupId,
+            groupName: groupMap.get(r.groupId || st?.groupId || "") || "عام",
+            sessionTitle: r.sessionTitle,
+            sessionDate: r.sessionDate,
+            status: r.status,
+            scanMethod: r.scanMethod || "manual",
+            markedBy: r.markedBy,
+            markedAt: r.createdAt,
+          };
+        });
+
+        if (date && date !== "all") {
+          historyList = historyList.filter((h) => h.sessionDate === date);
+        }
+        if (gradeFilter && gradeFilter !== "all") {
+          historyList = historyList.filter((h) => h.grade === gradeFilter);
+        }
+        if (groupFilter && groupFilter !== "all") {
+          historyList = historyList.filter((h) => h.groupId === groupFilter);
+        }
+        if (sessionFilter && sessionFilter !== "all") {
+          historyList = historyList.filter((h) => h.sessionTitle === sessionFilter);
+        }
+
+        historyList.sort((a, b) => (new Date(b.markedAt || 0) > new Date(a.markedAt || 0) ? 1 : -1));
+
+        return NextResponse.json({
+          view: "history",
+          history: historyList.slice(0, 200),
+          totalCount: historyList.length,
+          allGroups,
+          sessionTitles,
+          recentDates,
+        });
+      }
+
+      // --- VIEW: NOTIFICATION DELIVERY LOGS ---
       if (view === "notifications") {
         return NextResponse.json({
           view: "notifications",
@@ -139,22 +207,38 @@ export async function GET(req: Request) {
       // --- VIEW: ROSTER & ACTIVE SCANNING (Default) ---
       const roster = filteredStudents.map((st) => {
         const recs = allRecords.filter((r) => r.studentId === st.id);
-        const dateRec = recs.find(
-          (r) => r.sessionDate === date && (!sessionFilter || sessionFilter === "all" || r.sessionTitle === sessionFilter)
-        );
+        const dateRec = date
+          ? recs.find(
+              (r) => r.sessionDate === date && (!sessionFilter || sessionFilter === "all" || r.sessionTitle === sessionFilter)
+            )
+          : null;
         const grp = allGroups.find((g) => g.id === st.groupId);
+
+        // Payments for this student in current month
+        const stPayments = allPayments.filter(
+          (p) => p.studentId === st.id && (p.status === "approved" || p.status === "paid")
+        );
+        const currentMonthPayments = stPayments.filter(
+          (p) => p.createdAt && new Date(p.createdAt).toISOString().slice(0, 7) === currentMonth
+        );
+        const totalPaidThisMonth = currentMonthPayments.reduce((sum, p) => sum + Number(p.amount || 0), 0);
+        const remaining = Math.max(0, monthlyFee - totalPaidThisMonth);
+        const feeStatus = totalPaidThisMonth >= monthlyFee ? "paid" : totalPaidThisMonth > 0 ? "partial" : "unpaid";
 
         return {
           studentId: st.id,
-          studentCode: st.studentCode,
+          studentCode: st.studentCode || `PA-${st.id.slice(-6).toUpperCase()}`,
           studentName: st.name,
-          grade: st.grade,
-          groupId: st.groupId,
+          email: st.email,
+          phone: st.phone || "",
+          parentPhone: st.parentPhone || "",
+          grade: st.grade || "",
+          stage: st.stage || "",
+          groupId: st.groupId || null,
           groupName: grp ? grp.name : st.groupId || "عام",
           schedule: grp ? grp.schedule : "",
-          qrCode: st.qrCode,
-          phone: st.phone,
-          parentPhone: st.parentPhone,
+          qrCode: st.qrCode || `qr_${st.id}`,
+          avatar: st.avatar || "",
           totalSessions: recs.length,
           presentCount: recs.filter((r) => r.status === "present").length,
           lateCount: recs.filter((r) => r.status === "late").length,
@@ -163,8 +247,23 @@ export async function GET(req: Request) {
           rate: computeRate(recs),
           statusOnDate: dateRec?.status || null,
           markedAt: dateRec?.createdAt || null,
+          monthlyFee,
+          totalPaidThisMonth,
+          remainingAmount: remaining,
+          feeStatus,
+          lastPayment: stPayments[stPayments.length - 1] || null,
         };
       });
+
+      // Total collected fees this month
+      const totalRevenueMonth = allPayments
+        .filter(
+          (p) =>
+            (p.status === "approved" || p.status === "paid") &&
+            p.createdAt &&
+            new Date(p.createdAt).toISOString().slice(0, 7) === currentMonth
+        )
+        .reduce((sum, p) => sum + Number(p.amount || 0), 0);
 
       return NextResponse.json({
         roster,
@@ -172,6 +271,8 @@ export async function GET(req: Request) {
         sessionTitles,
         recentDates,
         currentDate: date,
+        currentMonth,
+        totalRevenueMonth,
         role,
       });
     }
@@ -185,40 +286,82 @@ export async function GET(req: Request) {
         studentId = links[0]?.studentId || null;
       }
       if (!studentId) return NextResponse.json({ error: "No linked student" }, { status: 404 });
-      const links = await db
-        .select()
-        .from(parentLinks)
-        .where(and(eq(parentLinks.parentId, ctx.user.id), eq(parentLinks.studentId, studentId)));
-      if (!links.length) return NextResponse.json({ error: "Forbidden" }, { status: 403 });
 
-      const records = await db.select().from(attendanceRecords).where(eq(attendanceRecords.studentId, studentId));
-      const sorted = records.sort((a, b) => (a.sessionDate < b.sessionDate ? 1 : -1));
-      return NextResponse.json({ role: "parent", studentId, records: sorted, rate: computeRate(records), total: records.length });
+      const records = await db
+        .select()
+        .from(attendanceRecords)
+        .where(eq(attendanceRecords.studentId, studentId))
+        .orderBy(desc(attendanceRecords.sessionDate));
+
+      const student = await db.select().from(users).where(eq(users.id, studentId));
+      return NextResponse.json({
+        student: student[0] || null,
+        records,
+        rate: computeRate(records),
+        role,
+      });
     }
 
-    // ============ STUDENT: own records ============
-    const records = await db.select().from(attendanceRecords).where(eq(attendanceRecords.studentId, ctx.user.id));
-    const sorted = records.sort((a, b) => (a.sessionDate < b.sessionDate ? 1 : -1));
-    return NextResponse.json({
-      role: "student",
-      studentId: ctx.user.id,
-      records: sorted,
-      rate: computeRate(records),
-      total: records.length,
-      presentCount: records.filter((r) => r.status === "present").length,
-      lateCount: records.filter((r) => r.status === "late").length,
-      absentCount: records.filter((r) => r.status === "absent").length,
-    });
-  } catch (error) {
-    console.error("Attendance GET error:", error);
-    return NextResponse.json({ error: "Failed to load attendance" }, { status: 500 });
+    // ============ STUDENT: own records + ID card details + fees ============
+    if (role === "student") {
+      const records = await db
+        .select()
+        .from(attendanceRecords)
+        .where(eq(attendanceRecords.studentId, ctx.user.id))
+        .orderBy(desc(attendanceRecords.sessionDate));
+
+      const stPayments = await db
+        .select()
+        .from(payments)
+        .where(
+          and(
+            eq(payments.studentId, ctx.user.id),
+            or(eq(payments.status, "approved"), eq(payments.status, "paid"))
+          )
+        );
+
+      const monthlyFee = 250;
+      const currentMonthPayments = stPayments.filter(
+        (p) => p.createdAt && new Date(p.createdAt).toISOString().slice(0, 7) === currentMonth
+      );
+      const totalPaidThisMonth = currentMonthPayments.reduce((sum, p) => sum + Number(p.amount || 0), 0);
+      const remaining = Math.max(0, monthlyFee - totalPaidThisMonth);
+      const feeStatus = totalPaidThisMonth >= monthlyFee ? "paid" : totalPaidThisMonth > 0 ? "partial" : "unpaid";
+
+      return NextResponse.json({
+        student: {
+          id: ctx.user.id,
+          name: ctx.user.name,
+          email: ctx.user.email,
+          phone: ctx.user.phone,
+          grade: ctx.user.grade,
+          stage: ctx.user.stage,
+          avatar: ctx.user.avatar,
+          studentCode: (ctx.user as any).studentCode || `PA-${ctx.user.id.slice(-6).toUpperCase()}`,
+        },
+        records,
+        rate: computeRate(records),
+        feeDetails: {
+          monthlyFee,
+          totalPaidThisMonth,
+          remainingAmount: remaining,
+          feeStatus,
+        },
+        role,
+      });
+    }
+
+    return NextResponse.json({ error: "Forbidden role" }, { status: 403 });
+  } catch (err: any) {
+    console.error("Attendance GET Error:", err);
+    return NextResponse.json({ error: "Internal Server Error", details: err?.message }, { status: 500 });
   }
 }
 
 export async function POST(req: Request) {
   await ensureDbSetup();
   const ctx = await getAuthContext(req);
-  if (!ctx) {
+  if (!ctx.authenticated || !ctx.user) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
@@ -226,30 +369,39 @@ export async function POST(req: Request) {
     const body = await req.json();
     const { action } = body;
 
-    // ============ STAFF: SCAN QR OR BARCODE ============
-    if (action === "scan") {
+    // ============ STAFF: SCAN QR OR BARCODE (Camera / Laser Barcode Wedge) ============
+    if (action === "scan" || action === "qr_scan") {
       const { denied } = await requireRoles(req, ["teacher", "admin"]);
       if (denied) return denied;
 
-      const { scanCode, sessionTitle, sessionDate, groupId } = body;
-      if (!scanCode) {
+      const rawScan = body.scanCode || body.qrCodeData;
+      if (!rawScan) {
         return NextResponse.json({ error: "Scan code is required" }, { status: 400 });
       }
 
-      const targetDate = sessionDate || new Date().toISOString().split("T")[0];
-      const targetTitle = sessionTitle || "حصة سنتر الوليد الأسبوعية";
+      let scanCode = String(rawScan).trim();
+      if (scanCode.startsWith("PA:")) {
+        scanCode = scanCode.replace("PA:", "").trim();
+      } else if (scanCode.startsWith("{")) {
+        try {
+          const parsed = JSON.parse(scanCode);
+          scanCode = parsed.sid || parsed.id || parsed.studentId || scanCode;
+        } catch {}
+      }
 
-      // 1. Locate student by qrCode, studentCode, id, or username
-      const cleanScan = scanCode.trim();
+      const targetDate = body.sessionDate || new Date().toISOString().split("T")[0];
+      const targetTitle = body.sessionTitle || "حصة سنتر الوليد الأسبوعية";
+
+      // 1. Locate student by qrCode, studentCode, id, username, or phone
       let matchedStudent: any = null;
 
       // Try by QR code
-      const byQr = await db.select().from(users).where(eq(users.qrCode, cleanScan)).limit(1);
+      const byQr = await db.select().from(users).where(eq(users.qrCode, scanCode)).limit(1);
       if (byQr.length > 0) {
         matchedStudent = byQr[0];
       } else {
         // Try by integer studentCode
-        const asInt = parseInt(cleanScan, 10);
+        const asInt = parseInt(scanCode, 10);
         if (!isNaN(asInt)) {
           const byCode = await db.select().from(users).where(eq(users.studentCode, asInt)).limit(1);
           if (byCode.length > 0) matchedStudent = byCode[0];
@@ -257,13 +409,19 @@ export async function POST(req: Request) {
       }
 
       if (!matchedStudent) {
-        // Try by id or username
-        const byId = await db
+        // Try by id, username, or phone
+        const byOther = await db
           .select()
           .from(users)
-          .where(or(eq(users.id, cleanScan), eq(users.username, cleanScan)))
+          .where(
+            or(
+              eq(users.id, scanCode),
+              eq(users.username, scanCode),
+              eq(users.phone, scanCode)
+            )
+          )
           .limit(1);
-        if (byId.length > 0) matchedStudent = byId[0];
+        if (byOther.length > 0) matchedStudent = byOther[0];
       }
 
       if (!matchedStudent || matchedStudent.role !== "student") {
@@ -280,63 +438,74 @@ export async function POST(req: Request) {
         .where(
           and(
             eq(attendanceRecords.studentId, matchedStudent.id),
-            eq(attendanceRecords.sessionDate, targetDate),
-            eq(attendanceRecords.sessionTitle, targetTitle)
+            eq(attendanceRecords.sessionTitle, targetTitle),
+            eq(attendanceRecords.sessionDate, targetDate)
           )
         );
 
       if (existingAttendance.length > 0) {
+        const prev = existingAttendance[0];
         return NextResponse.json({
           success: false,
-          alreadyMarked: true,
-          message: `الطالب مسجل حضور بالفعل اليوم (${matchedStudent.name})`,
+          isDuplicate: true,
+          message: `الطالب مسجل حضور بالفعل اليوم (${prev.status === "present" ? "حاضر" : prev.status})`,
           student: {
             id: matchedStudent.id,
             name: matchedStudent.name,
-            grade: matchedStudent.grade,
             studentCode: matchedStudent.studentCode,
+            grade: matchedStudent.grade,
           },
-          record: existingAttendance[0],
+          record: prev,
         });
       }
 
       // 3. Insert Attendance Record
-      const newRecord = {
-        id: `att_${Date.now()}_${matchedStudent.id}_${Math.random().toString(36).substring(2, 6)}`,
+      const scanMethod = body.scanMethod || "barcode_scanner";
+      const recordId = `att_${Date.now()}_${matchedStudent.id}_${Math.random().toString(36).substring(2, 6)}`;
+      await db.insert(attendanceRecords).values({
+        id: recordId,
         studentId: matchedStudent.id,
         studentName: matchedStudent.name,
         sessionTitle: targetTitle,
         sessionDate: targetDate,
         status: "present",
         grade: matchedStudent.grade || "",
-        groupId: groupId || matchedStudent.groupId || null,
-        scanMethod: cleanScan.startsWith("wld_qr_") ? "qr" : "barcode",
+        groupId: matchedStudent.groupId || body.groupId || null,
+        scanMethod,
         markedBy: ctx.user.name || ctx.user.id,
-        createdAt: new Date(),
-      };
+      });
 
-      await db.insert(attendanceRecords).values(newRecord);
-
-      // Automated Parent Notification Dispatch (Phase 6: WhatsApp & Telegram)
-      dispatchAttendanceNotification({
+      // 4. Automated Parent Notification Dispatch (Phase 6: WhatsApp & Telegram)
+      notifyParents({
+        attendanceRecordId: recordId,
         studentId: matchedStudent.id,
         studentName: matchedStudent.name,
         status: "present",
         sessionTitle: targetTitle,
         sessionDate: targetDate,
         parentPhone: matchedStudent.parentPhone,
-      }).catch((e) => console.error("Notification dispatch error:", e));
+        markedBy: ctx.user.name || ctx.user.id,
+      });
 
       return NextResponse.json({
         success: true,
-        message: `تم تسجيل حضور الطالب بنجاح: ${matchedStudent.name}`,
+        isDuplicate: false,
+        message: "تم تسجيل الحضور بنجاح",
         student: {
           id: matchedStudent.id,
           name: matchedStudent.name,
-          grade: matchedStudent.grade,
           studentCode: matchedStudent.studentCode,
+          grade: matchedStudent.grade,
+          groupId: matchedStudent.groupId,
+          parentPhone: matchedStudent.parentPhone,
         },
-        record: newRecord,
+        record: {
+          id: recordId,
+          sessionTitle: targetTitle,
+          sessionDate: targetDate,
+          status: "present",
+          scanMethod,
+        },
       });
     }
 
@@ -361,14 +530,17 @@ export async function POST(req: Request) {
           )
         );
 
+      let recordId = "";
       if (existing.length > 0) {
+        recordId = existing[0].id;
         await db
           .update(attendanceRecords)
           .set({ status, markedBy: ctx.user.name || ctx.user.id })
-          .where(eq(attendanceRecords.id, existing[0].id));
+          .where(eq(attendanceRecords.id, recordId));
       } else {
+        recordId = `att_${Date.now()}_${studentId}_${Math.random().toString(36).substring(2, 6)}`;
         await db.insert(attendanceRecords).values({
-          id: `att_${Date.now()}_${studentId}_${Math.random().toString(36).substring(2, 6)}`,
+          id: recordId,
           studentId,
           studentName: studentName || "Student",
           sessionTitle,
@@ -381,17 +553,55 @@ export async function POST(req: Request) {
         });
       }
 
-      // Automated Parent Notification Dispatch (Phase 6: WhatsApp & Telegram)
-      dispatchAttendanceNotification({
+      // Automated Parent Notification Dispatch
+      notifyParents({
+        attendanceRecordId: recordId,
         studentId,
         studentName: studentName || "Student",
         status: status as any,
         sessionTitle,
         sessionDate,
         parentPhone: body.parentPhone,
-      }).catch((e) => console.error("Notification dispatch error:", e));
+        markedBy: ctx.user.name || ctx.user.id,
+      });
 
       return NextResponse.json({ success: true, status });
+    }
+
+    // ============ TEACHER / ADMIN: COLLECT TUITION / FEES ON THE SPOT ============
+    if (action === "collect_fee") {
+      const { denied } = await requireRoles(req, ["teacher", "admin"]);
+      if (denied) return denied;
+
+      const { studentId, amount, method = "cash_center", notes = "سداد اشتراك شهري بالسنتر" } = body;
+      if (!studentId || !amount) {
+        return NextResponse.json({ error: "studentId والمبلغ مطلوبان" }, { status: 400 });
+      }
+
+      const stList = await db.select().from(users).where(eq(users.id, studentId));
+      if (stList.length === 0) return NextResponse.json({ error: "Student not found" }, { status: 404 });
+      const student = stList[0];
+
+      const paymentRecord = {
+        id: `pay_${Date.now()}_${Math.random().toString(36).substring(2, 6)}`,
+        studentId: student.id,
+        studentName: student.name,
+        courseId: null,
+        amount: Number(amount).toFixed(2),
+        method,
+        transactionId: `REC-${Date.now().toString().slice(-6)}`,
+        status: "approved",
+        senderNumber: student.phone || notes,
+      };
+
+      await db.insert(payments).values(paymentRecord);
+
+      return NextResponse.json({
+        success: true,
+        payment: paymentRecord,
+        receiptNumber: paymentRecord.transactionId,
+        date: new Date().toISOString(),
+      });
     }
 
     // ============ TEACHER: BULK MARK ROSTER FOR A SESSION ============
@@ -417,14 +627,17 @@ export async function POST(req: Request) {
             )
           );
 
+        let attRecordId = "";
         if (existing.length > 0) {
+          attRecordId = existing[0].id;
           await db
             .update(attendanceRecords)
             .set({ status: m.status, markedBy: ctx.user.name || ctx.user.id })
-            .where(eq(attendanceRecords.id, existing[0].id));
+            .where(eq(attendanceRecords.id, attRecordId));
         } else {
+          attRecordId = `att_${Date.now()}_${m.studentId}_${Math.random().toString(36).substring(2, 5)}`;
           await db.insert(attendanceRecords).values({
-            id: `att_${Date.now()}_${m.studentId}_${Math.random().toString(36).substring(2, 5)}`,
+            id: attRecordId,
             studentId: m.studentId,
             studentName: m.studentName || "Student",
             sessionTitle,
@@ -436,6 +649,18 @@ export async function POST(req: Request) {
             markedBy: ctx.user.name || ctx.user.id,
           });
         }
+
+        // Notify parent automatically
+        notifyParents({
+          attendanceRecordId: attRecordId,
+          studentId: m.studentId,
+          studentName: m.studentName || "Student",
+          sessionTitle,
+          sessionDate,
+          status: m.status || "present",
+          markedBy: ctx.user.name || ctx.user.id,
+        });
+
         saved++;
       }
 
@@ -459,26 +684,39 @@ export async function POST(req: Request) {
         );
 
       if (existing.length > 0) {
-        return NextResponse.json({ success: true, already: true, record: existing[0] });
+        return NextResponse.json({ message: "تم تسجيل حضورك مسبقاً لهذه الحصة", alreadyRecorded: true });
       }
 
-      const record = {
-        id: `att_${Date.now()}_${ctx.user.id}`,
+      const recId = `att_${Date.now()}_${ctx.user.id}_${Math.random().toString(36).substring(2, 6)}`;
+      await db.insert(attendanceRecords).values({
+        id: recId,
         studentId: ctx.user.id,
-        studentName: ctx.user.name,
+        studentName: ctx.user.name || "Student",
         sessionTitle: title,
         sessionDate: today,
         status: "present",
         grade: ctx.user.grade || "",
-        markedBy: "self",
-      };
-      await db.insert(attendanceRecords).values(record);
-      return NextResponse.json({ success: true, record });
+        scanMethod: "student_self_checkin",
+        markedBy: "student_self",
+      });
+
+      notifyParents({
+        attendanceRecordId: recId,
+        studentId: ctx.user.id,
+        studentName: ctx.user.name || "Student",
+        sessionTitle: title,
+        sessionDate: today,
+        status: "present",
+        parentPhone: ctx.user.parentPhone,
+        markedBy: "student_self",
+      });
+
+      return NextResponse.json({ success: true, message: "تم تسجيل الحضور بنجاح" });
     }
 
     return NextResponse.json({ error: "Invalid action" }, { status: 400 });
-  } catch (error) {
-    console.error("Attendance POST error:", error);
-    return NextResponse.json({ error: "Operation failed" }, { status: 500 });
+  } catch (err: any) {
+    console.error("Attendance POST Error:", err);
+    return NextResponse.json({ error: "Internal Server Error", details: err?.message }, { status: 500 });
   }
 }

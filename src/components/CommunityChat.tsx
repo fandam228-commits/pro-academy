@@ -46,7 +46,7 @@ export const CommunityChat: React.FC = () => {
     <div className="max-w-4xl mx-auto my-8 bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-2xl overflow-hidden flex flex-col h-[550px]">
       <div className="p-4 bg-slate-50 dark:bg-slate-950 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <MessageSquare className="w-5 h-5 text-blue-600" />
+          <MessageSquare className="w-5 h-5 text-purple-600 dark:text-purple-400" />
           <h3 className="font-extrabold text-sm text-slate-900 dark:text-white">
             {lang === "ar" ? "شات ومجتمع أكاديمية المستر" : "Community Live Q&A"}
           </h3>
@@ -64,7 +64,7 @@ export const CommunityChat: React.FC = () => {
             <div key={m.id} className="p-3 rounded-2xl bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 text-xs">
               <div className="flex items-center justify-between mb-1">
                 <span className="font-extrabold text-slate-900 dark:text-white flex items-center gap-1">
-                  {isAdmin && <ShieldCheck className="w-3.5 h-3.5 text-blue-600" />}
+                  {isAdmin && <ShieldCheck className="w-3.5 h-3.5 text-purple-600 dark:text-sky-400" />}
                   <span>{m.senderName}</span>
                 </span>
                 <span className="text-[10px] text-slate-400 font-mono">
@@ -85,11 +85,11 @@ export const CommunityChat: React.FC = () => {
           onChange={(e) => setInputText(e.target.value)}
           onKeyDown={(e) => e.key === "Enter" && handleSend()}
           placeholder={lang === "ar" ? "اكتب رسالة أو استفسار للمستر والطلاب..." : "Ask a question to Mr. Habib & peers..."}
-          className="flex-1 p-3 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-xs font-medium text-slate-900 dark:text-white focus:outline-none"
+          className="flex-1 p-3 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-xs font-medium text-slate-900 dark:text-white focus:outline-none focus:border-purple-500"
         />
         <button
           onClick={handleSend}
-          className="px-5 py-3 rounded-2xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs shadow-md transition-all"
+          className="px-5 py-3 rounded-2xl bg-gradient-to-r from-purple-600 to-sky-600 hover:from-purple-500 hover:to-sky-500 text-white font-bold text-xs shadow-md shadow-purple-500/25 transition-all"
         >
           <Send className="w-4 h-4 rtl:rotate-180" />
         </button>

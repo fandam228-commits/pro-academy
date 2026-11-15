@@ -138,9 +138,12 @@ export const GlobalSearch: React.FC<{ onSelectCourse?: (id: string) => void }> =
             {questionResults.map((q) => (
               <div key={q.id} className="p-4 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-md">
                 <p className="font-bold text-xs text-slate-900 dark:text-white leading-relaxed">{q.questionText}</p>
-                <p className="text-[10px] text-emerald-600 font-bold mt-1.5">
-                  ✓ {q.correctAnswer} <span className="text-slate-400 font-medium">• {q.domainCategory} • {q.difficulty}</span>
-                </p>
+                <div className="flex flex-wrap items-center gap-2 text-[10px] mt-1.5 font-bold">
+                  {q.correctAnswer && (
+                    <span className="text-emerald-600 dark:text-emerald-400">✓ {q.correctAnswer}</span>
+                  )}
+                  <span className="text-slate-400 font-medium">• {q.domainCategory} • {q.difficulty}</span>
+                </div>
               </div>
             ))}
           </div>

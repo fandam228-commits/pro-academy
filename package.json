@@ -7,7 +7,8 @@
     "start": "next start",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
-    "test": "node --test"
+    "test": "node --test",
+    "db:seed": "node --env-file=.env.local node_modules/tsx/dist/cli.mjs src/db/seed.ts"
   },
   "dependencies": {
     "@types/qrcode": "^1.5.6",

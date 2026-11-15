@@ -1,0 +1,1863 @@
+{
+  "curriculumMetadata": {
+    "stage": "Secondary",
+    "grade": "First Secondary",
+    "gradeAr": "الصف الأول الثانوي",
+    "term": "First",
+    "termAr": "الترم الأول",
+    "academicYear": "2026/2027",
+    "unitNumber": 3,
+    "unitTitleEn": "Truth Vs. Lies",
+    "unitTitleAr": "الحقيقة في مواجهة الأكاذيب",
+    "sourceFile": "أولي ثانوي ترم أول 2027 - Habib El Rahman (1).pdf",
+    "teacher": "Mr. Habib El Rahman",
+    "grammarTopicEn": "Conditionals (Zero, First, Second, Third Conditionals & In case of / Unless / But for / Should)",
+    "grammarTopicAr": "حالات If الشرطية (الصفرية، الأولى، الثانية، الثالثة وبدائل If)"
+  },
+  "keyVocabulary": [
+    {
+      "word": "betray",
+      "pos": "v",
+      "meaningAr": "يخون",
+      "page": 115
+    },
+    {
+      "word": "exploit",
+      "pos": "v",
+      "meaningAr": "يستغل",
+      "page": 115
+    },
+    {
+      "word": "support",
+      "pos": "v/n",
+      "meaningAr": "يدعم / دعم",
+      "page": 115
+    },
+    {
+      "word": "supportive",
+      "pos": "adj",
+      "meaningAr": "داعم",
+      "page": 115
+    },
+    {
+      "word": "supportively",
+      "pos": "adv",
+      "meaningAr": "بشكل داعم",
+      "page": 115
+    },
+    {
+      "word": "deceive",
+      "pos": "v",
+      "meaningAr": "يخدع",
+      "page": 115
+    },
+    {
+      "word": "deception",
+      "pos": "n",
+      "meaningAr": "خداع",
+      "page": 115
+    },
+    {
+      "word": "tactics",
+      "pos": "n",
+      "meaningAr": "أساليب / تكتيكات",
+      "page": 115
+    },
+    {
+      "word": "trap",
+      "pos": "n/v",
+      "meaningAr": "فخ / يحاصر في فخ",
+      "page": 115
+    },
+    {
+      "word": "interaction",
+      "pos": "n",
+      "meaningAr": "تفاعل",
+      "page": 115
+    },
+    {
+      "word": "scam",
+      "pos": "n/v",
+      "meaningAr": "عملية احتيال / يحتال",
+      "page": 126
+    },
+    {
+      "word": "pause",
+      "pos": "v/n",
+      "meaningAr": "يتوقف مؤقتاً / توقف مؤقت",
+      "page": 126
+    },
+    {
+      "word": "platform",
+      "pos": "n",
+      "meaningAr": "منصة",
+      "page": 126
+    },
+    {
+      "word": "behavior",
+      "pos": "n",
+      "meaningAr": "سلوك",
+      "page": 126
+    },
+    {
+      "word": "pressure",
+      "pos": "n/v",
+      "meaningAr": "ضغط / يمارس ضغطاً",
+      "page": 126
+    },
+    {
+      "word": "pretend",
+      "pos": "v",
+      "meaningAr": "يتظاهر",
+      "page": 126
+    },
+    {
+      "word": "private",
+      "pos": "adj",
+      "meaningAr": "خاص / سري",
+      "page": 126
+    },
+    {
+      "word": "profit",
+      "pos": "n",
+      "meaningAr": "ربح",
+      "page": 126
+    },
+    {
+      "word": "property",
+      "pos": "n",
+      "meaningAr": "ممتلكات",
+      "page": 127
+    },
+    {
+      "word": "cautious",
+      "pos": "adj",
+      "meaningAr": "حذر",
+      "page": 127
+    },
+    {
+      "word": "confirm",
+      "pos": "v",
+      "meaningAr": "يؤكد",
+      "page": 127
+    },
+    {
+      "word": "consider",
+      "pos": "v",
+      "meaningAr": "يفكر في / يعتبر",
+      "page": 127
+    },
+    {
+      "word": "relationship",
+      "pos": "n",
+      "meaningAr": "علاقة",
+      "page": 127
+    },
+    {
+      "word": "reliable",
+      "pos": "adj",
+      "meaningAr": "موثوق به",
+      "page": 127
+    },
+    {
+      "word": "dishonesty",
+      "pos": "n",
+      "meaningAr": "عدم أمانة / غش",
+      "page": 127
+    },
+    {
+      "word": "embarrassed",
+      "pos": "adj",
+      "meaningAr": "محرج",
+      "page": 127
+    },
+    {
+      "word": "trustworthy",
+      "pos": "adj",
+      "meaningAr": "جدير بالثقة",
+      "page": 128
+    },
+    {
+      "word": "guilty",
+      "pos": "adj",
+      "meaningAr": "مذنب / شاعر بالذنب",
+      "page": 128
+    },
+    {
+      "word": "worrying",
+      "pos": "adj",
+      "meaningAr": "مقلق",
+      "page": 128
+    },
+    {
+      "word": "valuable",
+      "pos": "adj",
+      "meaningAr": "قيّم / ثمين",
+      "page": 128
+    },
+    {
+      "word": "appreciate",
+      "pos": "v",
+      "meaningAr": "يقدر / يثمن",
+      "page": 145
+    },
+    {
+      "word": "authenticity",
+      "pos": "n",
+      "meaningAr": "أصالة / صدق",
+      "page": 145
+    },
+    {
+      "word": "defense",
+      "pos": "n",
+      "meaningAr": "دفاع / حماية",
+      "page": 145
+    },
+    {
+      "word": "invisible",
+      "pos": "adj",
+      "meaningAr": "غير مرئي / خفي",
+      "page": 145
+    },
+    {
+      "word": "ruin",
+      "pos": "v/n",
+      "meaningAr": "يدمر / خراب",
+      "page": 145
+    },
+    {
+      "word": "rumor",
+      "pos": "n",
+      "meaningAr": "شائعة",
+      "page": 145
+    },
+    {
+      "word": "sincerity",
+      "pos": "n",
+      "meaningAr": "إخلاص / صدق",
+      "page": 145
+    },
+    {
+      "word": "misinformation",
+      "pos": "n",
+      "meaningAr": "معلومات مضللة",
+      "page": 162
+    }
+  ],
+  "definitions": [
+    {
+      "term": "wolves in sheep's clothing",
+      "termAr": "ذئاب في ثياب خراف",
+      "definitionEn": "bad or dangerous people who pretend to be friendly and harmless",
+      "page": 115
+    },
+    {
+      "term": "(be) caught in a trap",
+      "termAr": "يقع في فخ",
+      "definitionEn": "to find yourself stuck in a dangerous or tricky situation created by someone else",
+      "page": 115
+    },
+    {
+      "term": "betray",
+      "termAr": "يخون",
+      "definitionEn": "to be disloyal to someone who trusts you",
+      "page": 115
+    },
+    {
+      "term": "exploit",
+      "termAr": "يستغل",
+      "definitionEn": "to use someone or something unfairly for your own advantage",
+      "page": 115
+    },
+    {
+      "term": "too good to be true",
+      "termAr": "صعب تصديقه / أجمل من أن يكون حقيقياً",
+      "definitionEn": "something so good that it is probably fake or dishonest",
+      "page": 115
+    },
+    {
+      "term": "trust, but verify",
+      "termAr": "ثق ولكن تحقق",
+      "definitionEn": "to trust what someone says, but still check the facts to be safe",
+      "page": 115
+    },
+    {
+      "term": "misinformation",
+      "termAr": "معلومات مغلوطة / مضللة",
+      "definitionEn": "fake information meant to make people believe something false",
+      "page": 162
+    }
+  ],
+  "synonymsAndAntonyms": [
+    {
+      "mainWord": "betray",
+      "meaningAr": "يخون",
+      "synonyms": [
+        "deceive",
+        "double-cross"
+      ],
+      "antonyms": [
+        "protect",
+        "defend"
+      ],
+      "page": 119
+    },
+    {
+      "mainWord": "cautious",
+      "meaningAr": "حذر",
+      "synonyms": [
+        "careful",
+        "alert"
+      ],
+      "antonyms": [
+        "careless",
+        "rash"
+      ],
+      "page": 119
+    },
+    {
+      "mainWord": "deceive",
+      "meaningAr": "يخدع",
+      "synonyms": [
+        "mislead",
+        "cheat",
+        "trick"
+      ],
+      "antonyms": [
+        "guide",
+        "enlighten"
+      ],
+      "page": 119
+    },
+    {
+      "mainWord": "exploit",
+      "meaningAr": "يستغل",
+      "synonyms": [
+        "abuse",
+        "misuse",
+        "take advantage of"
+      ],
+      "antonyms": [
+        "protect",
+        "preserve"
+      ],
+      "page": 119
+    },
+    {
+      "mainWord": "grand",
+      "meaningAr": "فخم / عظيم",
+      "synonyms": [
+        "magnificent",
+        "splendid"
+      ],
+      "antonyms": [
+        "humble",
+        "modest"
+      ],
+      "page": 119
+    },
+    {
+      "mainWord": "reliable",
+      "meaningAr": "موثوق به",
+      "synonyms": [
+        "trustworthy",
+        "dependable"
+      ],
+      "antonyms": [
+        "unreliable",
+        "dishonest"
+      ],
+      "page": 119
+    },
+    {
+      "mainWord": "appreciate",
+      "meaningAr": "يقدر / يثمن",
+      "synonyms": [
+        "value",
+        "respect"
+      ],
+      "antonyms": [
+        "neglect",
+        "criticize"
+      ],
+      "page": 145
+    },
+    {
+      "mainWord": "ruin",
+      "meaningAr": "يدمر / يفسد",
+      "synonyms": [
+        "destroy",
+        "damage"
+      ],
+      "antonyms": [
+        "save",
+        "repair"
+      ],
+      "page": 145
+    }
+  ],
+  "expressionsAndPrepositions": [
+    {
+      "expressionEn": "(be) aware of",
+      "meaningAr": "يكون مدركاً لـ",
+      "page": 118
+    },
+    {
+      "expressionEn": "act with honesty",
+      "meaningAr": "يتصرف بأمانة",
+      "page": 118
+    },
+    {
+      "expressionEn": "apply pressure",
+      "meaningAr": "يمارس ضغطاً",
+      "page": 118
+    },
+    {
+      "expressionEn": "as the saying goes",
+      "meaningAr": "كما يقول المثل",
+      "page": 118
+    },
+    {
+      "expressionEn": "set a trap",
+      "meaningAr": "ينصب فخاً",
+      "page": 118
+    },
+    {
+      "expressionEn": "take control of",
+      "meaningAr": "يسيطر على",
+      "page": 118
+    },
+    {
+      "expressionEn": "confirm the facts",
+      "meaningAr": "يؤكد الحقائق",
+      "page": 118
+    },
+    {
+      "expressionEn": "owe an explanation to",
+      "meaningAr": "يدين بتفسير لـ",
+      "page": 118
+    }
+  ],
+  "readingPassages": [
+    {
+      "id": "SEC1-U3-READING-01",
+      "titleEn": "Trust in Human Relationships and Warning Signs of Dishonesty",
+      "titleAr": "الثقة في العلاقات الإنسانية وعلامات التحذير من الخداع",
+      "page": 122,
+      "paragraphs": [
+        "Trust is one of the most valuable things in our lives, yet it's not always easy to know whom we can rely on. While many people act with honesty, others hide their true intentions behind a friendly smile.",
+        "In life, not everyone we meet is truly honest. Some people put on a friendly face, but are in fact 'wolves in sheep's clothing.' They may deceive us to gain money, favors, or private information. This can happen anywhere - at school, in the workplace, or even among people we consider friends. For example, someone might act supportively just to borrow money, with no intention of returning it. Another might spread false stories to damage someone's reputation.",
+        "This type of dishonesty is not limited to face-to-face interactions. In the digital world, online scammers use deceit to trick innocent people. They make grand promises - such as free prizes, dream jobs, or fast profits - only to exploit our personal data or disappear with our money. It is like being caught in a trap you did not realize was set.",
+        "Whether in daily life or online, there are warning signs: The person or platform applies pressure to make you act quickly; the story changes when you ask for details; or the promises seem too good to be true. To protect yourself, pause before acting, ask careful questions, and confirm the facts from reliable sources. As the old saying goes: 'Trust, but verify.' Although dishonesty exists, it should never stop us from believing in the goodness of people. By being cautious, wise, and aware of warning signs, we can protect ourselves and still enjoy healthy, trustworthy relationships."
+      ]
+    },
+    {
+      "id": "SEC1-U3-READING-02",
+      "titleEn": "Life Talks: Interview with Dr. Sarah Al-Haddad on Manipulation and Subtle Coercion",
+      "titleAr": "حديث الحياة: مقابلة مع د. سارة الحداد حول التلاعب والضغط النفسي",
+      "page": 123,
+      "paragraphs": [
+        "Host: Welcome back to 'Life Talks.' Today, we're joined by Dr. Sarah Al-Haddad, a social psychologist who has been studying how people - young and old - can be tricked or pressured into doing things they don't want to do. Welcome, Dr. Sarah.",
+        "Dr. Sarah: Thank you. It's an important topic. People often think of scams or theft, but it can also be subtle - like being pushed to work for free, share personal secrets, or support harmful ideas.",
+        "Host: So it's not just about money?",
+        "Dr. Sarah: Not at all. For teenagers, the pressure might come from friends who want them to join in risky behavior so they can 'fit in.' For older people, it might be someone pretending to help with paperwork, but really trying to take control of their property.",
+        "Host: That sounds worrying. How can people avoid such traps?",
+        "Dr. Sarah: First, notice your feelings. If you feel rushed, guilty, or afraid, stop and ask yourself, 'Why am I feeling this way?' People who exploit others often use emotional pressure. Second, get a second opinion. Talk to a friend, family member, or trusted advisor before agreeing to anything important. And third, learn to say 'no' without apology. You don't owe an explanation to someone who is trying to use you.",
+        "Host: That's great advice. Do you have a final message for our listeners?",
+        "Dr. Sarah: Yes: Your time, energy, and trust are valuable. Guard them carefully. If something feels wrong, it probably is."
+      ]
+    },
+    {
+      "id": "SEC1-U3-READING-03",
+      "titleEn": "The War of the New Generation: Information Attacks and Cyber Rumors",
+      "titleAr": "حرب الجيل الجديد: الهجمات المعلوماتية والشائعات الإلكترونية",
+      "page": 146,
+      "paragraphs": [
+        "In the past, wars were fought with soldiers, tanks, and planes. Today, a new kind of war is spreading across the world. It does not use bullets or bombs. Instead, it uses words - lies, half-truths, and rumors. Experts call this the 'war of the new generation.'",
+        "In this kind of war, the goal is not to destroy buildings, but to damage trust. Lies can be used to make people angry, afraid, or confused. A rumor can spread quickly through social media, making millions believe something that is not true. When people no longer know what to believe, it becomes easier to control them. The victims of these 'information attacks' can be individuals, communities, or even entire nations."
+      ]
+    },
+    {
+      "id": "SEC1-U3-READING-04",
+      "titleEn": "Appearances and Authenticity in Modern Digital Life",
+      "titleAr": "المظاهر والأصالة في الحياة الرقمية الحديثة",
+      "page": 147,
+      "paragraphs": [
+        "In modern life, appearances can sometimes be misleading, but they also remind us of the importance of being genuine. Social media and advertisements may show perfect images, yet they give us the chance to reflect on what really matters. Instead of comparing ourselves with edited pictures or staged lifestyles, we can use them as motivation to appreciate honesty and real achievements.",
+        "Throughout history, people have enjoyed expressing themselves through clothes, art, and language. This creativity can be fun and inspiring, as long as we remember that true worth does not depend on looks alone. Combining external beauty with internal authenticity creates lasting respect."
+      ]
+    }
+  ],
+  "questions": [
+    {
+      "id": "SEC1-U3-MCQ-001",
+      "questionNumber": 1,
+      "stemEn": "My neighbor lost his savings in an online ______ promising quick returns.",
+      "options": [
+        "scam",
+        "identity",
+        "digital",
+        "check"
+      ],
+      "correctOptionIndex": 0,
+      "correctAnswer": "scam",
+      "explanationEn": "'Scam' refers to a dishonest or fraudulent scheme, particularly online to steal money.",
+      "sourceCitation": "أسوان (إدارة إدفو)",
+      "sourcePage": 162,
+      "topic": "Vocabulary",
+      "stem": "My neighbor lost his savings in an online ______ promising quick returns.",
+      "correctIndex": 0
+    },
+    {
+      "id": "SEC1-U3-MCQ-002",
+      "questionNumber": 2,
+      "stemEn": "Real friends are ______ and always help you when you are in trouble.",
+      "options": [
+        "selfish",
+        "unkind",
+        "greedy",
+        "supportive"
+      ],
+      "correctOptionIndex": 3,
+      "correctAnswer": "supportive",
+      "explanationEn": "'Supportive' means providing encouragement, assistance, or emotional backing in times of need.",
+      "sourceCitation": "القاهرة (إدارة الساحل)",
+      "sourcePage": 162,
+      "topic": "Vocabulary",
+      "stem": "Real friends are ______ and always help you when you are in trouble.",
+      "correctIndex": 3
+    },
+    {
+      "id": "SEC1-U3-MCQ-003",
+      "questionNumber": 3,
+      "stemEn": "The coach explained the best ______ to win the game.",
+      "options": [
+        "tactics",
+        "mistakes",
+        "errors",
+        "questions"
+      ],
+      "correctOptionIndex": 0,
+      "correctAnswer": "tactics",
+      "explanationEn": "'Tactics' are carefully planned actions or strategies used to achieve a specific goal.",
+      "sourceCitation": "المنيا (إدارة سمالوط)",
+      "sourcePage": 162,
+      "topic": "Vocabulary",
+      "stem": "The coach explained the best ______ to win the game.",
+      "correctIndex": 0
+    },
+    {
+      "id": "SEC1-U3-MCQ-004",
+      "questionNumber": 4,
+      "stemEn": "In the end, honesty and kindness always shine brighter than lies and ______.",
+      "options": [
+        "fact",
+        "truth",
+        "reception",
+        "deception"
+      ],
+      "correctOptionIndex": 3,
+      "correctAnswer": "deception",
+      "explanationEn": "'Deception' is the act of deceiving or misleading someone with untruths.",
+      "sourceCitation": "القليوبية (إدارة بنها)",
+      "sourcePage": 162,
+      "topic": "Vocabulary",
+      "stem": "In the end, honesty and kindness always shine brighter than lies and ______.",
+      "correctIndex": 3
+    },
+    {
+      "id": "SEC1-U3-MCQ-005",
+      "questionNumber": 5,
+      "stemEn": "We're looking for a second-hand car that is both cheap and ______.",
+      "options": [
+        "reliable",
+        "damaged",
+        "slow",
+        "breakable"
+      ],
+      "correctOptionIndex": 0,
+      "correctAnswer": "reliable",
+      "explanationEn": "'Reliable' means consistently good in quality or performance, trustworthy and dependable.",
+      "sourceCitation": "الإسكندرية (إدارة العامرية)",
+      "sourcePage": 162,
+      "topic": "Vocabulary",
+      "stem": "We're looking for a second-hand car that is both cheap and ______.",
+      "correctIndex": 0
+    },
+    {
+      "id": "SEC1-U3-MCQ-006",
+      "questionNumber": 6,
+      "stemEn": "He needs great ______ to teach young children how to read.",
+      "options": [
+        "patience",
+        "dishonesty",
+        "pressure",
+        "project"
+      ],
+      "correctOptionIndex": 0,
+      "correctAnswer": "patience",
+      "explanationEn": "'Patience' is the capacity to accept or tolerate delay, difficulty, or suffering calmly.",
+      "sourceCitation": "قنا (إدارة نقادة)",
+      "sourcePage": 162,
+      "topic": "Vocabulary",
+      "stem": "He needs great ______ to teach young children how to read.",
+      "correctIndex": 0
+    },
+    {
+      "id": "SEC1-U3-MCQ-007",
+      "questionNumber": 7,
+      "stemEn": "Wearing a helmet is a good ______ against head injuries.",
+      "options": [
+        "rumor",
+        "awareness",
+        "ruin",
+        "defense"
+      ],
+      "correctOptionIndex": 3,
+      "correctAnswer": "defense",
+      "explanationEn": "'Defense' means protection or a shield against physical harm or danger.",
+      "sourceCitation": "امتحانات المحافظات",
+      "sourcePage": 162,
+      "topic": "Vocabulary",
+      "stem": "Wearing a helmet is a good ______ against head injuries.",
+      "correctIndex": 3
+    },
+    {
+      "id": "SEC1-U3-MCQ-008",
+      "questionNumber": 8,
+      "stemEn": "It is essential to raise the ______ of children about violent games.",
+      "options": [
+        "laziness",
+        "confidence",
+        "resilience",
+        "awareness"
+      ],
+      "correctOptionIndex": 3,
+      "correctAnswer": "awareness",
+      "explanationEn": "'Awareness' is knowledge or perception of a situation or fact, being conscious of risks.",
+      "sourceCitation": "الغربية (إدارة شرق طنطا)",
+      "sourcePage": 162,
+      "topic": "Vocabulary",
+      "stem": "It is essential to raise the ______ of children about violent games.",
+      "correctIndex": 3
+    },
+    {
+      "id": "SEC1-U3-MCQ-009",
+      "questionNumber": 9,
+      "stemEn": "______ is fake information meant to make people believe something false.",
+      "options": [
+        "Misinformation",
+        "Misunderstanding",
+        "Awareness",
+        "False stories"
+      ],
+      "correctOptionIndex": 0,
+      "correctAnswer": "Misinformation",
+      "explanationEn": "'Misinformation' is false, misleading, or fabricated information spread intentionally or unintentionally.",
+      "sourceCitation": "الشرقية (إدارة أبو كبير)",
+      "sourcePage": 162,
+      "topic": "Vocabulary",
+      "stem": "______ is fake information meant to make people believe something false.",
+      "correctIndex": 0
+    },
+    {
+      "id": "SEC1-U3-MCQ-010",
+      "questionNumber": 10,
+      "stemEn": "A false story about a famous person can ______ their career.",
+      "options": [
+        "ran",
+        "ruin",
+        "rain",
+        "run"
+      ],
+      "correctOptionIndex": 1,
+      "correctAnswer": "ruin",
+      "explanationEn": "'Ruin' means to reduce to ruins, destroy, or inflict devastating damage on reputation or career.",
+      "sourceCitation": "سوهاج (إدارة ساقلتة)",
+      "sourcePage": 162,
+      "topic": "Vocabulary",
+      "stem": "A false story about a famous person can ______ their career.",
+      "correctIndex": 1
+    },
+    {
+      "id": "SEC1-U3-MCQ-011",
+      "questionNumber": 11,
+      "stemEn": "Most people believed the ______ though there was no proof.",
+      "options": [
+        "question",
+        "citizen",
+        "rumor",
+        "tank"
+      ],
+      "correctOptionIndex": 2,
+      "correctAnswer": "rumor",
+      "explanationEn": "'Rumor' is a currently circulating story or report of uncertain or unverified truth.",
+      "sourceCitation": "الشرقية (إدارة فاقوس)",
+      "sourcePage": 163,
+      "topic": "Vocabulary",
+      "stem": "Most people believed the ______ though there was no proof.",
+      "correctIndex": 2
+    },
+    {
+      "id": "SEC1-U3-MCQ-012",
+      "questionNumber": 12,
+      "stemEn": "She always shares her problems with her best friend because she can ______ her completely.",
+      "options": [
+        "ignore",
+        "avoid",
+        "trust",
+        "treat"
+      ],
+      "correctOptionIndex": 2,
+      "correctAnswer": "trust",
+      "explanationEn": "'Trust' means to have firm belief in the reliability, truth, ability, or strength of someone.",
+      "sourceCitation": "أسوان (إدارة كوم أمبو)",
+      "sourcePage": 163,
+      "topic": "Vocabulary",
+      "stem": "She always shares her problems with her best friend because she can ______ her completely.",
+      "correctIndex": 2
+    },
+    {
+      "id": "SEC1-U3-MCQ-013",
+      "questionNumber": 13,
+      "stemEn": "The overuse of natural ______ like forests and water can lead to long-term damage.",
+      "options": [
+        "energy",
+        "finance",
+        "commitments",
+        "resources"
+      ],
+      "correctOptionIndex": 3,
+      "correctAnswer": "resources",
+      "explanationEn": "'Resources' are materials, substances, or assets that can be drawn on by individuals or society.",
+      "sourceCitation": "امتحانات المحافظات",
+      "sourcePage": 163,
+      "topic": "Vocabulary",
+      "stem": "The overuse of natural ______ like forests and water can lead to long-term damage.",
+      "correctIndex": 3
+    },
+    {
+      "id": "SEC1-U3-MCQ-014",
+      "questionNumber": 14,
+      "stemEn": "A series of actions taken to achieve a result means a/an ______.",
+      "options": [
+        "perspective",
+        "hesitation",
+        "tolerance",
+        "process"
+      ],
+      "correctOptionIndex": 3,
+      "correctAnswer": "process",
+      "explanationEn": "'Process' is a systematic series of actions or steps taken in order to achieve a particular end.",
+      "sourceCitation": "القليوبية (إدارة شبرا الخيمة)",
+      "sourcePage": 163,
+      "topic": "Vocabulary",
+      "stem": "A series of actions taken to achieve a result means a/an ______.",
+      "correctIndex": 3
+    },
+    {
+      "id": "SEC1-U3-MCQ-015",
+      "questionNumber": 15,
+      "stemEn": "Adults sometimes ______ younger people to keep working toward their goals.",
+      "options": [
+        "motivate",
+        "avoid",
+        "confuse",
+        "destroy"
+      ],
+      "correctOptionIndex": 0,
+      "correctAnswer": "motivate",
+      "explanationEn": "'Motivate' means to stimulate someone's interest in or enthusiasm for doing something.",
+      "sourceCitation": "الفيوم",
+      "sourcePage": 163,
+      "topic": "Vocabulary",
+      "stem": "Adults sometimes ______ younger people to keep working toward their goals.",
+      "correctIndex": 0
+    },
+    {
+      "id": "SEC1-U3-MCQ-016",
+      "questionNumber": 16,
+      "stemEn": "The police found a dangerous ______ in the suspect's bag.",
+      "options": [
+        "tank",
+        "generation",
+        "weapon",
+        "violence"
+      ],
+      "correctOptionIndex": 2,
+      "correctAnswer": "weapon",
+      "explanationEn": "'Weapon' is a thing designed or used for inflicting bodily harm or physical damage.",
+      "sourceCitation": "الشرقية (إدارة أبو حماد)",
+      "sourcePage": 163,
+      "topic": "Vocabulary",
+      "stem": "The police found a dangerous ______ in the suspect's bag.",
+      "correctIndex": 2
+    },
+    {
+      "id": "SEC1-U3-MCQ-017",
+      "questionNumber": 17,
+      "stemEn": "We should ______ the disadvantages of the internet.",
+      "options": [
+        "waste",
+        "avoid",
+        "enjoy",
+        "find"
+      ],
+      "correctOptionIndex": 1,
+      "correctAnswer": "avoid",
+      "explanationEn": "'Avoid' means to keep away from or stop oneself from doing or experiencing something harmful.",
+      "sourceCitation": "القليوبية (إدارة القناطر)",
+      "sourcePage": 163,
+      "topic": "Vocabulary",
+      "stem": "We should ______ the disadvantages of the internet.",
+      "correctIndex": 1
+    },
+    {
+      "id": "SEC1-U3-MCQ-018",
+      "questionNumber": 18,
+      "stemEn": "Mr. Moataz Tarek is a ______ director at the company due to his faithfulness.",
+      "options": [
+        "careless",
+        "popular",
+        "lazy",
+        "dishonest"
+      ],
+      "correctOptionIndex": 1,
+      "correctAnswer": "popular",
+      "explanationEn": "'Popular' means liked, admired, or supported by many people.",
+      "sourceCitation": "القليوبية (إدارة بنها)",
+      "sourcePage": 163,
+      "topic": "Vocabulary",
+      "stem": "Mr. Moataz Tarek is a ______ director at the company due to his faithfulness.",
+      "correctIndex": 1
+    },
+    {
+      "id": "SEC1-U3-MCQ-019",
+      "questionNumber": 19,
+      "stemEn": "What ______ you do if you won the lottery?",
+      "options": [
+        "did",
+        "will",
+        "do",
+        "would"
+      ],
+      "correctOptionIndex": 3,
+      "correctAnswer": "would",
+      "explanationEn": "Second conditional question structure: 'What would + subject + do + if + past simple?'.",
+      "sourceCitation": "سوهاج (إدارة المنشأة)",
+      "sourcePage": 163,
+      "topic": "Grammar: Second Conditional",
+      "stem": "What ______ you do if you won the lottery?",
+      "correctIndex": 3
+    },
+    {
+      "id": "SEC1-U3-MCQ-020",
+      "questionNumber": 20,
+      "stemEn": "If it rains tomorrow, we ______ the picnic.",
+      "options": [
+        "will cancel",
+        "canceled",
+        "would cancel",
+        "cancels"
+      ],
+      "correctOptionIndex": 0,
+      "correctAnswer": "will cancel",
+      "explanationEn": "First conditional rule: 'If + present simple (rains), subject + will + infinitive (will cancel)'.",
+      "sourceCitation": "أسوان",
+      "sourcePage": 163,
+      "topic": "Grammar: First Conditional",
+      "stem": "If it rains tomorrow, we ______ the picnic.",
+      "correctIndex": 0
+    },
+    {
+      "id": "SEC1-U3-MCQ-021",
+      "questionNumber": 21,
+      "stemEn": "They would travel if they ______ free time.",
+      "options": [
+        "would have",
+        "had",
+        "will have",
+        "have had"
+      ],
+      "correctOptionIndex": 1,
+      "correctAnswer": "had",
+      "explanationEn": "Second conditional clause: 'would travel if + past simple (had)'.",
+      "sourceCitation": "قنا (إدارة فرشوط)",
+      "sourcePage": 163,
+      "topic": "Grammar: Second Conditional",
+      "stem": "They would travel if they ______ free time.",
+      "correctIndex": 1
+    },
+    {
+      "id": "SEC1-U3-MCQ-022",
+      "questionNumber": 22,
+      "stemEn": "If you mix red and blue, you ______ purple.",
+      "options": [
+        "gets",
+        "get",
+        "would get",
+        "got"
+      ],
+      "correctOptionIndex": 1,
+      "correctAnswer": "get",
+      "explanationEn": "Zero conditional for general scientific facts: 'If + present simple, present simple (get)'.",
+      "sourceCitation": "الجيزة (إدارة الدقي)",
+      "sourcePage": 163,
+      "topic": "Grammar: Zero Conditional",
+      "stem": "If you mix red and blue, you ______ purple.",
+      "correctIndex": 1
+    },
+    {
+      "id": "SEC1-U3-MCQ-023",
+      "questionNumber": 23,
+      "stemEn": "If I ______ enough money for the project, I wouldn't have to borrow from the bank.",
+      "options": [
+        "have",
+        "didn't have",
+        "had",
+        "had had"
+      ],
+      "correctOptionIndex": 2,
+      "correctAnswer": "had",
+      "explanationEn": "Second conditional: 'If + past simple (had), wouldn't have to borrow'. Expresses an unreal present situation.",
+      "sourceCitation": "الجيزة (إدارة الدقي)",
+      "sourcePage": 164,
+      "topic": "Grammar: Second Conditional",
+      "stem": "If I ______ enough money for the project, I wouldn't have to borrow from the bank.",
+      "correctIndex": 2
+    },
+    {
+      "id": "SEC1-U3-MCQ-024",
+      "questionNumber": 24,
+      "stemEn": "If he paid more attention in class, he wouldn't misunderstand the lesson. This means that he ______ enough attention in class.",
+      "options": [
+        "didn't pay",
+        "paid",
+        "doesn't pay",
+        "pays"
+      ],
+      "correctOptionIndex": 2,
+      "correctAnswer": "doesn't pay",
+      "explanationEn": "The second conditional describes an imaginary or contrary-to-fact situation in the present. Therefore, 'If he paid...' means he currently 'doesn't pay' attention.",
+      "sourceCitation": "الشرقية (إدارة فاقوس)",
+      "sourcePage": 164,
+      "topic": "Grammar: Conditional Meaning",
+      "stem": "If he paid more attention in class, he wouldn't misunderstand the lesson. This means that he ______ enough attention in class.",
+      "correctIndex": 2
+    },
+    {
+      "id": "SEC1-U3-MCQ-025",
+      "questionNumber": 25,
+      "stemEn": "If I were you, I ______ the homework.",
+      "options": [
+        "would do",
+        "will do",
+        "do",
+        "am doing"
+      ],
+      "correctOptionIndex": 0,
+      "correctAnswer": "would do",
+      "explanationEn": "'If I were you, I would...' is the standard structure used for giving advice in English.",
+      "sourceCitation": "بني سويف (إدارة الفشن)",
+      "sourcePage": 164,
+      "topic": "Grammar: Advice with Second Conditional",
+      "stem": "If I were you, I ______ the homework.",
+      "correctIndex": 0
+    },
+    {
+      "id": "SEC1-U3-MCQ-026",
+      "questionNumber": 26,
+      "stemEn": "If I ______ help with a school project, I look online.",
+      "options": [
+        "need",
+        "will need",
+        "had needed",
+        "needed"
+      ],
+      "correctOptionIndex": 0,
+      "correctAnswer": "need",
+      "explanationEn": "Zero conditional used for habitual personal routines: 'If + present simple (need), present simple (look)'.",
+      "sourceCitation": "الشرقية (إدارة أبو حماد)",
+      "sourcePage": 164,
+      "topic": "Grammar: Zero Conditional",
+      "stem": "If I ______ help with a school project, I look online.",
+      "correctIndex": 0
+    },
+    {
+      "id": "SEC1-U3-MCQ-027",
+      "questionNumber": 27,
+      "stemEn": "Call the ambulance ______ emergency.",
+      "options": [
+        "if",
+        "unless",
+        "in case of",
+        "in cause of"
+      ],
+      "correctOptionIndex": 2,
+      "correctAnswer": "in case of",
+      "explanationEn": "'In case of' is followed by a noun phrase ('in case of emergency'), whereas 'if' requires a full clause.",
+      "sourceCitation": "الشرقية (إدارة أبو كبير)",
+      "sourcePage": 164,
+      "topic": "Grammar: In case of",
+      "stem": "Call the ambulance ______ emergency.",
+      "correctIndex": 2
+    },
+    {
+      "id": "SEC1-U3-MCQ-028",
+      "questionNumber": 28,
+      "stemEn": "______ training is useful for you, you should do it every day.",
+      "options": [
+        "In case of",
+        "Unless",
+        "Without",
+        "If"
+      ],
+      "correctOptionIndex": 3,
+      "correctAnswer": "If",
+      "explanationEn": "'If' introduces the conditional condition followed by subject + verb ('training is useful').",
+      "sourceCitation": "شمال سيناء",
+      "sourcePage": 164,
+      "topic": "Grammar: First Conditional",
+      "stem": "______ training is useful for you, you should do it every day.",
+      "correctIndex": 3
+    },
+    {
+      "id": "SEC1-U3-MCQ-029",
+      "questionNumber": 29,
+      "stemEn": "______ you have any problem, give me a ring immediately.",
+      "options": [
+        "Were",
+        "Unless",
+        "Had",
+        "Should"
+      ],
+      "correctOptionIndex": 3,
+      "correctAnswer": "Should",
+      "explanationEn": "Inversion of If: 'Should you have...' replaces 'If you have...' in conditional structures.",
+      "sourceCitation": "سوهاج (إدارة طما)",
+      "sourcePage": 164,
+      "topic": "Grammar: Inversion of If",
+      "stem": "______ you have any problem, give me a ring immediately.",
+      "correctIndex": 3
+    },
+    {
+      "id": "SEC1-U3-MCQ-030",
+      "questionNumber": 30,
+      "stemEn": "When I spend much time on computer, I always ______ a severe headache.",
+      "options": [
+        "will get",
+        "get",
+        "am getting",
+        "got"
+      ],
+      "correctOptionIndex": 1,
+      "correctAnswer": "get",
+      "explanationEn": "'When / If + present simple, present simple' expresses a repeated personal fact or natural consequence.",
+      "sourceCitation": "الدقهلية (إدارة المنزلة)",
+      "sourcePage": 164,
+      "topic": "Grammar: Zero Conditional",
+      "stem": "When I spend much time on computer, I always ______ a severe headache.",
+      "correctIndex": 1
+    },
+    {
+      "id": "SEC1-U3-MCQ-031",
+      "questionNumber": 31,
+      "stemEn": "If you heat water to 100°C, it ______.",
+      "options": [
+        "will evaporate",
+        "evaporates",
+        "would evaporate",
+        "evaporate"
+      ],
+      "correctOptionIndex": 1,
+      "correctAnswer": "evaporates",
+      "explanationEn": "Scientific fact taking zero conditional: 'If + present simple, present simple (it evaporates)'.",
+      "sourceCitation": "المنوفية (إدارة شبين الكوم)",
+      "sourcePage": 164,
+      "topic": "Grammar: Zero Conditional",
+      "stem": "If you heat water to 100°C, it ______.",
+      "correctIndex": 1
+    },
+    {
+      "id": "SEC1-U3-MCQ-032",
+      "questionNumber": 32,
+      "stemEn": "Amira wouldn't have been a doctor, ______ studying hard hadn't been an important thing.",
+      "options": [
+        "unless",
+        "without",
+        "if",
+        "in case of"
+      ],
+      "correctOptionIndex": 2,
+      "correctAnswer": "if",
+      "explanationEn": "Third conditional clause: 'Amira wouldn't have been a doctor if studying hard hadn't been an important thing'.",
+      "sourceCitation": "الشرقية (إدارة منيا القمح)",
+      "sourcePage": 164,
+      "topic": "Grammar: Third Conditional",
+      "stem": "Amira wouldn't have been a doctor, ______ studying hard hadn't been an important thing.",
+      "correctIndex": 2
+    },
+    {
+      "id": "SEC1-U3-MCQ-033",
+      "questionNumber": 33,
+      "stemEn": "______ his injury, he could participate in the competition.",
+      "options": [
+        "If",
+        "But for",
+        "In case of",
+        "Unless"
+      ],
+      "correctOptionIndex": 1,
+      "correctAnswer": "But for",
+      "explanationEn": "'But for' means 'without' or 'if it were not for', and is followed by a noun phrase ('his injury').",
+      "sourceCitation": "القليوبية (إدارة شبين القناطر)",
+      "sourcePage": 164,
+      "topic": "Grammar: But for",
+      "stem": "______ his injury, he could participate in the competition.",
+      "correctIndex": 1
+    },
+    {
+      "id": "SEC1-U3-MCQ-034",
+      "questionNumber": 34,
+      "stemEn": "______ working hard is one of your traits (صفات), it will be hard to succeed in life.",
+      "options": [
+        "Without",
+        "If",
+        "Unless",
+        "Because"
+      ],
+      "correctOptionIndex": 2,
+      "correctAnswer": "Unless",
+      "explanationEn": "'Unless' means 'if not'. Unless working hard is one of your traits = If working hard is not one of your traits.",
+      "sourceCitation": "المنوفية (إدارة الباجور)",
+      "sourcePage": 164,
+      "topic": "Grammar: Unless",
+      "stem": "______ working hard is one of your traits (صفات), it will be hard to succeed in life.",
+      "correctIndex": 2
+    },
+    {
+      "id": "SEC1-U3-MCQ-035",
+      "questionNumber": 35,
+      "stemEn": "If you press this button, this machine ______.",
+      "options": [
+        "will operate",
+        "operates",
+        "would operate",
+        "is operated"
+      ],
+      "correctOptionIndex": 1,
+      "correctAnswer": "operates",
+      "explanationEn": "Mechanical instruction / zero conditional: 'If you press, it operates'.",
+      "sourceCitation": "دمياط 2024",
+      "sourcePage": 138,
+      "topic": "Grammar: Zero Conditional",
+      "stem": "If you press this button, this machine ______.",
+      "correctIndex": 1
+    },
+    {
+      "id": "SEC1-U3-MCQ-036",
+      "questionNumber": 36,
+      "stemEn": "She would have won that medal if she ______ well.",
+      "options": [
+        "played",
+        "plays",
+        "had played",
+        "would play"
+      ],
+      "correctOptionIndex": 2,
+      "correctAnswer": "had played",
+      "explanationEn": "Third conditional formula: 'would have + pp if + past perfect (had played)'.",
+      "sourceCitation": "المنوفية 2024",
+      "sourcePage": 138,
+      "topic": "Grammar: Third Conditional",
+      "stem": "She would have won that medal if she ______ well.",
+      "correctIndex": 2
+    }
+  ],
+  "extractedQuestions": [
+    {
+      "id": "SEC1-U3-MCQ-001",
+      "questionNumber": 1,
+      "stemEn": "My neighbor lost his savings in an online ______ promising quick returns.",
+      "options": [
+        "scam",
+        "identity",
+        "digital",
+        "check"
+      ],
+      "correctOptionIndex": 0,
+      "correctAnswer": "scam",
+      "explanationEn": "'Scam' refers to a dishonest or fraudulent scheme, particularly online to steal money.",
+      "sourceCitation": "أسوان (إدارة إدفو)",
+      "sourcePage": 162,
+      "topic": "Vocabulary",
+      "stem": "My neighbor lost his savings in an online ______ promising quick returns.",
+      "correctIndex": 0
+    },
+    {
+      "id": "SEC1-U3-MCQ-002",
+      "questionNumber": 2,
+      "stemEn": "Real friends are ______ and always help you when you are in trouble.",
+      "options": [
+        "selfish",
+        "unkind",
+        "greedy",
+        "supportive"
+      ],
+      "correctOptionIndex": 3,
+      "correctAnswer": "supportive",
+      "explanationEn": "'Supportive' means providing encouragement, assistance, or emotional backing in times of need.",
+      "sourceCitation": "القاهرة (إدارة الساحل)",
+      "sourcePage": 162,
+      "topic": "Vocabulary",
+      "stem": "Real friends are ______ and always help you when you are in trouble.",
+      "correctIndex": 3
+    },
+    {
+      "id": "SEC1-U3-MCQ-003",
+      "questionNumber": 3,
+      "stemEn": "The coach explained the best ______ to win the game.",
+      "options": [
+        "tactics",
+        "mistakes",
+        "errors",
+        "questions"
+      ],
+      "correctOptionIndex": 0,
+      "correctAnswer": "tactics",
+      "explanationEn": "'Tactics' are carefully planned actions or strategies used to achieve a specific goal.",
+      "sourceCitation": "المنيا (إدارة سمالوط)",
+      "sourcePage": 162,
+      "topic": "Vocabulary",
+      "stem": "The coach explained the best ______ to win the game.",
+      "correctIndex": 0
+    },
+    {
+      "id": "SEC1-U3-MCQ-004",
+      "questionNumber": 4,
+      "stemEn": "In the end, honesty and kindness always shine brighter than lies and ______.",
+      "options": [
+        "fact",
+        "truth",
+        "reception",
+        "deception"
+      ],
+      "correctOptionIndex": 3,
+      "correctAnswer": "deception",
+      "explanationEn": "'Deception' is the act of deceiving or misleading someone with untruths.",
+      "sourceCitation": "القليوبية (إدارة بنها)",
+      "sourcePage": 162,
+      "topic": "Vocabulary",
+      "stem": "In the end, honesty and kindness always shine brighter than lies and ______.",
+      "correctIndex": 3
+    },
+    {
+      "id": "SEC1-U3-MCQ-005",
+      "questionNumber": 5,
+      "stemEn": "We're looking for a second-hand car that is both cheap and ______.",
+      "options": [
+        "reliable",
+        "damaged",
+        "slow",
+        "breakable"
+      ],
+      "correctOptionIndex": 0,
+      "correctAnswer": "reliable",
+      "explanationEn": "'Reliable' means consistently good in quality or performance, trustworthy and dependable.",
+      "sourceCitation": "الإسكندرية (إدارة العامرية)",
+      "sourcePage": 162,
+      "topic": "Vocabulary",
+      "stem": "We're looking for a second-hand car that is both cheap and ______.",
+      "correctIndex": 0
+    },
+    {
+      "id": "SEC1-U3-MCQ-006",
+      "questionNumber": 6,
+      "stemEn": "He needs great ______ to teach young children how to read.",
+      "options": [
+        "patience",
+        "dishonesty",
+        "pressure",
+        "project"
+      ],
+      "correctOptionIndex": 0,
+      "correctAnswer": "patience",
+      "explanationEn": "'Patience' is the capacity to accept or tolerate delay, difficulty, or suffering calmly.",
+      "sourceCitation": "قنا (إدارة نقادة)",
+      "sourcePage": 162,
+      "topic": "Vocabulary",
+      "stem": "He needs great ______ to teach young children how to read.",
+      "correctIndex": 0
+    },
+    {
+      "id": "SEC1-U3-MCQ-007",
+      "questionNumber": 7,
+      "stemEn": "Wearing a helmet is a good ______ against head injuries.",
+      "options": [
+        "rumor",
+        "awareness",
+        "ruin",
+        "defense"
+      ],
+      "correctOptionIndex": 3,
+      "correctAnswer": "defense",
+      "explanationEn": "'Defense' means protection or a shield against physical harm or danger.",
+      "sourceCitation": "امتحانات المحافظات",
+      "sourcePage": 162,
+      "topic": "Vocabulary",
+      "stem": "Wearing a helmet is a good ______ against head injuries.",
+      "correctIndex": 3
+    },
+    {
+      "id": "SEC1-U3-MCQ-008",
+      "questionNumber": 8,
+      "stemEn": "It is essential to raise the ______ of children about violent games.",
+      "options": [
+        "laziness",
+        "confidence",
+        "resilience",
+        "awareness"
+      ],
+      "correctOptionIndex": 3,
+      "correctAnswer": "awareness",
+      "explanationEn": "'Awareness' is knowledge or perception of a situation or fact, being conscious of risks.",
+      "sourceCitation": "الغربية (إدارة شرق طنطا)",
+      "sourcePage": 162,
+      "topic": "Vocabulary",
+      "stem": "It is essential to raise the ______ of children about violent games.",
+      "correctIndex": 3
+    },
+    {
+      "id": "SEC1-U3-MCQ-009",
+      "questionNumber": 9,
+      "stemEn": "______ is fake information meant to make people believe something false.",
+      "options": [
+        "Misinformation",
+        "Misunderstanding",
+        "Awareness",
+        "False stories"
+      ],
+      "correctOptionIndex": 0,
+      "correctAnswer": "Misinformation",
+      "explanationEn": "'Misinformation' is false, misleading, or fabricated information spread intentionally or unintentionally.",
+      "sourceCitation": "الشرقية (إدارة أبو كبير)",
+      "sourcePage": 162,
+      "topic": "Vocabulary",
+      "stem": "______ is fake information meant to make people believe something false.",
+      "correctIndex": 0
+    },
+    {
+      "id": "SEC1-U3-MCQ-010",
+      "questionNumber": 10,
+      "stemEn": "A false story about a famous person can ______ their career.",
+      "options": [
+        "ran",
+        "ruin",
+        "rain",
+        "run"
+      ],
+      "correctOptionIndex": 1,
+      "correctAnswer": "ruin",
+      "explanationEn": "'Ruin' means to reduce to ruins, destroy, or inflict devastating damage on reputation or career.",
+      "sourceCitation": "سوهاج (إدارة ساقلتة)",
+      "sourcePage": 162,
+      "topic": "Vocabulary",
+      "stem": "A false story about a famous person can ______ their career.",
+      "correctIndex": 1
+    },
+    {
+      "id": "SEC1-U3-MCQ-011",
+      "questionNumber": 11,
+      "stemEn": "Most people believed the ______ though there was no proof.",
+      "options": [
+        "question",
+        "citizen",
+        "rumor",
+        "tank"
+      ],
+      "correctOptionIndex": 2,
+      "correctAnswer": "rumor",
+      "explanationEn": "'Rumor' is a currently circulating story or report of uncertain or unverified truth.",
+      "sourceCitation": "الشرقية (إدارة فاقوس)",
+      "sourcePage": 163,
+      "topic": "Vocabulary",
+      "stem": "Most people believed the ______ though there was no proof.",
+      "correctIndex": 2
+    },
+    {
+      "id": "SEC1-U3-MCQ-012",
+      "questionNumber": 12,
+      "stemEn": "She always shares her problems with her best friend because she can ______ her completely.",
+      "options": [
+        "ignore",
+        "avoid",
+        "trust",
+        "treat"
+      ],
+      "correctOptionIndex": 2,
+      "correctAnswer": "trust",
+      "explanationEn": "'Trust' means to have firm belief in the reliability, truth, ability, or strength of someone.",
+      "sourceCitation": "أسوان (إدارة كوم أمبو)",
+      "sourcePage": 163,
+      "topic": "Vocabulary",
+      "stem": "She always shares her problems with her best friend because she can ______ her completely.",
+      "correctIndex": 2
+    },
+    {
+      "id": "SEC1-U3-MCQ-013",
+      "questionNumber": 13,
+      "stemEn": "The overuse of natural ______ like forests and water can lead to long-term damage.",
+      "options": [
+        "energy",
+        "finance",
+        "commitments",
+        "resources"
+      ],
+      "correctOptionIndex": 3,
+      "correctAnswer": "resources",
+      "explanationEn": "'Resources' are materials, substances, or assets that can be drawn on by individuals or society.",
+      "sourceCitation": "امتحانات المحافظات",
+      "sourcePage": 163,
+      "topic": "Vocabulary",
+      "stem": "The overuse of natural ______ like forests and water can lead to long-term damage.",
+      "correctIndex": 3
+    },
+    {
+      "id": "SEC1-U3-MCQ-014",
+      "questionNumber": 14,
+      "stemEn": "A series of actions taken to achieve a result means a/an ______.",
+      "options": [
+        "perspective",
+        "hesitation",
+        "tolerance",
+        "process"
+      ],
+      "correctOptionIndex": 3,
+      "correctAnswer": "process",
+      "explanationEn": "'Process' is a systematic series of actions or steps taken in order to achieve a particular end.",
+      "sourceCitation": "القليوبية (إدارة شبرا الخيمة)",
+      "sourcePage": 163,
+      "topic": "Vocabulary",
+      "stem": "A series of actions taken to achieve a result means a/an ______.",
+      "correctIndex": 3
+    },
+    {
+      "id": "SEC1-U3-MCQ-015",
+      "questionNumber": 15,
+      "stemEn": "Adults sometimes ______ younger people to keep working toward their goals.",
+      "options": [
+        "motivate",
+        "avoid",
+        "confuse",
+        "destroy"
+      ],
+      "correctOptionIndex": 0,
+      "correctAnswer": "motivate",
+      "explanationEn": "'Motivate' means to stimulate someone's interest in or enthusiasm for doing something.",
+      "sourceCitation": "الفيوم",
+      "sourcePage": 163,
+      "topic": "Vocabulary",
+      "stem": "Adults sometimes ______ younger people to keep working toward their goals.",
+      "correctIndex": 0
+    },
+    {
+      "id": "SEC1-U3-MCQ-016",
+      "questionNumber": 16,
+      "stemEn": "The police found a dangerous ______ in the suspect's bag.",
+      "options": [
+        "tank",
+        "generation",
+        "weapon",
+        "violence"
+      ],
+      "correctOptionIndex": 2,
+      "correctAnswer": "weapon",
+      "explanationEn": "'Weapon' is a thing designed or used for inflicting bodily harm or physical damage.",
+      "sourceCitation": "الشرقية (إدارة أبو حماد)",
+      "sourcePage": 163,
+      "topic": "Vocabulary",
+      "stem": "The police found a dangerous ______ in the suspect's bag.",
+      "correctIndex": 2
+    },
+    {
+      "id": "SEC1-U3-MCQ-017",
+      "questionNumber": 17,
+      "stemEn": "We should ______ the disadvantages of the internet.",
+      "options": [
+        "waste",
+        "avoid",
+        "enjoy",
+        "find"
+      ],
+      "correctOptionIndex": 1,
+      "correctAnswer": "avoid",
+      "explanationEn": "'Avoid' means to keep away from or stop oneself from doing or experiencing something harmful.",
+      "sourceCitation": "القليوبية (إدارة القناطر)",
+      "sourcePage": 163,
+      "topic": "Vocabulary",
+      "stem": "We should ______ the disadvantages of the internet.",
+      "correctIndex": 1
+    },
+    {
+      "id": "SEC1-U3-MCQ-018",
+      "questionNumber": 18,
+      "stemEn": "Mr. Moataz Tarek is a ______ director at the company due to his faithfulness.",
+      "options": [
+        "careless",
+        "popular",
+        "lazy",
+        "dishonest"
+      ],
+      "correctOptionIndex": 1,
+      "correctAnswer": "popular",
+      "explanationEn": "'Popular' means liked, admired, or supported by many people.",
+      "sourceCitation": "القليوبية (إدارة بنها)",
+      "sourcePage": 163,
+      "topic": "Vocabulary",
+      "stem": "Mr. Moataz Tarek is a ______ director at the company due to his faithfulness.",
+      "correctIndex": 1
+    },
+    {
+      "id": "SEC1-U3-MCQ-019",
+      "questionNumber": 19,
+      "stemEn": "What ______ you do if you won the lottery?",
+      "options": [
+        "did",
+        "will",
+        "do",
+        "would"
+      ],
+      "correctOptionIndex": 3,
+      "correctAnswer": "would",
+      "explanationEn": "Second conditional question structure: 'What would + subject + do + if + past simple?'.",
+      "sourceCitation": "سوهاج (إدارة المنشأة)",
+      "sourcePage": 163,
+      "topic": "Grammar: Second Conditional",
+      "stem": "What ______ you do if you won the lottery?",
+      "correctIndex": 3
+    },
+    {
+      "id": "SEC1-U3-MCQ-020",
+      "questionNumber": 20,
+      "stemEn": "If it rains tomorrow, we ______ the picnic.",
+      "options": [
+        "will cancel",
+        "canceled",
+        "would cancel",
+        "cancels"
+      ],
+      "correctOptionIndex": 0,
+      "correctAnswer": "will cancel",
+      "explanationEn": "First conditional rule: 'If + present simple (rains), subject + will + infinitive (will cancel)'.",
+      "sourceCitation": "أسوان",
+      "sourcePage": 163,
+      "topic": "Grammar: First Conditional",
+      "stem": "If it rains tomorrow, we ______ the picnic.",
+      "correctIndex": 0
+    },
+    {
+      "id": "SEC1-U3-MCQ-021",
+      "questionNumber": 21,
+      "stemEn": "They would travel if they ______ free time.",
+      "options": [
+        "would have",
+        "had",
+        "will have",
+        "have had"
+      ],
+      "correctOptionIndex": 1,
+      "correctAnswer": "had",
+      "explanationEn": "Second conditional clause: 'would travel if + past simple (had)'.",
+      "sourceCitation": "قنا (إدارة فرشوط)",
+      "sourcePage": 163,
+      "topic": "Grammar: Second Conditional",
+      "stem": "They would travel if they ______ free time.",
+      "correctIndex": 1
+    },
+    {
+      "id": "SEC1-U3-MCQ-022",
+      "questionNumber": 22,
+      "stemEn": "If you mix red and blue, you ______ purple.",
+      "options": [
+        "gets",
+        "get",
+        "would get",
+        "got"
+      ],
+      "correctOptionIndex": 1,
+      "correctAnswer": "get",
+      "explanationEn": "Zero conditional for general scientific facts: 'If + present simple, present simple (get)'.",
+      "sourceCitation": "الجيزة (إدارة الدقي)",
+      "sourcePage": 163,
+      "topic": "Grammar: Zero Conditional",
+      "stem": "If you mix red and blue, you ______ purple.",
+      "correctIndex": 1
+    },
+    {
+      "id": "SEC1-U3-MCQ-023",
+      "questionNumber": 23,
+      "stemEn": "If I ______ enough money for the project, I wouldn't have to borrow from the bank.",
+      "options": [
+        "have",
+        "didn't have",
+        "had",
+        "had had"
+      ],
+      "correctOptionIndex": 2,
+      "correctAnswer": "had",
+      "explanationEn": "Second conditional: 'If + past simple (had), wouldn't have to borrow'. Expresses an unreal present situation.",
+      "sourceCitation": "الجيزة (إدارة الدقي)",
+      "sourcePage": 164,
+      "topic": "Grammar: Second Conditional",
+      "stem": "If I ______ enough money for the project, I wouldn't have to borrow from the bank.",
+      "correctIndex": 2
+    },
+    {
+      "id": "SEC1-U3-MCQ-024",
+      "questionNumber": 24,
+      "stemEn": "If he paid more attention in class, he wouldn't misunderstand the lesson. This means that he ______ enough attention in class.",
+      "options": [
+        "didn't pay",
+        "paid",
+        "doesn't pay",
+        "pays"
+      ],
+      "correctOptionIndex": 2,
+      "correctAnswer": "doesn't pay",
+      "explanationEn": "The second conditional describes an imaginary or contrary-to-fact situation in the present. Therefore, 'If he paid...' means he currently 'doesn't pay' attention.",
+      "sourceCitation": "الشرقية (إدارة فاقوس)",
+      "sourcePage": 164,
+      "topic": "Grammar: Conditional Meaning",
+      "stem": "If he paid more attention in class, he wouldn't misunderstand the lesson. This means that he ______ enough attention in class.",
+      "correctIndex": 2
+    },
+    {
+      "id": "SEC1-U3-MCQ-025",
+      "questionNumber": 25,
+      "stemEn": "If I were you, I ______ the homework.",
+      "options": [
+        "would do",
+        "will do",
+        "do",
+        "am doing"
+      ],
+      "correctOptionIndex": 0,
+      "correctAnswer": "would do",
+      "explanationEn": "'If I were you, I would...' is the standard structure used for giving advice in English.",
+      "sourceCitation": "بني سويف (إدارة الفشن)",
+      "sourcePage": 164,
+      "topic": "Grammar: Advice with Second Conditional",
+      "stem": "If I were you, I ______ the homework.",
+      "correctIndex": 0
+    },
+    {
+      "id": "SEC1-U3-MCQ-026",
+      "questionNumber": 26,
+      "stemEn": "If I ______ help with a school project, I look online.",
+      "options": [
+        "need",
+        "will need",
+        "had needed",
+        "needed"
+      ],
+      "correctOptionIndex": 0,
+      "correctAnswer": "need",
+      "explanationEn": "Zero conditional used for habitual personal routines: 'If + present simple (need), present simple (look)'.",
+      "sourceCitation": "الشرقية (إدارة أبو حماد)",
+      "sourcePage": 164,
+      "topic": "Grammar: Zero Conditional",
+      "stem": "If I ______ help with a school project, I look online.",
+      "correctIndex": 0
+    },
+    {
+      "id": "SEC1-U3-MCQ-027",
+      "questionNumber": 27,
+      "stemEn": "Call the ambulance ______ emergency.",
+      "options": [
+        "if",
+        "unless",
+        "in case of",
+        "in cause of"
+      ],
+      "correctOptionIndex": 2,
+      "correctAnswer": "in case of",
+      "explanationEn": "'In case of' is followed by a noun phrase ('in case of emergency'), whereas 'if' requires a full clause.",
+      "sourceCitation": "الشرقية (إدارة أبو كبير)",
+      "sourcePage": 164,
+      "topic": "Grammar: In case of",
+      "stem": "Call the ambulance ______ emergency.",
+      "correctIndex": 2
+    },
+    {
+      "id": "SEC1-U3-MCQ-028",
+      "questionNumber": 28,
+      "stemEn": "______ training is useful for you, you should do it every day.",
+      "options": [
+        "In case of",
+        "Unless",
+        "Without",
+        "If"
+      ],
+      "correctOptionIndex": 3,
+      "correctAnswer": "If",
+      "explanationEn": "'If' introduces the conditional condition followed by subject + verb ('training is useful').",
+      "sourceCitation": "شمال سيناء",
+      "sourcePage": 164,
+      "topic": "Grammar: First Conditional",
+      "stem": "______ training is useful for you, you should do it every day.",
+      "correctIndex": 3
+    },
+    {
+      "id": "SEC1-U3-MCQ-029",
+      "questionNumber": 29,
+      "stemEn": "______ you have any problem, give me a ring immediately.",
+      "options": [
+        "Were",
+        "Unless",
+        "Had",
+        "Should"
+      ],
+      "correctOptionIndex": 3,
+      "correctAnswer": "Should",
+      "explanationEn": "Inversion of If: 'Should you have...' replaces 'If you have...' in conditional structures.",
+      "sourceCitation": "سوهاج (إدارة طما)",
+      "sourcePage": 164,
+      "topic": "Grammar: Inversion of If",
+      "stem": "______ you have any problem, give me a ring immediately.",
+      "correctIndex": 3
+    },
+    {
+      "id": "SEC1-U3-MCQ-030",
+      "questionNumber": 30,
+      "stemEn": "When I spend much time on computer, I always ______ a severe headache.",
+      "options": [
+        "will get",
+        "get",
+        "am getting",
+        "got"
+      ],
+      "correctOptionIndex": 1,
+      "correctAnswer": "get",
+      "explanationEn": "'When / If + present simple, present simple' expresses a repeated personal fact or natural consequence.",
+      "sourceCitation": "الدقهلية (إدارة المنزلة)",
+      "sourcePage": 164,
+      "topic": "Grammar: Zero Conditional",
+      "stem": "When I spend much time on computer, I always ______ a severe headache.",
+      "correctIndex": 1
+    },
+    {
+      "id": "SEC1-U3-MCQ-031",
+      "questionNumber": 31,
+      "stemEn": "If you heat water to 100°C, it ______.",
+      "options": [
+        "will evaporate",
+        "evaporates",
+        "would evaporate",
+        "evaporate"
+      ],
+      "correctOptionIndex": 1,
+      "correctAnswer": "evaporates",
+      "explanationEn": "Scientific fact taking zero conditional: 'If + present simple, present simple (it evaporates)'.",
+      "sourceCitation": "المنوفية (إدارة شبين الكوم)",
+      "sourcePage": 164,
+      "topic": "Grammar: Zero Conditional",
+      "stem": "If you heat water to 100°C, it ______.",
+      "correctIndex": 1
+    },
+    {
+      "id": "SEC1-U3-MCQ-032",
+      "questionNumber": 32,
+      "stemEn": "Amira wouldn't have been a doctor, ______ studying hard hadn't been an important thing.",
+      "options": [
+        "unless",
+        "without",
+        "if",
+        "in case of"
+      ],
+      "correctOptionIndex": 2,
+      "correctAnswer": "if",
+      "explanationEn": "Third conditional clause: 'Amira wouldn't have been a doctor if studying hard hadn't been an important thing'.",
+      "sourceCitation": "الشرقية (إدارة منيا القمح)",
+      "sourcePage": 164,
+      "topic": "Grammar: Third Conditional",
+      "stem": "Amira wouldn't have been a doctor, ______ studying hard hadn't been an important thing.",
+      "correctIndex": 2
+    },
+    {
+      "id": "SEC1-U3-MCQ-033",
+      "questionNumber": 33,
+      "stemEn": "______ his injury, he could participate in the competition.",
+      "options": [
+        "If",
+        "But for",
+        "In case of",
+        "Unless"
+      ],
+      "correctOptionIndex": 1,
+      "correctAnswer": "But for",
+      "explanationEn": "'But for' means 'without' or 'if it were not for', and is followed by a noun phrase ('his injury').",
+      "sourceCitation": "القليوبية (إدارة شبين القناطر)",
+      "sourcePage": 164,
+      "topic": "Grammar: But for",
+      "stem": "______ his injury, he could participate in the competition.",
+      "correctIndex": 1
+    },
+    {
+      "id": "SEC1-U3-MCQ-034",
+      "questionNumber": 34,
+      "stemEn": "______ working hard is one of your traits (صفات), it will be hard to succeed in life.",
+      "options": [
+        "Without",
+        "If",
+        "Unless",
+        "Because"
+      ],
+      "correctOptionIndex": 2,
+      "correctAnswer": "Unless",
+      "explanationEn": "'Unless' means 'if not'. Unless working hard is one of your traits = If working hard is not one of your traits.",
+      "sourceCitation": "المنوفية (إدارة الباجور)",
+      "sourcePage": 164,
+      "topic": "Grammar: Unless",
+      "stem": "______ working hard is one of your traits (صفات), it will be hard to succeed in life.",
+      "correctIndex": 2
+    },
+    {
+      "id": "SEC1-U3-MCQ-035",
+      "questionNumber": 35,
+      "stemEn": "If you press this button, this machine ______.",
+      "options": [
+        "will operate",
+        "operates",
+        "would operate",
+        "is operated"
+      ],
+      "correctOptionIndex": 1,
+      "correctAnswer": "operates",
+      "explanationEn": "Mechanical instruction / zero conditional: 'If you press, it operates'.",
+      "sourceCitation": "دمياط 2024",
+      "sourcePage": 138,
+      "topic": "Grammar: Zero Conditional",
+      "stem": "If you press this button, this machine ______.",
+      "correctIndex": 1
+    },
+    {
+      "id": "SEC1-U3-MCQ-036",
+      "questionNumber": 36,
+      "stemEn": "She would have won that medal if she ______ well.",
+      "options": [
+        "played",
+        "plays",
+        "had played",
+        "would play"
+      ],
+      "correctOptionIndex": 2,
+      "correctAnswer": "had played",
+      "explanationEn": "Third conditional formula: 'would have + pp if + past perfect (had played)'.",
+      "sourceCitation": "المنوفية 2024",
+      "sourcePage": 138,
+      "topic": "Grammar: Third Conditional",
+      "stem": "She would have won that medal if she ______ well.",
+      "correctIndex": 2
+    }
+  ]
+}

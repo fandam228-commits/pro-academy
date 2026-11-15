@@ -79,12 +79,12 @@ export const GamificationCenter: React.FC = () => {
   return (
     <div className="max-w-6xl mx-auto px-4 py-8 space-y-6">
       {/* HEADER */}
-      <div className="bg-gradient-to-r from-amber-500 via-orange-600 to-rose-600 rounded-3xl p-6 sm:p-8 text-white shadow-2xl">
+      <div className="bg-gradient-to-r from-purple-900 via-[#261047] to-amber-900/90 rounded-3xl p-6 sm:p-8 text-white shadow-2xl shadow-purple-950/40 border border-amber-400/30">
         <h1 className="text-2xl sm:text-3xl font-black flex items-center gap-3">
-          <Trophy className="w-8 h-8" />
+          <Trophy className="w-8 h-8 text-amber-300" />
           {lang === "ar" ? "مركز التفوق والأوسمة" : "Gamification & Leaderboard Center"}
         </h1>
-        <p className="text-xs sm:text-sm text-amber-100 mt-2">
+        <p className="text-xs sm:text-sm text-sky-200 mt-2">
           {lang === "ar"
             ? "نافس زملاءك، اجمع بالشارات المفتوحة، وادعُ أصدقاءك بنظام الإحالة واحصل على مكافآت!"
             : "Compete with peers, unlock badges, and earn rewards with the referral system!"}
@@ -105,7 +105,7 @@ export const GamificationCenter: React.FC = () => {
               key={t.id}
               onClick={() => setTab(t.id as any)}
               className={`px-4 py-2.5 rounded-xl transition-all flex items-center gap-2 ${
-                tab === t.id ? "bg-amber-500 text-slate-950 shadow-lg" : "text-slate-600 dark:text-slate-400"
+                tab === t.id ? "bg-gradient-to-r from-purple-600 to-sky-600 text-white font-black shadow-md shadow-purple-600/25" : "text-slate-600 dark:text-slate-400"
               }`}
             >
               <Icon className="w-4 h-4" />

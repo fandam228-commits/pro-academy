@@ -14,9 +14,24 @@ export const PwaManager: React.FC = () => {
   const [installed, setInstalled] = useState(false);
 
   useEffect(() => {
-    // Register service worker
-    if (typeof navigator !== "undefined" && "serviceWorker" in navigator) {
-      navigator.serviceWorker.register("/sw.js").catch(() => {});
+    const isLocal = typeof window !== "undefined" && (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1");
+
+    // Purge caches on localhost and old versions
+    if (typeof window !== "undefined" && "caches" in window) {
+      caches.keys().then((keys) => {
+        keys.filter((k) => isLocal || k.includes("pro-academy-v1")).forEach((k) => caches.delete(k));
+      });
+    }
+
+    // Register service worker only in production / staging
+    if (!isLocal && typeof navigator !== "undefined" && "serviceWorker" in navigator) {
+      navigator.serviceWorker.register("/sw.js").then((reg) => {
+        reg.update().catch(() => {});
+      }).catch(() => {});
+    } else if (isLocal && typeof navigator !== "undefined" && "serviceWorker" in navigator) {
+      navigator.serviceWorker.getRegistrations().then((regs) => {
+        regs.forEach((r) => r.unregister());
+      });
     }
 
     // Shared install-prompt capture (also powers the Download page)

@@ -20,6 +20,7 @@ import {
   CalendarDays,
   Users,
 } from "lucide-react";
+import { getCurriculumUnits } from "@/config/curriculum-2026";
 
 export const HomeworkWorkspace: React.FC = () => {
   const { user, lang } = useApp();
@@ -160,13 +161,13 @@ export const HomeworkWorkspace: React.FC = () => {
   return (
     <div className="max-w-6xl mx-auto px-4 py-8 space-y-6">
       {/* HEADER */}
-      <div className="bg-gradient-to-r from-teal-700 via-emerald-800 to-cyan-800 rounded-3xl p-6 sm:p-8 text-white shadow-2xl flex flex-wrap items-center justify-between gap-4">
+      <div className="bg-gradient-to-r from-purple-800 via-indigo-900 to-sky-900 rounded-3xl p-6 sm:p-8 text-white shadow-2xl shadow-purple-950/40 border border-purple-500/20 flex flex-wrap items-center justify-between gap-4">
         <div>
           <h1 className="text-2xl sm:text-3xl font-black flex items-center gap-3">
-            <NotebookPen className="w-8 h-8" />
+            <NotebookPen className="w-8 h-8 text-sky-400" />
             {lang === "ar" ? "نظام الواجبات والتسليم" : "Homework & Submissions"}
           </h1>
-          <p className="text-xs sm:text-sm text-emerald-100 mt-2">
+          <p className="text-xs sm:text-sm text-sky-200 mt-2">
             {isStaff
               ? lang === "ar"
                 ? "انزل واجبات جديدة، وتابع تسليمات الطلاب، وصحح بالدرجات والملاحظات."
@@ -180,7 +181,7 @@ export const HomeworkWorkspace: React.FC = () => {
         {isStaff && (
           <button
             onClick={() => setShowCreate(true)}
-            className="px-6 py-3 rounded-2xl bg-white/15 backdrop-blur-md border border-white/30 hover:bg-white/25 font-extrabold text-sm flex items-center gap-2 transition-all"
+            className="px-6 py-3 rounded-2xl bg-gradient-to-r from-amber-400 to-yellow-400 hover:bg-amber-300 text-slate-950 font-black text-sm flex items-center gap-2 shadow-lg transition-all"
           >
             <Plus className="w-4 h-4" />
             {lang === "ar" ? "واجب جديد" : "New Homework"}
@@ -360,15 +361,25 @@ export const HomeworkWorkspace: React.FC = () => {
               <div>
                 <label className="text-[10px] font-bold text-slate-400 block mb-1">{lang === "ar" ? "الصف" : "Grade"}</label>
                 <select value={cGrade} onChange={(e) => setCGrade(e.target.value)} className="w-full p-2.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white font-bold">
-                  <option value="Third Secondary (Baccalaureate)">Third Secondary</option>
-                  <option value="Second Secondary">Second Secondary</option>
-                  <option value="First Secondary">First Secondary</option>
-                  <option value="Third Prep">Third Prep</option>
+                  <option value="First Prep">First Prep (الصف الأول الإعدادي)</option>
+                  <option value="Second Prep">Second Prep (الصف الثاني الإعدادي)</option>
+                  <option value="Third Prep">Third Prep (الصف الثالث الإعدادي)</option>
+                  <option value="First Secondary">First Secondary (الصف الأول الثانوي)</option>
+                  <option value="Second Secondary">Second Secondary (الصف الثاني الثانوي)</option>
+                  <option value="Third Secondary (Baccalaureate)">Third Secondary (الصف الثالث الثانوي)</option>
                 </select>
               </div>
               <div>
                 <label className="text-[10px] font-bold text-slate-400 block mb-1">{lang === "ar" ? "الوحدة" : "Unit"}</label>
-                <input value={cUnit} onChange={(e) => setCUnit(e.target.value)} className="w-full p-2.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white font-bold" />
+                <select value={cUnit} onChange={(e) => setCUnit(e.target.value)} className="w-full p-2.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white font-bold">
+                  <option value="General Homework">{lang === "ar" ? "واجب عام / مجمع" : "General Homework"}</option>
+                  {getCurriculumUnits(cGrade).map((u, i) => (
+                    <option key={i} value={u.type === "review" ? `Review ${u.orderIndex === 4 ? 1 : 2}` : `Unit ${u.unitNumber}`}>
+                      {u.type === "review" ? (lang === "ar" ? u.titleAr : u.titleEn) : `Unit ${u.unitNumber}: ${u.titleEn.replace(/^Unit \d+:\s*/, "")}`}
+                    </option>
+                  ))}
+                  <option value="Story Corner">{lang === "ar" ? "فصول القصة المقررة" : "Story Corner Chapters"}</option>
+                </select>
               </div>
               <div>
                 <label className="text-[10px] font-bold text-slate-400 block mb-1">{lang === "ar" ? "تاريخ التسليم" : "Due Date"}</label>

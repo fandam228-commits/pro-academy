@@ -6,6 +6,7 @@ import { VideoPlayer } from "@/components/VideoPlayer";
 import { PdfViewer } from "@/components/PdfViewer";
 import { QuizPlayer } from "@/components/QuizPlayer";
 import { PaymentModal } from "@/components/PaymentModal";
+import { GrammarInteractiveSection } from "@/components/GrammarInteractiveSection";
 import {
   BookOpen,
   Play,
@@ -85,21 +86,26 @@ export const CourseDetailView: React.FC<CourseDetailProps> = ({ courseId, onBack
           <span>{lang === "ar" ? "العودة للكورسات" : "Back to Courses"}</span>
         </button>
 
-        {!isEnrolled && (
+        {data?.isFreeUntilEndOfTerm ? (
+          <div className="flex items-center gap-2 px-4 py-2 rounded-xl bg-emerald-500/20 text-emerald-300 border border-emerald-400/30 text-xs font-black shadow-lg">
+            <Sparkles className="w-4 h-4 text-emerald-400" />
+            <span>{lang === "ar" ? "مجانا حتى نهاية الترم" : "FREE UNTIL THE END OF THE TERM"}</span>
+          </div>
+        ) : !isEnrolled ? (
           <button
             onClick={() => setShowPaymentModal(true)}
-            className="px-6 py-2.5 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 text-white font-extrabold text-xs shadow-lg shadow-blue-500/25 transition-all"
+            className="px-6 py-2.5 rounded-xl bg-gradient-to-r from-purple-600 via-indigo-600 to-sky-600 hover:from-purple-500 hover:to-sky-500 text-white font-extrabold text-xs shadow-lg shadow-purple-500/25 transition-all"
           >
             {lang === "ar" ? `تفعيل الكورس الان (${course?.price} EGP)` : `Enroll Now (${course?.price} EGP)`}
           </button>
-        )}
+        ) : null}
       </div>
 
       {/* COURSE HERO BANNER */}
-      <div className="bg-gradient-to-r from-slate-900 via-indigo-950 to-blue-950 rounded-3xl p-6 sm:p-10 text-white shadow-2xl border border-slate-800">
+      <div className="bg-gradient-to-r from-[#0c071a] via-[#1a0f38] to-[#0f172a] rounded-3xl p-6 sm:p-10 text-white shadow-2xl border border-purple-500/20">
         <div className="flex flex-col md:flex-row items-start justify-between gap-6">
           <div className="max-w-2xl">
-            <span className="text-xs font-bold uppercase tracking-wider bg-blue-500/20 border border-blue-400/30 px-3 py-1 rounded-full text-blue-300">
+            <span className="text-xs font-bold uppercase tracking-wider bg-purple-500/20 border border-purple-400/30 px-3 py-1 rounded-full text-sky-200">
               {course?.grade}
             </span>
             <h1 className="text-2xl sm:text-3xl font-black mt-3 leading-snug">{course?.title}</h1>
@@ -111,28 +117,47 @@ export const CourseDetailView: React.FC<CourseDetailProps> = ({ courseId, onBack
                 <span>Instructor: {course?.teacherName}</span>
               </span>
               <span className="flex items-center gap-1.5 bg-white/10 px-3 py-1.5 rounded-xl border border-white/10">
-                <ShieldAlert className="w-4 h-4 text-emerald-400" />
+                <ShieldAlert className="w-4 h-4 text-sky-400" />
                 <span>Anti-Download Protected Content</span>
               </span>
             </div>
           </div>
 
-          <div className="w-full md:w-72 bg-white/10 backdrop-blur-md p-6 rounded-3xl border border-white/20 text-center shrink-0">
+          <div className="w-full md:w-72 bg-white/10 backdrop-blur-md p-6 rounded-3xl border border-purple-400/20 text-center shrink-0">
             <span className="text-xs text-slate-300 block mb-1">{lang === "ar" ? "سعر الاشتراك الرسمي" : "Course Price"}</span>
-            <div className="text-3xl font-black text-amber-300">{course?.price} EGP</div>
-            
-            {isEnrolled ? (
-              <div className="mt-4 p-3 bg-emerald-500/20 text-emerald-300 border border-emerald-400/30 rounded-2xl text-xs font-bold flex items-center justify-center gap-2">
-                <CheckCircle2 className="w-4 h-4" />
-                <span>{lang === "ar" ? "الكورس مفعل بحسابك" : "Course Unlocked"}</span>
+            {data?.isFreeUntilEndOfTerm ? (
+              <div>
+                <div className="text-xl sm:text-2xl font-black text-emerald-300">
+                  {lang === "ar" ? "مجانا حتى نهاية الترم" : "FREE UNTIL THE END OF THE TERM"}
+                </div>
+                {course?.originalPrice && (
+                  <div className="text-xs text-slate-400 line-through mt-1">
+                    {course.originalPrice} EGP
+                  </div>
+                )}
+                <div className="mt-4 p-3 bg-emerald-500/20 text-emerald-300 border border-emerald-400/30 rounded-2xl text-xs font-bold flex items-center justify-center gap-2">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-400" />
+                  <span>{lang === "ar" ? "الكورس مفتوح ومتاح بالكامل" : "Course Unlocked for Free"}</span>
+                </div>
               </div>
             ) : (
-              <button
-                onClick={() => setShowPaymentModal(true)}
-                className="mt-4 w-full py-3 rounded-2xl bg-gradient-to-r from-blue-500 to-indigo-500 hover:from-blue-600 text-white font-extrabold text-xs shadow-lg transition-all"
-              >
-                {lang === "ar" ? "اشترك ورخص محتواك" : "Unlock Course Access"}
-              </button>
+              <>
+                <div className="text-3xl font-black text-amber-300">{course?.price} EGP</div>
+                
+                {isEnrolled ? (
+                  <div className="mt-4 p-3 bg-emerald-500/20 text-emerald-300 border border-emerald-400/30 rounded-2xl text-xs font-bold flex items-center justify-center gap-2">
+                    <CheckCircle2 className="w-4 h-4" />
+                    <span>{lang === "ar" ? "الكورس مفعل بحسابك" : "Course Unlocked"}</span>
+                  </div>
+                ) : (
+                  <button
+                    onClick={() => setShowPaymentModal(true)}
+                    className="mt-4 w-full py-3 rounded-2xl bg-gradient-to-r from-purple-600 via-purple-700 to-sky-600 hover:from-purple-500 hover:to-sky-500 text-white font-extrabold text-xs shadow-lg shadow-purple-600/30 transition-all"
+                  >
+                    {lang === "ar" ? "اشترك ورخص محتواك" : "Unlock Course Access"}
+                  </button>
+                )}
+              </>
             )}
           </div>
         </div>
@@ -223,6 +248,39 @@ export const CourseDetailView: React.FC<CourseDetailProps> = ({ courseId, onBack
                   <span>{lang === "ar" ? "عرض شيت PDF المرفق" : "View PDF Material"}</span>
                 </button>
               </div>
+
+              {/* DEDICATED SUMMARY & 50-QUESTION INTERACTIVE ASSESSMENT */}
+              <div className="mt-8">
+                <GrammarInteractiveSection
+                  videoId={
+                    (selectedLesson.title || "").toLowerCase().includes("direct") || (selectedLesson.title || "").toLowerCase().includes("reported")
+                      ? "direct-indirect"
+                      : (selectedLesson.title || "").toLowerCase().includes("relative")
+                      ? "relative-clauses"
+                      : (selectedLesson.title || "").toLowerCase().includes("condition") || (selectedLesson.title || "").toLowerCase().includes("if")
+                      ? "conditionals"
+                      : (selectedLesson.title || "").toLowerCase().includes("passive")
+                      ? "passive-voice"
+                      : (selectedLesson.title || "").toLowerCase().includes("question tag")
+                      ? "question-tags"
+                      : (selectedLesson.title || "").toLowerCase().includes("continuous")
+                      ? "present-continuous"
+                      : (selectedLesson.title || "").toLowerCase().includes("link") || (selectedLesson.title || "").toLowerCase().includes("connect")
+                      ? "linkers"
+                      : (selectedLesson.title || "").toLowerCase().includes("negat")
+                      ? "negation"
+                      : courseId === "crs_sec_3"
+                      ? "direct-indirect"
+                      : courseId === "crs_sec_2"
+                      ? "conditionals"
+                      : courseId === "crs_sec_1"
+                      ? "relative-clauses"
+                      : "passive-voice"
+                  }
+                  videoTitleAr={`ملخص وأسئلة: ${selectedLesson.title}`}
+                  videoTitleEn={selectedLesson.title}
+                />
+              </div>
             </div>
           ) : (
             <div className="p-12 text-center text-slate-500">
@@ -247,7 +305,7 @@ export const CourseDetailView: React.FC<CourseDetailProps> = ({ courseId, onBack
                 <div className="space-y-2">
                   {u.lessons?.map((lsn: any) => {
                     const isSelected = selectedLesson?.id === lsn.id;
-                    const canAccess = lsn.isFree || isEnrolled;
+                    const canAccess = lsn.isFree || isEnrolled || Boolean(data?.isFreeUntilEndOfTerm);
 
                     return (
                       <button

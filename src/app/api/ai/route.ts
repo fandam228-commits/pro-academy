@@ -2,11 +2,21 @@ import { db } from "@/db";
 import { aiSessions } from "@/db/schema";
 import { NextResponse } from "next/server";
 import { ensureDbSetup } from "@/db/migrate-and-seed";
+import { getAuthContext } from "@/lib/security";
 
 export async function POST(req: Request) {
   await ensureDbSetup();
   try {
-    const { studentId, type, prompt, extraData } = await req.json();
+    const authCtx = await getAuthContext(req);
+    if (!authCtx?.user) {
+      return NextResponse.json(
+        { error: "Unauthorized. Please log in to access the AI study assistant." },
+        { status: 401 }
+      );
+    }
+
+    const { type, prompt, extraData } = await req.json();
+    const studentId = authCtx.user.id;
 
     let aiReply = "";
 

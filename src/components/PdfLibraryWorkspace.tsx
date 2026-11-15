@@ -233,7 +233,7 @@ export const PdfLibraryWorkspace: React.FC = () => {
   return (
     <div className="max-w-7xl mx-auto px-4 py-8 space-y-6">
       {/* HEADER */}
-      <div className="bg-gradient-to-r from-sky-900 via-blue-900 to-indigo-900 rounded-3xl p-6 sm:p-8 text-white shadow-2xl flex flex-col md:flex-row justify-between items-center gap-6">
+      <div className="bg-gradient-to-r from-purple-900 via-[#181135] to-sky-950 rounded-3xl p-6 sm:p-8 text-white shadow-2xl shadow-purple-950/40 border border-purple-500/20 flex flex-col md:flex-row justify-between items-center gap-6">
         <div>
           <div className="flex items-center gap-2">
             <FileText className="w-7 h-7 text-sky-300" />
@@ -306,7 +306,7 @@ export const PdfLibraryWorkspace: React.FC = () => {
         {canManage && (
           <button
             onClick={() => setShowUpload(true)}
-            className="px-5 py-2.5 rounded-2xl bg-gradient-to-r from-sky-600 to-blue-600 hover:from-sky-700 text-white font-extrabold text-xs shadow-lg shadow-sky-500/25 flex items-center gap-1.5 transition-all"
+            className="px-5 py-2.5 rounded-2xl bg-gradient-to-r from-purple-600 via-indigo-600 to-sky-600 hover:from-purple-500 hover:to-sky-500 text-white font-extrabold text-xs shadow-lg shadow-purple-500/25 flex items-center gap-1.5 transition-all"
           >
             <Upload className="w-4 h-4" />
             <span>{lang === "ar" ? "رفع ملف PDF" : "Upload PDF"}</span>

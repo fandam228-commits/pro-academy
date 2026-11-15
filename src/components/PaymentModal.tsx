@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import { useApp } from "@/context/AppContext";
+import { authHeaders } from "@/lib/client-auth";
 import { PLATFORM_CONFIG, buildWhatsAppLink } from "@/config/platform";
 import { CreditCard, Smartphone, ShieldCheck, KeyRound, Check, X, QrCode, Building2, Upload, MessageCircle } from "lucide-react";
 
@@ -36,7 +37,7 @@ export const PaymentModal: React.FC<PaymentModalProps> = ({
       if (method === "code") {
         const res = await fetch("/api/payments", {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
+          headers: { "Content-Type": "application/json", ...authHeaders() },
           body: JSON.stringify({
             action: "redeem_code",
             studentId: user?.id || "usr_student_1",
@@ -55,7 +56,7 @@ export const PaymentModal: React.FC<PaymentModalProps> = ({
       } else {
         const res = await fetch("/api/payments", {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
+          headers: { "Content-Type": "application/json", ...authHeaders() },
           body: JSON.stringify({
             action: "submit_payment",
             studentId: user?.id || "usr_student_1",
@@ -96,11 +97,11 @@ export const PaymentModal: React.FC<PaymentModalProps> = ({
 
         {/* HEADER */}
         <div className="mb-6">
-          <span className="text-xs font-bold text-blue-600 dark:text-blue-400 uppercase tracking-wider">
+          <span className="text-xs font-bold text-purple-600 dark:text-purple-400 uppercase tracking-wider">
             {lang === "ar" ? "تفعيل الكورس والاشتراك" : "Course Enrollment & Activation"}
           </span>
           <h3 className="text-xl font-black text-slate-900 dark:text-white mt-1">{courseTitle}</h3>
-          <p className="text-2xl font-black text-blue-600 dark:text-blue-400 mt-2">{price} EGP</p>
+          <p className="text-2xl font-black text-amber-500 dark:text-amber-400 mt-2">{price} EGP</p>
         </div>
 
         {/* PAYMENT METHOD SELECTOR */}
@@ -246,7 +247,7 @@ export const PaymentModal: React.FC<PaymentModalProps> = ({
         <button
           onClick={handleSubmit}
           disabled={loading}
-          className="w-full py-3.5 rounded-2xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-extrabold text-sm shadow-xl shadow-blue-500/25 transition-all disabled:opacity-50"
+          className="w-full py-3.5 rounded-2xl bg-gradient-to-r from-purple-600 via-indigo-600 to-sky-600 hover:from-purple-500 hover:to-sky-500 text-white font-extrabold text-sm shadow-xl shadow-purple-500/25 transition-all disabled:opacity-50"
         >
           {loading
             ? (lang === "ar" ? "جاري المعالجة والتفعيل..." : "Processing...")

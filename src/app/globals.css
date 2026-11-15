@@ -1,5 +1,58 @@
 @import "tailwindcss";
 
+@theme {
+  --color-pro-bg: #F7F9FC;
+  --color-pro-primary: #2563EB;
+  --color-pro-primary-hover: #1D4ED8;
+  --color-pro-light-blue: #E8F3FF;
+  --color-pro-card: #FFFFFF;
+  --color-pro-text-main: #243247;
+  --color-pro-text-secondary: #718096;
+  --color-pro-gold: #EABF58;
+  --color-pro-green: #10B981;
+
+  --color-royal-purple-50: #faf5ff;
+  --color-royal-purple-100: #f3e8ff;
+  --color-royal-purple-500: #a855f7;
+  --color-royal-purple-600: #2563EB;
+  --color-royal-purple-700: #1D4ED8;
+  --color-royal-purple-950: #1E293B;
+
+  --color-light-sky-50: #f0f9ff;
+  --color-light-sky-100: #E8F3FF;
+  --color-light-sky-500: #0ea5e9;
+  --color-light-sky-600: #2563EB;
+
+  --color-royal-gold-500: #EABF58;
+}
+
+/* ============ MODERN LIGHT BLUE DESIGN SYSTEM ============ */
+::selection {
+  background: #2563EB;
+  color: #ffffff;
+}
+
+body {
+  background-color: #F7F9FC;
+  color: #243247;
+}
+
+/* Custom Clean Scrollbars */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #F1F5F9;
+}
+::-webkit-scrollbar-thumb {
+  background: #CBD5E1;
+  border-radius: 999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #94A3B8;
+}
+
 /* ============ PRINT STYLES (Exam Paper Printing) ============ */
 .print-only {
   display: none !important;
@@ -27,20 +80,4 @@
   @page {
     margin: 16mm;
   }
-}
-
-/* Dark mode scrollbars + polish */
-::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
-}
-::-webkit-scrollbar-track {
-  background: transparent;
-}
-::-webkit-scrollbar-thumb {
-  background: rgb(59 130 246 / 0.4);
-  border-radius: 999px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: rgb(59 130 246 / 0.7);
 }
