@@ -62,188 +62,72 @@ export function ModernHomePage({
   return (
     <div className="space-y-12 md:space-y-16 pb-20">
       {/* =========================================================================
-          1. HERO SECTION WITH MR. HABIB EL RAHMAN'S ORIGINAL ANIMATED GIF
+          1. HERO SECTION — MINIMAL / PREMIUM / EDUCATIONAL
+          Duaa Central Focal Point • Professional Academy • Learn. Think. Achieve.
       ========================================================================= */}
-      <section className="relative overflow-hidden bg-gradient-to-b from-[#E8F3FF] via-[#F7F9FC] to-[#F7F9FC] pt-8 pb-12 md:py-16 border-b border-blue-100/60">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
-            
-            {/* Left Column: Welcome & Tagline */}
-            <div className="lg:col-span-7 space-y-6 text-center lg:text-start">
-              {/* Official Verified Badge */}
-              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white border border-blue-200/80 text-[#2563EB] shadow-sm text-xs font-bold">
-                <Sparkles className="w-3.5 h-3.5 text-[#EABF58]" />
-                <span>
-                  {lang === "ar"
-                    ? "المنصة التعليمية الرسمية لمستر حبيب الرحمن • 2026/2027"
-                    : "Official English Learning Platform • 2026/2027"}
-                </span>
-              </div>
+      <section className="relative overflow-hidden bg-gradient-to-b from-[#F0F5FC] via-[#F8FAFC] to-[#F8FAFC] dark:from-[#0c1322] dark:via-[#090e1a] dark:to-[#070b14] pt-14 sm:pt-20 pb-16 sm:pb-24 border-b border-slate-200/60 dark:border-slate-800/80 transition-colors">
+        {/* Subtle Ambient Radial Light */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[650px] h-[360px] bg-gradient-to-tr from-[#1E3A8A]/10 via-[#EABF58]/10 to-transparent blur-3xl pointer-events-none rounded-full" />
+        <div className="absolute inset-0 bg-[radial-gradient(#1E3A8A_1px,transparent_1px)] [background-size:28px_28px] opacity-[0.035] dark:opacity-[0.06] pointer-events-none" />
 
-              {/* Main Heading */}
-              <div className="space-y-2">
-                <h1 className="text-3xl sm:text-4xl md:text-5xl font-black text-[#243247] tracking-tight leading-tight">
-                  {lang === "ar" ? (
-                    <>
-                      اتعلم الإنجليزي بذكاء مع{" "}
-                      <span className="text-[#2563EB]">مستر حبيب الرحمن</span>
-                    </>
-                  ) : (
-                    <>
-                      Master English with{" "}
-                      <span className="text-[#2563EB]">Mr. Habib El Rahman</span>
-                    </>
-                  )}
-                </h1>
-                <p className="text-base sm:text-lg font-bold text-[#EABF58]">
-                  {lang === "ar"
-                    ? "فكر بالإنجليزية، وترجم وتحدث بثقة."
-                    : "Think in English. Translate with Confidence."}
-                </p>
-              </div>
-
-              {/* Description */}
-              <p className="text-sm sm:text-base text-[#718096] leading-relaxed max-w-2xl mx-auto lg:mx-0">
-                {lang === "ar"
-                  ? "شرح مبسط، ومراجعة مكثفة، وتدريب تفاعلي على أحدث مواصفات امتحانات الثانوية العامة والمرحلة الإعدادية. بنك أسئلة ذكي يضمن عدم تكرار النماذج، وعالم قصص أدبي غني بالنطق والتحديات."
-                  : "Curriculum-aligned video lessons, a verified Thanawya Amma question bank, smart shuffle exams, and an immersive literary story world designed for top performance."}
+        <div className="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-7 sm:space-y-9">
+          
+          {/* 1. CENTRAL DUAA — العنصر المركزي البارز */}
+          <div className="inline-block animate-in fade-in slide-in-from-top-3 duration-700">
+            <div className="px-6 sm:px-10 py-4 sm:py-5 rounded-3xl bg-white/95 dark:bg-slate-900/90 backdrop-blur-md border border-[#EABF58]/50 dark:border-[#EABF58]/35 shadow-xl shadow-[#0E1E38]/5 dark:shadow-none text-center">
+              <p className="text-xl sm:text-2xl md:text-3xl font-black text-[#0E1E38] dark:text-amber-100 tracking-wide font-serif leading-relaxed">
+                « اللَّهُمَّ عَلِّمْنَا مَا يَنْفَعُنَا، وَانْفَعْنَا بِمَا عَلَّمْتَنَا »
               </p>
-
-              {/* Action Buttons Grid */}
-              <div className="flex flex-wrap items-center justify-center lg:justify-start gap-3 pt-2">
-                <button
-                  onClick={() => setActiveTab("courses")}
-                  className="px-6 py-3.5 rounded-2xl bg-[#2563EB] hover:bg-[#1D4ED8] text-white font-bold text-sm shadow-md shadow-blue-600/20 transition-all hover:-translate-y-0.5 flex items-center gap-2 cursor-pointer"
-                >
-                  <BookOpen className="w-4 h-4" />
-                  <span>{lang === "ar" ? "ابدأ التعلم الآن" : "Start Learning"}</span>
-                  <ArrowRight className="w-4 h-4 rtl:rotate-180" />
-                </button>
-
-                <button
-                  onClick={() => setActiveTab("training_center")}
-                  className="px-6 py-3.5 rounded-2xl bg-white hover:bg-slate-50 text-[#2563EB] font-bold text-sm border border-blue-200/80 shadow-sm transition-all hover:-translate-y-0.5 flex items-center gap-2 cursor-pointer"
-                >
-                  <Trophy className="w-4 h-4 text-[#EABF58]" />
-                  <span>{lang === "ar" ? "مركز التدريب والامتحانات" : "Training Center"}</span>
-                </button>
-
-                <button
-                  onClick={() => setActiveTab("dialogues")}
-                  className="px-6 py-3.5 rounded-2xl bg-[#E8F3FF] hover:bg-blue-100 text-[#2563EB] font-black text-sm border border-blue-300 shadow-sm transition-all hover:-translate-y-0.5 flex items-center gap-2 cursor-pointer"
-                >
-                  <MessageSquare className="w-4 h-4 text-[#2563EB]" />
-                  <span>{lang === "ar" ? "مركز المحادثة (94 محادثة)" : "Dialogue Center"}</span>
-                  <span className="text-[10px] px-1.5 py-0.5 rounded bg-[#2563EB] text-white font-black">NEW</span>
-                </button>
-
-                <button
-                  onClick={() => setActiveTab("translation")}
-                  className="px-5 py-3.5 rounded-2xl bg-gradient-to-r from-amber-500/10 to-blue-500/10 hover:from-amber-500/20 hover:to-blue-500/20 text-[#243247] font-bold text-sm border border-amber-300/60 shadow-sm transition-all flex items-center gap-2 cursor-pointer"
-                >
-                  <Languages className="w-4 h-4 text-[#EABF58]" />
-                  <span>{lang === "ar" ? "أكاديمية الترجمة" : "Translation Academy"}</span>
-                  <span className="text-[10px] px-1.5 py-0.5 rounded bg-[#EABF58] text-slate-950 font-black">PRO</span>
-                </button>
-
-                <button
-                  onClick={() => setActiveTab("story_world")}
-                  className="px-5 py-3.5 rounded-2xl bg-white hover:bg-slate-50 text-[#718096] hover:text-[#243247] font-semibold text-sm border border-slate-200 shadow-sm transition-all flex items-center gap-2 cursor-pointer"
-                >
-                  <Film className="w-4 h-4 text-indigo-500" />
-                  <span>{lang === "ar" ? "عالم القصص" : "Story World"}</span>
-                </button>
-
-                <button
-                  onClick={() => setActiveTab("vocabulary_bank")}
-                  className="px-5 py-3.5 rounded-2xl bg-white hover:bg-slate-50 text-[#718096] hover:text-[#243247] font-semibold text-sm border border-slate-200 shadow-sm transition-all flex items-center gap-2 cursor-pointer"
-                >
-                  <BookOpen className="w-4 h-4 text-emerald-500" />
-                  <span>{lang === "ar" ? "بنك المفردات الشامل" : "Vocabulary Master Bank"}</span>
-                  <span className="text-[10px] px-1.5 py-0.5 rounded bg-emerald-100 text-emerald-800 font-black">جديد</span>
-                </button>
-              </div>
-
-              {/* Trust Indicators */}
-              <div className="flex flex-wrap items-center justify-center lg:justify-start gap-4 pt-3 text-xs font-semibold text-[#718096]">
-                <div className="flex items-center gap-1.5">
-                  <CheckCircle className="w-4 h-4 text-[#10B981]" />
-                  <span>{lang === "ar" ? "منهج الوزارة الرسمي 2026/2027" : "Official Ministry Syllabus"}</span>
-                </div>
-                <div className="flex items-center gap-1.5">
-                  <CheckCircle className="w-4 h-4 text-[#10B981]" />
-                  <span>{lang === "ar" ? "894+ سؤال ثانوية عامة مصنف" : "894+ Verified Questions"}</span>
-                </div>
-                <div className="flex items-center gap-1.5">
-                  <CheckCircle className="w-4 h-4 text-[#10B981]" />
-                  <span>{lang === "ar" ? "تبديل ذكي يمنع تسريب الإجابات" : "Anti-Leak Smart Shuffle"}</span>
-                </div>
+              
+              {/* Quiet, calm author signature */}
+              <div className="mt-2.5 flex items-center justify-center gap-2.5 text-xs sm:text-sm font-semibold text-slate-500 dark:text-slate-400">
+                <span className="w-6 h-px bg-[#EABF58]/60 inline-block" />
+                <span>مستر حبيب الرحمن</span>
+                <span className="w-6 h-px bg-[#EABF58]/60 inline-block" />
               </div>
             </div>
-
-            {/* Right Column: Original Animated Teacher GIF Card */}
-            <div className="lg:col-span-5 flex justify-center">
-              <div className="w-full max-w-sm sm:max-w-md bg-white rounded-3xl p-3 sm:p-4 border border-blue-100 shadow-xl shadow-blue-900/10 space-y-3 transition-transform hover:scale-[1.01]">
-                {/* Visual Animated Hero Container — Full unblocked frame */}
-                <div className="relative rounded-2xl overflow-hidden bg-slate-950 aspect-[6/5] flex items-center justify-center shadow-inner border border-slate-800">
-                  <picture className="w-full h-full flex items-center justify-center">
-                    <source srcSet="/habib-hero-static.png" media="(prefers-reduced-motion: reduce)" />
-                    <img
-                      src="/habib-hero.gif"
-                      alt="Mr. Habib El Rahman - Official English Broadcast"
-                      className="w-full h-full object-contain"
-                      width={360}
-                      height={300}
-                      loading="eager"
-                    />
-                  </picture>
-
-                  {/* Top Floating Badge */}
-                  <div className="absolute top-2.5 start-2.5 px-2.5 py-1 rounded-full bg-black/70 backdrop-blur-md text-white text-[10px] font-black shadow flex items-center gap-1.5 border border-white/20">
-                    <span className="w-2 h-2 rounded-full bg-[#10B981] animate-ping" />
-                    <span>{lang === "ar" ? "تسجيل تلفزيوني رسمي" : "Official Broadcast"}</span>
-                  </div>
-                </div>
-
-                {/* Teacher Profile & Verification Badge — Positioned below the GIF to preserve full visibility */}
-                <div className="bg-[#F7F9FC] rounded-2xl p-3 border border-slate-200/80 flex items-center justify-between text-right">
-                  <div className="flex items-center gap-3">
-                    <div className="w-9 h-9 rounded-xl bg-[#2563EB] text-white flex items-center justify-center text-sm font-black shadow-md shadow-blue-600/30 shrink-0">
-                      ✓
-                    </div>
-                    <div>
-                      <h4 className="text-xs font-black text-[#243247] flex items-center gap-1.5">
-                        <span>{lang === "ar" ? "مستر / حبيب الرحمن" : "Mr. Habib El Rahman"}</span>
-                        <span className="px-2 py-0.5 rounded-full bg-blue-100 text-[#2563EB] text-[9px] font-bold">
-                          {lang === "ar" ? "معلم معتمد" : "Verified Educator"}
-                        </span>
-                      </h4>
-                      <p className="text-[10px] text-[#718096] font-medium">
-                        {lang === "ar" ? "خبير لغة إنجليزية ومُعد أوائل الجمهورية" : "Senior English Expert & Mentor"}
-                      </p>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Sub-card Stats Line */}
-                <div className="grid grid-cols-3 gap-2 text-center pt-1">
-                  <div className="p-2 rounded-xl bg-[#F7F9FC] border border-slate-200/60">
-                    <div className="text-xs font-extrabold text-[#2563EB]">10+</div>
-                    <div className="text-[10px] text-[#718096]">{lang === "ar" ? "سنوات خبرة" : "Years Exp"}</div>
-                  </div>
-                  <div className="p-2 rounded-xl bg-[#F7F9FC] border border-slate-200/60">
-                    <div className="text-xs font-extrabold text-[#EABF58]">100%</div>
-                    <div className="text-[10px] text-[#718096]">{lang === "ar" ? "مواصفات الوزارة" : "Official Spec"}</div>
-                  </div>
-                  <div className="p-2 rounded-xl bg-[#F7F9FC] border border-slate-200/60">
-                    <div className="text-xs font-extrabold text-[#10B981]">24/7</div>
-                    <div className="text-[10px] text-[#718096]">{lang === "ar" ? "دعم ومتابعة" : "Active Study"}</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
           </div>
+
+          {/* 2. MAIN BRAND TITLE & MOTTO */}
+          <div className="space-y-3 animate-in fade-in slide-in-from-bottom-2 duration-700 delay-150">
+            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black text-[#0E1E38] dark:text-white tracking-tight leading-none font-sans">
+              Professional Academy
+            </h1>
+            
+            <div className="inline-flex items-center gap-2.5 px-4 sm:px-5 py-1.5 rounded-full bg-[#EABF58]/15 dark:bg-[#EABF58]/10 border border-[#EABF58]/40 text-[#92400E] dark:text-[#EABF58] text-xs sm:text-sm font-black tracking-widest uppercase">
+              <span>Learn</span>
+              <span className="text-[#EABF58]">•</span>
+              <span>Think</span>
+              <span className="text-[#EABF58]">•</span>
+              <span>Achieve</span>
+            </div>
+          </div>
+
+          {/* 3. SHORT FOCUSED DESCRIPTION ONLY */}
+          <p className="text-base sm:text-lg md:text-xl text-slate-600 dark:text-slate-300 font-medium max-w-xl mx-auto leading-relaxed animate-in fade-in duration-700 delay-300">
+            {lang === "ar"
+              ? "رحلتك نحو التميز في اللغة الإنجليزية تبدأ من هنا."
+              : "Your journey towards excellence in the English language starts here."}
+          </p>
+
+          {/* 4. SINGLE CLEAR ACTION BUTTON */}
+          <div className="pt-1 animate-in fade-in slide-in-from-bottom-2 duration-700 delay-500">
+            <button
+              onClick={() => {
+                const target = document.getElementById("courses-selection") || document.getElementById("curriculum-section");
+                if (target) {
+                  target.scrollIntoView({ behavior: "smooth" });
+                } else {
+                  setActiveTab("courses");
+                }
+              }}
+              className="inline-flex items-center gap-3 px-8 sm:px-10 py-4 rounded-2xl bg-[#0E1E38] hover:bg-[#162744] text-white font-black text-sm sm:text-base shadow-xl shadow-[#0E1E38]/25 hover:shadow-2xl hover:-translate-y-0.5 transition-all duration-300 cursor-pointer border border-[#EABF58]/40 group"
+            >
+              <span>{lang === "ar" ? "ابدأ رحلتك التعليمية" : "Start Your Journey"}</span>
+              <ArrowRight className="w-4 h-4 text-[#EABF58] rtl:rotate-180 group-hover:translate-x-1 rtl:group-hover:-translate-x-1 transition-transform" />
+            </button>
+          </div>
+
         </div>
       </section>
 
@@ -364,7 +248,7 @@ export function ModernHomePage({
       {/* =========================================================================
           4. GRADE & COURSE SELECTION (صفوف المراحل الإعدادية والثانوية)
       ========================================================================= */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
+      <section id="courses-selection" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6 scroll-mt-24">
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
           <div>
             <span className="text-xs font-bold text-[#2563EB] uppercase tracking-wider">
