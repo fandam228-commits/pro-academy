@@ -17,6 +17,11 @@ export const users = pgTable("users", {
   points: integer("points").default(150),
   level: text("level").default("Intermediate"), // Placement test outcome
   preferredLang: text("preferred_lang").default("ar"), // 'ar' or 'en'
+  qrCode: text("qr_code").unique(), // Opaque secure QR token for physical center check-in
+  studentCode: integer("student_code"), // Original Access CODE
+  groupId: text("group_id"), // Center physical group reference
+  mustChangePassword: boolean("must_change_password").default(false),
+  pinExpiresAt: timestamp("pin_expires_at"),
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at").defaultNow().notNull(),
 });
@@ -436,6 +441,8 @@ export const attendanceRecords = pgTable(
     sessionDate: text("session_date").notNull(), // YYYY-MM-DD
     status: text("status").notNull().default("present"), // 'present' | 'late' | 'absent' | 'excused'
     grade: text("grade"),
+    groupId: text("group_id"),
+    scanMethod: text("scan_method").default("manual"), // 'qr' | 'barcode' | 'manual' | 'self'
     markedBy: text("marked_by").notNull().default("teacher"),
     createdAt: timestamp("created_at").defaultNow().notNull(),
   },

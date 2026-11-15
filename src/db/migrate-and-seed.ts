@@ -428,6 +428,16 @@ export async function ensureDbSetup() {
       );
 
       CREATE INDEX IF NOT EXISTS idx_push_user ON push_subscriptions(user_id);
+
+      -- Al Waled Center Integration & Attendance Columns (Non-breaking additive migration)
+      ALTER TABLE users ADD COLUMN IF NOT EXISTS qr_code TEXT UNIQUE;
+      ALTER TABLE users ADD COLUMN IF NOT EXISTS student_code INTEGER;
+      ALTER TABLE users ADD COLUMN IF NOT EXISTS group_id TEXT;
+      ALTER TABLE users ADD COLUMN IF NOT EXISTS must_change_password BOOLEAN DEFAULT false;
+      ALTER TABLE users ADD COLUMN IF NOT EXISTS pin_expires_at TIMESTAMP;
+
+      ALTER TABLE attendance_records ADD COLUMN IF NOT EXISTS group_id TEXT;
+      ALTER TABLE attendance_records ADD COLUMN IF NOT EXISTS scan_method TEXT DEFAULT 'manual';
     `);
 
     // Seed new question-bank datasets independently of the legacy user seed guard.

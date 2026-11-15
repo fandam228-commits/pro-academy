@@ -140,8 +140,8 @@ export const AuthScreen: React.FC = () => {
           </div>
 
           <p className="text-[11px] text-blue-300/70 font-mono">
-            © 2025 Professional Academy — Secure Learning Environment
-          </p>
+                      © {new Date().getFullYear()} Professional Academy — Secure Learning Environment
+                    </p>
         </div>
 
         {/* RIGHT AUTH CARD */}

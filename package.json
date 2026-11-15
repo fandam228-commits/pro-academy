@@ -15,6 +15,7 @@
     "@vercel/blob": "^2.7.0",
     "dotenv": "17.3.1",
     "drizzle-orm": "0.45.2",
+    "html5-qrcode": "^2.3.8",
     "lucide-react": "^1.29.0",
     "next": "16.2.6",
     "pg": "8.20.0",
@@ -22,6 +23,7 @@
     "react": "19.2.6",
     "react-dom": "19.2.6",
     "sharp": "^0.35.3",
+    "vercel": "^65.9.0",
     "web-push": "^3.6.7"
   },
   "devDependencies": {
@@ -30,6 +32,7 @@
     "@types/pg": "8.18.0",
     "@types/react": "19.2.14",
     "@types/react-dom": "19.2.3",
+    "@vercel/next": "^28.0.1",
     "drizzle-kit": "0.31.10",
     "eslint": "9.39.4",
     "eslint-config-next": "16.2.6",
