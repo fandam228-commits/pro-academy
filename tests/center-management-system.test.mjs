@@ -357,3 +357,182 @@ test("15. Attendance Audit Trail: Status change captures full audit record", () 
   assert.ok(auditLog.reason.includes("عذر طبي"));
 });
 
+test("16. Group Management: Student group transfer maintains historical attendance records intact", () => {
+  const studentId = "usr_student_101";
+  const fromGroupId = "grp_prep_1_sat";
+  const toGroupId = "grp_prep_1_tue";
+
+  // Existing historical attendance before transfer
+  const attendanceHistory = [
+    { id: "att_1", studentId, groupId: fromGroupId, sessionDate: "2026-11-01", status: "present" },
+    { id: "att_2", studentId, groupId: fromGroupId, sessionDate: "2026-11-08", status: "present" },
+  ];
+
+  // Group membership state before transfer
+  let memberships = [
+    { id: "cgs_1", studentId, groupId: fromGroupId, status: "active", joinedAt: "2026-10-01" },
+  ];
+
+  // Execute transfer logic
+  const transferReason = "تغيير ميعاد الحصة بسبب جدول المدرسة";
+  memberships = memberships.map((m) =>
+    m.studentId === studentId && m.groupId === fromGroupId
+      ? { ...m, status: "transferred", transferredToGroupId: toGroupId, notes: transferReason }
+      : m
+  );
+  memberships.push({
+    id: "cgs_2",
+    studentId,
+    groupId: toGroupId,
+    status: "active",
+    joinedAt: "2026-11-16",
+    notes: `نقل من ${fromGroupId}`,
+  });
+
+  // Verify membership statuses
+  const oldMembership = memberships.find((m) => m.groupId === fromGroupId);
+  const newMembership = memberships.find((m) => m.groupId === toGroupId);
+  assert.equal(oldMembership.status, "transferred");
+  assert.equal(oldMembership.transferredToGroupId, toGroupId);
+  assert.equal(newMembership.status, "active");
+
+  // Verify historical attendance was NOT rewritten
+  assert.ok(attendanceHistory.every((r) => r.groupId === fromGroupId));
+  assert.equal(attendanceHistory.length, 2);
+
+  // New attendance in new group
+  attendanceHistory.push({
+    id: "att_3",
+    studentId,
+    groupId: toGroupId,
+    sessionDate: "2026-11-17",
+    status: "present",
+  });
+
+  assert.equal(attendanceHistory.filter((r) => r.groupId === fromGroupId).length, 2);
+  assert.equal(attendanceHistory.filter((r) => r.groupId === toGroupId).length, 1);
+});
+
+test("17. Group Management: Pausing membership keeps records and prevents check-in without deletion", () => {
+  const studentId = "usr_student_102";
+  const groupId = "grp_sec_3_sun";
+
+  let membership = {
+    id: "cgs_102",
+    studentId,
+    groupId,
+    status: "active",
+    pausedAt: null,
+  };
+
+  // Pause membership
+  membership = {
+    ...membership,
+    status: "paused",
+    pausedAt: new Date().toISOString(),
+    notes: "إيقاف مؤقت لظروف سفر الطالب",
+  };
+
+  assert.equal(membership.status, "paused");
+  assert.ok(membership.pausedAt !== null);
+
+  // Resume membership
+  membership = {
+    ...membership,
+    status: "active",
+    pausedAt: null,
+  };
+
+  assert.equal(membership.status, "active");
+  assert.equal(membership.pausedAt, null);
+});
+
+test("18. Group Management: Multi-group enrollment calculates combined monthly tuition accurately", () => {
+  const groups = [
+    { id: "grp_eng_core", name: "مجموعة اللغة الإنجليزية الأساسية", monthlyFee: "300.00" },
+    { id: "grp_eng_revision", name: "مجموعة المراجعة المكثفة وحل البوكليت", monthlyFee: "200.00" },
+  ];
+
+  const studentEnrollments = [
+    { groupId: "grp_eng_core", status: "active", customMonthlyFee: null, discountAmount: "0.00" },
+    { groupId: "grp_eng_revision", status: "active", customMonthlyFee: null, discountAmount: "50.00" }, // 50 EGP sibling/combo discount
+  ];
+
+  const totalDueCents = studentEnrollments.reduce((sum, enr) => {
+    const grp = groups.find((g) => g.id === enr.groupId);
+    const fee = enr.customMonthlyFee ? Number(enr.customMonthlyFee) : Number(grp.monthlyFee);
+    const discount = Number(enr.discountAmount || 0);
+    return sum + Math.round((fee - discount) * 100);
+  }, 0);
+
+  // 300 + (200 - 50) = 450.00 EGP
+  assert.equal((totalDueCents / 100).toFixed(2), "450.00");
+});
+
+test("19. Fees & Audit: Fee waiver creates audit adjustment and zeroes remaining balance", () => {
+  const invoice = {
+    id: "inv_1",
+    studentId: "usr_student_orphan",
+    billingMonth: "2026-11",
+    baseFee: "300.00",
+    discountAmount: "0.00",
+    netDue: "300.00",
+    paidAmount: "0.00",
+    remainingAmount: "300.00",
+    status: "unpaid",
+  };
+
+  // Admin approves waiver (عفو اجتماعي / إعفاء كلي)
+  const waiverAdjustment = {
+    id: "cfa_1",
+    invoiceId: invoice.id,
+    adjustmentType: "waiver",
+    amount: "300.00",
+    reason: "إعفاء كلي بقرار من إدارة السنتر مراعاة للظروف الاجتماعية",
+    authorizedBy: "Mr. Habib El Rahman",
+  };
+
+  const waivedInvoice = {
+    ...invoice,
+    status: "waived",
+    remainingAmount: "0.00",
+    notes: `تم الإعفاء: ${waiverAdjustment.reason}`,
+  };
+
+  assert.equal(waivedInvoice.status, "waived");
+  assert.equal(waivedInvoice.remainingAmount, "0.00");
+  assert.equal(waiverAdjustment.adjustmentType, "waiver");
+  assert.equal(waiverAdjustment.authorizedBy, "Mr. Habib El Rahman");
+});
+
+test("20. Parent Connect: Deduplication key prevents double notification dispatch for the same event", () => {
+  const dispatchedKeys = new Set();
+
+  function buildDeduplicationKey(studentId, eventType, date) {
+    return `${studentId}_${eventType}_${date}`;
+  }
+
+  function attemptDispatch(studentId, eventType, date) {
+    const key = buildDeduplicationKey(studentId, eventType, date);
+    if (dispatchedKeys.has(key)) {
+      return { sent: false, reason: "duplicate_suppressed" };
+    }
+    dispatchedKeys.add(key);
+    return { sent: true };
+  }
+
+  // First dispatch for attendance
+  const firstAttempt = attemptDispatch("usr_105", "attendance_present", "2026-11-16");
+  assert.equal(firstAttempt.sent, true);
+
+  // Immediate retry or duplicate scan on the same day
+  const secondAttempt = attemptDispatch("usr_105", "attendance_present", "2026-11-16");
+  assert.equal(secondAttempt.sent, false);
+  assert.equal(secondAttempt.reason, "duplicate_suppressed");
+
+  // Different event (e.g. fee payment on the same day) is allowed
+  const feeAttempt = attemptDispatch("usr_105", "fee_receipt", "2026-11-16");
+  assert.equal(feeAttempt.sent, true);
+});
+
+

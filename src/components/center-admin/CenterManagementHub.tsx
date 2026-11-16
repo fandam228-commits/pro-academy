@@ -1,8 +1,10 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { useApp } from "@/context/AppContext";
 import { authHeaders } from "@/lib/client-auth";
+import { AttendanceWorkspace } from "@/components/AttendanceWorkspace";
+import { ParentConnectAdminHub } from "@/components/ParentConnectAdminHub";
 import {
   Building2,
   Users,
@@ -32,6 +34,10 @@ import {
   HelpCircle,
   ChevronDown,
   Layers,
+  ArrowRightLeft,
+  PauseCircle,
+  PlayCircle,
+  CheckCircle2,
 } from "lucide-react";
 
 export const CenterManagementHub: React.FC = () => {
@@ -64,9 +70,10 @@ export const CenterManagementHub: React.FC = () => {
   });
   const [loadingKpis, setLoadingKpis] = useState(false);
 
-  // Groups State
+  // Groups & Memberships State
   const [groups, setGroups] = useState<any[]>([]);
   const [teachers, setTeachers] = useState<any[]>([]);
+  const [memberships, setMemberships] = useState<any[]>([]);
   const [selectedGroup, setSelectedGroup] = useState<string>("all");
   const [selectedMonth, setSelectedMonth] = useState<string>(new Date().toISOString().slice(0, 7));
 
@@ -98,13 +105,42 @@ export const CenterManagementHub: React.FC = () => {
   const [expVendor, setExpVendor] = useState("");
   const [expNotes, setExpNotes] = useState("");
 
-  // Attendance & Scanner
+  // Group creation modal state
+  const [showAddGroupModal, setShowAddGroupModal] = useState(false);
+  const [newGroupName, setNewGroupName] = useState("");
+  const [newGroupStage, setNewGroupStage] = useState("Secondary");
+  const [newGroupGrade, setNewGroupGrade] = useState("Third Secondary (Baccalaureate)");
+  const [newGroupTeacherId, setNewGroupTeacherId] = useState("");
+  const [newGroupSchedule, setNewGroupSchedule] = useState("");
+  const [newGroupRoom, setNewGroupRoom] = useState("");
+  const [newGroupFee, setNewGroupFee] = useState("300");
+  const [savingGroup, setSavingGroup] = useState(false);
+  const [groupMessage, setGroupMessage] = useState("");
+
+  // Student transfer modal state
+  const [showTransferModal, setShowTransferModal] = useState(false);
+  const [transferStudentId, setTransferStudentId] = useState("");
+  const [transferFromGroupId, setTransferFromGroupId] = useState("");
+  const [transferToGroupId, setTransferToGroupId] = useState("");
+  const [transferReason, setTransferReason] = useState("");
+  const [transferSubmitting, setTransferSubmitting] = useState(false);
+  const [transferMessage, setTransferMessage] = useState("");
+
+  // Student pause modal state
+  const [showPauseModal, setShowPauseModal] = useState(false);
+  const [pauseStudentId, setPauseStudentId] = useState("");
+  const [pauseGroupId, setPauseGroupId] = useState("");
+  const [pauseActionType, setPauseActionType] = useState<"pause" | "resume">("pause");
+  const [pauseReason, setPauseReason] = useState("");
+  const [pauseSubmitting, setPauseSubmitting] = useState(false);
+  const [pauseMessage, setPauseMessage] = useState("");
+
+  // Attendance & Quick Scanner
   const [students, setStudents] = useState<any[]>([]);
   const [scannerCode, setScannerCode] = useState("");
   const [scanResult, setScanResult] = useState<any>(null);
   const [attendanceDate, setAttendanceDate] = useState(new Date().toISOString().split("T")[0]);
   const [sessionTitle, setSessionTitle] = useState("حصة السنتر الأسبوعية");
-  const [sessions, setSessions] = useState<any[]>([]);
 
   // Search & Filter
   const [searchTerm, setSearchTerm] = useState("");
@@ -125,13 +161,14 @@ export const CenterManagementHub: React.FC = () => {
       const attRes = await fetch(`/api/attendance?date=${attendanceDate}&groupId=${selectedGroup}`, { headers: authHeaders() });
       const attJson = await attRes.json();
 
-      // 4. Fetch Groups
+      // 4. Fetch Groups & Students
       const grpRes = await fetch("/api/groups", { headers: authHeaders() });
       const grpJson = await grpRes.json();
 
       if (grpJson.groups) setGroups(grpJson.groups);
       if (grpJson.teachers) setTeachers(grpJson.teachers);
       if (grpJson.students) setStudents(grpJson.students);
+      if (grpJson.memberships) setMemberships(grpJson.memberships);
 
       const roster = attJson.roster || [];
       const presentCount = roster.filter((r: any) => r.statusOnDate === "present").length;
@@ -280,6 +317,112 @@ export const CenterManagementHub: React.FC = () => {
     }
   };
 
+  // Handle Add Group
+  const handleAddGroupSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setSavingGroup(true);
+    setGroupMessage("");
+    try {
+      const res = await fetch("/api/groups", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", ...authHeaders() },
+        body: JSON.stringify({
+          action: "create_group",
+          name: newGroupName,
+          stage: newGroupStage,
+          grade: newGroupGrade,
+          teacherId: newGroupTeacherId || undefined,
+          schedule: newGroupSchedule,
+          room: newGroupRoom,
+          monthlyFee: Number(newGroupFee) || 0,
+        }),
+      });
+      const json = await res.json();
+      if (res.ok && json.success) {
+        setShowAddGroupModal(false);
+        setNewGroupName("");
+        setNewGroupSchedule("");
+        setNewGroupRoom("");
+        fetchOverview();
+      } else {
+        setGroupMessage(json.error || "تعذر إنشاء المجموعة");
+      }
+    } catch {
+      setGroupMessage("خطأ في الاتصال بالخادم");
+    } finally {
+      setSavingGroup(false);
+    }
+  };
+
+  // Handle Transfer Student
+  const handleTransferSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setTransferSubmitting(true);
+    setTransferMessage("");
+    try {
+      const res = await fetch("/api/groups", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", ...authHeaders() },
+        body: JSON.stringify({
+          action: "transfer_student",
+          studentId: transferStudentId,
+          fromGroupId: transferFromGroupId || undefined,
+          toGroupId: transferToGroupId,
+          reason: transferReason,
+        }),
+      });
+      const json = await res.json();
+      if (res.ok && json.success) {
+        setTransferMessage("تم نقل الطالب بنجاح مع الاحتفاظ بكافة سجلاته السابقة");
+        setTimeout(() => {
+          setShowTransferModal(false);
+          setTransferMessage("");
+          fetchOverview();
+        }, 1200);
+      } else {
+        setTransferMessage(json.error || "تعذر نقل الطالب");
+      }
+    } catch {
+      setTransferMessage("خطأ في الاتصال");
+    } finally {
+      setTransferSubmitting(false);
+    }
+  };
+
+  // Handle Pause / Resume Student Membership
+  const handlePauseResumeSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setPauseSubmitting(true);
+    setPauseMessage("");
+    try {
+      const res = await fetch("/api/groups", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", ...authHeaders() },
+        body: JSON.stringify({
+          action: pauseActionType === "pause" ? "pause_student" : "resume_student",
+          studentId: pauseStudentId,
+          groupId: pauseGroupId,
+          notes: pauseReason,
+        }),
+      });
+      const json = await res.json();
+      if (res.ok && json.success) {
+        setPauseMessage(json.message || "تم تحديث حالة اشتراك الطالب بنجاح");
+        setTimeout(() => {
+          setShowPauseModal(false);
+          setPauseMessage("");
+          fetchOverview();
+        }, 1200);
+      } else {
+        setPauseMessage(json.error || "تعذر تحديث الاشتراك");
+      }
+    } catch {
+      setPauseMessage("خطأ في الاتصال");
+    } finally {
+      setPauseSubmitting(false);
+    }
+  };
+
   // Handle Scan Submission
   const handleScanSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -305,6 +448,47 @@ export const CenterManagementHub: React.FC = () => {
     } catch (err) {
       setScanResult({ success: false, error: "تعذر الاتصال بماسح الحضور" });
     }
+  };
+
+  // Export Financial & Operational Report to CSV
+  const exportFinancialReportCsv = () => {
+    const headers = [
+      "رقم العملية / الإيصال",
+      "النوع",
+      "البيان / الطالب",
+      "المبلغ (ج.م)",
+      "التصنيف / وسيلة الدفع",
+      "التاريخ",
+      "الحالة",
+    ];
+    const collectionRows = collections.map((c) => [
+      c.receiptNumber,
+      "تحصيل اشتراك سنتر",
+      `"${(c.studentName || "").replace(/"/g, '""')}"`,
+      c.amount,
+      c.paymentMethod,
+      c.collectedAt ? new Date(c.collectedAt).toISOString().split("T")[0] : "",
+      c.status === "active" ? "معتمد" : "ملغي",
+    ]);
+    const expenseRows = expenses.map((e) => [
+      e.expenseNumber,
+      "مصروف تشغيلي",
+      `"${(e.title || "").replace(/"/g, '""')}"`,
+      `-${e.amount}`,
+      e.categoryName || e.paymentMethod,
+      e.expenseDate || "",
+      e.status === "active" ? "معتمد" : "ملغي",
+    ]);
+    const allRows = [...collectionRows, ...expenseRows];
+    const csvContent = "\uFEFF" + [headers.join(","), ...allRows.map((r) => r.join(","))].join("\n");
+    const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.setAttribute("download", `تقرير_مالية_السنتر_${selectedMonth}.csv`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   };
 
   return (
@@ -534,6 +718,22 @@ export const CenterManagementHub: React.FC = () => {
               <h3 className="font-black text-lg text-slate-900 dark:text-white">المجموعات الدراسية بالسنتر</h3>
               <p className="text-xs text-slate-400">قائمة المجموعات المعتمدة، مواعيد الحصص، القاعات، وقيمة الاشتراك الشهري</p>
             </div>
+            <div className="flex items-center gap-2">
+              <button
+                onClick={() => setShowAddGroupModal(true)}
+                className="px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs flex items-center gap-2 shadow"
+              >
+                <Plus className="w-4 h-4" />
+                <span>إضافة مجموعة جديدة</span>
+              </button>
+              <button
+                onClick={() => setShowTransferModal(true)}
+                className="px-4 py-2 rounded-xl bg-amber-600 hover:bg-amber-500 text-white font-bold text-xs flex items-center gap-2 shadow"
+              >
+                <ArrowRightLeft className="w-4 h-4" />
+                <span>نقل طالب بين المجموعات</span>
+              </button>
+            </div>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -579,6 +779,13 @@ export const CenterManagementHub: React.FC = () => {
                 onChange={(e) => setSearchTerm(e.target.value)}
                 className="px-4 py-2 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-800 text-xs w-full sm:w-64 focus:outline-none focus:ring-2 focus:ring-indigo-500"
               />
+              <button
+                onClick={() => setShowTransferModal(true)}
+                className="px-3.5 py-2 rounded-xl bg-amber-600 hover:bg-amber-500 text-white font-bold text-xs flex items-center gap-1.5 whitespace-nowrap shadow"
+              >
+                <ArrowRightLeft className="w-3.5 h-3.5" />
+                <span>نقل طالب</span>
+              </button>
             </div>
           </div>
 
@@ -589,30 +796,69 @@ export const CenterManagementHub: React.FC = () => {
                   <th className="p-3">كود الطالب</th>
                   <th className="p-3">اسم الطالب</th>
                   <th className="p-3">الصف الدراسي</th>
+                  <th className="p-3">المجموعة</th>
                   <th className="p-3">هاتف الطالب</th>
                   <th className="p-3">هاتف ولي الأمر</th>
                   <th className="p-3">رمز QR الآمن</th>
+                  <th className="p-3">الإجراءات</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-100 dark:divide-slate-800 font-medium">
                 {students
                   .filter((s) => !searchTerm || s.name?.includes(searchTerm) || String(s.studentCode)?.includes(searchTerm))
                   .slice(0, 50)
-                  .map((st) => (
-                    <tr key={st.id} className="hover:bg-slate-50 dark:hover:bg-slate-800/40">
-                      <td className="p-3 font-mono font-bold text-indigo-600">{st.studentCode || `PA-${st.id.slice(-4)}`}</td>
-                      <td className="p-3 font-bold text-slate-900 dark:text-white">{st.name}</td>
-                      <td className="p-3 text-slate-500">{st.grade}</td>
-                      <td className="p-3 font-mono text-slate-500">{st.phone || "-"}</td>
-                      <td className="p-3 font-mono text-slate-500">{st.parentPhone || "-"}</td>
-                      <td className="p-3 font-mono text-[11px] text-slate-400 truncate max-w-[150px]">
-                        {st.qrCode || `wld_qr_${st.id.slice(-8)}`}
-                      </td>
-                    </tr>
-                  ))}
+                  .map((st) => {
+                    const grp = groups.find((g) => g.id === st.groupId);
+                    return (
+                      <tr key={st.id} className="hover:bg-slate-50 dark:hover:bg-slate-800/40">
+                        <td className="p-3 font-mono font-bold text-indigo-600">{st.studentCode || `PA-${st.id.slice(-4)}`}</td>
+                        <td className="p-3 font-bold text-slate-900 dark:text-white">{st.name}</td>
+                        <td className="p-3 text-slate-500">{st.grade}</td>
+                        <td className="p-3 text-slate-700 dark:text-slate-300 font-semibold">{grp?.name || st.groupId || "عام"}</td>
+                        <td className="p-3 font-mono text-slate-500">{st.phone || "-"}</td>
+                        <td className="p-3 font-mono text-slate-500">{st.parentPhone || "-"}</td>
+                        <td className="p-3 font-mono text-[11px] text-slate-400 truncate max-w-[130px]">
+                          {st.qrCode || `wld_qr_${st.id.slice(-8)}`}
+                        </td>
+                        <td className="p-3 flex items-center gap-1.5">
+                          <button
+                            onClick={() => {
+                              setTransferStudentId(st.id);
+                              setTransferFromGroupId(st.groupId || "");
+                              setShowTransferModal(true);
+                            }}
+                            className="px-2 py-1 rounded bg-amber-50 hover:bg-amber-100 text-amber-700 dark:bg-amber-950/40 dark:text-amber-300 text-[10px] font-bold"
+                            title="نقل لمجموعة أخرى"
+                          >
+                            نقل
+                          </button>
+                          <button
+                            onClick={() => {
+                              setPauseStudentId(st.id);
+                              setPauseGroupId(st.groupId || "");
+                              setShowPauseModal(true);
+                            }}
+                            className="px-2 py-1 rounded bg-slate-100 hover:bg-slate-200 text-slate-700 dark:bg-slate-800 dark:text-slate-300 text-[10px] font-bold"
+                            title="إيقاف أو استئناف الاشتراك"
+                          >
+                            إيقاف/تنشيط
+                          </button>
+                        </td>
+                      </tr>
+                    );
+                  })}
               </tbody>
             </table>
           </div>
+        </div>
+      )}
+
+      {/* =========================================================================
+          TAB 4: ATTENDANCE WORKSPACE (EMBEDDED)
+          ========================================================================= */}
+      {subTab === "attendance" && (
+        <div className="space-y-4">
+          <AttendanceWorkspace />
         </div>
       )}
 
@@ -623,7 +869,7 @@ export const CenterManagementHub: React.FC = () => {
         <div className="bg-white dark:bg-slate-900 p-6 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-xl space-y-6">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
             <div>
-              <h3 className="font-black text-lg text-slate-900 dark:text-white">مطالبات واشتراكات الطلاب الشهرية</h3>
+              <h3 className="font-black text-lg text-slate-900 dark:text-white">مطالبات وااشتراكات الطلاب الشهرية</h3>
               <p className="text-xs text-slate-400">سجل اشتراكات المجموعات، الخصومات المعتمدة، والأرصدة المستحقة</p>
             </div>
             <div className="flex items-center gap-2">
@@ -835,6 +1081,531 @@ export const CenterManagementHub: React.FC = () => {
                 ))}
               </tbody>
             </table>
+          </div>
+        </div>
+      )}
+
+      {/* =========================================================================
+          TAB 8: PARENT CONNECT NOTIFICATIONS (EMBEDDED)
+          ========================================================================= */}
+      {subTab === "notifications" && (
+        <div className="space-y-4">
+          <ParentConnectAdminHub />
+        </div>
+      )}
+
+      {/* =========================================================================
+          TAB 9: CENTER COMPREHENSIVE REPORTS
+          ========================================================================= */}
+      {subTab === "reports" && (
+        <div className="bg-white dark:bg-slate-900 p-6 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-xl space-y-6">
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div>
+              <h3 className="font-black text-lg text-slate-900 dark:text-white flex items-center gap-2">
+                <FileText className="w-5 h-5 text-indigo-500" />
+                <span>التقارير المالية والتشغيلية المجمعة — سنتر الوليد</span>
+              </h3>
+              <p className="text-xs text-slate-400">ملخص الإيرادات المحصلة، المصروفات التشغيلية المباشرة، صافي نتيجة التشغيل، ونسب الحضور</p>
+            </div>
+            <div className="flex items-center gap-2 flex-wrap">
+              <input
+                type="month"
+                value={selectedMonth}
+                onChange={(e) => setSelectedMonth(e.target.value)}
+                className="px-3 py-1.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-xs font-bold"
+              />
+              <button
+                onClick={exportFinancialReportCsv}
+                className="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs flex items-center gap-2 shadow-md transition-all"
+              >
+                <Download className="w-4 h-4" />
+                <span>تصدير إلى Excel / CSV</span>
+              </button>
+              <button
+                onClick={() => window.print()}
+                className="px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs flex items-center gap-2 shadow-md transition-all"
+              >
+                <Printer className="w-4 h-4" />
+                <span>طباعة التقرير الشامل</span>
+              </button>
+            </div>
+          </div>
+
+          {/* FINANCIAL SUMMARY CARDS */}
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+            <div className="p-4 rounded-2xl bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800/60">
+              <span className="text-xs text-emerald-700 dark:text-emerald-400 font-bold block mb-1">إجمالي اشتراكات السنتر المحصلة</span>
+              <div className="text-2xl font-black text-emerald-600">{kpis.monthCollections} ج.م</div>
+              <span className="text-[10px] text-emerald-500">{collections.length} عمليات تحصيل</span>
+            </div>
+            <div className="p-4 rounded-2xl bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-800/60">
+              <span className="text-xs text-rose-700 dark:text-rose-400 font-bold block mb-1">المصروفات التشغيلية المباشرة</span>
+              <div className="text-2xl font-black text-rose-600">{kpis.monthExpenses} ج.م</div>
+              <span className="text-[10px] text-rose-500">{expenses.length} بنود مصروفات</span>
+            </div>
+            <div className="p-4 rounded-2xl bg-indigo-50 dark:bg-indigo-950/40 border border-indigo-200 dark:border-indigo-800/60">
+              <span className="text-xs text-indigo-700 dark:text-indigo-400 font-bold block mb-1">صافي نتيجة التشغيل (Net)</span>
+              <div className={`text-2xl font-black ${Number(kpis.netOperationalResult) >= 0 ? "text-indigo-600 dark:text-indigo-400" : "text-rose-600"}`}>
+                {kpis.netOperationalResult} ج.م
+              </div>
+              <span className="text-[10px] text-indigo-500">التحصيل - المصروفات</span>
+            </div>
+            <div className="p-4 rounded-2xl bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-800/60">
+              <span className="text-xs text-amber-700 dark:text-amber-400 font-bold block mb-1">إجمالي المتأخرات والديون</span>
+              <div className="text-2xl font-black text-amber-600">{kpis.totalOverdue} ج.م</div>
+              <span className="text-[10px] text-amber-500">اشتراكات مستحقة غير مسددة</span>
+            </div>
+          </div>
+
+          {/* GROUPS ATTENDANCE SUMMARY */}
+          <div className="space-y-3 pt-4 border-t border-slate-200 dark:border-slate-800">
+            <h4 className="font-bold text-sm text-slate-800 dark:text-slate-200">مؤشرات الحضور حسب المجموعات الدراسية</h4>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+              {groups.map((grp) => {
+                const groupStudents = students.filter((s) => s.groupId === grp.id);
+                return (
+                  <div key={grp.id} className="p-3.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/50">
+                    <div className="font-bold text-xs text-slate-900 dark:text-white">{grp.name}</div>
+                    <div className="text-[11px] text-slate-500 mt-1 flex justify-between">
+                      <span>الطلاب المقيدون: {groupStudents.length}</span>
+                      <span className="font-mono text-emerald-600 font-bold">{grp.monthlyFee} ج.م</span>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* =========================================================================
+          TAB 10: CENTER OPERATIONAL SETTINGS
+          ========================================================================= */}
+      {subTab === "settings" && (
+        <div className="bg-white dark:bg-slate-900 p-6 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-xl space-y-6">
+          <div>
+            <h3 className="font-black text-lg text-slate-900 dark:text-white flex items-center gap-2">
+              <Sliders className="w-5 h-5 text-indigo-500" />
+              <span>إعدادات تشغيل السنتر وقنوات الاتصال</span>
+            </h3>
+            <p className="text-xs text-slate-400">تهيئة بيئة السنتر، ضوابط الحضور، سياسات الاشتراكات، وحالة قنوات التواصل السحابية</p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {/* SYSTEM STATUS CARD */}
+            <div className="p-5 rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/40 space-y-4">
+              <h4 className="font-bold text-sm text-slate-900 dark:text-white flex items-center gap-2">
+                <Shield className="w-4 h-4 text-emerald-500" />
+                <span>حالة خوادم وقنوات المنظومة السحابية</span>
+              </h4>
+
+              <div className="space-y-2.5 text-xs">
+                <div className="flex items-center justify-between p-2.5 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700">
+                  <span className="font-semibold text-slate-700 dark:text-slate-300">قاعدة بيانات Neon Staging</span>
+                  <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-700 dark:bg-emerald-950 dark:text-emerald-300">
+                    staging-alwaled (ep-young-recipe-b2v76h2n)
+                  </span>
+                </div>
+
+                <div className="flex items-center justify-between p-2.5 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700">
+                  <span className="font-semibold text-slate-700 dark:text-slate-300">واتساب بيزنس السحابي (WhatsApp Cloud API)</span>
+                  <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-700 dark:bg-emerald-950 dark:text-emerald-300">
+                    v21.0 جاهز ومفعل
+                  </span>
+                </div>
+
+                <div className="flex items-center justify-between p-2.5 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700">
+                  <span className="font-semibold text-slate-700 dark:text-slate-300">بوت تليجرام الرسمي (@ProfessionalAcademyBot)</span>
+                  <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-700 dark:bg-emerald-950 dark:text-emerald-300">
+                    نشط ومرتبط
+                  </span>
+                </div>
+
+                <div className="flex items-center justify-between p-2.5 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700">
+                  <span className="font-semibold text-slate-700 dark:text-slate-300">تسلسل أرقام الإيصالات (Receipt Generator)</span>
+                  <span className="px-2 py-0.5 rounded-full text-[10px] font-mono font-bold bg-indigo-100 text-indigo-700 dark:bg-indigo-950 dark:text-indigo-300">
+                    PA-REC-YYYYMM-XXXX
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            {/* ATTENDANCE & FEE RULES */}
+            <div className="p-5 rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/40 space-y-4">
+              <h4 className="font-bold text-sm text-slate-900 dark:text-white flex items-center gap-2">
+                <Clock className="w-4 h-4 text-indigo-500" />
+                <span>ضوابط وسياسات الحضور والاشتراك</span>
+              </h4>
+
+              <div className="space-y-3 text-xs">
+                <div>
+                  <label className="block text-slate-500 mb-1">فترة السماح قبل احتساب التأخير (Grace Period):</label>
+                  <input
+                    type="text"
+                    disabled
+                    value="15 دقيقة بعد موعد بدء الحصة"
+                    className="w-full px-3 py-2 rounded-xl bg-slate-200/50 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 text-slate-600 dark:text-slate-300 font-bold"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-slate-500 mb-1">منع تكرار الحضور (Deduplication Check):</label>
+                  <input
+                    type="text"
+                    disabled
+                    value="مفعل تلقائياً (منع مسح الطالب مرتين في نفس الحصة)"
+                    className="w-full px-3 py-2 rounded-xl bg-slate-200/50 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 text-slate-600 dark:text-slate-300 font-bold"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-slate-500 mb-1">الاشتراك الافتراضي للثانوية العامة:</label>
+                  <input
+                    type="text"
+                    disabled
+                    value="300.00 ج.م شهرياً"
+                    className="w-full px-3 py-2 rounded-xl bg-slate-200/50 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 text-slate-600 dark:text-slate-300 font-bold"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* =========================================================================
+          MODAL: ADD GROUP
+          ========================================================================= */}
+      {showAddGroupModal && (
+        <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
+          <div className="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-2xl p-6 w-full max-w-lg space-y-4">
+            <div className="flex items-center justify-between">
+              <h3 className="font-black text-base text-slate-900 dark:text-white flex items-center gap-2">
+                <Plus className="w-5 h-5 text-indigo-500" />
+                <span>إضافة مجموعة دراسية جديدة بالسنتر</span>
+              </h3>
+              <button onClick={() => setShowAddGroupModal(false)} className="text-slate-400 hover:text-slate-600">
+                <XCircle className="w-5 h-5" />
+              </button>
+            </div>
+
+            {groupMessage && (
+              <div className="p-3 rounded-xl bg-rose-50 text-rose-700 text-xs font-bold">{groupMessage}</div>
+            )}
+
+            <form onSubmit={handleAddGroupSubmit} className="space-y-3 text-xs font-bold">
+              <div>
+                <label className="block text-slate-400 mb-1">اسم المجموعة:</label>
+                <input
+                  type="text"
+                  value={newGroupName}
+                  onChange={(e) => setNewGroupName(e.target.value)}
+                  placeholder="مثال: مجموعة السبت 4 عصراً - ثالثة ثانوي"
+                  required
+                  className="w-full px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-800"
+                />
+              </div>
+
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="block text-slate-400 mb-1">المرحلة:</label>
+                  <select
+                    value={newGroupStage}
+                    onChange={(e) => setNewGroupStage(e.target.value)}
+                    className="w-full px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-800"
+                  >
+                    <option value="Secondary">ثانوي (Secondary)</option>
+                    <option value="Preparatory">إعدادي (Preparatory)</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-slate-400 mb-1">الصف الدراسي:</label>
+                  <select
+                    value={newGroupGrade}
+                    onChange={(e) => setNewGroupGrade(e.target.value)}
+                    className="w-full px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-800"
+                  >
+                    <option value="Third Secondary (Baccalaureate)">الثالث الثانوي (ثانوية عامة)</option>
+                    <option value="Second Secondary">الثاني الثانوي</option>
+                    <option value="First Secondary">الأول الثانوي</option>
+                    <option value="Third Prep">الثالث الإعدادي</option>
+                  </select>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="block text-slate-400 mb-1">الموعد / الجدول:</label>
+                  <input
+                    type="text"
+                    value={newGroupSchedule}
+                    onChange={(e) => setNewGroupSchedule(e.target.value)}
+                    placeholder="مثال: السبت والثلاثاء 4 م"
+                    className="w-full px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-800"
+                  />
+                </div>
+                <div>
+                  <label className="block text-slate-400 mb-1">القاعة:</label>
+                  <input
+                    type="text"
+                    value={newGroupRoom}
+                    onChange={(e) => setNewGroupRoom(e.target.value)}
+                    placeholder="مثال: قاعة 1 الكبرى"
+                    className="w-full px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-800"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-slate-400 mb-1">قيمة الاشتراك الشهري (ج.م):</label>
+                <input
+                  type="number"
+                  min="0"
+                  value={newGroupFee}
+                  onChange={(e) => setNewGroupFee(e.target.value)}
+                  required
+                  className="w-full px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-800 font-mono"
+                />
+              </div>
+
+              <div className="flex justify-end gap-3 pt-3">
+                <button
+                  type="button"
+                  onClick={() => setShowAddGroupModal(false)}
+                  className="px-4 py-2 rounded-xl border border-slate-200 dark:border-slate-800 text-slate-400"
+                >
+                  إلغاء
+                </button>
+                <button
+                  type="submit"
+                  disabled={savingGroup}
+                  className="px-6 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-black shadow"
+                >
+                  {savingGroup ? "جاري الحفظ..." : "حفظ المجموعة"}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* =========================================================================
+          MODAL: TRANSFER STUDENT
+          ========================================================================= */}
+      {showTransferModal && (
+        <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
+          <div className="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-2xl p-6 w-full max-w-lg space-y-4">
+            <div className="flex items-center justify-between">
+              <h3 className="font-black text-base text-slate-900 dark:text-white flex items-center gap-2">
+                <ArrowRightLeft className="w-5 h-5 text-amber-500" />
+                <span>نقل طالب بين المجموعات الدراسية</span>
+              </h3>
+              <button onClick={() => setShowTransferModal(false)} className="text-slate-400 hover:text-slate-600">
+                <XCircle className="w-5 h-5" />
+              </button>
+            </div>
+
+            {transferMessage && (
+              <div className="p-3 rounded-xl bg-indigo-50 dark:bg-indigo-950/40 text-indigo-700 dark:text-indigo-300 text-xs font-bold">
+                {transferMessage}
+              </div>
+            )}
+
+            <form onSubmit={handleTransferSubmit} className="space-y-3 text-xs font-bold">
+              <div>
+                <label className="block text-slate-400 mb-1">اختر الطالب:</label>
+                <select
+                  value={transferStudentId}
+                  onChange={(e) => {
+                    setTransferStudentId(e.target.value);
+                    const st = students.find((s) => s.id === e.target.value);
+                    if (st?.groupId) setTransferFromGroupId(st.groupId);
+                  }}
+                  required
+                  className="w-full px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-800"
+                >
+                  <option value="">-- حدد الطالب --</option>
+                  {students.map((s) => (
+                    <option key={s.id} value={s.id}>
+                      {s.name} ({s.studentCode || s.id.slice(-4)})
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="block text-slate-400 mb-1">من المجموعة الحالية:</label>
+                  <select
+                    value={transferFromGroupId}
+                    onChange={(e) => setTransferFromGroupId(e.target.value)}
+                    className="w-full px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-800"
+                  >
+                    <option value="">-- تلقائي / المجموعة الحالية --</option>
+                    {groups.map((g) => (
+                      <option key={g.id} value={g.id}>
+                        {g.name}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-slate-400 mb-1">إلى المجموعة الجديدة:</label>
+                  <select
+                    value={transferToGroupId}
+                    onChange={(e) => setTransferToGroupId(e.target.value)}
+                    required
+                    className="w-full px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-800"
+                  >
+                    <option value="">-- اختر المجموعة الجديدة --</option>
+                    {groups.map((g) => (
+                      <option key={g.id} value={g.id}>
+                        {g.name} ({g.monthlyFee} ج.م)
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-slate-400 mb-1">سبب النقل:</label>
+                <input
+                  type="text"
+                  value={transferReason}
+                  onChange={(e) => setTransferReason(e.target.value)}
+                  placeholder="مثال: تعارض جدول المدرسة أو طلب ولي الأمر"
+                  className="w-full px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-800"
+                />
+              </div>
+
+              <div className="p-3 rounded-xl bg-slate-50 dark:bg-slate-800/50 text-[11px] text-slate-500 leading-relaxed">
+                💡 <b>ضمان سلامة السجلات:</b> سيتم نقل الطالب للمجموعة الجديدة للمستقبل، مع بقاء كافة سجلات الحضور السابقة
+                مرتبطة بمجموعته القديمة بنسبة 100% دون مساس.
+              </div>
+
+              <div className="flex justify-end gap-3 pt-3">
+                <button
+                  type="button"
+                  onClick={() => setShowTransferModal(false)}
+                  className="px-4 py-2 rounded-xl border border-slate-200 dark:border-slate-800 text-slate-400"
+                >
+                  إلغاء
+                </button>
+                <button
+                  type="submit"
+                  disabled={transferSubmitting}
+                  className="px-6 py-2 rounded-xl bg-amber-600 hover:bg-amber-500 text-white font-black shadow"
+                >
+                  {transferSubmitting ? "جاري النقل..." : "تأكيد النقل"}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* =========================================================================
+          MODAL: PAUSE / RESUME STUDENT
+          ========================================================================= */}
+      {showPauseModal && (
+        <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
+          <div className="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-2xl p-6 w-full max-w-lg space-y-4">
+            <div className="flex items-center justify-between">
+              <h3 className="font-black text-base text-slate-900 dark:text-white flex items-center gap-2">
+                <PauseCircle className="w-5 h-5 text-indigo-500" />
+                <span>إيقاف أو استئناف اشتراك طالب بمجموعة</span>
+              </h3>
+              <button onClick={() => setShowPauseModal(false)} className="text-slate-400 hover:text-slate-600">
+                <XCircle className="w-5 h-5" />
+              </button>
+            </div>
+
+            {pauseMessage && (
+              <div className="p-3 rounded-xl bg-indigo-50 dark:bg-indigo-950/40 text-indigo-700 dark:text-indigo-300 text-xs font-bold">
+                {pauseMessage}
+              </div>
+            )}
+
+            <form onSubmit={handlePauseResumeSubmit} className="space-y-3 text-xs font-bold">
+              <div>
+                <label className="block text-slate-400 mb-1">اختر الطالب:</label>
+                <select
+                  value={pauseStudentId}
+                  onChange={(e) => {
+                    setPauseStudentId(e.target.value);
+                    const st = students.find((s) => s.id === e.target.value);
+                    if (st?.groupId) setPauseGroupId(st.groupId);
+                  }}
+                  required
+                  className="w-full px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-800"
+                >
+                  <option value="">-- حدد الطالب --</option>
+                  {students.map((s) => (
+                    <option key={s.id} value={s.id}>
+                      {s.name} ({s.studentCode || s.id.slice(-4)})
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="block text-slate-400 mb-1">المجموعة:</label>
+                  <select
+                    value={pauseGroupId}
+                    onChange={(e) => setPauseGroupId(e.target.value)}
+                    required
+                    className="w-full px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-800"
+                  >
+                    <option value="">-- حدد المجموعة --</option>
+                    {groups.map((g) => (
+                      <option key={g.id} value={g.id}>
+                        {g.name}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-slate-400 mb-1">الإجراء المطلوب:</label>
+                  <select
+                    value={pauseActionType}
+                    onChange={(e) => setPauseActionType(e.target.value as any)}
+                    className="w-full px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-800"
+                  >
+                    <option value="pause">إيقاف مؤقت (Pause)</option>
+                    <option value="resume">استئناف وتنشيط (Resume)</option>
+                  </select>
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-slate-400 mb-1">ملاحظات الإدارة:</label>
+                <input
+                  type="text"
+                  value={pauseReason}
+                  onChange={(e) => setPauseReason(e.target.value)}
+                  placeholder="سبب الإيقاف أو الاستئناف..."
+                  className="w-full px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-800"
+                />
+              </div>
+
+              <div className="flex justify-end gap-3 pt-3">
+                <button
+                  type="button"
+                  onClick={() => setShowPauseModal(false)}
+                  className="px-4 py-2 rounded-xl border border-slate-200 dark:border-slate-800 text-slate-400"
+                >
+                  إلغاء
+                </button>
+                <button
+                  type="submit"
+                  disabled={pauseSubmitting}
+                  className="px-6 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-black shadow"
+                >
+                  {pauseSubmitting ? "جاري الحفظ..." : "تأكيد"}
+                </button>
+              </div>
+            </form>
           </div>
         </div>
       )}
