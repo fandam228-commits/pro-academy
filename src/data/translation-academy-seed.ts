@@ -185,8 +185,8 @@ export const TRANSLATION_MODULES_SEED: SeedTranslationModule[] = [
             questionText: "اختر الترجمة الصحيحة: 'تبذل الحكومة جهوداً عظيمة لتطوير التعليم والصحة.'",
             instructions: "اختر الترجمة الأدق لغوياً ونحوياً من بين الخيارات المعطاة.",
             options: [
-              "The government exerts great efforts to develop education and health.",
               "Exerts the government efforts great to developing education and health.",
+              "The government exerts great efforts to develop education and health.",
               "The government makes efforts great for development education and health.",
               "Government is exerting great effort to develops the education and health."
             ],
@@ -761,9 +761,9 @@ export const TRANSLATION_MODULES_SEED: SeedTranslationModule[] = [
             questionText: "اختر الترجمة الصحيحة: 'يمثل التغير المناخي تهديداً خطيراً للأمن الغذائي العالمي.'",
             instructions: "اختر الإجابة الأدق علمياً ولغوياً.",
             options: [
-              "Climate change represents a serious threat to global food security.",
               "The weather change represent a dangerous threat to food security world.",
               "Climate changes represents serious threat for global food security.",
+              "Climate change represents a serious threat to global food security.",
               "Climate changing represents a seriously threaten to food security."
             ],
             correctAnswer: "Climate change represents a serious threat to global food security.",
@@ -940,10 +940,10 @@ export const TRANSLATION_MODULES_SEED: SeedTranslationModule[] = [
             questionText: "اختر الترجمة الإنجليزية الصحيحة للجملة: 'إن حب الوطن والتضحية من أجله واجب مقدس على كل مواطن مخلص.'",
             instructions: "اختر الإجابة الصحيحة بالاستبعاد الدقيق.",
             options: [
-              "Patriotism and sacrifice for one's homeland is a sacred duty for every loyal citizen.",
               "Loving country and dead for it are holy work for every citizen loyalty.",
               "Patriotism and sacrificing for homeland are sacred obligation on citizen loyal.",
-              "The love of homeland and sacrifice for it is a scary duty for each citizen."
+              "The love of homeland and sacrifice for it is a scary duty for each citizen.",
+              "Patriotism and sacrifice for one's homeland is a sacred duty for every loyal citizen."
             ],
             correctAnswer: "Patriotism and sacrifice for one's homeland is a sacred duty for every loyal citizen.",
             explanation: "حب الوطن = Patriotism، التضحية من أجله = sacrifice for one's homeland، واجب مقدس = a sacred duty، مواطن مخلص = a loyal citizen.",

@@ -10,6 +10,7 @@ import { eq, and, sql, notInArray, desc } from "drizzle-orm";
 import { NextResponse } from "next/server";
 import { ensureDbSetup } from "@/db/migrate-and-seed";
 import { getAuthContext } from "@/lib/security";
+import EXTRACTED_TRAINING_QUESTIONS from "@/data/training-center-extracted-questions.json";
 
 export async function GET(req: Request) {
   try {
@@ -40,6 +41,45 @@ export async function GET(req: Request) {
 
     if (excludeIds.length > 0) {
       conditions.push(notInArray(trainingQuestions.id, excludeIds));
+    }
+
+    if (!process.env.DATABASE_URL) {
+      let filtered = (EXTRACTED_TRAINING_QUESTIONS as any[]).filter(
+        (q) => q.isPublished && q.validationStatus === "complete_verified"
+      );
+      if (topic && topic !== "all") {
+        filtered = filtered.filter((q) => q.topic === topic);
+      }
+      if (difficulty && difficulty !== "all") {
+        filtered = filtered.filter((q) => q.difficulty === difficulty);
+      }
+      if (excludeIds.length > 0) {
+        filtered = filtered.filter((q) => !excludeIds.includes(q.id));
+      }
+      if (filtered.length === 0) {
+        return NextResponse.json({
+          success: true,
+          question: null,
+          message: "No more practice questions available for selected filters.",
+        });
+      }
+      const randomQ = filtered[Math.floor(Math.random() * filtered.length)];
+      return NextResponse.json({
+        success: true,
+        question: {
+          id: randomQ.id,
+          questionNumber: randomQ.questionNumber,
+          originalOrder: randomQ.originalOrder,
+          questionText: randomQ.questionText,
+          options: randomQ.options,
+          category: randomQ.category,
+          topic: randomQ.topic,
+          difficulty: randomQ.difficulty,
+          sourceDocument: randomQ.sourceDocument,
+          sourcePage: randomQ.sourcePage,
+          isBookmarked: false,
+        },
+      });
     }
 
     // Pick random available question using SQL RANDOM()
@@ -118,6 +158,33 @@ export async function POST(req: Request) {
         { success: false, error: "Question ID and selected answer are required" },
         { status: 400 }
       );
+    }
+
+    if (!process.env.DATABASE_URL) {
+      const q = (EXTRACTED_TRAINING_QUESTIONS as any[]).find((x) => x.id === questionId);
+      if (!q) {
+        return NextResponse.json({ success: false, error: "Question not found" }, { status: 404 });
+      }
+      const normalizedSelected = String(selectedAnswer).trim().toLowerCase();
+      const normalizedCorrect = String(q.correctAnswer || "").trim().toLowerCase();
+      let isCorrect = normalizedSelected === normalizedCorrect;
+      if (!isCorrect && Array.isArray(q.options)) {
+        const matchedOpt = (q.options as any[]).find(
+          (o) => String(o.label).toLowerCase() === normalizedCorrect
+        );
+        if (matchedOpt && String(matchedOpt.text).trim().toLowerCase() === normalizedSelected) {
+          isCorrect = true;
+        }
+      }
+      return NextResponse.json({
+        success: true,
+        result: {
+          isCorrect,
+          correctAnswer: q.correctAnswer,
+          explanation: q.explanation || `Focuses on English grammar rule: ${q.topic}`,
+          pointsEarned: isCorrect ? 10 : 0,
+        },
+      });
     }
 
     // Fetch the true question from database
