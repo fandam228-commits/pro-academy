@@ -171,10 +171,10 @@
             "id": "mcq_prep2_ch1_1",
             "question": "What project did Amal choose to present at the Creative Fair?",
             "options": [
+              "A painted canvas",
               "A talking robot",
               "A dancing doll",
-              "A paper airplane",
-              "A painted canvas"
+              "A paper airplane"
             ],
             "correctAnswer": "A talking robot",
             "explanation": "Amal selected a talking robot to showcase her passion for invention and mechanics."
@@ -277,10 +277,10 @@
             "id": "mcq_prep2_ch2_1",
             "question": "What value did Amal demonstrate by not copying other people's designs?",
             "options": [
-              "Academic honesty",
               "Impatience",
+              "Hesitation",
               "Competition",
-              "Hesitation"
+              "Academic honesty"
             ],
             "correctAnswer": "Academic honesty",
             "explanation": "Amal respected original work and practiced genuine intellectual integrity."
@@ -385,8 +385,8 @@
             "options": [
               "Expressing herself honestly and inspiring others",
               "Winning a gold medal",
-              "Defeating her classmates",
-              "Selling the robot for money"
+              "Selling the robot for money",
+              "Defeating her classmates"
             ],
             "correctAnswer": "Expressing herself honestly and inspiring others",
             "explanation": "True victory was personal growth, integrity, and inspiring positive change."
@@ -554,9 +554,9 @@
             "id": "mcq_prep2_ch4_1",
             "question": "What principle guided the boys' interaction on the boat?",
             "options": [
-              "Equality and mutual listening",
-              "Obeying a single captain",
               "Ignoring quiet members",
+              "Obeying a single captain",
+              "Equality and mutual listening",
               "Speed above all"
             ],
             "correctAnswer": "Equality and mutual listening",
@@ -656,8 +656,8 @@
             "id": "mcq_prep2_ch5_1",
             "question": "What did Malik use his creativity for on the island?",
             "options": [
-              "Drawing maps of the island",
               "Building a stone house",
+              "Drawing maps of the island",
               "Catching wild birds",
               "Writing a song"
             ],
@@ -762,10 +762,10 @@
             "id": "mcq_prep2_ch6_1",
             "question": "What is the core message of the Island Explorers' journey?",
             "options": [
-              "Unity, empathy, and collaborative leadership achieve great things",
-              "Solo competition is the fastest route to success",
+              "Maps are never reliable",
               "Silence is always better than sharing ideas",
-              "Maps are never reliable"
+              "Solo competition is the fastest route to success",
+              "Unity, empathy, and collaborative leadership achieve great things"
             ],
             "correctAnswer": "Unity, empathy, and collaborative leadership achieve great things",
             "explanation": "Their journey proved that mutual respect and combined strengths make every adventure richer."

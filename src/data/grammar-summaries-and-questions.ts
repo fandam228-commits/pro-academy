@@ -88,10 +88,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_di_1",
         "questionText": "She said, 'I am very tired.' -> She said that she ______ very tired.",
         "options": [
+          "had been",
           "was",
           "is",
-          "were",
-          "had been"
+          "were"
         ],
         "correctAnswer": "was",
         "explanation": "المضارع البسيط am يتحول إلى الماضي البسيط was بعد فعل القول الماضي said.",
@@ -101,10 +101,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_di_2",
         "questionText": "Ahmed told me, 'I work in Cairo.' -> Ahmed told me that he ______ in Cairo.",
         "options": [
-          "worked",
           "works",
           "is working",
-          "has worked"
+          "has worked",
+          "worked"
         ],
         "correctAnswer": "worked",
         "explanation": "فعل work في المضارع البسيط يتحول إلى الماضي البسيط worked.",
@@ -114,10 +114,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_di_3",
         "questionText": "'We have completed the homework,' the students said. -> The students said they ______ the homework.",
         "options": [
+          "were completing",
           "had completed",
           "have completed",
-          "completed",
-          "were completing"
+          "completed"
         ],
         "correctAnswer": "had completed",
         "explanation": "المضارع التام have completed يتحول إلى الماضي التام had completed.",
@@ -127,9 +127,9 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_di_4",
         "questionText": "'I will call you tonight,' Sarah said to Mona. -> Sarah told Mona that she ______ her that night.",
         "options": [
-          "would call",
           "will call",
           "calls",
+          "would call",
           "called"
         ],
         "correctAnswer": "would call",
@@ -140,10 +140,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_di_5",
         "questionText": "'Can you swim?' Ali asked Omar. -> Ali asked Omar if he ______ swim.",
         "options": [
+          "might",
           "could",
           "can",
-          "would",
-          "might"
+          "would"
         ],
         "correctAnswer": "could",
         "explanation": "الفعل can يتحول إلى could في السؤال غير المباشر.",
@@ -153,9 +153,9 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_di_6",
         "questionText": "The teacher said to us, 'Open your books.' -> The teacher ordered us ______ our books.",
         "options": [
-          "to open",
           "open",
           "opening",
+          "to open",
           "opened"
         ],
         "correctAnswer": "to open",
@@ -167,9 +167,9 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "questionText": "Mom said, 'Don't touch the stove.' -> Mom warned me ______ the stove.",
         "options": [
           "not to touch",
+          "not touching",
           "to not touch",
-          "don't touch",
-          "not touching"
+          "don't touch"
         ],
         "correctAnswer": "not to touch",
         "explanation": "النهي والأمر المنفي يتحول باستخدام not to + المصدر.",
@@ -180,9 +180,9 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "questionText": "'I am writing an essay now,' Hany said. -> Hany said that he was writing an essay ______.",
         "options": [
           "then",
-          "now",
+          "yesterday",
           "today",
-          "yesterday"
+          "now"
         ],
         "correctAnswer": "then",
         "explanation": "الظرف now يتحول في الكلام غير المباشر إلى then.",
@@ -192,10 +192,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_di_9",
         "questionText": "'We bought this car yesterday,' they said. -> They said they had bought that car ______.",
         "options": [
-          "the day before",
-          "yesterday",
           "tomorrow",
-          "next day"
+          "the day before",
+          "next day",
+          "yesterday"
         ],
         "correctAnswer": "the day before",
         "explanation": "الظرف yesterday يتحول إلى the day before أو the previous day.",
@@ -206,8 +206,8 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "questionText": "'I must go now,' Ziad said. -> Ziad explained that he ______ go then.",
         "options": [
           "had to",
-          "must",
           "should",
+          "must",
           "has to"
         ],
         "correctAnswer": "had to",
@@ -218,10 +218,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_di_11",
         "questionText": "He said, 'I saw an eagle here.' -> He said that he had seen an eagle ______.",
         "options": [
-          "there",
           "here",
           "this",
-          "these"
+          "these",
+          "there"
         ],
         "correctAnswer": "there",
         "explanation": "ظرف المكان here يتحول إلى there في الكلام المنقول.",
@@ -231,10 +231,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_di_12",
         "questionText": "'These mangoes are sweet,' Tamer said. -> Tamer said that ______ mangoes were sweet.",
         "options": [
-          "those",
-          "these",
+          "that",
           "this",
-          "that"
+          "these",
+          "those"
         ],
         "correctAnswer": "those",
         "explanation": "اسم الإشارة للجمع القريب these يتحول للبعيد those.",
@@ -244,10 +244,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_di_13",
         "questionText": "Mona ______ me that she was traveling to London the following week.",
         "options": [
-          "told",
-          "said",
           "asked",
-          "spoke"
+          "told",
+          "spoke",
+          "said"
         ],
         "correctAnswer": "told",
         "explanation": "يُستخدم فعل told لأنه متبوع بمفعول به مخاطب (me).",
@@ -258,8 +258,8 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "questionText": "Karim ______ that he had enjoyed the summer vacation in Alexandria.",
         "options": [
           "said",
-          "told",
           "asked",
+          "told",
           "ordered"
         ],
         "correctAnswer": "said",
@@ -270,10 +270,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_di_15",
         "questionText": "'Are you ready for the final quiz?' -> The teacher asked whether we ______ ready.",
         "options": [
-          "were",
+          "have been",
           "are",
           "was",
-          "have been"
+          "were"
         ],
         "correctAnswer": "were",
         "explanation": "السؤال بـ are you يتحول إلى if/whether we were.",
@@ -283,9 +283,9 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_di_16",
         "questionText": "'Where do you live?' the officer asked. -> The officer asked me where ______.",
         "options": [
-          "I lived",
-          "did I live",
           "I live",
+          "did I live",
+          "I lived",
           "do I live"
         ],
         "correctAnswer": "I lived",
@@ -296,10 +296,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_di_17",
         "questionText": "'What time does the lesson start?' Omar asked. -> Omar asked what time the lesson ______.",
         "options": [
-          "started",
+          "does start",
           "did start",
           "starts",
-          "does start"
+          "started"
         ],
         "correctAnswer": "started",
         "explanation": "نحذف does ونحول الفعل إلى الماضي البسيط started.",
@@ -310,9 +310,9 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "questionText": "'Have you ever visited Luxor?' He asked Sara ______ visited Luxor.",
         "options": [
           "if she had ever",
-          "if had she ever",
           "did she ever",
-          "has she ever"
+          "has she ever",
+          "if had she ever"
         ],
         "correctAnswer": "if she had ever",
         "explanation": "نستخدم if متبوعة بالفاعل she ثم الماضي التام had ever.",
@@ -322,10 +322,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_di_19",
         "questionText": "'Why were you late yesterday?' -> The manager inquired why I ______ late the day before.",
         "options": [
-          "had been",
-          "was",
           "were",
-          "have been"
+          "have been",
+          "had been",
+          "was"
         ],
         "correctAnswer": "had been",
         "explanation": "الماضي البسيط were يتحول في الكلام المنقول إلى الماضي التام had been.",
@@ -335,10 +335,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_di_20",
         "questionText": "'You should see a specialist,' the nurse said. -> The nurse advised me that I ______ see a specialist.",
         "options": [
+          "had to",
           "should",
-          "would",
           "must",
-          "had to"
+          "would"
         ],
         "correctAnswer": "should",
         "explanation": "فعل النصيحة should يظل كما هو should دون تغيير.",
@@ -348,10 +348,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_di_21",
         "questionText": "'I would help you if I could,' he said. -> He told me he ______ help me if he could.",
         "options": [
-          "would",
           "will",
+          "shall",
           "can",
-          "shall"
+          "would"
         ],
         "correctAnswer": "would",
         "explanation": "الفعل would لا يتغير في الكلام المنقول.",
@@ -361,10 +361,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_di_22",
         "questionText": "'Don't make any noise during the test,' the proctor commanded us ______ any noise.",
         "options": [
-          "not to make",
-          "to not make",
           "no make",
-          "don't make"
+          "not to make",
+          "don't make",
+          "to not make"
         ],
         "correctAnswer": "not to make",
         "explanation": "التحذير والنهي: not to + المصدر.",
@@ -375,9 +375,9 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "questionText": "'Where did you buy this watch?' -> He asked me where I ______ that watch.",
         "options": [
           "had bought",
+          "have bought",
           "bought",
-          "did buy",
-          "have bought"
+          "did buy"
         ],
         "correctAnswer": "had bought",
         "explanation": "السؤال في الماضي البسيط did you buy يتحول لماضٍ تام had bought.",
@@ -387,10 +387,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_di_24",
         "questionText": "'I have been working here for ten years,' Mr. Habib said. -> He said he ______ there for ten years.",
         "options": [
-          "had been working",
           "has been working",
-          "was working",
-          "worked"
+          "worked",
+          "had been working",
+          "was working"
         ],
         "correctAnswer": "had been working",
         "explanation": "المضارع التام المستمر يتحول لماضٍ تام مستمر had been working.",
@@ -400,10 +400,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_di_25",
         "questionText": "'We will be flying to Paris this time tomorrow.' -> They said they ______ to Paris that time the following day.",
         "options": [
-          "would be flying",
+          "are flying",
           "will be flying",
           "were flying",
-          "are flying"
+          "would be flying"
         ],
         "correctAnswer": "would be flying",
         "explanation": "will be flying تتحول إلى would be flying.",
@@ -413,10 +413,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_di_26",
         "questionText": "'Let's go for a walk in the park,' Youssef suggested ______ for a walk in the park.",
         "options": [
-          "going",
-          "to go",
+          "went",
           "go",
-          "went"
+          "going",
+          "to go"
         ],
         "correctAnswer": "going",
         "explanation": "فعل suggest يُتبع بـ V-ing عند تحويل صيغة الاقتراح Let's.",
@@ -427,8 +427,8 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "questionText": "'I didn't break the glass,' the child insisted. -> The child denied ______ the glass.",
         "options": [
           "breaking",
-          "to break",
           "broke",
+          "to break",
           "had broken"
         ],
         "correctAnswer": "breaking",
@@ -439,10 +439,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_di_28",
         "questionText": "'I will definitely pay you back next Friday,' Samy promised ______ me back the following Friday.",
         "options": [
-          "to pay",
-          "paying",
           "pay",
-          "paid"
+          "paying",
+          "paid",
+          "to pay"
         ],
         "correctAnswer": "to pay",
         "explanation": "فعل promise يُتبع بـ to + المصدر في الوعود المستقبلية.",
@@ -452,10 +452,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_di_29",
         "questionText": "'You stole my notebook!' He accused me of ______ his notebook.",
         "options": [
-          "stealing",
           "to steal",
-          "stole",
-          "steal"
+          "stealing",
+          "steal",
+          "stole"
         ],
         "correctAnswer": "stealing",
         "explanation": "التركيب accuse of يُتبع بـ V-ing: accused me of stealing.",
@@ -466,9 +466,9 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "questionText": "'I am sorry I arrived late,' Nada apologized for ______ late.",
         "options": [
           "arriving",
-          "to arrive",
           "arrive",
-          "arrived"
+          "arrived",
+          "to arrive"
         ],
         "correctAnswer": "arriving",
         "explanation": "التركيب apologize for يُتبع بـ V-ing: apologized for arriving.",
@@ -478,9 +478,9 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_di_31",
         "questionText": "The doctor ______ him to stop smoking immediately.",
         "options": [
-          "advised",
-          "said",
           "suggested",
+          "said",
+          "advised",
           "insisted"
         ],
         "correctAnswer": "advised",
@@ -491,9 +491,9 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_di_32",
         "questionText": "'Could you please lend me your calculator?' -> She begged me ______ her my calculator.",
         "options": [
-          "to lend",
           "lending",
           "lend",
+          "to lend",
           "lent"
         ],
         "correctAnswer": "to lend",
@@ -504,10 +504,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_di_33",
         "questionText": "He inquired whether the train to Aswan ______ on platform four.",
         "options": [
-          "was",
-          "is",
           "has been",
-          "will be"
+          "is",
+          "will be",
+          "was"
         ],
         "correctAnswer": "was",
         "explanation": "جملة غير مباشرة بعد inquired تتطلب ماضياً: was.",
@@ -519,8 +519,8 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "options": [
           "might",
           "may",
-          "can",
-          "must"
+          "must",
+          "can"
         ],
         "correctAnswer": "might",
         "explanation": "الفعل may يتحول إلى might في الكلام غير المباشر.",
@@ -530,10 +530,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_di_35",
         "questionText": "'What were you doing when the lights went out?' -> She asked what I ______ when the lights had gone out.",
         "options": [
-          "had been doing",
           "was doing",
           "am doing",
-          "did"
+          "did",
+          "had been doing"
         ],
         "correctAnswer": "had been doing",
         "explanation": "الماضي المستمر were you doing يتحول إلى ماضٍ تام مستمر had been doing.",
@@ -543,10 +543,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_di_36",
         "questionText": "The science professor said, 'Water freezes at zero degrees Celsius.' -> The professor said that water ______ at zero degrees Celsius.",
         "options": [
-          "freezes",
           "froze",
           "had frozen",
-          "was freezing"
+          "was freezing",
+          "freezes"
         ],
         "correctAnswer": "freezes",
         "explanation": "الحقائق العلمية الثابتة (Scientific Facts) لا يتغير زمنها في الكلام المنقول وتظل مضارعاً بسيطاً.",
@@ -556,9 +556,9 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_di_37",
         "questionText": "The news reporter says, 'The president ______ the conference tomorrow.'",
         "options": [
-          "will attend",
           "would attend",
           "had attended",
+          "will attend",
           "attended"
         ],
         "correctAnswer": "will attend",
@@ -570,9 +570,9 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "questionText": "He said just now, 'I ______ my keys.' -> He said just now that he has lost his keys.",
         "options": [
           "have lost",
-          "had lost",
+          "was losing",
           "lost",
-          "was losing"
+          "had lost"
         ],
         "correctAnswer": "have lost",
         "explanation": "مع العبارات الدالة على أن القول تم للتو (just now / a moment ago) لا نغير الزمن.",
@@ -582,9 +582,9 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_di_39",
         "questionText": "'I wish I had accepted the scholarship,' Bassem said. -> Bassem said he wished he ______ the scholarship.",
         "options": [
-          "had accepted",
-          "accepted",
           "would accept",
+          "accepted",
+          "had accepted",
           "accepts"
         ],
         "correctAnswer": "had accepted",
@@ -595,10 +595,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_di_40",
         "questionText": "'If I won the lottery, I would build a hospital,' he said. -> He said that if he won the lottery, he ______ a hospital.",
         "options": [
-          "would build",
-          "will build",
           "built",
-          "had built"
+          "will build",
+          "had built",
+          "would build"
         ],
         "correctAnswer": "would build",
         "explanation": "الحالة الشرطية الثانية لـ If تظل أزمنتها (past simple + would) دون تغيير في الكلام المنقول.",
@@ -608,9 +608,9 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_di_41",
         "questionText": "'If you had warned me, I would have avoided the trap.' -> He said that if I had warned him, he ______ the trap.",
         "options": [
+          "will avoid",
           "would have avoided",
           "would avoid",
-          "will avoid",
           "had avoided"
         ],
         "correctAnswer": "would have avoided",
@@ -621,10 +621,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_di_42",
         "questionText": "The guide warned the tourists that the desert ______ extremely cold at night.",
         "options": [
-          "gets",
-          "got",
           "had got",
-          "was getting"
+          "gets",
+          "was getting",
+          "got"
         ],
         "correctAnswer": "gets",
         "explanation": "حقيقة جغرافية ومناخية دائمة تظل في المضارع البسيط gets.",
@@ -636,8 +636,8 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "options": [
           "will increase",
           "would increase",
-          "had increased",
-          "increased"
+          "increased",
+          "had increased"
         ],
         "correctAnswer": "will increase",
         "explanation": "فعل القول في المضارع التام has just announced لا يستوجب تغيير الزمن.",
@@ -647,10 +647,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_di_44",
         "questionText": "'You had better consult an expert,' my mentor told me that I ______ consult an expert.",
         "options": [
-          "had better",
-          "would better",
+          "should better",
           "have better",
-          "should better"
+          "had better",
+          "would better"
         ],
         "correctAnswer": "had better",
         "explanation": "التركيب had better يظل ثابتاً كما هو دون تغيير في الكلام غير المباشر.",
@@ -660,10 +660,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_di_45",
         "questionText": "'It's high time you started preparing,' he told me that it ______ high time I started preparing.",
         "options": [
-          "was",
-          "is",
           "had been",
-          "were"
+          "was",
+          "were",
+          "is"
         ],
         "correctAnswer": "was",
         "explanation": "التركيب It's time يتحول إلى It was time مع بقاء الفعل التالي ماضياً بسيطاً.",
@@ -674,8 +674,8 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "questionText": "She asked me who ______ the mysterious parcel on the desk.",
         "options": [
           "had left",
-          "did leave",
           "has left",
+          "did leave",
           "leaves"
         ],
         "correctAnswer": "had left",
@@ -686,9 +686,9 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_di_47",
         "questionText": "'What a magnificent painting!' The art critic exclaimed that the painting ______ magnificent.",
         "options": [
-          "was very",
           "is",
           "has been",
+          "was very",
           "will be"
         ],
         "correctAnswer": "was very",
@@ -700,8 +700,8 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "questionText": "He threatened ______ the police if the intruder didn't leave immediately.",
         "options": [
           "to call",
-          "calling",
           "call",
+          "calling",
           "called"
         ],
         "correctAnswer": "to call",
@@ -712,10 +712,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_di_49",
         "questionText": "The supervisor recommended that Tarek ______ the training module by Friday.",
         "options": [
+          "is completing",
           "complete",
           "completes",
-          "completed",
-          "is completing"
+          "completed"
         ],
         "correctAnswer": "complete",
         "explanation": "صيغة Subjunctive بعد recommended ذات معنى الطلب تتطلب الفعل في المصدر المجرد complete.",
@@ -725,10 +725,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_di_50",
         "questionText": "Which of the following indirect sentences is grammatically sound for Thanawya Amma?",
         "options": [
+          "She told me if I had seen her notebook.",
           "She asked me whether I had seen her notebook.",
-          "She asked me that did I see her notebook.",
           "She asked me if had I seen her notebook.",
-          "She told me if I had seen her notebook."
+          "She asked me that did I see her notebook."
         ],
         "correctAnswer": "She asked me whether I had seen her notebook.",
         "explanation": "الجملة الصحيحة تستخدم asked متبوعة بـ whether وترتيب خبري سليم I had seen.",
@@ -799,10 +799,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_rc_1",
         "questionText": "The engineer ______ designed this bridge won a prestigious award.",
         "options": [
-          "who",
-          "which",
           "whose",
-          "where"
+          "which",
+          "where",
+          "who"
         ],
         "correctAnswer": "who",
         "explanation": "ضمير الوصل العاقل في محل فاعل هو who.",
@@ -812,10 +812,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_rc_2",
         "questionText": "The documentary ______ we watched yesterday was very informative.",
         "options": [
-          "which",
-          "who",
           "whom",
-          "where"
+          "which",
+          "where",
+          "who"
         ],
         "correctAnswer": "which",
         "explanation": "ضمير الوصل لغير العاقل (الفيلم الوثائقي) هو which.",
@@ -825,10 +825,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_rc_3",
         "questionText": "The village ______ my grandparents were born has changed drastically.",
         "options": [
-          "where",
-          "which",
           "that",
-          "whose"
+          "which",
+          "whose",
+          "where"
         ],
         "correctAnswer": "where",
         "explanation": "حيث ولد أجدادي (مكان بدون حرف جر) تأخذ where.",
@@ -838,8 +838,8 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_rc_4",
         "questionText": "The student ______ father is a heart surgeon achieved top marks.",
         "options": [
-          "whose",
           "who",
+          "whose",
           "whom",
           "which"
         ],
@@ -851,10 +851,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_rc_5",
         "questionText": "Summer is the season ______ most tourists visit the northern coast.",
         "options": [
-          "when",
-          "where",
           "which",
-          "whose"
+          "whose",
+          "where",
+          "when"
         ],
         "correctAnswer": "when",
         "explanation": "الزمان season يأخذ أداة الوصل when.",
@@ -864,10 +864,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_rc_6",
         "questionText": "The company with ______ we negotiated the deal is based in Dubai.",
         "options": [
-          "which",
-          "that",
+          "where",
           "who",
-          "where"
+          "which",
+          "that"
         ],
         "correctAnswer": "which",
         "explanation": "بعد حرف الجر لغير العاقل (with) نستخدم which حصراً وممنوع استخدام that.",
@@ -877,10 +877,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_rc_7",
         "questionText": "The scholar to ______ the letter was addressed has retired.",
         "options": [
-          "whom",
-          "who",
           "which",
-          "that"
+          "whom",
+          "that",
+          "who"
         ],
         "correctAnswer": "whom",
         "explanation": "بعد حرف الجر للعاقل (to) نستخدم whom فقط في الإنجليزية القياسية.",
@@ -891,8 +891,8 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "questionText": "Dr. Magdi Yacoub, ______ performed hundreds of surgeries, is globally renowned.",
         "options": [
           "who",
-          "that",
           "which",
+          "that",
           "whom"
         ],
         "correctAnswer": "who",
@@ -903,10 +903,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_rc_9",
         "questionText": "The laptop ______ I purchased last month has a powerful processor.",
         "options": [
-          "which",
-          "who",
           "where",
-          "whose"
+          "whose",
+          "who",
+          "which"
         ],
         "correctAnswer": "which",
         "explanation": "لغير العاقل نستخدم which.",
@@ -916,10 +916,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_rc_10",
         "questionText": "Is there anyone here ______ understands modern Japanese literature?",
         "options": [
-          "who",
           "which",
+          "where",
           "whose",
-          "where"
+          "who"
         ],
         "correctAnswer": "who",
         "explanation": "Anyone تعود على شخص عاقل فتأخذ who.",
@@ -930,8 +930,8 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "questionText": "The architect ______ designed this bridge won a prestigious award.",
         "options": [
           "who",
-          "which",
           "whose",
+          "which",
           "where"
         ],
         "correctAnswer": "who",
@@ -942,10 +942,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_rc_12",
         "questionText": "The documentary ______ we watched last evening was very informative.",
         "options": [
-          "which",
           "who",
-          "whom",
-          "where"
+          "which",
+          "where",
+          "whom"
         ],
         "correctAnswer": "which",
         "explanation": "ضمير الوصل لغير العاقل (الفيلم الوثائقي) هو which.",
@@ -955,10 +955,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_rc_13",
         "questionText": "The ancient town ______ my grandparents were born has changed drastically.",
         "options": [
+          "whose",
           "where",
           "which",
-          "that",
-          "whose"
+          "that"
         ],
         "correctAnswer": "where",
         "explanation": "حيث ولد أجدادي (مكان بدون حرف جر) تأخذ where.",
@@ -969,9 +969,9 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "questionText": "The student ______ father is a heart surgeon achieved top marks.",
         "options": [
           "whose",
-          "who",
+          "which",
           "whom",
-          "which"
+          "who"
         ],
         "correctAnswer": "whose",
         "explanation": "ضمير الملكية whose يأتي بين المالك والمملوك (student - father).",
@@ -982,9 +982,9 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "questionText": "Summer is the season ______ most tourists visit the northern coast.",
         "options": [
           "when",
+          "whose",
           "where",
-          "which",
-          "whose"
+          "which"
         ],
         "correctAnswer": "when",
         "explanation": "الزمان season يأخذ أداة الوصل when.",
@@ -994,10 +994,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_rc_16",
         "questionText": "The company with ______ we negotiated the deal is based in Dubai.",
         "options": [
+          "where",
           "which",
           "that",
-          "who",
-          "where"
+          "who"
         ],
         "correctAnswer": "which",
         "explanation": "بعد حرف الجر لغير العاقل (with) نستخدم which حصراً وممنوع استخدام that.",
@@ -1007,10 +1007,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_rc_17",
         "questionText": "The scholar to ______ the letter was addressed has retired.",
         "options": [
-          "whom",
           "who",
-          "which",
-          "that"
+          "whom",
+          "that",
+          "which"
         ],
         "correctAnswer": "whom",
         "explanation": "بعد حرف الجر للعاقل (to) نستخدم whom فقط في الإنجليزية القياسية.",
@@ -1020,9 +1020,9 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_rc_18",
         "questionText": "Dr. Magdi Yacoub, ______ performed hundreds of surgeries, is globally renowned.",
         "options": [
-          "who",
           "that",
           "which",
+          "who",
           "whom"
         ],
         "correctAnswer": "who",
@@ -1034,9 +1034,9 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "questionText": "The laptop ______ I purchased last month has a powerful processor.",
         "options": [
           "which",
-          "who",
           "where",
-          "whose"
+          "whose",
+          "who"
         ],
         "correctAnswer": "which",
         "explanation": "لغير العاقل نستخدم which.",
@@ -1046,10 +1046,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_rc_20",
         "questionText": "Is there anyone here ______ understands modern Japanese literature?",
         "options": [
-          "who",
-          "which",
           "whose",
-          "where"
+          "where",
+          "who",
+          "which"
         ],
         "correctAnswer": "who",
         "explanation": "Anyone تعود على شخص عاقل فتأخذ who.",
@@ -1072,10 +1072,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_rc_22",
         "questionText": "[Exam Model 22] The documentary ______ we watched yesterday was very informative.",
         "options": [
-          "which",
           "who",
-          "whom",
-          "where"
+          "where",
+          "which",
+          "whom"
         ],
         "correctAnswer": "which",
         "explanation": "ضمير الوصل لغير العاقل (الفيلم الوثائقي) هو which.",
@@ -1085,10 +1085,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_rc_23",
         "questionText": "[Exam Model 23] The village ______ my grandparents were born has changed drastically.",
         "options": [
-          "where",
-          "which",
           "that",
-          "whose"
+          "which",
+          "whose",
+          "where"
         ],
         "correctAnswer": "where",
         "explanation": "حيث ولد أجدادي (مكان بدون حرف جر) تأخذ where.",
@@ -1099,9 +1099,9 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "questionText": "[Exam Model 24] The student ______ father is a heart surgeon achieved top marks.",
         "options": [
           "whose",
-          "who",
           "whom",
-          "which"
+          "which",
+          "who"
         ],
         "correctAnswer": "whose",
         "explanation": "ضمير الملكية whose يأتي بين المالك والمملوك (student - father).",
@@ -1111,10 +1111,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_rc_25",
         "questionText": "[Exam Model 25] Summer is the season ______ most tourists visit the northern coast.",
         "options": [
-          "when",
           "where",
-          "which",
-          "whose"
+          "whose",
+          "when",
+          "which"
         ],
         "correctAnswer": "when",
         "explanation": "الزمان season يأخذ أداة الوصل when.",
@@ -1124,10 +1124,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_rc_26",
         "questionText": "[Exam Model 26] The company with ______ we negotiated the deal is based in Dubai.",
         "options": [
-          "which",
+          "where",
           "that",
           "who",
-          "where"
+          "which"
         ],
         "correctAnswer": "which",
         "explanation": "بعد حرف الجر لغير العاقل (with) نستخدم which حصراً وممنوع استخدام that.",
@@ -1138,9 +1138,9 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "questionText": "[Exam Model 27] The scholar to ______ the letter was addressed has retired.",
         "options": [
           "whom",
+          "that",
           "who",
-          "which",
-          "that"
+          "which"
         ],
         "correctAnswer": "whom",
         "explanation": "بعد حرف الجر للعاقل (to) نستخدم whom فقط في الإنجليزية القياسية.",
@@ -1150,10 +1150,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_rc_28",
         "questionText": "[Exam Model 28] Dr. Magdi Yacoub, ______ performed hundreds of surgeries, is globally renowned.",
         "options": [
-          "who",
+          "whom",
           "that",
-          "which",
-          "whom"
+          "who",
+          "which"
         ],
         "correctAnswer": "who",
         "explanation": "في الجمل الاعتراضية Non-defining بين فواصل ممنوع استخدام that ويستخدم who.",
@@ -1163,10 +1163,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_rc_29",
         "questionText": "[Exam Model 29] The laptop ______ I purchased last month has a powerful processor.",
         "options": [
-          "which",
-          "who",
           "where",
-          "whose"
+          "who",
+          "whose",
+          "which"
         ],
         "correctAnswer": "which",
         "explanation": "لغير العاقل نستخدم which.",
@@ -1176,9 +1176,9 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_rc_30",
         "questionText": "[Exam Model 30] Is there anyone here ______ understands modern Japanese literature?",
         "options": [
-          "who",
           "which",
           "whose",
+          "who",
           "where"
         ],
         "correctAnswer": "who",
@@ -1189,10 +1189,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_rc_31",
         "questionText": "Choose the correct option: The engineer ______ designed this bridge won a prestigious award.",
         "options": [
-          "who",
-          "which",
           "whose",
-          "where"
+          "which",
+          "where",
+          "who"
         ],
         "correctAnswer": "who",
         "explanation": "ضمير الوصل العاقل في محل فاعل هو who.",
@@ -1202,10 +1202,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_rc_32",
         "questionText": "Choose the correct option: The documentary ______ we watched yesterday was very informative.",
         "options": [
-          "which",
-          "who",
           "whom",
-          "where"
+          "which",
+          "where",
+          "who"
         ],
         "correctAnswer": "which",
         "explanation": "ضمير الوصل لغير العاقل (الفيلم الوثائقي) هو which.",
@@ -1215,8 +1215,8 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_rc_33",
         "questionText": "Choose the correct option: The village ______ my grandparents were born has changed drastically.",
         "options": [
-          "where",
           "which",
+          "where",
           "that",
           "whose"
         ],
@@ -1229,8 +1229,8 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "questionText": "Choose the correct option: The student ______ father is a heart surgeon achieved top marks.",
         "options": [
           "whose",
-          "who",
           "whom",
+          "who",
           "which"
         ],
         "correctAnswer": "whose",
@@ -1241,10 +1241,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_rc_35",
         "questionText": "Choose the correct option: Summer is the season ______ most tourists visit the northern coast.",
         "options": [
-          "when",
           "where",
-          "which",
-          "whose"
+          "whose",
+          "when",
+          "which"
         ],
         "correctAnswer": "when",
         "explanation": "الزمان season يأخذ أداة الوصل when.",
@@ -1254,10 +1254,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_rc_36",
         "questionText": "Choose the correct option: The company with ______ we negotiated the deal is based in Dubai.",
         "options": [
-          "which",
+          "where",
           "that",
           "who",
-          "where"
+          "which"
         ],
         "correctAnswer": "which",
         "explanation": "بعد حرف الجر لغير العاقل (with) نستخدم which حصراً وممنوع استخدام that.",
@@ -1267,10 +1267,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_rc_37",
         "questionText": "Choose the correct option: The scholar to ______ the letter was addressed has retired.",
         "options": [
+          "that",
           "whom",
-          "who",
           "which",
-          "that"
+          "who"
         ],
         "correctAnswer": "whom",
         "explanation": "بعد حرف الجر للعاقل (to) نستخدم whom فقط في الإنجليزية القياسية.",
@@ -1280,10 +1280,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_rc_38",
         "questionText": "Choose the correct option: Dr. Magdi Yacoub, ______ performed hundreds of surgeries, is globally renowned.",
         "options": [
-          "who",
-          "that",
+          "whom",
           "which",
-          "whom"
+          "who",
+          "that"
         ],
         "correctAnswer": "who",
         "explanation": "في الجمل الاعتراضية Non-defining بين فواصل ممنوع استخدام that ويستخدم who.",
@@ -1293,9 +1293,9 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_rc_39",
         "questionText": "Choose the correct option: The laptop ______ I purchased last month has a powerful processor.",
         "options": [
-          "which",
-          "who",
           "where",
+          "who",
+          "which",
           "whose"
         ],
         "correctAnswer": "which",
@@ -1306,10 +1306,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_rc_40",
         "questionText": "Choose the correct option: Is there anyone here ______ understands modern Japanese literature?",
         "options": [
+          "where",
           "who",
-          "which",
           "whose",
-          "where"
+          "which"
         ],
         "correctAnswer": "who",
         "explanation": "Anyone تعود على شخص عاقل فتأخذ who.",
@@ -1320,9 +1320,9 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "questionText": "[Thanawya Amma Standard] The engineer ______ designed this bridge won a prestigious award.",
         "options": [
           "who",
-          "which",
           "whose",
-          "where"
+          "where",
+          "which"
         ],
         "correctAnswer": "who",
         "explanation": "ضمير الوصل العاقل في محل فاعل هو who.",
@@ -1332,10 +1332,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_rc_42",
         "questionText": "[Thanawya Amma Standard] The documentary ______ we watched yesterday was very informative.",
         "options": [
-          "which",
-          "who",
+          "where",
           "whom",
-          "where"
+          "who",
+          "which"
         ],
         "correctAnswer": "which",
         "explanation": "ضمير الوصل لغير العاقل (الفيلم الوثائقي) هو which.",
@@ -1346,8 +1346,8 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "questionText": "[Thanawya Amma Standard] The village ______ my grandparents were born has changed drastically.",
         "options": [
           "where",
-          "which",
           "that",
+          "which",
           "whose"
         ],
         "correctAnswer": "where",
@@ -1358,10 +1358,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_rc_44",
         "questionText": "[Thanawya Amma Standard] The student ______ father is a heart surgeon achieved top marks.",
         "options": [
-          "whose",
           "who",
-          "whom",
-          "which"
+          "which",
+          "whose",
+          "whom"
         ],
         "correctAnswer": "whose",
         "explanation": "ضمير الملكية whose يأتي بين المالك والمملوك (student - father).",
@@ -1384,8 +1384,8 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_rc_46",
         "questionText": "[Thanawya Amma Standard] The company with ______ we negotiated the deal is based in Dubai.",
         "options": [
-          "which",
           "that",
+          "which",
           "who",
           "where"
         ],
@@ -1397,10 +1397,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_rc_47",
         "questionText": "[Thanawya Amma Standard] The scholar to ______ the letter was addressed has retired.",
         "options": [
-          "whom",
-          "who",
           "which",
-          "that"
+          "that",
+          "whom",
+          "who"
         ],
         "correctAnswer": "whom",
         "explanation": "بعد حرف الجر للعاقل (to) نستخدم whom فقط في الإنجليزية القياسية.",
@@ -1410,10 +1410,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_rc_48",
         "questionText": "[Thanawya Amma Standard] Dr. Magdi Yacoub, ______ performed hundreds of surgeries, is globally renowned.",
         "options": [
-          "who",
           "that",
-          "which",
-          "whom"
+          "who",
+          "whom",
+          "which"
         ],
         "correctAnswer": "who",
         "explanation": "في الجمل الاعتراضية Non-defining بين فواصل ممنوع استخدام that ويستخدم who.",
@@ -1423,10 +1423,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_rc_49",
         "questionText": "[Thanawya Amma Standard] The laptop ______ I purchased last month has a powerful processor.",
         "options": [
-          "which",
           "who",
+          "whose",
           "where",
-          "whose"
+          "which"
         ],
         "correctAnswer": "which",
         "explanation": "لغير العاقل نستخدم which.",
@@ -1437,9 +1437,9 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "questionText": "[Thanawya Amma Standard] Is there anyone here ______ understands modern Japanese literature?",
         "options": [
           "who",
-          "which",
+          "where",
           "whose",
-          "where"
+          "which"
         ],
         "correctAnswer": "who",
         "explanation": "Anyone تعود على شخص عاقل فتأخذ who.",
@@ -1502,9 +1502,9 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "questionText": "______ do you usually go to the sports academy? - Twice a week.",
         "options": [
           "How often",
-          "How long",
           "How much",
-          "How many"
+          "How many",
+          "How long"
         ],
         "correctAnswer": "How often",
         "explanation": "للسؤال عن معدل تكرار الفعل (مرتين أسبوعياً) نستخدم How often.",
@@ -1514,8 +1514,8 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_qf_2",
         "questionText": "______ did they travel to Luxor last winter? - By sleeper train.",
         "options": [
-          "How",
           "Why",
+          "How",
           "Where",
           "When"
         ],
@@ -1527,9 +1527,9 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_qf_3",
         "questionText": "Who ______ the famous historical novel 'The Thief and the Dogs'?",
         "options": [
-          "wrote",
-          "did write",
           "was written",
+          "did write",
+          "wrote",
           "writes did"
         ],
         "correctAnswer": "wrote",
@@ -1540,10 +1540,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_qf_4",
         "questionText": "What ______ during the laboratory chemistry experiment?",
         "options": [
-          "happened",
+          "happens did",
           "did happen",
-          "was happen",
-          "happens did"
+          "happened",
+          "was happen"
         ],
         "correctAnswer": "happened",
         "explanation": "عند السؤال عن الفاعل غير العاقل بـ What لا نستخدم فعل مساعد did.",
@@ -1553,10 +1553,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_qf_5",
         "questionText": "Could you please tell me where the nearest pharmacy ______?",
         "options": [
-          "is",
+          "does it",
           "is it",
           "is there",
-          "does it"
+          "is"
         ],
         "correctAnswer": "is",
         "explanation": "في السؤال غير المباشر بعد Could you tell me يأتي الفاعل ثم الفعل is بترتيب خبري.",
@@ -1566,10 +1566,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_qf_6",
         "questionText": "Do you know what time ______?",
         "options": [
-          "the train departs",
+          "did the train depart",
           "does the train depart",
-          "departs the train",
-          "did the train depart"
+          "the train departs",
+          "departs the train"
         ],
         "correctAnswer": "the train departs",
         "explanation": "في السؤال المهذب Do you know لا نستخدم does ونضع فاعل ثم فعل: the train departs.",
@@ -1592,10 +1592,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_qf_8",
         "questionText": "______ students attended the extra English session?",
         "options": [
-          "How many",
-          "How much",
           "How long",
-          "How far"
+          "How far",
+          "How much",
+          "How many"
         ],
         "correctAnswer": "How many",
         "explanation": "اسم جمع معدود students يسأل بـ How many.",
@@ -1605,10 +1605,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_qf_9",
         "questionText": "Which car is ______? The black or the silver one?",
         "options": [
-          "yours",
           "your",
           "you",
-          "yourself"
+          "yourself",
+          "yours"
         ],
         "correctAnswer": "yours",
         "explanation": "ضمير الملكية المستقل الذي يأتي في نهاية السؤال بدون اسم بعده هو yours.",
@@ -1618,10 +1618,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_qf_10",
         "questionText": "What are you looking ______? - My car keys.",
         "options": [
-          "for",
           "at",
-          "after",
-          "into"
+          "for",
+          "into",
+          "after"
         ],
         "correctAnswer": "for",
         "explanation": "الفعل الاصطلاحي يبحث عن هو look for.",
@@ -1632,9 +1632,9 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "questionText": "______ do you usually go to the sports academy? - Twice a week.",
         "options": [
           "How often",
-          "How long",
+          "How many",
           "How much",
-          "How many"
+          "How long"
         ],
         "correctAnswer": "How often",
         "explanation": "للسؤال عن معدل تكرار الفعل (مرتين أسبوعياً) نستخدم How often.",
@@ -1644,9 +1644,9 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_qf_12",
         "questionText": "______ did they travel to Luxor last winter? - By sleeper train.",
         "options": [
-          "How",
-          "Why",
           "Where",
+          "Why",
+          "How",
           "When"
         ],
         "correctAnswer": "How",
@@ -1657,10 +1657,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_qf_13",
         "questionText": "Who ______ the famous historical novel 'The Thief and the Dogs'?",
         "options": [
+          "writes did",
           "wrote",
-          "did write",
           "was written",
-          "writes did"
+          "did write"
         ],
         "correctAnswer": "wrote",
         "explanation": "عند السؤال عن الفاعل العاقل لا نستخدم فعل مساعد did ويأتي الفعل في الماضي wrote مباشرة.",
@@ -1670,10 +1670,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_qf_14",
         "questionText": "What ______ during the laboratory chemistry experiment?",
         "options": [
-          "happened",
-          "did happen",
+          "happens did",
           "was happen",
-          "happens did"
+          "did happen",
+          "happened"
         ],
         "correctAnswer": "happened",
         "explanation": "عند السؤال عن الفاعل غير العاقل بـ What لا نستخدم فعل مساعد did.",
@@ -1683,9 +1683,9 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_qf_15",
         "questionText": "Could you please tell me where the nearest pharmacy ______?",
         "options": [
-          "is",
-          "is it",
           "is there",
+          "is it",
+          "is",
           "does it"
         ],
         "correctAnswer": "is",
@@ -1696,10 +1696,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_qf_16",
         "questionText": "Do you know what time ______?",
         "options": [
-          "the train departs",
-          "does the train depart",
           "departs the train",
-          "did the train depart"
+          "the train departs",
+          "did the train depart",
+          "does the train depart"
         ],
         "correctAnswer": "the train departs",
         "explanation": "في السؤال المهذب Do you know لا نستخدم does ونضع فاعل ثم فعل: the train departs.",
@@ -1709,9 +1709,9 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_qf_17",
         "questionText": "______ sugar do you need for this dessert recipe?",
         "options": [
+          "How long",
           "How much",
           "How many",
-          "How long",
           "How often"
         ],
         "correctAnswer": "How much",
@@ -1723,9 +1723,9 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "questionText": "______ students attended the extra English session?",
         "options": [
           "How many",
+          "How far",
           "How much",
-          "How long",
-          "How far"
+          "How long"
         ],
         "correctAnswer": "How many",
         "explanation": "اسم جمع معدود students يسأل بـ How many.",
@@ -1735,10 +1735,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_qf_19",
         "questionText": "Which car is ______? The black or the silver one?",
         "options": [
+          "yourself",
           "yours",
-          "your",
           "you",
-          "yourself"
+          "your"
         ],
         "correctAnswer": "yours",
         "explanation": "ضمير الملكية المستقل الذي يأتي في نهاية السؤال بدون اسم بعده هو yours.",
@@ -1749,8 +1749,8 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "questionText": "What are you looking ______? - My car keys.",
         "options": [
           "for",
-          "at",
           "after",
+          "at",
           "into"
         ],
         "correctAnswer": "for",
@@ -1762,9 +1762,9 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "questionText": "[Exam Model 21] ______ do you usually go to the sports academy? - Twice a week.",
         "options": [
           "How often",
+          "How many",
           "How long",
-          "How much",
-          "How many"
+          "How much"
         ],
         "correctAnswer": "How often",
         "explanation": "للسؤال عن معدل تكرار الفعل (مرتين أسبوعياً) نستخدم How often.",
@@ -1774,10 +1774,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_qf_22",
         "questionText": "[Exam Model 22] ______ did they travel to Luxor last winter? - By sleeper train.",
         "options": [
-          "How",
-          "Why",
           "Where",
-          "When"
+          "How",
+          "When",
+          "Why"
         ],
         "correctAnswer": "How",
         "explanation": "للسؤال عن وسيلة المواصلات والكيفية نستخدم How.",
@@ -1787,10 +1787,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_qf_23",
         "questionText": "[Exam Model 23] Who ______ the famous historical novel 'The Thief and the Dogs'?",
         "options": [
+          "writes did",
           "wrote",
-          "did write",
           "was written",
-          "writes did"
+          "did write"
         ],
         "correctAnswer": "wrote",
         "explanation": "عند السؤال عن الفاعل العاقل لا نستخدم فعل مساعد did ويأتي الفعل في الماضي wrote مباشرة.",
@@ -1800,10 +1800,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_qf_24",
         "questionText": "[Exam Model 24] What ______ during the laboratory chemistry experiment?",
         "options": [
-          "happened",
-          "did happen",
           "was happen",
-          "happens did"
+          "happens did",
+          "happened",
+          "did happen"
         ],
         "correctAnswer": "happened",
         "explanation": "عند السؤال عن الفاعل غير العاقل بـ What لا نستخدم فعل مساعد did.",
@@ -1815,8 +1815,8 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "options": [
           "is",
           "is it",
-          "is there",
-          "does it"
+          "does it",
+          "is there"
         ],
         "correctAnswer": "is",
         "explanation": "في السؤال غير المباشر بعد Could you tell me يأتي الفاعل ثم الفعل is بترتيب خبري.",
@@ -1839,10 +1839,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_qf_27",
         "questionText": "[Exam Model 27] ______ sugar do you need for this dessert recipe?",
         "options": [
-          "How much",
-          "How many",
           "How long",
-          "How often"
+          "How often",
+          "How much",
+          "How many"
         ],
         "correctAnswer": "How much",
         "explanation": "كلمة sugar اسم غير معدود فتسأل بـ How much.",
@@ -1852,10 +1852,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_qf_28",
         "questionText": "[Exam Model 28] ______ students attended the extra English session?",
         "options": [
-          "How many",
-          "How much",
           "How long",
-          "How far"
+          "How much",
+          "How far",
+          "How many"
         ],
         "correctAnswer": "How many",
         "explanation": "اسم جمع معدود students يسأل بـ How many.",
@@ -1865,10 +1865,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_qf_29",
         "questionText": "[Exam Model 29] Which car is ______? The black or the silver one?",
         "options": [
-          "yours",
           "your",
-          "you",
-          "yourself"
+          "yours",
+          "yourself",
+          "you"
         ],
         "correctAnswer": "yours",
         "explanation": "ضمير الملكية المستقل الذي يأتي في نهاية السؤال بدون اسم بعده هو yours.",
@@ -1878,10 +1878,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_qf_30",
         "questionText": "[Exam Model 30] What are you looking ______? - My car keys.",
         "options": [
-          "for",
-          "at",
           "after",
-          "into"
+          "at",
+          "into",
+          "for"
         ],
         "correctAnswer": "for",
         "explanation": "الفعل الاصطلاحي يبحث عن هو look for.",
@@ -1892,9 +1892,9 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "questionText": "Choose the correct option: ______ do you usually go to the sports academy? - Twice a week.",
         "options": [
           "How often",
-          "How long",
+          "How many",
           "How much",
-          "How many"
+          "How long"
         ],
         "correctAnswer": "How often",
         "explanation": "للسؤال عن معدل تكرار الفعل (مرتين أسبوعياً) نستخدم How often.",
@@ -1904,10 +1904,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_qf_32",
         "questionText": "Choose the correct option: ______ did they travel to Luxor last winter? - By sleeper train.",
         "options": [
-          "How",
-          "Why",
+          "When",
           "Where",
-          "When"
+          "How",
+          "Why"
         ],
         "correctAnswer": "How",
         "explanation": "للسؤال عن وسيلة المواصلات والكيفية نستخدم How.",
@@ -1917,10 +1917,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_qf_33",
         "questionText": "Choose the correct option: Who ______ the famous historical novel 'The Thief and the Dogs'?",
         "options": [
+          "writes did",
           "wrote",
           "did write",
-          "was written",
-          "writes did"
+          "was written"
         ],
         "correctAnswer": "wrote",
         "explanation": "عند السؤال عن الفاعل العاقل لا نستخدم فعل مساعد did ويأتي الفعل في الماضي wrote مباشرة.",
@@ -1930,10 +1930,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_qf_34",
         "questionText": "Choose the correct option: What ______ during the laboratory chemistry experiment?",
         "options": [
+          "happens did",
           "happened",
           "did happen",
-          "was happen",
-          "happens did"
+          "was happen"
         ],
         "correctAnswer": "happened",
         "explanation": "عند السؤال عن الفاعل غير العاقل بـ What لا نستخدم فعل مساعد did.",
@@ -1943,10 +1943,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_qf_35",
         "questionText": "Choose the correct option: Could you please tell me where the nearest pharmacy ______?",
         "options": [
-          "is",
-          "is it",
           "is there",
-          "does it"
+          "does it",
+          "is",
+          "is it"
         ],
         "correctAnswer": "is",
         "explanation": "في السؤال غير المباشر بعد Could you tell me يأتي الفاعل ثم الفعل is بترتيب خبري.",
@@ -1956,10 +1956,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_qf_36",
         "questionText": "Choose the correct option: Do you know what time ______?",
         "options": [
-          "the train departs",
           "does the train depart",
           "departs the train",
-          "did the train depart"
+          "did the train depart",
+          "the train departs"
         ],
         "correctAnswer": "the train departs",
         "explanation": "في السؤال المهذب Do you know لا نستخدم does ونضع فاعل ثم فعل: the train departs.",
@@ -1969,10 +1969,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_qf_37",
         "questionText": "Choose the correct option: ______ sugar do you need for this dessert recipe?",
         "options": [
-          "How much",
           "How many",
-          "How long",
-          "How often"
+          "How often",
+          "How much",
+          "How long"
         ],
         "correctAnswer": "How much",
         "explanation": "كلمة sugar اسم غير معدود فتسأل بـ How much.",
@@ -1982,10 +1982,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_qf_38",
         "questionText": "Choose the correct option: ______ students attended the extra English session?",
         "options": [
-          "How many",
-          "How much",
           "How long",
-          "How far"
+          "How far",
+          "How much",
+          "How many"
         ],
         "correctAnswer": "How many",
         "explanation": "اسم جمع معدود students يسأل بـ How many.",
@@ -1995,8 +1995,8 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_qf_39",
         "questionText": "Choose the correct option: Which car is ______? The black or the silver one?",
         "options": [
-          "yours",
           "your",
+          "yours",
           "you",
           "yourself"
         ],
@@ -2008,10 +2008,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_qf_40",
         "questionText": "Choose the correct option: What are you looking ______? - My car keys.",
         "options": [
-          "for",
+          "into",
           "at",
           "after",
-          "into"
+          "for"
         ],
         "correctAnswer": "for",
         "explanation": "الفعل الاصطلاحي يبحث عن هو look for.",
@@ -2021,10 +2021,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_qf_41",
         "questionText": "[Thanawya Amma Standard] ______ do you usually go to the sports academy? - Twice a week.",
         "options": [
-          "How often",
           "How long",
           "How much",
-          "How many"
+          "How many",
+          "How often"
         ],
         "correctAnswer": "How often",
         "explanation": "للسؤال عن معدل تكرار الفعل (مرتين أسبوعياً) نستخدم How often.",
@@ -2035,8 +2035,8 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "questionText": "[Thanawya Amma Standard] ______ did they travel to Luxor last winter? - By sleeper train.",
         "options": [
           "How",
-          "Why",
           "Where",
+          "Why",
           "When"
         ],
         "correctAnswer": "How",
@@ -2060,8 +2060,8 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_qf_44",
         "questionText": "[Thanawya Amma Standard] What ______ during the laboratory chemistry experiment?",
         "options": [
-          "happened",
           "did happen",
+          "happened",
           "was happen",
           "happens did"
         ],
@@ -2073,9 +2073,9 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_qf_45",
         "questionText": "[Thanawya Amma Standard] Could you please tell me where the nearest pharmacy ______?",
         "options": [
-          "is",
           "is it",
           "is there",
+          "is",
           "does it"
         ],
         "correctAnswer": "is",
@@ -2087,8 +2087,8 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "questionText": "[Thanawya Amma Standard] Do you know what time ______?",
         "options": [
           "the train departs",
-          "does the train depart",
           "departs the train",
+          "does the train depart",
           "did the train depart"
         ],
         "correctAnswer": "the train departs",
@@ -2099,10 +2099,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_qf_47",
         "questionText": "[Thanawya Amma Standard] ______ sugar do you need for this dessert recipe?",
         "options": [
-          "How much",
-          "How many",
           "How long",
-          "How often"
+          "How many",
+          "How often",
+          "How much"
         ],
         "correctAnswer": "How much",
         "explanation": "كلمة sugar اسم غير معدود فتسأل بـ How much.",
@@ -2113,9 +2113,9 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "questionText": "[Thanawya Amma Standard] ______ students attended the extra English session?",
         "options": [
           "How many",
+          "How far",
           "How much",
-          "How long",
-          "How far"
+          "How long"
         ],
         "correctAnswer": "How many",
         "explanation": "اسم جمع معدود students يسأل بـ How many.",
@@ -2125,9 +2125,9 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_qf_49",
         "questionText": "[Thanawya Amma Standard] Which car is ______? The black or the silver one?",
         "options": [
-          "yours",
-          "your",
           "you",
+          "your",
+          "yours",
           "yourself"
         ],
         "correctAnswer": "yours",
@@ -2138,10 +2138,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_qf_50",
         "questionText": "[Thanawya Amma Standard] What are you looking ______? - My car keys.",
         "options": [
-          "for",
-          "at",
+          "into",
           "after",
-          "into"
+          "at",
+          "for"
         ],
         "correctAnswer": "for",
         "explanation": "الفعل الاصطلاحي يبحث عن هو look for.",
@@ -2204,10 +2204,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_qt_1",
         "questionText": "You have finished your revision project, ______?",
         "options": [
-          "haven't you",
+          "didn't you",
           "have you",
           "don't you",
-          "didn't you"
+          "haven't you"
         ],
         "correctAnswer": "haven't you",
         "explanation": "الجملة مثبتة في المضارع التام have finished، فيكون السؤال منفياً haven't you.",
@@ -2217,10 +2217,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_qt_2",
         "questionText": "She doesn't speak Italian, ______?",
         "options": [
-          "does she",
-          "doesn't she",
+          "did she",
           "is she",
-          "did she"
+          "doesn't she",
+          "does she"
         ],
         "correctAnswer": "does she",
         "explanation": "الجملة منفية بـ doesn't، فيكون السؤال مثبتاً does she.",
@@ -2231,8 +2231,8 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "questionText": "I am late for the scheduled meeting, ______?",
         "options": [
           "aren't I",
-          "am I",
           "amn't I",
+          "am I",
           "don't I"
         ],
         "correctAnswer": "aren't I",
@@ -2243,10 +2243,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_qt_4",
         "questionText": "Let's review the final grammar unit, ______?",
         "options": [
-          "shall we",
-          "will you",
           "don't we",
-          "aren't we"
+          "will you",
+          "aren't we",
+          "shall we"
         ],
         "correctAnswer": "shall we",
         "explanation": "صيغة الاقتراح بـ Let's يكون السؤال المذيل لها shall we.",
@@ -2256,10 +2256,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_qt_5",
         "questionText": "Open the window, ______?",
         "options": [
-          "will you",
-          "shall you",
           "do you",
-          "don't you"
+          "will you",
+          "don't you",
+          "shall you"
         ],
         "correctAnswer": "will you",
         "explanation": "جملة الأمر المباشر يكون السؤال المذيل لها will you.",
@@ -2269,10 +2269,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_qt_6",
         "questionText": "Don't touch that wire, ______?",
         "options": [
-          "will you",
+          "won't you",
           "do you",
-          "shall we",
-          "won't you"
+          "will you",
+          "shall we"
         ],
         "correctAnswer": "will you",
         "explanation": "جملة النهي المنفي يكون السؤال المذيل لها will you.",
@@ -2282,10 +2282,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_qt_7",
         "questionText": "She rarely eats fast food, ______?",
         "options": [
-          "does she",
-          "doesn't she",
           "is she",
-          "has she"
+          "does she",
+          "has she",
+          "doesn't she"
         ],
         "correctAnswer": "does she",
         "explanation": "ظرف النفي rarely يفيد النفي، لذا يكون السؤال المذيل مثبتاً does she.",
@@ -2295,9 +2295,9 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_qt_8",
         "questionText": "Nobody answered the telephone, ______?",
         "options": [
-          "did they",
           "didn't they",
           "did he",
+          "did they",
           "didn't he"
         ],
         "correctAnswer": "did they",
@@ -2308,8 +2308,8 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_qt_9",
         "questionText": "Everyone was satisfied with the results, ______?",
         "options": [
-          "weren't they",
           "wasn't he",
+          "weren't they",
           "wasn't it",
           "didn't they"
         ],
@@ -2334,9 +2334,9 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_qt_11",
         "questionText": "You have finished your revision project, ______?",
         "options": [
-          "haven't you",
           "have you",
           "don't you",
+          "haven't you",
           "didn't you"
         ],
         "correctAnswer": "haven't you",
@@ -2347,10 +2347,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_qt_12",
         "questionText": "She doesn't speak Italian, ______?",
         "options": [
+          "did she",
           "does she",
-          "doesn't she",
           "is she",
-          "did she"
+          "doesn't she"
         ],
         "correctAnswer": "does she",
         "explanation": "الجملة منفية بـ doesn't، فيكون السؤال مثبتاً does she.",
@@ -2362,8 +2362,8 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "options": [
           "aren't I",
           "am I",
-          "amn't I",
-          "don't I"
+          "don't I",
+          "amn't I"
         ],
         "correctAnswer": "aren't I",
         "explanation": "صيغة I am الإثباتية يكون السؤال المذيل المعياري لها aren't I.",
@@ -2374,9 +2374,9 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "questionText": "Let's review the final grammar unit, ______?",
         "options": [
           "shall we",
+          "aren't we",
           "will you",
-          "don't we",
-          "aren't we"
+          "don't we"
         ],
         "correctAnswer": "shall we",
         "explanation": "صيغة الاقتراح بـ Let's يكون السؤال المذيل لها shall we.",
@@ -2386,10 +2386,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_qt_15",
         "questionText": "Open the window, ______?",
         "options": [
+          "don't you",
           "will you",
           "shall you",
-          "do you",
-          "don't you"
+          "do you"
         ],
         "correctAnswer": "will you",
         "explanation": "جملة الأمر المباشر يكون السؤال المذيل لها will you.",
@@ -2399,10 +2399,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_qt_16",
         "questionText": "Don't touch that wire, ______?",
         "options": [
-          "will you",
           "do you",
-          "shall we",
-          "won't you"
+          "won't you",
+          "will you",
+          "shall we"
         ],
         "correctAnswer": "will you",
         "explanation": "جملة النهي المنفي يكون السؤال المذيل لها will you.",
@@ -2412,10 +2412,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_qt_17",
         "questionText": "She rarely eats fast food, ______?",
         "options": [
-          "does she",
-          "doesn't she",
           "is she",
-          "has she"
+          "has she",
+          "doesn't she",
+          "does she"
         ],
         "correctAnswer": "does she",
         "explanation": "ظرف النفي rarely يفيد النفي، لذا يكون السؤال المذيل مثبتاً does she.",
@@ -2427,8 +2427,8 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "options": [
           "did they",
           "didn't they",
-          "did he",
-          "didn't he"
+          "didn't he",
+          "did he"
         ],
         "correctAnswer": "did they",
         "explanation": "كلمة Nobody تفيد النفي ويعود عليها الضمير they، فيكون السؤال مثبتاً did they.",
@@ -2438,10 +2438,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_qt_19",
         "questionText": "Everyone was satisfied with the results, ______?",
         "options": [
-          "weren't they",
           "wasn't he",
           "wasn't it",
-          "didn't they"
+          "didn't they",
+          "weren't they"
         ],
         "correctAnswer": "weren't they",
         "explanation": "كلمة Everyone يعود عليها الضمير الجمع they ويأخذ weren't they.",
@@ -2451,10 +2451,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_qt_20",
         "questionText": "Nothing went wrong during the experiment, ______?",
         "options": [
-          "did it",
-          "didn't it",
+          "didn't they",
           "did they",
-          "didn't they"
+          "did it",
+          "didn't it"
         ],
         "correctAnswer": "did it",
         "explanation": "كلمة Nothing تفيد النفي ويعود عليها الضمير it، فيكون السؤال مثبتاً did it.",
@@ -2464,9 +2464,9 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_qt_21",
         "questionText": "[Exam Model 21] You have finished your revision project, ______?",
         "options": [
-          "haven't you",
-          "have you",
           "don't you",
+          "have you",
+          "haven't you",
           "didn't you"
         ],
         "correctAnswer": "haven't you",
@@ -2478,9 +2478,9 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "questionText": "[Exam Model 22] She doesn't speak Italian, ______?",
         "options": [
           "does she",
+          "did she",
           "doesn't she",
-          "is she",
-          "did she"
+          "is she"
         ],
         "correctAnswer": "does she",
         "explanation": "الجملة منفية بـ doesn't، فيكون السؤال مثبتاً does she.",
@@ -2491,9 +2491,9 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "questionText": "[Exam Model 23] I am late for the scheduled meeting, ______?",
         "options": [
           "aren't I",
+          "don't I",
           "am I",
-          "amn't I",
-          "don't I"
+          "amn't I"
         ],
         "correctAnswer": "aren't I",
         "explanation": "صيغة I am الإثباتية يكون السؤال المذيل المعياري لها aren't I.",
@@ -2503,10 +2503,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_qt_24",
         "questionText": "[Exam Model 24] Let's review the final grammar unit, ______?",
         "options": [
+          "aren't we",
           "shall we",
-          "will you",
           "don't we",
-          "aren't we"
+          "will you"
         ],
         "correctAnswer": "shall we",
         "explanation": "صيغة الاقتراح بـ Let's يكون السؤال المذيل لها shall we.",
@@ -2516,10 +2516,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_qt_25",
         "questionText": "[Exam Model 25] Open the window, ______?",
         "options": [
-          "will you",
+          "don't you",
           "shall you",
-          "do you",
-          "don't you"
+          "will you",
+          "do you"
         ],
         "correctAnswer": "will you",
         "explanation": "جملة الأمر المباشر يكون السؤال المذيل لها will you.",
@@ -2529,10 +2529,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_qt_26",
         "questionText": "[Exam Model 26] Don't touch that wire, ______?",
         "options": [
-          "will you",
+          "won't you",
           "do you",
           "shall we",
-          "won't you"
+          "will you"
         ],
         "correctAnswer": "will you",
         "explanation": "جملة النهي المنفي يكون السؤال المذيل لها will you.",
@@ -2543,9 +2543,9 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "questionText": "[Exam Model 27] She rarely eats fast food, ______?",
         "options": [
           "does she",
+          "has she",
           "doesn't she",
-          "is she",
-          "has she"
+          "is she"
         ],
         "correctAnswer": "does she",
         "explanation": "ظرف النفي rarely يفيد النفي، لذا يكون السؤال المذيل مثبتاً does she.",
@@ -2555,10 +2555,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_qt_28",
         "questionText": "[Exam Model 28] Nobody answered the telephone, ______?",
         "options": [
-          "did they",
-          "didn't they",
           "did he",
-          "didn't he"
+          "did they",
+          "didn't he",
+          "didn't they"
         ],
         "correctAnswer": "did they",
         "explanation": "كلمة Nobody تفيد النفي ويعود عليها الضمير they، فيكون السؤال مثبتاً did they.",
@@ -2569,8 +2569,8 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "questionText": "[Exam Model 29] Everyone was satisfied with the results, ______?",
         "options": [
           "weren't they",
-          "wasn't he",
           "wasn't it",
+          "wasn't he",
           "didn't they"
         ],
         "correctAnswer": "weren't they",
@@ -2581,8 +2581,8 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_qt_30",
         "questionText": "[Exam Model 30] Nothing went wrong during the experiment, ______?",
         "options": [
-          "did it",
           "didn't it",
+          "did it",
           "did they",
           "didn't they"
         ],
@@ -2594,9 +2594,9 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_qt_31",
         "questionText": "Choose the correct option: You have finished your revision project, ______?",
         "options": [
-          "haven't you",
           "have you",
           "don't you",
+          "haven't you",
           "didn't you"
         ],
         "correctAnswer": "haven't you",
@@ -2607,8 +2607,8 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_qt_32",
         "questionText": "Choose the correct option: She doesn't speak Italian, ______?",
         "options": [
-          "does she",
           "doesn't she",
+          "does she",
           "is she",
           "did she"
         ],
@@ -2620,9 +2620,9 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_qt_33",
         "questionText": "Choose the correct option: I am late for the scheduled meeting, ______?",
         "options": [
-          "aren't I",
           "am I",
           "amn't I",
+          "aren't I",
           "don't I"
         ],
         "correctAnswer": "aren't I",
@@ -2633,10 +2633,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_qt_34",
         "questionText": "Choose the correct option: Let's review the final grammar unit, ______?",
         "options": [
-          "shall we",
-          "will you",
           "don't we",
-          "aren't we"
+          "aren't we",
+          "shall we",
+          "will you"
         ],
         "correctAnswer": "shall we",
         "explanation": "صيغة الاقتراح بـ Let's يكون السؤال المذيل لها shall we.",
@@ -2646,10 +2646,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_qt_35",
         "questionText": "Choose the correct option: Open the window, ______?",
         "options": [
-          "will you",
           "shall you",
-          "do you",
-          "don't you"
+          "will you",
+          "don't you",
+          "do you"
         ],
         "correctAnswer": "will you",
         "explanation": "جملة الأمر المباشر يكون السؤال المذيل لها will you.",
@@ -2659,10 +2659,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_qt_36",
         "questionText": "Choose the correct option: Don't touch that wire, ______?",
         "options": [
-          "will you",
-          "do you",
           "shall we",
-          "won't you"
+          "won't you",
+          "will you",
+          "do you"
         ],
         "correctAnswer": "will you",
         "explanation": "جملة النهي المنفي يكون السؤال المذيل لها will you.",
@@ -2672,10 +2672,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_qt_37",
         "questionText": "Choose the correct option: She rarely eats fast food, ______?",
         "options": [
-          "does she",
-          "doesn't she",
+          "has she",
           "is she",
-          "has she"
+          "doesn't she",
+          "does she"
         ],
         "correctAnswer": "does she",
         "explanation": "ظرف النفي rarely يفيد النفي، لذا يكون السؤال المذيل مثبتاً does she.",
@@ -2685,9 +2685,9 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_qt_38",
         "questionText": "Choose the correct option: Nobody answered the telephone, ______?",
         "options": [
-          "did they",
-          "didn't they",
           "did he",
+          "didn't they",
+          "did they",
           "didn't he"
         ],
         "correctAnswer": "did they",
@@ -2698,10 +2698,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_qt_39",
         "questionText": "Choose the correct option: Everyone was satisfied with the results, ______?",
         "options": [
-          "weren't they",
           "wasn't he",
+          "didn't they",
           "wasn't it",
-          "didn't they"
+          "weren't they"
         ],
         "correctAnswer": "weren't they",
         "explanation": "كلمة Everyone يعود عليها الضمير الجمع they ويأخذ weren't they.",
@@ -2712,9 +2712,9 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "questionText": "Choose the correct option: Nothing went wrong during the experiment, ______?",
         "options": [
           "did it",
-          "didn't it",
           "did they",
-          "didn't they"
+          "didn't they",
+          "didn't it"
         ],
         "correctAnswer": "did it",
         "explanation": "كلمة Nothing تفيد النفي ويعود عليها الضمير it، فيكون السؤال مثبتاً did it.",
@@ -2724,10 +2724,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_qt_41",
         "questionText": "[Thanawya Amma Standard] You have finished your revision project, ______?",
         "options": [
-          "haven't you",
+          "didn't you",
           "have you",
           "don't you",
-          "didn't you"
+          "haven't you"
         ],
         "correctAnswer": "haven't you",
         "explanation": "الجملة مثبتة في المضارع التام have finished، فيكون السؤال منفياً haven't you.",
@@ -2750,10 +2750,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_qt_43",
         "questionText": "[Thanawya Amma Standard] I am late for the scheduled meeting, ______?",
         "options": [
-          "aren't I",
           "am I",
-          "amn't I",
-          "don't I"
+          "aren't I",
+          "don't I",
+          "amn't I"
         ],
         "correctAnswer": "aren't I",
         "explanation": "صيغة I am الإثباتية يكون السؤال المذيل المعياري لها aren't I.",
@@ -2763,10 +2763,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_qt_44",
         "questionText": "[Thanawya Amma Standard] Let's review the final grammar unit, ______?",
         "options": [
-          "shall we",
+          "aren't we",
           "will you",
           "don't we",
-          "aren't we"
+          "shall we"
         ],
         "correctAnswer": "shall we",
         "explanation": "صيغة الاقتراح بـ Let's يكون السؤال المذيل لها shall we.",
@@ -2776,10 +2776,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_qt_45",
         "questionText": "[Thanawya Amma Standard] Open the window, ______?",
         "options": [
-          "will you",
           "shall you",
           "do you",
-          "don't you"
+          "don't you",
+          "will you"
         ],
         "correctAnswer": "will you",
         "explanation": "جملة الأمر المباشر يكون السؤال المذيل لها will you.",
@@ -2790,9 +2790,9 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "questionText": "[Thanawya Amma Standard] Don't touch that wire, ______?",
         "options": [
           "will you",
+          "won't you",
           "do you",
-          "shall we",
-          "won't you"
+          "shall we"
         ],
         "correctAnswer": "will you",
         "explanation": "جملة النهي المنفي يكون السؤال المذيل لها will you.",
@@ -2802,10 +2802,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_qt_47",
         "questionText": "[Thanawya Amma Standard] She rarely eats fast food, ______?",
         "options": [
-          "does she",
-          "doesn't she",
           "is she",
-          "has she"
+          "does she",
+          "has she",
+          "doesn't she"
         ],
         "correctAnswer": "does she",
         "explanation": "ظرف النفي rarely يفيد النفي، لذا يكون السؤال المذيل مثبتاً does she.",
@@ -2816,9 +2816,9 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "questionText": "[Thanawya Amma Standard] Nobody answered the telephone, ______?",
         "options": [
           "did they",
+          "didn't he",
           "didn't they",
-          "did he",
-          "didn't he"
+          "did he"
         ],
         "correctAnswer": "did they",
         "explanation": "كلمة Nobody تفيد النفي ويعود عليها الضمير they، فيكون السؤال مثبتاً did they.",
@@ -2828,9 +2828,9 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_qt_49",
         "questionText": "[Thanawya Amma Standard] Everyone was satisfied with the results, ______?",
         "options": [
+          "wasn't it",
           "weren't they",
           "wasn't he",
-          "wasn't it",
           "didn't they"
         ],
         "correctAnswer": "weren't they",
@@ -2841,10 +2841,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_qt_50",
         "questionText": "[Thanawya Amma Standard] Nothing went wrong during the experiment, ______?",
         "options": [
-          "did it",
           "didn't it",
           "did they",
-          "didn't they"
+          "didn't they",
+          "did it"
         ],
         "correctAnswer": "did it",
         "explanation": "كلمة Nothing تفيد النفي ويعود عليها الضمير it، فيكون السؤال مثبتاً did it.",
@@ -2906,9 +2906,9 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "questionText": "Look! The children ______ in the garden.",
         "options": [
           "are playing",
-          "play",
           "played",
-          "have played"
+          "have played",
+          "play"
         ],
         "correctAnswer": "are playing",
         "explanation": "كلمة Look! تدل على حدث مستمر الآن في المضارع المستمر: are playing.",
@@ -2918,10 +2918,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_pc_2",
         "questionText": "Listen! Someone ______ on the front door.",
         "options": [
-          "is knocking",
           "knocks",
-          "knocked",
-          "was knocking"
+          "was knocking",
+          "is knocking",
+          "knocked"
         ],
         "correctAnswer": "is knocking",
         "explanation": "كلمة Listen! تدل على المضارع المستمر: is knocking.",
@@ -2931,10 +2931,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_pc_3",
         "questionText": "Currently, our research team ______ a new mobile application.",
         "options": [
-          "is developing",
+          "develop",
           "develops",
-          "developed",
-          "develop"
+          "is developing",
+          "developed"
         ],
         "correctAnswer": "is developing",
         "explanation": "الظرف Currently يدل على حدث مؤقت مستمر في الحاضر: is developing.",
@@ -2945,9 +2945,9 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "questionText": "I ______ to Frankfurt next Tuesday; my flight is already booked.",
         "options": [
           "am flying",
-          "fly",
           "flew",
-          "flown"
+          "flown",
+          "fly"
         ],
         "correctAnswer": "am flying",
         "explanation": "المستقبل المرتب له مسبقاً (Arranged future) يُعبر عنه بالمضارع المستمر am flying.",
@@ -2958,8 +2958,8 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "questionText": "Why ______ you ______ my grammar notes right now?",
         "options": [
           "are / borrowing",
-          "do / borrow",
           "did / borrow",
+          "do / borrow",
           "have / borrowed"
         ],
         "correctAnswer": "are / borrowing",
@@ -2970,10 +2970,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_pc_6",
         "questionText": "He ______ always ______ his keys! It is so frustrating.",
         "options": [
-          "is / losing",
+          "will / lose",
           "does / lose",
           "has / lost",
-          "will / lose"
+          "is / losing"
         ],
         "correctAnswer": "is / losing",
         "explanation": "استخدام always مع المضارع المستمر يعبر عن الضيق والانزعاج من عادة مزعجة.",
@@ -2983,10 +2983,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_pc_7",
         "questionText": "I ______ the truth of what you are explaining.",
         "options": [
-          "understand",
-          "am understanding",
           "understanding",
-          "was understood"
+          "am understanding",
+          "was understood",
+          "understand"
         ],
         "correctAnswer": "understand",
         "explanation": "الفعل understand من أفعال الإدراك Stative ولا يوضع في صيغة المستمر.",
@@ -2996,10 +2996,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_pc_8",
         "questionText": "This antique watch ______ to my grandfather.",
         "options": [
-          "belongs",
-          "is belonging",
           "belong",
-          "belonged is"
+          "belongs",
+          "belonged is",
+          "is belonging"
         ],
         "correctAnswer": "belongs",
         "explanation": "فعل الملكية belong فعل حالة Stative لا يأخذ ing.",
@@ -3009,10 +3009,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_pc_9",
         "questionText": "What ______ about the new curriculum? - I think it is great.",
         "options": [
-          "do you think",
-          "are you thinking",
           "did you think",
-          "have you thought"
+          "do you think",
+          "have you thought",
+          "are you thinking"
         ],
         "correctAnswer": "do you think",
         "explanation": "السؤال عن الرأي والاعتقاد مع think يأتي في المضارع البسيط do you think.",
@@ -3022,10 +3022,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_pc_10",
         "questionText": "Be quiet! The baby ______ in the adjacent room.",
         "options": [
-          "is sleeping",
-          "sleeps",
           "slept",
-          "has slept"
+          "has slept",
+          "is sleeping",
+          "sleeps"
         ],
         "correctAnswer": "is sleeping",
         "explanation": "التحذير Be quiet! يدل على حدث مستمر في لحظة التحدث: is sleeping.",
@@ -3036,9 +3036,9 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "questionText": "Look! The children ______ in the garden.",
         "options": [
           "are playing",
-          "play",
+          "have played",
           "played",
-          "have played"
+          "play"
         ],
         "correctAnswer": "are playing",
         "explanation": "كلمة Look! تدل على حدث مستمر الآن في المضارع المستمر: are playing.",
@@ -3048,10 +3048,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_pc_12",
         "questionText": "Listen! Someone ______ on the front door.",
         "options": [
+          "was knocking",
           "is knocking",
           "knocks",
-          "knocked",
-          "was knocking"
+          "knocked"
         ],
         "correctAnswer": "is knocking",
         "explanation": "كلمة Listen! تدل على المضارع المستمر: is knocking.",
@@ -3061,10 +3061,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_pc_13",
         "questionText": "Currently, our research team ______ a new mobile application.",
         "options": [
-          "is developing",
           "develops",
-          "developed",
-          "develop"
+          "develop",
+          "is developing",
+          "developed"
         ],
         "correctAnswer": "is developing",
         "explanation": "الظرف Currently يدل على حدث مؤقت مستمر في الحاضر: is developing.",
@@ -3075,9 +3075,9 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "questionText": "I ______ to Frankfurt next Tuesday; my flight is already booked.",
         "options": [
           "am flying",
-          "fly",
+          "flown",
           "flew",
-          "flown"
+          "fly"
         ],
         "correctAnswer": "am flying",
         "explanation": "المستقبل المرتب له مسبقاً (Arranged future) يُعبر عنه بالمضارع المستمر am flying.",
@@ -3087,10 +3087,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_pc_15",
         "questionText": "Why ______ you ______ my grammar notes right now?",
         "options": [
-          "are / borrowing",
+          "have / borrowed",
           "do / borrow",
-          "did / borrow",
-          "have / borrowed"
+          "are / borrowing",
+          "did / borrow"
         ],
         "correctAnswer": "are / borrowing",
         "explanation": "الظرف right now يتطلب صيغة المضارع المستمر are you borrowing.",
@@ -3100,10 +3100,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_pc_16",
         "questionText": "He ______ always ______ his keys! It is so frustrating.",
         "options": [
-          "is / losing",
+          "will / lose",
           "does / lose",
-          "has / lost",
-          "will / lose"
+          "is / losing",
+          "has / lost"
         ],
         "correctAnswer": "is / losing",
         "explanation": "استخدام always مع المضارع المستمر يعبر عن الضيق والانزعاج من عادة مزعجة.",
@@ -3113,10 +3113,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_pc_17",
         "questionText": "I ______ the truth of what you are explaining.",
         "options": [
-          "understand",
           "am understanding",
-          "understanding",
-          "was understood"
+          "understand",
+          "was understood",
+          "understanding"
         ],
         "correctAnswer": "understand",
         "explanation": "الفعل understand من أفعال الإدراك Stative ولا يوضع في صيغة المستمر.",
@@ -3127,8 +3127,8 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "questionText": "This antique watch ______ to my grandfather.",
         "options": [
           "belongs",
-          "is belonging",
           "belong",
+          "is belonging",
           "belonged is"
         ],
         "correctAnswer": "belongs",
@@ -3139,10 +3139,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_pc_19",
         "questionText": "What ______ about the new curriculum? - I think it is great.",
         "options": [
-          "do you think",
           "are you thinking",
-          "did you think",
-          "have you thought"
+          "do you think",
+          "have you thought",
+          "did you think"
         ],
         "correctAnswer": "do you think",
         "explanation": "السؤال عن الرأي والاعتقاد مع think يأتي في المضارع البسيط do you think.",
@@ -3153,9 +3153,9 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "questionText": "Be quiet! The baby ______ in the adjacent room.",
         "options": [
           "is sleeping",
+          "has slept",
           "sleeps",
-          "slept",
-          "has slept"
+          "slept"
         ],
         "correctAnswer": "is sleeping",
         "explanation": "التحذير Be quiet! يدل على حدث مستمر في لحظة التحدث: is sleeping.",
@@ -3165,10 +3165,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_pc_21",
         "questionText": "[Exam Model 21] Look! The children ______ in the garden.",
         "options": [
-          "are playing",
           "play",
           "played",
-          "have played"
+          "have played",
+          "are playing"
         ],
         "correctAnswer": "are playing",
         "explanation": "كلمة Look! تدل على حدث مستمر الآن في المضارع المستمر: are playing.",
@@ -3178,10 +3178,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_pc_22",
         "questionText": "[Exam Model 22] Listen! Someone ______ on the front door.",
         "options": [
-          "is knocking",
-          "knocks",
           "knocked",
-          "was knocking"
+          "is knocking",
+          "was knocking",
+          "knocks"
         ],
         "correctAnswer": "is knocking",
         "explanation": "كلمة Listen! تدل على المضارع المستمر: is knocking.",
@@ -3191,10 +3191,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_pc_23",
         "questionText": "[Exam Model 23] Currently, our research team ______ a new mobile application.",
         "options": [
-          "is developing",
-          "develops",
+          "develop",
           "developed",
-          "develop"
+          "develops",
+          "is developing"
         ],
         "correctAnswer": "is developing",
         "explanation": "الظرف Currently يدل على حدث مؤقت مستمر في الحاضر: is developing.",
@@ -3204,10 +3204,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_pc_24",
         "questionText": "[Exam Model 24] I ______ to Frankfurt next Tuesday; my flight is already booked.",
         "options": [
-          "am flying",
-          "fly",
           "flew",
-          "flown"
+          "flown",
+          "am flying",
+          "fly"
         ],
         "correctAnswer": "am flying",
         "explanation": "المستقبل المرتب له مسبقاً (Arranged future) يُعبر عنه بالمضارع المستمر am flying.",
@@ -3217,10 +3217,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_pc_25",
         "questionText": "[Exam Model 25] Why ______ you ______ my grammar notes right now?",
         "options": [
-          "are / borrowing",
           "do / borrow",
-          "did / borrow",
-          "have / borrowed"
+          "have / borrowed",
+          "are / borrowing",
+          "did / borrow"
         ],
         "correctAnswer": "are / borrowing",
         "explanation": "الظرف right now يتطلب صيغة المضارع المستمر are you borrowing.",
@@ -3230,10 +3230,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_pc_26",
         "questionText": "[Exam Model 26] He ______ always ______ his keys! It is so frustrating.",
         "options": [
-          "is / losing",
-          "does / lose",
+          "will / lose",
           "has / lost",
-          "will / lose"
+          "does / lose",
+          "is / losing"
         ],
         "correctAnswer": "is / losing",
         "explanation": "استخدام always مع المضارع المستمر يعبر عن الضيق والانزعاج من عادة مزعجة.",
@@ -3244,9 +3244,9 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "questionText": "[Exam Model 27] I ______ the truth of what you are explaining.",
         "options": [
           "understand",
+          "was understood",
           "am understanding",
-          "understanding",
-          "was understood"
+          "understanding"
         ],
         "correctAnswer": "understand",
         "explanation": "الفعل understand من أفعال الإدراك Stative ولا يوضع في صيغة المستمر.",
@@ -3256,10 +3256,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_pc_28",
         "questionText": "[Exam Model 28] This antique watch ______ to my grandfather.",
         "options": [
-          "belongs",
-          "is belonging",
           "belong",
-          "belonged is"
+          "belonged is",
+          "is belonging",
+          "belongs"
         ],
         "correctAnswer": "belongs",
         "explanation": "فعل الملكية belong فعل حالة Stative لا يأخذ ing.",
@@ -3269,10 +3269,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_pc_29",
         "questionText": "[Exam Model 29] What ______ about the new curriculum? - I think it is great.",
         "options": [
-          "do you think",
-          "are you thinking",
           "did you think",
-          "have you thought"
+          "do you think",
+          "have you thought",
+          "are you thinking"
         ],
         "correctAnswer": "do you think",
         "explanation": "السؤال عن الرأي والاعتقاد مع think يأتي في المضارع البسيط do you think.",
@@ -3282,10 +3282,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_pc_30",
         "questionText": "[Exam Model 30] Be quiet! The baby ______ in the adjacent room.",
         "options": [
-          "is sleeping",
           "sleeps",
-          "slept",
-          "has slept"
+          "is sleeping",
+          "has slept",
+          "slept"
         ],
         "correctAnswer": "is sleeping",
         "explanation": "التحذير Be quiet! يدل على حدث مستمر في لحظة التحدث: is sleeping.",
@@ -3295,10 +3295,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_pc_31",
         "questionText": "Choose the correct option: Look! The children ______ in the garden.",
         "options": [
-          "are playing",
-          "play",
           "played",
-          "have played"
+          "play",
+          "have played",
+          "are playing"
         ],
         "correctAnswer": "are playing",
         "explanation": "كلمة Look! تدل على حدث مستمر الآن في المضارع المستمر: are playing.",
@@ -3308,10 +3308,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_pc_32",
         "questionText": "Choose the correct option: Listen! Someone ______ on the front door.",
         "options": [
-          "is knocking",
-          "knocks",
+          "was knocking",
           "knocked",
-          "was knocking"
+          "is knocking",
+          "knocks"
         ],
         "correctAnswer": "is knocking",
         "explanation": "كلمة Listen! تدل على المضارع المستمر: is knocking.",
@@ -3321,10 +3321,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_pc_33",
         "questionText": "Choose the correct option: Currently, our research team ______ a new mobile application.",
         "options": [
-          "is developing",
+          "develop",
           "develops",
           "developed",
-          "develop"
+          "is developing"
         ],
         "correctAnswer": "is developing",
         "explanation": "الظرف Currently يدل على حدث مؤقت مستمر في الحاضر: is developing.",
@@ -3334,10 +3334,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_pc_34",
         "questionText": "Choose the correct option: I ______ to Frankfurt next Tuesday; my flight is already booked.",
         "options": [
-          "am flying",
-          "fly",
           "flew",
-          "flown"
+          "flown",
+          "fly",
+          "am flying"
         ],
         "correctAnswer": "am flying",
         "explanation": "المستقبل المرتب له مسبقاً (Arranged future) يُعبر عنه بالمضارع المستمر am flying.",
@@ -3361,9 +3361,9 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "questionText": "Choose the correct option: He ______ always ______ his keys! It is so frustrating.",
         "options": [
           "is / losing",
-          "does / lose",
           "has / lost",
-          "will / lose"
+          "will / lose",
+          "does / lose"
         ],
         "correctAnswer": "is / losing",
         "explanation": "استخدام always مع المضارع المستمر يعبر عن الضيق والانزعاج من عادة مزعجة.",
@@ -3373,10 +3373,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_pc_37",
         "questionText": "Choose the correct option: I ______ the truth of what you are explaining.",
         "options": [
-          "understand",
-          "am understanding",
           "understanding",
-          "was understood"
+          "was understood",
+          "am understanding",
+          "understand"
         ],
         "correctAnswer": "understand",
         "explanation": "الفعل understand من أفعال الإدراك Stative ولا يوضع في صيغة المستمر.",
@@ -3386,8 +3386,8 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_pc_38",
         "questionText": "Choose the correct option: This antique watch ______ to my grandfather.",
         "options": [
-          "belongs",
           "is belonging",
+          "belongs",
           "belong",
           "belonged is"
         ],
@@ -3401,8 +3401,8 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "options": [
           "do you think",
           "are you thinking",
-          "did you think",
-          "have you thought"
+          "have you thought",
+          "did you think"
         ],
         "correctAnswer": "do you think",
         "explanation": "السؤال عن الرأي والاعتقاد مع think يأتي في المضارع البسيط do you think.",
@@ -3412,8 +3412,8 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_pc_40",
         "questionText": "Choose the correct option: Be quiet! The baby ______ in the adjacent room.",
         "options": [
-          "is sleeping",
           "sleeps",
+          "is sleeping",
           "slept",
           "has slept"
         ],
@@ -3425,10 +3425,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_pc_41",
         "questionText": "[Thanawya Amma Standard] Look! The children ______ in the garden.",
         "options": [
-          "are playing",
-          "play",
+          "have played",
           "played",
-          "have played"
+          "play",
+          "are playing"
         ],
         "correctAnswer": "are playing",
         "explanation": "كلمة Look! تدل على حدث مستمر الآن في المضارع المستمر: are playing.",
@@ -3438,10 +3438,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_pc_42",
         "questionText": "[Thanawya Amma Standard] Listen! Someone ______ on the front door.",
         "options": [
-          "is knocking",
-          "knocks",
+          "was knocking",
           "knocked",
-          "was knocking"
+          "is knocking",
+          "knocks"
         ],
         "correctAnswer": "is knocking",
         "explanation": "كلمة Listen! تدل على المضارع المستمر: is knocking.",
@@ -3451,10 +3451,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_pc_43",
         "questionText": "[Thanawya Amma Standard] Currently, our research team ______ a new mobile application.",
         "options": [
-          "is developing",
           "develops",
-          "developed",
-          "develop"
+          "is developing",
+          "develop",
+          "developed"
         ],
         "correctAnswer": "is developing",
         "explanation": "الظرف Currently يدل على حدث مؤقت مستمر في الحاضر: is developing.",
@@ -3464,10 +3464,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_pc_44",
         "questionText": "[Thanawya Amma Standard] I ______ to Frankfurt next Tuesday; my flight is already booked.",
         "options": [
+          "flown",
           "am flying",
-          "fly",
           "flew",
-          "flown"
+          "fly"
         ],
         "correctAnswer": "am flying",
         "explanation": "المستقبل المرتب له مسبقاً (Arranged future) يُعبر عنه بالمضارع المستمر am flying.",
@@ -3490,9 +3490,9 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_pc_46",
         "questionText": "[Thanawya Amma Standard] He ______ always ______ his keys! It is so frustrating.",
         "options": [
-          "is / losing",
           "does / lose",
           "has / lost",
+          "is / losing",
           "will / lose"
         ],
         "correctAnswer": "is / losing",
@@ -3503,10 +3503,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_pc_47",
         "questionText": "[Thanawya Amma Standard] I ______ the truth of what you are explaining.",
         "options": [
+          "was understood",
           "understand",
           "am understanding",
-          "understanding",
-          "was understood"
+          "understanding"
         ],
         "correctAnswer": "understand",
         "explanation": "الفعل understand من أفعال الإدراك Stative ولا يوضع في صيغة المستمر.",
@@ -3516,10 +3516,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_pc_48",
         "questionText": "[Thanawya Amma Standard] This antique watch ______ to my grandfather.",
         "options": [
-          "belongs",
-          "is belonging",
           "belong",
-          "belonged is"
+          "belonged is",
+          "belongs",
+          "is belonging"
         ],
         "correctAnswer": "belongs",
         "explanation": "فعل الملكية belong فعل حالة Stative لا يأخذ ing.",
@@ -3529,10 +3529,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_pc_49",
         "questionText": "[Thanawya Amma Standard] What ______ about the new curriculum? - I think it is great.",
         "options": [
-          "do you think",
+          "have you thought",
           "are you thinking",
           "did you think",
-          "have you thought"
+          "do you think"
         ],
         "correctAnswer": "do you think",
         "explanation": "السؤال عن الرأي والاعتقاد مع think يأتي في المضارع البسيط do you think.",
@@ -3544,8 +3544,8 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "options": [
           "is sleeping",
           "sleeps",
-          "slept",
-          "has slept"
+          "has slept",
+          "slept"
         ],
         "correctAnswer": "is sleeping",
         "explanation": "التحذير Be quiet! يدل على حدث مستمر في لحظة التحدث: is sleeping.",
@@ -3611,8 +3611,8 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "options": [
           "are sent",
           "sent",
-          "send",
-          "are sending"
+          "are sending",
+          "send"
         ],
         "correctAnswer": "are sent",
         "explanation": "المبني للمجهول في المضارع البسيط للجمع: are + p.p (are sent).",
@@ -3622,10 +3622,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_pv_2",
         "questionText": "The magnificent temple of Karnak ______ by thousands of tourists daily.",
         "options": [
-          "is visited",
-          "was visited",
           "visits",
-          "has visited"
+          "was visited",
+          "has visited",
+          "is visited"
         ],
         "correctAnswer": "is visited",
         "explanation": "حقيقة متكررة يومياً في المضارع البسيط للمجهول: is visited.",
@@ -3636,9 +3636,9 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "questionText": "The damaged highway ______ repaired right now by road engineers.",
         "options": [
           "is being",
-          "is",
           "has been",
-          "was being"
+          "was being",
+          "is"
         ],
         "correctAnswer": "is being",
         "explanation": "الحدث مستمر الآن right now في المبني للمجهول: is being repaired.",
@@ -3648,10 +3648,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_pv_4",
         "questionText": "All the examination papers ______ marked by next Sunday.",
         "options": [
-          "will have been",
-          "will be",
           "have been",
-          "are being"
+          "are being",
+          "will be",
+          "will have been"
         ],
         "correctAnswer": "will have been",
         "explanation": "المستقبل التام للمبني للمجهول: by next Sunday تأخذ will have been + p.p.",
@@ -3661,10 +3661,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_pv_5",
         "questionText": "This classic novel ______ translated into over fifty international languages.",
         "options": [
-          "has been",
           "is being",
-          "was been",
-          "has"
+          "has",
+          "has been",
+          "was been"
         ],
         "correctAnswer": "has been",
         "explanation": "المضارع التام للمبني للمجهول: has been translated.",
@@ -3675,9 +3675,9 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "questionText": "The mystery ______ solved by the detective after intense investigation.",
         "options": [
           "was",
+          "being",
           "is",
-          "has",
-          "being"
+          "has"
         ],
         "correctAnswer": "was",
         "explanation": "الماضي البسيط للمبني للمجهول: was solved.",
@@ -3688,9 +3688,9 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "questionText": "All cellular phones must ______ prior to entering the exam hall.",
         "options": [
           "be switched off",
-          "switch off",
           "have switched off",
-          "switched off"
+          "switched off",
+          "switch off"
         ],
         "correctAnswer": "be switched off",
         "explanation": "الأفعال الناقصة في المجهول: Modal (must) + be + P.P.",
@@ -3700,9 +3700,9 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_pv_8",
         "questionText": "It ______ that eating nuts daily supports cardiovascular health.",
         "options": [
+          "is believing",
           "is believed",
           "believes",
-          "is believing",
           "believed"
         ],
         "correctAnswer": "is believed",
@@ -3713,9 +3713,9 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_pv_9",
         "questionText": "I didn't paint the villa myself; I had it ______ by professionals.",
         "options": [
-          "painted",
           "paint",
           "painting",
+          "painted",
           "to paint"
         ],
         "correctAnswer": "painted",
@@ -3726,10 +3726,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_pv_10",
         "questionText": "The escaped criminal is reported ______ the national border yesterday.",
         "options": [
-          "to have crossed",
-          "to cross",
           "crossing",
-          "crossed having"
+          "to cross",
+          "crossed having",
+          "to have crossed"
         ],
         "correctAnswer": "to have crossed",
         "explanation": "المبني للمجهول مع أفعال التقرير عن حدث ماضٍ: is reported to have + P.P.",
@@ -3739,10 +3739,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_pv_11",
         "questionText": "Millions of emails ______ across the globe every single second.",
         "options": [
-          "are sent",
           "sent",
           "send",
-          "are sending"
+          "are sending",
+          "are sent"
         ],
         "correctAnswer": "are sent",
         "explanation": "المبني للمجهول في المضارع البسيط للجمع: are + p.p (are sent).",
@@ -3753,9 +3753,9 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "questionText": "The magnificent temple of Karnak ______ by thousands of tourists daily.",
         "options": [
           "is visited",
-          "was visited",
           "visits",
-          "has visited"
+          "has visited",
+          "was visited"
         ],
         "correctAnswer": "is visited",
         "explanation": "حقيقة متكررة يومياً في المضارع البسيط للمجهول: is visited.",
@@ -3765,9 +3765,9 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_pv_13",
         "questionText": "The damaged highway ______ repaired right now by road engineers.",
         "options": [
-          "is being",
           "is",
           "has been",
+          "is being",
           "was being"
         ],
         "correctAnswer": "is being",
@@ -3780,8 +3780,8 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "options": [
           "will have been",
           "will be",
-          "have been",
-          "are being"
+          "are being",
+          "have been"
         ],
         "correctAnswer": "will have been",
         "explanation": "المستقبل التام للمبني للمجهول: by next Sunday تأخذ will have been + p.p.",
@@ -3791,10 +3791,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_pv_15",
         "questionText": "This classic novel ______ translated into over fifty international languages.",
         "options": [
-          "has been",
-          "is being",
           "was been",
-          "has"
+          "is being",
+          "has",
+          "has been"
         ],
         "correctAnswer": "has been",
         "explanation": "المضارع التام للمبني للمجهول: has been translated.",
@@ -3804,9 +3804,9 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_pv_16",
         "questionText": "The mystery ______ solved by the detective after intense investigation.",
         "options": [
+          "has",
           "was",
           "is",
-          "has",
           "being"
         ],
         "correctAnswer": "was",
@@ -3817,9 +3817,9 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_pv_17",
         "questionText": "All cellular phones must ______ prior to entering the exam hall.",
         "options": [
-          "be switched off",
           "switch off",
           "have switched off",
+          "be switched off",
           "switched off"
         ],
         "correctAnswer": "be switched off",
@@ -3830,10 +3830,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_pv_18",
         "questionText": "It ______ that eating nuts daily supports cardiovascular health.",
         "options": [
-          "is believed",
-          "believes",
           "is believing",
-          "believed"
+          "believed",
+          "is believed",
+          "believes"
         ],
         "correctAnswer": "is believed",
         "explanation": "المبني للمجهول غير الشخصي: It is believed that...",
@@ -3843,8 +3843,8 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_pv_19",
         "questionText": "I didn't paint the villa myself; I had it ______ by professionals.",
         "options": [
-          "painted",
           "paint",
+          "painted",
           "painting",
           "to paint"
         ],
@@ -3856,8 +3856,8 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_pv_20",
         "questionText": "The escaped criminal is reported ______ the national border last evening.",
         "options": [
-          "to have crossed",
           "to cross",
+          "to have crossed",
           "crossing",
           "crossed having"
         ],
@@ -3870,8 +3870,8 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "questionText": "[Exam Model 21] Millions of emails ______ across the globe every single second.",
         "options": [
           "are sent",
-          "sent",
           "send",
+          "sent",
           "are sending"
         ],
         "correctAnswer": "are sent",
@@ -3883,9 +3883,9 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "questionText": "[Exam Model 22] The magnificent temple of Karnak ______ by thousands of tourists daily.",
         "options": [
           "is visited",
-          "was visited",
           "visits",
-          "has visited"
+          "has visited",
+          "was visited"
         ],
         "correctAnswer": "is visited",
         "explanation": "حقيقة متكررة يومياً في المضارع البسيط للمجهول: is visited.",
@@ -3895,10 +3895,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_pv_23",
         "questionText": "[Exam Model 23] The damaged highway ______ repaired right now by road engineers.",
         "options": [
+          "was being",
           "is being",
           "is",
-          "has been",
-          "was being"
+          "has been"
         ],
         "correctAnswer": "is being",
         "explanation": "الحدث مستمر الآن right now في المبني للمجهول: is being repaired.",
@@ -3908,10 +3908,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_pv_24",
         "questionText": "[Exam Model 24] All the examination papers ______ marked by next Sunday.",
         "options": [
-          "will have been",
-          "will be",
+          "are being",
           "have been",
-          "are being"
+          "will have been",
+          "will be"
         ],
         "correctAnswer": "will have been",
         "explanation": "المستقبل التام للمبني للمجهول: by next Sunday تأخذ will have been + p.p.",
@@ -3921,10 +3921,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_pv_25",
         "questionText": "[Exam Model 25] This classic novel ______ translated into over fifty international languages.",
         "options": [
-          "has been",
-          "is being",
+          "has",
           "was been",
-          "has"
+          "is being",
+          "has been"
         ],
         "correctAnswer": "has been",
         "explanation": "المضارع التام للمبني للمجهول: has been translated.",
@@ -3934,9 +3934,9 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_pv_26",
         "questionText": "[Exam Model 26] The mystery ______ solved by the detective after intense investigation.",
         "options": [
-          "was",
           "is",
           "has",
+          "was",
           "being"
         ],
         "correctAnswer": "was",
@@ -3947,10 +3947,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_pv_27",
         "questionText": "[Exam Model 27] All cellular phones must ______ prior to entering the exam hall.",
         "options": [
-          "be switched off",
+          "switched off",
           "switch off",
           "have switched off",
-          "switched off"
+          "be switched off"
         ],
         "correctAnswer": "be switched off",
         "explanation": "الأفعال الناقصة في المجهول: Modal (must) + be + P.P.",
@@ -3961,9 +3961,9 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "questionText": "[Exam Model 28] It ______ that eating nuts daily supports cardiovascular health.",
         "options": [
           "is believed",
+          "believed",
           "believes",
-          "is believing",
-          "believed"
+          "is believing"
         ],
         "correctAnswer": "is believed",
         "explanation": "المبني للمجهول غير الشخصي: It is believed that...",
@@ -3973,9 +3973,9 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_pv_29",
         "questionText": "[Exam Model 29] I didn't paint the villa myself; I had it ______ by professionals.",
         "options": [
-          "painted",
           "paint",
           "painting",
+          "painted",
           "to paint"
         ],
         "correctAnswer": "painted",
@@ -3986,10 +3986,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_pv_30",
         "questionText": "[Exam Model 30] The escaped criminal is reported ______ the national border yesterday.",
         "options": [
-          "to have crossed",
           "to cross",
-          "crossing",
-          "crossed having"
+          "to have crossed",
+          "crossed having",
+          "crossing"
         ],
         "correctAnswer": "to have crossed",
         "explanation": "المبني للمجهول مع أفعال التقرير عن حدث ماضٍ: is reported to have + P.P.",
@@ -3999,9 +3999,9 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_pv_31",
         "questionText": "Choose the correct option: Millions of emails ______ across the globe every single second.",
         "options": [
+          "send",
           "are sent",
           "sent",
-          "send",
           "are sending"
         ],
         "correctAnswer": "are sent",
@@ -4012,10 +4012,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_pv_32",
         "questionText": "Choose the correct option: The magnificent temple of Karnak ______ by thousands of tourists daily.",
         "options": [
-          "is visited",
           "was visited",
+          "has visited",
           "visits",
-          "has visited"
+          "is visited"
         ],
         "correctAnswer": "is visited",
         "explanation": "حقيقة متكررة يومياً في المضارع البسيط للمجهول: is visited.",
@@ -4025,9 +4025,9 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_pv_33",
         "questionText": "Choose the correct option: The damaged highway ______ repaired right now by road engineers.",
         "options": [
+          "has been",
           "is being",
           "is",
-          "has been",
           "was being"
         ],
         "correctAnswer": "is being",
@@ -4039,9 +4039,9 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "questionText": "Choose the correct option: All the examination papers ______ marked by next Sunday.",
         "options": [
           "will have been",
-          "will be",
+          "are being",
           "have been",
-          "are being"
+          "will be"
         ],
         "correctAnswer": "will have been",
         "explanation": "المستقبل التام للمبني للمجهول: by next Sunday تأخذ will have been + p.p.",
@@ -4051,9 +4051,9 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_pv_35",
         "questionText": "Choose the correct option: This classic novel ______ translated into over fifty international languages.",
         "options": [
-          "has been",
           "is being",
           "was been",
+          "has been",
           "has"
         ],
         "correctAnswer": "has been",
@@ -4064,10 +4064,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_pv_36",
         "questionText": "Choose the correct option: The mystery ______ solved by the detective after intense investigation.",
         "options": [
-          "was",
-          "is",
           "has",
-          "being"
+          "is",
+          "being",
+          "was"
         ],
         "correctAnswer": "was",
         "explanation": "الماضي البسيط للمبني للمجهول: was solved.",
@@ -4078,9 +4078,9 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "questionText": "Choose the correct option: All cellular phones must ______ prior to entering the exam hall.",
         "options": [
           "be switched off",
-          "switch off",
+          "switched off",
           "have switched off",
-          "switched off"
+          "switch off"
         ],
         "correctAnswer": "be switched off",
         "explanation": "الأفعال الناقصة في المجهول: Modal (must) + be + P.P.",
@@ -4090,10 +4090,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_pv_38",
         "questionText": "Choose the correct option: It ______ that eating nuts daily supports cardiovascular health.",
         "options": [
+          "believed",
           "is believed",
           "believes",
-          "is believing",
-          "believed"
+          "is believing"
         ],
         "correctAnswer": "is believed",
         "explanation": "المبني للمجهول غير الشخصي: It is believed that...",
@@ -4103,10 +4103,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_pv_39",
         "questionText": "Choose the correct option: I didn't paint the villa myself; I had it ______ by professionals.",
         "options": [
-          "painted",
+          "to paint",
           "paint",
-          "painting",
-          "to paint"
+          "painted",
+          "painting"
         ],
         "correctAnswer": "painted",
         "explanation": "صيغة السببية Causative: had + something + P.P (had it painted).",
@@ -4116,9 +4116,9 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_pv_40",
         "questionText": "Choose the correct option: The escaped criminal is reported ______ the national border yesterday.",
         "options": [
-          "to have crossed",
-          "to cross",
           "crossing",
+          "to cross",
+          "to have crossed",
           "crossed having"
         ],
         "correctAnswer": "to have crossed",
@@ -4129,10 +4129,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_pv_41",
         "questionText": "[Thanawya Amma Standard] Millions of emails ______ across the globe every single second.",
         "options": [
-          "are sent",
           "sent",
+          "are sending",
           "send",
-          "are sending"
+          "are sent"
         ],
         "correctAnswer": "are sent",
         "explanation": "المبني للمجهول في المضارع البسيط للجمع: are + p.p (are sent).",
@@ -4142,10 +4142,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_pv_42",
         "questionText": "[Thanawya Amma Standard] The magnificent temple of Karnak ______ by thousands of tourists daily.",
         "options": [
-          "is visited",
           "was visited",
-          "visits",
-          "has visited"
+          "is visited",
+          "has visited",
+          "visits"
         ],
         "correctAnswer": "is visited",
         "explanation": "حقيقة متكررة يومياً في المضارع البسيط للمجهول: is visited.",
@@ -4155,9 +4155,9 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_pv_43",
         "questionText": "[Thanawya Amma Standard] The damaged highway ______ repaired right now by road engineers.",
         "options": [
-          "is being",
           "is",
           "has been",
+          "is being",
           "was being"
         ],
         "correctAnswer": "is being",
@@ -4168,10 +4168,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_pv_44",
         "questionText": "[Thanawya Amma Standard] All the examination papers ______ marked by next Sunday.",
         "options": [
+          "are being",
           "will have been",
           "will be",
-          "have been",
-          "are being"
+          "have been"
         ],
         "correctAnswer": "will have been",
         "explanation": "المستقبل التام للمبني للمجهول: by next Sunday تأخذ will have been + p.p.",
@@ -4182,8 +4182,8 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "questionText": "[Thanawya Amma Standard] This classic novel ______ translated into over fifty international languages.",
         "options": [
           "has been",
-          "is being",
           "was been",
+          "is being",
           "has"
         ],
         "correctAnswer": "has been",
@@ -4195,8 +4195,8 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "questionText": "[Thanawya Amma Standard] The mystery ______ solved by the detective after intense investigation.",
         "options": [
           "was",
-          "is",
           "has",
+          "is",
           "being"
         ],
         "correctAnswer": "was",
@@ -4207,10 +4207,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_pv_47",
         "questionText": "[Thanawya Amma Standard] All cellular phones must ______ prior to entering the exam hall.",
         "options": [
-          "be switched off",
-          "switch off",
+          "switched off",
           "have switched off",
-          "switched off"
+          "switch off",
+          "be switched off"
         ],
         "correctAnswer": "be switched off",
         "explanation": "الأفعال الناقصة في المجهول: Modal (must) + be + P.P.",
@@ -4220,10 +4220,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_pv_48",
         "questionText": "[Thanawya Amma Standard] It ______ that eating nuts daily supports cardiovascular health.",
         "options": [
-          "is believed",
           "believes",
-          "is believing",
-          "believed"
+          "is believed",
+          "believed",
+          "is believing"
         ],
         "correctAnswer": "is believed",
         "explanation": "المبني للمجهول غير الشخصي: It is believed that...",
@@ -4233,10 +4233,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_pv_49",
         "questionText": "[Thanawya Amma Standard] I didn't paint the villa myself; I had it ______ by professionals.",
         "options": [
-          "painted",
-          "paint",
           "painting",
-          "to paint"
+          "to paint",
+          "paint",
+          "painted"
         ],
         "correctAnswer": "painted",
         "explanation": "صيغة السببية Causative: had + something + P.P (had it painted).",
@@ -4246,10 +4246,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_pv_50",
         "questionText": "[Thanawya Amma Standard] The escaped criminal is reported ______ the national border yesterday.",
         "options": [
-          "to have crossed",
           "to cross",
-          "crossing",
-          "crossed having"
+          "to have crossed",
+          "crossed having",
+          "crossing"
         ],
         "correctAnswer": "to have crossed",
         "explanation": "المبني للمجهول مع أفعال التقرير عن حدث ماضٍ: is reported to have + P.P.",
@@ -4311,10 +4311,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_ng_1",
         "questionText": "Scarcely ______ entered the hall when the lecture commenced.",
         "options": [
-          "had the professor",
           "the professor had",
+          "has the professor",
           "did the professor",
-          "has the professor"
+          "had the professor"
         ],
         "correctAnswer": "had the professor",
         "explanation": "البدء بظرف النفي Scarcely يتطلب تقديماً وتأخيراً Inversion بصيغة الماضي التام: Scarcely had + S + P.P.",
@@ -4324,9 +4324,9 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_ng_2",
         "questionText": "Seldom ______ such a breathtaking celestial view in the night sky.",
         "options": [
-          "have I seen",
           "I have seen",
           "I saw",
+          "have I seen",
           "did I saw"
         ],
         "correctAnswer": "have I seen",
@@ -4337,10 +4337,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_ng_3",
         "questionText": "Under no circumstances ______ reveal your security password to anyone.",
         "options": [
-          "should you",
           "you should",
-          "you must",
-          "ought you"
+          "should you",
+          "ought you",
+          "you must"
         ],
         "correctAnswer": "should you",
         "explanation": "التركيب الحصري Under no circumstances يتطلب Inversion: should you.",
@@ -4350,10 +4350,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_ng_4",
         "questionText": "Neither Ahmed nor his classmates ______ present at yesterday's rehearsal.",
         "options": [
-          "were",
+          "is",
           "was",
           "are",
-          "is"
+          "were"
         ],
         "correctAnswer": "were",
         "explanation": "مع Neither... nor الفعل يتبع الفاعل الأقرب له (classmates جمع) في الماضي were.",
@@ -4364,9 +4364,9 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "questionText": "I have ______ friends in this new city, so I often feel lonely.",
         "options": [
           "few",
+          "a little",
           "a few",
-          "little",
-          "a little"
+          "little"
         ],
         "correctAnswer": "few",
         "explanation": "كلمة few بدون a تعني عدداً قليلاً لا يكفي وتفيد النفي مع الاسم الجمع المعدود.",
@@ -4377,8 +4377,8 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "questionText": "There is ______ milk left in the fridge; we can't make tea.",
         "options": [
           "little",
-          "a little",
           "few",
+          "a little",
           "a few"
         ],
         "correctAnswer": "little",
@@ -4389,10 +4389,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_ng_7",
         "questionText": "Hardly ______ finished his breakfast when the school bus arrived.",
         "options": [
-          "had he",
-          "he had",
           "did he",
-          "has he"
+          "he had",
+          "has he",
+          "had he"
         ],
         "correctAnswer": "had he",
         "explanation": "البدء بـ Hardly يتطلب تقديم had على الفاعل he.",
@@ -4402,8 +4402,8 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_ng_8",
         "questionText": "Little ______ how much effort had gone into organizing the festival.",
         "options": [
-          "did they know",
           "they knew",
+          "did they know",
           "they had known",
           "had they know"
         ],
@@ -4415,10 +4415,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_ng_9",
         "questionText": "She has got ______ interest in playing video games.",
         "options": [
-          "no",
+          "neither",
           "not",
           "none",
-          "neither"
+          "no"
         ],
         "correctAnswer": "no",
         "explanation": "نفي الاسم المباشر interest بدون أداة يأخذ no interest.",
@@ -4429,9 +4429,9 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "questionText": "Which of the following avoids the error of double negation?",
         "options": [
           "I didn't find anything in the cabinet.",
-          "I didn't find nothing in the cabinet.",
           "I haven't got no money.",
-          "She doesn't know nobody."
+          "She doesn't know nobody.",
+          "I didn't find nothing in the cabinet."
         ],
         "correctAnswer": "I didn't find anything in the cabinet.",
         "explanation": "الجملة السليمة تتجنب النفي المزدوج باستخدام didn't find anything.",
@@ -4441,10 +4441,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_ng_11",
         "questionText": "Scarcely ______ entered the hall when the lecture commenced.",
         "options": [
-          "had the professor",
-          "the professor had",
+          "has the professor",
           "did the professor",
-          "has the professor"
+          "the professor had",
+          "had the professor"
         ],
         "correctAnswer": "had the professor",
         "explanation": "البدء بظرف النفي Scarcely يتطلب تقديماً وتأخيراً Inversion بصيغة الماضي التام: Scarcely had + S + P.P.",
@@ -4454,9 +4454,9 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_ng_12",
         "questionText": "Seldom ______ such a breathtaking celestial view in the night sky.",
         "options": [
-          "have I seen",
-          "I have seen",
           "I saw",
+          "I have seen",
+          "have I seen",
           "did I saw"
         ],
         "correctAnswer": "have I seen",
@@ -4467,9 +4467,9 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_ng_13",
         "questionText": "Under no circumstances ______ reveal your security password to anyone.",
         "options": [
-          "should you",
-          "you should",
           "you must",
+          "you should",
+          "should you",
           "ought you"
         ],
         "correctAnswer": "should you",
@@ -4481,9 +4481,9 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "questionText": "Neither Kareem nor his classmates ______ present at last evening's rehearsal.",
         "options": [
           "were",
-          "was",
+          "is",
           "are",
-          "is"
+          "was"
         ],
         "correctAnswer": "were",
         "explanation": "مع Neither... nor الفعل يتبع الفاعل الأقرب له (classmates جمع) في الماضي were.",
@@ -4493,8 +4493,8 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_ng_15",
         "questionText": "I have ______ friends in this new city, so I often feel lonely.",
         "options": [
-          "few",
           "a few",
+          "few",
           "little",
           "a little"
         ],
@@ -4507,9 +4507,9 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "questionText": "There is ______ milk left in the fridge; we can't make tea.",
         "options": [
           "little",
-          "a little",
           "few",
-          "a few"
+          "a few",
+          "a little"
         ],
         "correctAnswer": "little",
         "explanation": "كلمة little بدون a تفيد القلة غير الكافية مع الاسم غير المعدود milk.",
@@ -4519,9 +4519,9 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_ng_17",
         "questionText": "Hardly ______ finished his breakfast when the school bus arrived.",
         "options": [
-          "had he",
           "he had",
           "did he",
+          "had he",
           "has he"
         ],
         "correctAnswer": "had he",
@@ -4532,9 +4532,9 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_ng_18",
         "questionText": "Little ______ how much effort had gone into organizing the festival.",
         "options": [
-          "did they know",
           "they knew",
           "they had known",
+          "did they know",
           "had they know"
         ],
         "correctAnswer": "did they know",
@@ -4545,10 +4545,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_ng_19",
         "questionText": "She has got ______ interest in playing video games.",
         "options": [
-          "no",
           "not",
+          "neither",
           "none",
-          "neither"
+          "no"
         ],
         "correctAnswer": "no",
         "explanation": "نفي الاسم المباشر interest بدون أداة يأخذ no interest.",
@@ -4558,10 +4558,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_ng_20",
         "questionText": "Which of the following avoids the error of double negation?",
         "options": [
+          "She doesn't know nobody.",
           "I didn't find anything in the cabinet.",
-          "I didn't find nothing in the cabinet.",
           "I haven't got no money.",
-          "She doesn't know nobody."
+          "I didn't find nothing in the cabinet."
         ],
         "correctAnswer": "I didn't find anything in the cabinet.",
         "explanation": "الجملة السليمة تتجنب النفي المزدوج باستخدام didn't find anything.",
@@ -4571,10 +4571,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_ng_21",
         "questionText": "[Exam Model 21] Scarcely ______ entered the hall when the lecture commenced.",
         "options": [
-          "had the professor",
-          "the professor had",
           "did the professor",
-          "has the professor"
+          "has the professor",
+          "had the professor",
+          "the professor had"
         ],
         "correctAnswer": "had the professor",
         "explanation": "البدء بظرف النفي Scarcely يتطلب تقديماً وتأخيراً Inversion بصيغة الماضي التام: Scarcely had + S + P.P.",
@@ -4597,9 +4597,9 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_ng_23",
         "questionText": "[Exam Model 23] Under no circumstances ______ reveal your security password to anyone.",
         "options": [
-          "should you",
           "you should",
           "you must",
+          "should you",
           "ought you"
         ],
         "correctAnswer": "should you",
@@ -4610,10 +4610,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_ng_24",
         "questionText": "[Exam Model 24] Neither Ahmed nor his classmates ______ present at yesterday's rehearsal.",
         "options": [
-          "were",
           "was",
-          "are",
-          "is"
+          "is",
+          "were",
+          "are"
         ],
         "correctAnswer": "were",
         "explanation": "مع Neither... nor الفعل يتبع الفاعل الأقرب له (classmates جمع) في الماضي were.",
@@ -4623,10 +4623,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_ng_25",
         "questionText": "[Exam Model 25] I have ______ friends in this new city, so I often feel lonely.",
         "options": [
+          "a little",
           "few",
-          "a few",
           "little",
-          "a little"
+          "a few"
         ],
         "correctAnswer": "few",
         "explanation": "كلمة few بدون a تعني عدداً قليلاً لا يكفي وتفيد النفي مع الاسم الجمع المعدود.",
@@ -4637,9 +4637,9 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "questionText": "[Exam Model 26] There is ______ milk left in the fridge; we can't make tea.",
         "options": [
           "little",
-          "a little",
+          "a few",
           "few",
-          "a few"
+          "a little"
         ],
         "correctAnswer": "little",
         "explanation": "كلمة little بدون a تفيد القلة غير الكافية مع الاسم غير المعدود milk.",
@@ -4649,10 +4649,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_ng_27",
         "questionText": "[Exam Model 27] Hardly ______ finished his breakfast when the school bus arrived.",
         "options": [
-          "had he",
           "he had",
-          "did he",
-          "has he"
+          "had he",
+          "has he",
+          "did he"
         ],
         "correctAnswer": "had he",
         "explanation": "البدء بـ Hardly يتطلب تقديم had على الفاعل he.",
@@ -4662,10 +4662,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_ng_28",
         "questionText": "[Exam Model 28] Little ______ how much effort had gone into organizing the festival.",
         "options": [
-          "did they know",
-          "they knew",
           "they had known",
-          "had they know"
+          "had they know",
+          "did they know",
+          "they knew"
         ],
         "correctAnswer": "did they know",
         "explanation": "البدء بظرف النفي Little يتطلب تقديم الفعل المساعد did: did they know.",
@@ -4675,10 +4675,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_ng_29",
         "questionText": "[Exam Model 29] She has got ______ interest in playing video games.",
         "options": [
-          "no",
+          "neither",
           "not",
           "none",
-          "neither"
+          "no"
         ],
         "correctAnswer": "no",
         "explanation": "نفي الاسم المباشر interest بدون أداة يأخذ no interest.",
@@ -4688,10 +4688,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_ng_30",
         "questionText": "[Exam Model 30] Which of the following avoids the error of double negation?",
         "options": [
-          "I didn't find anything in the cabinet.",
+          "She doesn't know nobody.",
           "I didn't find nothing in the cabinet.",
           "I haven't got no money.",
-          "She doesn't know nobody."
+          "I didn't find anything in the cabinet."
         ],
         "correctAnswer": "I didn't find anything in the cabinet.",
         "explanation": "الجملة السليمة تتجنب النفي المزدوج باستخدام didn't find anything.",
@@ -4701,10 +4701,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_ng_31",
         "questionText": "Choose the correct option: Scarcely ______ entered the hall when the lecture commenced.",
         "options": [
+          "has the professor",
           "had the professor",
           "the professor had",
-          "did the professor",
-          "has the professor"
+          "did the professor"
         ],
         "correctAnswer": "had the professor",
         "explanation": "البدء بظرف النفي Scarcely يتطلب تقديماً وتأخيراً Inversion بصيغة الماضي التام: Scarcely had + S + P.P.",
@@ -4714,10 +4714,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_ng_32",
         "questionText": "Choose the correct option: Seldom ______ such a breathtaking celestial view in the night sky.",
         "options": [
-          "have I seen",
           "I have seen",
+          "did I saw",
           "I saw",
-          "did I saw"
+          "have I seen"
         ],
         "correctAnswer": "have I seen",
         "explanation": "البدء بـ Seldom يتطلب تقديم الفعل المساعد: have I seen.",
@@ -4727,10 +4727,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_ng_33",
         "questionText": "Choose the correct option: Under no circumstances ______ reveal your security password to anyone.",
         "options": [
-          "should you",
-          "you should",
           "you must",
-          "ought you"
+          "you should",
+          "ought you",
+          "should you"
         ],
         "correctAnswer": "should you",
         "explanation": "التركيب الحصري Under no circumstances يتطلب Inversion: should you.",
@@ -4741,9 +4741,9 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "questionText": "Choose the correct option: Neither Ahmed nor his classmates ______ present at yesterday's rehearsal.",
         "options": [
           "were",
-          "was",
+          "is",
           "are",
-          "is"
+          "was"
         ],
         "correctAnswer": "were",
         "explanation": "مع Neither... nor الفعل يتبع الفاعل الأقرب له (classmates جمع) في الماضي were.",
@@ -4754,9 +4754,9 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "questionText": "Choose the correct option: I have ______ friends in this new city, so I often feel lonely.",
         "options": [
           "few",
+          "a little",
           "a few",
-          "little",
-          "a little"
+          "little"
         ],
         "correctAnswer": "few",
         "explanation": "كلمة few بدون a تعني عدداً قليلاً لا يكفي وتفيد النفي مع الاسم الجمع المعدود.",
@@ -4766,9 +4766,9 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_ng_36",
         "questionText": "Choose the correct option: There is ______ milk left in the fridge; we can't make tea.",
         "options": [
-          "little",
-          "a little",
           "few",
+          "a little",
+          "little",
           "a few"
         ],
         "correctAnswer": "little",
@@ -4780,9 +4780,9 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "questionText": "Choose the correct option: Hardly ______ finished his breakfast when the school bus arrived.",
         "options": [
           "had he",
-          "he had",
           "did he",
-          "has he"
+          "has he",
+          "he had"
         ],
         "correctAnswer": "had he",
         "explanation": "البدء بـ Hardly يتطلب تقديم had على الفاعل he.",
@@ -4792,10 +4792,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_ng_38",
         "questionText": "Choose the correct option: Little ______ how much effort had gone into organizing the festival.",
         "options": [
-          "did they know",
-          "they knew",
+          "had they know",
           "they had known",
-          "had they know"
+          "did they know",
+          "they knew"
         ],
         "correctAnswer": "did they know",
         "explanation": "البدء بظرف النفي Little يتطلب تقديم الفعل المساعد did: did they know.",
@@ -4805,10 +4805,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_ng_39",
         "questionText": "Choose the correct option: She has got ______ interest in playing video games.",
         "options": [
-          "no",
+          "neither",
           "not",
-          "none",
-          "neither"
+          "no",
+          "none"
         ],
         "correctAnswer": "no",
         "explanation": "نفي الاسم المباشر interest بدون أداة يأخذ no interest.",
@@ -4818,8 +4818,8 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_ng_40",
         "questionText": "Choose the correct option: Which of the following avoids the error of double negation?",
         "options": [
-          "I didn't find anything in the cabinet.",
           "I didn't find nothing in the cabinet.",
+          "I didn't find anything in the cabinet.",
           "I haven't got no money.",
           "She doesn't know nobody."
         ],
@@ -4831,10 +4831,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_ng_41",
         "questionText": "[Thanawya Amma Standard] Scarcely ______ entered the hall when the lecture commenced.",
         "options": [
-          "had the professor",
           "the professor had",
           "did the professor",
-          "has the professor"
+          "has the professor",
+          "had the professor"
         ],
         "correctAnswer": "had the professor",
         "explanation": "البدء بظرف النفي Scarcely يتطلب تقديماً وتأخيراً Inversion بصيغة الماضي التام: Scarcely had + S + P.P.",
@@ -4844,9 +4844,9 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_ng_42",
         "questionText": "[Thanawya Amma Standard] Seldom ______ such a breathtaking celestial view in the night sky.",
         "options": [
+          "I saw",
           "have I seen",
           "I have seen",
-          "I saw",
           "did I saw"
         ],
         "correctAnswer": "have I seen",
@@ -4858,8 +4858,8 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "questionText": "[Thanawya Amma Standard] Under no circumstances ______ reveal your security password to anyone.",
         "options": [
           "should you",
-          "you should",
           "you must",
+          "you should",
           "ought you"
         ],
         "correctAnswer": "should you",
@@ -4870,10 +4870,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_ng_44",
         "questionText": "[Thanawya Amma Standard] Neither Ahmed nor his classmates ______ present at yesterday's rehearsal.",
         "options": [
-          "were",
-          "was",
           "are",
-          "is"
+          "was",
+          "is",
+          "were"
         ],
         "correctAnswer": "were",
         "explanation": "مع Neither... nor الفعل يتبع الفاعل الأقرب له (classmates جمع) في الماضي were.",
@@ -4883,9 +4883,9 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_ng_45",
         "questionText": "[Thanawya Amma Standard] I have ______ friends in this new city, so I often feel lonely.",
         "options": [
+          "little",
           "few",
           "a few",
-          "little",
           "a little"
         ],
         "correctAnswer": "few",
@@ -4897,9 +4897,9 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "questionText": "[Thanawya Amma Standard] There is ______ milk left in the fridge; we can't make tea.",
         "options": [
           "little",
+          "a few",
           "a little",
-          "few",
-          "a few"
+          "few"
         ],
         "correctAnswer": "little",
         "explanation": "كلمة little بدون a تفيد القلة غير الكافية مع الاسم غير المعدود milk.",
@@ -4909,10 +4909,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_ng_47",
         "questionText": "[Thanawya Amma Standard] Hardly ______ finished his breakfast when the school bus arrived.",
         "options": [
-          "had he",
           "he had",
-          "did he",
-          "has he"
+          "had he",
+          "has he",
+          "did he"
         ],
         "correctAnswer": "had he",
         "explanation": "البدء بـ Hardly يتطلب تقديم had على الفاعل he.",
@@ -4924,8 +4924,8 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "options": [
           "did they know",
           "they knew",
-          "they had known",
-          "had they know"
+          "had they know",
+          "they had known"
         ],
         "correctAnswer": "did they know",
         "explanation": "البدء بظرف النفي Little يتطلب تقديم الفعل المساعد did: did they know.",
@@ -4935,10 +4935,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_ng_49",
         "questionText": "[Thanawya Amma Standard] She has got ______ interest in playing video games.",
         "options": [
-          "no",
           "not",
-          "none",
-          "neither"
+          "no",
+          "neither",
+          "none"
         ],
         "correctAnswer": "no",
         "explanation": "نفي الاسم المباشر interest بدون أداة يأخذ no interest.",
@@ -4948,9 +4948,9 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_ng_50",
         "questionText": "[Thanawya Amma Standard] Which of the following avoids the error of double negation?",
         "options": [
+          "I haven't got no money.",
           "I didn't find anything in the cabinet.",
           "I didn't find nothing in the cabinet.",
-          "I haven't got no money.",
           "She doesn't know nobody."
         ],
         "correctAnswer": "I didn't find anything in the cabinet.",
@@ -5028,10 +5028,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_lk_2",
         "questionText": "______ the severe snowstorm, the flight departed right on schedule.",
         "options": [
-          "Despite",
-          "Although",
           "Even though",
-          "However"
+          "However",
+          "Despite",
+          "Although"
         ],
         "correctAnswer": "Despite",
         "explanation": "الرابط الدال على التناقض والمتبوع باسم مباشر (the severe snowstorm) هو Despite.",
@@ -5041,10 +5041,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_lk_3",
         "questionText": "He studied with tremendous dedication; ______, he passed with distinction.",
         "options": [
-          "therefore",
-          "however",
           "although",
-          "despite"
+          "however",
+          "despite",
+          "therefore"
         ],
         "correctAnswer": "therefore",
         "explanation": "رابط النتيجة المنطقية بين فاصلة منقوطة وفاصلة هو therefore (لذلك).",
@@ -5056,8 +5056,8 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "options": [
           "due to",
           "because",
-          "since",
-          "as"
+          "as",
+          "since"
         ],
         "correctAnswer": "due to",
         "explanation": "الرابط الدال على السبب والمتبوع باسم هو due to (بسبب).",
@@ -5067,9 +5067,9 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_lk_5",
         "questionText": "She was absent from class yesterday ______ she had a severe toothache.",
         "options": [
+          "due to",
           "because",
           "because of",
-          "due to",
           "owing to"
         ],
         "correctAnswer": "because",
@@ -5080,10 +5080,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_lk_6",
         "questionText": "In addition to ______ the report, Hisham prepared the presentation slides.",
         "options": [
-          "writing",
-          "write",
           "wrote",
-          "written"
+          "writing",
+          "written",
+          "write"
         ],
         "correctAnswer": "writing",
         "explanation": "الرابط In addition to يُتبع دائماً بـ Gerund (V-ing): writing.",
@@ -5094,9 +5094,9 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "questionText": "He practiced diligently ______ pass the driving license test on his first try.",
         "options": [
           "in order to",
+          "due to",
           "so that",
-          "because",
-          "due to"
+          "because"
         ],
         "correctAnswer": "in order to",
         "explanation": "رابط الغرض المتبوع بمصدر مجرد pass هو in order to.",
@@ -5106,10 +5106,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_lk_8",
         "questionText": "We left early ______ we wouldn't get stuck in peak hour traffic.",
         "options": [
-          "so that",
-          "in order to",
           "because of",
-          "despite"
+          "despite",
+          "in order to",
+          "so that"
         ],
         "correctAnswer": "so that",
         "explanation": "رابط الغرض المتبوع بفاعل وفعل ناقص (we wouldn't) هو so that.",
@@ -5119,10 +5119,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_lk_9",
         "questionText": "The smartphone is extremely expensive; ______, it lacks essential features.",
         "options": [
+          "as",
           "furthermore",
-          "because",
           "so",
-          "as"
+          "because"
         ],
         "correctAnswer": "furthermore",
         "explanation": "رابط الإضافة بين جملتين مستقلتين هو furthermore (علاوة على ذلك).",
@@ -5132,10 +5132,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_lk_10",
         "questionText": "______ hard he tried, he couldn't loosen the rusted wheel nut.",
         "options": [
-          "However",
+          "Despite",
           "Whatever",
           "Although",
-          "Despite"
+          "However"
         ],
         "correctAnswer": "However",
         "explanation": "التركيب However + صفة/ظرف يعني مهما بلغت الشدة: However hard he tried.",
@@ -5145,9 +5145,9 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_lk_11",
         "questionText": "______ it was raining cat and dogs, we thoroughly enjoyed our safari trip.",
         "options": [
-          "Although",
-          "Despite",
           "Because of",
+          "Despite",
+          "Although",
           "However"
         ],
         "correctAnswer": "Although",
@@ -5159,9 +5159,9 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "questionText": "______ the severe snowstorm, the flight departed right on schedule.",
         "options": [
           "Despite",
-          "Although",
           "Even though",
-          "However"
+          "However",
+          "Although"
         ],
         "correctAnswer": "Despite",
         "explanation": "الرابط الدال على التناقض والمتبوع باسم مباشر (the severe snowstorm) هو Despite.",
@@ -5172,8 +5172,8 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "questionText": "He studied with tremendous dedication; ______, he passed with distinction.",
         "options": [
           "therefore",
-          "however",
           "although",
+          "however",
           "despite"
         ],
         "correctAnswer": "therefore",
@@ -5184,10 +5184,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_lk_14",
         "questionText": "The school sports tournament was postponed ______ the heavy dust storm.",
         "options": [
-          "due to",
-          "because",
+          "as",
           "since",
-          "as"
+          "because",
+          "due to"
         ],
         "correctAnswer": "due to",
         "explanation": "الرابط الدال على السبب والمتبوع باسم هو due to (بسبب).",
@@ -5197,8 +5197,8 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_lk_15",
         "questionText": "She was absent from class last evening ______ she had a severe toothache.",
         "options": [
-          "because",
           "because of",
+          "because",
           "due to",
           "owing to"
         ],
@@ -5210,10 +5210,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_lk_16",
         "questionText": "In addition to ______ the report, Hisham prepared the presentation slides.",
         "options": [
-          "writing",
           "write",
-          "wrote",
-          "written"
+          "written",
+          "writing",
+          "wrote"
         ],
         "correctAnswer": "writing",
         "explanation": "الرابط In addition to يُتبع دائماً بـ Gerund (V-ing): writing.",
@@ -5223,10 +5223,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_lk_17",
         "questionText": "He practiced diligently ______ pass the driving license test on his first try.",
         "options": [
+          "due to",
           "in order to",
           "so that",
-          "because",
-          "due to"
+          "because"
         ],
         "correctAnswer": "in order to",
         "explanation": "رابط الغرض المتبوع بمصدر مجرد pass هو in order to.",
@@ -5237,9 +5237,9 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "questionText": "We left early ______ we wouldn't get stuck in peak hour traffic.",
         "options": [
           "so that",
+          "despite",
           "in order to",
-          "because of",
-          "despite"
+          "because of"
         ],
         "correctAnswer": "so that",
         "explanation": "رابط الغرض المتبوع بفاعل وفعل ناقص (we wouldn't) هو so that.",
@@ -5250,9 +5250,9 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "questionText": "The smartphone is extremely expensive; ______, it lacks essential features.",
         "options": [
           "furthermore",
-          "because",
+          "as",
           "so",
-          "as"
+          "because"
         ],
         "correctAnswer": "furthermore",
         "explanation": "رابط الإضافة بين جملتين مستقلتين هو furthermore (علاوة على ذلك).",
@@ -5262,10 +5262,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_lk_20",
         "questionText": "______ hard he tried, he couldn't loosen the rusted wheel nut.",
         "options": [
-          "However",
+          "Despite",
           "Whatever",
-          "Although",
-          "Despite"
+          "However",
+          "Although"
         ],
         "correctAnswer": "However",
         "explanation": "التركيب However + صفة/ظرف يعني مهما بلغت الشدة: However hard he tried.",
@@ -5276,9 +5276,9 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "questionText": "[Exam Model 21] ______ it was raining cat and dogs, we thoroughly enjoyed our safari trip.",
         "options": [
           "Although",
-          "Despite",
+          "However",
           "Because of",
-          "However"
+          "Despite"
         ],
         "correctAnswer": "Although",
         "explanation": "الرابط الدال على التناقض والمتبوع بجملة كاملة (فاعل + فعل) هو Although.",
@@ -5288,10 +5288,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_lk_22",
         "questionText": "[Exam Model 22] ______ the severe snowstorm, the flight departed right on schedule.",
         "options": [
-          "Despite",
+          "However",
           "Although",
           "Even though",
-          "However"
+          "Despite"
         ],
         "correctAnswer": "Despite",
         "explanation": "الرابط الدال على التناقض والمتبوع باسم مباشر (the severe snowstorm) هو Despite.",
@@ -5301,10 +5301,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_lk_23",
         "questionText": "[Exam Model 23] He studied with tremendous dedication; ______, he passed with distinction.",
         "options": [
-          "therefore",
-          "however",
           "although",
-          "despite"
+          "therefore",
+          "despite",
+          "however"
         ],
         "correctAnswer": "therefore",
         "explanation": "رابط النتيجة المنطقية بين فاصلة منقوطة وفاصلة هو therefore (لذلك).",
@@ -5314,10 +5314,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_lk_24",
         "questionText": "[Exam Model 24] The school sports tournament was postponed ______ the heavy dust storm.",
         "options": [
-          "due to",
-          "because",
           "since",
-          "as"
+          "as",
+          "due to",
+          "because"
         ],
         "correctAnswer": "due to",
         "explanation": "الرابط الدال على السبب والمتبوع باسم هو due to (بسبب).",
@@ -5327,10 +5327,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_lk_25",
         "questionText": "[Exam Model 25] She was absent from class yesterday ______ she had a severe toothache.",
         "options": [
-          "because",
+          "owing to",
           "because of",
-          "due to",
-          "owing to"
+          "because",
+          "due to"
         ],
         "correctAnswer": "because",
         "explanation": "الرابط الدال على السبب والمتبوع بجملة كاملة (she had) هو because.",
@@ -5340,10 +5340,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_lk_26",
         "questionText": "[Exam Model 26] In addition to ______ the report, Hisham prepared the presentation slides.",
         "options": [
-          "writing",
-          "write",
           "wrote",
-          "written"
+          "writing",
+          "written",
+          "write"
         ],
         "correctAnswer": "writing",
         "explanation": "الرابط In addition to يُتبع دائماً بـ Gerund (V-ing): writing.",
@@ -5353,10 +5353,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_lk_27",
         "questionText": "[Exam Model 27] He practiced diligently ______ pass the driving license test on his first try.",
         "options": [
+          "due to",
           "in order to",
           "so that",
-          "because",
-          "due to"
+          "because"
         ],
         "correctAnswer": "in order to",
         "explanation": "رابط الغرض المتبوع بمصدر مجرد pass هو in order to.",
@@ -5366,10 +5366,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_lk_28",
         "questionText": "[Exam Model 28] We left early ______ we wouldn't get stuck in peak hour traffic.",
         "options": [
-          "so that",
           "in order to",
-          "because of",
-          "despite"
+          "despite",
+          "so that",
+          "because of"
         ],
         "correctAnswer": "so that",
         "explanation": "رابط الغرض المتبوع بفاعل وفعل ناقص (we wouldn't) هو so that.",
@@ -5379,10 +5379,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_lk_29",
         "questionText": "[Exam Model 29] The smartphone is extremely expensive; ______, it lacks essential features.",
         "options": [
-          "furthermore",
-          "because",
           "so",
-          "as"
+          "as",
+          "because",
+          "furthermore"
         ],
         "correctAnswer": "furthermore",
         "explanation": "رابط الإضافة بين جملتين مستقلتين هو furthermore (علاوة على ذلك).",
@@ -5392,10 +5392,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_lk_30",
         "questionText": "[Exam Model 30] ______ hard he tried, he couldn't loosen the rusted wheel nut.",
         "options": [
-          "However",
           "Whatever",
+          "Despite",
           "Although",
-          "Despite"
+          "However"
         ],
         "correctAnswer": "However",
         "explanation": "التركيب However + صفة/ظرف يعني مهما بلغت الشدة: However hard he tried.",
@@ -5405,9 +5405,9 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_lk_31",
         "questionText": "Choose the correct option: ______ it was raining cat and dogs, we thoroughly enjoyed our safari trip.",
         "options": [
+          "Because of",
           "Although",
           "Despite",
-          "Because of",
           "However"
         ],
         "correctAnswer": "Although",
@@ -5418,10 +5418,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_lk_32",
         "questionText": "Choose the correct option: ______ the severe snowstorm, the flight departed right on schedule.",
         "options": [
-          "Despite",
+          "However",
           "Although",
           "Even though",
-          "However"
+          "Despite"
         ],
         "correctAnswer": "Despite",
         "explanation": "الرابط الدال على التناقض والمتبوع باسم مباشر (the severe snowstorm) هو Despite.",
@@ -5431,9 +5431,9 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_lk_33",
         "questionText": "Choose the correct option: He studied with tremendous dedication; ______, he passed with distinction.",
         "options": [
-          "therefore",
           "however",
           "although",
+          "therefore",
           "despite"
         ],
         "correctAnswer": "therefore",
@@ -5444,10 +5444,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_lk_34",
         "questionText": "Choose the correct option: The school sports tournament was postponed ______ the heavy dust storm.",
         "options": [
-          "due to",
-          "because",
+          "as",
           "since",
-          "as"
+          "due to",
+          "because"
         ],
         "correctAnswer": "due to",
         "explanation": "الرابط الدال على السبب والمتبوع باسم هو due to (بسبب).",
@@ -5457,10 +5457,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_lk_35",
         "questionText": "Choose the correct option: She was absent from class yesterday ______ she had a severe toothache.",
         "options": [
-          "because",
           "because of",
+          "owing to",
           "due to",
-          "owing to"
+          "because"
         ],
         "correctAnswer": "because",
         "explanation": "الرابط الدال على السبب والمتبوع بجملة كاملة (she had) هو because.",
@@ -5470,10 +5470,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_lk_36",
         "questionText": "Choose the correct option: In addition to ______ the report, Hisham prepared the presentation slides.",
         "options": [
-          "writing",
           "write",
+          "written",
           "wrote",
-          "written"
+          "writing"
         ],
         "correctAnswer": "writing",
         "explanation": "الرابط In addition to يُتبع دائماً بـ Gerund (V-ing): writing.",
@@ -5483,10 +5483,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_lk_37",
         "questionText": "Choose the correct option: He practiced diligently ______ pass the driving license test on his first try.",
         "options": [
-          "in order to",
-          "so that",
           "because",
-          "due to"
+          "in order to",
+          "due to",
+          "so that"
         ],
         "correctAnswer": "in order to",
         "explanation": "رابط الغرض المتبوع بمصدر مجرد pass هو in order to.",
@@ -5511,8 +5511,8 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "options": [
           "furthermore",
           "because",
-          "so",
-          "as"
+          "as",
+          "so"
         ],
         "correctAnswer": "furthermore",
         "explanation": "رابط الإضافة بين جملتين مستقلتين هو furthermore (علاوة على ذلك).",
@@ -5522,10 +5522,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_lk_40",
         "questionText": "Choose the correct option: ______ hard he tried, he couldn't loosen the rusted wheel nut.",
         "options": [
-          "However",
+          "Despite",
           "Whatever",
-          "Although",
-          "Despite"
+          "However",
+          "Although"
         ],
         "correctAnswer": "However",
         "explanation": "التركيب However + صفة/ظرف يعني مهما بلغت الشدة: However hard he tried.",
@@ -5561,10 +5561,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_lk_43",
         "questionText": "[Thanawya Amma Standard] He studied with tremendous dedication; ______, he passed with distinction.",
         "options": [
-          "therefore",
-          "however",
           "although",
-          "despite"
+          "therefore",
+          "despite",
+          "however"
         ],
         "correctAnswer": "therefore",
         "explanation": "رابط النتيجة المنطقية بين فاصلة منقوطة وفاصلة هو therefore (لذلك).",
@@ -5574,10 +5574,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_lk_44",
         "questionText": "[Thanawya Amma Standard] The school sports tournament was postponed ______ the heavy dust storm.",
         "options": [
-          "due to",
           "because",
           "since",
-          "as"
+          "as",
+          "due to"
         ],
         "correctAnswer": "due to",
         "explanation": "الرابط الدال على السبب والمتبوع باسم هو due to (بسبب).",
@@ -5588,9 +5588,9 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "questionText": "[Thanawya Amma Standard] She was absent from class yesterday ______ she had a severe toothache.",
         "options": [
           "because",
+          "owing to",
           "because of",
-          "due to",
-          "owing to"
+          "due to"
         ],
         "correctAnswer": "because",
         "explanation": "الرابط الدال على السبب والمتبوع بجملة كاملة (she had) هو because.",
@@ -5600,9 +5600,9 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_lk_46",
         "questionText": "[Thanawya Amma Standard] In addition to ______ the report, Hisham prepared the presentation slides.",
         "options": [
-          "writing",
-          "write",
           "wrote",
+          "write",
+          "writing",
           "written"
         ],
         "correctAnswer": "writing",
@@ -5613,10 +5613,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_lk_47",
         "questionText": "[Thanawya Amma Standard] He practiced diligently ______ pass the driving license test on his first try.",
         "options": [
-          "in order to",
-          "so that",
           "because",
-          "due to"
+          "so that",
+          "due to",
+          "in order to"
         ],
         "correctAnswer": "in order to",
         "explanation": "رابط الغرض المتبوع بمصدر مجرد pass هو in order to.",
@@ -5626,10 +5626,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_lk_48",
         "questionText": "[Thanawya Amma Standard] We left early ______ we wouldn't get stuck in peak hour traffic.",
         "options": [
-          "so that",
           "in order to",
-          "because of",
-          "despite"
+          "so that",
+          "despite",
+          "because of"
         ],
         "correctAnswer": "so that",
         "explanation": "رابط الغرض المتبوع بفاعل وفعل ناقص (we wouldn't) هو so that.",
@@ -5639,10 +5639,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_lk_49",
         "questionText": "[Thanawya Amma Standard] The smartphone is extremely expensive; ______, it lacks essential features.",
         "options": [
-          "furthermore",
-          "because",
           "so",
-          "as"
+          "as",
+          "furthermore",
+          "because"
         ],
         "correctAnswer": "furthermore",
         "explanation": "رابط الإضافة بين جملتين مستقلتين هو furthermore (علاوة على ذلك).",
@@ -5652,10 +5652,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_lk_50",
         "questionText": "[Thanawya Amma Standard] ______ hard he tried, he couldn't loosen the rusted wheel nut.",
         "options": [
+          "Despite",
           "However",
           "Whatever",
-          "Although",
-          "Despite"
+          "Although"
         ],
         "correctAnswer": "However",
         "explanation": "التركيب However + صفة/ظرف يعني مهما بلغت الشدة: However hard he tried.",
@@ -5716,9 +5716,9 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_cd_1",
         "questionText": "If you heat water to 100 degrees Celsius, it ______.",
         "options": [
+          "would boil",
           "boils",
           "will boil",
-          "would boil",
           "boiled"
         ],
         "correctAnswer": "boils",
@@ -5731,8 +5731,8 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "options": [
           "will achieve",
           "achieve",
-          "would achieve",
-          "achieved"
+          "achieved",
+          "would achieve"
         ],
         "correctAnswer": "will achieve",
         "explanation": "احتمال مستقبلي في الحالة الشرطية الأولى: If + present simple, will + inf.",
@@ -5742,10 +5742,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_cd_3",
         "questionText": "If I ______ a million dollars, I would build an advanced research center.",
         "options": [
-          "had",
-          "have",
           "will have",
-          "had had"
+          "had had",
+          "have",
+          "had"
         ],
         "correctAnswer": "had",
         "explanation": "افتراض غير حقيقي في الحاضر (الحالة الثانية): If + past simple (had), would + inf.",
@@ -5755,10 +5755,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_cd_4",
         "questionText": "If they had left ten minutes earlier, they ______ the morning train.",
         "options": [
-          "would have caught",
           "will catch",
+          "caught",
           "would catch",
-          "caught"
+          "would have caught"
         ],
         "correctAnswer": "would have caught",
         "explanation": "ندم واستحالة في الماضي (الحالة الثالثة): If + had + P.P, would have + P.P.",
@@ -5768,9 +5768,9 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_cd_5",
         "questionText": "If I had revised thoroughly last week, I ______ so anxious right now.",
         "options": [
-          "wouldn't be",
-          "wouldn't have been",
           "am not",
+          "wouldn't have been",
+          "wouldn't be",
           "won't be"
         ],
         "correctAnswer": "wouldn't be",
@@ -5782,9 +5782,9 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "questionText": "______ you need any further explanation, please feel free to ask.",
         "options": [
           "Should",
-          "Were",
           "Had",
-          "Unless"
+          "Unless",
+          "Were"
         ],
         "correctAnswer": "Should",
         "explanation": "حذف If في الحالة الأولى يستبدل بـ Should + فاعل + مصدر: Should you need.",
@@ -5794,8 +5794,8 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_cd_7",
         "questionText": "______ he to practice more consistently, he would excel in the tournament.",
         "options": [
-          "Were",
           "Should",
+          "Were",
           "Had",
           "If"
         ],
@@ -5807,10 +5807,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_cd_8",
         "questionText": "______ I known about the revision schedule, I would have attended.",
         "options": [
-          "Had",
           "Were",
           "Should",
-          "Did"
+          "Did",
+          "Had"
         ],
         "correctAnswer": "Had",
         "explanation": "حذف If في الحالة الثالثة: Had + Subject + P.P (Had I known).",
@@ -5820,10 +5820,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_cd_9",
         "questionText": "______ your invaluable support, I wouldn't have passed the examination.",
         "options": [
-          "Without",
-          "Unless",
+          "Provided that",
           "If",
-          "Provided that"
+          "Without",
+          "Unless"
         ],
         "correctAnswer": "Without",
         "explanation": "لولا دعمك الثمين: Without متبوعة باسم أو V-ing.",
@@ -5833,10 +5833,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_cd_10",
         "questionText": "You will easily pass the exam ______ you follow the recommended study plan.",
         "options": [
-          "provided that",
           "unless",
-          "in case of",
-          "without"
+          "provided that",
+          "without",
+          "in case of"
         ],
         "correctAnswer": "provided that",
         "explanation": "بشرط أن: provided that يتبعها جملة شرطية مثبتة كاملة.",
@@ -5846,9 +5846,9 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_cd_11",
         "questionText": "If you heat pure water to 100 degrees Celsius, it ______.",
         "options": [
-          "boils",
           "will boil",
           "would boil",
+          "boils",
           "boiled"
         ],
         "correctAnswer": "boils",
@@ -5859,10 +5859,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_cd_12",
         "questionText": "If you study systematically with Mr. Habib, you ______ full marks in English.",
         "options": [
+          "achieved",
           "will achieve",
           "achieve",
-          "would achieve",
-          "achieved"
+          "would achieve"
         ],
         "correctAnswer": "will achieve",
         "explanation": "احتمال مستقبلي في الحالة الشرطية الأولى: If + present simple, will + inf.",
@@ -5873,8 +5873,8 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "questionText": "If I ______ a vast fortune, I would build an advanced research center.",
         "options": [
           "had",
-          "have",
           "will have",
+          "have",
           "had had"
         ],
         "correctAnswer": "had",
@@ -5885,9 +5885,9 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_cd_14",
         "questionText": "If they had left ten minutes earlier, they ______ the morning train.",
         "options": [
-          "would have caught",
-          "will catch",
           "would catch",
+          "will catch",
+          "would have caught",
           "caught"
         ],
         "correctAnswer": "would have caught",
@@ -5898,10 +5898,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_cd_15",
         "questionText": "If I had revised thoroughly last week, I ______ so anxious right now.",
         "options": [
-          "wouldn't be",
+          "won't be",
           "wouldn't have been",
           "am not",
-          "won't be"
+          "wouldn't be"
         ],
         "correctAnswer": "wouldn't be",
         "explanation": "حالة مختلطة Mixed: شرط في الماضي ونتيجته تؤثر في الحاضر (right now) فتأخذ wouldn't be.",
@@ -5912,8 +5912,8 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "questionText": "______ you need any further explanation, please feel free to ask.",
         "options": [
           "Should",
-          "Were",
           "Had",
+          "Were",
           "Unless"
         ],
         "correctAnswer": "Should",
@@ -5925,9 +5925,9 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "questionText": "______ he to practice more consistently, he would excel in the tournament.",
         "options": [
           "Were",
-          "Should",
+          "If",
           "Had",
-          "If"
+          "Should"
         ],
         "correctAnswer": "Were",
         "explanation": "حذف If في الحالة الثانية مع فعل في المصدر بـ to: Were he to practice.",
@@ -5937,10 +5937,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_cd_18",
         "questionText": "______ I known about the revision schedule, I would have attended.",
         "options": [
+          "Did",
           "Had",
-          "Were",
           "Should",
-          "Did"
+          "Were"
         ],
         "correctAnswer": "Had",
         "explanation": "حذف If في الحالة الثالثة: Had + Subject + P.P (Had I known).",
@@ -5950,10 +5950,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_cd_19",
         "questionText": "______ your invaluable support, I wouldn't have passed the examination.",
         "options": [
-          "Without",
-          "Unless",
+          "Provided that",
           "If",
-          "Provided that"
+          "Unless",
+          "Without"
         ],
         "correctAnswer": "Without",
         "explanation": "لولا دعمك الثمين: Without متبوعة باسم أو V-ing.",
@@ -5964,9 +5964,9 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "questionText": "You will easily pass the exam ______ you follow the recommended study plan.",
         "options": [
           "provided that",
-          "unless",
+          "without",
           "in case of",
-          "without"
+          "unless"
         ],
         "correctAnswer": "provided that",
         "explanation": "بشرط أن: provided that يتبعها جملة شرطية مثبتة كاملة.",
@@ -5977,8 +5977,8 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "questionText": "[Exam Model 21] If you heat water to 100 degrees Celsius, it ______.",
         "options": [
           "boils",
-          "will boil",
           "would boil",
+          "will boil",
           "boiled"
         ],
         "correctAnswer": "boils",
@@ -5989,10 +5989,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_cd_22",
         "questionText": "[Exam Model 22] If you study systematically with Mr. Habib, you ______ full marks in English.",
         "options": [
-          "will achieve",
-          "achieve",
           "would achieve",
-          "achieved"
+          "achieved",
+          "will achieve",
+          "achieve"
         ],
         "correctAnswer": "will achieve",
         "explanation": "احتمال مستقبلي في الحالة الشرطية الأولى: If + present simple, will + inf.",
@@ -6002,10 +6002,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_cd_23",
         "questionText": "[Exam Model 23] If I ______ a million dollars, I would build an advanced research center.",
         "options": [
-          "had",
+          "had had",
           "have",
           "will have",
-          "had had"
+          "had"
         ],
         "correctAnswer": "had",
         "explanation": "افتراض غير حقيقي في الحاضر (الحالة الثانية): If + past simple (had), would + inf.",
@@ -6016,9 +6016,9 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "questionText": "[Exam Model 24] If they had left ten minutes earlier, they ______ the morning train.",
         "options": [
           "would have caught",
+          "caught",
           "will catch",
-          "would catch",
-          "caught"
+          "would catch"
         ],
         "correctAnswer": "would have caught",
         "explanation": "ندم واستحالة في الماضي (الحالة الثالثة): If + had + P.P, would have + P.P.",
@@ -6028,10 +6028,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_cd_25",
         "questionText": "[Exam Model 25] If I had revised thoroughly last week, I ______ so anxious right now.",
         "options": [
-          "wouldn't be",
-          "wouldn't have been",
           "am not",
-          "won't be"
+          "wouldn't be",
+          "won't be",
+          "wouldn't have been"
         ],
         "correctAnswer": "wouldn't be",
         "explanation": "حالة مختلطة Mixed: شرط في الماضي ونتيجته تؤثر في الحاضر (right now) فتأخذ wouldn't be.",
@@ -6042,8 +6042,8 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "questionText": "[Exam Model 26] ______ you need any further explanation, please feel free to ask.",
         "options": [
           "Should",
-          "Were",
           "Had",
+          "Were",
           "Unless"
         ],
         "correctAnswer": "Should",
@@ -6054,9 +6054,9 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_cd_27",
         "questionText": "[Exam Model 27] ______ he to practice more consistently, he would excel in the tournament.",
         "options": [
+          "Had",
           "Were",
           "Should",
-          "Had",
           "If"
         ],
         "correctAnswer": "Were",
@@ -6068,9 +6068,9 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "questionText": "[Exam Model 28] ______ I known about the revision schedule, I would have attended.",
         "options": [
           "Had",
-          "Were",
           "Should",
-          "Did"
+          "Did",
+          "Were"
         ],
         "correctAnswer": "Had",
         "explanation": "حذف If في الحالة الثالثة: Had + Subject + P.P (Had I known).",
@@ -6080,9 +6080,9 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_cd_29",
         "questionText": "[Exam Model 29] ______ your invaluable support, I wouldn't have passed the examination.",
         "options": [
-          "Without",
-          "Unless",
           "If",
+          "Unless",
+          "Without",
           "Provided that"
         ],
         "correctAnswer": "Without",
@@ -6093,9 +6093,9 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_cd_30",
         "questionText": "[Exam Model 30] You will easily pass the exam ______ you follow the recommended study plan.",
         "options": [
-          "provided that",
-          "unless",
           "in case of",
+          "unless",
+          "provided that",
           "without"
         ],
         "correctAnswer": "provided that",
@@ -6106,10 +6106,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_cd_31",
         "questionText": "Choose the correct option: If you heat water to 100 degrees Celsius, it ______.",
         "options": [
-          "boils",
-          "will boil",
           "would boil",
-          "boiled"
+          "boiled",
+          "will boil",
+          "boils"
         ],
         "correctAnswer": "boils",
         "explanation": "حقيقة علمية ثابتة في الحالة الصفرية: If + present simple, present simple (boils).",
@@ -6119,10 +6119,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_cd_32",
         "questionText": "Choose the correct option: If you study systematically with Mr. Habib, you ______ full marks in English.",
         "options": [
-          "will achieve",
-          "achieve",
+          "achieved",
           "would achieve",
-          "achieved"
+          "will achieve",
+          "achieve"
         ],
         "correctAnswer": "will achieve",
         "explanation": "احتمال مستقبلي في الحالة الشرطية الأولى: If + present simple, will + inf.",
@@ -6132,10 +6132,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_cd_33",
         "questionText": "Choose the correct option: If I ______ a million dollars, I would build an advanced research center.",
         "options": [
+          "had had",
           "had",
-          "have",
           "will have",
-          "had had"
+          "have"
         ],
         "correctAnswer": "had",
         "explanation": "افتراض غير حقيقي في الحاضر (الحالة الثانية): If + past simple (had), would + inf.",
@@ -6145,10 +6145,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_cd_34",
         "questionText": "Choose the correct option: If they had left ten minutes earlier, they ______ the morning train.",
         "options": [
-          "would have caught",
-          "will catch",
+          "caught",
           "would catch",
-          "caught"
+          "will catch",
+          "would have caught"
         ],
         "correctAnswer": "would have caught",
         "explanation": "ندم واستحالة في الماضي (الحالة الثالثة): If + had + P.P, would have + P.P.",
@@ -6158,10 +6158,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_cd_35",
         "questionText": "Choose the correct option: If I had revised thoroughly last week, I ______ so anxious right now.",
         "options": [
-          "wouldn't be",
-          "wouldn't have been",
           "am not",
-          "won't be"
+          "won't be",
+          "wouldn't be",
+          "wouldn't have been"
         ],
         "correctAnswer": "wouldn't be",
         "explanation": "حالة مختلطة Mixed: شرط في الماضي ونتيجته تؤثر في الحاضر (right now) فتأخذ wouldn't be.",
@@ -6171,8 +6171,8 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_cd_36",
         "questionText": "Choose the correct option: ______ you need any further explanation, please feel free to ask.",
         "options": [
-          "Should",
           "Were",
+          "Should",
           "Had",
           "Unless"
         ],
@@ -6184,10 +6184,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_cd_37",
         "questionText": "Choose the correct option: ______ he to practice more consistently, he would excel in the tournament.",
         "options": [
-          "Were",
           "Should",
+          "If",
           "Had",
-          "If"
+          "Were"
         ],
         "correctAnswer": "Were",
         "explanation": "حذف If في الحالة الثانية مع فعل في المصدر بـ to: Were he to practice.",
@@ -6198,9 +6198,9 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "questionText": "Choose the correct option: ______ I known about the revision schedule, I would have attended.",
         "options": [
           "Had",
+          "Did",
           "Were",
-          "Should",
-          "Did"
+          "Should"
         ],
         "correctAnswer": "Had",
         "explanation": "حذف If في الحالة الثالثة: Had + Subject + P.P (Had I known).",
@@ -6210,10 +6210,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_cd_39",
         "questionText": "Choose the correct option: ______ your invaluable support, I wouldn't have passed the examination.",
         "options": [
+          "Provided that",
           "Without",
           "Unless",
-          "If",
-          "Provided that"
+          "If"
         ],
         "correctAnswer": "Without",
         "explanation": "لولا دعمك الثمين: Without متبوعة باسم أو V-ing.",
@@ -6224,8 +6224,8 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "questionText": "Choose the correct option: You will easily pass the exam ______ you follow the recommended study plan.",
         "options": [
           "provided that",
-          "unless",
           "in case of",
+          "unless",
           "without"
         ],
         "correctAnswer": "provided that",
@@ -6236,10 +6236,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_cd_41",
         "questionText": "[Thanawya Amma Standard] If you heat water to 100 degrees Celsius, it ______.",
         "options": [
-          "boils",
           "will boil",
+          "boiled",
           "would boil",
-          "boiled"
+          "boils"
         ],
         "correctAnswer": "boils",
         "explanation": "حقيقة علمية ثابتة في الحالة الصفرية: If + present simple, present simple (boils).",
@@ -6249,10 +6249,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_cd_42",
         "questionText": "[Thanawya Amma Standard] If you study systematically with Mr. Habib, you ______ full marks in English.",
         "options": [
-          "will achieve",
           "achieve",
           "would achieve",
-          "achieved"
+          "achieved",
+          "will achieve"
         ],
         "correctAnswer": "will achieve",
         "explanation": "احتمال مستقبلي في الحالة الشرطية الأولى: If + present simple, will + inf.",
@@ -6262,10 +6262,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_cd_43",
         "questionText": "[Thanawya Amma Standard] If I ______ a million dollars, I would build an advanced research center.",
         "options": [
-          "had",
-          "have",
+          "had had",
           "will have",
-          "had had"
+          "had",
+          "have"
         ],
         "correctAnswer": "had",
         "explanation": "افتراض غير حقيقي في الحاضر (الحالة الثانية): If + past simple (had), would + inf.",
@@ -6275,10 +6275,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_cd_44",
         "questionText": "[Thanawya Amma Standard] If they had left ten minutes earlier, they ______ the morning train.",
         "options": [
+          "caught",
           "would have caught",
           "will catch",
-          "would catch",
-          "caught"
+          "would catch"
         ],
         "correctAnswer": "would have caught",
         "explanation": "ندم واستحالة في الماضي (الحالة الثالثة): If + had + P.P, would have + P.P.",
@@ -6289,9 +6289,9 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "questionText": "[Thanawya Amma Standard] If I had revised thoroughly last week, I ______ so anxious right now.",
         "options": [
           "wouldn't be",
-          "wouldn't have been",
           "am not",
-          "won't be"
+          "won't be",
+          "wouldn't have been"
         ],
         "correctAnswer": "wouldn't be",
         "explanation": "حالة مختلطة Mixed: شرط في الماضي ونتيجته تؤثر في الحاضر (right now) فتأخذ wouldn't be.",
@@ -6301,10 +6301,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_cd_46",
         "questionText": "[Thanawya Amma Standard] ______ you need any further explanation, please feel free to ask.",
         "options": [
+          "Unless",
           "Should",
           "Were",
-          "Had",
-          "Unless"
+          "Had"
         ],
         "correctAnswer": "Should",
         "explanation": "حذف If في الحالة الأولى يستبدل بـ Should + فاعل + مصدر: Should you need.",
@@ -6314,10 +6314,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_cd_47",
         "questionText": "[Thanawya Amma Standard] ______ he to practice more consistently, he would excel in the tournament.",
         "options": [
-          "Were",
-          "Should",
           "Had",
-          "If"
+          "Should",
+          "If",
+          "Were"
         ],
         "correctAnswer": "Were",
         "explanation": "حذف If في الحالة الثانية مع فعل في المصدر بـ to: Were he to practice.",
@@ -6327,9 +6327,9 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_cd_48",
         "questionText": "[Thanawya Amma Standard] ______ I known about the revision schedule, I would have attended.",
         "options": [
-          "Had",
           "Were",
           "Should",
+          "Had",
           "Did"
         ],
         "correctAnswer": "Had",
@@ -6340,10 +6340,10 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_cd_49",
         "questionText": "[Thanawya Amma Standard] ______ your invaluable support, I wouldn't have passed the examination.",
         "options": [
-          "Without",
+          "Provided that",
           "Unless",
-          "If",
-          "Provided that"
+          "Without",
+          "If"
         ],
         "correctAnswer": "Without",
         "explanation": "لولا دعمك الثمين: Without متبوعة باسم أو V-ing.",
@@ -6353,9 +6353,9 @@ export const grammarPackages: Record<string, GrammarTopicPackage> = {
         "id": "q_cd_50",
         "questionText": "[Thanawya Amma Standard] You will easily pass the exam ______ you follow the recommended study plan.",
         "options": [
+          "in case of",
           "provided that",
           "unless",
-          "in case of",
           "without"
         ],
         "correctAnswer": "provided that",

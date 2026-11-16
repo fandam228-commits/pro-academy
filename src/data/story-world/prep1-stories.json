@@ -163,9 +163,9 @@
             "question": "What was the students' first challenge inside the Magic Classroom?",
             "options": [
               "A locked box",
-              "A steep mountain",
+              "A mathematical exam",
               "A deep river",
-              "A mathematical exam"
+              "A steep mountain"
             ],
             "correctAnswer": "A locked box",
             "explanation": "They had to pool their ideas to unlock the enchanted box."
@@ -268,9 +268,9 @@
             "id": "mcq_prep1_ch2_1",
             "question": "What sign was posted before the invisible bridge?",
             "options": [
-              "Only those with respect, ambition, and courage can cross",
-              "Keep off the grass",
               "Danger: Deep water",
+              "Keep off the grass",
+              "Only those with respect, ambition, and courage can cross",
               "First prize winners only"
             ],
             "correctAnswer": "Only those with respect, ambition, and courage can cross",
@@ -374,10 +374,10 @@
             "id": "mcq_prep1_ch3_1",
             "question": "What rested on the crystal pedestal in the final chamber?",
             "options": [
-              "A glowing book of values",
               "A chest of gold coins",
+              "A trophy",
               "A magic wand",
-              "A trophy"
+              "A glowing book of values"
             ],
             "correctAnswer": "A glowing book of values",
             "explanation": "The glowing book held the enduring lessons of character and cooperation."
@@ -557,10 +557,10 @@
             "id": "mcq_prep1_ch4_1",
             "question": "Why did Lily feel left out in the first meeting?",
             "options": [
-              "Her ideas were initially ignored in the rush",
+              "She arrived late",
               "She did not want to work",
               "She forgot her notebook",
-              "She arrived late"
+              "Her ideas were initially ignored in the rush"
             ],
             "correctAnswer": "Her ideas were initially ignored in the rush",
             "explanation": "Sara intervened to ensure Lily's voice was welcomed and valued."
@@ -663,9 +663,9 @@
             "id": "mcq_prep1_ch5_1",
             "question": "What change occurred in Lily during the testing phase?",
             "options": [
-              "She overcame her shyness and proposed iterative testing",
               "She decided to leave the group",
               "She refused to speak to Karim",
+              "She overcame her shyness and proposed iterative testing",
               "She took over all of Omar's tasks"
             ],
             "correctAnswer": "She overcame her shyness and proposed iterative testing",
@@ -769,10 +769,10 @@
             "id": "mcq_prep1_ch6_1",
             "question": "What is the concluding message of 'The Dream Team'?",
             "options": [
-              "Good values and teamwork are more important than winning trophies",
               "Winning at any cost is the only goal",
+              "Competitions should be avoided",
               "Building machines is easy for one person",
-              "Competitions should be avoided"
+              "Good values and teamwork are more important than winning trophies"
             ],
             "correctAnswer": "Good values and teamwork are more important than winning trophies",
             "explanation": "True victory is rooted in collaborative ethics and service."

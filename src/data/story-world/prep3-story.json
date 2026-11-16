@@ -426,10 +426,10 @@
           "id": "mcq_prep3_ch1_1",
           "question": "What is the main achievement described in Chapter 1 (A New Challenge)?",
           "options": [
+            "The school playground is paved with more asphalt",
             "Zeina took responsibility for her idea.",
-            "The students decide to close the garden project permanently",
             "Zeina moves to another school and stops participating",
-            "The school playground is paved with more asphalt"
+            "The students decide to close the garden project permanently"
           ],
           "correctAnswer": "Zeina took responsibility for her idea.",
           "explanation": "Chapter events showcase student collaboration, creative problem-solving, and communal pride."
@@ -439,9 +439,9 @@
           "question": "What leadership quality does Zeina demonstrate?",
           "options": [
             "Taking responsibility, admitting limitations honestly, and encouraging everyone's talents",
+            "Quitting the project as soon as difficulties arise",
             "Blaming other students whenever problems occur",
-            "Doing all the work alone without listening to teammates",
-            "Quitting the project as soon as difficulties arise"
+            "Doing all the work alone without listening to teammates"
           ],
           "correctAnswer": "Taking responsibility, admitting limitations honestly, and encouraging everyone's talents",
           "explanation": "True leadership fosters shared purpose, mutual respect, and honest communication."
@@ -865,10 +865,10 @@
           "id": "mcq_prep3_ch2_1",
           "question": "What is the main achievement described in Chapter 2 (Taking Initiative and Building a Team)?",
           "options": [
-            "The project officially began.",
-            "The students decide to close the garden project permanently",
             "Zeina moves to another school and stops participating",
-            "The school playground is paved with more asphalt"
+            "The school playground is paved with more asphalt",
+            "The students decide to close the garden project permanently",
+            "The project officially began."
           ],
           "correctAnswer": "The project officially began.",
           "explanation": "Chapter events showcase student collaboration, creative problem-solving, and communal pride."
@@ -1120,10 +1120,10 @@
           "id": "mcq_prep3_ch3_1",
           "question": "What is the main achievement described in Chapter 3 (Facing Problems with Determination)?",
           "options": [
-            "The students work as an integrated team to improve the school environment",
             "The students decide to close the garden project permanently",
-            "Zeina moves to another school and stops participating",
-            "The school playground is paved with more asphalt"
+            "The students work as an integrated team to improve the school environment",
+            "The school playground is paved with more asphalt",
+            "Zeina moves to another school and stops participating"
           ],
           "correctAnswer": "The students work as an integrated team to improve the school environment",
           "explanation": "Chapter events showcase student collaboration, creative problem-solving, and communal pride."
@@ -1132,10 +1132,10 @@
           "id": "mcq_prep3_ch3_2",
           "question": "What leadership quality does Zeina demonstrate?",
           "options": [
-            "Taking responsibility, admitting limitations honestly, and encouraging everyone's talents",
             "Blaming other students whenever problems occur",
-            "Doing all the work alone without listening to teammates",
-            "Quitting the project as soon as difficulties arise"
+            "Quitting the project as soon as difficulties arise",
+            "Taking responsibility, admitting limitations honestly, and encouraging everyone's talents",
+            "Doing all the work alone without listening to teammates"
           ],
           "correctAnswer": "Taking responsibility, admitting limitations honestly, and encouraging everyone's talents",
           "explanation": "True leadership fosters shared purpose, mutual respect, and honest communication."
@@ -1301,10 +1301,10 @@
           "id": "mcq_prep3_ch4_1",
           "question": "What is the main achievement described in Chapter 4 (Growing Success)?",
           "options": [
-            "The students work as an integrated team to improve the school environment",
-            "The students decide to close the garden project permanently",
+            "The school playground is paved with more asphalt",
             "Zeina moves to another school and stops participating",
-            "The school playground is paved with more asphalt"
+            "The students decide to close the garden project permanently",
+            "The students work as an integrated team to improve the school environment"
           ],
           "correctAnswer": "The students work as an integrated team to improve the school environment",
           "explanation": "Chapter events showcase student collaboration, creative problem-solving, and communal pride."
@@ -1313,10 +1313,10 @@
           "id": "mcq_prep3_ch4_2",
           "question": "What leadership quality does Zeina demonstrate?",
           "options": [
-            "Taking responsibility, admitting limitations honestly, and encouraging everyone's talents",
-            "Blaming other students whenever problems occur",
+            "Quitting the project as soon as difficulties arise",
             "Doing all the work alone without listening to teammates",
-            "Quitting the project as soon as difficulties arise"
+            "Taking responsibility, admitting limitations honestly, and encouraging everyone's talents",
+            "Blaming other students whenever problems occur"
           ],
           "correctAnswer": "Taking responsibility, admitting limitations honestly, and encouraging everyone's talents",
           "explanation": "True leadership fosters shared purpose, mutual respect, and honest communication."
@@ -1632,9 +1632,9 @@
           "question": "What is the main achievement described in Chapter 5 (The Impact of Growth)?",
           "options": [
             "The following year, Zeina became president of the student council.",
-            "The students decide to close the garden project permanently",
             "Zeina moves to another school and stops participating",
-            "The school playground is paved with more asphalt"
+            "The school playground is paved with more asphalt",
+            "The students decide to close the garden project permanently"
           ],
           "correctAnswer": "The following year, Zeina became president of the student council.",
           "explanation": "Chapter events showcase student collaboration, creative problem-solving, and communal pride."
@@ -1643,10 +1643,10 @@
           "id": "mcq_prep3_ch5_2",
           "question": "What leadership quality does Zeina demonstrate?",
           "options": [
-            "Taking responsibility, admitting limitations honestly, and encouraging everyone's talents",
-            "Blaming other students whenever problems occur",
             "Doing all the work alone without listening to teammates",
-            "Quitting the project as soon as difficulties arise"
+            "Blaming other students whenever problems occur",
+            "Quitting the project as soon as difficulties arise",
+            "Taking responsibility, admitting limitations honestly, and encouraging everyone's talents"
           ],
           "correctAnswer": "Taking responsibility, admitting limitations honestly, and encouraging everyone's talents",
           "explanation": "True leadership fosters shared purpose, mutual respect, and honest communication."
@@ -2038,8 +2038,8 @@
           "options": [
             "The students work as an integrated team to improve the school environment",
             "The students decide to close the garden project permanently",
-            "Zeina moves to another school and stops participating",
-            "The school playground is paved with more asphalt"
+            "The school playground is paved with more asphalt",
+            "Zeina moves to another school and stops participating"
           ],
           "correctAnswer": "The students work as an integrated team to improve the school environment",
           "explanation": "Chapter events showcase student collaboration, creative problem-solving, and communal pride."
@@ -2048,10 +2048,10 @@
           "id": "mcq_prep3_ch6_2",
           "question": "What leadership quality does Zeina demonstrate?",
           "options": [
-            "Taking responsibility, admitting limitations honestly, and encouraging everyone's talents",
             "Blaming other students whenever problems occur",
-            "Doing all the work alone without listening to teammates",
-            "Quitting the project as soon as difficulties arise"
+            "Quitting the project as soon as difficulties arise",
+            "Taking responsibility, admitting limitations honestly, and encouraging everyone's talents",
+            "Doing all the work alone without listening to teammates"
           ],
           "correctAnswer": "Taking responsibility, admitting limitations honestly, and encouraging everyone's talents",
           "explanation": "True leadership fosters shared purpose, mutual respect, and honest communication."

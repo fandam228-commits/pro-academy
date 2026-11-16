@@ -11,6 +11,10 @@ import { NextResponse } from "next/server";
 import { ensureDbSetup } from "@/db/migrate-and-seed";
 import { getAuthContext } from "@/lib/security";
 import { createExamAttemptSession, gradeExamAttempt } from "@/lib/smart-shuffle-engine";
+import EXTRACTED_TRAINING_QUESTIONS from "@/data/training-center-extracted-questions.json";
+
+const globalExamSessions = ((globalThis as any).__paExamSessions =
+  (globalThis as any).__paExamSessions || new Map<string, any>());
 
 export async function GET(req: Request) {
   try {
@@ -90,6 +94,38 @@ export async function POST(req: Request) {
         conditions.push(eq(trainingQuestions.difficulty, difficulty));
       }
 
+      if (!process.env.DATABASE_URL) {
+        let filtered = (EXTRACTED_TRAINING_QUESTIONS as any[]).filter(
+          (q) => q.isPublished && q.validationStatus === "complete_verified"
+        );
+        if (topic && topic !== "all") {
+          filtered = filtered.filter((q) => q.topic === topic);
+        }
+        if (difficulty && difficulty !== "all") {
+          filtered = filtered.filter((q) => q.difficulty === difficulty);
+        }
+        if (filtered.length === 0) {
+          filtered = (EXTRACTED_TRAINING_QUESTIONS as any[]).slice(0, 50);
+        }
+        const shuffled = [...filtered].sort(() => Math.random() - 0.5).slice(0, qCount);
+        const attemptSession = createExamAttemptSession(shuffled);
+        const sessionId = `tes_preview_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`;
+        globalExamSessions.set(sessionId, {
+          id: sessionId,
+          studentId: currentUser?.id || "preview_student",
+          questionIds: shuffled.map((q) => q.id),
+          secrets: attemptSession.secrets,
+          totalQuestions: attemptSession.totalQuestions,
+        });
+        return NextResponse.json({
+          success: true,
+          sessionId,
+          questions: attemptSession.clientQuestions,
+          totalQuestions: attemptSession.totalQuestions,
+          durationMinutes: duration,
+        });
+      }
+
       const availableQuestions = await db
         .select({
           id: trainingQuestions.id,
@@ -146,6 +182,29 @@ export async function POST(req: Request) {
 
       if (!sessionId) {
         return NextResponse.json({ success: false, error: "Session ID is required" }, { status: 400 });
+      }
+
+      if (!process.env.DATABASE_URL) {
+        const memSession = globalExamSessions.get(sessionId);
+        if (memSession && memSession.secrets) {
+          const graded = gradeExamAttempt(memSession.secrets, studentAnswers);
+          const totalQuestions = memSession.totalQuestions || graded.detailedResults.length;
+          const percentage = totalQuestions > 0 ? Number(((graded.score / totalQuestions) * 100).toFixed(2)) : 0;
+          const passed = percentage >= 60;
+          const pointsEarned = graded.score * 10 + (passed ? 50 : 0);
+          return NextResponse.json({
+            success: true,
+            examResult: {
+              sessionId,
+              score: graded.score,
+              totalQuestions,
+              percentage,
+              passed,
+              pointsEarned,
+              detailedResults: graded.detailedResults,
+            },
+          });
+        }
       }
 
       const sessionRes = await db

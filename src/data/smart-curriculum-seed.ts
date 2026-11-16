@@ -284,8 +284,8 @@ function buildUnitSections(gradeCode: string, unit: CurriculumUnitSpec) {
               type: "mcq",
               prompt: `Select the sentence exhibiting flawless structural inversion relevant to ${unit.titleEn}:`,
               options: [
-                "Seldom have individuals demonstrated such resilience in complex crises.",
                 "Seldom individuals have demonstrated such resilience.",
+                "Seldom have individuals demonstrated such resilience in complex crises.",
                 "Seldom did individuals demonstrated such resilience.",
                 "Seldom individuals demonstrated resilience.",
               ],
@@ -582,10 +582,10 @@ function buildUnitSections(gradeCode: string, unit: CurriculumUnitSpec) {
             type: "mcq",
             prompt: `Choose the correct option reflecting ${unit.grammarTopicEn || "the grammar rule"}:`,
             options: [
-              "has been developing",
               "was developed",
-              "is develop",
               "had developing",
+              "has been developing",
+              "is develop",
             ],
             correctAnswer: "has been developing",
             explanation: "The context indicates an ongoing action starting in the past and continuing up to the present.",
@@ -720,10 +720,10 @@ function mapGradeSpecToSeed(spec: CurriculumGradeSpec): CurriculumSeedGrade {
           {
             question: "What primary narrative function does Edward Malone serve in this chapter?",
             options: [
-              "The objective first-person chronicler of the expedition's trials",
               "The antagonist opposing Professor Challenger",
               "A minor spectator with no active involvement",
               "The financial sponsor of the South American voyage",
+              "The objective first-person chronicler of the expedition's trials",
             ],
             correctAnswer: "The objective first-person chronicler of the expedition's trials",
             explanation: "Malone acts as the reader's eyes and ears, recording events with journalistic detail.",
@@ -793,8 +793,8 @@ function mapGradeSpecToSeed(spec: CurriculumGradeSpec): CurriculumSeedGrade {
         {
           question: "What is the primary moral message conveyed in this chapter?",
           options: [
-            "True dignity comes from perseverance and moral integrity",
             "Material wealth is more important than honor",
+            "True dignity comes from perseverance and moral integrity",
             "Giving up early prevents hardship",
             "Solitude is always preferable to cooperation",
           ],
