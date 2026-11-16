@@ -6,6 +6,61 @@ import { ensureDbSetup } from "@/db/migrate-and-seed";
 import { requireRoles, getAuthContext } from "@/lib/security";
 import { answersMatch, normalizedAnswerSet } from "@/lib/question-grading.mjs";
 import { rebalanceQuestionSet } from "@/lib/mcq-balancer";
+import QUESTION_BANK_2027_MASTER from "@/data/question-bank-2027-master.json";
+
+function filterFallbackMaster(params: {
+  domainCategory?: string | null;
+  stage?: string | null;
+  grade?: string | null;
+  curriculum?: string | null;
+  term?: string | null;
+  unit?: string | null;
+  questionType?: string | null;
+  difficulty?: string | null;
+  source?: string | null;
+  lesson?: string | null;
+  section?: string | null;
+  grammarTopic?: string | null;
+  topic?: string | null;
+  search?: string | null;
+  limit?: number;
+}) {
+  let list = (QUESTION_BANK_2027_MASTER as any[]);
+  if (params.domainCategory && params.domainCategory !== "All") {
+    const domains = params.domainCategory.split(",").map((d) => d.trim().toLowerCase());
+    list = list.filter((q) => domains.includes(String(q.domainCategory || "").toLowerCase()));
+  }
+  if (params.stage && params.stage !== "All") {
+    list = list.filter((q) => String(q.stage || "").toLowerCase() === params.stage!.toLowerCase());
+  }
+  if (params.grade && params.grade !== "All") {
+    list = list.filter((q) => String(q.grade || "").toLowerCase() === params.grade!.toLowerCase());
+  }
+  if (params.curriculum && params.curriculum !== "All") {
+    list = list.filter((q) => String(q.curriculum || "").toLowerCase() === params.curriculum!.toLowerCase());
+  }
+  if (params.term && params.term !== "All") {
+    list = list.filter((q) => String(q.term || "").toLowerCase() === params.term!.toLowerCase());
+  }
+  if (params.unit && params.unit !== "All") {
+    list = list.filter((q) => String(q.unit || "").toLowerCase() === params.unit!.toLowerCase());
+  }
+  if (params.questionType && params.questionType !== "All") {
+    list = list.filter((q) => String(q.questionType || "").toLowerCase() === params.questionType!.toLowerCase());
+  }
+  if (params.difficulty && params.difficulty !== "All") {
+    list = list.filter((q) => String(q.difficulty || "").toLowerCase() === params.difficulty!.toLowerCase());
+  }
+  if (params.search) {
+    const s = params.search.toLowerCase();
+    list = list.filter((q) =>
+      String(q.questionText || "").toLowerCase().includes(s) ||
+      String(q.topic || "").toLowerCase().includes(s) ||
+      String(q.explanation || "").toLowerCase().includes(s)
+    );
+  }
+  return list.slice(0, params.limit || 100);
+}
 
 export async function GET(req: Request) {
   await ensureDbSetup();
@@ -58,11 +113,31 @@ export async function GET(req: Request) {
       conditions.push(sql`(${questionBank.questionText} ILIKE ${pattern} OR ${questionBank.topic} ILIKE ${pattern})`);
     }
 
-    const allQuestions = await db
+    let allQuestions = await db
       .select()
       .from(questionBank)
       .where(conditions.length ? and(...conditions) : undefined)
       .limit(limit);
+
+    if (allQuestions.length === 0) {
+      allQuestions = filterFallbackMaster({
+        domainCategory,
+        stage,
+        grade,
+        curriculum,
+        term,
+        unit,
+        questionType,
+        difficulty,
+        source,
+        lesson,
+        section,
+        grammarTopic,
+        topic,
+        search,
+        limit,
+      });
+    }
 
     // Analytics summary
     const totalCount = allQuestions.length;
@@ -79,8 +154,33 @@ export async function GET(req: Request) {
       },
     });
   } catch (error) {
-    console.error("Question Bank GET error:", error);
-    return NextResponse.json({ error: "Failed to fetch question bank" }, { status: 500 });
+    console.error("Question Bank GET error, falling back to master catalog:", error);
+    const fallbackQuestions = filterFallbackMaster({
+      domainCategory,
+      stage,
+      grade,
+      curriculum,
+      term,
+      unit,
+      questionType,
+      difficulty,
+      source,
+      lesson,
+      section,
+      grammarTopic,
+      topic,
+      search,
+      limit,
+    });
+    const safeQuestions = (ctx.user.role === "admin" || ctx.user.role === "teacher") ? fallbackQuestions : fallbackQuestions.map(({ correctAnswer, ...q }: any) => q);
+    return NextResponse.json({
+      questions: safeQuestions,
+      stats: {
+        total: fallbackQuestions.length,
+        vocabularyCount: fallbackQuestions.filter((q: any) => q.domainCategory === "Vocabulary").length,
+        grammarCount: fallbackQuestions.filter((q: any) => q.domainCategory === "Grammar").length,
+      },
+    });
   }
 }
 
