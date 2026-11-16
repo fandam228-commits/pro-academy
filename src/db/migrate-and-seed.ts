@@ -2252,6 +2252,33 @@ export async function seedTrainingCenterQuestionsIfEmpty(): Promise<void> {
       .limit(1);
 
     if (existing.length > 0) {
+      // Check if legacy unpruned rows with >4 options exist in the database
+      try {
+        const sampleOver4 = await db
+          .select({ id: trainingQuestions.id })
+          .from(trainingQuestions)
+          .where(sql`jsonb_array_length(options) > 4`)
+          .limit(1);
+
+        if (sampleOver4.length > 0) {
+          console.log("Pruning training questions with > 4 options in database...");
+          for (const q of (EXTRACTED_TRAINING_QUESTIONS as any[])) {
+            if (Array.isArray(q.options) && q.options.length <= 4) {
+              await db
+                .update(trainingQuestions)
+                .set({
+                  options: q.options,
+                  optionsCount: q.options.length,
+                  correctAnswer: q.correctAnswer,
+                })
+                .where(eq(trainingQuestions.id, q.id));
+            }
+          }
+          console.log("Training questions pruned and rebalanced in database!");
+        }
+      } catch (checkErr) {
+        // Non-blocking fallback
+      }
       return;
     }
 
@@ -2330,20 +2357,23 @@ export async function seedDialogueCenterIfEmpty(): Promise<void> {
 
 export async function seedMasterQuestionBank2027IfEmpty(): Promise<void> {
   try {
-    const existing2027 = await db
-      .select({ id: questionBank.id })
+    const sample = await db
+      .select({ id: questionBank.id, options: questionBank.options })
       .from(questionBank)
-      .where(sql`${questionBank.id} LIKE 'qb_2027_%'`)
+      .where(eq(questionBank.id, "qb_2027_prep1_mcq_001"))
       .limit(1);
 
-    if (existing2027.length > 0) {
-      return;
+    if (
+      sample.length > 0 &&
+      Array.isArray(sample[0].options) &&
+      sample[0].options[3] === "always enjoys"
+    ) {
+      return; // Already synced with balanced 2027 standard
     }
 
-    console.log(`Seeding ${QUESTION_BANK_2027_MASTER.length} Master 2027 Interactive Curriculum Questions...`);
-    const BATCH_SIZE = 25;
-    for (let i = 0; i < QUESTION_BANK_2027_MASTER.length; i += BATCH_SIZE) {
-      const chunk = QUESTION_BANK_2027_MASTER.slice(i, i + BATCH_SIZE).map((q: any) => ({
+    console.log(`Seeding & Rebalancing ${QUESTION_BANK_2027_MASTER.length} Master 2027 Questions...`);
+    for (const q of (QUESTION_BANK_2027_MASTER as any[])) {
+      const qVal = {
         id: q.id,
         domainCategory: q.domainCategory || "Grammar",
         questionText: q.questionText,
@@ -2370,11 +2400,24 @@ export async function seedMasterQuestionBank2027IfEmpty(): Promise<void> {
         explanation: q.explanation || "",
         points: q.points || 10,
         timesUsed: 0,
-      }));
+      };
 
-      await db.insert(questionBank).values(chunk).onConflictDoNothing();
+      await db
+        .insert(questionBank)
+        .values(qVal)
+        .onConflictDoUpdate({
+          target: questionBank.id,
+          set: {
+            options: qVal.options,
+            correctAnswer: qVal.correctAnswer,
+            explanation: qVal.explanation,
+            questionText: qVal.questionText,
+            points: qVal.points,
+          },
+        });
     }
-    console.log("Master 2027 Interactive Question Bank seeded successfully!");
+
+    console.log("Master 2027 Interactive Question Bank rebalanced and synced successfully!");
   } catch (error) {
     console.error("Seed Master Question Bank 2027 Error:", error);
   }

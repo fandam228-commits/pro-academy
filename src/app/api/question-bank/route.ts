@@ -150,8 +150,20 @@ export async function GET(req: Request) {
     const vocabCount = allQuestions.filter((q) => q.domainCategory === "Vocabulary").length;
     const grammarCount = allQuestions.filter((q) => q.domainCategory === "Grammar").length;
 
-    // Standardize all questions to strictly <= 4 options
-    const standardizedQuestions = allQuestions.map(standardizeQuestionOptions);
+    // Standardize all questions to strictly <= 4 options and sync with 2027 master distribution
+    const masterMap = new Map((QUESTION_BANK_2027_MASTER as any[]).map((q) => [q.id, q]));
+    const standardizedQuestions = allQuestions.map((q) => {
+      const master = masterMap.get(q.id);
+      if (master) {
+        return {
+          ...q,
+          options: master.options,
+          correctAnswer: master.correctAnswer,
+          explanation: master.explanation || q.explanation,
+        };
+      }
+      return standardizeQuestionOptions(q);
+    });
 
     const safeQuestions = (ctx.user.role === "admin" || ctx.user.role === "teacher")
       ? standardizedQuestions
