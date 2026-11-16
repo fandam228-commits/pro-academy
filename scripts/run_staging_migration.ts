@@ -1,6 +1,6 @@
 /**
  * PROFESSIONAL ACADEMY — SAFE STAGING MIGRATION & VALIDATION RUNNER
- * Strictly targets only the Neon staging branch (staging-alwaled).
+ * Strictly targets only the Neon staging branch (staging-alwaled / ep-young-recipe-b2v76h2n).
  * Enforces production safety guards, transaction atomicity, and rollback testing.
  */
 
@@ -8,37 +8,80 @@ import { Pool } from "pg";
 import fs from "fs";
 import path from "path";
 
-const stagingDbUrl = process.env.STAGING_DATABASE_URL || process.argv[2];
+const APPROVED_STAGING_ENDPOINT = "ep-young-recipe-b2v76h2n";
+
+// Helper to load staging URL from .env.staging.local, .env.staging, or process.env
+function resolveStagingUrl(): string | null {
+  if (process.env.STAGING_DATABASE_URL) {
+    return process.env.STAGING_DATABASE_URL.trim();
+  }
+
+  const candidateFiles = [
+    path.join(process.cwd(), ".env.staging.local"),
+    path.join(process.cwd(), ".env.staging"),
+    path.join(process.cwd(), ".env.local"),
+  ];
+
+  for (const file of candidateFiles) {
+    if (fs.existsSync(file)) {
+      const content = fs.readFileSync(file, "utf-8");
+      for (const line of content.split("\n")) {
+        const trimmed = line.trim();
+        if (trimmed.startsWith("STAGING_DATABASE_URL=")) {
+          const val = trimmed.split("=", 1)[1] || trimmed.substring("STAGING_DATABASE_URL=".length);
+          return val.replace(/^["']|["']$/g, "").trim();
+        }
+        if (file.endsWith(".staging.local") && trimmed.startsWith("DATABASE_URL=")) {
+          const val = trimmed.substring("DATABASE_URL=".length);
+          return val.replace(/^["']|["']$/g, "").trim();
+        }
+      }
+    }
+  }
+
+  if (process.argv[2]) {
+    return process.argv[2].trim();
+  }
+
+  return null;
+}
+
+const stagingDbUrl = resolveStagingUrl();
 
 if (!stagingDbUrl) {
   console.error("❌ ERROR: STAGING_DATABASE_URL is missing.");
-  console.error("Usage: npx tsx scripts/run_staging_migration.ts \"<staging-connection-string>\"");
+  console.error("\nTo execute securely without exposing secrets:");
+  console.error("1. Create a local file named: .env.staging.local (strictly ignored by .gitignore)");
+  console.error("2. Add this line inside it:");
+  console.error("   STAGING_DATABASE_URL=\"postgresql://neondb_owner:YOUR_PASSWORD@ep-young-recipe-b2v76h2n.eu-central-1.aws.neon.tech/neondb?sslmode=require\"");
+  console.error("3. Re-run this script.\n");
   process.exit(1);
 }
 
-// 1. SAFETY GUARD: Verify connection string targets staging only
+// 1. SAFETY GUARD: Verify connection string targets approved staging endpoint only
 function verifyStagingTarget(url: string) {
   try {
     const parsed = new URL(url);
     const host = parsed.hostname.toLowerCase();
     const dbPath = parsed.pathname.toLowerCase();
     
+    // Masked display
+    const masked = url.replace(/\/\/([^:]+):([^@]+)@/, "//$1:********@");
+    console.log(`\n🔒 Connection String: ${masked}`);
     console.log(`🔍 Target Host: ${host}`);
     console.log(`🔍 Target Database: ${dbPath}`);
 
-    // Check if host contains staging-alwaled or ep- identifier
-    const isStaging = host.includes("staging") || host.includes("alwaled") || host.includes("neon.tech");
-    
-    if (!isStaging) {
-      throw new Error(`Target host "${host}" does not appear to be a valid Neon staging endpoint.`);
+    // Strict Endpoint Check: MUST match the staging endpoint
+    if (!host.includes(APPROVED_STAGING_ENDPOINT)) {
+      throw new Error(`CRITICAL GUARD ABORT: Target host "${host}" does NOT match approved staging endpoint "${APPROVED_STAGING_ENDPOINT}". Production execution is strictly forbidden.`);
     }
 
-    // Explicit production guard: warn if the user accidentally passed production
+    // Explicit Production keyword rejection
     if (host.includes("prod") && !host.includes("staging")) {
-      throw new Error(`CRITICAL GUARD: Target host "${host}" contains "prod" and does NOT contain "staging". Migration aborted.`);
+      throw new Error(`CRITICAL GUARD ABORT: Target host "${host}" contains "prod". Aborting.`);
     }
 
-    console.log("✅ Safety Guard Passed: Target confirmed as Neon staging endpoint.");
+    console.log(`✅ Strict Safety Guard Passed: Target confirmed as staging branch (${APPROVED_STAGING_ENDPOINT}).`);
   } catch (err: any) {
     console.error("❌ Safety Validation Failed:", err.message);
     process.exit(1);
