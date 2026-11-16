@@ -28,6 +28,7 @@ import {
   Camera,
   CameraOff,
   Volume2,
+  Printer,
 } from "lucide-react";
 
 const GRADES = [
@@ -999,6 +1000,13 @@ export const AttendanceWorkspace: React.FC = () => {
             </div>
 
             <div className="flex items-center gap-2">
+              <button
+                onClick={() => window.print()}
+                className="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-bold text-xs flex items-center gap-2 border border-slate-700 shadow"
+              >
+                <Printer className="w-4 h-4" />
+                طباعة الكشف
+              </button>
               <button
                 onClick={exportReportToCsv}
                 className="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs flex items-center gap-2 shadow-lg shadow-emerald-600/20"

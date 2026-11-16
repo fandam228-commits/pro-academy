@@ -1,11 +1,22 @@
 import { db } from "@/db";
-import { attendanceRecords, users, parentLinks, centerGroups, payments } from "@/db/schema";
+import {
+  attendanceRecords,
+  users,
+  parentLinks,
+  parentStudentLinks,
+  centerGroups,
+  centerGroupStudents,
+  centerSessions,
+  attendanceAuditLogs,
+  centerFeeInvoices,
+  centerCollections,
+} from "@/db/schema";
 import { eq, and, sql, or, desc } from "drizzle-orm";
 import { NextResponse } from "next/server";
 import { ensureDbSetup } from "@/db/migrate-and-seed";
 import { requireRoles, getAuthContext } from "@/lib/security";
 import { dispatchAttendanceNotification as dispatchAlwaledNotification, getNotificationDeliveryLogs } from "@/lib/notifications/dispatcher";
-import { dispatchAttendanceNotification as dispatchParentConnectNotification } from "@/lib/parent-connect-dispatcher";
+import { dispatchAttendanceNotification as dispatchParentConnectNotification, dispatchFeeReceiptNotification } from "@/lib/parent-connect-dispatcher";
 
 function computeRate(records: any[]) {
   if (records.length === 0) return 100;
@@ -73,28 +84,63 @@ export async function GET(req: Request) {
   try {
     // ============ TEACHER / ADMIN: Enhanced Roster, History, Reports, and Fees ============
     if (role === "teacher" || role === "admin") {
-      // 1. Load All Active Center Groups
-      const allGroups = await db.select().from(centerGroups).where(eq(centerGroups.isActive, true));
+      // 1. Load Active Center Groups (Scoped for Teacher)
+      const rawGroups = await db.select().from(centerGroups).where(eq(centerGroups.isActive, true));
+      const allGroups = role === "teacher" ? rawGroups.filter((g) => g.teacherId === ctx.user.id) : rawGroups;
+      const allowedGroupIds = new Set(allGroups.map((g) => g.id));
 
-      // 2. Load Students
+      // 2. Load Group Memberships from centerGroupStudents & users
+      const groupMemberships = await db.select().from(centerGroupStudents);
+      const studentGroupMap = new Map<string, Set<string>>();
+      for (const m of groupMemberships) {
+        if (m.status === "active") {
+          if (!studentGroupMap.has(m.studentId)) studentGroupMap.set(m.studentId, new Set());
+          studentGroupMap.get(m.studentId)!.add(m.groupId);
+        }
+      }
+
+      // 3. Load Students
       const allStudents = await db.select().from(users).where(eq(users.role, "student"));
 
-      // Filter students by grade/group if specified
+      // Filter students by grade/group and scope to teacher's groups
       const filteredStudents = allStudents.filter((st) => {
+        const studentGroups = studentGroupMap.get(st.id) || new Set(st.groupId ? [st.groupId] : []);
+        if (role === "teacher") {
+          const hasTeacherGroup = [...studentGroups].some((gid) => allowedGroupIds.has(gid));
+          if (!hasTeacherGroup) return false;
+        }
+
         if (gradeFilter && gradeFilter !== "all" && st.grade !== gradeFilter) return false;
-        if (groupFilter && groupFilter !== "all" && st.groupId !== groupFilter) return false;
+        if (groupFilter && groupFilter !== "all" && !studentGroups.has(groupFilter)) return false;
         return true;
       });
 
-      // 3. Load Attendance Records & Payments
+      // 4. Load Attendance Records & Center Collections / Invoices
       const allRecords = await db.select().from(attendanceRecords);
-      const allPayments = await db.select().from(payments);
-
-      const monthlyFee = 250;
+      const allInvoices = await db.select().from(centerFeeInvoices).where(eq(centerFeeInvoices.billingMonth, currentMonth));
+      const allCollections = await db
+        .select()
+        .from(centerCollections)
+        .where(and(eq(centerCollections.billingMonth, currentMonth), eq(centerCollections.status, "active")));
 
       // Session Titles & Recent Dates for dropdowns
       const sessionTitles = [...new Set(allRecords.map((r) => r.sessionTitle).filter(Boolean))];
       const recentDates = [...new Set(allRecords.map((r) => r.sessionDate))].sort((a, b) => (a < b ? 1 : -1)).slice(0, 30);
+
+      // Sessions List
+      const activeSessions = await db.select().from(centerSessions).orderBy(desc(centerSessions.sessionDate));
+      const scopedSessions = activeSessions.filter((s) => allowedGroupIds.has(s.groupId));
+
+      // --- VIEW: SESSIONS LIST ---
+      if (view === "sessions") {
+        return NextResponse.json({
+          success: true,
+          sessions: scopedSessions.map((s) => ({
+            ...s,
+            groupName: allGroups.find((g) => g.id === s.groupId)?.name || "المجموعة",
+          })),
+        });
+      }
 
       // --- VIEW: REPORTS & MONTHLY SUMMARY ---
       if (view === "reports") {
@@ -121,7 +167,11 @@ export async function GET(req: Request) {
 
         // Group aggregation
         const groupReports = allGroups.map((grp) => {
-          const groupStudentIds = new Set(allStudents.filter((s) => s.groupId === grp.id).map((s) => s.id));
+          const groupStudentIds = new Set(
+            allStudents
+              .filter((s) => (studentGroupMap.get(s.id)?.has(grp.id) ?? false) || s.groupId === grp.id)
+              .map((s) => s.id)
+          );
           const recs = monthRecords.filter((r) => groupStudentIds.has(r.studentId));
           return {
             groupId: grp.id,
@@ -214,16 +264,16 @@ export async function GET(req: Request) {
           : null;
         const grp = allGroups.find((g) => g.id === st.groupId);
 
-        // Payments for this student in current month
-        const stPayments = allPayments.filter(
-          (p) => p.studentId === st.id && (p.status === "approved" || p.status === "paid")
-        );
-        const currentMonthPayments = stPayments.filter(
-          (p) => p.createdAt && new Date(p.createdAt).toISOString().slice(0, 7) === currentMonth
-        );
-        const totalPaidThisMonth = currentMonthPayments.reduce((sum, p) => sum + Number(p.amount || 0), 0);
-        const remaining = Math.max(0, monthlyFee - totalPaidThisMonth);
-        const feeStatus = totalPaidThisMonth >= monthlyFee ? "paid" : totalPaidThisMonth > 0 ? "partial" : "unpaid";
+        // Fee details for this student in current month (from center collections / invoices)
+        const stInvoice = allInvoices.find((inv) => inv.studentId === st.id);
+        const stCollections = allCollections.filter((c) => c.studentId === st.id);
+        const totalPaidThisMonthCents = stCollections.reduce((sum, c) => sum + Math.round(Number(c.amount) * 100), 0);
+        const totalPaidThisMonth = totalPaidThisMonthCents / 100;
+
+        const effectiveMonthlyFee = stInvoice ? Number(stInvoice.baseFee) : grp ? Number(grp.monthlyFee || 0) : 0;
+        const effectiveNetDue = stInvoice ? Number(stInvoice.netDue) : effectiveMonthlyFee;
+        const remaining = Math.max(0, effectiveNetDue - totalPaidThisMonth);
+        const feeStatus = totalPaidThisMonth >= effectiveNetDue && effectiveNetDue > 0 ? "paid" : totalPaidThisMonth > 0 ? "partial" : "unpaid";
 
         return {
           studentId: st.id,
@@ -247,23 +297,16 @@ export async function GET(req: Request) {
           rate: computeRate(recs),
           statusOnDate: dateRec?.status || null,
           markedAt: dateRec?.createdAt || null,
-          monthlyFee,
+          monthlyFee: effectiveMonthlyFee,
           totalPaidThisMonth,
           remainingAmount: remaining,
           feeStatus,
-          lastPayment: stPayments[stPayments.length - 1] || null,
+          lastPayment: stCollections[stCollections.length - 1] || null,
         };
       });
 
-      // Total collected fees this month
-      const totalRevenueMonth = allPayments
-        .filter(
-          (p) =>
-            (p.status === "approved" || p.status === "paid") &&
-            p.createdAt &&
-            new Date(p.createdAt).toISOString().slice(0, 7) === currentMonth
-        )
-        .reduce((sum, p) => sum + Number(p.amount || 0), 0);
+      // Total collected fees this month (Center Collections Only)
+      const totalRevenueMonth = allCollections.reduce((sum, c) => sum + Number(c.amount || 0), 0);
 
       return NextResponse.json({
         roster,
@@ -280,12 +323,26 @@ export async function GET(req: Request) {
     // ============ PARENT: linked student's records ===========
     if (role === "parent") {
       let studentId = searchParams.get("studentId");
-      if (!studentId) {
-        const links = await db.select().from(parentLinks).where(eq(parentLinks.parentId, ctx.user.id));
-        if (links.length === 0) return NextResponse.json({ error: "No linked student" }, { status: 404 });
-        studentId = links[0]?.studentId || null;
+      
+      const modernLinks = await db
+        .select({ studentId: parentStudentLinks.studentId })
+        .from(parentStudentLinks)
+        .where(eq(parentStudentLinks.parentId, ctx.user.id));
+
+      const legacyLinks = await db
+        .select({ studentId: parentLinks.studentId })
+        .from(parentLinks)
+        .where(eq(parentLinks.parentId, ctx.user.id));
+
+      const linkedIds = [...new Set([...modernLinks.map((l) => l.studentId), ...legacyLinks.map((l) => l.studentId)])];
+
+      if (linkedIds.length === 0) {
+        return NextResponse.json({ error: "No linked student" }, { status: 404 });
       }
-      if (!studentId) return NextResponse.json({ error: "No linked student" }, { status: 404 });
+
+      if (!studentId || !linkedIds.includes(studentId)) {
+        studentId = linkedIds[0];
+      }
 
       const records = await db
         .select()
@@ -294,8 +351,16 @@ export async function GET(req: Request) {
         .orderBy(desc(attendanceRecords.sessionDate));
 
       const student = await db.select().from(users).where(eq(users.id, studentId));
+      
+      const allLinkedStudents = await db
+        .select({ id: users.id, name: users.name, grade: users.grade, stage: users.stage, studentCode: users.studentCode })
+        .from(users);
+
+      const linkedChildren = allLinkedStudents.filter((s) => linkedIds.includes(s.id));
+
       return NextResponse.json({
         student: student[0] || null,
+        linkedChildren,
         records,
         rate: computeRate(records),
         role,
@@ -310,23 +375,34 @@ export async function GET(req: Request) {
         .where(eq(attendanceRecords.studentId, ctx.user.id))
         .orderBy(desc(attendanceRecords.sessionDate));
 
-      const stPayments = await db
+      const stCollections = await db
         .select()
-        .from(payments)
+        .from(centerCollections)
         .where(
           and(
-            eq(payments.studentId, ctx.user.id),
-            or(eq(payments.status, "approved"), eq(payments.status, "paid"))
+            eq(centerCollections.studentId, ctx.user.id),
+            eq(centerCollections.status, "active")
           )
         );
 
-      const monthlyFee = 250;
-      const currentMonthPayments = stPayments.filter(
-        (p) => p.createdAt && new Date(p.createdAt).toISOString().slice(0, 7) === currentMonth
-      );
-      const totalPaidThisMonth = currentMonthPayments.reduce((sum, p) => sum + Number(p.amount || 0), 0);
-      const remaining = Math.max(0, monthlyFee - totalPaidThisMonth);
-      const feeStatus = totalPaidThisMonth >= monthlyFee ? "paid" : totalPaidThisMonth > 0 ? "partial" : "unpaid";
+      const stInvoices = await db
+        .select()
+        .from(centerFeeInvoices)
+        .where(
+          and(
+            eq(centerFeeInvoices.studentId, ctx.user.id),
+            eq(centerFeeInvoices.billingMonth, currentMonth)
+          )
+        );
+
+      const currentMonthCollections = stCollections.filter((c) => c.billingMonth === currentMonth);
+      const totalPaidThisMonthCents = currentMonthCollections.reduce((sum, c) => sum + Math.round(Number(c.amount) * 100), 0);
+      const totalPaidThisMonth = totalPaidThisMonthCents / 100;
+
+      const baseFeeNum = stInvoices.length > 0 ? Number(stInvoices[0].baseFee) : 0;
+      const netDueNum = stInvoices.length > 0 ? Number(stInvoices[0].netDue) : baseFeeNum;
+      const remaining = Math.max(0, netDueNum - totalPaidThisMonth);
+      const feeStatus = totalPaidThisMonth >= netDueNum && netDueNum > 0 ? "paid" : totalPaidThisMonth > 0 ? "partial" : "unpaid";
 
       return NextResponse.json({
         student: {
@@ -342,7 +418,7 @@ export async function GET(req: Request) {
         records,
         rate: computeRate(records),
         feeDetails: {
-          monthlyFee,
+          monthlyFee: baseFeeNum,
           totalPaidThisMonth,
           remainingAmount: remaining,
           feeStatus,
@@ -392,7 +468,7 @@ export async function POST(req: Request) {
       const targetDate = body.sessionDate || new Date().toISOString().split("T")[0];
       const targetTitle = body.sessionTitle || "حصة سنتر الوليد الأسبوعية";
 
-      // 1. Locate student by qrCode, studentCode, id, username, or phone
+      // 1. Locate student by secure QR code or integer studentCode ONLY (prevents guessing via phone/username)
       let matchedStudent: any = null;
 
       // Try by QR code
@@ -402,33 +478,48 @@ export async function POST(req: Request) {
       } else {
         // Try by integer studentCode
         const asInt = parseInt(scanCode, 10);
-        if (!isNaN(asInt)) {
+        if (!isNaN(asInt) && String(asInt) === scanCode) {
           const byCode = await db.select().from(users).where(eq(users.studentCode, asInt)).limit(1);
           if (byCode.length > 0) matchedStudent = byCode[0];
         }
       }
 
-      if (!matchedStudent) {
-        // Try by id, username, or phone
-        const byOther = await db
-          .select()
-          .from(users)
-          .where(
-            or(
-              eq(users.id, scanCode),
-              eq(users.username, scanCode),
-              eq(users.phone, scanCode)
-            )
-          )
-          .limit(1);
-        if (byOther.length > 0) matchedStudent = byOther[0];
-      }
-
       if (!matchedStudent || matchedStudent.role !== "student") {
         return NextResponse.json(
-          { success: false, error: "كود غير صالح أو لم يتم العثور على الطالب" },
+          { success: false, error: "رمز QR أو كود الطالب غير صالح أو غير مسجل بالنظام" },
           { status: 404 }
         );
+      }
+
+      // Group scoping & membership verification
+      const targetGroupId = body.groupId || matchedStudent.groupId;
+      if (body.groupId) {
+        // Teacher permission guard: cannot scan for another teacher's group
+        if (ctx.user.role === "teacher") {
+          const targetGrp = await db.select().from(centerGroups).where(eq(centerGroups.id, body.groupId)).limit(1);
+          if (targetGrp.length === 0 || targetGrp[0].teacherId !== ctx.user.id) {
+            return NextResponse.json({ success: false, error: "غير مصرح لك بتسجيل حضور مجموعة مدرس آخر" }, { status: 403 });
+          }
+        }
+
+        // Verify student is actually enrolled in this group
+        const groupEnrollments = await db
+          .select()
+          .from(centerGroupStudents)
+          .where(
+            and(
+              eq(centerGroupStudents.groupId, body.groupId),
+              eq(centerGroupStudents.studentId, matchedStudent.id),
+              eq(centerGroupStudents.status, "active")
+            )
+          );
+
+        if (groupEnrollments.length === 0 && matchedStudent.groupId !== body.groupId) {
+          return NextResponse.json(
+            { success: false, error: `الطالب (${matchedStudent.name}) غير مقيد في هذه المجموعة` },
+            { status: 400 }
+          );
+        }
       }
 
       // 2. Duplicate Attendance Prevention
@@ -460,7 +551,7 @@ export async function POST(req: Request) {
       }
 
       // 3. Insert Attendance Record
-      const scanMethod = body.scanMethod || "barcode_scanner";
+      const scanMethod = body.scanMethod || "qr";
       const recordId = `att_${Date.now()}_${matchedStudent.id}_${Math.random().toString(36).substring(2, 6)}`;
       await db.insert(attendanceRecords).values({
         id: recordId,
@@ -470,8 +561,10 @@ export async function POST(req: Request) {
         sessionDate: targetDate,
         status: "present",
         grade: matchedStudent.grade || "",
-        groupId: matchedStudent.groupId || body.groupId || null,
+        groupId: targetGroupId || null,
+        sessionId: body.sessionId || null,
         scanMethod,
+        arrivalTime: new Date(),
         markedBy: ctx.user.name || ctx.user.id,
       });
 
@@ -533,9 +626,27 @@ export async function POST(req: Request) {
       let recordId = "";
       if (existing.length > 0) {
         recordId = existing[0].id;
+        const prevStatus = existing[0].status;
+        if (prevStatus !== status) {
+          await db.insert(attendanceAuditLogs).values({
+            id: `aal_${Date.now()}_${Math.random().toString(36).slice(2, 6)}`,
+            attendanceRecordId: recordId,
+            studentId,
+            previousStatus: prevStatus,
+            newStatus: status,
+            changedBy: ctx.user.name || ctx.user.id,
+            reason: body.reason || "تعديل يدوي من كشف الحضور",
+          });
+        }
         await db
           .update(attendanceRecords)
-          .set({ status, markedBy: ctx.user.name || ctx.user.id })
+          .set({
+            status,
+            markedBy: ctx.user.name || ctx.user.id,
+            updatedBy: ctx.user.name || ctx.user.id,
+            updatedAt: new Date(),
+            notes: body.notes || existing[0].notes,
+          })
           .where(eq(attendanceRecords.id, recordId));
       } else {
         recordId = `att_${Date.now()}_${studentId}_${Math.random().toString(36).substring(2, 6)}`;
@@ -548,8 +659,11 @@ export async function POST(req: Request) {
           status,
           grade: grade || "",
           groupId: groupId || null,
+          sessionId: body.sessionId || null,
           scanMethod: "manual",
           markedBy: ctx.user.name || ctx.user.id,
+          arrivalTime: status === "present" || status === "late" ? new Date() : null,
+          notes: body.notes || null,
         });
       }
 
@@ -573,33 +687,130 @@ export async function POST(req: Request) {
       const { denied } = await requireRoles(req, ["teacher", "admin"]);
       if (denied) return denied;
 
-      const { studentId, amount, method = "cash_center", notes = "سداد اشتراك شهري بالسنتر" } = body;
+      const { studentId, amount, method = "cash", notes = "سداد اشتراك شهري بالسنتر", groupId } = body;
       if (!studentId || !amount) {
         return NextResponse.json({ error: "studentId والمبلغ مطلوبان" }, { status: 400 });
+      }
+
+      const numAmount = Number(amount);
+      if (!Number.isFinite(numAmount) || numAmount <= 0) {
+        return NextResponse.json({ error: "قيمة المبلغ غير صحيحة" }, { status: 400 });
       }
 
       const stList = await db.select().from(users).where(eq(users.id, studentId));
       if (stList.length === 0) return NextResponse.json({ error: "Student not found" }, { status: 404 });
       const student = stList[0];
 
-      const paymentRecord = {
-        id: `pay_${Date.now()}_${Math.random().toString(36).substring(2, 6)}`,
+      const currentMonth = new Date().toISOString().slice(0, 7);
+      const targetGroupId = groupId || student.groupId;
+
+      // Group fee lookup
+      let groupName = "عام";
+      let baseFeeNum = 0;
+      if (targetGroupId) {
+        const grpRows = await db.select().from(centerGroups).where(eq(centerGroups.id, targetGroupId)).limit(1);
+        if (grpRows.length > 0) {
+          groupName = grpRows[0].name;
+          baseFeeNum = Number(grpRows[0].monthlyFee || 0);
+        }
+      }
+
+      const yyyymm = currentMonth.replace("-", "");
+      const receiptNumber = `PA-REC-${yyyymm}-${String(Date.now()).slice(-4)}`;
+
+      // Locate or create center_fee_invoices
+      let invoiceId = "";
+      if (targetGroupId) {
+        const invRows = await db
+          .select()
+          .from(centerFeeInvoices)
+          .where(
+            and(
+              eq(centerFeeInvoices.studentId, student.id),
+              eq(centerFeeInvoices.groupId, targetGroupId),
+              eq(centerFeeInvoices.billingMonth, currentMonth)
+            )
+          )
+          .limit(1);
+
+        if (invRows.length > 0) {
+          invoiceId = invRows[0].id;
+          const currentPaid = Number(invRows[0].paidAmount);
+          const netDue = Number(invRows[0].netDue);
+          const newPaid = currentPaid + numAmount;
+          const remaining = Math.max(0, netDue - newPaid);
+          const invStatus = newPaid >= netDue && netDue > 0 ? "paid" : newPaid > 0 ? "partial" : "unpaid";
+
+          await db
+            .update(centerFeeInvoices)
+            .set({
+              paidAmount: newPaid.toFixed(2),
+              remainingAmount: remaining.toFixed(2),
+              status: invStatus,
+            })
+            .where(eq(centerFeeInvoices.id, invoiceId));
+        } else {
+          invoiceId = `cfi_${Date.now()}_${Math.random().toString(36).slice(2, 6)}`;
+          const remaining = Math.max(0, baseFeeNum - numAmount);
+          const invStatus = numAmount >= baseFeeNum && baseFeeNum > 0 ? "paid" : numAmount > 0 ? "partial" : "unpaid";
+
+          await db.insert(centerFeeInvoices).values({
+            id: invoiceId,
+            studentId: student.id,
+            groupId: targetGroupId,
+            billingMonth: currentMonth,
+            baseFee: baseFeeNum.toFixed(2),
+            discountAmount: "0.00",
+            netDue: baseFeeNum.toFixed(2),
+            paidAmount: numAmount.toFixed(2),
+            remainingAmount: remaining.toFixed(2),
+            status: invStatus,
+          });
+        }
+      }
+
+      // Insert collection record
+      const collectionId = `col_${Date.now()}_${Math.random().toString(36).substring(2, 6)}`;
+      await db.insert(centerCollections).values({
+        id: collectionId,
+        receiptNumber,
+        invoiceId: invoiceId || null,
+        studentId: student.id,
+        groupId: targetGroupId || "general",
+        billingMonth: currentMonth,
+        amount: numAmount.toFixed(2),
+        paymentMethod: method === "cash_center" ? "cash" : method,
+        status: "active",
+        collectedBy: ctx.user.name || ctx.user.id,
+        notes,
+      });
+
+      // Dispatch Parent Notification
+      dispatchFeeReceiptNotification({
+        collectionId,
+        receiptNumber,
         studentId: student.id,
         studentName: student.name,
-        courseId: null,
-        amount: Number(amount).toFixed(2),
-        method,
-        transactionId: `REC-${Date.now().toString().slice(-6)}`,
-        status: "approved",
-        senderNumber: student.phone || notes,
-      };
-
-      await db.insert(payments).values(paymentRecord);
+        groupName,
+        billingMonth: currentMonth,
+        amount: numAmount.toFixed(2),
+        paymentMethod: method,
+        remainingAmount: Math.max(0, baseFeeNum - numAmount).toFixed(2),
+        collectedBy: ctx.user.name || ctx.user.id,
+      }).catch((e) => console.error("Fee receipt notification error:", e));
 
       return NextResponse.json({
         success: true,
-        payment: paymentRecord,
-        receiptNumber: paymentRecord.transactionId,
+        receiptNumber,
+        payment: {
+          id: collectionId,
+          receiptNumber,
+          studentId: student.id,
+          studentName: student.name,
+          amount: numAmount.toFixed(2),
+          method,
+          status: "active",
+        },
         date: new Date().toISOString(),
       });
     }
@@ -612,6 +823,14 @@ export async function POST(req: Request) {
       const { sessionTitle, sessionDate, groupId, marks } = body;
       if (!sessionTitle || !sessionDate || !Array.isArray(marks)) {
         return NextResponse.json({ error: "sessionTitle, sessionDate & marks are required" }, { status: 400 });
+      }
+
+      // Check teacher scope
+      if (ctx.user.role === "teacher" && groupId) {
+        const grp = await db.select().from(centerGroups).where(eq(centerGroups.id, groupId)).limit(1);
+        if (grp.length === 0 || grp[0].teacherId !== ctx.user.id) {
+          return NextResponse.json({ error: "غير مصرح لك بتسجيل حضور مجموعة مدرس آخر" }, { status: 403 });
+        }
       }
 
       let saved = 0;
@@ -630,9 +849,26 @@ export async function POST(req: Request) {
         let attRecordId = "";
         if (existing.length > 0) {
           attRecordId = existing[0].id;
+          const prevStatus = existing[0].status;
+          if (prevStatus !== m.status) {
+            await db.insert(attendanceAuditLogs).values({
+              id: `aal_${Date.now()}_${Math.random().toString(36).slice(2, 6)}`,
+              attendanceRecordId: attRecordId,
+              studentId: m.studentId,
+              previousStatus: prevStatus,
+              newStatus: m.status,
+              changedBy: ctx.user.name || ctx.user.id,
+              reason: "تعديل عبر الرصد الجماعي",
+            });
+          }
           await db
             .update(attendanceRecords)
-            .set({ status: m.status, markedBy: ctx.user.name || ctx.user.id })
+            .set({
+              status: m.status,
+              markedBy: ctx.user.name || ctx.user.id,
+              updatedBy: ctx.user.name || ctx.user.id,
+              updatedAt: new Date(),
+            })
             .where(eq(attendanceRecords.id, attRecordId));
         } else {
           attRecordId = `att_${Date.now()}_${m.studentId}_${Math.random().toString(36).substring(2, 5)}`;
@@ -667,10 +903,34 @@ export async function POST(req: Request) {
       return NextResponse.json({ success: true, saved });
     }
 
-    // ============ STUDENT: SELF CHECK-IN ============
+    // ============ STUDENT: SELF CHECK-IN (Strict Security Guard) ============
     if (action === "check_in") {
       const today = new Date().toISOString().split("T")[0];
-      const title = body.sessionTitle || "حصة مباشرة مع مستر حبيب";
+      const { sessionId, sessionTitle } = body;
+
+      // Verify active session with self check-in enabled
+      let targetSession: any = null;
+      if (sessionId) {
+        const sesRows = await db.select().from(centerSessions).where(eq(centerSessions.id, sessionId)).limit(1);
+        targetSession = sesRows[0];
+      } else if (sessionTitle) {
+        const sesRows = await db
+          .select()
+          .from(centerSessions)
+          .where(and(eq(centerSessions.title, sessionTitle), eq(centerSessions.sessionDate, today)))
+          .limit(1);
+        targetSession = sesRows[0];
+      }
+
+      // Guard: strictly block self check-in if session is not active or self-checkin is disabled
+      if (!targetSession || targetSession.status !== "active" || !targetSession.isSelfCheckInAllowed) {
+        return NextResponse.json(
+          { error: "تسجيل الحضور الذاتي غير متاح لهذه الحصة أو الحصة مغلقة حالياً بالسنتر" },
+          { status: 403 }
+        );
+      }
+
+      const title = targetSession.title;
 
       const existing = await db
         .select()
@@ -696,7 +956,10 @@ export async function POST(req: Request) {
         sessionDate: today,
         status: "present",
         grade: ctx.user.grade || "",
+        groupId: targetSession.groupId || null,
+        sessionId: targetSession.id,
         scanMethod: "student_self_checkin",
+        arrivalTime: new Date(),
         markedBy: "student_self",
       });
 
@@ -712,6 +975,51 @@ export async function POST(req: Request) {
       });
 
       return NextResponse.json({ success: true, message: "تم تسجيل الحضور بنجاح" });
+    }
+
+    // ============ SESSION MANAGEMENT: CREATE & UPDATE SESSIONS ============
+    if (action === "create_session") {
+      const { denied } = await requireRoles(req, ["admin", "teacher"]);
+      if (denied) return denied;
+
+      const { groupId, title, sessionDate, startTime, endTime, room, isSelfCheckInAllowed } = body;
+      if (!groupId || !title || !sessionDate) {
+        return NextResponse.json({ error: "groupId, title & sessionDate are required" }, { status: 400 });
+      }
+
+      const sessionId = `ses_${Date.now()}_${Math.random().toString(36).slice(2, 6)}`;
+      await db.insert(centerSessions).values({
+        id: sessionId,
+        groupId,
+        title: title.trim(),
+        sessionDate,
+        startTime: startTime || null,
+        endTime: endTime || null,
+        room: room || null,
+        teacherId: ctx.user.role === "teacher" ? ctx.user.id : body.teacherId || null,
+        status: "active",
+        isSelfCheckInAllowed: Boolean(isSelfCheckInAllowed),
+      });
+
+      return NextResponse.json({ success: true, sessionId, message: "تم إنشاء الحصة بنجاح" });
+    }
+
+    if (action === "update_session") {
+      const { denied } = await requireRoles(req, ["admin", "teacher"]);
+      if (denied) return denied;
+
+      const { sessionId, status, isSelfCheckInAllowed } = body;
+      if (!sessionId) return NextResponse.json({ error: "sessionId is required" }, { status: 400 });
+
+      await db
+        .update(centerSessions)
+        .set({
+          status: status || undefined,
+          isSelfCheckInAllowed: isSelfCheckInAllowed !== undefined ? Boolean(isSelfCheckInAllowed) : undefined,
+        })
+        .where(eq(centerSessions.id, sessionId));
+
+      return NextResponse.json({ success: true, message: "تم تحديث إعدادات الحصة" });
     }
 
     return NextResponse.json({ error: "Invalid action" }, { status: 400 });

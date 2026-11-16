@@ -442,13 +442,19 @@ export const attendanceRecords = pgTable(
     status: text("status").notNull().default("present"), // 'present' | 'late' | 'absent' | 'excused'
     grade: text("grade"),
     groupId: text("group_id"),
+    sessionId: text("session_id"),
     scanMethod: text("scan_method").default("manual"), // 'qr' | 'barcode' | 'manual' | 'self'
     markedBy: text("marked_by").notNull().default("teacher"),
+    arrivalTime: timestamp("arrival_time"),
+    notes: text("notes"),
+    updatedBy: text("updated_by"),
+    updatedAt: timestamp("updated_at"),
     createdAt: timestamp("created_at").defaultNow().notNull(),
   },
   (table) => [
     index("idx_att_student").on(table.studentId),
     index("idx_att_date").on(table.sessionDate),
+    index("idx_att_session").on(table.sessionId),
   ]
 );
 
@@ -1500,6 +1506,191 @@ export const dialogueStudentProgress = pgTable(
     index("idx_dsp_grade").on(table.grade),
   ]
 );
+
+// =========================================================================
+// CENTER MANAGEMENT SYSTEM (PROFESSIONAL ACADEMY)
+// =========================================================================
+
+// 41. CENTER GROUP STUDENTS (N:M Multi-Group Link & Membership State)
+export const centerGroupStudents = pgTable(
+  "center_group_students",
+  {
+    id: text("id").primaryKey(),
+    groupId: text("group_id").notNull().references(() => centerGroups.id, { onDelete: "cascade" }),
+    studentId: text("student_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+    status: text("status").notNull().default("active"), // 'active' | 'paused' | 'transferred' | 'dropped'
+    customMonthlyFee: decimal("custom_monthly_fee", { precision: 10, scale: 2 }),
+    discountAmount: decimal("discount_amount", { precision: 10, scale: 2 }).default("0.00").notNull(),
+    discountReason: text("discount_reason"),
+    joinedAt: timestamp("joined_at").defaultNow().notNull(),
+    pausedAt: timestamp("paused_at"),
+    transferredToGroupId: text("transferred_to_group_id"),
+    notes: text("notes"),
+  },
+  (table) => [
+    index("idx_cgs_group").on(table.groupId),
+    index("idx_cgs_student").on(table.studentId),
+    index("idx_cgs_status").on(table.status),
+  ]
+);
+
+// 42. CENTER SESSIONS (Structured Class Sessions)
+export const centerSessions = pgTable(
+  "center_sessions",
+  {
+    id: text("id").primaryKey(),
+    groupId: text("group_id").notNull().references(() => centerGroups.id, { onDelete: "cascade" }),
+    title: text("title").notNull(),
+    sessionDate: text("session_date").notNull(), // YYYY-MM-DD
+    startTime: text("start_time"), // HH:mm
+    endTime: text("end_time"), // HH:mm
+    teacherId: text("teacher_id"),
+    room: text("room"),
+    status: text("status").notNull().default("scheduled"), // 'scheduled' | 'active' | 'completed' | 'cancelled'
+    isSelfCheckInAllowed: boolean("is_self_check_in_allowed").default(false).notNull(),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+  },
+  (table) => [
+    index("idx_cs_group").on(table.groupId),
+    index("idx_cs_date").on(table.sessionDate),
+    index("idx_cs_status").on(table.status),
+  ]
+);
+
+// 43. ATTENDANCE AUDIT LOGS (Audit Trail for Status Overrides)
+export const attendanceAuditLogs = pgTable(
+  "attendance_audit_logs",
+  {
+    id: text("id").primaryKey(),
+    attendanceRecordId: text("attendance_record_id").notNull(),
+    studentId: text("student_id").notNull(),
+    previousStatus: text("previous_status"),
+    newStatus: text("new_status").notNull(),
+    changedBy: text("changed_by").notNull(),
+    reason: text("reason"),
+    changedAt: timestamp("changed_at").defaultNow().notNull(),
+  },
+  (table) => [
+    index("idx_aal_record").on(table.attendanceRecordId),
+    index("idx_aal_student").on(table.studentId),
+    index("idx_aal_date").on(table.changedAt),
+  ]
+);
+
+// 44. CENTER FEE INVOICES (Monthly Tuition Ledger)
+export const centerFeeInvoices = pgTable(
+  "center_fee_invoices",
+  {
+    id: text("id").primaryKey(),
+    studentId: text("student_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+    groupId: text("group_id").notNull().references(() => centerGroups.id, { onDelete: "cascade" }),
+    billingMonth: text("billing_month").notNull(), // YYYY-MM
+    baseFee: decimal("base_fee", { precision: 10, scale: 2 }).notNull(),
+    discountAmount: decimal("discount_amount", { precision: 10, scale: 2 }).default("0.00").notNull(),
+    discountApprovedBy: text("discount_approved_by"),
+    netDue: decimal("net_due", { precision: 10, scale: 2 }).notNull(),
+    paidAmount: decimal("paid_amount", { precision: 10, scale: 2 }).default("0.00").notNull(),
+    remainingAmount: decimal("remaining_amount", { precision: 10, scale: 2 }).notNull(),
+    status: text("status").notNull().default("unpaid"), // 'unpaid' | 'partial' | 'paid' | 'waived'
+    dueDate: text("due_date"),
+    notes: text("notes"),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+  },
+  (table) => [
+    index("idx_cfi_student").on(table.studentId),
+    index("idx_cfi_group").on(table.groupId),
+    index("idx_cfi_month").on(table.billingMonth),
+    index("idx_cfi_status").on(table.status),
+  ]
+);
+
+// 45. CENTER COLLECTIONS (Tuition Receipts & Payment Transactions)
+export const centerCollections = pgTable(
+  "center_collections",
+  {
+    id: text("id").primaryKey(),
+    receiptNumber: text("receipt_number").notNull().unique(), // Sequential PA-REC-YYYYMM-XXXX
+    invoiceId: text("invoice_id").references(() => centerFeeInvoices.id, { onDelete: "set null" }),
+    studentId: text("student_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+    groupId: text("group_id").notNull().references(() => centerGroups.id, { onDelete: "cascade" }),
+    billingMonth: text("billing_month").notNull(), // YYYY-MM
+    amount: decimal("amount", { precision: 10, scale: 2 }).notNull(),
+    paymentMethod: text("payment_method").notNull().default("cash"), // 'cash' | 'vodafone_cash' | 'instapay' | 'bank_transfer' | 'other'
+    transactionReference: text("transaction_reference"),
+    status: text("status").notNull().default("active"), // 'active' | 'voided' | 'adjusted'
+    collectedBy: text("collected_by").notNull(),
+    notes: text("notes"),
+    collectedAt: timestamp("collected_at").defaultNow().notNull(),
+  },
+  (table) => [
+    index("idx_cc_receipt").on(table.receiptNumber),
+    index("idx_cc_student").on(table.studentId),
+    index("idx_cc_group").on(table.groupId),
+    index("idx_cc_month").on(table.billingMonth),
+    index("idx_cc_status").on(table.status),
+  ]
+);
+
+// 46. CENTER FINANCIAL ADJUSTMENTS (Audit Trail for Voids, Waivers, and Reversals)
+export const centerFinancialAdjustments = pgTable(
+  "center_financial_adjustments",
+  {
+    id: text("id").primaryKey(),
+    collectionId: text("collection_id").references(() => centerCollections.id, { onDelete: "set null" }),
+    invoiceId: text("invoice_id").references(() => centerFeeInvoices.id, { onDelete: "set null" }),
+    adjustmentType: text("adjustment_type").notNull(), // 'void_collection' | 'waiver' | 'manual_correction'
+    amount: decimal("amount", { precision: 10, scale: 2 }).notNull(),
+    reason: text("reason").notNull(),
+    authorizedBy: text("authorized_by").notNull(),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+  },
+  (table) => [
+    index("idx_cfa_collection").on(table.collectionId),
+    index("idx_cfa_invoice").on(table.invoiceId),
+  ]
+);
+
+// 47. CENTER EXPENSE CATEGORIES
+export const centerExpenseCategories = pgTable(
+  "center_expense_categories",
+  {
+    id: text("id").primaryKey(),
+    name: text("name").notNull().unique(),
+    code: text("code").notNull().unique(), // 'rent', 'utilities', 'internet', 'salaries', 'supplies', 'maintenance', 'marketing', 'hospitality', 'other'
+    description: text("description"),
+    isActive: boolean("is_active").default(true).notNull(),
+  },
+  (table) => [
+    index("idx_cec_code").on(table.code),
+  ]
+);
+
+// 48. CENTER EXPENSES (Operating Expenses Ledger)
+export const centerExpenses = pgTable(
+  "center_expenses",
+  {
+    id: text("id").primaryKey(),
+    expenseNumber: text("expense_number").notNull().unique(), // EXP-YYYYMM-XXXX
+    categoryId: text("category_id").notNull().references(() => centerExpenseCategories.id, { onDelete: "restrict" }),
+    title: text("title").notNull(),
+    amount: decimal("amount", { precision: 10, scale: 2 }).notNull(),
+    expenseDate: text("expense_date").notNull(), // YYYY-MM-DD
+    paymentMethod: text("payment_method").notNull().default("cash"), // 'cash' | 'vodafone_cash' | 'instapay' | 'bank_transfer' | 'other'
+    recipientVendor: text("recipient_vendor"),
+    receiptUrl: text("receipt_url"),
+    notes: text("notes"),
+    recordedBy: text("recorded_by").notNull(),
+    status: text("status").notNull().default("active"), // 'active' | 'voided'
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+  },
+  (table) => [
+    index("idx_ce_number").on(table.expenseNumber),
+    index("idx_ce_category").on(table.categoryId),
+    index("idx_ce_date").on(table.expenseDate),
+    index("idx_ce_status").on(table.status),
+  ]
+);
+
 
 
 

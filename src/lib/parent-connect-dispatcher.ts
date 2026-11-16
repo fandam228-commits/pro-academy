@@ -524,3 +524,272 @@ export async function dispatchBulkBroadcast(params: BulkBroadcastParams) {
 
   return { sent, failed, total: recipientParentIds.length };
 }
+
+export interface FeeReceiptDispatchParams {
+  collectionId: string;
+  receiptNumber: string;
+  studentId: string;
+  studentName?: string;
+  groupName: string;
+  billingMonth: string;
+  amount: number | string;
+  paymentMethod: string;
+  remainingAmount: number | string;
+  collectedBy?: string;
+}
+
+export interface FeeReminderDispatchParams {
+  studentId: string;
+  studentName?: string;
+  groupName: string;
+  billingMonth: string;
+  amount: number | string;
+  dueDate: string;
+  senderUserId?: string;
+}
+
+export interface OverdueWarningDispatchParams {
+  studentId: string;
+  studentName?: string;
+  groupName: string;
+  overdueAmount: number | string;
+  senderUserId?: string;
+}
+
+/**
+ * Dispatches automated payment receipt notification to verified parents
+ */
+export async function dispatchFeeReceiptNotification(params: FeeReceiptDispatchParams) {
+  const { collectionId, receiptNumber, studentId, groupName, billingMonth, amount, paymentMethod, remainingAmount, collectedBy } = params;
+
+  let studentName = params.studentName;
+  if (!studentName) {
+    const stRows = await db.select({ name: users.name }).from(users).where(eq(users.id, studentId)).limit(1);
+    studentName = stRows[0]?.name || "الطالب";
+  }
+
+  const links = await db
+    .select()
+    .from(parentStudentLinks)
+    .where(and(eq(parentStudentLinks.studentId, studentId), eq(parentStudentLinks.canReceiveReports, true)));
+
+  if (links.length === 0) return { dispatched: 0, reason: "No linked parents found" };
+
+  const tmplRows = await db.select().from(notificationTemplates).where(eq(notificationTemplates.code, "fee_payment_receipt")).limit(1);
+  const template = tmplRows[0];
+
+  const methodArMap: Record<string, string> = {
+    cash: "نقدي بالسنتر",
+    vodafone_cash: "فودافون كاش",
+    instapay: "انستاباي InstaPay",
+    bank_transfer: "تحويل بنكي",
+    other: "أخرى",
+  };
+  const methodLabel = methodArMap[paymentMethod] || paymentMethod;
+
+  const vars = {
+    student_name: studentName,
+    amount: Number(amount).toFixed(2),
+    billing_month: billingMonth,
+    group_name: groupName,
+    receipt_number: receiptNumber,
+    payment_method: methodLabel,
+    remaining_amount: Number(remainingAmount).toFixed(2),
+  };
+
+  const messageText = template
+    ? fillTemplatePlaceholders(template.bodyTextAr, vars)
+    : `🧾 إيصال سداد: تم استلام ${amount} ج.م من اشتراك الطالب ${studentName} لشهر ${billingMonth} لمجموعة (${groupName}). رقم الإيصال: ${receiptNumber}. المتبقي: ${remainingAmount} ج.م.`;
+
+  let dispatchedCount = 0;
+
+  for (const link of links) {
+    const parentRows = await db.select().from(parentProfiles).where(eq(parentProfiles.id, link.parentId)).limit(1);
+    if (parentRows.length === 0) continue;
+    const parent = parentRows[0];
+    if (!parent.consentGiven || parent.optedOut) continue;
+
+    const idempotencyKey = `fee_rec_${collectionId}_${parent.id}`;
+    const channelsToSend: ("whatsapp" | "telegram")[] = [];
+
+    if (parent.preferredChannel === "whatsapp" || parent.preferredChannel === "both") channelsToSend.push("whatsapp");
+    if (parent.preferredChannel === "telegram" || parent.preferredChannel === "both") channelsToSend.push("telegram");
+    if (channelsToSend.length === 0) channelsToSend.push("whatsapp");
+
+    for (const channel of channelsToSend) {
+      let recipient = parent.primaryPhone;
+      if (channel === "telegram") {
+        const tgAccounts = await db
+          .select()
+          .from(telegramAccounts)
+          .where(and(eq(telegramAccounts.parentId, parent.id), eq(telegramAccounts.isVerified, true)))
+          .limit(1);
+        if (tgAccounts.length === 0 || !tgAccounts[0].chatId) continue;
+        recipient = tgAccounts[0].chatId;
+      }
+
+      const queueId = `nq_${Date.now()}_${Math.random().toString(36).slice(2, 6)}`;
+      await db.insert(notificationQueue).values({
+        id: queueId,
+        parentId: parent.id,
+        studentId,
+        channel,
+        templateCode: "fee_payment_receipt",
+        recipient,
+        payload: { text: messageText, variables: vars },
+        status: "processing",
+        idempotencyKey: `${idempotencyKey}_${channel}`,
+      });
+
+      const sendResult =
+        channel === "telegram"
+          ? await sendTelegramMessage({ chatId: recipient, text: messageText })
+          : await sendWhatsAppMessage({ to: recipient, bodyText: messageText });
+
+      await db.insert(notificationLogs).values({
+        id: `nl_${Date.now()}_${Math.random().toString(36).slice(2, 6)}`,
+        queueId,
+        parentId: parent.id,
+        studentId,
+        channel,
+        recipient,
+        messageType: "fee_receipt",
+        contentSummary: messageText.slice(0, 200),
+        status: sendResult.success ? "sent" : "failed",
+        externalMessageId: sendResult.messageId,
+        errorMessage: sendResult.error,
+        sentByUserId: collectedBy || "system",
+      });
+
+      dispatchedCount++;
+    }
+  }
+
+  return { dispatched: dispatchedCount };
+}
+
+/**
+ * Dispatches monthly fee reminder
+ */
+export async function dispatchFeeReminder(params: FeeReminderDispatchParams) {
+  const { studentId, groupName, billingMonth, amount, dueDate, senderUserId } = params;
+
+  let studentName = params.studentName;
+  if (!studentName) {
+    const stRows = await db.select({ name: users.name }).from(users).where(eq(users.id, studentId)).limit(1);
+    studentName = stRows[0]?.name || "الطالب";
+  }
+
+  const links = await db
+    .select()
+    .from(parentStudentLinks)
+    .where(and(eq(parentStudentLinks.studentId, studentId), eq(parentStudentLinks.canReceiveReports, true)));
+
+  if (links.length === 0) return { dispatched: 0 };
+
+  const tmplRows = await db.select().from(notificationTemplates).where(eq(notificationTemplates.code, "fee_payment_due")).limit(1);
+  const template = tmplRows[0];
+
+  const vars = {
+    student_name: studentName,
+    billing_month: billingMonth,
+    group_name: groupName,
+    amount: Number(amount).toFixed(2),
+    due_date: dueDate || "نهاية الأسبوع الحالي",
+  };
+
+  const messageText = template
+    ? fillTemplatePlaceholders(template.bodyTextAr, vars)
+    : `تنبيه سداد: اشتراك شهر ${billingMonth} لمجموعة (${groupName}) للطالب ${studentName} مستحق بقيمة ${amount} ج.م.`;
+
+  let dispatchedCount = 0;
+
+  for (const link of links) {
+    const parentRows = await db.select().from(parentProfiles).where(eq(parentProfiles.id, link.parentId)).limit(1);
+    if (parentRows.length === 0) continue;
+    const parent = parentRows[0];
+    if (!parent.consentGiven || parent.optedOut) continue;
+
+    const sendResult = await sendWhatsAppMessage({ to: parent.primaryPhone, bodyText: messageText });
+
+    await db.insert(notificationLogs).values({
+      id: `nl_${Date.now()}_${Math.random().toString(36).slice(2, 6)}`,
+      parentId: parent.id,
+      studentId,
+      channel: "whatsapp",
+      recipient: parent.primaryPhone,
+      messageType: "fee_due_reminder",
+      contentSummary: messageText.slice(0, 200),
+      status: sendResult.success ? "sent" : "failed",
+      externalMessageId: sendResult.messageId,
+      errorMessage: sendResult.error,
+      sentByUserId: senderUserId || "system",
+    });
+
+    if (sendResult.success) dispatchedCount++;
+  }
+
+  return { dispatched: dispatchedCount };
+}
+
+/**
+ * Dispatches overdue fee warning
+ */
+export async function dispatchOverdueFeeWarning(params: OverdueWarningDispatchParams) {
+  const { studentId, groupName, overdueAmount, senderUserId } = params;
+
+  let studentName = params.studentName;
+  if (!studentName) {
+    const stRows = await db.select({ name: users.name }).from(users).where(eq(users.id, studentId)).limit(1);
+    studentName = stRows[0]?.name || "الطالب";
+  }
+
+  const links = await db
+    .select()
+    .from(parentStudentLinks)
+    .where(and(eq(parentStudentLinks.studentId, studentId), eq(parentStudentLinks.canReceiveReports, true)));
+
+  if (links.length === 0) return { dispatched: 0 };
+
+  const tmplRows = await db.select().from(notificationTemplates).where(eq(notificationTemplates.code, "fee_overdue_warning")).limit(1);
+  const template = tmplRows[0];
+
+  const vars = {
+    student_name: studentName,
+    group_name: groupName,
+    overdue_amount: Number(overdueAmount).toFixed(2),
+  };
+
+  const messageText = template
+    ? fillTemplatePlaceholders(template.bodyTextAr, vars)
+    : `تنبيه متأخرات: يرجى العلم بوجود رصيد متأخر بقيمة ${overdueAmount} ج.م للطالب ${studentName} عن مجموعة (${groupName}).`;
+
+  let dispatchedCount = 0;
+
+  for (const link of links) {
+    const parentRows = await db.select().from(parentProfiles).where(eq(parentProfiles.id, link.parentId)).limit(1);
+    if (parentRows.length === 0) continue;
+    const parent = parentRows[0];
+    if (!parent.consentGiven || parent.optedOut) continue;
+
+    const sendResult = await sendWhatsAppMessage({ to: parent.primaryPhone, bodyText: messageText });
+
+    await db.insert(notificationLogs).values({
+      id: `nl_${Date.now()}_${Math.random().toString(36).slice(2, 6)}`,
+      parentId: parent.id,
+      studentId,
+      channel: "whatsapp",
+      recipient: parent.primaryPhone,
+      messageType: "fee_overdue_warning",
+      contentSummary: messageText.slice(0, 200),
+      status: sendResult.success ? "sent" : "failed",
+      externalMessageId: sendResult.messageId,
+      errorMessage: sendResult.error,
+      sentByUserId: senderUserId || "system",
+    });
+
+    if (sendResult.success) dispatchedCount++;
+  }
+
+  return { dispatched: dispatchedCount };
+}

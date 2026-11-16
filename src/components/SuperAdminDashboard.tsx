@@ -8,8 +8,10 @@ import { ParentConnectAdminHub } from "@/components/ParentConnectAdminHub";
 import { AdminCurriculumManager } from "@/components/AdminCurriculumManager";
 import { LiveClassroomManager } from "@/components/LiveClassroomManager";
 import { TrainingCenterWorkspace } from "@/components/training/TrainingCenterWorkspace";
+import { CenterManagementHub } from "@/components/center-admin/CenterManagementHub";
 import {
   Users,
+  Building2,
   GraduationCap,
   BookOpen,
   DollarSign,
@@ -33,7 +35,7 @@ export const SuperAdminDashboard: React.FC = () => {
   const { lang } = useApp();
   const [data, setData] = useState<any>(null);
   const [loading, setLoading] = useState(true);
-  const [activeTab, setActiveTab] = useState<"analytics" | "users" | "groups" | "codes" | "parent_connect" | "curriculum" | "live_classes" | "training_questions" | "announcements" | "backup" | "free_access">("analytics");
+  const [activeTab, setActiveTab] = useState<"analytics" | "center_management" | "users" | "groups" | "codes" | "parent_connect" | "curriculum" | "live_classes" | "training_questions" | "announcements" | "backup" | "free_access">("center_management");
 
   // Free Courses Access Until End of Term State
   const [freeEnabled, setFreeEnabled] = useState(true);
@@ -309,6 +311,17 @@ export const SuperAdminDashboard: React.FC = () => {
         {/* TAB BUTTONS */}
         <div className="flex flex-wrap gap-1 bg-slate-100 dark:bg-slate-800 p-1.5 rounded-2xl border border-slate-200 dark:border-slate-700 text-xs font-bold">
           <button
+            onClick={() => setActiveTab("center_management")}
+            className={`px-3.5 py-2 rounded-xl transition-all font-black flex items-center gap-1.5 ${
+              activeTab === "center_management"
+                ? "bg-indigo-600 text-white shadow-md shadow-indigo-600/30"
+                : "bg-indigo-50 dark:bg-indigo-950/40 text-indigo-700 dark:text-indigo-300 hover:bg-indigo-100"
+            }`}
+          >
+            <Building2 className="w-4 h-4" />
+            <span>{lang === "ar" ? "إدارة السنتر (Center Management)" : "Center Management"}</span>
+          </button>
+          <button
             onClick={() => setActiveTab("analytics")}
             className={`px-3.5 py-2 rounded-xl transition-all ${
               activeTab === "analytics" ? "bg-white dark:bg-slate-900 text-purple-600 dark:text-purple-400 shadow-sm" : "text-slate-600 dark:text-slate-400"
@@ -406,6 +419,9 @@ export const SuperAdminDashboard: React.FC = () => {
           </button>
         </div>
       </div>
+
+      {/* 0. PROFESSIONAL CENTER MANAGEMENT HUB */}
+      {activeTab === "center_management" && <CenterManagementHub />}
 
       {/* 1. ANALYTICS STATS GRID */}
       {activeTab === "analytics" && (
