@@ -439,9 +439,9 @@
           "id": "mcq_prep3_ch1_2",
           "question": "What leadership quality does Zeina demonstrate?",
           "options": [
-            "Doing all the work alone without listening to teammates",
             "Quitting the project as soon as difficulties arise",
             "Blaming other students whenever problems occur",
+            "Doing all the work alone without listening to teammates",
             "Taking responsibility, admitting limitations honestly, and encouraging everyone's talents"
           ],
           "correctAnswer": "Taking responsibility, admitting limitations honestly, and encouraging everyone's talents",
@@ -915,10 +915,10 @@
           "id": "mcq_prep3_ch2_1",
           "question": "What is the main achievement described in Chapter 2 (Taking Initiative and Building a Team)?",
           "options": [
-            "The school playground is paved with more asphalt",
+            "The students decide to close the garden project permanently",
             "Zeina moves to another school and stops participating",
             "The project officially began.",
-            "The students decide to close the garden project permanently"
+            "The school playground is paved with more asphalt"
           ],
           "correctAnswer": "The project officially began.",
           "explanation": "Chapter events showcase student collaboration, creative problem-solving, and communal pride.",
@@ -929,8 +929,8 @@
           "question": "What leadership quality does Zeina demonstrate?",
           "options": [
             "Taking responsibility, admitting limitations honestly, and encouraging everyone's talents",
-            "Quitting the project as soon as difficulties arise",
             "Doing all the work alone without listening to teammates",
+            "Quitting the project as soon as difficulties arise",
             "Blaming other students whenever problems occur"
           ],
           "correctAnswer": "Taking responsibility, admitting limitations honestly, and encouraging everyone's talents",
@@ -1246,10 +1246,10 @@
           "id": "mcq_prep3_ch3_1",
           "question": "What is the main achievement described in Chapter 3 (Facing Problems with Determination)?",
           "options": [
-            "The school playground is paved with more asphalt",
+            "Zeina moves to another school and stops participating",
             "The students work as an integrated team to improve the school environment",
-            "The students decide to close the garden project permanently",
-            "Zeina moves to another school and stops participating"
+            "The school playground is paved with more asphalt",
+            "The students decide to close the garden project permanently"
           ],
           "correctAnswer": "The students work as an integrated team to improve the school environment",
           "explanation": "Chapter events showcase student collaboration, creative problem-solving, and communal pride.",
@@ -1495,9 +1495,9 @@
           "id": "mcq_prep3_ch4_1",
           "question": "What is the main achievement described in Chapter 4 (Growing Success)?",
           "options": [
-            "The school playground is paved with more asphalt",
-            "Zeina moves to another school and stops participating",
             "The students decide to close the garden project permanently",
+            "Zeina moves to another school and stops participating",
+            "The school playground is paved with more asphalt",
             "The students work as an integrated team to improve the school environment"
           ],
           "correctAnswer": "The students work as an integrated team to improve the school environment",
@@ -1869,8 +1869,8 @@
           "options": [
             "The following year, Zeina became president of the student council.",
             "Zeina moves to another school and stops participating",
-            "The students decide to close the garden project permanently",
-            "The school playground is paved with more asphalt"
+            "The school playground is paved with more asphalt",
+            "The students decide to close the garden project permanently"
           ],
           "correctAnswer": "The following year, Zeina became president of the student council.",
           "explanation": "Chapter events showcase student collaboration, creative problem-solving, and communal pride.",
@@ -2340,10 +2340,10 @@
           "id": "mcq_prep3_ch6_1",
           "question": "What is the main achievement described in Chapter 6 (Looking Forward)?",
           "options": [
+            "Zeina moves to another school and stops participating",
             "The school playground is paved with more asphalt",
-            "The students decide to close the garden project permanently",
             "The students work as an integrated team to improve the school environment",
-            "Zeina moves to another school and stops participating"
+            "The students decide to close the garden project permanently"
           ],
           "correctAnswer": "The students work as an integrated team to improve the school environment",
           "explanation": "Chapter events showcase student collaboration, creative problem-solving, and communal pride.",
@@ -2353,10 +2353,10 @@
           "id": "mcq_prep3_ch6_2",
           "question": "What leadership quality does Zeina demonstrate?",
           "options": [
-            "Quitting the project as soon as difficulties arise",
+            "Blaming other students whenever problems occur",
             "Doing all the work alone without listening to teammates",
             "Taking responsibility, admitting limitations honestly, and encouraging everyone's talents",
-            "Blaming other students whenever problems occur"
+            "Quitting the project as soon as difficulties arise"
           ],
           "correctAnswer": "Taking responsibility, admitting limitations honestly, and encouraging everyone's talents",
           "explanation": "True leadership fosters shared purpose, mutual respect, and honest communication.",

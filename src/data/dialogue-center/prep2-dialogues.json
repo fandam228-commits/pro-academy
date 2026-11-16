@@ -16,7 +16,7 @@
     "lines": [
       {
         "speaker": "Ayman",
-        "text": "How did you go to school yesterday, Nadir ?",
+        "text": "How did you go to school yesterday, Nadir?",
         "gapNumber": null,
         "isQuestion": true
       },
@@ -42,7 +42,7 @@
       },
       {
         "speaker": "Ayman",
-        "text": "How many lessons did you have before the break ?",
+        "text": "How many lessons did you have before the break?",
         "gapNumber": null,
         "isQuestion": true
       },
@@ -68,7 +68,7 @@
       },
       {
         "speaker": "Ayman",
-        "text": "What about meeting after school tomorrow ?",
+        "text": "What about meeting after school tomorrow?",
         "gapNumber": null,
         "isQuestion": true
       },
@@ -145,7 +145,7 @@
     "lines": [
       {
         "speaker": "Walid",
-        "text": "What's your favourite room in your house ?",
+        "text": "What's your favourite room in your house?",
         "gapNumber": null,
         "isQuestion": true
       },
@@ -171,7 +171,7 @@
       },
       {
         "speaker": "Walid",
-        "text": "(3) .................... ?",
+        "text": "(3) ....................?",
         "gapNumber": 3,
         "isQuestion": true,
         "cue": "Question about Ahmed's answer"
@@ -184,7 +184,7 @@
       },
       {
         "speaker": "Walid",
-        "text": "How many curtains are there in your room ?",
+        "text": "How many curtains are there in your room?",
         "gapNumber": null,
         "isQuestion": true
       },
@@ -197,7 +197,7 @@
       },
       {
         "speaker": "Walid",
-        "text": "Where do you put your clothes ?",
+        "text": "Where do you put your clothes?",
         "gapNumber": null,
         "isQuestion": true
       },
@@ -407,7 +407,7 @@
     "lines": [
       {
         "speaker": "Fady",
-        "text": "Where were you yesterday ?",
+        "text": "Where were you yesterday?",
         "gapNumber": null,
         "isQuestion": true
       },
@@ -446,7 +446,7 @@
       },
       {
         "speaker": "Fady",
-        "text": "Who taught you how to use it ?",
+        "text": "Who taught you how to use it?",
         "gapNumber": null,
         "isQuestion": true
       },
@@ -459,7 +459,7 @@
       },
       {
         "speaker": "Fady",
-        "text": "Can I use it when I visit you ?",
+        "text": "Can I use it when I visit you?",
         "gapNumber": null,
         "isQuestion": true
       },
@@ -552,7 +552,7 @@
       },
       {
         "speaker": "Sarah",
-        "text": "What a pity! (2).................... …… ?",
+        "text": "What a pity! (2).................... ……?",
         "gapNumber": 2,
         "isQuestion": true,
         "cue": "Question about Mona's answer"
@@ -565,7 +565,7 @@
       },
       {
         "speaker": "Sarah",
-        "text": "....................(3).................... ?",
+        "text": "....................(3)....................?",
         "gapNumber": 3,
         "isQuestion": true,
         "cue": "Question about Mona's answer"
@@ -677,7 +677,7 @@
       },
       {
         "speaker": "Nader",
-        "text": "(2) .................... .................... ? Yasser Because my granddad is in hospital.",
+        "text": "(2) .................... ....................? Yasser Because my granddad is in hospital.",
         "gapNumber": 2,
         "isQuestion": true,
         "cue": "Question about Nader's answer"
@@ -697,7 +697,7 @@
       },
       {
         "speaker": "Nader",
-        "text": "(4) .................... .................... .................... .................... ?",
+        "text": "(4) .................... .................... .................... ....................?",
         "gapNumber": 4,
         "isQuestion": true,
         "cue": "Question about Yasser's answer"
@@ -800,7 +800,7 @@
       },
       {
         "speaker": "Mona",
-        "text": "(1) ---------------------------------------------------------------------------------- ?",
+        "text": "(1) ----------------------------------------------------------------------------------?",
         "gapNumber": 1,
         "isQuestion": true,
         "cue": "Question about Sahar's answer"
@@ -813,7 +813,7 @@
       },
       {
         "speaker": "Mona",
-        "text": "(2) --------------------------------------------------------------------- ------------ ?",
+        "text": "(2) --------------------------------------------------------------------- ------------?",
         "gapNumber": 2,
         "isQuestion": true,
         "cue": "Question about Sahar's answer"
@@ -827,7 +827,7 @@
       },
       {
         "speaker": "Mona",
-        "text": "When will his plane arrive ?",
+        "text": "When will his plane arrive?",
         "gapNumber": null,
         "isQuestion": true
       },
@@ -925,7 +925,7 @@
         "isQuestion": true
       },
       {
-        "speaker": "OIa",
+        "speaker": "Ola",
         "text": "(1).................... .................... .",
         "gapNumber": 1,
         "isQuestion": false,
@@ -1050,7 +1050,7 @@
     "lines": [
       {
         "speaker": "Ayman",
-        "text": "What do you think of rubbish collectors ?",
+        "text": "What do you think of rubbish collectors?",
         "gapNumber": null,
         "isQuestion": true
       },
@@ -1063,7 +1063,7 @@
       },
       {
         "speaker": "Ayman",
-        "text": "Heroes ! (2) .................... ?",
+        "text": "Heroes ! (2) ....................?",
         "gapNumber": 2,
         "isQuestion": true,
         "cue": "Question about Ashraf's answer"
@@ -1076,7 +1076,7 @@
       },
       {
         "speaker": "Ayman",
-        "text": "What do they do ?",
+        "text": "What do they do?",
         "gapNumber": null,
         "isQuestion": true
       },
@@ -1089,7 +1089,7 @@
       },
       {
         "speaker": "Ayman",
-        "text": "Are street cleaners important ?",
+        "text": "Are street cleaners important?",
         "gapNumber": null,
         "isQuestion": true
       },
@@ -1102,7 +1102,7 @@
       },
       {
         "speaker": "Ayman",
-        "text": "What should we do to help them ?",
+        "text": "What should we do to help them?",
         "gapNumber": null,
         "isQuestion": true
       },
@@ -1181,7 +1181,7 @@
     "lines": [
       {
         "speaker": "Ashraf",
-        "text": "Who is your hero, Ayman ?",
+        "text": "Who is your hero, Ayman?",
         "gapNumber": null,
         "isQuestion": true
       },
@@ -1221,7 +1221,7 @@
       },
       {
         "speaker": "Ashraf",
-        "text": "Are you proud of him ?",
+        "text": "Are you proud of him?",
         "gapNumber": null,
         "isQuestion": true
       },
@@ -1431,7 +1431,7 @@
     "lines": [
       {
         "speaker": "Tourist",
-        "text": "Excuse me. Can l ask you some questions ?",
+        "text": "Excuse me. Can l ask you some questions?",
         "gapNumber": null,
         "isQuestion": true
       },
@@ -1451,7 +1451,7 @@
       },
       {
         "speaker": "Tourist",
-        "text": "Are they far from here ?",
+        "text": "Are they far from here?",
         "gapNumber": null,
         "isQuestion": true
       },
@@ -1464,7 +1464,7 @@
       },
       {
         "speaker": "Tourist",
-        "text": "How can I go there ?",
+        "text": "How can I go there?",
         "gapNumber": null,
         "isQuestion": true
       },
@@ -1555,7 +1555,7 @@
       },
       {
         "speaker": "Mona",
-        "text": "Good morning, (1).................... .................... .................... ?",
+        "text": "Good morning, (1).................... .................... ....................?",
         "gapNumber": 1,
         "isQuestion": true,
         "cue": "Question about Receptionist's answer"
@@ -1575,7 +1575,7 @@
       },
       {
         "speaker": "Mona",
-        "text": " Can I buy the tickets online for the museum ?",
+        "text": " Can I buy the tickets online for the museum?",
         "gapNumber": null,
         "isQuestion": true
       },
@@ -1588,7 +1588,7 @@
       },
       {
         "speaker": "Mona",
-        "text": " (4) .................... .................... .................... ?",
+        "text": " (4) .................... .................... ....................?",
         "gapNumber": 4,
         "isQuestion": true,
         "cue": "Question about Receptionist's answer"
@@ -1601,7 +1601,7 @@
       },
       {
         "speaker": "Mona",
-        "text": "Can I get my children with me ?",
+        "text": "Can I get my children with me?",
         "gapNumber": null,
         "isQuestion": true
       },
@@ -1831,7 +1831,7 @@
       },
       {
         "speaker": "Aya",
-        "text": "Congratulations! (2) .................... ?",
+        "text": "Congratulations! (2) ....................?",
         "gapNumber": 2,
         "isQuestion": true,
         "cue": "Question about Sama's answer"
@@ -1844,7 +1844,7 @@
       },
       {
         "speaker": "Aya",
-        "text": " (3).................... .................... ?",
+        "text": " (3).................... ....................?",
         "gapNumber": 3,
         "isQuestion": true,
         "cue": "Question about Sama's answer"
@@ -1857,7 +1857,7 @@
       },
       {
         "speaker": "Aya",
-        "text": "Where did you buy it ?",
+        "text": "Where did you buy it?",
         "gapNumber": null,
         "isQuestion": true
       },
@@ -1949,7 +1949,7 @@
     "lines": [
       {
         "speaker": "Yasser",
-        "text": "Do you think that tourism is good for Egypt ?",
+        "text": "Do you think that tourism is good for Egypt?",
         "gapNumber": null,
         "isQuestion": true
       },
@@ -1962,7 +1962,7 @@
       },
       {
         "speaker": "Yasser",
-        "text": "Why do you think so ?",
+        "text": "Why do you think so?",
         "gapNumber": null,
         "isQuestion": true
       },
@@ -1975,7 +1975,7 @@
       },
       {
         "speaker": "Yasser",
-        "text": "(3) .................... ? Al",
+        "text": "(3) ....................? Al",
         "gapNumber": 3,
         "isQuestion": true,
         "cue": "Question about Ali's answer"
@@ -2001,7 +2001,7 @@
       },
       {
         "speaker": "Yasser",
-        "text": "What should tourists do to help the environment ?",
+        "text": "What should tourists do to help the environment?",
         "gapNumber": null,
         "isQuestion": true
       },
@@ -2092,7 +2092,7 @@
       },
       {
         "speaker": "Salesperson",
-        "text": "(1) .................... ?",
+        "text": "(1) ....................?",
         "gapNumber": 1,
         "isQuestion": true,
         "cue": "Question about Dalia's answer"
@@ -2105,7 +2105,7 @@
       },
       {
         "speaker": "Salesperson",
-        "text": "(2) .................... ?",
+        "text": "(2) ....................?",
         "gapNumber": 2,
         "isQuestion": true,
         "cue": "Question about Dalia's answer"
@@ -2118,7 +2118,7 @@
       },
       {
         "speaker": "Salesperson",
-        "text": "(3) .................... ?",
+        "text": "(3) ....................?",
         "gapNumber": 3,
         "isQuestion": true,
         "cue": "Question about Dalia's answer"
@@ -2341,7 +2341,7 @@
     "lines": [
       {
         "speaker": "Ayman",
-        "text": "What are you doing, Ashraf ?",
+        "text": "What are you doing, Ashraf?",
         "gapNumber": null,
         "isQuestion": true
       },
@@ -2354,7 +2354,7 @@
       },
       {
         "speaker": "Ayman",
-        "text": "What is the book about ?",
+        "text": "What is the book about?",
         "gapNumber": null,
         "isQuestion": true
       },
@@ -2374,7 +2374,7 @@
       },
       {
         "speaker": "Ashraf",
-        "text": "They are people aged from 13 to 19. Ayman: What shou ld teenagers do to feel happy ?",
+        "text": "They are people aged from 13 to 19. Ayman: What shou ld teenagers do to feel happy?",
         "gapNumber": null,
         "isQuestion": true
       },
@@ -2465,7 +2465,7 @@
     "lines": [
       {
         "speaker": "Khalid",
-        "text": "Hi, Ali. What's your father's job ?",
+        "text": "Hi, Ali. What's your father's job?",
         "gapNumber": null,
         "isQuestion": true
       },
@@ -2504,7 +2504,7 @@
       },
       {
         "speaker": "Khalid",
-        "text": "Do his pupils like him ?",
+        "text": "Do his pupils like him?",
         "gapNumber": null,
         "isQuestion": true
       },
@@ -2517,7 +2517,7 @@
       },
       {
         "speaker": "Khalid",
-        "text": "Do you want to be a teacher like him ?",
+        "text": "Do you want to be a teacher like him?",
         "gapNumber": null,
         "isQuestion": true
       },
@@ -2596,7 +2596,7 @@
     "lines": [
       {
         "speaker": "Leen",
-        "text": "can I ask you some questions ?",
+        "text": "can I ask you some questions?",
         "gapNumber": null,
         "isQuestion": true
       },
@@ -2648,7 +2648,7 @@
       },
       {
         "speaker": "Leen",
-        "text": "What activity do you do every week ?",
+        "text": "What activity do you do every week?",
         "gapNumber": null,
         "isQuestion": true
       },
@@ -2728,7 +2728,7 @@
     "lines": [
       {
         "speaker": "Youssif",
-        "text": "Hi, Mohammed. What does your father do ?",
+        "text": "Hi, Mohammed. What does your father do?",
         "gapNumber": null,
         "isQuestion": true
       },
@@ -2754,7 +2754,7 @@
       },
       {
         "speaker": "Youssif",
-        "text": "(3).................... .................... .................... ?",
+        "text": "(3).................... .................... ....................?",
         "gapNumber": 3,
         "isQuestion": true,
         "cue": "Question about Mohammed's answer"
@@ -2767,7 +2767,7 @@
       },
       {
         "speaker": "Youssif",
-        "text": "Does he like helping the poor ?",
+        "text": "Does he like helping the poor?",
         "gapNumber": null,
         "isQuestion": true
       },
@@ -2780,7 +2780,7 @@
       },
       {
         "speaker": "Youssif",
-        "text": "Do you like to be a doctor, too ?",
+        "text": "Do you like to be a doctor, too?",
         "gapNumber": null,
         "isQuestion": true
       },
@@ -2859,7 +2859,7 @@
     "lines": [
       {
         "speaker": "Basem",
-        "text": "Where are you going next weekend ?",
+        "text": "Where are you going next weekend?",
         "gapNumber": null,
         "isQuestion": true
       },
@@ -2885,13 +2885,13 @@
       },
       {
         "speaker": "Basem",
-        "text": "Do you know what you must do there ?",
+        "text": "Do you know what you must do there?",
         "gapNumber": null,
         "isQuestion": true
       },
       {
         "speaker": "Rahma",
-        "text": "(3).................... .................... ....................What must I do ?",
+        "text": "(3).................... .................... ....................What must I do?",
         "gapNumber": 3,
         "isQuestion": true,
         "cue": "Question about Basem's answer"
@@ -2991,12 +2991,12 @@
     "lines": [
       {
         "speaker": "Ramy",
-        "text": "Hello, Samy. What about goin g to the Citadel ?",
+        "text": "Hello, Samy. What about goin g to the Citadel?",
         "gapNumber": null,
         "isQuestion": true
       },
       {
-        "speaker": "Sarny",
+        "speaker": "Samy",
         "text": "(1).................... .................... ....................",
         "gapNumber": 1,
         "isQuestion": false,
@@ -3017,7 +3017,7 @@
       },
       {
         "speaker": "Ramy",
-        "text": "(3).................... .................... .................... ?",
+        "text": "(3).................... .................... ....................?",
         "gapNumber": 3,
         "isQuestion": true,
         "cue": "Question about Samy's answer"
@@ -3030,7 +3030,7 @@
       },
       {
         "speaker": "Ramy",
-        "text": "Why ?",
+        "text": "Why?",
         "gapNumber": null,
         "isQuestion": true
       },
@@ -3043,7 +3043,7 @@
       },
       {
         "speaker": "Ramy",
-        "text": "Is it a historic building ?",
+        "text": "Is it a historic building?",
         "gapNumber": null,
         "isQuestion": true
       },
@@ -3121,12 +3121,12 @@
     "lines": [
       {
         "speaker": "Ayman",
-        "text": "What is your home city ? Ash",
+        "text": "What is your home city?",
         "gapNumber": null,
         "isQuestion": true
       },
       {
-        "speaker": "raf",
+        "speaker": "Ashraf",
         "text": "(1)....................",
         "gapNumber": 1,
         "isQuestion": false,
@@ -3134,25 +3134,25 @@
       },
       {
         "speaker": "Ayman",
-        "text": "Damietta !(2).................... ?",
+        "text": "Damietta !(2)....................?",
         "gapNumber": 2,
         "isQuestion": true,
         "cue": "Question about raf's answer"
       },
       {
-        "speaker": "raf",
+        "speaker": "Ashraf",
         "text": "It's located near the Nile.",
         "gapNumber": null,
         "isQuestion": false
       },
       {
         "speaker": "Ayman",
-        "text": "What is it famous for ?",
+        "text": "What is it famous for?",
         "gapNumber": null,
         "isQuestion": true
       },
       {
-        "speaker": "raf",
+        "speaker": "Ashraf",
         "text": "(3).................... …",
         "gapNumber": 3,
         "isQuestion": false,
@@ -3160,25 +3160,25 @@
       },
       {
         "speaker": "Ayman",
-        "text": " (4).................... .................... .................... .................... .................... .................... .................... .................... .................... .................... .................... .................... .................... .................... .................... .................... .................... .................... .................... .................... .................... .................... . ?",
+        "text": " (4).................... .................... .................... .................... .................... .................... .................... .................... .................... .................... .................... .................... .................... .................... .................... .................... .................... .................... .................... .................... .................... .................... .?",
         "gapNumber": 4,
         "isQuestion": true,
         "cue": "Question about raf's answer"
       },
       {
-        "speaker": "raf",
+        "speaker": "Ashraf",
         "text": " Furniture is made of wood .",
         "gapNumber": null,
         "isQuestion": false
       },
       {
         "speaker": "Ayman",
-        "text": "What else is it famous for ?",
+        "text": "What else is it famous for?",
         "gapNumber": null,
         "isQuestion": true
       },
       {
-        "speaker": "raf",
+        "speaker": "Ashraf",
         "text": "....................(5) ....................",
         "gapNumber": 5,
         "isQuestion": false,
@@ -3257,7 +3257,7 @@
       },
       {
         "speaker": "Nader",
-        "text": " Good morning . (1) .................... .................... .................... ?",
+        "text": " Good morning . (1) .................... .................... ....................?",
         "gapNumber": 1,
         "isQuestion": true,
         "cue": "Question about Saher's answer"
@@ -3270,7 +3270,7 @@
       },
       {
         "speaker": "Nader",
-        "text": " (2) .................... .................... .. .................... ?",
+        "text": " (2) .................... .................... .. ....................?",
         "gapNumber": 2,
         "isQuestion": true,
         "cue": "Question about Saher's answer"
@@ -3408,7 +3408,7 @@
       },
       {
         "speaker": "Adel",
-        "text": " (3).................... ?",
+        "text": " (3)....................?",
         "gapNumber": 3,
         "isQuestion": true,
         "cue": "Question about Ibrahim's answer"
@@ -3421,7 +3421,7 @@
       },
       {
         "speaker": "Adel",
-        "text": " (4).................... ?",
+        "text": " (4)....................?",
         "gapNumber": 4,
         "isQuestion": true,
         "cue": "Question about Ibrahim's answer"
@@ -3434,7 +3434,7 @@
       },
       {
         "speaker": "Adel",
-        "text": " Minya is a very beautiful city, isn’t it ? Ibr",
+        "text": " Minya is a very beautiful city, isn’t it? Ibr",
         "gapNumber": null,
         "isQuestion": true
       },

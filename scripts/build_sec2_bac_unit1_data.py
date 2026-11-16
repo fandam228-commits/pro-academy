@@ -1,0 +1,1797 @@
+import json
+import os
+
+OUTPUT_DIR = r"C:\Users\fanda\Documents\pro-academy\src\data\secondary-2027"
+os.makedirs(OUTPUT_DIR, exist_ok=True)
+OUTPUT_FILE = os.path.join(OUTPUT_DIR, "sec2-bac-unit1-extracted.json")
+
+unit1_data = {
+    "curriculumMetadata": {
+        "stage": "Secondary",
+        "grade": "Second Year Egyptian Baccalaureate",
+        "gradeCode": "sec_2_bac",
+        "gradeAr": "الصف الثاني بكالوريا (البكالوريا المصرية)",
+        "term": "First",
+        "termAr": "الفصل الدراسي الأول",
+        "academicYear": "2026/2027",
+        "unitNumber": 1,
+        "unitTitleEn": "Living Well in a Complex World",
+        "unitTitleAr": "العيش بشكل جيد في عالم معقد",
+        "conceptEn": "Well-being",
+        "conceptAr": "الرفاهية وجودة الحياة والصحة النفسية والبدنية",
+        "sourceFile": "العمالقة_انجليزي_2_بكالوريا_الترم_الاول_2027_الجزء_الاول_المتميزون.pdf",
+        "publisher": "سلسلة العمالقة (Giants Books Series)",
+        "pageRange": "Pages 2 - 76"
+    },
+    "keyBaccalaureateTerms": [
+        {"term": "Inquiry-Based Learning", "meaningAr": "التعلم القائم على الاستقصاء"},
+        {"term": "Concept-Driven Learning", "meaningAr": "التعلم القائم على المفاهيم"},
+        {"term": "Critical Thinking", "meaningAr": "التفكير النقدي"},
+        {"term": "Integrated Language Skills", "meaningAr": "مهارات اللغة المتكاملة"},
+        {"term": "Evidence-Based Learning", "meaningAr": "التعلم القائم على الأدلة"},
+        {"term": "Real-Life Application", "meaningAr": "التطبيق في الحياة الواقعية"},
+        {"term": "JRE (Justify - Reason - Evidence)", "meaningAr": "استراتيجية التبرير وذكر السبب والدليل"}
+    ],
+    "lessons": [
+        {
+            "lessonNumber": 1,
+            "section": "Section A: Social Reflection",
+            "sectionAr": "القسم أ: الانعكاس الاجتماعي",
+            "titleEn": "Social Media and Self-Image",
+            "titleAr": "وسائل التواصل الاجتماعي والصورة الذاتية",
+            "pages": "5 - 16",
+            "coreVocabulary": [
+                {
+                    "id": "u1_l1_core_01",
+                    "word": "bias",
+                    "pos": "v/n",
+                    "meaningAr": "تحيز / انحياز / يتحيز لـ",
+                    "definitionEn": "a tendency to support or oppose someone or something unfairly",
+                    "exampleEn": "The news report showed a clear bias towards one side of the argument."
+                },
+                {
+                    "id": "u1_l1_core_02",
+                    "word": "biased language",
+                    "pos": "n",
+                    "meaningAr": "لغة متحيزة",
+                    "definitionEn": "words that show a strong opinion and are not fair or neutral",
+                    "exampleEn": "The writer used biased language such as 'useless' to describe the opposing plan."
+                },
+                {
+                    "id": "u1_l1_core_03",
+                    "word": "neutral language",
+                    "pos": "n",
+                    "meaningAr": "لغة محايدة",
+                    "definitionEn": "words that show balanced, objective opinion and free from bias",
+                    "exampleEn": "News reports must use neutral language when covering complex social topics."
+                },
+                {
+                    "id": "u1_l1_core_04",
+                    "word": "hedging",
+                    "pos": "n",
+                    "meaningAr": "التحفظ في الكلام / عبارات تقلل من درجة التأكيد",
+                    "definitionEn": "using careful language to avoid making a statement sound too certain",
+                    "exampleEn": "Scientific papers use hedging words like 'may' and 'indicate' to avoid premature conclusions."
+                },
+                {
+                    "id": "u1_l1_core_05",
+                    "word": "highlight-reel effect",
+                    "pos": "n",
+                    "meaningAr": "التركيز على الجوانب الإيجابية فقط",
+                    "definitionEn": "the tendency to post only the best moments online, creating a false image of reality",
+                    "exampleEn": "Social media creates a highlight-reel effect where people only showcase their successes."
+                },
+                {
+                    "id": "u1_l1_core_06",
+                    "word": "social comparison",
+                    "pos": "n",
+                    "meaningAr": "المقارنة الاجتماعية / مقارنة نفسك بالآخرين",
+                    "definitionEn": "evaluating yourself by comparing yourself to others",
+                    "exampleEn": "Constant social comparison online often leads to lowered self-esteem among adolescents."
+                },
+                {
+                    "id": "u1_l1_core_07",
+                    "word": "social reflection",
+                    "pos": "n",
+                    "meaningAr": "الانعكاس الاجتماعي / رؤية الشخص لنفسه من خلال نظرة الآخرين",
+                    "definitionEn": "the way people understand or judge themselves through other people's reactions, opinions, and feedback",
+                    "exampleEn": "Social reflection shapes how young people define their values and public personas."
+                },
+                {
+                    "id": "u1_l1_core_08",
+                    "word": "evaluative adjective",
+                    "pos": "n",
+                    "meaningAr": "صفة تقييمية / صفة تعبر عن رأي أو حكم",
+                    "definitionEn": "an adjective that expresses a judgment or opinion (e.g. amazing, toxic, unrealistic)",
+                    "exampleEn": "Words like 'flawless' and 'terrible' are evaluative adjectives carrying emotional weight."
+                },
+                {
+                    "id": "u1_l1_core_09",
+                    "word": "rhetorical question",
+                    "pos": "n",
+                    "meaningAr": "سؤال بلاغي / سؤال لا ينتظر منه إجابة",
+                    "definitionEn": "a question asked to make a point or create an effect, not to get an answer",
+                    "exampleEn": "Do we really want algorithms to control how we feel about our lives?"
+                },
+                {
+                    "id": "u1_l1_core_10",
+                    "word": "identity formation",
+                    "pos": "n",
+                    "meaningAr": "تكوين الهوية / تشكيل الهوية",
+                    "definitionEn": "the process of developing a sense of who you are and what you believe",
+                    "exampleEn": "Teenage years are a crucial stage for authentic identity formation."
+                },
+                {
+                    "id": "u1_l1_core_11",
+                    "word": "intensifier",
+                    "pos": "n",
+                    "meaningAr": "كلمة لتقوية المعنى",
+                    "definitionEn": "a word that makes the meaning of another word stronger",
+                    "exampleEn": "The word 'extremely' in 'extremely difficult' is an intensifier."
+                },
+                {
+                    "id": "u1_l1_core_12",
+                    "word": "self-esteem",
+                    "pos": "n",
+                    "meaningAr": "احترام الذات / تقدير الذات",
+                    "definitionEn": "the way you value and respect yourself",
+                    "exampleEn": "Encouragement from mentors significantly boosts a student's self-esteem."
+                },
+                {
+                    "id": "u1_l1_core_13",
+                    "word": "self-image",
+                    "pos": "n",
+                    "meaningAr": "الصورة الذاتية / تصور الشخص عن نفسه",
+                    "definitionEn": "the mental picture or opinion a person has about their own appearance, abilities, personality, and value",
+                    "exampleEn": "Filtered photos can distort a teenager's self-image and perception of beauty."
+                },
+                {
+                    "id": "u1_l1_core_14",
+                    "word": "selective",
+                    "pos": "adj",
+                    "meaningAr": "انتقائي",
+                    "definitionEn": "choosing only certain things, or people instead of everything",
+                    "exampleEn": "Curated social accounts present a very selective view of an individual's lifestyle."
+                }
+            ],
+            "buildYourLanguage": [
+                {"word": "acquaintance", "pos": "n", "meaningAr": "شخص تعرفه معرفة عابرة"},
+                {"word": "transform", "pos": "v", "meaningAr": "يغير جذرياً / يحول / يطور"},
+                {"word": "fast-changing", "pos": "adj", "meaningAr": "سريع التغير"},
+                {"word": "dissatisfaction", "pos": "n", "meaningAr": "عدم الرضا / استياء"},
+                {"word": "filtered", "pos": "adj", "meaningAr": "مصفى / معدل بالفلاتر"},
+                {"word": "sensitive", "pos": "adj", "meaningAr": "حساس / سريع التأثر"},
+                {"word": "unrealistic", "pos": "adj", "meaningAr": "غير واقعي / مبالغ فيه"},
+                {"word": "instinctively", "pos": "adv", "meaningAr": "بشكل غريزي / تلقائياً"},
+                {"word": "absolute word", "pos": "n", "meaningAr": "كلمة تدل على التأكيد التام (مثل always, never)"},
+                {"word": "identity", "pos": "n", "meaningAr": "هوية"},
+                {"word": "mechanism", "pos": "n", "meaningAr": "آلية / طريقة عمل"},
+                {"word": "gap", "pos": "n", "meaningAr": "فجوة / فارق"},
+                {"word": "intense", "pos": "adj", "meaningAr": "شديد / مكثف / قوي"},
+                {"word": "balanced", "pos": "adj", "meaningAr": "متوازن"},
+                {"word": "obvious", "pos": "adj", "meaningAr": "واضح / جلي"},
+                {"word": "highlight", "pos": "v/n", "meaningAr": "يسلط الضوء / يبرز / نقطة بارزة"},
+                {"word": "symptoms", "pos": "n", "meaningAr": "أعراض"},
+                {"word": "pressure", "pos": "n", "meaningAr": "ضغط"},
+                {"word": "celebrity", "pos": "n", "meaningAr": "شخص مشهور"},
+                {"word": "media literacy", "pos": "n", "meaningAr": "الوعي الإعلامي والنقدي"},
+                {"word": "phenomenon", "pos": "n", "meaningAr": "ظاهرة"},
+                {"word": "shape", "pos": "v/n", "meaningAr": "يشكل / شكل"},
+                {"word": "image-based", "pos": "adj", "meaningAr": "قائم على الصور والمحتوى المرئي"},
+                {"word": "maintain", "pos": "v", "meaningAr": "يحافظ على / يصون"},
+                {"word": "toxic", "pos": "adj", "meaningAr": "سام / ضار"},
+                {"word": "physical", "pos": "adj", "meaningAr": "جسدي / بدني / مادي"},
+                {"word": "significant", "pos": "adj", "meaningAr": "مهم / ملحوظ / ذو أهمية"},
+                {"word": "accurate", "pos": "adj", "meaningAr": "دقيق / صحيح"},
+                {"word": "platform", "pos": "n", "meaningAr": "منصة رقمية"},
+                {"word": "individual", "pos": "adj/n", "meaningAr": "فردي / خاص بالفرد / فرد"},
+                {"word": "excuse", "pos": "n", "meaningAr": "عذر / مبرر"},
+                {"word": "publish", "pos": "v", "meaningAr": "ينشر أبحاثاً أو كتباً"},
+                {"word": "stage", "pos": "n", "meaningAr": "مرحلة عمرية / منصة مسرح"},
+                {"word": "psychologist", "pos": "n", "meaningAr": "أخصائي نفسي"},
+                {"word": "unlike", "pos": "prep", "meaningAr": "مختلف عن / على عكس"},
+                {"word": "aggressive", "pos": "adj", "meaningAr": "عدواني / هجومي"},
+                {"word": "association", "pos": "n", "meaningAr": "ارتباط / رابطة / جمعية"},
+                {"word": "tendency", "pos": "n", "meaningAr": "ميل / نزعة"},
+                {"word": "treat", "pos": "v", "meaningAr": "يعامل / يعالج"}
+            ],
+            "synonymsAntonyms": [
+                {
+                    "word": "biased",
+                    "meaningAr": "متحيز / منحاز / غير محايد",
+                    "synonyms": ["prejudiced", "partial", "unfair"],
+                    "antonyms": ["unbiased", "neutral", "objective", "impartial"]
+                },
+                {
+                    "word": "transform",
+                    "meaningAr": "يغير جذرياً / يحول / يطور",
+                    "synonyms": ["change", "reshape", "alter", "convert"],
+                    "antonyms": ["maintain", "preserve", "retain"]
+                },
+                {
+                    "word": "dissatisfaction",
+                    "meaningAr": "عدم الرضا / استياء",
+                    "synonyms": ["discontent", "displeasure", "disappointment"],
+                    "antonyms": ["satisfaction", "contentment", "pleasure"]
+                },
+                {
+                    "word": "unrealistic",
+                    "meaningAr": "غير واقعي / مبالغ فيه",
+                    "synonyms": ["impractical", "unreasonable"],
+                    "antonyms": ["practical", "reasonable", "achievable"]
+                },
+                {
+                    "word": "hedging",
+                    "meaningAr": "التحفظ في الكلام",
+                    "synonyms": ["caution", "reservation"],
+                    "antonyms": ["certainty", "confidence", "assertiveness"]
+                },
+                {
+                    "word": "rhetorical",
+                    "meaningAr": "بلاغي",
+                    "synonyms": ["persuasive", "expressive", "figurative"],
+                    "antonyms": ["literal", "factual", "straightforward"]
+                },
+                {
+                    "word": "intense",
+                    "meaningAr": "شديد / مكثف / قوي",
+                    "synonyms": ["extreme", "powerful", "severe"],
+                    "antonyms": ["mild", "weak", "gentle", "moderate"]
+                },
+                {
+                    "word": "balanced",
+                    "meaningAr": "متوازن",
+                    "synonyms": ["fair", "reasonable", "impartial"],
+                    "antonyms": ["biased", "unfair", "one-sided"]
+                },
+                {
+                    "word": "highlight",
+                    "meaningAr": "يسلط الضوء / يبرز",
+                    "synonyms": ["emphasize", "stress"],
+                    "antonyms": ["ignore", "overlook", "hide"]
+                },
+                {
+                    "word": "self-esteem",
+                    "meaningAr": "احترام الذات",
+                    "synonyms": ["self-respect", "self-worth", "self-confidence"],
+                    "antonyms": ["self-doubt", "insecurity"]
+                }
+            ],
+            "wordFamily": [
+                {"verb": "identify", "meaningAr": "يحدد / يتعرف على", "noun": "identity", "adjective": "identical"},
+                {"verb": "influence", "meaningAr": "يؤثر على", "noun": "influencer", "adjective": "influential"},
+                {"verb": "transform", "meaningAr": "يحول / يغير جذرياً", "noun": "transformation", "adjective": "transformative"},
+                {"verb": "select", "meaningAr": "يختار / ينتقي", "noun": "selection", "adjective": "selective"},
+                {"verb": "form", "meaningAr": "يشكل / يكون", "noun": "formation", "adjective": "formative"},
+                {"verb": "perform", "meaningAr": "يؤدي / يقوم بـ", "noun": "performance", "adjective": "high-performing"},
+                {"verb": "sense", "meaningAr": "يشعر بـ / يدرك", "noun": "sensitivity", "adjective": "sensitive"},
+                {"verb": "satisfy", "meaningAr": "يرضي / يشبع", "noun": "satisfaction", "adjective": "satisfied"},
+                {"verb": "compare", "meaningAr": "يقارن / يوازن بين", "noun": "comparison", "adjective": "comparative"}
+            ],
+            "collocations": [
+                {"expression": "create unrealistic expectations", "meaningAr": "يخلق توقعات غير واقعية", "type": "Collocation"},
+                {"expression": "perfectly balanced diet", "meaningAr": "نظام غذائي متوازن تماماً", "type": "Collocation"},
+                {"expression": "constructed version", "meaningAr": "نسخة مصطنعة / غير حقيقية", "type": "Collocation"},
+                {"expression": "image-based platform", "meaningAr": "منصة قائمة على المحتوى المرئي", "type": "Collocation"},
+                {"expression": "critical evaluation", "meaningAr": "التقييم النقدي", "type": "Collocation"},
+                {"expression": "question assumptions", "meaningAr": "يشكك في الافتراضات ويفحصها", "type": "Collocation"},
+                {"expression": "highly curated stage", "meaningAr": "مساحة منتقاة بعناية لعرض أفضل الجوانب", "type": "Collocation"},
+                {"expression": "have an impact on", "meaningAr": "يكون له تأثير على", "type": "Verb + Preposition"},
+                {"expression": "mental health", "meaningAr": "الصحة النفسية", "type": "Collocation"},
+                {"expression": "report symptoms", "meaningAr": "يُبلّغ عن أعراض مرضية", "type": "Collocation"},
+                {"expression": "contribution to", "meaningAr": "مساهمة في / إسهام في", "type": "Noun + Preposition"},
+                {"expression": "related to", "meaningAr": "متعلق بـ / مرتبط بـ", "type": "Adjective + Preposition"},
+                {"expression": "compare to", "meaningAr": "يشبه بـ / يقارن بـ", "type": "Verb + Preposition"},
+                {"expression": "go on", "meaningAr": "يستمر / يواصل", "type": "Phrasal Verb"}
+            ],
+            "languageNotes": [
+                {
+                    "itemA": "affect (v)",
+                    "meaningA": "يؤثر على (verb)",
+                    "itemB": "effect (n)",
+                    "meaningB": "تأثير / أثر / نتيجة (noun)",
+                    "note": "Affect is usually a verb, whereas effect is usually a noun."
+                },
+                {
+                    "itemA": "sensitive (adj)",
+                    "meaningA": "حساس / سريع التأثر بالمشاعر أو البيئة",
+                    "itemB": "sensible (adj)",
+                    "meaningB": "عاقل / حكيم / منطقي",
+                    "note": "Sensitive relates to emotions and reactions, while sensible denotes wisdom and sound judgment."
+                },
+                {
+                    "itemA": "balance (n/v)",
+                    "meaningA": "توازن / يوازن",
+                    "itemB": "balanced (adj)",
+                    "meaningB": "متوازن (صيغة الصفة)",
+                    "note": "Use 'balanced' as an adjective before nouns like 'diet' or 'lifestyle'."
+                },
+                {
+                    "itemA": "publish (v)",
+                    "meaningA": "ينشر (شخص أو دار نشر تطرح كتاباً أو مقالاً)",
+                    "itemB": "come out (phr v)",
+                    "meaningB": "يصدر / يطرح للجمهور (بدون مفعول مباشر)",
+                    "note": "A publisher publishes a book; a book comes out."
+                },
+                {
+                    "itemA": "power (n)",
+                    "meaningA": "قوة / سلطة / نفوذ / طاقة",
+                    "itemB": "powerful (adj)",
+                    "meaningB": "قوي / ذو تأثير كبير / نافذ",
+                    "note": "Power is the abstract noun; powerful modifies nouns that possess strong agency."
+                }
+            ],
+            "interactiveExercises": {
+                "mcq": [
+                    {
+                        "id": "u1_l1_q01",
+                        "questionText": "Constant social comparison made Ahmed feel that his life was less successful than the lives he saw online. What does 'social comparison' mean in this context?",
+                        "options": [
+                            "Judging yourself by comparing your life with other people's lives.",
+                            "Discussing social problems with friends.",
+                            "Studying the traditions of different societies.",
+                            "Sharing personal information online."
+                        ],
+                        "correctAnswer": "Judging yourself by comparing your life with other people's lives.",
+                        "explanation": "Social comparison refers to the psychological process of evaluating one's own achievements and value against others."
+                    },
+                    {
+                        "id": "u1_l1_q02",
+                        "questionText": "A podcast host invited only guests who agreed with his views and dismissed opposing opinions without discussing them fairly. Listeners described the program as biased. Which situation is the clearest example of being 'biased'?",
+                        "options": [
+                            "A judge scores every performance according to the same published rules.",
+                            "A judge gives a friend a higher score even though another performer clearly did better.",
+                            "A judge asks another official to review a result that is extremely close.",
+                            "A judge changes a score after noticing a genuine mistake in the first calculation."
+                        ],
+                        "correctAnswer": "A judge gives a friend a higher score even though another performer clearly did better.",
+                        "explanation": "Bias means showing unfair favoritism towards one person or perspective over another."
+                    },
+                    {
+                        "id": "u1_l1_q03",
+                        "questionText": "Mariam posts only photos of holidays, celebrations, and achievements, so her followers imagine that her life is always perfect. This creates a highlight-reel effect. Which situation is the clearest example of the 'highlight-reel effect'?",
+                        "options": [
+                            "A student shares both successes and failures during a difficult school year.",
+                            "A traveller posts only luxury hotels and exciting trips while hiding stressful moments.",
+                            "A teacher uploads full lessons so students can review their mistakes.",
+                            "A family discusses both positive and negative events openly at home."
+                        ],
+                        "correctAnswer": "A traveller posts only luxury hotels and exciting trips while hiding stressful moments.",
+                        "explanation": "The highlight-reel effect occurs when someone selectively curates and showcases only ideal, glamorous events while omitting struggles."
+                    },
+                    {
+                        "id": "u1_l1_q04",
+                        "questionText": "The writer used biased language such as 'terrible' and 'completely useless' when describing the plan. What does 'biased language' mean in this context?",
+                        "options": [
+                            "Words used only in scientific reports.",
+                            "Words that show a strong opinion and are not fair or neutral.",
+                            "Words that make information easier to memorize.",
+                            "Words used to introduce several different viewpoints."
+                        ],
+                        "correctAnswer": "Words that show a strong opinion and are not fair or neutral.",
+                        "explanation": "Biased language relies on subjective, charged adjectives rather than objective, balanced evidence."
+                    },
+                    {
+                        "id": "u1_l1_q05",
+                        "questionText": "A news report should use neutral language when presenting different sides of an argument. What does 'neutral language' mean in this context?",
+                        "options": [
+                            "Language that strongly supports one side.",
+                            "Language that deliberately hides important facts.",
+                            "Language that is balanced, objective, and free from bias.",
+                            "Language that contains emotional and exaggerated expressions."
+                        ],
+                        "correctAnswer": "Language that is balanced, objective, and free from bias.",
+                        "explanation": "Neutral language avoids emotional coloring and maintains fairness across all perspectives."
+                    },
+                    {
+                        "id": "u1_l1_q06",
+                        "questionText": "Instead of saying, 'This method will definitely work,' Mona wrote, 'This method may be effective.' This use of careful language is called ......... .",
+                        "options": [
+                            "intensification",
+                            "social comparison",
+                            "identity formation",
+                            "hedging"
+                        ],
+                        "correctAnswer": "hedging",
+                        "explanation": "Hedging is the practice of using modal verbs like 'may' or 'might' to avoid making overly rigid claims."
+                    },
+                    {
+                        "id": "u1_l1_q07",
+                        "questionText": "In the sentence 'Social media creates a toxic environment,' the word 'toxic' expresses the writer's judgment. 'Toxic' is an example of a/an ......... .",
+                        "options": [
+                            "intensifier",
+                            "rhetorical question",
+                            "evaluative adjective",
+                            "neutral expression"
+                        ],
+                        "correctAnswer": "evaluative adjective",
+                        "explanation": "Evaluative adjectives convey personal qualitative judgments (such as toxic, harmful, or wonderful)."
+                    },
+                    {
+                        "id": "u1_l1_q08",
+                        "questionText": "People sometimes post only holidays, successes, and perfect moments online, giving others an incomplete picture of their lives. This is known as the ......... .",
+                        "options": [
+                            "highlight-reel effect",
+                            "rhetorical question",
+                            "neutral language",
+                            "identity formation"
+                        ],
+                        "correctAnswer": "highlight-reel effect",
+                        "explanation": "Curating solely peak positive moments creates the classic highlight-reel distortion."
+                    },
+                    {
+                        "id": "u1_l1_q09",
+                        "questionText": "In the phrase 'extremely difficult,' the word 'extremely' is an intensifier. What does 'intensifier' mean in this context?",
+                        "options": [
+                            "A word that reduces the certainty of a statement.",
+                            "A word that makes the meaning of another word stronger.",
+                            "A word that introduces an opposite idea.",
+                            "A word that makes a statement more neutral."
+                        ],
+                        "correctAnswer": "A word that makes the meaning of another word stronger.",
+                        "explanation": "Intensifiers (like extremely, completely, very) scale up the magnitude of adjectives and adverbs."
+                    },
+                    {
+                        "id": "u1_l1_q10",
+                        "questionText": "The writer asked, 'Do we really want technology to control our lives?' What does 'rhetorical question' mean in this context?",
+                        "options": [
+                            "A question asked to check factual information.",
+                            "A question requiring a detailed written answer.",
+                            "A question used to test someone's knowledge.",
+                            "A question asked to make a point rather than get an answer."
+                        ],
+                        "correctAnswer": "A question asked to make a point rather than get an answer.",
+                        "explanation": "A rhetorical question serves an illustrative or persuasive purpose to engage critical thinking without requiring a literal reply."
+                    },
+                    {
+                        "id": "u1_l1_q11",
+                        "questionText": "In the phrase 'deeply disappointed' the word 'deeply' makes the feeling of disappointment stronger. Which sentence contains the clearest example of an 'intensifier'?",
+                        "options": [
+                            "The students arrived early.",
+                            "The students were incredibly excited about the competition.",
+                            "The students might attend the event tomorrow.",
+                            "The students completed three activities."
+                        ],
+                        "correctAnswer": "The students were incredibly excited about the competition.",
+                        "explanation": "'Incredibly' is an intensifier strengthening 'excited'."
+                    },
+                    {
+                        "id": "u1_l1_q12",
+                        "questionText": "Describing one group as 'wonderful' and another as 'useless' is ......... .",
+                        "options": [
+                            "biased language",
+                            "neutral language",
+                            "formal language",
+                            "factual language"
+                        ],
+                        "correctAnswer": "biased language",
+                        "explanation": "Using polarized judgmental adjectives is biased language."
+                    },
+                    {
+                        "id": "u1_l1_q13",
+                        "questionText": "News reports should use ......... when presenting different sides of an argument.",
+                        "options": [
+                            "emotional language",
+                            "biased language",
+                            "persuasive language",
+                            "neutral language"
+                        ],
+                        "correctAnswer": "neutral language",
+                        "explanation": "Neutral language ensures unbiased reporting."
+                    },
+                    {
+                        "id": "u1_l1_q14",
+                        "questionText": "Using words such as 'may' and 'might' to avoid certainty is called ......... .",
+                        "options": [
+                            "exaggeration",
+                            "hedging",
+                            "comparison",
+                            "persuasion"
+                        ],
+                        "correctAnswer": "hedging",
+                        "explanation": "Hedging tones down overgeneralization."
+                    },
+                    {
+                        "id": "u1_l1_q15",
+                        "questionText": "Posting only holidays and successes online can create the ......... .",
+                        "options": [
+                            "identity formation",
+                            "social connection",
+                            "highlight-reel effect",
+                            "mindful consumption"
+                        ],
+                        "correctAnswer": "highlight-reel effect",
+                        "explanation": "Highlight-reel effect specifically describes showing only optimal moments."
+                    },
+                    {
+                        "id": "u1_l1_q16",
+                        "questionText": "Developing beliefs, values, and a sense of who you are is ......... .",
+                        "options": [
+                            "social comparison",
+                            "identity formation",
+                            "dissatisfaction",
+                            "mindfulness"
+                        ],
+                        "correctAnswer": "identity formation",
+                        "explanation": "Identity formation is the internal construction of one's core self and principles."
+                    },
+                    {
+                        "id": "u1_l1_q17",
+                        "questionText": "The way people judge themselves through others' reactions means ......... .",
+                        "options": [
+                            "personal achievement",
+                            "physical response",
+                            "social reflection",
+                            "private decision"
+                        ],
+                        "correctAnswer": "social reflection",
+                        "explanation": "Social reflection is viewing one's worth through the mirror of external social perceptions."
+                    },
+                    {
+                        "id": "u1_l1_q18",
+                        "questionText": "Although he had achieved a lot, constant comparison left him feeling unhappy with his life. This feeling of ......... made him focus only on what he lacked.",
+                        "options": [
+                            "satisfaction",
+                            "confidence",
+                            "determination",
+                            "dissatisfaction"
+                        ],
+                        "correctAnswer": "dissatisfaction",
+                        "explanation": "Dissatisfaction reflects constant discontent with one's situation."
+                    },
+                    {
+                        "id": "u1_l1_q19",
+                        "questionText": "'Many customers expressed dissatisfaction with the poor quality of the service.' The underlined noun is closest in meaning to ......... .",
+                        "options": [
+                            "discontent",
+                            "pleasure",
+                            "satisfaction",
+                            "contentment"
+                        ],
+                        "correctAnswer": "discontent",
+                        "explanation": "Discontent is an exact synonym of dissatisfaction."
+                    },
+                    {
+                        "id": "u1_l1_q20",
+                        "questionText": "'Expecting every student to achieve perfect marks is unrealistic.' The underlined adjective has an antonymous meaning to ......... .",
+                        "options": [
+                            "unreasonable",
+                            "impractical",
+                            "reasonable",
+                            "impossible"
+                        ],
+                        "correctAnswer": "reasonable",
+                        "explanation": "Reasonable is an antonym for unrealistic."
+                    },
+                    {
+                        "id": "u1_l1_q21",
+                        "questionText": "'The speaker used a rhetorical question to make the audience think deeply.' The underlined adjective is closest in meaning to ......... .",
+                        "options": [
+                            "persuasive",
+                            "factual",
+                            "literal",
+                            "straightforward"
+                        ],
+                        "correctAnswer": "persuasive",
+                        "explanation": "Rhetorical questions act persuasively on the listener's thought process."
+                    },
+                    {
+                        "id": "u1_l1_q22",
+                        "questionText": "'The teacher used examples to highlight the most important points.' The underlined verb is closest in meaning to ......... .",
+                        "options": [
+                            "ignore",
+                            "overlook",
+                            "emphasize",
+                            "hide"
+                        ],
+                        "correctAnswer": "emphasize",
+                        "explanation": "Highlight means to emphasize or underline importance."
+                    },
+                    {
+                        "id": "u1_l1_q23",
+                        "questionText": "'The scientist used hedging when he said the results might indicate a connection.' The underlined noun has an antonymous meaning to ......... .",
+                        "options": [
+                            "caution",
+                            "certainty",
+                            "hesitation",
+                            "reservation"
+                        ],
+                        "correctAnswer": "certainty",
+                        "explanation": "Hedging denotes caution and avoidance of absolute certainty; hence certainty is its direct antonym."
+                    },
+                    {
+                        "id": "u1_l1_q24",
+                        "questionText": "'Technology can transform the way students learn and communicate.' The underlined verb has an antonymous meaning to ......... .",
+                        "options": [
+                            "reshape",
+                            "convert",
+                            "alter",
+                            "preserve"
+                        ],
+                        "correctAnswer": "preserve",
+                        "explanation": "Preserve means to keep unchanged, contrasting with transform (to change deeply)."
+                    },
+                    {
+                        "id": "u1_l1_q25",
+                        "questionText": "'The article was biased because it presented only one side of the argument.' The underlined adjective is closest in meaning to ......... .",
+                        "options": [
+                            "neutral",
+                            "objective",
+                            "partial",
+                            "impartial"
+                        ],
+                        "correctAnswer": "partial",
+                        "explanation": "Partial means taking a side unfairly; biased."
+                    },
+                    {
+                        "id": "u1_l1_q26",
+                        "questionText": "'The athletes continued training despite the intense heat.' The underlined adjective has an antonymous meaning to ......... .",
+                        "options": [
+                            "severe",
+                            "powerful",
+                            "extreme",
+                            "mild"
+                        ],
+                        "correctAnswer": "mild",
+                        "explanation": "Mild (moderate, gentle) is the antonym of intense."
+                    },
+                    {
+                        "id": "u1_l1_q27",
+                        "questionText": "Instagram is mainly a/an ......... platform where users share photos.",
+                        "options": [
+                            "text-based",
+                            "audio-based",
+                            "image-based",
+                            "paper-based"
+                        ],
+                        "correctAnswer": "image-based",
+                        "explanation": "An image-based platform prioritizes photos and visual media."
+                    },
+                    {
+                        "id": "u1_l1_q28",
+                        "questionText": "The report was ......... because it mentioned only the evidence supporting one side.",
+                        "options": [
+                            "neutral",
+                            "selective",
+                            "objective",
+                            "balanced"
+                        ],
+                        "correctAnswer": "selective",
+                        "explanation": "Selective means choosing only specific data to paint an incomplete picture."
+                    },
+                    {
+                        "id": "u1_l1_q29",
+                        "questionText": "Receiving encouragement can improve a teenager's confidence and ......... .",
+                        "options": [
+                            "dissatisfaction",
+                            "social comparison",
+                            "self-esteem",
+                            "bias"
+                        ],
+                        "correctAnswer": "self-esteem",
+                        "explanation": "Encouragement directly supports healthy self-esteem."
+                    },
+                    {
+                        "id": "u1_l1_q30",
+                        "questionText": "Expecting every student to achieve perfect results without making mistakes is ......... .",
+                        "options": [
+                            "unrealistic",
+                            "selective",
+                            "neutral",
+                            "objective"
+                        ],
+                        "correctAnswer": "unrealistic",
+                        "explanation": "Expecting flawlessness is unrealistic."
+                    },
+                    {
+                        "id": "u1_l1_q31",
+                        "questionText": "I know Hany slightly from work; he is only a/an ......... .",
+                        "options": [
+                            "friend",
+                            "acquaintance",
+                            "relative",
+                            "companion"
+                        ],
+                        "correctAnswer": "acquaintance",
+                        "explanation": "An acquaintance is someone known slightly, not intimately."
+                    },
+                    {
+                        "id": "u1_l1_q32",
+                        "questionText": "Employees in ......... industries need to update their skills regularly.",
+                        "options": [
+                            "temporary",
+                            "fixed",
+                            "fast-changing",
+                            "permanent"
+                        ],
+                        "correctAnswer": "fast-changing",
+                        "explanation": "Rapidly evolving fields are described as fast-changing."
+                    },
+                    {
+                        "id": "u1_l1_q33",
+                        "questionText": "Early experiences can ......... the way children think about themselves.",
+                        "options": [
+                            "publish",
+                            "ignore",
+                            "erase",
+                            "shape"
+                        ],
+                        "correctAnswer": "shape",
+                        "explanation": "Shape means to mold or influence fundamentally."
+                    },
+                    {
+                        "id": "u1_l1_q34",
+                        "questionText": "Regular criticism made Salma doubt her abilities and lowered her ......... .",
+                        "options": [
+                            "identity formation",
+                            "social comparison",
+                            "self-esteem",
+                            "highlight-reel effect"
+                        ],
+                        "correctAnswer": "self-esteem",
+                        "explanation": "Criticism harms personal self-esteem."
+                    },
+                    {
+                        "id": "u1_l1_q35",
+                        "questionText": "Modern technology can ......... traditional classrooms into interactive learning environments.",
+                        "options": [
+                            "transform",
+                            "maintain",
+                            "preserve",
+                            "retain"
+                        ],
+                        "correctAnswer": "transform",
+                        "explanation": "Transform implies deep structural conversion."
+                    },
+                    {
+                        "id": "u1_l1_q36",
+                        "questionText": "Young children can be particularly ......... to criticism from adults.",
+                        "options": [
+                            "indifferent",
+                            "resistant",
+                            "sensitive",
+                            "unaffected"
+                        ],
+                        "correctAnswer": "sensitive",
+                        "explanation": "Sensitive to criticism means vulnerable and easily affected."
+                    },
+                    {
+                        "id": "u1_l1_q37",
+                        "questionText": "Better training can reduce the ......... between workers' skills and job requirements.",
+                        "options": [
+                            "connection",
+                            "similarity",
+                            "agreement",
+                            "gap"
+                        ],
+                        "correctAnswer": "gap",
+                        "explanation": "Skills gap is the difference between requirements and capabilities."
+                    },
+                    {
+                        "id": "u1_l1_q38",
+                        "questionText": "Students may feel ......... pressure before important exams.",
+                        "options": [
+                            "mild",
+                            "intense",
+                            "moderate",
+                            "gentle"
+                        ],
+                        "correctAnswer": "intense",
+                        "explanation": "Intense pressure denotes severe psychological strain."
+                    },
+                    {
+                        "id": "u1_l1_q39",
+                        "questionText": "Regular exercise helps people ......... good physical and mental health.",
+                        "options": [
+                            "damage",
+                            "lose",
+                            "maintain",
+                            "weaken"
+                        ],
+                        "correctAnswer": "maintain",
+                        "explanation": "Maintain means to preserve or keep up."
+                    },
+                    {
+                        "id": "u1_l1_q40",
+                        "questionText": "A healthy lifestyle requires a/an ......... combination of work, rest, and exercise.",
+                        "options": [
+                            "balanced",
+                            "unequal",
+                            "one-sided",
+                            "biased"
+                        ],
+                        "correctAnswer": "balanced",
+                        "explanation": "A balanced combination brings equilibrium across routines."
+                    },
+                    {
+                        "id": "u1_l1_q41",
+                        "questionText": "The neutral report will ......... the main causes of air pollution in cities.",
+                        "options": [
+                            "conceal",
+                            "ignore",
+                            "overlook",
+                            "highlight"
+                        ],
+                        "correctAnswer": "highlight",
+                        "explanation": "Highlight means to feature prominently."
+                    },
+                    {
+                        "id": "u1_l1_q42",
+                        "questionText": "The manager rejected the employee's ......... behaviour towards customers.",
+                        "options": [
+                            "peaceful",
+                            "aggressive",
+                            "friendly",
+                            "gentle"
+                        ],
+                        "correctAnswer": "aggressive",
+                        "explanation": "Aggressive behavior is hostile and unprofessional."
+                    },
+                    {
+                        "id": "u1_l1_q43",
+                        "questionText": "......... his older brother, Karim prefers working alone rather than in teams.",
+                        "options": [
+                            "Like",
+                            "During",
+                            "Unlike",
+                            "Despite"
+                        ],
+                        "correctAnswer": "Unlike",
+                        "explanation": "Unlike introduces a contrast between two individuals."
+                    },
+                    {
+                        "id": "u1_l1_q44",
+                        "questionText": "Sadly, people often ......... their real lives ......... the polished lives shown online.",
+                        "options": [
+                            "connect / with",
+                            "protect / from",
+                            "separate / from",
+                            "compare / to"
+                        ],
+                        "correctAnswer": "compare / to",
+                        "explanation": "The prepositional phrase is 'compare something to something'."
+                    },
+                    {
+                        "id": "u1_l1_q45",
+                        "questionText": "Social media can become a ......... where users display only their best moments.",
+                        "options": [
+                            "completely natural space",
+                            "poorly organized system",
+                            "highly curated stage",
+                            "randomly selected place"
+                        ],
+                        "correctAnswer": "highly curated stage",
+                        "explanation": "A 'highly curated stage' refers to presenting an artfully filtered persona."
+                    },
+                    {
+                        "id": "u1_l1_q46",
+                        "questionText": "Even after facing several difficulties, she decided to ......... working toward her goal.",
+                        "options": [
+                            "give up",
+                            "turn back",
+                            "slow down",
+                            "go on"
+                        ],
+                        "correctAnswer": "go on",
+                        "explanation": "'Go on' is a phrasal verb meaning to continue."
+                    }
+                ],
+                "correctForm": [
+                    {
+                        "id": "u1_l1_cf01",
+                        "prompt": "Scientists must ......... (identity) the main causes of climate change.",
+                        "correctAnswer": "identify",
+                        "explanation": "After the modal verb 'must', the base form of the verb 'identify' is required."
+                    },
+                    {
+                        "id": "u1_l1_cf02",
+                        "prompt": "The report highlighted a clear ......... (transform) in teenagers' self-image.",
+                        "correctAnswer": "transformation",
+                        "explanation": "The adjective 'clear' modifies the noun form 'transformation'."
+                    },
+                    {
+                        "id": "u1_l1_cf03",
+                        "prompt": "Many students found it hard to stay ......... (satisfy) with their achievements after comparing themselves with others.",
+                        "correctAnswer": "satisfied",
+                        "explanation": "Stay + adjective requires the participle adjective 'satisfied'."
+                    },
+                    {
+                        "id": "u1_l1_cf04",
+                        "prompt": "It is useful to ......... (comparison) different sources before trusting a piece of news.",
+                        "correctAnswer": "compare",
+                        "explanation": "To + infinitive verb requires 'compare'."
+                    },
+                    {
+                        "id": "u1_l1_cf05",
+                        "prompt": "Social media has a strong ......... (influential) on how teenagers view themselves.",
+                        "correctAnswer": "influence",
+                        "explanation": "Has a strong + noun requires 'influence'."
+                    },
+                    {
+                        "id": "u1_l1_cf06",
+                        "prompt": "The teacher gave instructions on how to ......... (formation) a strong argument in an essay.",
+                        "correctAnswer": "form",
+                        "explanation": "How to + infinitive verb requires 'form'."
+                    },
+                    {
+                        "id": "u1_l1_cf07",
+                        "prompt": "In the ......... (compare) paragraph, students must show similarities and differences.",
+                        "correctAnswer": "comparative",
+                        "explanation": "Modifying the noun 'paragraph' requires the adjective 'comparative'."
+                    },
+                    {
+                        "id": "u1_l1_cf08",
+                        "prompt": "The customer expressed her ......... (satisfy) with the quality of the product.",
+                        "correctAnswer": "satisfaction",
+                        "explanation": "Her + noun requires 'satisfaction'."
+                    },
+                    {
+                        "id": "u1_l1_cf09",
+                        "prompt": "Her ......... (select) of words in the speech made it very persuasive.",
+                        "correctAnswer": "selection",
+                        "explanation": "Her + noun requires 'selection'."
+                    },
+                    {
+                        "id": "u1_l1_cf10",
+                        "prompt": "Psychologists say celebrities can be extremely ......... (influence) on people's behavior.",
+                        "correctAnswer": "influential",
+                        "explanation": "Extremely + adjective requires 'influential'."
+                    }
+                ],
+                "skillsWriting": [
+                    {
+                        "id": "u1_l1_sk01",
+                        "questionText": "Which of the following is an intensifier?",
+                        "options": ["might", "never", "extremely", "could"],
+                        "correctAnswer": "extremely",
+                        "explanation": "'Extremely' strengthens the degree of an adjective."
+                    },
+                    {
+                        "id": "u1_l1_sk02",
+                        "questionText": "What is the main effect of a rhetorical question?",
+                        "options": [
+                            "To make the reader think",
+                            "To show uncertainty",
+                            "To weaken an argument",
+                            "To give detailed evidence"
+                        ],
+                        "correctAnswer": "To make the reader think",
+                        "explanation": "Rhetorical questions stimulate active audience engagement."
+                    },
+                    {
+                        "id": "u1_l1_sk03",
+                        "questionText": "Which persuasive technique is used in the sentence, 'Do we really want to live in a world full of pollution?'",
+                        "options": [
+                            "Hedging words",
+                            "Intensifiers",
+                            "Rhetorical questions",
+                            "Absolute words"
+                        ],
+                        "correctAnswer": "Rhetorical questions",
+                        "explanation": "It poses a dramatic query that highlights a shared value without expecting a literal answer."
+                    },
+                    {
+                        "id": "u1_l1_sk04",
+                        "questionText": "Which of the following is an example of a rhetorical question?",
+                        "options": [
+                            "Everyone agrees with this idea.",
+                            "Could this really be the best solution?",
+                            "It is extremely important.",
+                            "This may be possible."
+                        ],
+                        "correctAnswer": "Could this really be the best solution?",
+                        "explanation": "It questions the consensus to provoke thought."
+                    },
+                    {
+                        "id": "u1_l1_sk05",
+                        "questionText": "Which of the following is an intensifier?",
+                        "options": ["probably", "never", "significantly", "might"],
+                        "correctAnswer": "significantly",
+                        "explanation": "'Significantly' is an adverb used as an intensifier."
+                    },
+                    {
+                        "id": "u1_l1_sk06",
+                        "questionText": "What is the main effect of using hedging words?",
+                        "options": [
+                            "To show complete certainty",
+                            "To emphasize an idea",
+                            "To show uncertainty or caution",
+                            "To leave no exceptions"
+                        ],
+                        "correctAnswer": "To show uncertainty or caution",
+                        "explanation": "Hedging displays academic modesty and caution."
+                    },
+                    {
+                        "id": "u1_l1_sk07",
+                        "questionText": "Which of the following is an absolute word?",
+                        "options": ["possibly", "could", "really", "always"],
+                        "correctAnswer": "always",
+                        "explanation": "'Always' is an absolute word leaving no exceptions."
+                    },
+                    {
+                        "id": "u1_l1_sk08",
+                        "questionText": "Which persuasive technique is used here: 'We could possibly find a better solution.'?",
+                        "options": [
+                            "Absolute words",
+                            "Rhetorical questions",
+                            "Intensifiers",
+                            "Hedging words"
+                        ],
+                        "correctAnswer": "Hedging words",
+                        "explanation": "'Could possibly' shows cautious hedging."
+                    },
+                    {
+                        "id": "u1_l1_sk09",
+                        "questionText": "Which of the following is NOT a hedging word?",
+                        "options": ["might", "probably", "possibly", "totally"],
+                        "correctAnswer": "totally",
+                        "explanation": "'Totally' is an absolute intensifier, not a hedging word."
+                    },
+                    {
+                        "id": "u1_l1_sk10",
+                        "questionText": "Which of the following contains an intensifier?",
+                        "options": [
+                            "It could be useful.",
+                            "It is extremely useful.",
+                            "It may be useful.",
+                            "It is possibly useful."
+                        ],
+                        "correctAnswer": "It is extremely useful.",
+                        "explanation": "'Extremely' is an intensifier."
+                    },
+                    {
+                        "id": "u1_l1_sk11",
+                        "questionText": "Which persuasive technique is used here: 'Nobody should be treated unfairly'?",
+                        "options": [
+                            "Intensifiers",
+                            "Hedging words",
+                            "Rhetorical questions",
+                            "Absolute words"
+                        ],
+                        "correctAnswer": "Absolute words",
+                        "explanation": "'Nobody' is an absolute pronoun."
+                    },
+                    {
+                        "id": "u1_l1_sk12",
+                        "questionText": "Which word expresses uncertainty rather than complete confidence?",
+                        "options": ["never", "totally", "possibly", "everyone"],
+                        "correctAnswer": "possibly",
+                        "explanation": "'Possibly' signals probability rather than certainty."
+                    },
+                    {
+                        "id": "u1_l1_sk13",
+                        "questionText": "Which word is used to make the meaning of an adjective stronger?",
+                        "options": ["might", "complete", "possibly", "extremely"],
+                        "correctAnswer": "extremely",
+                        "explanation": "'Extremely' functions as a degree intensifier."
+                    },
+                    {
+                        "id": "u1_l1_sk14",
+                        "questionText": "Which persuasive technique is used in the sentence: 'Who wouldn't want to live in a clean environment?'?",
+                        "options": [
+                            "Absolute words",
+                            "Intensifiers",
+                            "Rhetorical questions",
+                            "Hedging words"
+                        ],
+                        "correctAnswer": "Rhetorical questions",
+                        "explanation": "It appeals to self-evident common values through a rhetorical query."
+                    },
+                    {
+                        "id": "u1_l1_sk15",
+                        "questionText": "Which sentence uses the most neutral language?",
+                        "options": [
+                            "All young people waste too much time on their phones.",
+                            "Teenagers are completely addicted to technology.",
+                            "Some young people may spend considerable time using digital devices.",
+                            "Everyone knows smartphones are ruining teenagers' lives."
+                        ],
+                        "correctAnswer": "Some young people may spend considerable time using digital devices.",
+                        "explanation": "It avoids sweeping generalizations like 'all', 'completely', or 'ruining'."
+                    },
+                    {
+                        "id": "u1_l1_sk16",
+                        "questionText": "Which sentence uses hedging language most effectively?",
+                        "options": [
+                            "Video games definitely cause aggressive behavior.",
+                            "Video games always make children more aggressive.",
+                            "Certain types of video games may influence aggressive behavior in some players.",
+                            "Everyone who plays violent games eventually becomes aggressive."
+                        ],
+                        "correctAnswer": "Certain types of video games may influence aggressive behavior in some players.",
+                        "explanation": "'Certain types', 'may influence', and 'in some players' are precise, calibrated hedges."
+                    },
+                    {
+                        "id": "u1_l1_sk17",
+                        "questionText": "Which statement is an example of biased language?",
+                        "options": [
+                            "Some research suggests that sleep can influence academic performance.",
+                            "Students may need different amounts of sleep depending on several factors.",
+                            "Teenagers who stay up late are irresponsible and do not care about school.",
+                            "Insufficient sleep may affect concentration in some students."
+                        ],
+                        "correctAnswer": "Teenagers who stay up late are irresponsible and do not care about school.",
+                        "explanation": "Labeling teenagers as 'irresponsible' and attributing negative intent is biased and judgmental."
+                    }
+                ]
+            }
+        },
+        {
+            "lessonNumber": 2,
+            "section": "Section A: Social Reflection",
+            "sectionAr": "القسم أ: الانعكاس الاجتماعي",
+            "titleEn": "Exploring Modern Lifestyles",
+            "titleAr": "استكشاف أنماط الحياة المعاصرة",
+            "pages": "17 - 29",
+            "coreVocabulary": [
+                {
+                    "id": "u1_l2_core_01",
+                    "word": "well-being",
+                    "pos": "n",
+                    "meaningAr": "الرفاهية / الصحة والسعادة وجودة الحياة",
+                    "definitionEn": "a state of being comfortable, healthy, and happy",
+                    "exampleEn": "Physical activity and social connection are vital for holistic well-being."
+                },
+                {
+                    "id": "u1_l2_core_02",
+                    "word": "mindfulness",
+                    "pos": "n",
+                    "meaningAr": "الوعي الذهني / اليقظة الذهنية",
+                    "definitionEn": "paying careful attention to the present moment without distraction",
+                    "exampleEn": "Practicing daily mindfulness helps reduce stress and improve mental focus."
+                },
+                {
+                    "id": "u1_l2_core_03",
+                    "word": "sedentary",
+                    "pos": "adj",
+                    "meaningAr": "قليل الحركة / خامل / مكتبي",
+                    "definitionEn": "involving little physical movement and spending much time seated",
+                    "exampleEn": "A sedentary lifestyle has been directly linked to numerous chronic health problems."
+                },
+                {
+                    "id": "u1_l2_core_04",
+                    "word": "underestimated",
+                    "pos": "adj",
+                    "meaningAr": "مُقدّر بأقل من قيمته الحقيقية / مهمل الأثر",
+                    "definitionEn": "not valued enough or assumed to be smaller or less significant than it really is",
+                    "exampleEn": "The impact of adequate sleep on academic memory is often underestimated."
+                },
+                {
+                    "id": "u1_l2_core_05",
+                    "word": "measurable",
+                    "pos": "adj",
+                    "meaningAr": "قابل للقياس / ملحوظ ببيانات واضحة",
+                    "definitionEn": "noticeable or able to be tracked, counted, or verified",
+                    "exampleEn": "Regular exercise yields measurable reductions in resting heart rate."
+                },
+                {
+                    "id": "u1_l2_core_06",
+                    "word": "mindful consumption",
+                    "pos": "n",
+                    "meaningAr": "استهلاك واعٍ ومسؤول",
+                    "definitionEn": "the practice of paying careful attention to what, why, and how much you consume",
+                    "exampleEn": "Mindful consumption applies to both the food we eat and the online content we absorb."
+                },
+                {
+                    "id": "u1_l2_core_07",
+                    "word": "social connection",
+                    "pos": "n",
+                    "meaningAr": "التواصل الاجتماعي / الروابط الاجتماعية",
+                    "definitionEn": "the relationships and interactions people share with others",
+                    "exampleEn": "Genuine social connections protect individuals from severe loneliness."
+                },
+                {
+                    "id": "u1_l2_core_08",
+                    "word": "nutrition",
+                    "pos": "n",
+                    "meaningAr": "التغذية",
+                    "definitionEn": "the process of getting the food and nutrients needed for health and growth",
+                    "exampleEn": "Proper adolescent nutrition fuels rapid brain development."
+                },
+                {
+                    "id": "u1_l2_core_09",
+                    "word": "nutritionist",
+                    "pos": "n",
+                    "meaningAr": "أخصائي تغذية",
+                    "definitionEn": "a health expert who gives advice on what to eat to stay healthy",
+                    "exampleEn": "The school consulted a nutritionist to design wholesome cafeteria lunches."
+                },
+                {
+                    "id": "u1_l2_core_10",
+                    "word": "processed food",
+                    "pos": "n",
+                    "meaningAr": "الطعام المصنّع",
+                    "definitionEn": "any food altered from its natural state, often with added sugar, salt, or chemicals",
+                    "exampleEn": "Diets rich in ultra-processed food increase risk of energy fatigue."
+                },
+                {
+                    "id": "u1_l2_core_11",
+                    "word": "competitive",
+                    "pos": "adj",
+                    "meaningAr": "تنافسي / راغب في الفوز والتفوق",
+                    "definitionEn": "wanting to compete successfully or being better than others",
+                    "exampleEn": "High school exams can foster an intensely competitive atmosphere."
+                },
+                {
+                    "id": "u1_l2_core_12",
+                    "word": "depression",
+                    "pos": "n",
+                    "meaningAr": "الإكتئاب",
+                    "definitionEn": "a serious mental health condition causing persistent sadness and loss of interest",
+                    "exampleEn": "Clinical depression requires professional empathy and medical counseling."
+                }
+            ],
+            "buildYourLanguage": [
+                {"word": "sense of self", "pos": "n", "meaningAr": "الشعور بالذات / الإدراك الشخصي للكيان"},
+                {"word": "deliberate", "pos": "adj", "meaningAr": "متعمد / مقصود ومدروس"},
+                {"word": "annotate", "pos": "v", "meaningAr": "يدوّن ملاحظات / يعلق على النص"},
+                {"word": "pressure", "pos": "n", "meaningAr": "ضغط نفسي أو عملي"},
+                {"word": "anxiety", "pos": "n", "meaningAr": "القلق والتوتر"},
+                {"word": "conscious", "pos": "adj", "meaningAr": "واعٍ / مدرك"},
+                {"word": "wellness", "pos": "n", "meaningAr": "العافية / جودة الحياة الصحية"},
+                {"word": "resilience", "pos": "n", "meaningAr": "المرونة النفسية / القدرة على التكيف"},
+                {"word": "boost", "pos": "v", "meaningAr": "يعزز / يزيد / يحسن"},
+                {"word": "varied", "pos": "adj", "meaningAr": "متنوع / مختلف"},
+                {"word": "meditation", "pos": "n", "meaningAr": "التأمل / الاسترخاء الذهني"},
+                {"word": "moderate", "pos": "adj", "meaningAr": "معتدل / متوسط"},
+                {"word": "lifestyle", "pos": "n", "meaningAr": "أسلوب الحياة / نمط المعيشة"},
+                {"word": "concentration", "pos": "n", "meaningAr": "التركيز الذهني"},
+                {"word": "loneliness", "pos": "n", "meaningAr": "الوحدة / الشعور بالانعزال"},
+                {"word": "beneficial", "pos": "adj", "meaningAr": "مفيد / نافع"},
+                {"word": "release", "pos": "v", "meaningAr": "يطلق / يفرز هرمونات"},
+                {"word": "absorb", "pos": "v", "meaningAr": "يمتص / يستوعب معلومات"},
+                {"word": "intake", "pos": "n", "meaningAr": "تناول / استهلاك / كمية مأخوذة"},
+                {"word": "perception", "pos": "n", "meaningAr": "تصور / إدراك"},
+                {"word": "consume", "pos": "v", "meaningAr": "يستهلك / يتناول طعاماً أو إعلاماً"},
+                {"word": "junk food", "pos": "n", "meaningAr": "طعام غير صحي / وجبات سريعة ضارة"},
+                {"word": "fatigue", "pos": "n", "meaningAr": "التعب الشديد / الإرهاق"},
+                {"word": "landmark", "pos": "n", "meaningAr": "معلم بارز / علامة مميزة فارقة"},
+                {"word": "balanced diet", "pos": "n", "meaningAr": "نظام غذائي متوازن"},
+                {"word": "collectivist", "pos": "n/adj", "meaningAr": "مجتمعي / مؤمن بالجماعية والترابط الأسري"},
+                {"word": "self-confidence", "pos": "n", "meaningAr": "الثقة بالنفس"},
+                {"word": "individualistic", "pos": "adj", "meaningAr": "فردي / يميل إلى الفردية والاعتماد على الذات"},
+                {"word": "mood", "pos": "n", "meaningAr": "مزاج / حالة نفسية"},
+                {"word": "likely", "pos": "adj", "meaningAr": "محتمل / مرجح"},
+                {"word": "specialist", "pos": "n", "meaningAr": "أخصائي / متخصص"},
+                {"word": "involve", "pos": "v", "meaningAr": "يتضمن / ينطوي على"},
+                {"word": "regularly", "pos": "adv", "meaningAr": "بانتظام / بصورة دورية"},
+                {"word": "limit", "pos": "v/n", "meaningAr": "يحد / يقلل / حد أقصى"},
+                {"word": "quality", "pos": "n", "meaningAr": "جودة / نوعية"},
+                {"word": "common", "pos": "adj", "meaningAr": "شائع / منتشر / مشترك"},
+                {"word": "process", "pos": "v/n", "meaningAr": "عملية / يعالج غذائياً أو فكرياً"},
+                {"word": "foundation", "pos": "n", "meaningAr": "أساس / قاعدة لبناء الشيء"}
+            ],
+            "synonymsAntonyms": [
+                {
+                    "word": "well-being",
+                    "meaningAr": "الرفاهية / الصحة والسعادة",
+                    "synonyms": ["wellness", "welfare", "health", "happiness"],
+                    "antonyms": ["distress", "misery", "discomfort", "hardship"]
+                },
+                {
+                    "word": "sedentary",
+                    "meaningAr": "قليل الحركة / خامل",
+                    "synonyms": ["inactive", "desk-bound", "seated"],
+                    "antonyms": ["active", "energetic"]
+                },
+                {
+                    "word": "mindfulness",
+                    "meaningAr": "الوعي الذهني / اليقظة",
+                    "synonyms": ["awareness", "attentiveness", "focus", "consciousness"],
+                    "antonyms": ["mindlessness", "distraction", "inattention"]
+                },
+                {
+                    "word": "mindful",
+                    "meaningAr": "واعٍ / منتبه / مدرك",
+                    "synonyms": ["aware", "attentive", "thoughtful", "conscious"],
+                    "antonyms": ["unaware", "careless", "inattentive", "thoughtless"]
+                },
+                {
+                    "word": "underestimated",
+                    "meaningAr": "مقدر بأقل من قيمته",
+                    "synonyms": ["underrated", "undervalued", "underappreciated"],
+                    "antonyms": ["overestimated", "overrated", "overvalued", "appreciated"]
+                },
+                {
+                    "word": "measurable",
+                    "meaningAr": "قابل للقياس",
+                    "synonyms": ["quantifiable", "calculable", "assessable"],
+                    "antonyms": ["immeasurable", "unmeasurable", "incalculable"]
+                },
+                {
+                    "word": "conscious",
+                    "meaningAr": "واعٍ / مدرك",
+                    "synonyms": ["aware", "mindful", "alert", "awake"],
+                    "antonyms": ["unconscious", "unaware", "oblivious"]
+                },
+                {
+                    "word": "processed",
+                    "meaningAr": "مُعالج / مُصنّع",
+                    "synonyms": ["treated", "refined", "manufactured"],
+                    "antonyms": ["unprocessed", "raw", "natural"]
+                },
+                {
+                    "word": "moderate",
+                    "meaningAr": "معتدل / متوسط",
+                    "synonyms": ["reasonable", "mild", "average"],
+                    "antonyms": ["extreme", "excessive", "severe", "intense"]
+                }
+            ],
+            "wordFamily": [
+                {"verb": "compete", "meaningAr": "ينافس", "noun": "competition", "adjective": "competitive"},
+                {"verb": "nourish", "meaningAr": "يغذي / يمد بالغذاء", "noun": "nutrition", "adjective": "nutritious"},
+                {"verb": "underestimate", "meaningAr": "يقلل من شأن / يستهين بـ", "noun": "underestimation", "adjective": "underestimated"},
+                {"verb": "measure", "meaningAr": "يقيس / يقدّر", "noun": "measurement", "adjective": "measurable"},
+                {"verb": "process", "meaningAr": "يعالج / يجهز", "noun": "process", "adjective": "processed"},
+                {"verb": "mind", "meaningAr": "يهتم / يراعي", "noun": "mindfulness", "adjective": "mindful"},
+                {"verb": "benefit", "meaningAr": "يفيد / ينفع", "noun": "benefit", "adjective": "beneficial"},
+                {"verb": "consume", "meaningAr": "يستهلك / يتناول", "noun": "consumption", "adjective": "consumable"},
+                {"verb": "annotate", "meaningAr": "يدون ملاحظات", "noun": "annotation", "adjective": "annotated"},
+                {"verb": "concentrate", "meaningAr": "يركز", "noun": "concentration", "adjective": "concentrated"},
+                {"verb": "vary", "meaningAr": "يختلف / يتنوع", "noun": "variety", "adjective": "varied"}
+            ],
+            "collocations": [
+                {"expression": "well-documented benefits", "meaningAr": "فوائد مثبتة بالأدلة والمراجع", "type": "Collocation"},
+                {"expression": "screen-based habits", "meaningAr": "عادات قائمة على استخدام الشاشات", "type": "Collocation"},
+                {"expression": "physical recovery", "meaningAr": "التعافي الجسدي واستعادة الطاقة", "type": "Collocation"},
+                {"expression": "shape our physical health", "meaningAr": "يشكل صحتنا الجسدية", "type": "Collocation"},
+                {"expression": "a varied range of", "meaningAr": "مجموعة متنوعة من / نطاق متنوع", "type": "Fixed Expression"},
+                {"expression": "fail to meet", "meaningAr": "يفشل في تلبية أو تحقيق المعايير", "type": "Collocation"},
+                {"expression": "shape identity and sense of self", "meaningAr": "يشكل الهوية والشعور بالذات", "type": "Collocation"},
+                {"expression": "pay attention to", "meaningAr": "ينتبه إلى / يولي اهتماماً لـ", "type": "Verb + Preposition"},
+                {"expression": "quality time", "meaningAr": "وقت مفيد ذو قيمة نوعية", "type": "Collocation"},
+                {"expression": "release endorphins", "meaningAr": "يفرز هرمون الإندورفين لتحسين المزاج", "type": "Collocation"},
+                {"expression": "be connected to", "meaningAr": "مرتبطاً بـ / متصلاً بـ", "type": "Adjective + Preposition"},
+                {"expression": "cope with", "meaningAr": "يتعامل مع / يتكيف مع الضغوط", "type": "Verb + Preposition"},
+                {"expression": "lead to", "meaningAr": "يؤدي إلى (= result in)", "type": "Phrasal Verb"},
+                {"expression": "set up", "meaningAr": "ينشئ / يقيم / يجهز", "type": "Phrasal Verb"}
+            ],
+            "languageNotes": [
+                {
+                    "itemA": "anxiety (n)",
+                    "meaningA": "القلق / التوتر / الشعور بالخوف وعدم الارتياح",
+                    "itemB": "anxious (adj)",
+                    "meaningB": "قلق / متوتر",
+                    "note": "Anxiety is the clinical/mental state; anxious is the descriptive feeling."
+                },
+                {
+                    "itemA": "due to = owing to = because of + (n/ing)",
+                    "meaningA": "بسبب (يتبعها اسم أو فعل مضاف له ing)",
+                    "itemB": "because = as = since + clause",
+                    "meaningB": "لأن / بسبب أن (يتبعها جملة كاملة فاعل + فعل)",
+                    "note": "Pay close attention to structural rules in exam transformation questions."
+                },
+                {
+                    "itemA": "although + clause",
+                    "meaningA": "بالرغم من (جملة تناقض كاملة فاعل + فعل)",
+                    "itemB": "despite = in spite of + (n/ing)",
+                    "meaningB": "بالرغم من (يتبعها اسم أو verb+ing)",
+                    "note": "Despite is never followed by 'of', whereas in spite always requires 'of'."
+                },
+                {
+                    "itemA": "physical well-being",
+                    "meaningA": "العافية والصحة الجسدية (لياقة، تغذية، نوم)",
+                    "itemB": "mental well-being",
+                    "meaningB": "العافية النفسية والذهنية (استقرار عاطفي، صفاء ذهني)",
+                    "note": "Comprehensive well-being integrates both physical and mental dimensions."
+                },
+                {
+                    "itemA": "process (n)",
+                    "meaningA": "عملية طبيعية أو سلسلة خطوات إجرائية",
+                    "itemB": "operation (n)",
+                    "meaningB": "عملية جراحية طبية أو تشغيل عسكري/صناعي",
+                    "note": "A biological or mental process vs a medical surgical operation."
+                }
+            ],
+            "interactiveExercises": {
+                "mcq": [
+                    {
+                        "id": "u1_l2_q01",
+                        "questionText": "After improving her sleep, diet, and relationships, Hind noticed a clear improvement in her well-being. What does 'well-being' mean in this context?",
+                        "options": [
+                            "The state of being healthy, comfortable and happy.",
+                            "The ability to become famous online.",
+                            "The habit of avoiding all responsibilities.",
+                            "The process of comparing yourself with others."
+                        ],
+                        "correctAnswer": "The state of being healthy, comfortable and happy.",
+                        "explanation": "Well-being encompasses positive holistic health, comfort, and happiness."
+                    },
+                    {
+                        "id": "u1_l2_q02",
+                        "questionText": "During the relaxation session, Youssef practiced mindfulness by noticing his breathing, thoughts, and feelings without becoming distracted. What does 'mindfulness' mean in this context?",
+                        "options": [
+                            "Thinking constantly about future problems.",
+                            "Comparing your life with other people's lives.",
+                            "Paying careful attention to the present moment.",
+                            "Ignoring your emotions completely."
+                        ],
+                        "correctAnswer": "Paying careful attention to the present moment.",
+                        "explanation": "Mindfulness means focusing attention intentionally on the current moment."
+                    },
+                    {
+                        "id": "u1_l2_q03",
+                        "questionText": "After changing his daily routine, eating better, and spending more time with family, Omar noticed a clear improvement in his well-being. Which situation is the clearest example of improved 'well-being'?",
+                        "options": [
+                            "A student studies for longer hours but sleeps less every night.",
+                            "A worker earns more money but feels constantly exhausted and stressed.",
+                            "A person feels healthier, calmer, and happier after improving daily habits.",
+                            "A teenager spends more time online comparing himself with others."
+                        ],
+                        "correctAnswer": "A person feels healthier, calmer, and happier after improving daily habits.",
+                        "explanation": "True well-being is manifested in feeling healthy, calm, and balanced."
+                    },
+                    {
+                        "id": "u1_l2_q04",
+                        "questionText": "The company needed measurable results so managers could track progress clearly using numbers and data. What does 'measurable' mean in this context?",
+                        "options": [
+                            "Able to be tracked, counted, or clearly noticed.",
+                            "Difficult to understand or explain.",
+                            "Based only on personal opinions.",
+                            "Impossible to compare over time."
+                        ],
+                        "correctAnswer": "Able to be tracked, counted, or clearly noticed.",
+                        "explanation": "Measurable means quantifiable through data."
+                    },
+                    {
+                        "id": "u1_l2_q05",
+                        "questionText": "Regular conversations with friends gave Karim a stronger sense of social connection and helped him feel less isolated. What does 'social connection' mean in this context?",
+                        "options": [
+                            "The process of using social media for business.",
+                            "The relationships and interactions people have with others.",
+                            "The habit of studying other societies.",
+                            "The tendency to avoid meeting people."
+                        ],
+                        "correctAnswer": "The relationships and interactions people have with others.",
+                        "explanation": "Social connection refers to interpersonal bonds and mutual support."
+                    },
+                    {
+                        "id": "u1_l2_q06",
+                        "questionText": "During a stressful school day, Salma practiced mindfulness by stopping for a few minutes and focusing only on her breathing and present thoughts. Which situation is the clearest example of 'mindfulness'?",
+                        "options": [
+                            "A student avoids thinking about any feelings or emotions.",
+                            "A student keeps thinking about mistakes made several months ago.",
+                            "A student compares his results with everyone else in the class.",
+                            "A student quietly notices his breathing instead of worrying about his exam."
+                        ],
+                        "correctAnswer": "A student quietly notices his breathing instead of worrying about his exam.",
+                        "explanation": "Observing one's present breath grounds awareness in the moment."
+                    },
+                    {
+                        "id": "u1_l2_q07",
+                        "questionText": "Ahmed is highly competitive and always tries to perform better than his classmates and win every contest. What does 'competitive' mean in this context?",
+                        "options": [
+                            "Wanting to compete successfully or be better than others.",
+                            "Preferring to work alone without goals.",
+                            "Avoiding all forms of challenge.",
+                            "Feeling satisfied with every result."
+                        ],
+                        "correctAnswer": "Wanting to compete successfully or be better than others.",
+                        "explanation": "Competitive people strive vigorously for victory and superiority."
+                    },
+                    {
+                        "id": "u1_l2_q08",
+                        "questionText": "Before buying snacks, Mariam checks the ingredients, thinks about why she wants them, and controls the amount she eats. This practice is called ......... .",
+                        "options": [
+                            "social connection",
+                            "mindful consumption",
+                            "processed food",
+                            "nutrition"
+                        ],
+                        "correctAnswer": "mindful consumption",
+                        "explanation": "Deliberately assessing necessity and health value is mindful consumption."
+                    },
+                    {
+                        "id": "u1_l2_q46",
+                        "questionText": "Enough sleep after hard exercise is essential for ......... .",
+                        "options": [
+                            "social comparison",
+                            "physical recovery",
+                            "emotional pressure",
+                            "screen time"
+                        ],
+                        "correctAnswer": "physical recovery",
+                        "explanation": "Sleep allows physiological and muscular recovery."
+                    },
+                    {
+                        "id": "u1_l2_q47",
+                        "questionText": "Regular exercise and healthy eating ......... our physical health throughout our lives.",
+                        "options": [
+                            "shape",
+                            "damage",
+                            "ignore",
+                            "prevent"
+                        ],
+                        "correctAnswer": "shape",
+                        "explanation": "Positive lifestyle choices shape long-term health."
+                    },
+                    {
+                        "id": "u1_l2_q48",
+                        "questionText": "Learning relaxation techniques can help students ......... exam pressure.",
+                        "options": [
+                            "lead to",
+                            "set up",
+                            "fail to meet",
+                            "cope with"
+                        ],
+                        "correctAnswer": "cope with",
+                        "explanation": "'Cope with' means to manage stressful challenges effectively."
+                    },
+                    {
+                        "id": "u1_l2_q49",
+                        "questionText": "The school plans to ......... a new support group for stressed students.",
+                        "options": [
+                            "result in",
+                            "cope with",
+                            "set up",
+                            "fail to meet"
+                        ],
+                        "correctAnswer": "set up",
+                        "explanation": "'Set up' means to establish or organize."
+                    },
+                    {
+                        "id": "u1_l2_q50",
+                        "questionText": "Lack of sleep can ......... serious problems with concentration and memory.",
+                        "options": [
+                            "lead to",
+                            "prevent",
+                            "avoid",
+                            "remove"
+                        ],
+                        "correctAnswer": "lead to",
+                        "explanation": "'Lead to' means to cause or result in."
+                    }
+                ],
+                "correctForm": [
+                    {
+                        "id": "u1_l2_cf01",
+                        "prompt": "The two teams played ......... (competitive) until the final whistle.",
+                        "correctAnswer": "competitively",
+                        "explanation": "Modifying the verb 'played' requires the adverb 'competitively'."
+                    },
+                    {
+                        "id": "u1_l2_cf02",
+                        "prompt": "Doctors say people often ......... (underestimation) how much sleep affects mood and memory.",
+                        "correctAnswer": "underestimate",
+                        "explanation": "Subject 'people' + adverb 'often' + present verb 'underestimate'."
+                    },
+                    {
+                        "id": "u1_l2_cf03",
+                        "prompt": "Researchers found ......... (measure) improvements in stress levels after weeks of mindfulness practice.",
+                        "correctAnswer": "measurable",
+                        "explanation": "Modifying noun 'improvements' requires adjective 'measurable'."
+                    },
+                    {
+                        "id": "u1_l2_cf04",
+                        "prompt": "Eating too much ......... (process) food can lead to fatigue and poor concentration.",
+                        "correctAnswer": "processed",
+                        "explanation": "Modifying noun 'food' requires participle adjective 'processed'."
+                    },
+                    {
+                        "id": "u1_l2_cf05",
+                        "prompt": "Teachers encourage students to stay ......... (mind) of their thoughts during stressful exam periods.",
+                        "correctAnswer": "mindful",
+                        "explanation": "Stay + adjective requires 'mindful'."
+                    },
+                    {
+                        "id": "u1_l2_cf06",
+                        "prompt": "Regular exercise is highly ......... (benefit) for both physical and mental health.",
+                        "correctAnswer": "beneficial",
+                        "explanation": "Highly + adjective requires 'beneficial'."
+                    },
+                    {
+                        "id": "u1_l2_cf07",
+                        "prompt": "Teenagers who ......... (consumption) high-caffeine drinks regularly often report trouble sleeping.",
+                        "correctAnswer": "consume",
+                        "explanation": "Relative clause verb in present tense requires 'consume'."
+                    },
+                    {
+                        "id": "u1_l2_cf08",
+                        "prompt": "Students who ......... (annotation) their notes tend to remember lesson content more easily.",
+                        "correctAnswer": "annotate",
+                        "explanation": "Plural subject relative clause verb requires 'annotate'."
+                    },
+                    {
+                        "id": "u1_l2_cf09",
+                        "prompt": "It is difficult to ......... (concentration) in class after a poor night's sleep.",
+                        "correctAnswer": "concentrate",
+                        "explanation": "To + base verb requires 'concentrate'."
+                    },
+                    {
+                        "id": "u1_l2_cf10",
+                        "prompt": "A ......... (nourish) diet is essential for healthy brain development during the teenage years.",
+                        "correctAnswer": "nourishing",
+                        "explanation": "Modifying noun 'diet' requires adjective 'nourishing' (or nutritious)."
+                    }
+                ],
+                "skillsWriting": [
+                    {
+                        "id": "u1_l2_sk01",
+                        "questionText": "The main purpose of an analytical paragraph is to ......... an idea using reasons, evidence, and explanation.",
+                        "options": ["memorize", "analyze", "translate", "copy"],
+                        "correctAnswer": "analyze",
+                        "explanation": "An analytical paragraph examines an argument methodically."
+                    },
+                    {
+                        "id": "u1_l2_sk02",
+                        "questionText": "The first sentence of an analytical paragraph should usually present a clear ......... .",
+                        "options": ["example", "conclusion", "claim", "quotation"],
+                        "correctAnswer": "claim",
+                        "explanation": "The topic sentence presents the primary claim or assertion."
+                    },
+                    {
+                        "id": "u1_l2_sk05",
+                        "questionText": "The expression 'This is because ...' is most suitable for introducing the ......... .",
+                        "options": ["evidence", "reason", "conclusion", "claim"],
+                        "correctAnswer": "reason",
+                        "explanation": "'This is because...' gives the underlying logical rationale."
+                    },
+                    {
+                        "id": "u1_l2_sk06",
+                        "questionText": "The main purpose of evidence is to ......... the writer's claim.",
+                        "options": ["change", "ignore", "support", "question"],
+                        "correctAnswer": "support",
+                        "explanation": "Evidence supplies factual and research backing."
+                    },
+                    {
+                        "id": "u1_l2_sk15",
+                        "questionText": "The word 'Therefore' is most commonly used to introduce a/an ......... .",
+                        "options": ["reason", "example", "conclusion", "claim"],
+                        "correctAnswer": "conclusion",
+                        "explanation": "'Therefore' introduces the logical conclusion or synthesis."
+                    },
+                    {
+                        "id": "u1_l2_sk16",
+                        "questionText": "The correct structure is Claim -> Reason -> Evidence -> ......... -> Conclusion.",
+                        "options": ["Topic", "Closing", "Question", "Explanation"],
+                        "correctAnswer": "Explanation",
+                        "explanation": "Explanation connects the evidence back to the central claim."
+                    }
+                ]
+            }
+        }
+    ],
+    "grammarStructures": [
+        {
+            "id": "u1_gram_01",
+            "titleEn": "Relative Clauses & Pronouns",
+            "titleAr": "عبارات الوصل وضمائر الوصل (who, which, that, where, when, whose, whom)",
+            "summaryAr": "تستخدم ضمائر الوصل لربط الجمل وتحديد الأسماء أو إضافة معلومات إضافية عنها.",
+            "rules": [
+                {"pronoun": "who / that", "usage": "يشير إلى الفاعل أو المفعول العاقل (people)"},
+                {"pronoun": "which / that", "usage": "يشير إلى الأشياء والحيوانات والأفكار غير العاقلة (things / animals)"},
+                {"pronoun": "where", "usage": "يشير إلى المكان إذا كانت الجملة تعبر عما يحدث فيه (مكان حدوث الفعل)"},
+                {"pronoun": "when", "usage": "يشير إلى الزمان والوقت"},
+                {"pronoun": "whose", "usage": "يشير إلى الملكية (يأتي بعده اسم مملوك للاسم السابق له)"},
+                {"pronoun": "whom", "usage": "يشير إلى المفعول به العاقل فقط (خاصة بعد حروف الجر مثل with whom, to whom)"}
+            ],
+            "exercises": [
+                {
+                    "id": "u1_gr_q01",
+                    "questionText": "The man ......... fixed our car is very kind.",
+                    "options": ["which", "who", "when", "where"],
+                    "correctAnswer": "who",
+                    "explanation": "'The man' is a person doing the action, requiring 'who'."
+                },
+                {
+                    "id": "u1_gr_q02",
+                    "questionText": "She is the girl ......... brother plays football with me.",
+                    "options": ["whose", "who", "which", "where"],
+                    "correctAnswer": "whose",
+                    "explanation": "'Brother' belongs to the girl, denoting possession (whose brother)."
+                },
+                {
+                    "id": "u1_gr_q03",
+                    "questionText": "The book ......... I bought is interesting.",
+                    "options": ["whose", "when", "whom", "that"],
+                    "correctAnswer": "that",
+                    "explanation": "'The book' is non-human, taking 'which' or 'that'."
+                },
+                {
+                    "id": "u1_gr_q04",
+                    "questionText": "The guest house ......... we stayed had a very friendly owner.",
+                    "options": ["where", "which", "whose", "when"],
+                    "correctAnswer": "where",
+                    "explanation": "The guest house is the place where staying occurred."
+                },
+                {
+                    "id": "u1_gr_q05",
+                    "questionText": "My aunt, ......... I visited in the hospital, is getting better now.",
+                    "options": ["where", "which", "whom", "when"],
+                    "correctAnswer": "whom",
+                    "explanation": "My aunt is the object of 'visited', appropriately taking 'whom' (or who in informal)."
+                },
+                {
+                    "id": "u1_gr_q16",
+                    "questionText": "Only one sentence in each group is grammatically correct:",
+                    "options": [
+                        "Teenagers who practice mindfulness often manage stress more effectively.",
+                        "Teenagers which practice mindfulness often manage stress more effectively.",
+                        "Teenagers practicing mindfulness, they often manage stress more effectively.",
+                        "Practicing mindfulness, stress manages teenagers more effectively."
+                    ],
+                    "correctAnswer": "Teenagers who practice mindfulness often manage stress more effectively.",
+                    "explanation": "Teenagers are people and require 'who'; the other options contain dangling modifiers or wrong pronouns."
+                }
+            ]
+        },
+        {
+            "id": "u1_gram_02",
+            "titleEn": "Participle Clauses",
+            "titleAr": "صيغ اسم الفاعل واسم المفعول (Participle Clauses)",
+            "summaryAr": "تستخدم Present Participles (-ing) للفاعل النشط، و Past Participles (-ed / V3) للمبني للمجهول، و Having + V3 لاختصار أحداث متتالية تم أحدها قبل الآخر.",
+            "rules": [
+                {"form": "V-ing (Present Participle)", "usage": "يحل محل جملة معلوم تبدأ بـ When/While/Because لنفس الفاعل"},
+                {"form": "V3 (Past Participle)", "usage": "يحل محل جملة مجهول مبنية للمفعول (Passive reduction)"},
+                {"form": "Having + V3 (Perfect Participle)", "usage": "يحل محل After + Past Perfect (حدث اكتمل أولاً قبل الحدث الثاني)"}
+            ],
+            "exercises": [
+                {
+                    "id": "u1_gr_q06",
+                    "questionText": "......... the traffic lights turn red, the driver stopped the car at once.",
+                    "options": ["Seen", "To see", "See", "Seeing"],
+                    "correctAnswer": "Seeing",
+                    "explanation": "Active action simultaneous with stopping: 'Seeing the lights turn red...'"
+                },
+                {
+                    "id": "u1_gr_q07",
+                    "questionText": "The bridge, ......... many years ago, is still standing strong today.",
+                    "options": ["build", "building", "built", "builds"],
+                    "correctAnswer": "built",
+                    "explanation": "Passive reduction: The bridge (which was) built many years ago."
+                },
+                {
+                    "id": "u1_gr_q08",
+                    "questionText": "......... his work early, Amir decided to go for a walk.",
+                    "options": ["Having finished", "Having been finished", "Finished", "Being Finished"],
+                    "correctAnswer": "Having finished",
+                    "explanation": "Having + V3 signifies completion of work prior to taking a walk."
+                }
+            ]
+        },
+        {
+            "id": "u1_gram_03",
+            "titleEn": "Conditionals & Inversion",
+            "titleAr": "الجمل الشرطية وصيغ القلب (Conditionals & Inversion)",
+            "summaryAr": "قواعد If الشرطية (First, Second, Third) وقواعد القلب (Inversion) باستخدام Were, Had, Should بدلاً من If.",
+            "rules": [
+                {"form": "Were I + to inf / adj", "usage": "بديل If في الحالة الثانية: Were I you, I would apologize."},
+                {"form": "Had I + V3", "usage": "بديل If في الحالة الثالثة: Had I known the truth, I would have acted differently."},
+                {"form": "Should + subject + inf", "usage": "بديل If في الحالة الأولى والثانية: Should it rain, we will stay at home."}
+            ],
+            "exercises": [
+                {
+                    "id": "u1_gr_q09",
+                    "questionText": "Which sentence correctly uses inversion instead of 'if'?",
+                    "options": [
+                        "I were you, I would apologize.",
+                        "Was I you, I would apologize.",
+                        "If I was you, I would apologize, were I.",
+                        "Were I you, I would apologize."
+                    ],
+                    "correctAnswer": "Were I you, I would apologize.",
+                    "explanation": "'Were I you' is the correct inversion of 'If I were you'."
+                },
+                {
+                    "id": "u1_gr_q10",
+                    "questionText": "Which sentence correctly uses inversion in a third conditional?",
+                    "options": [
+                        "Have I known the truth, I would have acted differently.",
+                        "If had I known the truth, I would have acted differently.",
+                        "Had I known the truth, I would have acted differently.",
+                        "Had I know the truth, I would have acted differently."
+                    ],
+                    "correctAnswer": "Had I known the truth, I would have acted differently.",
+                    "explanation": "'Had + Subject + V3' replaces 'If + Subject + had + V3'."
+                }
+            ]
+        }
+    ]
+}
+
+with open(OUTPUT_FILE, "w", encoding="utf-8") as f:
+    json.dump(unit1_data, f, ensure_ascii=False, indent=2)
+
+print(f"Generated successfully: {OUTPUT_FILE}")
+print(f"Total vocabulary items: {sum(len(l['coreVocabulary']) + len(l['buildYourLanguage']) for l in unit1_data['lessons'])}")
+print(f"Total interactive exercises: {sum(len(l['interactiveExercises']['mcq']) + len(l['interactiveExercises']['correctForm']) + len(l['interactiveExercises']['skillsWriting']) for l in unit1_data['lessons']) + sum(len(g['exercises']) for g in unit1_data['grammarStructures'])}")

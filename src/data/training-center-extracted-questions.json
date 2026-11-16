@@ -10,11 +10,11 @@
     "options": [
       {
         "label": "a",
-        "text": "have"
+        "text": "are"
       },
       {
         "label": "b",
-        "text": "are"
+        "text": "do"
       },
       {
         "label": "c",
@@ -22,7 +22,7 @@
       },
       {
         "label": "d",
-        "text": "do"
+        "text": "have"
       }
     ],
     "optionsCount": 4,
@@ -77,7 +77,7 @@
     "questionNumber": "3",
     "sourceDocument": "Professional_Question_Bank_20261108_233552.docx",
     "sourcePage": 1,
-    "questionText": "How old is your brother, Richard? He ... ten",
+    "questionText": "How old is your brother, Richard? He ... ten?",
     "rawText": "How old is your brother, Richard?  He ... ten\n    c) was\td) had",
     "options": [
       {
@@ -190,11 +190,11 @@
     "options": [
       {
         "label": "a",
-        "text": "spoke"
+        "text": "spoken"
       },
       {
         "label": "b",
-        "text": "spoken"
+        "text": "speaks"
       },
       {
         "label": "c",
@@ -202,7 +202,7 @@
       },
       {
         "label": "d",
-        "text": "speaks"
+        "text": "spoke"
       }
     ],
     "optionsCount": 4,
@@ -298,15 +298,15 @@
     "options": [
       {
         "label": "a",
-        "text": "isn't it"
-      },
-      {
-        "label": "b",
         "text": "doesn't he"
       },
       {
-        "label": "c",
+        "label": "b",
         "text": "can"
+      },
+      {
+        "label": "c",
+        "text": "isn't it"
       },
       {
         "label": "d",
@@ -334,7 +334,7 @@
     "options": [
       {
         "label": "a",
-        "text": "we let’s"
+        "text": "we let"
       },
       {
         "label": "b",
@@ -342,11 +342,11 @@
       },
       {
         "label": "c",
-        "text": "have"
+        "text": "we let’s"
       },
       {
         "label": "d",
-        "text": "we let"
+        "text": "have"
       }
     ],
     "optionsCount": 4,
@@ -374,15 +374,15 @@
       },
       {
         "label": "b",
-        "text": "must"
+        "text": "have"
       },
       {
         "label": "c",
-        "text": "have that"
+        "text": "must"
       },
       {
         "label": "d",
-        "text": "have"
+        "text": "have that"
       }
     ],
     "optionsCount": 4,
@@ -473,7 +473,7 @@
     "questionNumber": "14",
     "sourceDocument": "Professional_Question_Bank_20261108_233552.docx",
     "sourcePage": 2,
-    "questionText": "speak English?",
+    "questionText": "Are you able to speak English?",
     "rawText": "speak English?\n    c) Are able\td) Would\n    c) was asking\td) was going to ask\n    c) was watching\td) saw",
     "options": [
       {
@@ -486,16 +486,16 @@
       },
       {
         "label": "c",
-        "text": "was asking"
+        "text": "Can"
       },
       {
         "label": "d",
-        "text": "was going to ask"
+        "text": "Could"
       }
     ],
     "optionsCount": 4,
     "correctAnswer": "a",
-    "explanation": "Focuses on English grammar rule: Grammar & Vocabulary.",
+    "explanation": "We use 'Are you able to' to express ability in the present.",
     "category": "Grammar & Vocabulary",
     "topic": "Grammar & Vocabulary",
     "difficulty": "Hard",
@@ -518,15 +518,15 @@
       },
       {
         "label": "b",
-        "text": "in"
+        "text": "at"
       },
       {
         "label": "c",
-        "text": "drink you"
+        "text": "in"
       },
       {
         "label": "d",
-        "text": "at"
+        "text": "drink you"
       }
     ],
     "optionsCount": 4,
@@ -581,7 +581,7 @@
     "questionNumber": "17",
     "sourceDocument": "Professional_Question_Bank_20261108_233552.docx",
     "sourcePage": 2,
-    "questionText": "What did you ... ? I couldn't hear you.",
+    "questionText": "What did you ... ? I couldn't hear you?",
     "rawText": "What did you ... ?  I couldn't hear  you.\n    c) said\td) told",
     "options": [
       {
@@ -662,15 +662,15 @@
       },
       {
         "label": "b",
-        "text": "isn't it"
+        "text": "did"
       },
       {
         "label": "c",
-        "text": "done"
+        "text": "isn't it"
       },
       {
         "label": "d",
-        "text": "did"
+        "text": "done"
       }
     ],
     "optionsCount": 4,
@@ -689,7 +689,7 @@
     "questionNumber": "20",
     "sourceDocument": "Professional_Question_Bank_20261108_233552.docx",
     "sourcePage": 3,
-    "questionText": "How are you going to travel? ... car, of",
+    "questionText": "How are you going to travel? ... car, of?",
     "rawText": "How are you going to travel?\t... car, of\n    c) By\td) In the",
     "options": [
       {
@@ -770,15 +770,15 @@
       },
       {
         "label": "b",
-        "text": "doesn't he"
+        "text": "isn't it"
       },
       {
         "label": "c",
-        "text": "running"
+        "text": "doesn't he"
       },
       {
         "label": "d",
-        "text": "isn't it"
+        "text": "running"
       }
     ],
     "optionsCount": 4,
@@ -833,12 +833,12 @@
     "questionNumber": "24",
     "sourceDocument": "Professional_Question_Bank_20261108_233552.docx",
     "sourcePage": 3,
-    "questionText": "Where did you park the car?” “ It’s ... Pyrland",
+    "questionText": "Where did you park the car?” “ It’s ... Pyrland?",
     "rawText": "Where did you park the car?” “ It’s ... Pyrland\n    c) at\td) in\n    c) in\td) by\n    c) don’t go\td) go not",
     "options": [
       {
         "label": "a",
-        "text": "don’t go"
+        "text": "by"
       },
       {
         "label": "b",
@@ -846,11 +846,11 @@
       },
       {
         "label": "c",
-        "text": "in"
+        "text": "don’t go"
       },
       {
         "label": "d",
-        "text": "by"
+        "text": "in"
       }
     ],
     "optionsCount": 4,
@@ -869,12 +869,12 @@
     "questionNumber": "25",
     "sourceDocument": "Professional_Question_Bank_20261108_233552.docx",
     "sourcePage": 3,
-    "questionText": "“ What ... to drink today, wine or beer? “ Wine,",
+    "questionText": "What ... to drink today, wine or beer? “ Wine,?",
     "rawText": "“ What ... to drink today, wine or beer?    “ Wine,\n    c) are going\td) do you\n    c) car’s father\td) car’s the father",
     "options": [
       {
         "label": "a",
-        "text": "car’s the father"
+        "text": "car’s father"
       },
       {
         "label": "b",
@@ -882,11 +882,11 @@
       },
       {
         "label": "c",
-        "text": "do you"
+        "text": "car’s the father"
       },
       {
         "label": "d",
-        "text": "car’s father"
+        "text": "do you"
       }
     ],
     "optionsCount": 4,
@@ -946,7 +946,7 @@
     "options": [
       {
         "label": "a",
-        "text": "its"
+        "text": "their"
       },
       {
         "label": "b",
@@ -954,11 +954,11 @@
       },
       {
         "label": "c",
-        "text": "their"
+        "text": "her"
       },
       {
         "label": "d",
-        "text": "her"
+        "text": "its"
       }
     ],
     "optionsCount": 4,
@@ -1090,7 +1090,7 @@
     "options": [
       {
         "label": "a",
-        "text": "in"
+        "text": "at"
       },
       {
         "label": "b",
@@ -1098,11 +1098,11 @@
       },
       {
         "label": "c",
-        "text": "yet"
+        "text": "in"
       },
       {
         "label": "d",
-        "text": "at"
+        "text": "yet"
       }
     ],
     "optionsCount": 4,
@@ -1121,7 +1121,7 @@
     "questionNumber": "32",
     "sourceDocument": "Professional_Question_Bank_20261108_233552.docx",
     "sourcePage": 4,
-    "questionText": "How old are you?” I ..”",
+    "questionText": "How old are you?” I ..”?",
     "rawText": "How old are you?”\tI ..”\n    c) have 20 years\td) have 20 years old",
     "options": [
       {
@@ -1198,15 +1198,15 @@
     "options": [
       {
         "label": "a",
-        "text": "Let her"
+        "text": "Let she"
       },
       {
         "label": "b",
-        "text": "Tell her"
+        "text": "Let her"
       },
       {
         "label": "c",
-        "text": "Let she"
+        "text": "Tell her"
       },
       {
         "label": "d",
@@ -1270,11 +1270,11 @@
     "options": [
       {
         "label": "a",
-        "text": "can must"
+        "text": "must"
       },
       {
         "label": "b",
-        "text": "must"
+        "text": "wouldn t"
       },
       {
         "label": "c",
@@ -1282,7 +1282,7 @@
       },
       {
         "label": "d",
-        "text": "wouldn t"
+        "text": "can must"
       }
     ],
     "optionsCount": 4,
@@ -1310,15 +1310,15 @@
       },
       {
         "label": "b",
-        "text": "doesn’t rain"
-      },
-      {
-        "label": "c",
         "text": "did rain"
       },
       {
-        "label": "d",
+        "label": "c",
         "text": "already did"
+      },
+      {
+        "label": "d",
+        "text": "doesn’t rain"
       }
     ],
     "optionsCount": 4,
@@ -1558,7 +1558,7 @@
     "options": [
       {
         "label": "a",
-        "text": "isn't it"
+        "text": "doesn't he"
       },
       {
         "label": "b",
@@ -1566,11 +1566,11 @@
       },
       {
         "label": "c",
-        "text": "doesn't he"
+        "text": "Going"
       },
       {
         "label": "d",
-        "text": "Going"
+        "text": "isn't it"
       }
     ],
     "optionsCount": 4,
@@ -1589,7 +1589,7 @@
     "questionNumber": "45",
     "sourceDocument": "Professional_Question_Bank_20261108_233552.docx",
     "sourcePage": 6,
-    "questionText": "Do you see that girl on the right? That is ..",
+    "questionText": "Do you see that girl on the right? That is .?",
     "rawText": "Do you see that girl on the right? That is ..\n    c) the Browns’ boys\td) the boys’ Browns\n    c) their\td) hers",
     "options": [
       {
@@ -1630,15 +1630,15 @@
     "options": [
       {
         "label": "a",
-        "text": "which"
+        "text": "whom"
       },
       {
         "label": "b",
-        "text": "Why"
+        "text": "which"
       },
       {
         "label": "c",
-        "text": "whom"
+        "text": "Why"
       },
       {
         "label": "d",
@@ -1738,7 +1738,7 @@
     "options": [
       {
         "label": "a",
-        "text": "Were"
+        "text": "Was"
       },
       {
         "label": "b",
@@ -1746,11 +1746,11 @@
       },
       {
         "label": "c",
-        "text": "Have"
+        "text": "Were"
       },
       {
         "label": "d",
-        "text": "Was"
+        "text": "Have"
       }
     ],
     "optionsCount": 4,
@@ -1769,12 +1769,12 @@
     "questionNumber": "50",
     "sourceDocument": "Professional_Question_Bank_20261108_233552.docx",
     "sourcePage": 6,
-    "questionText": "What .. there in the garage? “ There were",
+    "questionText": "What .. there in the garage? “ There were?",
     "rawText": "What .. there in the garage?     “ There were\n    c) is\td) are",
     "options": [
       {
         "label": "a",
-        "text": "was"
+        "text": "were"
       },
       {
         "label": "b",
@@ -1782,11 +1782,11 @@
       },
       {
         "label": "c",
-        "text": "were"
+        "text": "are"
       },
       {
         "label": "d",
-        "text": "are"
+        "text": "was"
       }
     ],
     "optionsCount": 4,
@@ -1846,15 +1846,15 @@
     "options": [
       {
         "label": "a",
-        "text": "whom"
+        "text": "who"
       },
       {
         "label": "b",
-        "text": "is"
+        "text": "whom"
       },
       {
         "label": "c",
-        "text": "who"
+        "text": "is"
       },
       {
         "label": "d",
@@ -1882,11 +1882,11 @@
     "options": [
       {
         "label": "a",
-        "text": "already"
+        "text": "since"
       },
       {
         "label": "b",
-        "text": "during"
+        "text": "already"
       },
       {
         "label": "c",
@@ -1894,7 +1894,7 @@
       },
       {
         "label": "d",
-        "text": "since"
+        "text": "during"
       }
     ],
     "optionsCount": 4,
@@ -1954,15 +1954,15 @@
     "options": [
       {
         "label": "a",
-        "text": "has signed"
+        "text": "is signed"
       },
       {
         "label": "b",
-        "text": "signed"
+        "text": "has signed"
       },
       {
         "label": "c",
-        "text": "is signed"
+        "text": "signed"
       },
       {
         "label": "d",
@@ -1994,15 +1994,15 @@
       },
       {
         "label": "b",
-        "text": "age"
-      },
-      {
-        "label": "c",
         "text": "age of"
       },
       {
-        "label": "d",
+        "label": "c",
         "text": "years"
+      },
+      {
+        "label": "d",
+        "text": "age"
       }
     ],
     "optionsCount": 4,
@@ -2026,15 +2026,15 @@
     "options": [
       {
         "label": "a",
-        "text": "will be"
-      },
-      {
-        "label": "b",
         "text": "have been"
       },
       {
-        "label": "c",
+        "label": "b",
         "text": "am"
+      },
+      {
+        "label": "c",
+        "text": "will be"
       },
       {
         "label": "d",
@@ -2098,15 +2098,15 @@
     "options": [
       {
         "label": "a",
-        "text": "would"
+        "text": "should"
       },
       {
         "label": "b",
-        "text": "shall"
+        "text": "would"
       },
       {
         "label": "c",
-        "text": "should"
+        "text": "shall"
       },
       {
         "label": "d",
@@ -2278,7 +2278,7 @@
     "options": [
       {
         "label": "a",
-        "text": "which"
+        "text": "who"
       },
       {
         "label": "b",
@@ -2286,11 +2286,11 @@
       },
       {
         "label": "c",
-        "text": "Whom"
+        "text": "which"
       },
       {
         "label": "d",
-        "text": "who"
+        "text": "Whom"
       }
     ],
     "optionsCount": 4,
@@ -2314,7 +2314,7 @@
     "options": [
       {
         "label": "a",
-        "text": "Which"
+        "text": "which"
       },
       {
         "label": "b",
@@ -2322,7 +2322,7 @@
       },
       {
         "label": "c",
-        "text": "That"
+        "text": "that"
       },
       {
         "label": "d",
@@ -2345,7 +2345,7 @@
     "questionNumber": "66",
     "sourceDocument": "Professional_Question_Bank_20261108_233552.docx",
     "sourcePage": 8,
-    "questionText": "Where is Brent? He ... to the bank.",
+    "questionText": "Where is Brent? He ... to the bank?",
     "rawText": "Where is Brent? He ... to the  bank.\n    c) is gone\td) has going",
     "options": [
       {
@@ -2390,15 +2390,15 @@
       },
       {
         "label": "b",
-        "text": "isn't it"
-      },
-      {
-        "label": "c",
         "text": "doesn't he"
       },
       {
-        "label": "d",
+        "label": "c",
         "text": "she was"
+      },
+      {
+        "label": "d",
+        "text": "isn't it"
       }
     ],
     "optionsCount": 4,
@@ -2453,7 +2453,7 @@
     "questionNumber": "69",
     "sourceDocument": "Professional_Question_Bank_20261108_233552.docx",
     "sourcePage": 9,
-    "questionText": "Where’s the champagne. Dad? We ... the",
+    "questionText": "Where’s the champagne. Dad? We ... the?",
     "rawText": "Where’s the champagne. Dad? We ... the\n    c) opened\td) open\n    c) so much\td) as\n    c) so\td) as\n    c) play not\td) play no\n    c) sit\td) sits\n    c) made\td) did",
     "options": [
       {
@@ -2525,29 +2525,29 @@
     "questionNumber": "71",
     "sourceDocument": "Professional_Question_Bank_20261108_233552.docx",
     "sourcePage": 9,
-    "questionText": "After.. a match of tennis, we went for a walk. 11. This is the.., isn't it?",
+    "questionText": "This is the right address, ______?",
     "rawText": "After.. a match of tennis, we went for a walk.\t11. This is the.., isn't it?",
     "options": [
       {
         "label": "a",
-        "text": "isn't it"
+        "text": "doesn't it"
       },
       {
         "label": "b",
-        "text": "doesn't he"
+        "text": "is it"
       },
       {
         "label": "c",
-        "text": "is"
+        "text": "isn't it"
       },
       {
         "label": "d",
-        "text": "didn't they"
+        "text": "wasn't it"
       }
     ],
     "optionsCount": 4,
     "correctAnswer": "c",
-    "explanation": "Focuses on English grammar rule: Present Perfect.",
+    "explanation": "Question tag for 'This is...' with positive statement takes 'isn't it?'.",
     "category": "Grammar & Vocabulary",
     "topic": "Present Perfect",
     "difficulty": "Hard",
@@ -2602,11 +2602,11 @@
     "options": [
       {
         "label": "a",
-        "text": "doesn't he"
+        "text": "didn't they"
       },
       {
         "label": "b",
-        "text": "didn't they"
+        "text": "isn't it"
       },
       {
         "label": "c",
@@ -2614,7 +2614,7 @@
       },
       {
         "label": "d",
-        "text": "isn't it"
+        "text": "doesn't he"
       }
     ],
     "optionsCount": 4,
@@ -2746,7 +2746,7 @@
     "options": [
       {
         "label": "a",
-        "text": "didn't they"
+        "text": "doesn't he"
       },
       {
         "label": "b",
@@ -2754,11 +2754,11 @@
       },
       {
         "label": "c",
-        "text": "isn't it"
+        "text": "didn't they"
       },
       {
         "label": "d",
-        "text": "doesn't he"
+        "text": "isn't it"
       }
     ],
     "optionsCount": 4,
@@ -2885,7 +2885,7 @@
     "questionNumber": "81",
     "sourceDocument": "Professional_Question_Bank_20261108_233552.docx",
     "sourcePage": 10,
-    "questionText": "She arrived .. the office very late. 15. Johnny, ... you .. TV every day?",
+    "questionText": "She arrived ______ the office very late.",
     "rawText": "She arrived ..  the office very late.\t15. Johnny, ... you .. TV every day?\n    c) at\td) to",
     "options": [
       {
@@ -2907,7 +2907,7 @@
     ],
     "optionsCount": 4,
     "correctAnswer": "b",
-    "explanation": "Focuses on English grammar rule: Present Simple & Continuous.",
+    "explanation": "We use 'arrive at' for specific buildings or places like offices, stations, and schools.",
     "category": "Grammar & Vocabulary",
     "topic": "Present Simple & Continuous",
     "difficulty": "Hard",
@@ -2921,7 +2921,7 @@
     "questionNumber": "82",
     "sourceDocument": "Professional_Question_Bank_20261108_233552.docx",
     "sourcePage": 10,
-    "questionText": "Where s the lamp? It’s.. the corner of the",
+    "questionText": "Where s the lamp? It’s.. the corner of the?",
     "rawText": "Where s the lamp?\tIt’s.. the corner of the\n    c) at\td) to\n    c) on\td) into\n    c) does not\td) isn’t",
     "options": [
       {
@@ -3029,7 +3029,7 @@
     "questionNumber": "85",
     "sourceDocument": "Professional_Question_Bank_20261108_233552.docx",
     "sourcePage": 11,
-    "questionText": "Were there many glasses on the table? No,",
+    "questionText": "Were there many glasses on the table? No,?",
     "rawText": "Were there  many glasses on the table?   No,\n    c) wasn’t\td) was no\n    c) for\td) yet\n    c) since\td) yet",
     "options": [
       {
@@ -3106,15 +3106,15 @@
     "options": [
       {
         "label": "a",
-        "text": "don’t you"
-      },
-      {
-        "label": "b",
         "text": "will you"
       },
       {
-        "label": "c",
+        "label": "b",
         "text": "you will"
+      },
+      {
+        "label": "c",
+        "text": "don’t you"
       },
       {
         "label": "d",
@@ -3142,11 +3142,11 @@
     "options": [
       {
         "label": "a",
-        "text": "Let we"
+        "text": "We let be"
       },
       {
         "label": "b",
-        "text": "Let’s"
+        "text": "Let we"
       },
       {
         "label": "c",
@@ -3154,7 +3154,7 @@
       },
       {
         "label": "d",
-        "text": "We let be"
+        "text": "Let’s"
       }
     ],
     "optionsCount": 4,
@@ -3245,7 +3245,7 @@
     "questionNumber": "91",
     "sourceDocument": "Professional_Question_Bank_20261108_233552.docx",
     "sourcePage": 11,
-    "questionText": "Is it going to rain? I ...”",
+    "questionText": "Is it going to rain? I ...”?",
     "rawText": "Is it going to rain?\tI ...”\n    c) think not\td) think no\n    c) making\td) made\n    c) make\td) did",
     "options": [
       {
@@ -3254,15 +3254,15 @@
       },
       {
         "label": "b",
-        "text": "making"
-      },
-      {
-        "label": "c",
         "text": "made"
       },
       {
-        "label": "d",
+        "label": "c",
         "text": "think no"
+      },
+      {
+        "label": "d",
+        "text": "making"
       }
     ],
     "optionsCount": 4,
@@ -3461,7 +3461,7 @@
     "questionNumber": "97",
     "sourceDocument": "Professional_Question_Bank_20261108_233552.docx",
     "sourcePage": 12,
-    "questionText": "Is John there? No, he hasn't arrived ... home yet.",
+    "questionText": "Is John there? No, he hasn't arrived ... home yet?",
     "rawText": "Is John there? No, he hasn't arrived ... home yet.\n    c) on\td) at\n    c) on\td) at",
     "options": [
       {
@@ -3502,15 +3502,15 @@
     "options": [
       {
         "label": "a",
-        "text": "don t go"
-      },
-      {
-        "label": "b",
         "text": "not go"
       },
       {
-        "label": "c",
+        "label": "b",
         "text": "into"
+      },
+      {
+        "label": "c",
+        "text": "don t go"
       },
       {
         "label": "d",
@@ -3542,15 +3542,15 @@
       },
       {
         "label": "b",
-        "text": "didn't they"
+        "text": "doesn't he"
       },
       {
         "label": "c",
-        "text": "isn't it"
+        "text": "didn't they"
       },
       {
         "label": "d",
-        "text": "doesn't he"
+        "text": "isn't it"
       }
     ],
     "optionsCount": 4,
@@ -3749,16 +3749,16 @@
     "questionNumber": "4",
     "sourceDocument": "Professional_Question_Bank_20261108_233552.docx",
     "sourcePage": 13,
-    "questionText": "What ... you do if someone punched you on the",
+    "questionText": "What ... you do if someone punched you on the?",
     "rawText": "4. What ... you do if someone punched  you  on  the",
     "options": [
       {
         "label": "a",
-        "text": "were"
+        "text": "was"
       },
       {
         "label": "b",
-        "text": "are"
+        "text": "were"
       },
       {
         "label": "c",
@@ -3766,7 +3766,7 @@
       },
       {
         "label": "d",
-        "text": "was"
+        "text": "are"
       }
     ],
     "optionsCount": 4,
@@ -3790,11 +3790,11 @@
     "options": [
       {
         "label": "a",
-        "text": "hand"
+        "text": "eye"
       },
       {
         "label": "b",
-        "text": "eye"
+        "text": "ear"
       },
       {
         "label": "c",
@@ -3802,7 +3802,7 @@
       },
       {
         "label": "d",
-        "text": "ear"
+        "text": "hand"
       }
     ],
     "optionsCount": 4,
@@ -3862,7 +3862,7 @@
     "options": [
       {
         "label": "a",
-        "text": "those who"
+        "text": "what"
       },
       {
         "label": "b",
@@ -3870,11 +3870,11 @@
       },
       {
         "label": "c",
-        "text": "what"
+        "text": "those whom"
       },
       {
         "label": "d",
-        "text": "those whom"
+        "text": "those who"
       }
     ],
     "optionsCount": 4,
@@ -3934,19 +3934,19 @@
     "options": [
       {
         "label": "a",
-        "text": "that"
+        "text": "who"
       },
       {
         "label": "b",
-        "text": "Whom"
+        "text": "that"
       },
       {
         "label": "c",
-        "text": "Which"
+        "text": "which"
       },
       {
         "label": "d",
-        "text": "who"
+        "text": "whom"
       }
     ],
     "optionsCount": 4,
@@ -3970,7 +3970,7 @@
     "options": [
       {
         "label": "a",
-        "text": "who see you"
+        "text": "whom did you see"
       },
       {
         "label": "b",
@@ -3978,11 +3978,11 @@
       },
       {
         "label": "c",
-        "text": "whom did you see"
+        "text": "whom saw you"
       },
       {
         "label": "d",
-        "text": "whom saw you"
+        "text": "who see you"
       }
     ],
     "optionsCount": 4,
@@ -4078,15 +4078,15 @@
     "options": [
       {
         "label": "a",
-        "text": "was"
-      },
-      {
-        "label": "b",
         "text": "were"
       },
       {
-        "label": "c",
+        "label": "b",
         "text": "are"
+      },
+      {
+        "label": "c",
+        "text": "was"
       },
       {
         "label": "d",
@@ -4186,7 +4186,7 @@
     "options": [
       {
         "label": "a",
-        "text": "singing"
+        "text": "sing"
       },
       {
         "label": "b",
@@ -4194,11 +4194,11 @@
       },
       {
         "label": "c",
-        "text": "are singing"
+        "text": "singing"
       },
       {
         "label": "d",
-        "text": "sing"
+        "text": "are singing"
       }
     ],
     "optionsCount": 4,
@@ -4226,15 +4226,15 @@
       },
       {
         "label": "b",
-        "text": "whom"
+        "text": "who"
       },
       {
         "label": "c",
-        "text": "said"
+        "text": "whom"
       },
       {
         "label": "d",
-        "text": "who"
+        "text": "said"
       }
     ],
     "optionsCount": 4,
@@ -4294,7 +4294,7 @@
     "options": [
       {
         "label": "a",
-        "text": "stop of"
+        "text": "stop"
       },
       {
         "label": "b",
@@ -4302,11 +4302,11 @@
       },
       {
         "label": "c",
-        "text": "open you"
+        "text": "stop of"
       },
       {
         "label": "d",
-        "text": "stop"
+        "text": "open you"
       }
     ],
     "optionsCount": 4,
@@ -4438,15 +4438,15 @@
     "options": [
       {
         "label": "a",
-        "text": "at"
-      },
-      {
-        "label": "b",
         "text": "into"
       },
       {
-        "label": "c",
+        "label": "b",
         "text": "in"
+      },
+      {
+        "label": "c",
+        "text": "at"
       },
       {
         "label": "d",
@@ -4577,7 +4577,7 @@
     "questionNumber": "128",
     "sourceDocument": "Professional_Question_Bank_20261108_233552.docx",
     "sourcePage": 16,
-    "questionText": "Is that your ... school? “ No, it isn’t .",
+    "questionText": "Is that your ... school? “ No, it isn’t?",
     "rawText": "Is that your ... school?   “ No, it isn’t .\n    c) childrens’\td) children",
     "options": [
       {
@@ -4586,15 +4586,15 @@
       },
       {
         "label": "b",
-        "text": "whom"
+        "text": "who"
       },
       {
         "label": "c",
-        "text": "children"
+        "text": "whom"
       },
       {
         "label": "d",
-        "text": "who"
+        "text": "children"
       }
     ],
     "optionsCount": 4,
@@ -4690,15 +4690,15 @@
     "options": [
       {
         "label": "a",
-        "text": "had"
+        "text": "have been"
       },
       {
         "label": "b",
-        "text": "were"
+        "text": "had"
       },
       {
         "label": "c",
-        "text": "have been"
+        "text": "were"
       },
       {
         "label": "d",
@@ -4874,15 +4874,15 @@
       },
       {
         "label": "b",
-        "text": "done"
-      },
-      {
-        "label": "c",
         "text": "doing"
       },
       {
-        "label": "d",
+        "label": "c",
         "text": "did"
+      },
+      {
+        "label": "d",
+        "text": "done"
       }
     ],
     "optionsCount": 4,
@@ -4937,7 +4937,7 @@
     "questionNumber": "11",
     "sourceDocument": "Professional_Question_Bank_20261108_233552.docx",
     "sourcePage": 17,
-    "questionText": "1 prefer small cars,especially...don't go too fast.",
+    "questionText": "1 prefer small cars, especially...don't go too fast.",
     "rawText": "11.1 prefer small cars,especially...don't go too fast.\n    a) the ones whom\tb) those who\n    c) those which\td) whose",
     "options": [
       {
@@ -5153,7 +5153,7 @@
     "questionNumber": "144",
     "sourceDocument": "Professional_Question_Bank_20261108_233552.docx",
     "sourcePage": 18,
-    "questionText": "Is it raining? “ Yes, Mum. ..",
+    "questionText": "Is it raining? “ Yes, Mum. .?",
     "rawText": "Is it  raining?    “ Yes, Mum. ..\n    c) I fear that yes\td) 1 am fear so\n    c) make\td) done\n    c) did\td) have",
     "options": [
       {
@@ -5194,7 +5194,7 @@
     "options": [
       {
         "label": "a",
-        "text": "Shall/play"
+        "text": "Will/play"
       },
       {
         "label": "b",
@@ -5202,11 +5202,11 @@
       },
       {
         "label": "c",
-        "text": "Will/play"
+        "text": "Will/played"
       },
       {
         "label": "d",
-        "text": "Will/played"
+        "text": "Shall/play"
       }
     ],
     "optionsCount": 4,
@@ -5266,11 +5266,11 @@
     "options": [
       {
         "label": "a",
-        "text": "isn't it"
+        "text": "doesn't he"
       },
       {
         "label": "b",
-        "text": "doesn't he"
+        "text": "did like you"
       },
       {
         "label": "c",
@@ -5278,7 +5278,7 @@
       },
       {
         "label": "d",
-        "text": "did like you"
+        "text": "isn't it"
       }
     ],
     "optionsCount": 4,
@@ -5302,15 +5302,15 @@
     "options": [
       {
         "label": "a",
-        "text": "eating"
+        "text": "eaten"
       },
       {
         "label": "b",
-        "text": "has drunk"
+        "text": "eating"
       },
       {
         "label": "c",
-        "text": "eaten"
+        "text": "has drunk"
       },
       {
         "label": "d",
@@ -5333,7 +5333,7 @@
     "questionNumber": "149",
     "sourceDocument": "Professional_Question_Bank_20261108_233552.docx",
     "sourcePage": 18,
-    "questionText": "“ Where is the article?\" “ It’s.. the front page .",
+    "questionText": "Where is the article?\" “ It’s.. the front page?",
     "rawText": "“ Where is the article?\" “ It’s.. the front page .\n    c) in\td) on\n    a) at\tb) on\n    c) in\td) into",
     "options": [
       {
@@ -5410,15 +5410,15 @@
     "options": [
       {
         "label": "a",
-        "text": "whom"
+        "text": "who"
       },
       {
         "label": "b",
-        "text": "you"
+        "text": "whom"
       },
       {
         "label": "c",
-        "text": "who"
+        "text": "you"
       },
       {
         "label": "d",
@@ -5441,29 +5441,29 @@
     "questionNumber": "152",
     "sourceDocument": "Professional_Question_Bank_20261108_233552.docx",
     "sourcePage": 19,
-    "questionText": "Which is the proper wav to say this?",
+    "questionText": "______ are broken.",
     "rawText": "Which is the proper wav to say  this?\n    c) The legs’ chair\td) Legs’ the chair",
     "options": [
       {
         "label": "a",
-        "text": "The legs’ chair"
+        "text": "The legs of the chair"
       },
       {
         "label": "b",
-        "text": "Legs’ the chair"
+        "text": "The chair's legs"
       },
       {
         "label": "c",
-        "text": "at"
+        "text": "The chair legs"
       },
       {
         "label": "d",
-        "text": "in"
+        "text": "The legs of chair"
       }
     ],
     "optionsCount": 4,
     "correctAnswer": "a",
-    "explanation": "Focuses on English grammar rule: Prepositions & Phrasal Verbs.",
+    "explanation": "For inanimate objects, we generally use the 'of' pattern (the legs of the chair).",
     "category": "Grammar & Vocabulary",
     "topic": "Prepositions & Phrasal Verbs",
     "difficulty": "Medium",
@@ -5477,7 +5477,7 @@
     "questionNumber": "19",
     "sourceDocument": "Professional_Question_Bank_20261108_233552.docx",
     "sourcePage": 19,
-    "questionText": "“ .. do you listen to the radio?” “ Usually in the",
+    "questionText": ".. do you listen to the radio?” “ Usually in the",
     "rawText": "19. “ .. do you listen to the radio?”  “ Usually  in the\n    a) Why\tb) When\n    c) Where\td) How",
     "options": [
       {
@@ -5590,11 +5590,11 @@
     "options": [
       {
         "label": "a",
-        "text": "ago"
+        "text": "since"
       },
       {
         "label": "b",
-        "text": "yet"
+        "text": "ago"
       },
       {
         "label": "c",
@@ -5602,7 +5602,7 @@
       },
       {
         "label": "d",
-        "text": "since"
+        "text": "yet"
       }
     ],
     "optionsCount": 4,
@@ -5738,15 +5738,15 @@
       },
       {
         "label": "b",
-        "text": "so tall as"
-      },
-      {
-        "label": "c",
         "text": "so tall"
       },
       {
-        "label": "d",
+        "label": "c",
         "text": "so tall so"
+      },
+      {
+        "label": "d",
+        "text": "so tall as"
       }
     ],
     "optionsCount": 4,
@@ -5770,19 +5770,19 @@
     "options": [
       {
         "label": "a",
-        "text": "Shall"
+        "text": "shall"
       },
       {
         "label": "b",
-        "text": "Should"
+        "text": "should"
       },
       {
         "label": "c",
-        "text": "Will"
+        "text": "will"
       },
       {
         "label": "d",
-        "text": "Would"
+        "text": "would"
       }
     ],
     "optionsCount": 4,
@@ -5842,7 +5842,7 @@
     "options": [
       {
         "label": "a",
-        "text": "doesn't he"
+        "text": "didn't they"
       },
       {
         "label": "b",
@@ -5850,11 +5850,11 @@
       },
       {
         "label": "c",
-        "text": "didn't they"
+        "text": "isn't it"
       },
       {
         "label": "d",
-        "text": "isn't it"
+        "text": "doesn't he"
       }
     ],
     "optionsCount": 4,
@@ -6017,7 +6017,7 @@
     "questionNumber": "168",
     "sourceDocument": "Professional_Question_Bank_20261108_233552.docx",
     "sourcePage": 21,
-    "questionText": "When ... you repair your typewriter? It",
+    "questionText": "When ... you repair your typewriter? It?",
     "rawText": "When ... you repair your typewriter? It\n    c) will\td) won t",
     "options": [
       {
@@ -6053,7 +6053,7 @@
     "questionNumber": "169",
     "sourceDocument": "Professional_Question_Bank_20261108_233552.docx",
     "sourcePage": 21,
-    "questionText": "Will they go ... train? No, they’ll go .. foot.",
+    "questionText": "Will they go ... train? No, they’ll go .. foot?",
     "rawText": "Will they go ... train? No, they’ll go .. foot.\n    c) on/by\td) on/on",
     "options": [
       {
@@ -6098,15 +6098,15 @@
       },
       {
         "label": "b",
-        "text": "ten past ten"
+        "text": "half past ten"
       },
       {
         "label": "c",
-        "text": "twenty to eleven"
+        "text": "ten past ten"
       },
       {
         "label": "d",
-        "text": "half past ten"
+        "text": "twenty to eleven"
       }
     ],
     "optionsCount": 4,
@@ -6197,7 +6197,7 @@
     "questionNumber": "173",
     "sourceDocument": "Professional_Question_Bank_20261108_233552.docx",
     "sourcePage": 21,
-    "questionText": "Where does Sandra live? She lives..",
+    "questionText": "Where does Sandra live? She lives.?",
     "rawText": "Where does Sandra live?  She lives..",
     "options": [
       {
@@ -6274,11 +6274,11 @@
     "options": [
       {
         "label": "a",
-        "text": "doesn't he"
+        "text": "isn't it"
       },
       {
         "label": "b",
-        "text": "are they"
+        "text": "doesn't he"
       },
       {
         "label": "c",
@@ -6286,7 +6286,7 @@
       },
       {
         "label": "d",
-        "text": "isn't it"
+        "text": "are they"
       }
     ],
     "optionsCount": 4,
@@ -6310,7 +6310,7 @@
     "options": [
       {
         "label": "a",
-        "text": "lots"
+        "text": "some"
       },
       {
         "label": "b",
@@ -6318,11 +6318,11 @@
       },
       {
         "label": "c",
-        "text": "much"
+        "text": "lots"
       },
       {
         "label": "d",
-        "text": "some"
+        "text": "much"
       }
     ],
     "optionsCount": 4,
@@ -6382,15 +6382,15 @@
     "options": [
       {
         "label": "a",
-        "text": "still"
-      },
-      {
-        "label": "b",
         "text": "at"
       },
       {
-        "label": "c",
+        "label": "b",
         "text": "since"
+      },
+      {
+        "label": "c",
+        "text": "still"
       },
       {
         "label": "d",
@@ -6454,15 +6454,15 @@
     "options": [
       {
         "label": "a",
-        "text": "isn't it"
-      },
-      {
-        "label": "b",
         "text": "doesn't he"
       },
       {
-        "label": "c",
+        "label": "b",
         "text": "have"
+      },
+      {
+        "label": "c",
+        "text": "isn't it"
       },
       {
         "label": "d",
@@ -6566,15 +6566,15 @@
       },
       {
         "label": "b",
-        "text": "didn't they"
+        "text": "doesn't he"
       },
       {
         "label": "c",
-        "text": "isn't it"
+        "text": "didn't they"
       },
       {
         "label": "d",
-        "text": "doesn't he"
+        "text": "isn't it"
       }
     ],
     "optionsCount": 4,
@@ -6598,11 +6598,11 @@
     "options": [
       {
         "label": "a",
-        "text": "won’t"
+        "text": "may not"
       },
       {
         "label": "b",
-        "text": "will"
+        "text": "won’t"
       },
       {
         "label": "c",
@@ -6610,7 +6610,7 @@
       },
       {
         "label": "d",
-        "text": "may not"
+        "text": "will"
       }
     ],
     "optionsCount": 4,
@@ -6778,15 +6778,15 @@
     "options": [
       {
         "label": "a",
-        "text": "who"
+        "text": "whose"
       },
       {
         "label": "b",
-        "text": "whom"
+        "text": "who"
       },
       {
         "label": "c",
-        "text": "whose"
+        "text": "whom"
       },
       {
         "label": "d",
@@ -6809,7 +6809,7 @@
     "questionNumber": "190",
     "sourceDocument": "Professional_Question_Bank_20261108_233552.docx",
     "sourcePage": 23,
-    "questionText": "Where’syour mother? She..to theswimming",
+    "questionText": "Where's your mother? — She ______ to the swimming pool.",
     "rawText": "Where’syour mother?\tShe..to theswimming\n    c) has gone\td) is going",
     "options": [
       {
@@ -6822,16 +6822,16 @@
       },
       {
         "label": "c",
-        "text": "who"
+        "text": "has been"
       },
       {
         "label": "d",
-        "text": "whom"
+        "text": "goes"
       }
     ],
     "optionsCount": 4,
     "correctAnswer": "b",
-    "explanation": "Focuses on English grammar rule: Relative Clauses & Pronouns.",
+    "explanation": "'Has gone' means she went there and hasn't returned yet.",
     "category": "Grammar & Vocabulary",
     "topic": "Relative Clauses & Pronouns",
     "difficulty": "Medium",
@@ -6845,7 +6845,7 @@
     "questionNumber": "6",
     "sourceDocument": "Professional_Question_Bank_20261108_233552.docx",
     "sourcePage": 23,
-    "questionText": "“ Has she done what you told her?” “ No, she...it",
+    "questionText": "Has she done what you told her?” “ No, she...it?",
     "rawText": "6. “ Has she done what you told her?”  “ No, she...it\n    a) haven’t done\tb) hasn’ t done\n    c) didn’t do\td) didn’t",
     "options": [
       {
@@ -6881,12 +6881,12 @@
     "questionNumber": "7",
     "sourceDocument": "Professional_Question_Bank_20261108_233552.docx",
     "sourcePage": 24,
-    "questionText": "“ ... you do that for us, please?” “ Yes, of course”.",
+    "questionText": "... you do that for us, please?” “ Yes, of course”.",
     "rawText": "7. “ ... you do that for us, please?” “ Yes, of course”.\n    a) Will be able\tb) Could\n    c) Must\td) Do can",
     "options": [
       {
         "label": "a",
-        "text": "Do can"
+        "text": "Must"
       },
       {
         "label": "b",
@@ -6894,11 +6894,11 @@
       },
       {
         "label": "c",
-        "text": "Could"
+        "text": "Do can"
       },
       {
         "label": "d",
-        "text": "Must"
+        "text": "Could"
       }
     ],
     "optionsCount": 4,
@@ -6917,7 +6917,7 @@
     "questionNumber": "8",
     "sourceDocument": "Professional_Question_Bank_20261108_233552.docx",
     "sourcePage": 24,
-    "questionText": "“ Did he escape from the enemy? “ Yes, he ... to",
+    "questionText": "Did he escape from the enemy? “ Yes, he ... to?",
     "rawText": "8. “ Did  he escape from the enemy?   “ Yes, he ... to\n    a) will be able\tb) did can\n    c) was able\td) could",
     "options": [
       {
@@ -6994,7 +6994,7 @@
     "options": [
       {
         "label": "a",
-        "text": "said"
+        "text": "told"
       },
       {
         "label": "b",
@@ -7002,11 +7002,11 @@
       },
       {
         "label": "c",
-        "text": "say"
+        "text": "said"
       },
       {
         "label": "d",
-        "text": "told"
+        "text": "say"
       }
     ],
     "optionsCount": 4,
@@ -7025,7 +7025,7 @@
     "questionNumber": "16",
     "sourceDocument": "Professional_Question_Bank_20261108_233552.docx",
     "sourcePage": 24,
-    "questionText": "“ Will they come to our party?” “ Well, I ..”.",
+    "questionText": "Will they come to our party?” “ Well, I ..”?",
     "rawText": "16. “ Will they come to our party?” “ Well, I ..”.\n    a) hope that yes\tb) think that yes\n    c) hope yes\td) hope so",
     "options": [
       {
@@ -7034,15 +7034,15 @@
       },
       {
         "label": "b",
-        "text": "hope yes"
-      },
-      {
-        "label": "c",
         "text": "hope so"
       },
       {
-        "label": "d",
+        "label": "c",
         "text": "think that yes"
+      },
+      {
+        "label": "d",
+        "text": "hope yes"
       }
     ],
     "optionsCount": 4,
@@ -7061,7 +7061,7 @@
     "questionNumber": "197",
     "sourceDocument": "Professional_Question_Bank_20261108_233552.docx",
     "sourcePage": 24,
-    "questionText": "“ What did you .. last night?” “ We went to the",
+    "questionText": "What did you .. last night?” “ We went to the?",
     "rawText": "“ What did you .. last night?” “ We went to the\n    c) did\td) made\n    c) made\td) did\n    c) on\td) a",
     "options": [
       {
@@ -7097,16 +7097,16 @@
     "questionNumber": "20",
     "sourceDocument": "Professional_Question_Bank_20261108_233552.docx",
     "sourcePage": 24,
-    "questionText": "“ What .. next year?” “ I’ll go to university.”",
+    "questionText": "What .. next year?” “ I’ll go to university.”?",
     "rawText": "20. “ What .. next year?” “ I’ll go to university.”\n    a) do you do\tb) will you do\n    c) did you do\td) you’ll do",
     "options": [
       {
         "label": "a",
-        "text": "you’ll do"
+        "text": "did you do"
       },
       {
         "label": "b",
-        "text": "will you do"
+        "text": "you’ll do"
       },
       {
         "label": "c",
@@ -7114,7 +7114,7 @@
       },
       {
         "label": "d",
-        "text": "did you do"
+        "text": "will you do"
       }
     ],
     "optionsCount": 4,
@@ -7133,29 +7133,29 @@
     "questionNumber": "199",
     "sourceDocument": "Professional_Question_Bank_20261108_233552.docx",
     "sourcePage": 24,
-    "questionText": "love ... in the country in the mornings. 11. What s the colour of the car? Well, .. is",
+    "questionText": "What's the colour of the car? — Well, it is ______.",
     "rawText": "love ... in the country in the mornings.\t11.  What s the colour of the car?\tWell, .. is\n    c) I walk\td) walk\ta) my father s car\tb) the car s my father\n    c) the father s my car   d) my car’s father\n    c) to go\td) go",
     "options": [
       {
         "label": "a",
-        "text": "walk"
+        "text": "the car of my father"
       },
       {
         "label": "b",
-        "text": "my father s car"
+        "text": "car of my father"
       },
       {
         "label": "c",
-        "text": "the car s my father"
+        "text": "father's my car"
       },
       {
         "label": "d",
-        "text": "I walk"
+        "text": "my father's car"
       }
     ],
     "optionsCount": 4,
     "correctAnswer": "d",
-    "explanation": "Focuses on English grammar rule: Prepositions & Phrasal Verbs.",
+    "explanation": "We use the possessive 's ('my father's car') for people.",
     "category": "Grammar & Vocabulary",
     "topic": "Prepositions & Phrasal Verbs",
     "difficulty": "Hard",
@@ -7174,15 +7174,15 @@
     "options": [
       {
         "label": "a",
-        "text": "didn't they"
+        "text": "doesn't he"
       },
       {
         "label": "b",
-        "text": "isn't it"
+        "text": "didn't they"
       },
       {
         "label": "c",
-        "text": "doesn't he"
+        "text": "isn't it"
       },
       {
         "label": "d",
@@ -7246,7 +7246,7 @@
     "options": [
       {
         "label": "a",
-        "text": "didn't they"
+        "text": "doesn't he"
       },
       {
         "label": "b",
@@ -7254,11 +7254,11 @@
       },
       {
         "label": "c",
-        "text": "isn't it"
+        "text": "didn't they"
       },
       {
         "label": "d",
-        "text": "doesn't he"
+        "text": "isn't it"
       }
     ],
     "optionsCount": 4,
@@ -7349,7 +7349,7 @@
     "questionNumber": "205",
     "sourceDocument": "Professional_Question_Bank_20261108_233552.docx",
     "sourcePage": 25,
-    "questionText": "“ When ... that to you? “ Last night, on my way",
+    "questionText": "When ... that to you? “ Last night, on my way?",
     "rawText": "“ When ... that to you?    “ Last night, on my way\n    c) did they\td) they did",
     "options": [
       {
@@ -7457,20 +7457,20 @@
     "questionNumber": "16",
     "sourceDocument": "Professional_Question_Bank_20261108_233552.docx",
     "sourcePage": 26,
-    "questionText": "“ Were there many girls in your class?” “ Yes,",
+    "questionText": "Were there many girls in your class?” “ Yes,?",
     "rawText": "16. “ Were there many girls in your class?”  “ Yes,\n    a) had\tb) were\n    c) was\td) have",
     "options": [
       {
         "label": "a",
-        "text": "was"
-      },
-      {
-        "label": "b",
         "text": "have"
       },
       {
-        "label": "c",
+        "label": "b",
         "text": "were"
+      },
+      {
+        "label": "c",
+        "text": "was"
       },
       {
         "label": "d",
@@ -7601,12 +7601,12 @@
     "questionNumber": "212",
     "sourceDocument": "Professional_Question_Bank_20261108_233552.docx",
     "sourcePage": 26,
-    "questionText": "Your mother .. to prepare something to eat. 20. You don’t mind if she comes,.. you?",
+    "questionText": "You don't mind if she comes with us, ______ you?",
     "rawText": "Your mother .. to prepare something to eat.\t20. You don’t  mind  if she comes,.. you?\n    c) goes\td) go\tc) do\td) mind",
     "options": [
       {
         "label": "a",
-        "text": "do"
+        "text": "will"
       },
       {
         "label": "b",
@@ -7614,16 +7614,16 @@
       },
       {
         "label": "c",
-        "text": "goes"
+        "text": "do"
       },
       {
         "label": "d",
-        "text": "go"
+        "text": "don't"
       }
     ],
     "optionsCount": 4,
     "correctAnswer": "c",
-    "explanation": "Focuses on English grammar rule: Conditionals & Wishes.",
+    "explanation": "Negative statement 'You don't mind...' takes positive tag 'do you?'.",
     "category": "Grammar & Vocabulary",
     "topic": "Conditionals & Wishes",
     "difficulty": "Hard",
@@ -7750,7 +7750,7 @@
     "options": [
       {
         "label": "a",
-        "text": "don’t have"
+        "text": "don't have"
       },
       {
         "label": "b",
@@ -7758,11 +7758,11 @@
       },
       {
         "label": "c",
-        "text": "mustn’t"
+        "text": "don’t have"
       },
       {
         "label": "d",
-        "text": "don't have"
+        "text": "mustn’t"
       }
     ],
     "optionsCount": 4,
@@ -7817,7 +7817,7 @@
     "questionNumber": "6",
     "sourceDocument": "Professional_Question_Bank_20261108_233552.docx",
     "sourcePage": 27,
-    "questionText": "“ Jim scored a goal” in the passive is: A goal ...",
+    "questionText": "Jim scored a goal” in the passive is: A goal ...",
     "rawText": "6. “ Jim scored a goal”  in the passive is:   A goal ...\n    c) is scored\td) has scored\n    c) make by\td) make for",
     "options": [
       {
@@ -7826,15 +7826,15 @@
       },
       {
         "label": "b",
-        "text": "make by"
-      },
-      {
-        "label": "c",
         "text": "make for"
       },
       {
-        "label": "d",
+        "label": "c",
         "text": "has scored"
+      },
+      {
+        "label": "d",
+        "text": "make by"
       }
     ],
     "optionsCount": 4,
@@ -7894,11 +7894,11 @@
     "options": [
       {
         "label": "a",
-        "text": "must to"
+        "text": "must"
       },
       {
         "label": "b",
-        "text": "should"
+        "text": "must to"
       },
       {
         "label": "c",
@@ -7906,7 +7906,7 @@
       },
       {
         "label": "d",
-        "text": "must"
+        "text": "should"
       }
     ],
     "optionsCount": 4,
@@ -7925,20 +7925,20 @@
     "questionNumber": "221",
     "sourceDocument": "Professional_Question_Bank_20261108_233552.docx",
     "sourcePage": 27,
-    "questionText": "“ I like that girl!” “... one?”",
+    "questionText": "I like that girl!” “... one?”",
     "rawText": "“ I like that girl!”   “... one?”\n    c) whom\td) who",
     "options": [
       {
         "label": "a",
-        "text": "which"
-      },
-      {
-        "label": "b",
         "text": "that"
       },
       {
-        "label": "c",
+        "label": "b",
         "text": "who"
+      },
+      {
+        "label": "c",
+        "text": "which"
       },
       {
         "label": "d",
@@ -7966,15 +7966,15 @@
     "options": [
       {
         "label": "a",
-        "text": "whom"
-      },
-      {
-        "label": "b",
         "text": "that"
       },
       {
-        "label": "c",
+        "label": "b",
         "text": "which"
+      },
+      {
+        "label": "c",
+        "text": "whom"
       },
       {
         "label": "d",
@@ -8033,16 +8033,16 @@
     "questionNumber": "3",
     "sourceDocument": "Professional_Question_Bank_20261108_233552.docx",
     "sourcePage": 27,
-    "questionText": "Have youever been to America? No,I ve never",
+    "questionText": "Have youever been to America? No,I ve never?",
     "rawText": "3. Have youever been to America?\tNo,I ve never",
     "options": [
       {
         "label": "a",
-        "text": "were"
+        "text": "was"
       },
       {
         "label": "b",
-        "text": "are"
+        "text": "were"
       },
       {
         "label": "c",
@@ -8050,7 +8050,7 @@
       },
       {
         "label": "d",
-        "text": "was"
+        "text": "are"
       }
     ],
     "optionsCount": 4,
@@ -8110,7 +8110,7 @@
     "options": [
       {
         "label": "a",
-        "text": "been"
+        "text": "being"
       },
       {
         "label": "b",
@@ -8118,11 +8118,11 @@
       },
       {
         "label": "c",
-        "text": "You do"
+        "text": "been"
       },
       {
         "label": "d",
-        "text": "being"
+        "text": "You do"
       }
     ],
     "optionsCount": 4,
@@ -8186,15 +8186,15 @@
       },
       {
         "label": "b",
-        "text": "broke"
+        "text": "broken"
       },
       {
         "label": "c",
-        "text": "can you"
+        "text": "broke"
       },
       {
         "label": "d",
-        "text": "broken"
+        "text": "can you"
       }
     ],
     "optionsCount": 4,
@@ -8285,7 +8285,7 @@
     "questionNumber": "231",
     "sourceDocument": "Professional_Question_Bank_20261108_233552.docx",
     "sourcePage": 28,
-    "questionText": "Do you think you'll be able to do it?” “ I think ”",
+    "questionText": "Do you think you'll be able to do it?” “ I think ”?",
     "rawText": "Do you think you'll be able to do it?”  “ I think   ”\n    c) so\td) if\n    c) did\td) done\n    c) is making\td) makes\n    c) in the\td) by",
     "options": [
       {
@@ -8326,15 +8326,15 @@
     "options": [
       {
         "label": "a",
-        "text": "at"
-      },
-      {
-        "label": "b",
         "text": "in"
       },
       {
-        "label": "c",
+        "label": "b",
         "text": "you do"
+      },
+      {
+        "label": "c",
+        "text": "at"
       },
       {
         "label": "d",
@@ -8398,11 +8398,11 @@
     "options": [
       {
         "label": "a",
-        "text": "sir"
+        "text": "welcome"
       },
       {
         "label": "b",
-        "text": "welcome"
+        "text": "thanks"
       },
       {
         "label": "c",
@@ -8410,7 +8410,7 @@
       },
       {
         "label": "d",
-        "text": "thanks"
+        "text": "sir"
       }
     ],
     "optionsCount": 4,
@@ -8506,7 +8506,7 @@
     "options": [
       {
         "label": "a",
-        "text": "doesn't he"
+        "text": "isn't it"
       },
       {
         "label": "b",
@@ -8514,11 +8514,11 @@
       },
       {
         "label": "c",
-        "text": "eating"
+        "text": "doesn't he"
       },
       {
         "label": "d",
-        "text": "isn't it"
+        "text": "eating"
       }
     ],
     "optionsCount": 4,
@@ -8537,12 +8537,12 @@
     "questionNumber": "238",
     "sourceDocument": "Professional_Question_Bank_20261108_233552.docx",
     "sourcePage": 29,
-    "questionText": "Where is the wine? the bottle, of course.",
+    "questionText": "Where is the wine? the bottle, of course?",
     "rawText": "Where is the wine?\tthe bottle, of course.\n    c) On\td) At\n    c) over\td) into",
     "options": [
       {
         "label": "a",
-        "text": "over"
+        "text": "into"
       },
       {
         "label": "b",
@@ -8550,11 +8550,11 @@
       },
       {
         "label": "c",
-        "text": "into"
+        "text": "At"
       },
       {
         "label": "d",
-        "text": "At"
+        "text": "over"
       }
     ],
     "optionsCount": 4,
@@ -8578,11 +8578,11 @@
     "options": [
       {
         "label": "a",
-        "text": "are going"
+        "text": "go"
       },
       {
         "label": "b",
-        "text": "go"
+        "text": "you re"
       },
       {
         "label": "c",
@@ -8590,7 +8590,7 @@
       },
       {
         "label": "d",
-        "text": "you re"
+        "text": "are going"
       }
     ],
     "optionsCount": 4,
@@ -8609,12 +8609,12 @@
     "questionNumber": "240",
     "sourceDocument": "Professional_Question_Bank_20261108_233552.docx",
     "sourcePage": 29,
-    "questionText": "“ ... does Louise go to school?” “ By bus.”",
+    "questionText": "... does Louise go to school?” “ By bus.”",
     "rawText": "“ ... does Louise go to school?”  “ By bus.”\n    c) When\td) Where",
     "options": [
       {
         "label": "a",
-        "text": "in"
+        "text": "at"
       },
       {
         "label": "b",
@@ -8622,11 +8622,11 @@
       },
       {
         "label": "c",
-        "text": "Where"
+        "text": "in"
       },
       {
         "label": "d",
-        "text": "at"
+        "text": "Where"
       }
     ],
     "optionsCount": 4,
@@ -8650,7 +8650,7 @@
     "options": [
       {
         "label": "a",
-        "text": "don’t do"
+        "text": "does"
       },
       {
         "label": "b",
@@ -8658,11 +8658,11 @@
       },
       {
         "label": "c",
-        "text": "does"
+        "text": "Where"
       },
       {
         "label": "d",
-        "text": "Where"
+        "text": "don’t do"
       }
     ],
     "optionsCount": 4,
@@ -8681,7 +8681,7 @@
     "questionNumber": "242",
     "sourceDocument": "Professional_Question_Bank_20261108_233552.docx",
     "sourcePage": 30,
-    "questionText": "“ Shirley, ... you cold?” “ Yes, Mum, I m very",
+    "questionText": "Shirley, ... you cold?” “ Yes, Mum, I m very",
     "rawText": "“ Shirley, ... you cold?”  “ Yes, Mum, I m very\n    c) are\td) has\n    c) is writing\td) writing",
     "options": [
       {
@@ -8933,7 +8933,7 @@
     "questionNumber": "249",
     "sourceDocument": "Professional_Question_Bank_20261108_233552.docx",
     "sourcePage": 30,
-    "questionText": "How is your father? Well,..",
+    "questionText": "How is your father? Well,.?",
     "rawText": "How is your father? Well,..\n    c) on\td) from",
     "options": [
       {
@@ -9014,15 +9014,15 @@
       },
       {
         "label": "b",
-        "text": "isn't it"
-      },
-      {
-        "label": "c",
         "text": "doesn't he"
       },
       {
-        "label": "d",
+        "label": "c",
         "text": "has"
+      },
+      {
+        "label": "d",
+        "text": "isn't it"
       }
     ],
     "optionsCount": 4,
@@ -9050,15 +9050,15 @@
       },
       {
         "label": "b",
-        "text": "isn't it"
-      },
-      {
-        "label": "c",
         "text": "doesn't he"
       },
       {
-        "label": "d",
+        "label": "c",
         "text": "is"
+      },
+      {
+        "label": "d",
+        "text": "isn't it"
       }
     ],
     "optionsCount": 4,
@@ -9190,15 +9190,15 @@
     "options": [
       {
         "label": "a",
-        "text": "You don’ t speak"
+        "text": "Don’t speak"
       },
       {
         "label": "b",
-        "text": "larger"
+        "text": "You don’ t speak"
       },
       {
         "label": "c",
-        "text": "Don’t speak"
+        "text": "larger"
       },
       {
         "label": "d",
@@ -9221,7 +9221,7 @@
     "questionNumber": "257",
     "sourceDocument": "Professional_Question_Bank_20261108_233552.docx",
     "sourcePage": 31,
-    "questionText": "Are those the girls? Yes, those are ... I told you",
+    "questionText": "Are those the girls? Yes, those are ... I told you?",
     "rawText": "Are those the girls? Yes, those are ... I told you\n    c) those which\td) that\n    c) who\td) that\n    c) that\td) the what",
     "options": [
       {
@@ -9257,7 +9257,7 @@
     "questionNumber": "258",
     "sourceDocument": "Professional_Question_Bank_20261108_233552.docx",
     "sourcePage": 32,
-    "questionText": "Where is little Sylvia? She .. to school.",
+    "questionText": "Where is little Sylvia? She .. to school?",
     "rawText": "Where is little Sylvia?  She .. to school.\n    c) is gone\td) has gone",
     "options": [
       {
@@ -9334,15 +9334,15 @@
     "options": [
       {
         "label": "a",
-        "text": "rides"
-      },
-      {
-        "label": "b",
         "text": "ridden"
       },
       {
-        "label": "c",
+        "label": "b",
         "text": "can not"
+      },
+      {
+        "label": "c",
+        "text": "rides"
       },
       {
         "label": "d",
@@ -9401,7 +9401,7 @@
     "questionNumber": "262",
     "sourceDocument": "Professional_Question_Bank_20261108_233552.docx",
     "sourcePage": 32,
-    "questionText": "Will that old woman come with you? Well,",
+    "questionText": "Will that old woman come with you? Well,?",
     "rawText": "Will that old woman come with you?  Well,\n    c) hope not\td) hope no\n    c) not buy\td) buy not",
     "options": [
       {
@@ -9442,7 +9442,7 @@
     "options": [
       {
         "label": "a",
-        "text": "isn't it"
+        "text": "doesn't he"
       },
       {
         "label": "b",
@@ -9450,11 +9450,11 @@
       },
       {
         "label": "c",
-        "text": "doesn't he"
+        "text": "make"
       },
       {
         "label": "d",
-        "text": "make"
+        "text": "isn't it"
       }
     ],
     "optionsCount": 4,
@@ -9478,11 +9478,11 @@
     "options": [
       {
         "label": "a",
-        "text": "who"
+        "text": "whom"
       },
       {
         "label": "b",
-        "text": "whom"
+        "text": "did"
       },
       {
         "label": "c",
@@ -9490,7 +9490,7 @@
       },
       {
         "label": "d",
-        "text": "did"
+        "text": "who"
       }
     ],
     "optionsCount": 4,
@@ -9514,11 +9514,11 @@
     "options": [
       {
         "label": "a",
-        "text": "they are"
+        "text": "would"
       },
       {
         "label": "b",
-        "text": "would"
+        "text": "they ll"
       },
       {
         "label": "c",
@@ -9526,7 +9526,7 @@
       },
       {
         "label": "d",
-        "text": "they ll"
+        "text": "they are"
       }
     ],
     "optionsCount": 4,
@@ -9730,7 +9730,7 @@
     "options": [
       {
         "label": "a",
-        "text": "whom"
+        "text": "who"
       },
       {
         "label": "b",
@@ -9738,11 +9738,11 @@
       },
       {
         "label": "c",
-        "text": "said"
+        "text": "whom"
       },
       {
         "label": "d",
-        "text": "who"
+        "text": "said"
       }
     ],
     "optionsCount": 4,
@@ -9761,7 +9761,7 @@
     "questionNumber": "272",
     "sourceDocument": "Professional_Question_Bank_20261108_233552.docx",
     "sourcePage": 33,
-    "questionText": "Where is the label? It is .. the bottle.",
+    "questionText": "Where is the label? It is .. the bottle?",
     "rawText": "Where is the label?  It is ..  the bottle.\n    c) on\td) at",
     "options": [
       {
@@ -9878,15 +9878,15 @@
       },
       {
         "label": "b",
-        "text": "books’s girls"
+        "text": "books’ girls"
       },
       {
         "label": "c",
-        "text": "are"
+        "text": "books’s girls"
       },
       {
         "label": "d",
-        "text": "books’ girls"
+        "text": "are"
       }
     ],
     "optionsCount": 4,
@@ -9910,7 +9910,7 @@
     "options": [
       {
         "label": "a",
-        "text": "whom"
+        "text": "which"
       },
       {
         "label": "b",
@@ -9918,11 +9918,11 @@
       },
       {
         "label": "c",
-        "text": "which"
+        "text": "Who"
       },
       {
         "label": "d",
-        "text": "Who"
+        "text": "whom"
       }
     ],
     "optionsCount": 4,
@@ -9950,15 +9950,15 @@
       },
       {
         "label": "b",
-        "text": "does/has"
+        "text": "do/has"
       },
       {
         "label": "c",
-        "text": "does/have"
+        "text": "does/has"
       },
       {
         "label": "d",
-        "text": "do/has"
+        "text": "does/have"
       }
     ],
     "optionsCount": 4,
@@ -10018,15 +10018,15 @@
     "options": [
       {
         "label": "a",
-        "text": "Had"
-      },
-      {
-        "label": "b",
         "text": "Have"
       },
       {
-        "label": "c",
+        "label": "b",
         "text": "Were"
+      },
+      {
+        "label": "c",
+        "text": "Had"
       },
       {
         "label": "d",
@@ -10166,15 +10166,15 @@
       },
       {
         "label": "b",
-        "text": "had never fell"
+        "text": "had never fallen"
       },
       {
         "label": "c",
-        "text": "have never fell"
+        "text": "had never fell"
       },
       {
         "label": "d",
-        "text": "had never fallen"
+        "text": "have never fell"
       }
     ],
     "optionsCount": 4,
@@ -10229,7 +10229,7 @@
     "questionNumber": "285",
     "sourceDocument": "Professional_Question_Bank_20261108_233552.docx",
     "sourcePage": 35,
-    "questionText": "Have you started? Well, yes, ..",
+    "questionText": "Have you started? Well, yes, .?",
     "rawText": "Have you started?\tWell, yes, ..\n    c) I started already\td) I ve started already",
     "options": [
       {
@@ -10265,7 +10265,7 @@
     "questionNumber": "286",
     "sourceDocument": "Professional_Question_Bank_20261108_233552.docx",
     "sourcePage": 35,
-    "questionText": "Is your mother going shopping?” “ She’s",
+    "questionText": "Is your mother going shopping?” “ She’s?",
     "rawText": "Is  your  mother  going  shopping?”    “ She’s\n    c) went\td) go",
     "options": [
       {
@@ -10337,7 +10337,7 @@
     "questionNumber": "288",
     "sourceDocument": "Professional_Question_Bank_20261108_233552.docx",
     "sourcePage": 35,
-    "questionText": "“ Could you do something for her?” “ No, we..",
+    "questionText": "Could you do something for her?” “ No, we.?",
     "rawText": "“ Could you do something for her?”  “ No,  we..\n    c) aren’t able\td) can’t",
     "options": [
       {
@@ -10630,7 +10630,7 @@
     "options": [
       {
         "label": "a",
-        "text": "fifty to one"
+        "text": "ten to twelve"
       },
       {
         "label": "b",
@@ -10638,11 +10638,11 @@
       },
       {
         "label": "c",
-        "text": "ten past one"
+        "text": "fifty to one"
       },
       {
         "label": "d",
-        "text": "ten to twelve"
+        "text": "ten past one"
       }
     ],
     "optionsCount": 4,
@@ -10702,15 +10702,15 @@
     "options": [
       {
         "label": "a",
-        "text": "didn't they"
+        "text": "doesn't he"
       },
       {
         "label": "b",
-        "text": "isn't it"
+        "text": "didn't they"
       },
       {
         "label": "c",
-        "text": "doesn't he"
+        "text": "isn't it"
       },
       {
         "label": "d",
@@ -10742,15 +10742,15 @@
       },
       {
         "label": "b",
-        "text": "doesn't he"
-      },
-      {
-        "label": "c",
         "text": "didn't they"
       },
       {
-        "label": "d",
+        "label": "c",
         "text": "isn't it"
+      },
+      {
+        "label": "d",
+        "text": "doesn't he"
       }
     ],
     "optionsCount": 4,
@@ -10810,15 +10810,15 @@
     "options": [
       {
         "label": "a",
-        "text": "doesn't he"
-      },
-      {
-        "label": "b",
         "text": "didn't they"
       },
       {
-        "label": "c",
+        "label": "b",
         "text": "isn't it"
+      },
+      {
+        "label": "c",
+        "text": "doesn't he"
       },
       {
         "label": "d",
@@ -10846,7 +10846,7 @@
     "options": [
       {
         "label": "a",
-        "text": "in"
+        "text": "at"
       },
       {
         "label": "b",
@@ -10854,11 +10854,11 @@
       },
       {
         "label": "c",
-        "text": "does"
+        "text": "in"
       },
       {
         "label": "d",
-        "text": "at"
+        "text": "does"
       }
     ],
     "optionsCount": 4,
@@ -11057,7 +11057,7 @@
     "questionNumber": "308",
     "sourceDocument": "Professional_Question_Bank_20261108_233552.docx",
     "sourcePage": 38,
-    "questionText": "Whose is that car? “ I think it’s ...”",
+    "questionText": "Whose is that car? “ I think it’s ...”?",
     "rawText": "Whose is that car?   “ I think  it’s ...”\n    c) theirs\td) of they",
     "options": [
       {
@@ -11093,7 +11093,7 @@
     "questionNumber": "309",
     "sourceDocument": "Professional_Question_Bank_20261108_233552.docx",
     "sourcePage": 38,
-    "questionText": "“ W hose bicycle is that? “ Well, it must be..”",
+    "questionText": "W hose bicycle is that? “ Well, it must be..”",
     "rawText": "“ W hose bicycle is that?  “ Well, it must be..”\n    c) from you\td) your\n    c) the\td) its",
     "options": [
       {
@@ -11206,7 +11206,7 @@
     "options": [
       {
         "label": "a",
-        "text": "are"
+        "text": "is"
       },
       {
         "label": "b",
@@ -11214,11 +11214,11 @@
       },
       {
         "label": "c",
-        "text": "she’s his niece"
+        "text": "are"
       },
       {
         "label": "d",
-        "text": "is"
+        "text": "she’s his niece"
       }
     ],
     "optionsCount": 4,
@@ -11278,15 +11278,15 @@
     "options": [
       {
         "label": "a",
-        "text": "-"
-      },
-      {
-        "label": "b",
         "text": "a"
       },
       {
-        "label": "c",
+        "label": "b",
         "text": "this"
+      },
+      {
+        "label": "c",
+        "text": "-"
       },
       {
         "label": "d",
@@ -11318,15 +11318,15 @@
       },
       {
         "label": "b",
-        "text": "Nor do I"
-      },
-      {
-        "label": "c",
         "text": "I don t, too"
       },
       {
-        "label": "d",
+        "label": "c",
         "text": "So do I"
+      },
+      {
+        "label": "d",
+        "text": "Nor do I"
       }
     ],
     "optionsCount": 4,
@@ -11386,7 +11386,7 @@
     "options": [
       {
         "label": "a",
-        "text": "in"
+        "text": "on"
       },
       {
         "label": "b",
@@ -11394,11 +11394,11 @@
       },
       {
         "label": "c",
-        "text": "on"
+        "text": "at"
       },
       {
         "label": "d",
-        "text": "at"
+        "text": "in"
       }
     ],
     "optionsCount": 4,
@@ -11458,11 +11458,11 @@
     "options": [
       {
         "label": "a",
-        "text": "next to"
+        "text": "besides"
       },
       {
         "label": "b",
-        "text": "besides"
+        "text": "close"
       },
       {
         "label": "c",
@@ -11470,7 +11470,7 @@
       },
       {
         "label": "d",
-        "text": "close"
+        "text": "next to"
       }
     ],
     "optionsCount": 4,
@@ -11489,7 +11489,7 @@
     "questionNumber": "17",
     "sourceDocument": "Professional_Question_Bank_20261108_233552.docx",
     "sourcePage": 39,
-    "questionText": "Which horse are you putting your money",
+    "questionText": "Which horse are you putting your money?",
     "rawText": "17. Which horse are you putting your money",
     "options": [
       {
@@ -11602,11 +11602,11 @@
     "options": [
       {
         "label": "a",
-        "text": "most tall"
+        "text": "taller"
       },
       {
         "label": "b",
-        "text": "taller"
+        "text": "more tall"
       },
       {
         "label": "c",
@@ -11614,7 +11614,7 @@
       },
       {
         "label": "d",
-        "text": "more tall"
+        "text": "most tall"
       }
     ],
     "optionsCount": 4,
@@ -11705,20 +11705,20 @@
     "questionNumber": "326",
     "sourceDocument": "Professional_Question_Bank_20261108_233552.docx",
     "sourcePage": 40,
-    "questionText": "Do you think he’ll come?” I think ..”",
+    "questionText": "Do you think he’ll come?” I think ..”?",
     "rawText": "Do you think he’ll come?”\tI think ..”\n    c) than yes\td) that if\n    c) by\td) in the\n    c) let\td) hire",
     "options": [
       {
         "label": "a",
-        "text": "by"
-      },
-      {
-        "label": "b",
         "text": "in the"
       },
       {
-        "label": "c",
+        "label": "b",
         "text": "that if"
+      },
+      {
+        "label": "c",
+        "text": "by"
       },
       {
         "label": "d",
@@ -11885,16 +11885,16 @@
     "questionNumber": "331",
     "sourceDocument": "Professional_Question_Bank_20261108_233552.docx",
     "sourcePage": 40,
-    "questionText": "Have you got any trees?\" Yes, .. pine",
+    "questionText": "Have you got any trees?\" Yes, .. pine?",
     "rawText": "Have you got any trees?\"   Yes, .. pine\n    c) we’ve got few\td) we’re got few\n    c) on\td) for the",
     "options": [
       {
         "label": "a",
-        "text": "for the"
+        "text": "on"
       },
       {
         "label": "b",
-        "text": "we’re got few"
+        "text": "for the"
       },
       {
         "label": "c",
@@ -11902,7 +11902,7 @@
       },
       {
         "label": "d",
-        "text": "on"
+        "text": "we’re got few"
       }
     ],
     "optionsCount": 4,
@@ -11921,7 +11921,7 @@
     "questionNumber": "332",
     "sourceDocument": "Professional_Question_Bank_20261108_233552.docx",
     "sourcePage": 40,
-    "questionText": "“ How does she go to work? “ She always",
+    "questionText": "How does she go to work? “ She always?",
     "rawText": "“ How  does she go to work?     “ She  always\n    c) by\td) at\n    c) us\td) we\n    c) they\td) him\n    c) me\td) I",
     "options": [
       {
@@ -11966,15 +11966,15 @@
       },
       {
         "label": "b",
-        "text": "she/they"
-      },
-      {
-        "label": "c",
         "text": "at"
       },
       {
-        "label": "d",
+        "label": "c",
         "text": "her/them"
+      },
+      {
+        "label": "d",
+        "text": "she/they"
       }
     ],
     "optionsCount": 4,
@@ -11998,15 +11998,15 @@
     "options": [
       {
         "label": "a",
-        "text": "seeing"
+        "text": "watching"
       },
       {
         "label": "b",
-        "text": "watching the"
+        "text": "seeing"
       },
       {
         "label": "c",
-        "text": "watching"
+        "text": "watching the"
       },
       {
         "label": "d",
@@ -12034,11 +12034,11 @@
     "options": [
       {
         "label": "a",
-        "text": "to/in"
+        "text": "to the/the"
       },
       {
         "label": "b",
-        "text": "to the/the"
+        "text": "to the/on"
       },
       {
         "label": "c",
@@ -12046,7 +12046,7 @@
       },
       {
         "label": "d",
-        "text": "to the/on"
+        "text": "to/in"
       }
     ],
     "optionsCount": 4,
@@ -12065,7 +12065,7 @@
     "questionNumber": "336",
     "sourceDocument": "Professional_Question_Bank_20261108_233552.docx",
     "sourcePage": 41,
-    "questionText": "“... is this wallet? It s mine.",
+    "questionText": "... is this wallet? It s mine.",
     "rawText": "“... is this wallet?\tIt s mine.\n    c) Whom\td) Which\n    c) their\td) those",
     "options": [
       {
@@ -12146,15 +12146,15 @@
       },
       {
         "label": "b",
-        "text": "Of whose"
+        "text": "Of whom"
       },
       {
         "label": "c",
-        "text": "Who"
+        "text": "Of whose"
       },
       {
         "label": "d",
-        "text": "Of whom"
+        "text": "Who"
       }
     ],
     "optionsCount": 4,
@@ -12214,15 +12214,15 @@
     "options": [
       {
         "label": "a",
-        "text": "has very"
-      },
-      {
-        "label": "b",
         "text": "isn't it"
       },
       {
-        "label": "c",
+        "label": "b",
         "text": "is much"
+      },
+      {
+        "label": "c",
+        "text": "has very"
       },
       {
         "label": "d",
@@ -12358,15 +12358,15 @@
     "options": [
       {
         "label": "a",
-        "text": "didn't they"
+        "text": "doesn't he"
       },
       {
         "label": "b",
-        "text": "isn't it"
+        "text": "didn't they"
       },
       {
         "label": "c",
-        "text": "doesn't he"
+        "text": "isn't it"
       },
       {
         "label": "d",
@@ -12430,11 +12430,11 @@
     "options": [
       {
         "label": "a",
-        "text": "she/I"
+        "text": "she/me"
       },
       {
         "label": "b",
-        "text": "she/me"
+        "text": "her/I"
       },
       {
         "label": "c",
@@ -12442,7 +12442,7 @@
       },
       {
         "label": "d",
-        "text": "her/I"
+        "text": "she/I"
       }
     ],
     "optionsCount": 4,
@@ -12497,7 +12497,7 @@
     "questionNumber": "348",
     "sourceDocument": "Professional_Question_Bank_20261108_233552.docx",
     "sourcePage": 42,
-    "questionText": "Were you in England last year?” “ .No.1 ...”",
+    "questionText": "Were you in England last year?” “ .No.1 ...”?",
     "rawText": "Were you in England last year?”  “ .No.1 ...”\n    c) didn’t\td) don’t\n    c) for buying\td) buy\n    c) at\td) over\n    c) during\td) for the",
     "options": [
       {
@@ -12538,7 +12538,7 @@
     "options": [
       {
         "label": "a",
-        "text": "in"
+        "text": "on"
       },
       {
         "label": "b",
@@ -12546,11 +12546,11 @@
       },
       {
         "label": "c",
-        "text": "on"
+        "text": "at"
       },
       {
         "label": "d",
-        "text": "at"
+        "text": "in"
       }
     ],
     "optionsCount": 4,
@@ -12682,15 +12682,15 @@
     "options": [
       {
         "label": "a",
-        "text": "at"
+        "text": "to"
       },
       {
         "label": "b",
-        "text": "in"
+        "text": "at"
       },
       {
         "label": "c",
-        "text": "to"
+        "text": "in"
       },
       {
         "label": "d",
@@ -12790,7 +12790,7 @@
     "options": [
       {
         "label": "a",
-        "text": "didn't they"
+        "text": "doesn't he"
       },
       {
         "label": "b",
@@ -12798,11 +12798,11 @@
       },
       {
         "label": "c",
-        "text": "isn't it"
+        "text": "didn't they"
       },
       {
         "label": "d",
-        "text": "doesn't he"
+        "text": "isn't it"
       }
     ],
     "optionsCount": 4,
@@ -12862,15 +12862,15 @@
     "options": [
       {
         "label": "a",
-        "text": "on"
+        "text": "in"
       },
       {
         "label": "b",
-        "text": "at"
+        "text": "on"
       },
       {
         "label": "c",
-        "text": "in"
+        "text": "at"
       },
       {
         "label": "d",
@@ -12898,7 +12898,7 @@
     "options": [
       {
         "label": "a",
-        "text": "in"
+        "text": "on"
       },
       {
         "label": "b",
@@ -12906,11 +12906,11 @@
       },
       {
         "label": "c",
-        "text": "on"
+        "text": "at"
       },
       {
         "label": "d",
-        "text": "at"
+        "text": "in"
       }
     ],
     "optionsCount": 4,
@@ -13006,15 +13006,15 @@
     "options": [
       {
         "label": "a",
-        "text": "the"
+        "text": "at"
       },
       {
         "label": "b",
-        "text": "Do Carol likes reading?"
+        "text": "the"
       },
       {
         "label": "c",
-        "text": "at"
+        "text": "Do Carol likes reading?"
       },
       {
         "label": "d",
@@ -13073,7 +13073,7 @@
     "questionNumber": "364",
     "sourceDocument": "Professional_Question_Bank_20261108_233552.docx",
     "sourcePage": 44,
-    "questionText": "Was that Mary? “ Yes, but she ..”",
+    "questionText": "Was that Mary? “ Yes, but she ..”?",
     "rawText": "Was that  Mary?    “ Yes, but she ..”\n    c) saw us not\td) not saw us\n    c) so people\td) such a people",
     "options": [
       {
@@ -13118,15 +13118,15 @@
       },
       {
         "label": "b",
-        "text": "to walking"
+        "text": "for a walk"
       },
       {
         "label": "c",
-        "text": "to walk"
+        "text": "to walking"
       },
       {
         "label": "d",
-        "text": "for a walk"
+        "text": "to walk"
       }
     ],
     "optionsCount": 4,
@@ -13190,15 +13190,15 @@
       },
       {
         "label": "b",
-        "text": "at the"
-      },
-      {
-        "label": "c",
         "text": "over the"
       },
       {
-        "label": "d",
+        "label": "c",
         "text": "in the"
+      },
+      {
+        "label": "d",
+        "text": "at the"
       }
     ],
     "optionsCount": 4,
@@ -13330,15 +13330,15 @@
     "options": [
       {
         "label": "a",
-        "text": "caught"
+        "text": "had a"
       },
       {
         "label": "b",
-        "text": "to"
+        "text": "caught"
       },
       {
         "label": "c",
-        "text": "had a"
+        "text": "to"
       },
       {
         "label": "d",
@@ -13366,11 +13366,11 @@
     "options": [
       {
         "label": "a",
-        "text": "its wife"
+        "text": "at"
       },
       {
         "label": "b",
-        "text": "at"
+        "text": "over"
       },
       {
         "label": "c",
@@ -13378,7 +13378,7 @@
       },
       {
         "label": "d",
-        "text": "over"
+        "text": "its wife"
       }
     ],
     "optionsCount": 4,
@@ -13478,15 +13478,15 @@
       },
       {
         "label": "b",
-        "text": "doesn't he"
-      },
-      {
-        "label": "c",
         "text": "didn't they"
       },
       {
-        "label": "d",
+        "label": "c",
         "text": "isn't it"
+      },
+      {
+        "label": "d",
+        "text": "doesn't he"
       }
     ],
     "optionsCount": 4,
@@ -13546,11 +13546,11 @@
     "options": [
       {
         "label": "a",
-        "text": "don’ t must"
+        "text": "don’t must to"
       },
       {
         "label": "b",
-        "text": "mustn’t"
+        "text": "don’ t must"
       },
       {
         "label": "c",
@@ -13558,7 +13558,7 @@
       },
       {
         "label": "d",
-        "text": "don’t must to"
+        "text": "mustn’t"
       }
     ],
     "optionsCount": 4,
@@ -13694,15 +13694,15 @@
       },
       {
         "label": "b",
-        "text": "didn't they"
+        "text": "doesn't he"
       },
       {
         "label": "c",
-        "text": "isn't it"
+        "text": "didn't they"
       },
       {
         "label": "d",
-        "text": "doesn't he"
+        "text": "isn't it"
       }
     ],
     "optionsCount": 4,
@@ -13762,7 +13762,7 @@
     "options": [
       {
         "label": "a",
-        "text": "at"
+        "text": "on"
       },
       {
         "label": "b",
@@ -13770,11 +13770,11 @@
       },
       {
         "label": "c",
-        "text": "on"
+        "text": "into"
       },
       {
         "label": "d",
-        "text": "into"
+        "text": "at"
       }
     ],
     "optionsCount": 4,
@@ -13870,11 +13870,11 @@
     "options": [
       {
         "label": "a",
-        "text": "at the"
+        "text": "in the"
       },
       {
         "label": "b",
-        "text": "in his"
+        "text": "at the"
       },
       {
         "label": "c",
@@ -13882,7 +13882,7 @@
       },
       {
         "label": "d",
-        "text": "in the"
+        "text": "in his"
       }
     ],
     "optionsCount": 4,
@@ -13901,20 +13901,20 @@
     "questionNumber": "387",
     "sourceDocument": "Professional_Question_Bank_20261108_233552.docx",
     "sourcePage": 47,
-    "questionText": "Where..?\" I was born in London.",
+    "questionText": "Where..?\" I was born in London?",
     "rawText": "Where..?\"   I was born  in  London.\n    c) were bom you\td) were you bom\n    c) in\td) to\n    c) once\td) in once\n    c) at\td) in",
     "options": [
       {
         "label": "a",
-        "text": "to"
+        "text": "in"
       },
       {
         "label": "b",
-        "text": "were you bom"
+        "text": "to"
       },
       {
         "label": "c",
-        "text": "in"
+        "text": "were you bom"
       },
       {
         "label": "d",
@@ -13942,7 +13942,7 @@
     "options": [
       {
         "label": "a",
-        "text": "the Carol’s the car"
+        "text": "Carol’s the car"
       },
       {
         "label": "b",
@@ -13950,11 +13950,11 @@
       },
       {
         "label": "c",
-        "text": "the Carol’s car"
+        "text": "the Carol’s the car"
       },
       {
         "label": "d",
-        "text": "Carol’s the car"
+        "text": "the Carol’s car"
       }
     ],
     "optionsCount": 4,
@@ -14122,7 +14122,7 @@
     "options": [
       {
         "label": "a",
-        "text": "done"
+        "text": "did"
       },
       {
         "label": "b",
@@ -14130,11 +14130,11 @@
       },
       {
         "label": "c",
-        "text": "doing"
+        "text": "done"
       },
       {
         "label": "d",
-        "text": "did"
+        "text": "doing"
       }
     ],
     "optionsCount": 4,
@@ -14189,20 +14189,20 @@
     "questionNumber": "395",
     "sourceDocument": "Professional_Question_Bank_20261108_233552.docx",
     "sourcePage": 48,
-    "questionText": "How old are you? ..”",
+    "questionText": "How old are you? ..”?",
     "rawText": "How old are you?    ..”\n    c) I’m 15 years\td) I’ve 15 years",
     "options": [
       {
         "label": "a",
-        "text": "are"
+        "text": "is"
       },
       {
         "label": "b",
-        "text": "I’ve 15 years"
+        "text": "are"
       },
       {
         "label": "c",
-        "text": "is"
+        "text": "I’ve 15 years"
       },
       {
         "label": "d",
@@ -14230,11 +14230,11 @@
     "options": [
       {
         "label": "a",
-        "text": "by"
+        "text": "for"
       },
       {
         "label": "b",
-        "text": "in"
+        "text": "by"
       },
       {
         "label": "c",
@@ -14242,7 +14242,7 @@
       },
       {
         "label": "d",
-        "text": "for"
+        "text": "in"
       }
     ],
     "optionsCount": 4,
@@ -14261,24 +14261,24 @@
     "questionNumber": "15",
     "sourceDocument": "Professional_Question_Bank_20261108_233552.docx",
     "sourcePage": 48,
-    "questionText": "“ Where’s the picture?” “... the wall, of",
+    "questionText": "Where’s the picture?” “... the wall, of?",
     "rawText": "15. “ Where’s the picture?”   “... the wall, of\n    a) On\tb) In\n    c) Over\td) At",
     "options": [
       {
         "label": "a",
-        "text": "On"
+        "text": "on"
       },
       {
         "label": "b",
-        "text": "At"
+        "text": "over"
       },
       {
         "label": "c",
-        "text": "In"
+        "text": "at"
       },
       {
         "label": "d",
-        "text": "Over"
+        "text": "in"
       }
     ],
     "optionsCount": 4,
@@ -14306,15 +14306,15 @@
       },
       {
         "label": "b",
-        "text": "don’t be"
-      },
-      {
-        "label": "c",
         "text": "be not"
       },
       {
-        "label": "d",
+        "label": "c",
         "text": "doesn’t be"
+      },
+      {
+        "label": "d",
+        "text": "don’t be"
       }
     ],
     "optionsCount": 4,
@@ -14441,7 +14441,7 @@
     "questionNumber": "10",
     "sourceDocument": "Professional_Question_Bank_20261108_233552.docx",
     "sourcePage": 49,
-    "questionText": "Is your brother good ... sport.",
+    "questionText": "Is your brother good ... sport?",
     "rawText": "10. Is your brother  good ... sport.\n    a) to\tb) at\n    c) in\td) with",
     "options": [
       {
@@ -14518,15 +14518,15 @@
     "options": [
       {
         "label": "a",
-        "text": "isn't it"
-      },
-      {
-        "label": "b",
         "text": "doesn't he"
       },
       {
-        "label": "c",
+        "label": "b",
         "text": "much later"
+      },
+      {
+        "label": "c",
+        "text": "isn't it"
       },
       {
         "label": "d",
@@ -14558,15 +14558,15 @@
       },
       {
         "label": "b",
-        "text": "all days"
+        "text": "every day"
       },
       {
         "label": "c",
-        "text": "all the days"
+        "text": "all days"
       },
       {
         "label": "d",
-        "text": "every day"
+        "text": "all the days"
       }
     ],
     "optionsCount": 4,
@@ -14585,7 +14585,7 @@
     "questionNumber": "406",
     "sourceDocument": "Professional_Question_Bank_20261108_233552.docx",
     "sourcePage": 49,
-    "questionText": "“ Is she coming? “ Yes, I ...”",
+    "questionText": "Is she coming? “ Yes, I ...”?",
     "rawText": "“ Is she coming? “ Yes, I ...”\n    c) am afraid so\td) am afraid if\n    c) for cut\td) to cut",
     "options": [
       {
@@ -14621,29 +14621,29 @@
     "questionNumber": "407",
     "sourceDocument": "Professional_Question_Bank_20261108_233552.docx",
     "sourcePage": 50,
-    "questionText": "can type well, can t she?",
+    "questionText": "She can type well, can't she? — Yes, she ______.",
     "rawText": "can type well, can t she?",
     "options": [
       {
         "label": "a",
-        "text": "isn't it"
-      },
-      {
-        "label": "b",
-        "text": "doesn't he"
-      },
-      {
-        "label": "c",
         "text": "is"
       },
       {
+        "label": "b",
+        "text": "does"
+      },
+      {
+        "label": "c",
+        "text": "can"
+      },
+      {
         "label": "d",
-        "text": "didn't they"
+        "text": "could"
       }
     ],
     "optionsCount": 4,
     "correctAnswer": "c",
-    "explanation": "Focuses on English grammar rule: Modals & Auxiliaries.",
+    "explanation": "Short answer confirming modal 'can'.",
     "category": "Grammar & Vocabulary",
     "topic": "Modals & Auxiliaries",
     "difficulty": "Easy",
@@ -14657,29 +14657,29 @@
     "questionNumber": "408",
     "sourceDocument": "Professional_Question_Bank_20261108_233552.docx",
     "sourcePage": 50,
-    "questionText": "know type well, doesn t she?",
+    "questionText": "She knows how to type well, doesn't she? — Yes, she ______.",
     "rawText": "know type well, doesn t she?",
     "options": [
       {
         "label": "a",
-        "text": "didn't they"
+        "text": "knows"
       },
       {
         "label": "b",
-        "text": "isn't it"
-      },
-      {
-        "label": "c",
         "text": "is"
       },
       {
+        "label": "c",
+        "text": "does"
+      },
+      {
         "label": "d",
-        "text": "doesn't he"
+        "text": "can"
       }
     ],
     "optionsCount": 4,
     "correctAnswer": "c",
-    "explanation": "Focuses on English grammar rule: Grammar & Vocabulary.",
+    "explanation": "Short answer with auxiliary 'does' for present simple.",
     "category": "Grammar & Vocabulary",
     "topic": "Grammar & Vocabulary",
     "difficulty": "Easy",
@@ -14693,29 +14693,29 @@
     "questionNumber": "409",
     "sourceDocument": "Professional_Question_Bank_20261108_233552.docx",
     "sourcePage": 50,
-    "questionText": "can type well, can she?",
+    "questionText": "She can't type well, can she? — No, she ______.",
     "rawText": "can type well, can she?\n    b) know typing, does she?\n    c) to posting\td) post",
     "options": [
       {
         "label": "a",
-        "text": "to posting"
+        "text": "doesn't"
       },
       {
         "label": "b",
-        "text": "know typing, does she?"
+        "text": "can't"
       },
       {
         "label": "c",
-        "text": "post"
+        "text": "isn't"
       },
       {
         "label": "d",
-        "text": "isn't it"
+        "text": "couldn't"
       }
     ],
     "optionsCount": 4,
     "correctAnswer": "b",
-    "explanation": "Focuses on English grammar rule: Modals & Auxiliaries.",
+    "explanation": "Short answer with modal 'can't'.",
     "category": "Grammar & Vocabulary",
     "topic": "Modals & Auxiliaries",
     "difficulty": "Medium",
@@ -14774,15 +14774,15 @@
       },
       {
         "label": "b",
-        "text": "What a"
+        "text": "What"
       },
       {
         "label": "c",
-        "text": "your brother"
+        "text": "What a"
       },
       {
         "label": "d",
-        "text": "What"
+        "text": "your brother"
       }
     ],
     "optionsCount": 4,
@@ -14909,7 +14909,7 @@
     "questionNumber": "415",
     "sourceDocument": "Professional_Question_Bank_20261108_233552.docx",
     "sourcePage": 51,
-    "questionText": "Is this your sister s? ” No, it isn t ...”",
+    "questionText": "Is this your sister s? ” No, it isn t ...”?",
     "rawText": "Is this your sister s?    ” No, it isn  t ...”\n    c) of she\td) she’s",
     "options": [
       {
@@ -15017,16 +15017,16 @@
     "questionNumber": "418",
     "sourceDocument": "Professional_Question_Bank_20261108_233552.docx",
     "sourcePage": 51,
-    "questionText": "“ Is that Mary’s husband?” “ Yes, he’s ...",
+    "questionText": "Is that Mary’s husband?” “ Yes, he’s ...",
     "rawText": "“ Is that  Mary’s husband?”   “ Yes,  he’s ...\n    c) her\td) its\n    c) for\td) already\n    c) talking\td) counting",
     "options": [
       {
         "label": "a",
-        "text": "for"
+        "text": "already"
       },
       {
         "label": "b",
-        "text": "already"
+        "text": "its"
       },
       {
         "label": "c",
@@ -15034,7 +15034,7 @@
       },
       {
         "label": "d",
-        "text": "its"
+        "text": "for"
       }
     ],
     "optionsCount": 4,
@@ -15053,7 +15053,7 @@
     "questionNumber": "419",
     "sourceDocument": "Professional_Question_Bank_20261108_233552.docx",
     "sourcePage": 51,
-    "questionText": "Can I .. some money from you? I’m broke.",
+    "questionText": "Can I .. some money from you? I’m broke?",
     "rawText": "Can I .. some money from you? I’m broke.\n    c) borrow\td) ask",
     "options": [
       {
@@ -15125,29 +15125,29 @@
     "questionNumber": "421",
     "sourceDocument": "Professional_Question_Bank_20261108_233552.docx",
     "sourcePage": 51,
-    "questionText": "been waiting?",
+    "questionText": "How long have you ______ waiting?",
     "rawText": "been waiting?\n    c) many\td) large\n    c) be able to\td) be able",
     "options": [
       {
         "label": "a",
-        "text": "large"
+        "text": "being"
       },
       {
         "label": "b",
-        "text": "many"
+        "text": "been"
       },
       {
         "label": "c",
-        "text": "be able to"
+        "text": "be"
       },
       {
         "label": "d",
-        "text": "be able"
+        "text": "were"
       }
     ],
     "optionsCount": 4,
     "correctAnswer": "b",
-    "explanation": "Focuses on English grammar rule: Grammar & Vocabulary.",
+    "explanation": "Present perfect continuous formula: have/has + been + v-ing.",
     "category": "Grammar & Vocabulary",
     "topic": "Grammar & Vocabulary",
     "difficulty": "Medium",
@@ -15238,7 +15238,7 @@
     "options": [
       {
         "label": "a",
-        "text": "of Tom"
+        "text": "of Tom’s"
       },
       {
         "label": "b",
@@ -15246,11 +15246,11 @@
       },
       {
         "label": "c",
-        "text": "from Tom"
+        "text": "of Tom"
       },
       {
         "label": "d",
-        "text": "of Tom’s"
+        "text": "from Tom"
       }
     ],
     "optionsCount": 4,
@@ -15341,7 +15341,7 @@
     "questionNumber": "427",
     "sourceDocument": "Professional_Question_Bank_20261108_233552.docx",
     "sourcePage": 52,
-    "questionText": "“ Is anybody there?” “ Yes,..”",
+    "questionText": "Is anybody there?” “ Yes,..”?",
     "rawText": "“ Is  anybody there?”   “ Yes,..”\n    c) she is\td) there are\n    c) make\td) do",
     "options": [
       {
@@ -15377,7 +15377,7 @@
     "questionNumber": "428",
     "sourceDocument": "Professional_Question_Bank_20261108_233552.docx",
     "sourcePage": 52,
-    "questionText": "Is that bicycle yours? “ No, it isn t ...”",
+    "questionText": "Is that bicycle yours? “ No, it isn t ...”?",
     "rawText": "Is that bicycle yours?   “ No, it isn t ...”\n    c) of me\td) my\n    c) who\td) whom\n    c) speaks\td) told",
     "options": [
       {
@@ -15386,15 +15386,15 @@
       },
       {
         "label": "b",
-        "text": "who"
-      },
-      {
-        "label": "c",
         "text": "whom"
       },
       {
-        "label": "d",
+        "label": "c",
         "text": "my"
+      },
+      {
+        "label": "d",
+        "text": "who"
       }
     ],
     "optionsCount": 4,
@@ -15449,7 +15449,7 @@
     "questionNumber": "430",
     "sourceDocument": "Professional_Question_Bank_20261108_233552.docx",
     "sourcePage": 52,
-    "questionText": "“ What do you think of those two?” “ Well, to tell",
+    "questionText": "What do you think of those two?” “ Well, to tell?",
     "rawText": "“ What do you think of those two?” “ Well, to tell\n    c)either\td) neither of they",
     "options": [
       {
@@ -15485,7 +15485,7 @@
     "questionNumber": "431",
     "sourceDocument": "Professional_Question_Bank_20261108_233552.docx",
     "sourcePage": 52,
-    "questionText": "Are you ... here? You should be at school by now.",
+    "questionText": "Are you ... here? You should be at school by now?",
     "rawText": "Are you ... here? You should be at school by now.\n    c) already\td) almost\n    c) of doing\td) of do\n    c) what/you have\td)what/have you\n    c) ago\td) for\n    c) for\td) during",
     "options": [
       {
@@ -15602,15 +15602,15 @@
       },
       {
         "label": "b",
-        "text": "doesn't he"
+        "text": "isn't it"
       },
       {
         "label": "c",
-        "text": "never don't eat"
+        "text": "doesn't he"
       },
       {
         "label": "d",
-        "text": "isn't it"
+        "text": "never don't eat"
       }
     ],
     "optionsCount": 4,
@@ -15737,7 +15737,7 @@
     "questionNumber": "438",
     "sourceDocument": "Professional_Question_Bank_20261108_233552.docx",
     "sourcePage": 53,
-    "questionText": "What's the matter .. your mother? She looks sick!",
+    "questionText": "What's the matter .. your mother? She looks sick!?",
     "rawText": "What's the matter .. your mother? She looks sick!\n    c) of\td) at",
     "options": [
       {
@@ -15778,7 +15778,7 @@
     "options": [
       {
         "label": "a",
-        "text": "What far"
+        "text": "What distance"
       },
       {
         "label": "b",
@@ -15786,11 +15786,11 @@
       },
       {
         "label": "c",
-        "text": "How distance"
+        "text": "What far"
       },
       {
         "label": "d",
-        "text": "What distance"
+        "text": "How distance"
       }
     ],
     "optionsCount": 4,
@@ -15850,11 +15850,11 @@
     "options": [
       {
         "label": "a",
-        "text": "not go"
+        "text": "won't go"
       },
       {
         "label": "b",
-        "text": "don't go"
+        "text": "not go"
       },
       {
         "label": "c",
@@ -15862,7 +15862,7 @@
       },
       {
         "label": "d",
-        "text": "won't go"
+        "text": "don't go"
       }
     ],
     "optionsCount": 4,
@@ -15922,7 +15922,7 @@
     "options": [
       {
         "label": "a",
-        "text": "one bigger"
+        "text": "a bigger one"
       },
       {
         "label": "b",
@@ -15930,11 +15930,11 @@
       },
       {
         "label": "c",
-        "text": "had"
+        "text": "one bigger"
       },
       {
         "label": "d",
-        "text": "a bigger one"
+        "text": "had"
       }
     ],
     "optionsCount": 4,
@@ -16030,15 +16030,15 @@
     "options": [
       {
         "label": "a",
-        "text": "in"
-      },
-      {
-        "label": "b",
         "text": "on"
       },
       {
-        "label": "c",
+        "label": "b",
         "text": "at"
+      },
+      {
+        "label": "c",
+        "text": "in"
       },
       {
         "label": "d",
@@ -16061,7 +16061,7 @@
     "questionNumber": "8",
     "sourceDocument": "Professional_Question_Bank_20261108_233552.docx",
     "sourcePage": 54,
-    "questionText": "Does your father.. this programme every",
+    "questionText": "Does your father.. this programme every?",
     "rawText": "8. Does your father.. this programme every",
     "options": [
       {
@@ -16210,15 +16210,15 @@
     "options": [
       {
         "label": "a",
-        "text": "more richer"
-      },
-      {
-        "label": "b",
         "text": "rich"
       },
       {
-        "label": "c",
+        "label": "b",
         "text": "ones black"
+      },
+      {
+        "label": "c",
+        "text": "more richer"
       },
       {
         "label": "d",
@@ -16394,15 +16394,15 @@
       },
       {
         "label": "b",
-        "text": "didn't they"
+        "text": "doesn't he"
       },
       {
         "label": "c",
-        "text": "isn't it"
+        "text": "didn't they"
       },
       {
         "label": "d",
-        "text": "doesn't he"
+        "text": "isn't it"
       }
     ],
     "optionsCount": 4,
@@ -16462,7 +16462,7 @@
     "options": [
       {
         "label": "a",
-        "text": "let a book"
+        "text": "hire a book"
       },
       {
         "label": "b",
@@ -16470,11 +16470,11 @@
       },
       {
         "label": "c",
-        "text": "hire a book"
+        "text": "borrow a book"
       },
       {
         "label": "d",
-        "text": "borrow a book"
+        "text": "let a book"
       }
     ],
     "optionsCount": 4,
@@ -16529,7 +16529,7 @@
     "questionNumber": "460",
     "sourceDocument": "Professional_Question_Bank_20261108_233552.docx",
     "sourcePage": 56,
-    "questionText": "When did she come? “ She came .. 8 o clock",
+    "questionText": "When did she come? “ She came .. 8 o clock?",
     "rawText": "When did she come?   “ She came .. 8 o  clock\n    c) in the\td) by\n    c) which\td) the that",
     "options": [
       {
@@ -16673,7 +16673,7 @@
     "questionNumber": "7",
     "sourceDocument": "Professional_Question_Bank_20261108_233552.docx",
     "sourcePage": 56,
-    "questionText": "“ How does she go to work?” ... train",
+    "questionText": "How does she go to work?” ... train?",
     "rawText": "7. “ How does she go to work?”  ... train\n    a) By\tb) On\n    c) In the\td) With the\n    c) for buying\td) for buy",
     "options": [
       {
@@ -16745,7 +16745,7 @@
     "questionNumber": "466",
     "sourceDocument": "Professional_Question_Bank_20261108_233552.docx",
     "sourcePage": 57,
-    "questionText": "“ Were you in England last year?” “ No,",
+    "questionText": "Were you in England last year?” “ No,?",
     "rawText": "“ Were you in England last year?”  “  No,\n    c) the church in\td) church on the\n    c) weren’t",
     "options": [
       {
@@ -16786,7 +16786,7 @@
     "options": [
       {
         "label": "a",
-        "text": "you did it"
+        "text": "does much"
       },
       {
         "label": "b",
@@ -16794,11 +16794,11 @@
       },
       {
         "label": "c",
-        "text": "does much"
+        "text": "doing it"
       },
       {
         "label": "d",
-        "text": "doing it"
+        "text": "you did it"
       }
     ],
     "optionsCount": 4,
@@ -16853,7 +16853,7 @@
     "questionNumber": "469",
     "sourceDocument": "Professional_Question_Bank_20261108_233552.docx",
     "sourcePage": 57,
-    "questionText": "Is it raining? “ No, but. 99",
+    "questionText": "Is it raining? “ No, but. 99?",
     "rawText": "Is it raining?    “ No, but.  99\n    c) it is windy\td) it does wind",
     "options": [
       {
@@ -16862,15 +16862,15 @@
       },
       {
         "label": "b",
-        "text": "are"
+        "text": "is"
       },
       {
         "label": "c",
-        "text": "it does wind"
+        "text": "are"
       },
       {
         "label": "d",
-        "text": "is"
+        "text": "it does wind"
       }
     ],
     "optionsCount": 4,
@@ -16894,11 +16894,11 @@
     "options": [
       {
         "label": "a",
-        "text": "hundreds-metre"
+        "text": "are been"
       },
       {
         "label": "b",
-        "text": "are been"
+        "text": "how much weight"
       },
       {
         "label": "c",
@@ -16906,7 +16906,7 @@
       },
       {
         "label": "d",
-        "text": "how much weight"
+        "text": "hundreds-metre"
       }
     ],
     "optionsCount": 4,
@@ -16966,7 +16966,7 @@
     "options": [
       {
         "label": "a",
-        "text": "been blow"
+        "text": "being blown"
       },
       {
         "label": "b",
@@ -16974,11 +16974,11 @@
       },
       {
         "label": "c",
-        "text": "being blown"
+        "text": "being blow"
       },
       {
         "label": "d",
-        "text": "being blow"
+        "text": "been blow"
       }
     ],
     "optionsCount": 4,
@@ -17038,7 +17038,7 @@
     "options": [
       {
         "label": "a",
-        "text": "doesn't he"
+        "text": "isn't it"
       },
       {
         "label": "b",
@@ -17046,11 +17046,11 @@
       },
       {
         "label": "c",
-        "text": "isn’t it"
+        "text": "doesn't he"
       },
       {
         "label": "d",
-        "text": "isn't it"
+        "text": "isn’t it"
       }
     ],
     "optionsCount": 4,
@@ -17078,15 +17078,15 @@
       },
       {
         "label": "b",
-        "text": "dress-well"
-      },
-      {
-        "label": "c",
         "text": "dressed-well"
       },
       {
-        "label": "d",
+        "label": "c",
         "text": "well-dressed"
+      },
+      {
+        "label": "d",
+        "text": "dress-well"
       }
     ],
     "optionsCount": 4,
@@ -17150,15 +17150,15 @@
       },
       {
         "label": "b",
-        "text": "didn't they"
+        "text": "doesn't he"
       },
       {
         "label": "c",
-        "text": "isn't it"
+        "text": "didn't they"
       },
       {
         "label": "d",
-        "text": "doesn't he"
+        "text": "isn't it"
       }
     ],
     "optionsCount": 4,
@@ -17182,11 +17182,11 @@
     "options": [
       {
         "label": "a",
-        "text": "is"
+        "text": "are"
       },
       {
         "label": "b",
-        "text": "are"
+        "text": "children"
       },
       {
         "label": "c",
@@ -17194,7 +17194,7 @@
       },
       {
         "label": "d",
-        "text": "children"
+        "text": "is"
       }
     ],
     "optionsCount": 4,
@@ -17506,15 +17506,15 @@
     "options": [
       {
         "label": "a",
-        "text": "in"
-      },
-      {
-        "label": "b",
         "text": "on"
       },
       {
-        "label": "c",
+        "label": "b",
         "text": "to"
+      },
+      {
+        "label": "c",
+        "text": "in"
       },
       {
         "label": "d",
@@ -17537,12 +17537,12 @@
     "questionNumber": "19",
     "sourceDocument": "Professional_Question_Bank_20261108_233552.docx",
     "sourcePage": 59,
-    "questionText": "Where ... you born? In Cairo.",
+    "questionText": "Where ... you born? In Cairo?",
     "rawText": "19. Where ..?",
     "options": [
       {
         "label": "a",
-        "text": "are"
+        "text": "did"
       },
       {
         "label": "b",
@@ -17550,11 +17550,11 @@
       },
       {
         "label": "c",
-        "text": "did"
+        "text": "was"
       },
       {
         "label": "d",
-        "text": "was"
+        "text": "are"
       }
     ],
     "optionsCount": 4,
@@ -17722,7 +17722,7 @@
     "options": [
       {
         "label": "a",
-        "text": "an old man"
+        "text": "an man old"
       },
       {
         "label": "b",
@@ -17730,11 +17730,11 @@
       },
       {
         "label": "c",
-        "text": "an man old"
+        "text": "The Smiths did go"
       },
       {
         "label": "d",
-        "text": "The Smiths did go"
+        "text": "an old man"
       }
     ],
     "optionsCount": 4,
@@ -17789,7 +17789,7 @@
     "questionNumber": "495",
     "sourceDocument": "Professional_Question_Bank_20261108_233552.docx",
     "sourcePage": 60,
-    "questionText": "Where’s the clock? I think it’s ... the wall.",
+    "questionText": "Where’s the clock? I think it’s ... the wall?",
     "rawText": "Where’s the clock?\tI think it’s ... the wall.\n    c) at\td) over\n    c) There are a lot of\td) There are much",
     "options": [
       {
@@ -18010,7 +18010,7 @@
     "options": [
       {
         "label": "a",
-        "text": "at the"
+        "text": "in"
       },
       {
         "label": "b",
@@ -18018,11 +18018,11 @@
       },
       {
         "label": "c",
-        "text": "hire"
+        "text": "at the"
       },
       {
         "label": "d",
-        "text": "in"
+        "text": "hire"
       }
     ],
     "optionsCount": 4,
@@ -18077,7 +18077,7 @@
     "questionNumber": "503",
     "sourceDocument": "Professional_Question_Bank_20261108_233552.docx",
     "sourcePage": 61,
-    "questionText": "What does Jennifer do?..",
+    "questionText": "What does Jennifer do?.?",
     "rawText": "What does Jennifer do?..\n    c) had worked\td) is working\n    c) whose\td) who\n    c) go\td) me to go",
     "options": [
       {
@@ -18086,15 +18086,15 @@
       },
       {
         "label": "b",
-        "text": "whose"
-      },
-      {
-        "label": "c",
         "text": "who"
       },
       {
-        "label": "d",
+        "label": "c",
         "text": "is working"
+      },
+      {
+        "label": "d",
+        "text": "whose"
       }
     ],
     "optionsCount": 4,
@@ -18149,7 +18149,7 @@
     "questionNumber": "18",
     "sourceDocument": "Professional_Question_Bank_20261108_233552.docx",
     "sourcePage": 61,
-    "questionText": "“... this Yorkshire pudding? Well, 1 think it’s",
+    "questionText": "... this Yorkshire pudding? Well, 1 think it’s",
     "rawText": "18. “... this Yorkshire pudding?\tWell, 1 think it’s\n    a) What do you like\tb) How do you like\n    c) What do you believe d) How do you think",
     "options": [
       {
@@ -18190,11 +18190,11 @@
     "options": [
       {
         "label": "a",
-        "text": "isn't it"
+        "text": "doesn't he"
       },
       {
         "label": "b",
-        "text": "doesn't he"
+        "text": "pool"
       },
       {
         "label": "c",
@@ -18202,7 +18202,7 @@
       },
       {
         "label": "d",
-        "text": "pool"
+        "text": "isn't it"
       }
     ],
     "optionsCount": 4,
@@ -18226,7 +18226,7 @@
     "options": [
       {
         "label": "a",
-        "text": "didn't they"
+        "text": "doesn't he"
       },
       {
         "label": "b",
@@ -18234,11 +18234,11 @@
       },
       {
         "label": "c",
-        "text": "isn't it"
+        "text": "didn't they"
       },
       {
         "label": "d",
-        "text": "doesn't he"
+        "text": "isn't it"
       }
     ],
     "optionsCount": 4,
@@ -18329,7 +18329,7 @@
     "questionNumber": "510",
     "sourceDocument": "Professional_Question_Bank_20261108_233552.docx",
     "sourcePage": 62,
-    "questionText": "What s your new teacher like? Well, ...”",
+    "questionText": "What s your new teacher like? Well, ...”?",
     "rawText": "What s your new teacher like?\tWell, ...”\n    c) would\td) ought\n    c) usen’t\td) didn’t used to\n    c) must have gone\td) must be gone\n    a) still in the bed\tb) still in bed\n    c) in the bed yet\td) in bed yet",
     "options": [
       {
@@ -18365,7 +18365,7 @@
     "questionNumber": "5",
     "sourceDocument": "Professional_Question_Bank_20261108_233552.docx",
     "sourcePage": 62,
-    "questionText": "Are you going to the shops?... you buy something",
+    "questionText": "Are you going to the shops?... you buy something?",
     "rawText": "5. Are you going to the shops?... you buy something\n    c) enough",
     "options": [
       {
@@ -18437,7 +18437,7 @@
     "questionNumber": "6",
     "sourceDocument": "Professional_Question_Bank_20261108_233552.docx",
     "sourcePage": 62,
-    "questionText": "What’s the matter with you. Mum? You look",
+    "questionText": "What’s the matter with you. Mum? You look?",
     "rawText": "6.   What’s the matter with  you. Mum? You  look\n    c) that I speak",
     "options": [
       {
@@ -18446,15 +18446,15 @@
       },
       {
         "label": "b",
-        "text": "in"
-      },
-      {
-        "label": "c",
         "text": "on"
       },
       {
-        "label": "d",
+        "label": "c",
         "text": "at"
+      },
+      {
+        "label": "d",
+        "text": "in"
       }
     ],
     "optionsCount": 4,
@@ -18478,15 +18478,15 @@
     "options": [
       {
         "label": "a",
-        "text": "for hearing"
-      },
-      {
-        "label": "b",
         "text": "to hear"
       },
       {
-        "label": "c",
+        "label": "b",
         "text": "don’t we"
+      },
+      {
+        "label": "c",
+        "text": "for hearing"
       },
       {
         "label": "d",
@@ -18514,11 +18514,11 @@
     "options": [
       {
         "label": "a",
-        "text": "who"
+        "text": "whom"
       },
       {
         "label": "b",
-        "text": "whom"
+        "text": "marrying"
       },
       {
         "label": "c",
@@ -18526,7 +18526,7 @@
       },
       {
         "label": "d",
-        "text": "marrying"
+        "text": "who"
       }
     ],
     "optionsCount": 4,
@@ -18545,12 +18545,12 @@
     "questionNumber": "8",
     "sourceDocument": "Professional_Question_Bank_20261108_233552.docx",
     "sourcePage": 63,
-    "questionText": "Do you mind ..",
+    "questionText": "Do you mind .?",
     "rawText": "8.  Do you mind ..",
     "options": [
       {
         "label": "a",
-        "text": "were"
+        "text": "was"
       },
       {
         "label": "b",
@@ -18558,11 +18558,11 @@
       },
       {
         "label": "c",
-        "text": "are"
+        "text": "were"
       },
       {
         "label": "d",
-        "text": "was"
+        "text": "are"
       }
     ],
     "optionsCount": 4,
@@ -18617,7 +18617,7 @@
     "questionNumber": "19",
     "sourceDocument": "Professional_Question_Bank_20261108_233552.docx",
     "sourcePage": 63,
-    "questionText": "“ She is British, isn’t she?” No, she’s American,",
+    "questionText": "She is British, isn’t she?” No, she’s American,",
     "rawText": "19. “ She is British, isn’t she?”   No, she’s American,\n    c) who goes out with him d) which he goes out\n    a) in this moment\n    c) of fact\n    b) actually\n    d) in the reality",
     "options": [
       {
@@ -18653,7 +18653,7 @@
     "questionNumber": "519",
     "sourceDocument": "Professional_Question_Bank_20261108_233552.docx",
     "sourcePage": 63,
-    "questionText": "What ... tonight? Come with me to the disco.",
+    "questionText": "What ... tonight? Come with me to the disco?",
     "rawText": "What ... tonight?   Come  with  me to the disco.\n    d) you do\td) you doing",
     "options": [
       {
@@ -18730,7 +18730,7 @@
     "options": [
       {
         "label": "a",
-        "text": "looks"
+        "text": "sees"
       },
       {
         "label": "b",
@@ -18738,11 +18738,11 @@
       },
       {
         "label": "c",
-        "text": "Won t"
+        "text": "looks"
       },
       {
         "label": "d",
-        "text": "sees"
+        "text": "Won t"
       }
     ],
     "optionsCount": 4,
@@ -18982,15 +18982,15 @@
     "options": [
       {
         "label": "a",
-        "text": "doesn t use"
-      },
-      {
-        "label": "b",
         "text": "usen’t"
       },
       {
-        "label": "c",
+        "label": "b",
         "text": "didn t use"
+      },
+      {
+        "label": "c",
+        "text": "doesn t use"
       },
       {
         "label": "d",
@@ -19018,7 +19018,7 @@
     "options": [
       {
         "label": "a",
-        "text": "is"
+        "text": "theirs d ) their’s"
       },
       {
         "label": "b",
@@ -19026,11 +19026,11 @@
       },
       {
         "label": "c",
-        "text": "their own"
+        "text": "is"
       },
       {
         "label": "d",
-        "text": "theirs d ) their’s"
+        "text": "their own"
       }
     ],
     "optionsCount": 4,
@@ -19094,15 +19094,15 @@
       },
       {
         "label": "b",
-        "text": "How"
-      },
-      {
-        "label": "c",
         "text": "So"
       },
       {
-        "label": "d",
+        "label": "c",
         "text": "What"
+      },
+      {
+        "label": "d",
+        "text": "How"
       }
     ],
     "optionsCount": 4,
@@ -19126,7 +19126,7 @@
     "options": [
       {
         "label": "a",
-        "text": "at once"
+        "text": "until"
       },
       {
         "label": "b",
@@ -19134,11 +19134,11 @@
       },
       {
         "label": "c",
-        "text": "don t you"
+        "text": "at once"
       },
       {
         "label": "d",
-        "text": "until"
+        "text": "don t you"
       }
     ],
     "optionsCount": 4,
@@ -19202,15 +19202,15 @@
       },
       {
         "label": "b",
-        "text": "doesn't he"
+        "text": "isn't it"
       },
       {
         "label": "c",
-        "text": "Does"
+        "text": "doesn't he"
       },
       {
         "label": "d",
-        "text": "isn't it"
+        "text": "Does"
       }
     ],
     "optionsCount": 4,
@@ -19342,7 +19342,7 @@
     "options": [
       {
         "label": "a",
-        "text": "in"
+        "text": "at"
       },
       {
         "label": "b",
@@ -19350,11 +19350,11 @@
       },
       {
         "label": "c",
-        "text": "has she"
+        "text": "in"
       },
       {
         "label": "d",
-        "text": "at"
+        "text": "has she"
       }
     ],
     "optionsCount": 4,
@@ -19562,15 +19562,15 @@
       },
       {
         "label": "b",
-        "text": "were"
+        "text": "was"
       },
       {
         "label": "c",
-        "text": "are"
+        "text": "were"
       },
       {
         "label": "d",
-        "text": "was"
+        "text": "are"
       }
     ],
     "optionsCount": 4,
@@ -19630,15 +19630,15 @@
     "options": [
       {
         "label": "a",
-        "text": "didn’t go"
+        "text": "wasn’t"
       },
       {
         "label": "b",
-        "text": "am not"
+        "text": "didn’t go"
       },
       {
         "label": "c",
-        "text": "wasn’t"
+        "text": "am not"
       },
       {
         "label": "d",
@@ -19702,11 +19702,11 @@
     "options": [
       {
         "label": "a",
-        "text": "to be study"
+        "text": "to study"
       },
       {
         "label": "b",
-        "text": "to study"
+        "text": "very"
       },
       {
         "label": "c",
@@ -19714,7 +19714,7 @@
       },
       {
         "label": "d",
-        "text": "very"
+        "text": "to be study"
       }
     ],
     "optionsCount": 4,
@@ -19738,15 +19738,15 @@
     "options": [
       {
         "label": "a",
-        "text": "never had"
-      },
-      {
-        "label": "b",
         "text": "never"
       },
       {
-        "label": "c",
+        "label": "b",
         "text": "had never"
+      },
+      {
+        "label": "c",
+        "text": "never had"
       },
       {
         "label": "d",
@@ -19774,7 +19774,7 @@
     "options": [
       {
         "label": "a",
-        "text": "am having"
+        "text": "had"
       },
       {
         "label": "b",
@@ -19782,11 +19782,11 @@
       },
       {
         "label": "c",
-        "text": "had"
+        "text": "was having"
       },
       {
         "label": "d",
-        "text": "was having"
+        "text": "am having"
       }
     ],
     "optionsCount": 4,
@@ -19886,15 +19886,15 @@
       },
       {
         "label": "b",
-        "text": "on"
+        "text": "in"
       },
       {
         "label": "c",
-        "text": "at"
+        "text": "on"
       },
       {
         "label": "d",
-        "text": "in"
+        "text": "at"
       }
     ],
     "optionsCount": 4,
@@ -19918,7 +19918,7 @@
     "options": [
       {
         "label": "a",
-        "text": "free"
+        "text": "idle"
       },
       {
         "label": "b",
@@ -19926,11 +19926,11 @@
       },
       {
         "label": "c",
-        "text": "idle"
+        "text": "lazy"
       },
       {
         "label": "d",
-        "text": "lazy"
+        "text": "free"
       }
     ],
     "optionsCount": 4,
@@ -19954,11 +19954,11 @@
     "options": [
       {
         "label": "a",
-        "text": "What"
+        "text": "How a"
       },
       {
         "label": "b",
-        "text": "How a"
+        "text": "What a"
       },
       {
         "label": "c",
@@ -19966,7 +19966,7 @@
       },
       {
         "label": "d",
-        "text": "What a"
+        "text": "What"
       }
     ],
     "optionsCount": 4,
@@ -20030,15 +20030,15 @@
       },
       {
         "label": "b",
-        "text": "that I do"
-      },
-      {
-        "label": "c",
         "text": "do"
       },
       {
-        "label": "d",
+        "label": "c",
         "text": "to do"
+      },
+      {
+        "label": "d",
+        "text": "that I do"
       }
     ],
     "optionsCount": 4,
@@ -20098,11 +20098,11 @@
     "options": [
       {
         "label": "a",
-        "text": "French"
+        "text": "Frances’"
       },
       {
         "label": "b",
-        "text": "France’s"
+        "text": "French"
       },
       {
         "label": "c",
@@ -20110,7 +20110,7 @@
       },
       {
         "label": "d",
-        "text": "Frances’"
+        "text": "France’s"
       }
     ],
     "optionsCount": 4,
@@ -20242,7 +20242,7 @@
     "options": [
       {
         "label": "a",
-        "text": "whose"
+        "text": "whom"
       },
       {
         "label": "b",
@@ -20250,11 +20250,11 @@
       },
       {
         "label": "c",
-        "text": "such a"
+        "text": "whose"
       },
       {
         "label": "d",
-        "text": "whom"
+        "text": "such a"
       }
     ],
     "optionsCount": 4,
@@ -20278,11 +20278,11 @@
     "options": [
       {
         "label": "a",
-        "text": "doesn't he"
+        "text": "isn't it"
       },
       {
         "label": "b",
-        "text": "-"
+        "text": "doesn't he"
       },
       {
         "label": "c",
@@ -20290,7 +20290,7 @@
       },
       {
         "label": "d",
-        "text": "isn't it"
+        "text": "-"
       }
     ],
     "optionsCount": 4,
@@ -20381,7 +20381,7 @@
     "questionNumber": "567",
     "sourceDocument": "Professional_Question_Bank_20261108_233552.docx",
     "sourcePage": 69,
-    "questionText": "Are you coming to the theatre?” “ No, I ... to the theatre.”",
+    "questionText": "Are you coming to the theatre?” “ No, I ... to the theatre.”?",
     "rawText": "Are you coming to the theatre?” “ No, I ... to the theatre.”\n    c) never I go\td) never go I",
     "options": [
       {
@@ -20417,7 +20417,7 @@
     "questionNumber": "568",
     "sourceDocument": "Professional_Question_Bank_20261108_233552.docx",
     "sourcePage": 69,
-    "questionText": "“ Is that big?” “ Yes, it is, but not ... for us.”",
+    "questionText": "Is that big?” “ Yes, it is, but not ... for us.”?",
     "rawText": "“ Is that big?”  “ Yes, it is, but not ... for us.”\n    c) enough big\td) biggest\n    c) is very windy\td) is very wind\n    c) has always right\td) is always reason\n    c) two litres\td) four litres\n    c) 30 stones\td) 30 stone\n    c) one pint bottles\td) a pint’s bottles\n    c) 2 kms.\td) 1600 yards",
     "options": [
       {
@@ -20426,15 +20426,15 @@
       },
       {
         "label": "b",
-        "text": "is very wind"
+        "text": "is very windy"
       },
       {
         "label": "c",
-        "text": "biggest"
+        "text": "is very wind"
       },
       {
         "label": "d",
-        "text": "is very windy"
+        "text": "biggest"
       }
     ],
     "optionsCount": 4,
@@ -20458,15 +20458,15 @@
     "options": [
       {
         "label": "a",
-        "text": "is been"
+        "text": "have being"
       },
       {
         "label": "b",
-        "text": "was been"
+        "text": "is been"
       },
       {
         "label": "c",
-        "text": "have being"
+        "text": "was been"
       },
       {
         "label": "d",
@@ -20525,7 +20525,7 @@
     "questionNumber": "12",
     "sourceDocument": "Professional_Question_Bank_20261108_233552.docx",
     "sourcePage": 69,
-    "questionText": "“ I don't know what to do.” “ Well...”",
+    "questionText": "I don't know what to do.” “ Well...”",
     "rawText": "12. “ I don't  know  what  to do.”  “ Well...”\n    a) neither does he\tb) nor he does\n    c) so does he\td) so did he\n    c) works\td) worked\n    c) would come\td) come\n    c) might\td) must",
     "options": [
       {
@@ -20566,11 +20566,11 @@
     "options": [
       {
         "label": "a",
-        "text": "oughtn’ t"
+        "text": "mustn’t"
       },
       {
         "label": "b",
-        "text": "must"
+        "text": "oughtn’ t"
       },
       {
         "label": "c",
@@ -20578,7 +20578,7 @@
       },
       {
         "label": "d",
-        "text": "mustn’t"
+        "text": "must"
       }
     ],
     "optionsCount": 4,
@@ -20741,7 +20741,7 @@
     "questionNumber": "577",
     "sourceDocument": "Professional_Question_Bank_20261108_233552.docx",
     "sourcePage": 70,
-    "questionText": "Who ... the window pane? Those boys did.",
+    "questionText": "Who ... the window pane? Those boys did?",
     "rawText": "Who ... the window  pane?  Those boys did.\n    c) has broken\td) broken\n    c) oneself\td) yourself\n    c) itself\td) oneself\n    c) had better\td) would rather\n    c) went\td) gone",
     "options": [
       {
@@ -20786,15 +20786,15 @@
       },
       {
         "label": "b",
-        "text": "such a"
-      },
-      {
-        "label": "c",
         "text": "so a"
       },
       {
-        "label": "d",
+        "label": "c",
         "text": "such"
+      },
+      {
+        "label": "d",
+        "text": "such a"
       }
     ],
     "optionsCount": 4,
@@ -20890,15 +20890,15 @@
     "options": [
       {
         "label": "a",
-        "text": "dozens of"
-      },
-      {
-        "label": "b",
         "text": "dozen of"
       },
       {
-        "label": "c",
+        "label": "b",
         "text": "dozen"
+      },
+      {
+        "label": "c",
+        "text": "dozens of"
       },
       {
         "label": "d",
@@ -20962,7 +20962,7 @@
     "options": [
       {
         "label": "a",
-        "text": "locking"
+        "text": "lock"
       },
       {
         "label": "b",
@@ -20970,11 +20970,11 @@
       },
       {
         "label": "c",
-        "text": "Always is"
+        "text": "locking"
       },
       {
         "label": "d",
-        "text": "lock"
+        "text": "Always is"
       }
     ],
     "optionsCount": 4,
@@ -21070,11 +21070,11 @@
     "options": [
       {
         "label": "a",
-        "text": "doesn't he"
+        "text": "didn't they"
       },
       {
         "label": "b",
-        "text": "didn't they"
+        "text": "isn't it"
       },
       {
         "label": "c",
@@ -21082,7 +21082,7 @@
       },
       {
         "label": "d",
-        "text": "isn't it"
+        "text": "doesn't he"
       }
     ],
     "optionsCount": 4,
@@ -21106,7 +21106,7 @@
     "options": [
       {
         "label": "a",
-        "text": "didn't they"
+        "text": "doesn't he"
       },
       {
         "label": "b",
@@ -21114,11 +21114,11 @@
       },
       {
         "label": "c",
-        "text": "isn't it"
+        "text": "didn't they"
       },
       {
         "label": "d",
-        "text": "doesn't he"
+        "text": "isn't it"
       }
     ],
     "optionsCount": 4,
@@ -21178,7 +21178,7 @@
     "options": [
       {
         "label": "a",
-        "text": "don’t"
+        "text": "isn't"
       },
       {
         "label": "b",
@@ -21186,11 +21186,11 @@
       },
       {
         "label": "c",
-        "text": "isn't"
+        "text": "are"
       },
       {
         "label": "d",
-        "text": "are"
+        "text": "don’t"
       }
     ],
     "optionsCount": 4,
@@ -21214,15 +21214,15 @@
     "options": [
       {
         "label": "a",
-        "text": "lasts"
-      },
-      {
-        "label": "b",
         "text": "runs"
       },
       {
-        "label": "c",
+        "label": "b",
         "text": "living"
+      },
+      {
+        "label": "c",
+        "text": "lasts"
       },
       {
         "label": "d",
@@ -21317,7 +21317,7 @@
     "questionNumber": "593",
     "sourceDocument": "Professional_Question_Bank_20261108_233552.docx",
     "sourcePage": 72,
-    "questionText": "“ Did you read the two articles?” “ Yes, but ...",
+    "questionText": "Did you read the two articles?” “ Yes, but ...",
     "rawText": "“ Did you read the two articles?”  “ Yes, but ...\n    c) either was\td) none was\n    c) to have taken\td) take\n    c) save\td) would save\n    c) would be\td) will be",
     "options": [
       {
@@ -21358,11 +21358,11 @@
     "options": [
       {
         "label": "a",
-        "text": "doesn't he"
+        "text": "isn't it"
       },
       {
         "label": "b",
-        "text": "might"
+        "text": "doesn't he"
       },
       {
         "label": "c",
@@ -21370,7 +21370,7 @@
       },
       {
         "label": "d",
-        "text": "isn't it"
+        "text": "might"
       }
     ],
     "optionsCount": 4,
@@ -21389,7 +21389,7 @@
     "questionNumber": "595",
     "sourceDocument": "Professional_Question_Bank_20261108_233552.docx",
     "sourcePage": 72,
-    "questionText": "“ Shall we do the w ashing up tonight?” “ Well, we",
+    "questionText": "Shall we do the w ashing up tonight?” “ Well, we",
     "rawText": "“ Shall we do the w ashing up tonight?” “ Well, we\n    c) can’t\td) shan’t\n    c) how\td) how a\n    c) How\td) How a\n    c) to finding\td) for finding\n    c) Neither do I\td) So do I\n    a) running\n    c) to running\n    b) to run\n    d) ran\n    c) Nor will 1\td) Neither am I\n    c) to walk\td) walking",
     "options": [
       {
@@ -21466,11 +21466,11 @@
     "options": [
       {
         "label": "a",
-        "text": "in"
+        "text": "at"
       },
       {
         "label": "b",
-        "text": "you went"
+        "text": "in"
       },
       {
         "label": "c",
@@ -21478,7 +21478,7 @@
       },
       {
         "label": "d",
-        "text": "at"
+        "text": "you went"
       }
     ],
     "optionsCount": 4,
@@ -21574,7 +21574,7 @@
     "options": [
       {
         "label": "a",
-        "text": "doesn't he"
+        "text": "isn't it"
       },
       {
         "label": "b",
@@ -21582,11 +21582,11 @@
       },
       {
         "label": "c",
-        "text": "todays’"
+        "text": "doesn't he"
       },
       {
         "label": "d",
-        "text": "isn't it"
+        "text": "todays’"
       }
     ],
     "optionsCount": 4,
@@ -21641,12 +21641,12 @@
     "questionNumber": "602",
     "sourceDocument": "Professional_Question_Bank_20261108_233552.docx",
     "sourcePage": 73,
-    "questionText": "can see the girls, but ... is your sister?",
+    "questionText": "I can see the girls, but ______ is your sister?",
     "rawText": "can see the girls, but ... is your sister?\n    c) which\td) whose\n    c) each other\td) one another\n    c) oneself\td) yourself\n    c) I’ll better\td) I d prefer\n    c) had rather\td) had better\n    c) such a\td) so much\n    c) so much\td) such a lot\n    c) who\td) which\n    c) whose\td) -",
     "options": [
       {
         "label": "a",
-        "text": "one another"
+        "text": "whom"
       },
       {
         "label": "b",
@@ -21654,16 +21654,16 @@
       },
       {
         "label": "c",
-        "text": "whose"
+        "text": "who"
       },
       {
         "label": "d",
-        "text": "each other"
+        "text": "whose"
       }
     ],
     "optionsCount": 4,
     "correctAnswer": "b",
-    "explanation": "Focuses on English grammar rule: Modals & Auxiliaries.",
+    "explanation": "We use 'which' when choosing among a specific, limited set of people or items.",
     "category": "Grammar & Vocabulary",
     "topic": "Modals & Auxiliaries",
     "difficulty": "Hard",
@@ -21722,15 +21722,15 @@
       },
       {
         "label": "b",
-        "text": "1 have usually"
-      },
-      {
-        "label": "c",
         "text": "Usually have I"
       },
       {
-        "label": "d",
+        "label": "c",
         "text": "Usually I have"
+      },
+      {
+        "label": "d",
+        "text": "1 have usually"
       }
     ],
     "optionsCount": 4,
@@ -21929,7 +21929,7 @@
     "questionNumber": "10",
     "sourceDocument": "Professional_Question_Bank_20261108_233552.docx",
     "sourcePage": 74,
-    "questionText": "How many are there? About four .. men",
+    "questionText": "How many are there? About four .. men?",
     "rawText": "10.  How many are there?\tAbout four .. men\n    c) has think\td) is think\n    c) pick-hand\n    d) hand-pick\n    c) work-hard\td) hard-work\n    c) ought\n    d) should\n    c) golden s hair\td) gold’s hair\n    c) How\td) How a\n    c) an iron’s chair\n    d) chair's iron\n    c) What\td) What a\n    c) neither\td) none\n    c) Nor have I\td) So have I\n    c) Nor do I\td) So do I\n    c) for a long time\td) a long time ago\n    c) of putting\td) putting\n    c) to run\td) run\n    c) by putting\td) put\n    c) in taking\td) taking\n    c) stop\td) would stop\n    c) am\td ) were\n    c) should\td) ought\n    c) life\td) live\n    c) haven’t written\td) write\n    c) to close\td) close",
     "options": [
       {
@@ -22046,15 +22046,15 @@
       },
       {
         "label": "b",
-        "text": "didn't they"
+        "text": "doesn't he"
       },
       {
         "label": "c",
-        "text": "isn't it"
+        "text": "didn't they"
       },
       {
         "label": "d",
-        "text": "doesn't he"
+        "text": "isn't it"
       }
     ],
     "optionsCount": 4,
@@ -22078,11 +22078,11 @@
     "options": [
       {
         "label": "a",
-        "text": "doesn't he"
+        "text": "didn't they"
       },
       {
         "label": "b",
-        "text": "didn't they"
+        "text": "isn't it"
       },
       {
         "label": "c",
@@ -22090,7 +22090,7 @@
       },
       {
         "label": "d",
-        "text": "isn't it"
+        "text": "doesn't he"
       }
     ],
     "optionsCount": 4,
@@ -22222,7 +22222,7 @@
     "options": [
       {
         "label": "a",
-        "text": "doesn't he"
+        "text": "isn't it"
       },
       {
         "label": "b",
@@ -22230,11 +22230,11 @@
       },
       {
         "label": "c",
-        "text": "to go"
+        "text": "doesn't he"
       },
       {
         "label": "d",
-        "text": "isn't it"
+        "text": "to go"
       }
     ],
     "optionsCount": 4,
@@ -22258,15 +22258,15 @@
     "options": [
       {
         "label": "a",
-        "text": "not have"
+        "text": "to have not"
       },
       {
         "label": "b",
-        "text": "much"
+        "text": "not have"
       },
       {
         "label": "c",
-        "text": "to have not"
+        "text": "much"
       },
       {
         "label": "d",
@@ -22294,11 +22294,11 @@
     "options": [
       {
         "label": "a",
-        "text": "are"
+        "text": "is"
       },
       {
         "label": "b",
-        "text": "both"
+        "text": "are"
       },
       {
         "label": "c",
@@ -22306,7 +22306,7 @@
       },
       {
         "label": "d",
-        "text": "is"
+        "text": "both"
       }
     ],
     "optionsCount": 4,
@@ -22361,7 +22361,7 @@
     "questionNumber": "622",
     "sourceDocument": "Professional_Question_Bank_20261108_233552.docx",
     "sourcePage": 76,
-    "questionText": "How tall is she? She ... 5 feet tall.",
+    "questionText": "How tall is she? She ... 5 feet tall?",
     "rawText": "How tall is she? She ... 5 feet tall.\n    c) takes\td) has\n    c) is being cleaned\td) was being cleaned\n    c) being clean\td ) been clean\n    c) have\td) had been\n    c) half-cook\td) cook-half\n    c) look-toughing\td) look-tough\n    c) table’s lamp\td) lamp’s table\n    c) driver s woman\td) woman’s driver\n    c) nor\td) both\n    c) both/or\td) neither/and\n    c) Neither would I\td) So do I\n    c) Neither did I\td) Nor do I",
     "options": [
       {
@@ -22433,12 +22433,12 @@
     "questionNumber": "624",
     "sourceDocument": "Professional_Question_Bank_20261108_233552.docx",
     "sourcePage": 76,
-    "questionText": "Where are you going to put this lamp? “ 1 ... put",
+    "questionText": "Where are you going to put this lamp? “ 1 ... put?",
     "rawText": "Where are you going to put this lamp?  “ 1 ... put\n    c) can\td) should\n    c) What a\td) What\n    c) How\td) How a\n    c) of going\td) in going\n    c) in selling\td) selling",
     "options": [
       {
         "label": "a",
-        "text": "What"
+        "text": "What a"
       },
       {
         "label": "b",
@@ -22446,11 +22446,11 @@
       },
       {
         "label": "c",
-        "text": "should"
+        "text": "What"
       },
       {
         "label": "d",
-        "text": "What a"
+        "text": "should"
       }
     ],
     "optionsCount": 4,
@@ -22510,11 +22510,11 @@
     "options": [
       {
         "label": "a",
-        "text": "sitting"
+        "text": "sat"
       },
       {
         "label": "b",
-        "text": "have"
+        "text": "sitting"
       },
       {
         "label": "c",
@@ -22522,7 +22522,7 @@
       },
       {
         "label": "d",
-        "text": "sat"
+        "text": "have"
       }
     ],
     "optionsCount": 4,
@@ -22586,15 +22586,15 @@
       },
       {
         "label": "b",
-        "text": "oneself"
-      },
-      {
-        "label": "c",
         "text": "yourself"
       },
       {
-        "label": "d",
+        "label": "c",
         "text": "That"
+      },
+      {
+        "label": "d",
+        "text": "oneself"
       }
     ],
     "optionsCount": 4,
@@ -22690,15 +22690,15 @@
     "options": [
       {
         "label": "a",
-        "text": "both/nor"
-      },
-      {
-        "label": "b",
         "text": "either/nor"
       },
       {
-        "label": "c",
+        "label": "b",
         "text": "none"
+      },
+      {
+        "label": "c",
+        "text": "both/nor"
       },
       {
         "label": "d",
@@ -22730,15 +22730,15 @@
       },
       {
         "label": "b",
-        "text": "How a"
-      },
-      {
-        "label": "c",
         "text": "How"
       },
       {
-        "label": "d",
+        "label": "c",
         "text": "What"
+      },
+      {
+        "label": "d",
+        "text": "How a"
       }
     ],
     "optionsCount": 4,
@@ -22834,11 +22834,11 @@
     "options": [
       {
         "label": "a",
-        "text": "brother’s-in-law’s"
+        "text": "brother-in-laws’"
       },
       {
         "label": "b",
-        "text": "he to"
+        "text": "brother’s-in-law’s"
       },
       {
         "label": "c",
@@ -22846,7 +22846,7 @@
       },
       {
         "label": "d",
-        "text": "brother-in-laws’"
+        "text": "he to"
       }
     ],
     "optionsCount": 4,
@@ -22870,19 +22870,19 @@
     "options": [
       {
         "label": "a",
-        "text": "Which"
+        "text": "which"
       },
       {
         "label": "b",
-        "text": "What"
+        "text": "what"
       },
       {
         "label": "c",
-        "text": "Whose"
+        "text": "whose"
       },
       {
         "label": "d",
-        "text": "Whom"
+        "text": "whom"
       }
     ],
     "optionsCount": 4,
@@ -22906,7 +22906,7 @@
     "options": [
       {
         "label": "a",
-        "text": "itself"
+        "text": "to yourself"
       },
       {
         "label": "b",
@@ -22914,11 +22914,11 @@
       },
       {
         "label": "c",
-        "text": "to yourself"
+        "text": "himself"
       },
       {
         "label": "d",
-        "text": "himself"
+        "text": "itself"
       }
     ],
     "optionsCount": 4,
@@ -23014,7 +23014,7 @@
     "options": [
       {
         "label": "a",
-        "text": "dozen"
+        "text": "dozen of"
       },
       {
         "label": "b",
@@ -23022,11 +23022,11 @@
       },
       {
         "label": "c",
-        "text": "dozens"
+        "text": "dozen"
       },
       {
         "label": "d",
-        "text": "dozen of"
+        "text": "dozens"
       }
     ],
     "optionsCount": 4,
@@ -23122,7 +23122,7 @@
     "options": [
       {
         "label": "a",
-        "text": "meant"
+        "text": "meaning"
       },
       {
         "label": "b",
@@ -23130,11 +23130,11 @@
       },
       {
         "label": "c",
-        "text": "teethbrush"
+        "text": "meant"
       },
       {
         "label": "d",
-        "text": "meaning"
+        "text": "teethbrush"
       }
     ],
     "optionsCount": 4,
@@ -23446,15 +23446,15 @@
     "options": [
       {
         "label": "a",
-        "text": "Nor can 1"
-      },
-      {
-        "label": "b",
         "text": "So can I"
       },
       {
-        "label": "c",
+        "label": "b",
         "text": "none of"
+      },
+      {
+        "label": "c",
+        "text": "Nor can 1"
       },
       {
         "label": "d",
@@ -23554,7 +23554,7 @@
     "options": [
       {
         "label": "a",
-        "text": "To watching"
+        "text": "The watch"
       },
       {
         "label": "b",
@@ -23562,11 +23562,11 @@
       },
       {
         "label": "c",
-        "text": "The watch"
+        "text": "To watch"
       },
       {
         "label": "d",
-        "text": "To watch"
+        "text": "To watching"
       }
     ],
     "optionsCount": 4,
@@ -23621,7 +23621,7 @@
     "questionNumber": "657",
     "sourceDocument": "Professional_Question_Bank_20261108_233552.docx",
     "sourcePage": 80,
-    "questionText": "Have you seen Charlie? Well, I ... him,",
+    "questionText": "Have you seen Charlie? Well, I ... him,?",
     "rawText": "Have you seen Charlie?\tWell, I ... him,\n    c) have saw\td) seen\n    c) go\td) going",
     "options": [
       {
@@ -23693,12 +23693,12 @@
     "questionNumber": "659",
     "sourceDocument": "Professional_Question_Bank_20261108_233552.docx",
     "sourcePage": 80,
-    "questionText": "“ Can you see that old house over there?” “ Yes,",
+    "questionText": "Can you see that old house over there?” “ Yes,?",
     "rawText": "“ Can you see that old house over there?” “ Yes,",
     "options": [
       {
         "label": "a",
-        "text": "can"
+        "text": "should"
       },
       {
         "label": "b",
@@ -23706,11 +23706,11 @@
       },
       {
         "label": "c",
-        "text": "must"
+        "text": "can"
       },
       {
         "label": "d",
-        "text": "should"
+        "text": "must"
       }
     ],
     "optionsCount": 4,
@@ -23729,7 +23729,7 @@
     "questionNumber": "660",
     "sourceDocument": "Professional_Question_Bank_20261108_233552.docx",
     "sourcePage": 80,
-    "questionText": "What time ... right now? It is five o'clock.",
+    "questionText": "What time ... right now? It is five o'clock?",
     "rawText": "... is it?”\n    c) whom\td) who",
     "options": [
       {
@@ -23810,15 +23810,15 @@
       },
       {
         "label": "b",
-        "text": "is"
-      },
-      {
-        "label": "c",
         "text": "are"
       },
       {
-        "label": "d",
+        "label": "c",
         "text": "such a"
+      },
+      {
+        "label": "d",
+        "text": "is"
       }
     ],
     "optionsCount": 4,
@@ -23914,7 +23914,7 @@
     "options": [
       {
         "label": "a",
-        "text": "drinking"
+        "text": "to drink"
       },
       {
         "label": "b",
@@ -23922,11 +23922,11 @@
       },
       {
         "label": "c",
-        "text": "stayed"
+        "text": "drinking"
       },
       {
         "label": "d",
-        "text": "to drink"
+        "text": "stayed"
       }
     ],
     "optionsCount": 4,
@@ -24022,11 +24022,11 @@
     "options": [
       {
         "label": "a",
-        "text": "never has been"
+        "text": "hasn't never been"
       },
       {
         "label": "b",
-        "text": "hasn't never been"
+        "text": "has never been"
       },
       {
         "label": "c",
@@ -24034,7 +24034,7 @@
       },
       {
         "label": "d",
-        "text": "has never been"
+        "text": "never has been"
       }
     ],
     "optionsCount": 4,
@@ -24058,15 +24058,15 @@
     "options": [
       {
         "label": "a",
-        "text": "What high is A.. truck fell over the parapet into the river."
+        "text": "What tall has"
       },
       {
         "label": "b",
-        "text": "How tall is"
+        "text": "What high is A.. truck fell over the parapet into the river."
       },
       {
         "label": "c",
-        "text": "What tall has"
+        "text": "How tall is"
       },
       {
         "label": "d",
@@ -24166,11 +24166,11 @@
     "options": [
       {
         "label": "a",
-        "text": "blinded people"
+        "text": "blind"
       },
       {
         "label": "b",
-        "text": "blind"
+        "text": "blind people"
       },
       {
         "label": "c",
@@ -24178,7 +24178,7 @@
       },
       {
         "label": "d",
-        "text": "blind people"
+        "text": "blinded people"
       }
     ],
     "optionsCount": 4,
@@ -24242,15 +24242,15 @@
       },
       {
         "label": "b",
-        "text": "will know"
+        "text": "would"
       },
       {
         "label": "c",
-        "text": "know"
+        "text": "will know"
       },
       {
         "label": "d",
-        "text": "would"
+        "text": "know"
       }
     ],
     "optionsCount": 4,
@@ -24346,7 +24346,7 @@
     "options": [
       {
         "label": "a",
-        "text": "who"
+        "text": "whom"
       },
       {
         "label": "b",
@@ -24354,11 +24354,11 @@
       },
       {
         "label": "c",
-        "text": "whom"
+        "text": "What"
       },
       {
         "label": "d",
-        "text": "What"
+        "text": "who"
       }
     ],
     "optionsCount": 4,
@@ -24418,11 +24418,11 @@
     "options": [
       {
         "label": "a",
-        "text": "in doing"
+        "text": "to do"
       },
       {
         "label": "b",
-        "text": "to do"
+        "text": "doing"
       },
       {
         "label": "c",
@@ -24430,7 +24430,7 @@
       },
       {
         "label": "d",
-        "text": "doing"
+        "text": "in doing"
       }
     ],
     "optionsCount": 4,
@@ -24449,7 +24449,7 @@
     "questionNumber": "15",
     "sourceDocument": "Professional_Question_Bank_20261108_233552.docx",
     "sourcePage": 83,
-    "questionText": "“ Have you seen my mother? I've just.. her.”",
+    "questionText": "Have you seen my mother? I've just.. her.”?",
     "rawText": "15.“ Have you seen my mother?\tI've just.. her.”\n    a) saw\tb) seen\n    c) to see\td) saw",
     "options": [
       {
@@ -24521,7 +24521,7 @@
     "questionNumber": "682",
     "sourceDocument": "Professional_Question_Bank_20261108_233552.docx",
     "sourcePage": 83,
-    "questionText": "Did you see your father ... the window ?",
+    "questionText": "Did you see your father ... the window?",
     "rawText": "Did you see your father ... the window ?\n    c) opened\td) to opening\n    c) loaf\td) loafes\n    c) work\td) works\n    c) I went\td) that I went\n    c) us to\td) we to\n    c) week\td) weeks\n    c) success’ firm\td) success firm",
     "options": [
       {
@@ -24670,11 +24670,11 @@
     "options": [
       {
         "label": "a",
-        "text": "to lose"
+        "text": "lose"
       },
       {
         "label": "b",
-        "text": "miss"
+        "text": "to lose"
       },
       {
         "label": "c",
@@ -24682,7 +24682,7 @@
       },
       {
         "label": "d",
-        "text": "lose"
+        "text": "miss"
       }
     ],
     "optionsCount": 4,
@@ -24994,15 +24994,15 @@
     "options": [
       {
         "label": "a",
-        "text": "so much"
+        "text": "so many"
       },
       {
         "label": "b",
-        "text": "such"
+        "text": "so much"
       },
       {
         "label": "c",
-        "text": "so many"
+        "text": "such"
       },
       {
         "label": "d",
@@ -25066,7 +25066,7 @@
     "options": [
       {
         "label": "a",
-        "text": "whom"
+        "text": "what"
       },
       {
         "label": "b",
@@ -25074,11 +25074,11 @@
       },
       {
         "label": "c",
-        "text": "what"
+        "text": "at"
       },
       {
         "label": "d",
-        "text": "at"
+        "text": "whom"
       }
     ],
     "optionsCount": 4,
@@ -25174,11 +25174,11 @@
     "options": [
       {
         "label": "a",
-        "text": "I’ll go"
+        "text": "going"
       },
       {
         "label": "b",
-        "text": "going"
+        "text": "four hours"
       },
       {
         "label": "c",
@@ -25186,7 +25186,7 @@
       },
       {
         "label": "d",
-        "text": "four hours"
+        "text": "I’ll go"
       }
     ],
     "optionsCount": 4,
@@ -25354,11 +25354,11 @@
     "options": [
       {
         "label": "a",
-        "text": "Both"
+        "text": "Nor"
       },
       {
         "label": "b",
-        "text": "Either"
+        "text": "Both"
       },
       {
         "label": "c",
@@ -25366,7 +25366,7 @@
       },
       {
         "label": "d",
-        "text": "Nor"
+        "text": "Either"
       }
     ],
     "optionsCount": 4,
@@ -25498,11 +25498,11 @@
     "options": [
       {
         "label": "a",
-        "text": "How"
+        "text": "How an"
       },
       {
         "label": "b",
-        "text": "How an"
+        "text": "might"
       },
       {
         "label": "c",
@@ -25510,7 +25510,7 @@
       },
       {
         "label": "d",
-        "text": "might"
+        "text": "How"
       }
     ],
     "optionsCount": 4,
@@ -25529,7 +25529,7 @@
     "questionNumber": "710",
     "sourceDocument": "Professional_Question_Bank_20261108_233552.docx",
     "sourcePage": 86,
-    "questionText": "Have you seen Tom? No, I ... him since",
+    "questionText": "Have you seen Tom? No, I ... him since?",
     "rawText": "Have you seen Tom?\tNo,  I ... him since\n    c) haven’t see\td) haven’t seen",
     "options": [
       {
@@ -25565,7 +25565,7 @@
     "questionNumber": "711",
     "sourceDocument": "Professional_Question_Bank_20261108_233552.docx",
     "sourcePage": 86,
-    "questionText": "“ Where’s Jimmy?” “ I think he’s ... to school.",
+    "questionText": "Where’s Jimmy?” “ I think he’s ... to school?",
     "rawText": "“ Where’s Jimmy?” “ I think he’s ... to school.\n    c) be done\td) to be done\n    c) drive\td) drove",
     "options": [
       {
@@ -25637,7 +25637,7 @@
     "questionNumber": "713",
     "sourceDocument": "Professional_Question_Bank_20261108_233552.docx",
     "sourcePage": 86,
-    "questionText": "What .. that noise? 11. Do you like working with other girls or by",
+    "questionText": "Do you like working with other girls or by ______?",
     "rawText": "What .. that noise?\t11. Do you like working with other girls or by\n    c) yourself\td) yourself s",
     "options": [
       {
@@ -25646,20 +25646,20 @@
       },
       {
         "label": "b",
-        "text": "yourself s"
+        "text": "yourselves"
       },
       {
         "label": "c",
-        "text": "who"
+        "text": "you"
       },
       {
         "label": "d",
-        "text": "whom"
+        "text": "your"
       }
     ],
     "optionsCount": 4,
     "correctAnswer": "a",
-    "explanation": "Focuses on English grammar rule: Relative Clauses & Pronouns.",
+    "explanation": "'By yourself' means alone / on your own.",
     "category": "Grammar & Vocabulary",
     "topic": "Relative Clauses & Pronouns",
     "difficulty": "Medium",
@@ -25673,29 +25673,29 @@
     "questionNumber": "714",
     "sourceDocument": "Professional_Question_Bank_20261108_233552.docx",
     "sourcePage": 87,
-    "questionText": "last night ..? 12. Did you go to London .. your own?",
+    "questionText": "Did you go to London on ______ own?",
     "rawText": "last night ..?\t12. Did  you go to London .. your  own?\n    c) to\td) with\tC) on\td) by\n    c) oneself\td) yourself\n    c) itself\td) oneself\n    c) following\td) to follow\n    c) run\td) to running\n    c) so\td) so much\n    c) such a\td) such\n    c) sheeps\td) ships\n    c) to going\td) go",
     "options": [
       {
         "label": "a",
-        "text": "to"
+        "text": "your"
       },
       {
         "label": "b",
-        "text": "with"
+        "text": "you"
       },
       {
         "label": "c",
-        "text": "on"
+        "text": "yours"
       },
       {
         "label": "d",
-        "text": "by"
+        "text": "yourself"
       }
     ],
     "optionsCount": 4,
     "correctAnswer": "a",
-    "explanation": "Focuses on English grammar rule: Past Tenses.",
+    "explanation": "Idiomatic expression 'on your own' means by yourself.",
     "category": "Grammar & Vocabulary",
     "topic": "Past Tenses",
     "difficulty": "Hard",
@@ -25786,7 +25786,7 @@
     "options": [
       {
         "label": "a",
-        "text": "of coming"
+        "text": "to coming"
       },
       {
         "label": "b",
@@ -25794,11 +25794,11 @@
       },
       {
         "label": "c",
-        "text": "to coming"
+        "text": "How a"
       },
       {
         "label": "d",
-        "text": "How a"
+        "text": "of coming"
       }
     ],
     "optionsCount": 4,
@@ -25817,7 +25817,7 @@
     "questionNumber": "10",
     "sourceDocument": "Professional_Question_Bank_20261108_233552.docx",
     "sourcePage": 87,
-    "questionText": "Have you seen Hamlet’? No, 1 ... any of",
+    "questionText": "Have you seen Hamlet’? No, 1 ... any of?",
     "rawText": "10.  Have you seen  Hamlet’?\tNo, 1 ... any of\n    a) am not seeing\tb) haven t seen",
     "options": [
       {
@@ -26002,11 +26002,11 @@
     "options": [
       {
         "label": "a",
-        "text": "Whose"
+        "text": "Whom"
       },
       {
         "label": "b",
-        "text": "Whom"
+        "text": "What"
       },
       {
         "label": "c",
@@ -26014,7 +26014,7 @@
       },
       {
         "label": "d",
-        "text": "What"
+        "text": "Whose"
       }
     ],
     "optionsCount": 4,
@@ -26182,11 +26182,11 @@
     "options": [
       {
         "label": "a",
-        "text": "of talk"
+        "text": "of talking"
       },
       {
         "label": "b",
-        "text": "of talking"
+        "text": "do"
       },
       {
         "label": "c",
@@ -26194,7 +26194,7 @@
       },
       {
         "label": "d",
-        "text": "do"
+        "text": "of talk"
       }
     ],
     "optionsCount": 4,
@@ -26218,7 +26218,7 @@
     "options": [
       {
         "label": "a",
-        "text": "appear such"
+        "text": "look such"
       },
       {
         "label": "b",
@@ -26226,11 +26226,11 @@
       },
       {
         "label": "c",
-        "text": "look such"
+        "text": "run"
       },
       {
         "label": "d",
-        "text": "run"
+        "text": "appear such"
       }
     ],
     "optionsCount": 4,
@@ -26285,7 +26285,7 @@
     "questionNumber": "731",
     "sourceDocument": "Professional_Question_Bank_20261108_233552.docx",
     "sourcePage": 89,
-    "questionText": "Have you ever been to ...? It's the capital of Spain.",
+    "questionText": "Have you ever been to ...? It's the capital of Spain?",
     "rawText": "to eat?\n    c) nothing\td) everything\n    c) advice\td) piece of advice",
     "options": [
       {
@@ -26321,7 +26321,7 @@
     "questionNumber": "732",
     "sourceDocument": "Professional_Question_Bank_20261108_233552.docx",
     "sourcePage": 89,
-    "questionText": "When are you leaving?” “ We’ll ... early",
+    "questionText": "When are you leaving?” “ We’ll ... early?",
     "rawText": "When are you leaving?” “ We’ll ... early\n    c) set off\td) set out of\n    a) many/right\tb) much/right\n    c) many/lefl\td) a lot/left",
     "options": [
       {
@@ -26366,15 +26366,15 @@
       },
       {
         "label": "b",
-        "text": "look"
+        "text": "looks"
       },
       {
         "label": "c",
-        "text": "ridden"
+        "text": "look"
       },
       {
         "label": "d",
-        "text": "looks"
+        "text": "ridden"
       }
     ],
     "optionsCount": 4,
@@ -26438,15 +26438,15 @@
       },
       {
         "label": "b",
-        "text": "most awful d ) awfullcr"
-      },
-      {
-        "label": "c",
         "text": "to tell"
       },
       {
-        "label": "d",
+        "label": "c",
         "text": "do/for"
+      },
+      {
+        "label": "d",
+        "text": "most awful d ) awfullcr"
       }
     ],
     "optionsCount": 4,
@@ -26501,7 +26501,7 @@
     "questionNumber": "737",
     "sourceDocument": "Professional_Question_Bank_20261108_233552.docx",
     "sourcePage": 89,
-    "questionText": "“ Did Susan and Carol come yesterday? “ No,",
+    "questionText": "Did Susan and Carol come yesterday? “ No,?",
     "rawText": "“ Did Susan and Carol come yesterday?   “ No,\n    c) none\td) neither\n    c) done\td) to make",
     "options": [
       {
@@ -26537,7 +26537,7 @@
     "questionNumber": "738",
     "sourceDocument": "Professional_Question_Bank_20261108_233552.docx",
     "sourcePage": 90,
-    "questionText": "“ What about your homework, Jeff? “ I’ ve ...",
+    "questionText": "What about your homework, Jeff? “ I’ ve ...",
     "rawText": "“ What about your homework, Jeff?  “ I’ ve ...\n    c) what\td) who\n    c) at\td) into",
     "options": [
       {
@@ -26546,15 +26546,15 @@
       },
       {
         "label": "b",
-        "text": "at"
-      },
-      {
-        "label": "c",
         "text": "into"
       },
       {
-        "label": "d",
+        "label": "c",
         "text": "who"
+      },
+      {
+        "label": "d",
+        "text": "at"
       }
     ],
     "optionsCount": 4,
@@ -26609,29 +26609,29 @@
     "questionNumber": "740",
     "sourceDocument": "Professional_Question_Bank_20261108_233552.docx",
     "sourcePage": 90,
-    "questionText": "“ How long have you been in hospital? ... six",
+    "questionText": "How long have you been in hospital? — ... six o'clock.",
     "rawText": "“ How  long have you been in hospital?\t... six\n    c) Since\td) Ago\n    c) since\td) ago\n    a) already made\tb) done already\n    c) made already\td) already done",
     "options": [
       {
         "label": "a",
-        "text": "Ago"
+        "text": "for"
       },
       {
         "label": "b",
-        "text": "since"
+        "text": "ago"
       },
       {
         "label": "c",
-        "text": "Since"
+        "text": "since"
       },
       {
         "label": "d",
-        "text": "ago"
+        "text": "in"
       }
     ],
     "optionsCount": 4,
     "correctAnswer": "c",
-    "explanation": "Focuses on English grammar rule: Present Perfect.",
+    "explanation": "We use 'Since' with a specific point in time (six o'clock).",
     "category": "Grammar & Vocabulary",
     "topic": "Present Perfect",
     "difficulty": "Hard",
@@ -26681,7 +26681,7 @@
     "questionNumber": "742",
     "sourceDocument": "Professional_Question_Bank_20261108_233552.docx",
     "sourcePage": 90,
-    "questionText": "“ Have you finished ...?” “ No, not yet.\"",
+    "questionText": "Have you finished ...?” “ No, not yet.\"?",
     "rawText": "“ Have you finished ...?”    “ No, not  yet.\"\n    c) still\td) since",
     "options": [
       {
@@ -26717,7 +26717,7 @@
     "questionNumber": "743",
     "sourceDocument": "Professional_Question_Bank_20261108_233552.docx",
     "sourcePage": 90,
-    "questionText": "“ How old is Diana?” “ Well, she ... 15",
+    "questionText": "How old is Diana?” “ Well, she ... 15?",
     "rawText": "“ How old is Diana?”   “ Well, she ... 15\n    c) was\td) is",
     "options": [
       {
@@ -26866,15 +26866,15 @@
     "options": [
       {
         "label": "a",
-        "text": "ways"
+        "text": "way"
       },
       {
         "label": "b",
-        "text": "to go"
+        "text": "ways"
       },
       {
         "label": "c",
-        "text": "way"
+        "text": "to go"
       },
       {
         "label": "d",
@@ -26906,15 +26906,15 @@
       },
       {
         "label": "b",
-        "text": "fire"
+        "text": "police"
       },
       {
         "label": "c",
-        "text": "bus"
+        "text": "fire"
       },
       {
         "label": "d",
-        "text": "police"
+        "text": "bus"
       }
     ],
     "optionsCount": 4,
@@ -27014,15 +27014,15 @@
       },
       {
         "label": "b",
-        "text": "Both were they"
-      },
-      {
-        "label": "c",
         "text": "They both were"
       },
       {
-        "label": "d",
+        "label": "c",
         "text": "fastest"
+      },
+      {
+        "label": "d",
+        "text": "Both were they"
       }
     ],
     "optionsCount": 4,
@@ -27046,11 +27046,11 @@
     "options": [
       {
         "label": "a",
-        "text": "ama"
+        "text": "am in a"
       },
       {
         "label": "b",
-        "text": "am in a"
+        "text": "enjoy you both"
       },
       {
         "label": "c",
@@ -27058,7 +27058,7 @@
       },
       {
         "label": "d",
-        "text": "enjoy you both"
+        "text": "ama"
       }
     ],
     "optionsCount": 4,
@@ -27077,7 +27077,7 @@
     "questionNumber": "753",
     "sourceDocument": "Professional_Question_Bank_20261108_233552.docx",
     "sourcePage": 91,
-    "questionText": "Are you going to bed already? “ Yes, I ...”",
+    "questionText": "Are you going to bed already? “ Yes, I ...”?",
     "rawText": "Are you going to bed already?   “ Yes, I ...”\n    c) am sleep\td) have sleepy\n    c) is afraid\td) is fear\n    c) had thirst\td) was thirst",
     "options": [
       {
@@ -27122,15 +27122,15 @@
       },
       {
         "label": "b",
-        "text": "much heavy"
+        "text": "is with"
       },
       {
         "label": "c",
-        "text": "has"
+        "text": "much heavy"
       },
       {
         "label": "d",
-        "text": "is with"
+        "text": "has"
       }
     ],
     "optionsCount": 4,
@@ -27221,7 +27221,7 @@
     "questionNumber": "757",
     "sourceDocument": "Professional_Question_Bank_20261108_233552.docx",
     "sourcePage": 92,
-    "questionText": "What ... you do if you won the lottery ?",
+    "questionText": "What ... you do if you won the lottery?",
     "rawText": "What ... you do if you won the lottery ?\n    d) do\td) can",
     "options": [
       {
@@ -27365,16 +27365,16 @@
     "questionNumber": "761",
     "sourceDocument": "Professional_Question_Bank_20261108_233552.docx",
     "sourcePage": 92,
-    "questionText": "“ What was the weather like over there?”",
+    "questionText": "What was the weather like over there?”?",
     "rawText": "“ What was the weather like over there?”\n    c) was windy\td) had windy",
     "options": [
       {
         "label": "a",
-        "text": "are"
+        "text": "is"
       },
       {
         "label": "b",
-        "text": "had windy"
+        "text": "are"
       },
       {
         "label": "c",
@@ -27382,7 +27382,7 @@
       },
       {
         "label": "d",
-        "text": "is"
+        "text": "had windy"
       }
     ],
     "optionsCount": 4,
@@ -27473,7 +27473,7 @@
     "questionNumber": "764",
     "sourceDocument": "Professional_Question_Bank_20261108_233552.docx",
     "sourcePage": 93,
-    "questionText": "Would you like to go to the cinema? “ No, I’d rather ... at home.”",
+    "questionText": "Would you like to go to the cinema? “ No, I’d rather ... at home.”?",
     "rawText": "Would you like to go to the cinema? “ No, I’d rather ... at home.”\n    c) stay\td) to staying\n    c) failed\td) suspended\n    c) buys\td) has bought\n    c) waste\td) lost",
     "options": [
       {
@@ -27550,15 +27550,15 @@
     "options": [
       {
         "label": "a",
-        "text": "doesn't he"
+        "text": "isn't it"
       },
       {
         "label": "b",
-        "text": "were it"
+        "text": "doesn't he"
       },
       {
         "label": "c",
-        "text": "isn't it"
+        "text": "were it"
       },
       {
         "label": "d",
@@ -27581,7 +27581,7 @@
     "questionNumber": "767",
     "sourceDocument": "Professional_Question_Bank_20261108_233552.docx",
     "sourcePage": 93,
-    "questionText": "“ Can you pay me now? “ Sorry, I’ m a bit ... at",
+    "questionText": "Can you pay me now? “ Sorry, I’ m a bit ... at?",
     "rawText": "“ Can you pay me now?  “ Sorry, I’ m a bit ... at\n    c) break\td) braked\n    c) who\td) whom",
     "options": [
       {
@@ -27622,11 +27622,11 @@
     "options": [
       {
         "label": "a",
-        "text": "I have"
+        "text": "paying"
       },
       {
         "label": "b",
-        "text": "paying"
+        "text": "were"
       },
       {
         "label": "c",
@@ -27634,7 +27634,7 @@
       },
       {
         "label": "d",
-        "text": "were"
+        "text": "I have"
       }
     ],
     "optionsCount": 4,
@@ -27653,12 +27653,12 @@
     "questionNumber": "769",
     "sourceDocument": "Professional_Question_Bank_20261108_233552.docx",
     "sourcePage": 93,
-    "questionText": "How tall ... your son? He ... one metre",
+    "questionText": "How tall ... your son? He ... one metre?",
     "rawText": "How tall ... your son?\tHe ... one metre\n    c)has/has\td) has/is",
     "options": [
       {
         "label": "a",
-        "text": "is"
+        "text": "are"
       },
       {
         "label": "b",
@@ -27666,11 +27666,11 @@
       },
       {
         "label": "c",
-        "text": "are"
+        "text": "has/is"
       },
       {
         "label": "d",
-        "text": "has/is"
+        "text": "is"
       }
     ],
     "optionsCount": 4,
@@ -27806,15 +27806,15 @@
       },
       {
         "label": "b",
-        "text": "didn't they"
+        "text": "doesn't he"
       },
       {
         "label": "c",
-        "text": "isn't it"
+        "text": "didn't they"
       },
       {
         "label": "d",
-        "text": "doesn't he"
+        "text": "isn't it"
       }
     ],
     "optionsCount": 4,
@@ -27838,11 +27838,11 @@
     "options": [
       {
         "label": "a",
-        "text": "what"
+        "text": "which"
       },
       {
         "label": "b",
-        "text": "you"
+        "text": "what"
       },
       {
         "label": "c",
@@ -27850,7 +27850,7 @@
       },
       {
         "label": "d",
-        "text": "which"
+        "text": "you"
       }
     ],
     "optionsCount": 4,
@@ -27874,11 +27874,11 @@
     "options": [
       {
         "label": "a",
-        "text": "wish"
+        "text": "like"
       },
       {
         "label": "b",
-        "text": "at any"
+        "text": "wish"
       },
       {
         "label": "c",
@@ -27886,7 +27886,7 @@
       },
       {
         "label": "d",
-        "text": "like"
+        "text": "at any"
       }
     ],
     "optionsCount": 4,
@@ -27910,7 +27910,7 @@
     "options": [
       {
         "label": "a",
-        "text": "throw you of less"
+        "text": "miss to you"
       },
       {
         "label": "b",
@@ -27918,11 +27918,11 @@
       },
       {
         "label": "c",
-        "text": "miss to you"
+        "text": "join at"
       },
       {
         "label": "d",
-        "text": "join at"
+        "text": "throw you of less"
       }
     ],
     "optionsCount": 4,
@@ -27941,7 +27941,7 @@
     "questionNumber": "777",
     "sourceDocument": "Professional_Question_Bank_20261108_233552.docx",
     "sourcePage": 94,
-    "questionText": "Who was the tea ...? It's very nice.",
+    "questionText": "Who was the tea ...? It's very nice?",
     "rawText": "Who was the tea ...? It's very nice.\n    c) done by\td ) made by\n    c) oneself\td ) itself\n    c) have sold by\td) have sold for\n    c) been broken by\td) broke by\n    c) are doing by\td) were done for\n    c) biter\td) beetroot",
     "options": [
       {
@@ -28013,7 +28013,7 @@
     "questionNumber": "779",
     "sourceDocument": "Professional_Question_Bank_20261108_233552.docx",
     "sourcePage": 94,
-    "questionText": "“ Haven’ t you finished the problem yet?” “ No,",
+    "questionText": "Haven’ t you finished the problem yet?” “ No,",
     "rawText": "“ Haven’ t you finished the problem yet?” “ No,\n    c) so many\td) such",
     "options": [
       {
@@ -28049,7 +28049,7 @@
     "questionNumber": "780",
     "sourceDocument": "Professional_Question_Bank_20261108_233552.docx",
     "sourcePage": 95,
-    "questionText": "“ Where’s my car parked?” “ Well, it could be",
+    "questionText": "Where’s my car parked?” “ Well, it could be?",
     "rawText": "“ Where’s my car parked?”  “ Well, it could be",
     "options": [
       {
@@ -28058,15 +28058,15 @@
       },
       {
         "label": "b",
-        "text": "should"
-      },
-      {
-        "label": "c",
         "text": "can"
       },
       {
-        "label": "d",
+        "label": "c",
         "text": "must"
+      },
+      {
+        "label": "d",
+        "text": "should"
       }
     ],
     "optionsCount": 4,
@@ -28085,7 +28085,7 @@
     "questionNumber": "781",
     "sourceDocument": "Professional_Question_Bank_20261108_233552.docx",
     "sourcePage": 95,
-    "questionText": "Diana doesn’t ... very cheerful today, does she?",
+    "questionText": "Diana doesn't ______ very cheerful today, does she?",
     "rawText": "Diana doesn’t ... very cheerful today, does she?\n    c) look\td) see",
     "options": [
       {
@@ -28094,15 +28094,15 @@
       },
       {
         "label": "b",
-        "text": "isn't it"
-      },
-      {
-        "label": "c",
         "text": "doesn't he"
       },
       {
-        "label": "d",
+        "label": "c",
         "text": "see"
+      },
+      {
+        "label": "d",
+        "text": "isn't it"
       }
     ],
     "optionsCount": 4,
@@ -28229,7 +28229,7 @@
     "questionNumber": "2",
     "sourceDocument": "Professional_Question_Bank_20261108_233552.docx",
     "sourcePage": 95,
-    "questionText": "l’U never finish .. this new dictionary.",
+    "questionText": "I'll never finish ______ this new dictionary.",
     "rawText": "2. l’U never finish .. this new dictionary.\n    a) compile\tb) to compile\n    c) of compiling\td) compiling\n    c) out of\td) across\n    c) got\td) left",
     "options": [
       {
@@ -28238,20 +28238,20 @@
       },
       {
         "label": "b",
-        "text": "of compiling"
-      },
-      {
-        "label": "c",
         "text": "compile"
       },
       {
-        "label": "d",
+        "label": "c",
         "text": "compiling"
+      },
+      {
+        "label": "d",
+        "text": "compiled"
       }
     ],
     "optionsCount": 4,
     "correctAnswer": "c",
-    "explanation": "Focuses on English grammar rule: Present Perfect.",
+    "explanation": "The verb 'finish' is followed by a gerund (v-ing).",
     "category": "Grammar & Vocabulary",
     "topic": "Present Perfect",
     "difficulty": "Hard",
@@ -28306,11 +28306,11 @@
     "options": [
       {
         "label": "a",
-        "text": "to shout"
+        "text": "shouted"
       },
       {
         "label": "b",
-        "text": "have shouted"
+        "text": "to shout"
       },
       {
         "label": "c",
@@ -28318,7 +28318,7 @@
       },
       {
         "label": "d",
-        "text": "shouted"
+        "text": "have shouted"
       }
     ],
     "optionsCount": 4,
@@ -28450,15 +28450,15 @@
     "options": [
       {
         "label": "a",
-        "text": "for d ) in"
-      },
-      {
-        "label": "b",
         "text": "by/on"
       },
       {
-        "label": "c",
+        "label": "b",
         "text": "will"
+      },
+      {
+        "label": "c",
+        "text": "for d ) in"
       },
       {
         "label": "d",
@@ -28558,15 +28558,15 @@
     "options": [
       {
         "label": "a",
-        "text": "on"
-      },
-      {
-        "label": "b",
         "text": "over"
       },
       {
-        "label": "c",
+        "label": "b",
         "text": "on with"
+      },
+      {
+        "label": "c",
+        "text": "on"
       },
       {
         "label": "d",
@@ -28625,12 +28625,12 @@
     "questionNumber": "796",
     "sourceDocument": "Professional_Question_Bank_20261108_233552.docx",
     "sourcePage": 97,
-    "questionText": "Is he married? No. he is..",
+    "questionText": "Is he married? No. he is.?",
     "rawText": "Is he married?\tNo. he is..\n    c) single\td) alone\n    c) make for\td) made\n    c) I don’t expect it\td) I expect not so",
     "options": [
       {
         "label": "a",
-        "text": "make for"
+        "text": "made"
       },
       {
         "label": "b",
@@ -28638,11 +28638,11 @@
       },
       {
         "label": "c",
-        "text": "made"
+        "text": "alone"
       },
       {
         "label": "d",
-        "text": "alone"
+        "text": "make for"
       }
     ],
     "optionsCount": 4,
@@ -28661,7 +28661,7 @@
     "questionNumber": "13",
     "sourceDocument": "Professional_Question_Bank_20261108_233552.docx",
     "sourcePage": 97,
-    "questionText": "“ Would you like another piece of cake?",
+    "questionText": "Would you like another piece of cake?",
     "rawText": "13. “ Would you like another piece of cake?\n    a) No. thanks\tb) Yes, thanks\n    c) No, please\td) Not at all\n    c) to being\td) to be\n    c) good\td) expensive",
     "options": [
       {
@@ -28810,11 +28810,11 @@
     "options": [
       {
         "label": "a",
-        "text": "complains"
+        "text": "complain"
       },
       {
         "label": "b",
-        "text": "frail"
+        "text": "complains"
       },
       {
         "label": "c",
@@ -28822,7 +28822,7 @@
       },
       {
         "label": "d",
-        "text": "complain"
+        "text": "frail"
       }
     ],
     "optionsCount": 4,
@@ -28846,11 +28846,11 @@
     "options": [
       {
         "label": "a",
-        "text": "whether"
+        "text": "otherwise"
       },
       {
         "label": "b",
-        "text": "provided"
+        "text": "whether"
       },
       {
         "label": "c",
@@ -28858,7 +28858,7 @@
       },
       {
         "label": "d",
-        "text": "otherwise"
+        "text": "provided"
       }
     ],
     "optionsCount": 4,
@@ -28886,15 +28886,15 @@
       },
       {
         "label": "b",
-        "text": "your doing"
-      },
-      {
-        "label": "c",
         "text": "to do"
       },
       {
-        "label": "d",
+        "label": "c",
         "text": "of talking"
+      },
+      {
+        "label": "d",
+        "text": "your doing"
       }
     ],
     "optionsCount": 4,
@@ -28913,20 +28913,20 @@
     "questionNumber": "804",
     "sourceDocument": "Professional_Question_Bank_20261108_233552.docx",
     "sourcePage": 97,
-    "questionText": "Do you think he’ll come? Well, he ... be able",
+    "questionText": "Do you think he’ll come? Well, he ... be able?",
     "rawText": "Do you think he’ll come?\tWell, he ... be able\n    c) might\td) couldn’t\n    c) has painted\td) painted\n    c) was living\td) lived\n    c) be leaving\td) have been leaving\n    c) be starting\td) have been starting\n    c) ought to\td) must\n    c) did they start off\td ) had they started off\n    c) should have\td) ought to\n    c) should\td) ought he\n    c) Whoever\td) Whichever\n    c) whenever\td) however\n    c) will have been\td) would be\n    c) will be\td) would be\n    c) could\td) may\n    c) would be able\td) could",
     "options": [
       {
         "label": "a",
-        "text": "painted"
+        "text": "has painted"
       },
       {
         "label": "b",
-        "text": "couldn’t"
+        "text": "painted"
       },
       {
         "label": "c",
-        "text": "has painted"
+        "text": "couldn’t"
       },
       {
         "label": "d",
@@ -28954,7 +28954,7 @@
     "options": [
       {
         "label": "a",
-        "text": "be"
+        "text": "been"
       },
       {
         "label": "b",
@@ -28962,11 +28962,11 @@
       },
       {
         "label": "c",
-        "text": "have painted it"
+        "text": "be"
       },
       {
         "label": "d",
-        "text": "been"
+        "text": "have painted it"
       }
     ],
     "optionsCount": 4,
@@ -29093,12 +29093,12 @@
     "questionNumber": "809",
     "sourceDocument": "Professional_Question_Bank_20261108_233552.docx",
     "sourcePage": 98,
-    "questionText": "“ How did the accident happen?” “ Someone ... run across the road” .",
+    "questionText": "How did the accident happen?” “ Someone ... run across the road” ?",
     "rawText": "“ How did the accident happen?” “ Someone ... run across the road” .\n    c) may have\td) may\n    c) might have\td) must\n    c) walked\td) was walking\n    c) had been lying\td) had laid\n    c) have come\td) to come\n    c) shouldn’ t have\td) shouldn’t\n    c) notice he\td) had he noticed\n    c) must\td) would\n    c) whenever\td) however",
     "options": [
       {
         "label": "a",
-        "text": "must"
+        "text": "might have"
       },
       {
         "label": "b",
@@ -29106,11 +29106,11 @@
       },
       {
         "label": "c",
-        "text": "may"
+        "text": "must"
       },
       {
         "label": "d",
-        "text": "might have"
+        "text": "may"
       }
     ],
     "optionsCount": 4,
@@ -29237,12 +29237,12 @@
     "questionNumber": "813",
     "sourceDocument": "Professional_Question_Bank_20261108_233552.docx",
     "sourcePage": 99,
-    "questionText": "Was there anybody else with you? “ No, there",
+    "questionText": "Was there anybody else with you? “ No, there?",
     "rawText": "Was there anybody else with you? “ No, there\n    c) no-one else\td) anyone else\n    c) during\td) ago",
     "options": [
       {
         "label": "a",
-        "text": "ago"
+        "text": "during"
       },
       {
         "label": "b",
@@ -29250,11 +29250,11 @@
       },
       {
         "label": "c",
-        "text": "anyone else"
+        "text": "ago"
       },
       {
         "label": "d",
-        "text": "during"
+        "text": "anyone else"
       }
     ],
     "optionsCount": 4,
@@ -29314,15 +29314,15 @@
     "options": [
       {
         "label": "a",
-        "text": "got to"
+        "text": "left"
       },
       {
         "label": "b",
-        "text": "wherever"
+        "text": "got to"
       },
       {
         "label": "c",
-        "text": "left"
+        "text": "wherever"
       },
       {
         "label": "d",
@@ -29381,7 +29381,7 @@
     "questionNumber": "817",
     "sourceDocument": "Professional_Question_Bank_20261108_233552.docx",
     "sourcePage": 99,
-    "questionText": "“ ... I see your passport, please?” asked the",
+    "questionText": "... I see your passport, please?” asked the",
     "rawText": "“ ... I see your passport, please?”  asked the\n    c) Must\td) Would\n    c) w alked\td) were walking\n    c) were lying\td) lied\n    c) works\td ) working\n    c) listen\td) have been listening\n    c) the truth came\td) came the truth\n    c) manages she\td) she doesn’t manage\n    c) ought to\td) would\n    c) ought\td) would\n    c) Whomever\td) However\n    c) Whichever\td) Whatever\n    c) will have been\td) will be\n    c) will be\td) would be",
     "options": [
       {
@@ -29669,20 +29669,20 @@
     "questionNumber": "18",
     "sourceDocument": "Professional_Question_Bank_20261108_233552.docx",
     "sourcePage": 100,
-    "questionText": "“ Will he come?” “ Yes, in fact, he jumped.. the",
+    "questionText": "Will he come?” “ Yes, in fact, he jumped.. the?",
     "rawText": "18. “ Will he come?” “ Yes, in fact, he jumped.. the\n    a) at\tb) to\n    c) over\td) on\n    c) robbed\td) pinched\n    c) cheering\td) animation\n    c) by herself\td) in her own\n    c) joking you\td) pulling your leg\n    c) disagrees\td) objects\n    c) had to work\td) ought to work\n    c) lying\td) scattered\n    c) advertised\td) noticed\n    c) feel myself\td) that I feel\n    c) in his own\td) only\n    c) off-colour\td) out of colour\n    c) self\td) very\n    c) to play\td) playing",
     "options": [
       {
         "label": "a",
-        "text": "over"
-      },
-      {
-        "label": "b",
         "text": "on"
       },
       {
-        "label": "c",
+        "label": "b",
         "text": "to"
+      },
+      {
+        "label": "c",
+        "text": "over"
       },
       {
         "label": "d",
@@ -29714,15 +29714,15 @@
       },
       {
         "label": "b",
-        "text": "you"
-      },
-      {
-        "label": "c",
         "text": "yourself"
       },
       {
-        "label": "d",
+        "label": "c",
         "text": "your"
+      },
+      {
+        "label": "d",
+        "text": "you"
       }
     ],
     "optionsCount": 4,
@@ -29741,7 +29741,7 @@
     "questionNumber": "827",
     "sourceDocument": "Professional_Question_Bank_20261108_233552.docx",
     "sourcePage": 100,
-    "questionText": "Are you going to sit on that chair ... day? Do",
+    "questionText": "Are you going to sit on that chair ... day? Do?",
     "rawText": "Are you going to sit on that chair ... day? Do\n    c) every\td ) all the\n    c) gets over\td) gives off\n    c) favoured\td) favour\n    c) was over\td) was end\n    c) leapt\td) crashed\n    c) little\td) a few\n    a)capacity\tb) standard\n    c) degrees\td) conditions",
     "options": [
       {
@@ -29813,7 +29813,7 @@
     "questionNumber": "829",
     "sourceDocument": "Professional_Question_Bank_20261108_233552.docx",
     "sourcePage": 101,
-    "questionText": "Did you hear the news?” Yes,... me yesterday.",
+    "questionText": "Did you hear the news?” Yes,... me yesterday?",
     "rawText": "Did you hear the news?”   Yes,... me yesterday.\n    c) it arrived at\td) they arrived at\n    c) to\td) for\n    c) would make\td) would do\n    c) over\td) away\n    c) manydeft\td) much/left\n    c) ran down\td) run on\n    c) loaded\td) full of\n    c) away\td) of\n    c) in\td) away\n    c) Crying\td) Cry\n    c) in\td) down\n    c) away\td) on\n    c) heart in her stomach d) heart in her boots\n    c) hold-out\td) hold-over\n    c) half of\td) mix of\n    c) had\td) they\n    c) seeking\td) meeting\n    c) the train to start\td) for the train start\n    c) more popular\td) more ordinary\n    c) outbreaks\td) set-ups\n    c) follow\td) hold\n    c) succeeded\td) applied\n    c) give and take\td) stop and go\n    c) advised\td) acquainted\n    c) distance\td) attempt\n    c) the sooner\td) sooner and later\n    c) make-up\td) exposure\n    c) bearing\td) wearing\n    c) Other time\td) Another time\n    c) hasn't she told\td) she hadn  t told\n    c) icing\td) freezing\n    c) dealing\td) supplying\n    c) procession\td) row\n    c) for shutting\td) so as for shutting\n    c) became\td) grew\n    c) presenting\td) coming\n    c) notice\td) advise\n    c) by\td) to\n    c) projecting\td) pretending\n    c) have come\td) came\n    c) by herself\td) solely\n    a) receipt\tb) menu\n    c) dish\td) plate\n    c) at\td) over\n    c) out\td) off\n    c) finished\td) will finish\n    c) be above\td) have finished\n    c) in\td) of\n    c) attending\td) learning\n    c) inevitable\td) clear",
     "options": [
       {
@@ -29854,11 +29854,11 @@
     "options": [
       {
         "label": "a",
-        "text": "away"
+        "text": "over"
       },
       {
         "label": "b",
-        "text": "to"
+        "text": "away"
       },
       {
         "label": "c",
@@ -29866,7 +29866,7 @@
       },
       {
         "label": "d",
-        "text": "over"
+        "text": "to"
       }
     ],
     "optionsCount": 4,
@@ -29890,7 +29890,7 @@
     "options": [
       {
         "label": "a",
-        "text": "in"
+        "text": "at"
       },
       {
         "label": "b",
@@ -29898,11 +29898,11 @@
       },
       {
         "label": "c",
-        "text": "Which"
+        "text": "in"
       },
       {
         "label": "d",
-        "text": "at"
+        "text": "Which"
       }
     ],
     "optionsCount": 4,
@@ -29962,11 +29962,11 @@
     "options": [
       {
         "label": "a",
-        "text": "in"
+        "text": "with"
       },
       {
         "label": "b",
-        "text": "against"
+        "text": "in"
       },
       {
         "label": "c",
@@ -29974,7 +29974,7 @@
       },
       {
         "label": "d",
-        "text": "with"
+        "text": "against"
       }
     ],
     "optionsCount": 4,
@@ -30038,15 +30038,15 @@
       },
       {
         "label": "b",
-        "text": "suggest"
+        "text": "recommend"
       },
       {
         "label": "c",
-        "text": "prompt"
+        "text": "suggest"
       },
       {
         "label": "d",
-        "text": "recommend"
+        "text": "prompt"
       }
     ],
     "optionsCount": 4,
@@ -30142,7 +30142,7 @@
     "options": [
       {
         "label": "a",
-        "text": "about"
+        "text": "away"
       },
       {
         "label": "b",
@@ -30150,11 +30150,11 @@
       },
       {
         "label": "c",
-        "text": "down"
+        "text": "about"
       },
       {
         "label": "d",
-        "text": "away"
+        "text": "down"
       }
     ],
     "optionsCount": 4,
@@ -30358,15 +30358,15 @@
     "options": [
       {
         "label": "a",
-        "text": "down"
-      },
-      {
-        "label": "b",
         "text": "off"
       },
       {
-        "label": "c",
+        "label": "b",
         "text": "aside"
+      },
+      {
+        "label": "c",
+        "text": "down"
       },
       {
         "label": "d",
@@ -30389,7 +30389,7 @@
     "questionNumber": "20",
     "sourceDocument": "Professional_Question_Bank_20261108_233552.docx",
     "sourcePage": 102,
-    "questionText": "John's friend turned , , to be a dentist.",
+    "questionText": "John's friend turned, , to be a dentist.",
     "rawText": "20. John's friend  turned  ,    , to be a dentist.\n    c) on\td) over\n    a) in\n    c) over\n    b) off\n    d) out\n    c) over\td) in\n    c) on\td) in\n    c) off\td) away\n    c) over\td) out\n    c) off\td) down\n    c) in\td) over\n    c) out\td) over\n    c) off\td) over\n    c) down with\td) over\n    c) under\td) down\n    c) down\td) through\n    c) over\td) down\n    c) through\td) down\n    c) in\td) out\n    c) down\td) over\n    c) over\td) down\n    c) for\td) at\n    c) into\td) for\n    c) out\td) over\n    c) down\td) over",
     "options": [
       {
@@ -30538,11 +30538,11 @@
     "options": [
       {
         "label": "a",
-        "text": "through"
+        "text": "over"
       },
       {
         "label": "b",
-        "text": "round"
+        "text": "through"
       },
       {
         "label": "c",
@@ -30550,7 +30550,7 @@
       },
       {
         "label": "d",
-        "text": "over"
+        "text": "round"
       }
     ],
     "optionsCount": 4,
@@ -30650,15 +30650,15 @@
       },
       {
         "label": "b",
-        "text": "is"
-      },
-      {
-        "label": "c",
         "text": "are"
       },
       {
-        "label": "d",
+        "label": "c",
         "text": "don’t go"
+      },
+      {
+        "label": "d",
+        "text": "is"
       }
     ],
     "optionsCount": 4,
@@ -30718,11 +30718,11 @@
     "options": [
       {
         "label": "a",
-        "text": "up"
+        "text": "aside"
       },
       {
         "label": "b",
-        "text": "aside"
+        "text": "down"
       },
       {
         "label": "c",
@@ -30730,7 +30730,7 @@
       },
       {
         "label": "d",
-        "text": "down"
+        "text": "up"
       }
     ],
     "optionsCount": 4,
@@ -30893,29 +30893,29 @@
     "questionNumber": "859",
     "sourceDocument": "Professional_Question_Bank_20261108_233552.docx",
     "sourcePage": 104,
-    "questionText": "him for a fight?",
+    "questionText": "Why did you challenge him ______ a fight?",
     "rawText": "him for a fight?\n    c) on\td) over\n    c) away\td) on\n    c) over\td) down\n    c) into\td) over\n    c) out\td) over",
     "options": [
       {
         "label": "a",
-        "text": "over"
+        "text": "for"
       },
       {
         "label": "b",
-        "text": "away"
+        "text": "with"
       },
       {
         "label": "c",
-        "text": "down"
+        "text": "against"
       },
       {
         "label": "d",
-        "text": "on"
+        "text": "to"
       }
     ],
     "optionsCount": 4,
     "correctAnswer": "d",
-    "explanation": "Focuses on English grammar rule: Present Perfect.",
+    "explanation": "Collocation: 'challenge someone to a fight'.",
     "category": "Grammar & Vocabulary",
     "topic": "Present Perfect",
     "difficulty": "Medium",
@@ -30929,29 +30929,29 @@
     "questionNumber": "860",
     "sourceDocument": "Professional_Question_Bank_20261108_233552.docx",
     "sourcePage": 104,
-    "questionText": "don't understand her. Can you make ... what she’s saying?",
+    "questionText": "I don't understand her. Can you make ______ what she's saying?",
     "rawText": "don't understand her. Can you make ... what she’s saying?\n    c) off\td) out\n    c) does out\td) does up\n    c) a repair\td) repairing\n    c) laid\td) lied\n    c) out\td) on\n    c) put out\td) taken up\n    c) for\td) to\n    c) for\td) at\n    c) walking\td) to stroll\n    c) had to repair out TV d ) our TV to repair\n    c) away\td) on\n    c) grow'ns-up\td) growii-ups\n    c) better\td) good\n    c) me painting\td) of painting\n    c) against\td) in\n    c) that they leave\td) leave\n    c) against\td) in\n    c) fell into\td) fell up\n    c) at\td) by\n    c) over\td) on\n    c) ran into\td ) ran in\n    c) isn’t much\td) isn’t many\n    c) should come\td) will come\n    c) will have\td) would have",
     "options": [
       {
         "label": "a",
-        "text": "out"
+        "text": "up"
       },
       {
         "label": "b",
-        "text": "does out"
+        "text": "off"
       },
       {
         "label": "c",
-        "text": "does up"
+        "text": "for"
       },
       {
         "label": "d",
-        "text": "off"
+        "text": "out"
       }
     ],
     "optionsCount": 4,
     "correctAnswer": "d",
-    "explanation": "Focuses on English grammar rule: Modals & Auxiliaries.",
+    "explanation": "Phrasal verb 'make out' means to hear, see, or understand clearly.",
     "category": "Grammar & Vocabulary",
     "topic": "Modals & Auxiliaries",
     "difficulty": "Hard",
@@ -31001,7 +31001,7 @@
     "questionNumber": "862",
     "sourceDocument": "Professional_Question_Bank_20261108_233552.docx",
     "sourcePage": 104,
-    "questionText": "How long shall we take? Well, that depends",
+    "questionText": "How long shall we take? Well, that depends?",
     "rawText": "How long shall we take?\tWell, that depends\n    c) engine driver\td) driver of theengine",
     "options": [
       {
@@ -31073,7 +31073,7 @@
     "questionNumber": "864",
     "sourceDocument": "Professional_Question_Bank_20261108_233552.docx",
     "sourcePage": 105,
-    "questionText": "Do you know him? “ No, I ... him yet” .",
+    "questionText": "Do you know him? “ No, I ... him yet” ?",
     "rawText": "Do you know him?  “ No, I ... him yet” .\n    c) haven’t met\td) don’t met",
     "options": [
       {
@@ -31145,7 +31145,7 @@
     "questionNumber": "866",
     "sourceDocument": "Professional_Question_Bank_20261108_233552.docx",
     "sourcePage": 105,
-    "questionText": "W'hv don t you come , . and see me sometime?",
+    "questionText": "W'hv don t you come, . and see me sometime?",
     "rawText": "W'hv don  t you come ,  . and see me  sometime?\n    c) out\td) away",
     "options": [
       {
@@ -31258,15 +31258,15 @@
     "options": [
       {
         "label": "a",
-        "text": "for"
+        "text": "down"
       },
       {
         "label": "b",
-        "text": "off"
+        "text": "for"
       },
       {
         "label": "c",
-        "text": "down"
+        "text": "off"
       },
       {
         "label": "d",
@@ -31294,7 +31294,7 @@
     "options": [
       {
         "label": "a",
-        "text": "over"
+        "text": "into"
       },
       {
         "label": "b",
@@ -31302,11 +31302,11 @@
       },
       {
         "label": "c",
-        "text": "about"
+        "text": "over"
       },
       {
         "label": "d",
-        "text": "into"
+        "text": "about"
       }
     ],
     "optionsCount": 4,
@@ -31541,12 +31541,12 @@
     "questionNumber": "877",
     "sourceDocument": "Professional_Question_Bank_20261108_233552.docx",
     "sourcePage": 106,
-    "questionText": "Will you be able to do this job? I ... ”",
+    "questionText": "Will you be able to do this job? I ... ”?",
     "rawText": "Will you be able to do this job?\tI ... ”\n    c) believe yes\td) don t expect\n    c) youngs\td) teenage\n    c) outbreak\td) outrage\n    c) through\td) after\n    c) soonest\td) so soon as\n    c) naive\td) frank\n    c) cracked\td) crashed\n    c) stammered\td) shattered\n    a) attract\tb) call\n    c) fancy\td ) appeal\n    c) There must be\td) If there is\n    c) wins\td) gains\n    c) permit\td) admit\n    c) earn\td) win\n    c) to answer\td) in answer\n    c) forward\td) inclined\n    c) up\td) in\n    c) forward\td) towards\n    c) into\td) over\n    c) during\td) under\n    c) over\td) away",
     "options": [
       {
         "label": "a",
-        "text": "youngs"
+        "text": "teenage"
       },
       {
         "label": "b",
@@ -31554,11 +31554,11 @@
       },
       {
         "label": "c",
-        "text": "teenage"
+        "text": "don t expect"
       },
       {
         "label": "d",
-        "text": "don t expect"
+        "text": "youngs"
       }
     ],
     "optionsCount": 4,
@@ -31690,7 +31690,7 @@
     "options": [
       {
         "label": "a",
-        "text": "out dated d ) outside its time"
+        "text": "at"
       },
       {
         "label": "b",
@@ -31698,11 +31698,11 @@
       },
       {
         "label": "c",
-        "text": "at"
+        "text": "on"
       },
       {
         "label": "d",
-        "text": "on"
+        "text": "out dated d ) outside its time"
       }
     ],
     "optionsCount": 4,
@@ -31829,29 +31829,29 @@
     "questionNumber": "1",
     "sourceDocument": "Professional_Question_Bank_20261108_233552.docx",
     "sourcePage": 107,
-    "questionText": "The poor woman has fainted. Wait till she comes 11. You'll see that you .. have arrived at a better",
+    "questionText": "The poor woman has fainted. Wait till she comes ______.",
     "rawText": "1.The poor woman has fainted. Wait till she comes\t11. You'll see that you .. have arrived at a better\n    c) away with\td) out of\ta) A* f|rsl\tb) F  r a start\n    c) Starting\td) On principle\n    c) folds\td) curls",
     "options": [
       {
         "label": "a",
-        "text": "out of"
+        "text": "to"
       },
       {
         "label": "b",
-        "text": "A* f|rsl"
+        "text": "out"
       },
       {
         "label": "c",
-        "text": "away with"
+        "text": "round"
       },
       {
         "label": "d",
-        "text": "F r a start"
+        "text": "over"
       }
     ],
     "optionsCount": 4,
     "correctAnswer": "c",
-    "explanation": "Focuses on English grammar rule: Relative Clauses & Pronouns.",
+    "explanation": "Phrasal verb 'come round' or 'come to' means to regain consciousness.",
     "category": "Grammar & Vocabulary",
     "topic": "Relative Clauses & Pronouns",
     "difficulty": "Hard",
@@ -31946,15 +31946,15 @@
       },
       {
         "label": "b",
-        "text": "whom"
+        "text": "who"
       },
       {
         "label": "c",
-        "text": "not another"
+        "text": "whom"
       },
       {
         "label": "d",
-        "text": "who"
+        "text": "not another"
       }
     ],
     "optionsCount": 4,
@@ -32014,7 +32014,7 @@
     "options": [
       {
         "label": "a",
-        "text": "in being"
+        "text": "for being"
       },
       {
         "label": "b",
@@ -32022,11 +32022,11 @@
       },
       {
         "label": "c",
-        "text": "of to be"
+        "text": "in being"
       },
       {
         "label": "d",
-        "text": "for being"
+        "text": "of to be"
       }
     ],
     "optionsCount": 4,
@@ -32054,15 +32054,15 @@
       },
       {
         "label": "b",
-        "text": "in short"
-      },
-      {
-        "label": "c",
         "text": "in brief words"
       },
       {
-        "label": "d",
+        "label": "c",
         "text": "ever wander"
+      },
+      {
+        "label": "d",
+        "text": "in short"
       }
     ],
     "optionsCount": 4,
