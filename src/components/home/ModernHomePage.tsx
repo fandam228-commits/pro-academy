@@ -59,6 +59,70 @@ export function ModernHomePage({
     return true;
   });
 
+  const TeacherHeroCard = (
+    <div className="w-full max-w-sm sm:max-w-md bg-white rounded-3xl p-3 sm:p-4 border border-blue-100 shadow-xl shadow-blue-900/10 space-y-3 transition-transform hover:scale-[1.01]">
+      {/* Visual Animated Hero Container — Full unblocked frame */}
+      <div className="relative rounded-2xl overflow-hidden bg-slate-950 aspect-[6/5] flex items-center justify-center shadow-inner border border-slate-800">
+        <picture className="w-full h-full flex items-center justify-center">
+          <source srcSet="/habib-hero-static.png" media="(prefers-reduced-motion: reduce)" />
+          <img
+            src="/habib-hero.gif"
+            alt="Mr. Habib El Rahman - Official English Broadcast"
+            className="w-full h-full object-contain"
+            width={360}
+            height={300}
+            loading="eager"
+          />
+        </picture>
+
+        {/* Top Floating Badge */}
+        <div className="absolute top-2.5 start-2.5 px-2.5 py-1 rounded-full bg-black/70 backdrop-blur-md text-white text-[10px] font-black shadow flex items-center gap-1.5 border border-white/20">
+          <span className="w-2 h-2 rounded-full bg-[#10B981] animate-ping" />
+          <span>{lang === "ar" ? "تسجيل تلفزيوني رسمي" : "Official Broadcast"}</span>
+        </div>
+      </div>
+
+      {/* Teacher Profile & Verification Badge — Positioned below the GIF to preserve full visibility */}
+      <div className="bg-[#F7F9FC] rounded-2xl p-3 border border-slate-200/80 flex items-center justify-between text-right">
+        <div className="flex items-center gap-3">
+          <div className="w-9 h-9 rounded-xl bg-[#2563EB] text-white flex items-center justify-center text-sm font-black shadow-md shadow-blue-600/30 shrink-0">
+            ✓
+          </div>
+          <div>
+            <h4 className="text-xs font-black text-[#243247] flex items-center gap-1.5">
+              <span>{lang === "ar" ? "مستر / حبيب الرحمن" : "Mr. Habib El Rahman"}</span>
+              <span className="px-2 py-0.5 rounded-full bg-blue-100 text-[#2563EB] text-[9px] font-bold">
+                {lang === "ar" ? "معلم معتمد" : "Verified Educator"}
+              </span>
+            </h4>
+            <p className="text-[10px] text-[#718096] font-semibold mt-0.5">
+              {lang === "ar" ? "مقدم برامج تعليمية بالتلفزيون المصري" : "Egyptian Educational TV Host"}
+            </p>
+          </div>
+        </div>
+        <div className="text-center px-2 py-1 rounded-xl bg-blue-50 border border-blue-100 text-[#2563EB]">
+          <span className="text-[9px] font-black block">خبرة 15+ سنة</span>
+        </div>
+      </div>
+
+      {/* Sub-card Stats Line */}
+      <div className="grid grid-cols-3 gap-2 text-center pt-1">
+        <div className="p-2 rounded-xl bg-[#F7F9FC] border border-slate-200/60">
+          <div className="text-xs font-extrabold text-[#2563EB]">10+</div>
+          <div className="text-[10px] text-[#718096]">{lang === "ar" ? "سنوات خبرة" : "Years Exp"}</div>
+        </div>
+        <div className="p-2 rounded-xl bg-[#F7F9FC] border border-slate-200/60">
+          <div className="text-xs font-extrabold text-[#EABF58]">100%</div>
+          <div className="text-[10px] text-[#718096]">{lang === "ar" ? "مواصفات الوزارة" : "Official Spec"}</div>
+        </div>
+        <div className="p-2 rounded-xl bg-[#F7F9FC] border border-slate-200/60">
+          <div className="text-xs font-extrabold text-[#10B981]">24/7</div>
+          <div className="text-[10px] text-[#718096]">{lang === "ar" ? "دعم ومتابعة" : "Active Study"}</div>
+        </div>
+      </div>
+    </div>
+  );
+
   return (
     <div className="space-y-12 md:space-y-16 pb-20">
       {/* =========================================================================
@@ -100,6 +164,11 @@ export function ModernHomePage({
                     ? "فكر بالإنجليزية، وترجم وتحدث بثقة."
                     : "Think in English. Translate with Confidence."}
                 </p>
+              </div>
+
+              {/* Mobile Teacher Animated Card (Immediately visible on mobile/split-screen below title) */}
+              <div className="lg:hidden flex justify-center py-2">
+                {TeacherHeroCard}
               </div>
 
               {/* Description */}
@@ -172,66 +241,9 @@ export function ModernHomePage({
               </div>
             </div>
 
-            {/* Right Column: Original Animated Teacher GIF Card */}
-            <div className="lg:col-span-5 flex justify-center">
-              <div className="w-full max-w-sm sm:max-w-md bg-white rounded-3xl p-3 sm:p-4 border border-blue-100 shadow-xl shadow-blue-900/10 space-y-3 transition-transform hover:scale-[1.01]">
-                {/* Visual Animated Hero Container — Full unblocked frame */}
-                <div className="relative rounded-2xl overflow-hidden bg-slate-950 aspect-[6/5] flex items-center justify-center shadow-inner border border-slate-800">
-                  <picture className="w-full h-full flex items-center justify-center">
-                    <source srcSet="/habib-hero-static.png" media="(prefers-reduced-motion: reduce)" />
-                    <img
-                      src="/habib-hero.gif"
-                      alt="Mr. Habib El Rahman - Official English Broadcast"
-                      className="w-full h-full object-contain"
-                      width={360}
-                      height={300}
-                      loading="eager"
-                    />
-                  </picture>
-
-                  {/* Top Floating Badge */}
-                  <div className="absolute top-2.5 start-2.5 px-2.5 py-1 rounded-full bg-black/70 backdrop-blur-md text-white text-[10px] font-black shadow flex items-center gap-1.5 border border-white/20">
-                    <span className="w-2 h-2 rounded-full bg-[#10B981] animate-ping" />
-                    <span>{lang === "ar" ? "تسجيل تلفزيوني رسمي" : "Official Broadcast"}</span>
-                  </div>
-                </div>
-
-                {/* Teacher Profile & Verification Badge — Positioned below the GIF to preserve full visibility */}
-                <div className="bg-[#F7F9FC] rounded-2xl p-3 border border-slate-200/80 flex items-center justify-between text-right">
-                  <div className="flex items-center gap-3">
-                    <div className="w-9 h-9 rounded-xl bg-[#2563EB] text-white flex items-center justify-center text-sm font-black shadow-md shadow-blue-600/30 shrink-0">
-                      ✓
-                    </div>
-                    <div>
-                      <h4 className="text-xs font-black text-[#243247] flex items-center gap-1.5">
-                        <span>{lang === "ar" ? "مستر / حبيب الرحمن" : "Mr. Habib El Rahman"}</span>
-                        <span className="px-2 py-0.5 rounded-full bg-blue-100 text-[#2563EB] text-[9px] font-bold">
-                          {lang === "ar" ? "معلم معتمد" : "Verified Educator"}
-                        </span>
-                      </h4>
-                      <p className="text-[10px] text-[#718096] font-medium">
-                        {lang === "ar" ? "خبير لغة إنجليزية ومُعد أوائل الجمهورية" : "Senior English Expert & Mentor"}
-                      </p>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Sub-card Stats Line */}
-                <div className="grid grid-cols-3 gap-2 text-center pt-1">
-                  <div className="p-2 rounded-xl bg-[#F7F9FC] border border-slate-200/60">
-                    <div className="text-xs font-extrabold text-[#2563EB]">10+</div>
-                    <div className="text-[10px] text-[#718096]">{lang === "ar" ? "سنوات خبرة" : "Years Exp"}</div>
-                  </div>
-                  <div className="p-2 rounded-xl bg-[#F7F9FC] border border-slate-200/60">
-                    <div className="text-xs font-extrabold text-[#EABF58]">100%</div>
-                    <div className="text-[10px] text-[#718096]">{lang === "ar" ? "مواصفات الوزارة" : "Official Spec"}</div>
-                  </div>
-                  <div className="p-2 rounded-xl bg-[#F7F9FC] border border-slate-200/60">
-                    <div className="text-xs font-extrabold text-[#10B981]">24/7</div>
-                    <div className="text-[10px] text-[#718096]">{lang === "ar" ? "دعم ومتابعة" : "Active Study"}</div>
-                  </div>
-                </div>
-              </div>
+            {/* Right Column: Original Animated Teacher GIF Card (Desktop & Large Screens) */}
+            <div className="hidden lg:flex lg:col-span-5 justify-center">
+              {TeacherHeroCard}
             </div>
 
           </div>
