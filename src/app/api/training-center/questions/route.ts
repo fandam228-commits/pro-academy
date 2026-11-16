@@ -4,6 +4,7 @@ import { eq, and, sql, ilike, desc, asc, inArray } from "drizzle-orm";
 import { NextResponse } from "next/server";
 import { ensureDbSetup } from "@/db/migrate-and-seed";
 import { getAuthContext } from "@/lib/security";
+import { standardizeQuestionOptions } from "@/lib/mcq-balancer";
 
 export async function GET(req: Request) {
   try {
@@ -71,8 +72,9 @@ export async function GET(req: Request) {
 
     const total = Number(countRes[0]?.count || 0);
 
-    // Sanitize answers if student
-    const sanitized = items.map((q) => {
+    // Sanitize answers if student, and enforce max 4 options standard
+    const standardizedItems = items.map(standardizeQuestionOptions);
+    const sanitized = standardizedItems.map((q: any) => {
       if (!isAdmin && !includeAnswers) {
         const { correctAnswer, explanation, ...safe } = q;
         return safe;

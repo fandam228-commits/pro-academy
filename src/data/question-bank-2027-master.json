@@ -15,10 +15,10 @@
     "topic": "Adverbs of Frequency with Present Simple",
     "questionText": "Rami ________ reading books. He reads stories every single day.",
     "options": [
-      "always enjoys",
       "never enjoys",
       "doesn't enjoy",
-      "is enjoying"
+      "is enjoying",
+      "always enjoys"
     ],
     "correctAnswer": "always enjoys",
     "explanation": "نستخدم always مع المضارع البسيط للتعبير عن العادة المستمرة (He reads stories every single day)، وظرف التكرار يأتي قبل الفعل الأساسي.",
@@ -29,7 +29,8 @@
       "Unit 1",
       "MCQ",
       "Grammar"
-    ]
+    ],
+    "optionsCount": 4
   },
   {
     "id": "qb_2027_prep1_mcq_002",
@@ -47,10 +48,10 @@
     "topic": "Present Simple Questions",
     "questionText": "When ________ your best friend usually visit you at home?",
     "options": [
-      "does",
-      "do",
+      "are",
       "is",
-      "are"
+      "does",
+      "do"
     ],
     "correctAnswer": "does",
     "explanation": "الفاعل your best friend مفرد غائب، لذا نستخدم الفعل المساعد does في تكوين سؤال المضارع البسيط متبوعاً بالمصدر visit.",
@@ -61,7 +62,8 @@
       "Unit 1",
       "MCQ",
       "Grammar"
-    ]
+    ],
+    "optionsCount": 4
   },
   {
     "id": "qb_2027_prep1_mcq_003",
@@ -81,8 +83,8 @@
     "options": [
       "sister",
       "cousin",
-      "aunt",
-      "niece"
+      "niece",
+      "aunt"
     ],
     "correctAnswer": "sister",
     "explanation": "ابنة الوالدين هي الأخت (sister).",
@@ -93,7 +95,8 @@
       "Unit 1",
       "MCQ",
       "Vocabulary"
-    ]
+    ],
+    "optionsCount": 4
   },
   {
     "id": "qb_2027_prep1_mcq_004",
@@ -125,7 +128,8 @@
       "Unit 2",
       "MCQ",
       "Vocabulary"
-    ]
+    ],
+    "optionsCount": 4
   },
   {
     "id": "qb_2027_prep1_mcq_005",
@@ -143,10 +147,10 @@
     "topic": "Possessive Nouns",
     "questionText": "This is the ________ room. All the boys sleep here comfortably.",
     "options": [
-      "boys'",
-      "boy's",
       "boys's",
-      "boy"
+      "boys'",
+      "boy",
+      "boy's"
     ],
     "correctAnswer": "boys'",
     "explanation": "عند إضافة الملكية للاسم الجمع المنتهي بـ s نكتفي بوضع الفاصلة العليا بعد الـ s (boys').",
@@ -157,7 +161,8 @@
       "Unit 2",
       "MCQ",
       "Grammar"
-    ]
+    ],
+    "optionsCount": 4
   },
   {
     "id": "qb_2027_prep1_rw_001",
@@ -332,9 +337,9 @@
     "questionText": "Complete the dialogue between Omar and Ali:\nOmar: Hello, Ali! What is your favorite hobby?\nAli: Hello, Omar! __________________________________.\nOmar: Playing football! How often do you play it?",
     "options": [
       "My favorite hobby is playing football.",
-      "I don't like sports at all.",
       "I go to school at seven o'clock.",
-      "My father is a doctor."
+      "My father is a doctor.",
+      "I don't like sports at all."
     ],
     "correctAnswer": "My favorite hobby is playing football.",
     "explanation": "رد علي يجب أن يتوافق مع تعليق عمر التالي: 'Playing football! How often do you play it?'",
@@ -344,7 +349,8 @@
       "First Term",
       "Unit 1",
       "Dialogue"
-    ]
+    ],
+    "optionsCount": 4
   },
   {
     "id": "qb_2027_prep2_mcq_001",
@@ -363,8 +369,8 @@
     "questionText": "Look! The children ________ football happily in the park right now.",
     "options": [
       "are playing",
-      "play",
       "played",
+      "play",
       "have played"
     ],
     "correctAnswer": "are playing",
@@ -376,7 +382,8 @@
       "Unit 1",
       "MCQ",
       "Grammar"
-    ]
+    ],
+    "optionsCount": 4
   },
   {
     "id": "qb_2027_prep2_mcq_002",
@@ -394,10 +401,10 @@
     "topic": "Household & Furniture",
     "questionText": "A large cupboard where you can hang your clothes is called a ________.",
     "options": [
-      "wardrobe",
       "mirror",
-      "basin",
-      "cushion"
+      "wardrobe",
+      "cushion",
+      "basin"
     ],
     "correctAnswer": "wardrobe",
     "explanation": "الدولاب الكبير المخصص لتعليق الملابس يُسمى (wardrobe).",
@@ -408,7 +415,8 @@
       "Unit 1",
       "MCQ",
       "Vocabulary"
-    ]
+    ],
+    "optionsCount": 4
   },
   {
     "id": "qb_2027_prep2_mcq_003",
@@ -426,8 +434,8 @@
     "topic": "Adverbs of Manner",
     "questionText": "The teacher spoke ________ to the nervous student to make him feel calm.",
     "options": [
-      "kindly",
       "kind",
+      "kindly",
       "kindness",
       "unkind"
     ],
@@ -440,7 +448,8 @@
       "Unit 2",
       "MCQ",
       "Grammar"
-    ]
+    ],
+    "optionsCount": 4
   },
   {
     "id": "qb_2027_prep2_rw_001",
@@ -796,9 +805,9 @@
     "topic": "City Places",
     "questionText": "A place where you can borrow or read books is a ________.",
     "options": [
-      "library",
       "aquarium",
       "botanical garden",
+      "library",
       "museum"
     ],
     "correctAnswer": "library",
@@ -810,7 +819,8 @@
       "Unit 1",
       "MCQ",
       "Vocabulary"
-    ]
+    ],
+    "optionsCount": 4
   },
   {
     "id": "qb_2027_prep3_mcq_002",
@@ -828,10 +838,10 @@
     "topic": "Comparatives with than",
     "questionText": "The electric kettle is ________ than the smart microwave.",
     "options": [
-      "cheaper",
-      "cheap",
+      "more cheap",
       "cheapest",
-      "more cheap"
+      "cheap",
+      "cheaper"
     ],
     "correctAnswer": "cheaper",
     "explanation": "الصفة القصيرة cheap يضاف لها er في المقارنة بوجود than (cheaper than).",
@@ -842,7 +852,8 @@
       "Unit 2",
       "MCQ",
       "Grammar"
-    ]
+    ],
+    "optionsCount": 4
   },
   {
     "id": "qb_2027_sec1_comp_001",
@@ -861,10 +872,10 @@
     "passageText": "Today, I'm a teacher. Many years ago, I used to have summer jobs. Once I worked in a factory for gloves. I liked the people who were working there. They used to treat me as if I were their son. They helped me with my work. I learned a lot of things from them. The summer after that one, I worked as a waiter in a restaurant. It was hard work. However, money enabled me to do many things I was unable to do before. I could join swimming club without worrying about fees. I began to enjoy my spare time. I had a lot of time to enjoy outdoor sports. Today, I say to myself that I will never forget those days and the experience I gained.",
     "questionText": "Which job do you think was warmer and better treated for the writer?",
     "options": [
-      "In the factory for gloves.",
-      "In the restaurant as a waiter.",
+      "In the hospital as a nurse.",
       "In the hotel as a clerk.",
-      "In the hospital as a nurse."
+      "In the restaurant as a waiter.",
+      "In the factory for gloves."
     ],
     "correctAnswer": "In the factory for gloves.",
     "explanation": "أوضح الكاتب أنه أحب العمل في مصنع القفازات لأن العمال عاملوه كابنهم وساعدوه في عمله.",
@@ -874,7 +885,8 @@
       "First Term",
       "Comprehension",
       "Passage 1"
-    ]
+    ],
+    "optionsCount": 4
   },
   {
     "id": "qb_2027_sec1_comp_002",
@@ -893,10 +905,10 @@
     "passageText": "Today, I'm a teacher. Many years ago, I used to have summer jobs. Once I worked in a factory for gloves. I liked the people who were working there. They used to treat me as if I were their son. They helped me with my work. I learned a lot of things from them. The summer after that one, I worked as a waiter in a restaurant. It was hard work. However, money enabled me to do many things I was unable to do before. I could join swimming club without worrying about fees. I began to enjoy my spare time. I had a lot of time to enjoy outdoor sports. Today, I say to myself that I will never forget those days and the experience I gained.",
     "questionText": "The writer was not a member in the swimming club before his restaurant job because ________.",
     "options": [
-      "he didn't have enough money",
+      "the club was too far from his home",
       "he didn't have enough time",
-      "he disliked swimming",
-      "the club was too far from his home"
+      "he didn't have enough money",
+      "he disliked swimming"
     ],
     "correctAnswer": "he didn't have enough money",
     "explanation": "ذكر الكاتب أن المال المكتسب من عمله بالمطعم جعله ينضم لنادي السباحة دون القلق بشأن الرسوم (without worrying about fees).",
@@ -906,7 +918,8 @@
       "First Term",
       "Comprehension",
       "Passage 1"
-    ]
+    ],
+    "optionsCount": 4
   },
   {
     "id": "qb_2027_sec1_comp_003",
@@ -926,8 +939,8 @@
     "questionText": "The word \"promote\" in the passage is closest in meaning to ________.",
     "options": [
       "improve",
-      "discourage",
       "prevent",
+      "discourage",
       "collect"
     ],
     "correctAnswer": "improve",
@@ -938,7 +951,8 @@
       "First Term",
       "Comprehension",
       "Passage 2"
-    ]
+    ],
+    "optionsCount": 4
   },
   {
     "id": "qb_2027_sec1_comp_004",
@@ -958,9 +972,9 @@
     "questionText": "The underlined pronoun \"them\" in the last sentence refers to ________.",
     "options": [
       "teeth",
-      "brushes",
+      "spaces",
       "picks",
-      "spaces"
+      "brushes"
     ],
     "correctAnswer": "teeth",
     "explanation": "تشير كلمة them إلى الأسنان (clean between teeth).",
@@ -970,7 +984,8 @@
       "First Term",
       "Comprehension",
       "Passage 2"
-    ]
+    ],
+    "optionsCount": 4
   },
   {
     "id": "qb_2027_sec1_trans_001",
@@ -988,10 +1003,10 @@
     "topic": "Health & Epidemics",
     "questionText": "اختر الترجمة الإنجليزية الصحيحة للجملة التالية:\n\"إن الاهتمام بالصحة العامة والشخصية يساعد على منع انتشار الأمراض المعدية والأوبئة الفتاكة مثل انفلونزا الخنازير وفيروس كورونا.\"",
     "options": [
-      "Taking care of public and personal health helps prevent the spread of infectious diseases and fatal epidemics like swine flu and coronavirus.",
+      "Public and private health prevents treating infectious diseases like swine flu.",
       "Care of public health helps spreading dangerous epidemics like coronavirus and swine flu.",
       "Taking care of general illness helps prevent recovery of fatal diseases.",
-      "Public and private health prevents treating infectious diseases like swine flu."
+      "Taking care of public and personal health helps prevent the spread of infectious diseases and fatal epidemics like swine flu and coronavirus."
     ],
     "correctAnswer": "Taking care of public and personal health helps prevent the spread of infectious diseases and fatal epidemics like swine flu and coronavirus.",
     "explanation": "'الاهتمام بـ' = Taking care of، 'الأمراض المعدية والأوبئة الفتاكة' = infectious diseases and fatal epidemics.",
@@ -1001,7 +1016,8 @@
       "First Term",
       "Translation",
       "Arabic to English"
-    ]
+    ],
+    "optionsCount": 4
   },
   {
     "id": "qb_2027_sec1_trans_002",
@@ -1020,9 +1036,9 @@
     "questionText": "اختر الترجمة الإنجليزية الصحيحة للجملة التالية:\n\"لقد تأثرت البورصات العالمية والاقتصاد العالمي بشكل ملحوظ باندلاع الحرب بين روسيا وأوكرانيا.\"",
     "options": [
       "Global stock markets and the world economy have been significantly affected by the outbreak of the war between Russia and Ukraine.",
-      "World economy and stocks were affecting by war breaking between Russia and Ukraine.",
+      "Stock markets in the world have affected significant war outbreak.",
       "Global markets are being improved noticeably by outbreak of Russian conflict.",
-      "Stock markets in the world have affected significant war outbreak."
+      "World economy and stocks were affecting by war breaking between Russia and Ukraine."
     ],
     "correctAnswer": "Global stock markets and the world economy have been significantly affected by the outbreak of the war between Russia and Ukraine.",
     "explanation": "المبني للمجهول في المضارع التام (have been significantly affected) لحدث ماضٍ أثره قائم، و'اندلاع الحرب' = outbreak of the war.",
@@ -1032,7 +1048,8 @@
       "First Term",
       "Translation",
       "Arabic to English"
-    ]
+    ],
+    "optionsCount": 4
   },
   {
     "id": "qb_2027_sec1_trans_003",
@@ -1050,10 +1067,10 @@
     "topic": "Blood Donation & Social Solidarity",
     "questionText": "اختر الترجمة العربية الصحيحة للجملة التالية:\n\"Donating blood can help many people who are in need, and at the same time has some health benefits for the donors themselves.\"",
     "options": [
-      "إن التبرع بالدم يمكن أن يساعد الكثير من المحتاجين، وفي نفس الوقت يحمل بعض الفوائد الصحية للمتبرعين أنفسهم.",
-      "التبرع بالدم يضر بالمرضى ولا يفيد المتبرعين في أي وقت.",
       "مساعدة الناس بالمال أفضل من التبرع بالدم للمحتاجين.",
-      "طلب الدم من المستشفيات يحتاج إلى تبرعات مالية مستمرة."
+      "طلب الدم من المستشفيات يحتاج إلى تبرعات مالية مستمرة.",
+      "إن التبرع بالدم يمكن أن يساعد الكثير من المحتاجين، وفي نفس الوقت يحمل بعض الفوائد الصحية للمتبرعين أنفسهم.",
+      "التبرع بالدم يضر بالمرضى ولا يفيد المتبرعين في أي وقت."
     ],
     "correctAnswer": "إن التبرع بالدم يمكن أن يساعد الكثير من المحتاجين، وفي نفس الوقت يحمل بعض الفوائد الصحية للمتبرعين أنفسهم.",
     "explanation": "الترجمة الأدق والأشمل لعبارة 'Donating blood can help many people who are in need...'.",
@@ -1063,7 +1080,8 @@
       "First Term",
       "Translation",
       "English to Arabic"
-    ]
+    ],
+    "optionsCount": 4
   },
   {
     "id": "qb_2027_sec1_trans_004",
@@ -1081,10 +1099,10 @@
     "topic": "Education & Future Readiness",
     "questionText": "اختر الترجمة الإنجليزية الصحيحة:\n\"إن البرنامج القومي للتعليم يهدف إلى إعداد جيل قادر على مواجهة المستقبل وخلق مجتمع منتج ومبدع يستطيع مواكبة التقدم.\"",
     "options": [
-      "The national education program aims to prepare a generation capable of facing the future and creating a productive, creative society that can keep pace with progress.",
+      "Making schools is creating creative pupils without learning national programs.",
       "Education in nations hopes to destroy future problems and create old societies without progress.",
-      "The national schools are teaching children how to leave progress and face future alone.",
-      "Making schools is creating creative pupils without learning national programs."
+      "The national education program aims to prepare a generation capable of facing the future and creating a productive, creative society that can keep pace with progress.",
+      "The national schools are teaching children how to leave progress and face future alone."
     ],
     "correctAnswer": "The national education program aims to prepare a generation capable of facing the future and creating a productive, creative society that can keep pace with progress.",
     "explanation": "'يهدف إلى إعداد جيل' = aims to prepare a generation، 'قادر على' = capable of، 'مواكبة التقدم' = keep pace with progress.",
@@ -1094,7 +1112,8 @@
       "First Term",
       "Translation",
       "Arabic to English"
-    ]
+    ],
+    "optionsCount": 4
   },
   {
     "id": "qb_2027_sec1_trans_005",
@@ -1112,10 +1131,10 @@
     "topic": "Egyptian Scientists & Innovation",
     "questionText": "اختر الترجمة العربية الصحيحة للجملة التالية:\n\"Egyptian scientists have achieved great success all over the world. They will achieve more if they are given the chance.\"",
     "options": [
-      "لقد حقق العلماء المصريون نجاحاً كبيراً في جميع أنحاء العالم، وسوف يحققون المزيد إذا أُتيحت لهم الفرصة.",
       "فشل العلماء المصريون في العالم كله ولن يحصلوا على أي فرصة.",
+      "إن نجاح العلماء في مصر أكبر بكثير من نجاحهم في الدول الأخرى.",
       "سيسافر العلماء للعمل بالخارج لأن مصر لا تعطي الفرص للعلماء.",
-      "إن نجاح العلماء في مصر أكبر بكثير من نجاحهم في الدول الأخرى."
+      "لقد حقق العلماء المصريون نجاحاً كبيراً في جميع أنحاء العالم، وسوف يحققون المزيد إذا أُتيحت لهم الفرصة."
     ],
     "correctAnswer": "لقد حقق العلماء المصريون نجاحاً كبيراً في جميع أنحاء العالم، وسوف يحققون المزيد إذا أُتيحت لهم الفرصة.",
     "explanation": "الترجمة الصحيحة والدقيقة لصيغة المضارع التام (have achieved) والمبني للمجهول في جملة الشرط (if they are given the chance).",
@@ -1125,7 +1144,8 @@
       "First Term",
       "Translation",
       "English to Arabic"
-    ]
+    ],
+    "optionsCount": 4
   },
   {
     "id": "qb_2027_sec1_voc_001",
@@ -1143,10 +1163,10 @@
     "topic": "Environment & Tourism",
     "questionText": "We watched the smoke ________ slowly into the clear blue sky from the campfire.",
     "options": [
+      "restore",
       "rise",
-      "shape",
       "gather",
-      "restore"
+      "shape"
     ],
     "correctAnswer": "rise",
     "explanation": "الفعل اللازم الدال على ارتفاع الدخان تلقائياً في الهواء هو rise (يرتفع).",
@@ -1157,7 +1177,8 @@
       "Unit 1",
       "MCQ",
       "Vocabulary"
-    ]
+    ],
+    "optionsCount": 4
   },
   {
     "id": "qb_2027_sec1_voc_002",
@@ -1189,7 +1210,8 @@
       "Unit 1",
       "MCQ",
       "Vocabulary"
-    ]
+    ],
+    "optionsCount": 4
   },
   {
     "id": "qb_2027_sec1_voc_003",
@@ -1207,8 +1229,8 @@
     "topic": "Antonyms",
     "questionText": "The divers were relieved to find that the rare coral reef was still alive. The antonym of \"alive\" is ________.",
     "options": [
-      "dead",
       "breathing",
+      "dead",
       "living",
       "active"
     ],
@@ -1221,7 +1243,8 @@
       "Unit 1",
       "MCQ",
       "Vocabulary"
-    ]
+    ],
+    "optionsCount": 4
   },
   {
     "id": "qb_2027_sec1_gr_001",
@@ -1239,9 +1262,9 @@
     "topic": "While with Past Continuous",
     "questionText": "While I ________ my homework, my brother was loudly playing music in the other room.",
     "options": [
-      "was doing",
-      "did",
       "do",
+      "did",
+      "was doing",
       "have done"
     ],
     "correctAnswer": "was doing",
@@ -1253,7 +1276,8 @@
       "Unit 1",
       "MCQ",
       "Grammar"
-    ]
+    ],
+    "optionsCount": 4
   },
   {
     "id": "qb_2027_sec2_voc_001",
@@ -1271,10 +1295,10 @@
     "topic": "First Aid & CPR",
     "questionText": "CPR stands for cardiopulmonary ________.",
     "options": [
-      "resuscitation",
-      "reaction",
       "respiration",
-      "renovation"
+      "resuscitation",
+      "renovation",
+      "reaction"
     ],
     "correctAnswer": "resuscitation",
     "explanation": "اختصار CPR يعني الإنعاش القلبي الرئوي (cardiopulmonary resuscitation).",
@@ -1286,7 +1310,8 @@
       "Unit 1",
       "MCQ",
       "Vocabulary"
-    ]
+    ],
+    "optionsCount": 4
   },
   {
     "id": "qb_2027_sec2_voc_002",
@@ -1304,10 +1329,10 @@
     "topic": "Human Immune System",
     "questionText": "Your immune system helps your body protect itself against dangerous ________.",
     "options": [
-      "infections",
-      "inventions",
       "intentions",
-      "injections"
+      "injections",
+      "infections",
+      "inventions"
     ],
     "correctAnswer": "infections",
     "explanation": "الجهاز المناعي (immune system) يحمي الجسم من العدوى والأمراض الميكروبية (infections).",
@@ -1319,7 +1344,8 @@
       "Unit 1",
       "MCQ",
       "Vocabulary"
-    ]
+    ],
+    "optionsCount": 4
   },
   {
     "id": "qb_2027_sec2_gr_001",
@@ -1337,10 +1363,10 @@
     "topic": "Must for Warm Reminders",
     "questionText": "You ________ remember to call your grandmother tonight; it's her 70th birthday!",
     "options": [
-      "must",
+      "mustn't",
       "have to",
       "needn't",
-      "mustn't"
+      "must"
     ],
     "correctAnswer": "must",
     "explanation": "نستخدم must للتعبير عن التذكير القوي النابع من مشاعر المتحدث (strong warm reminder).",
@@ -1352,7 +1378,8 @@
       "Unit 1",
       "MCQ",
       "Grammar"
-    ]
+    ],
+    "optionsCount": 4
   },
   {
     "id": "qb_2027_sec2_gr_002",
@@ -1370,10 +1397,10 @@
     "topic": "Needn't have vs Didn't need to",
     "questionText": "I ________ buy extra bread because my sister had already bought two loaves, but I did anyway.",
     "options": [
-      "needn't have bought",
+      "had to buy",
       "didn't need to buy",
-      "mustn't buy",
-      "had to buy"
+      "needn't have bought",
+      "mustn't buy"
     ],
     "correctAnswer": "needn't have bought",
     "explanation": "صيغة needn't have + P.P تعني أن الحدث تم بالفعل في الماضي رغم أنه لم يكن ضرورياً.",
@@ -1385,7 +1412,8 @@
       "Unit 1",
       "MCQ",
       "Grammar"
-    ]
+    ],
+    "optionsCount": 4
   },
   {
     "id": "qb_2027_sec2_trans_001",
@@ -1403,10 +1431,10 @@
     "topic": "Clean Energy & Climate Change",
     "questionText": "اختر الترجمة الإنجليزية الصحيحة:\n\"تبذل الدولة المصرية جهوداً مضنية للتحول نحو الطاقة النظيفة والمستدامة للتخفيف من حدة التغير المناخي وحماية الأجيال القادمة.\"",
     "options": [
-      "The Egyptian state exerts strenuous efforts to transition towards clean, sustainable energy to mitigate climate change and protect future generations.",
       "Egypt does small actions to change energy into dangerous sources for future people.",
       "The Egyptian government is stopping sustainable energy to increase climate variations.",
-      "Future generations will refuse clean energy in Egypt due to strenuous effort."
+      "Future generations will refuse clean energy in Egypt due to strenuous effort.",
+      "The Egyptian state exerts strenuous efforts to transition towards clean, sustainable energy to mitigate climate change and protect future generations."
     ],
     "correctAnswer": "The Egyptian state exerts strenuous efforts to transition towards clean, sustainable energy to mitigate climate change and protect future generations.",
     "explanation": "'جهوداً مضنية' = strenuous efforts، 'للتحول نحو' = to transition towards، 'للتخفيف من حدة' = to mitigate.",
@@ -1417,7 +1445,8 @@
       "First Term",
       "Translation",
       "Arabic to English"
-    ]
+    ],
+    "optionsCount": 4
   },
   {
     "id": "qb_2027_sec2_rw_001",
@@ -1462,10 +1491,10 @@
     "topic": "Publishing & Book Piracy",
     "questionText": "Publishing houses face severe financial losses due to illegal book ________ on the internet.",
     "options": [
-      "piracy",
-      "privacy",
       "policy",
-      "penalty"
+      "piracy",
+      "penalty",
+      "privacy"
     ],
     "correctAnswer": "piracy",
     "explanation": "القرصنة والنسخ غير القانوني للكتب والمصنفات الفنية تسمى (piracy).",
@@ -1476,7 +1505,8 @@
       "Unit 1",
       "MCQ",
       "Vocabulary"
-    ]
+    ],
+    "optionsCount": 4
   },
   {
     "id": "qb_2027_sec3_voc_002",
@@ -1494,10 +1524,10 @@
     "topic": "Journalism Terminology",
     "questionText": "A newspaper with large pages and serious, factual articles is known as a ________.",
     "options": [
+      "leaflet",
       "broadsheet",
       "tabloid",
-      "flyer",
-      "leaflet"
+      "flyer"
     ],
     "correctAnswer": "broadsheet",
     "explanation": "الصحيفة الرسمية ذات الصفحات الكبيرة والمقالات الرصينة والتحليلات الجادة هي (broadsheet).",
@@ -1508,7 +1538,8 @@
       "Unit 1",
       "MCQ",
       "Vocabulary"
-    ]
+    ],
+    "optionsCount": 4
   },
   {
     "id": "qb_2027_sec3_gr_001",
@@ -1527,9 +1558,9 @@
     "questionText": "By the time the rescue team arrived at the scene, the fire brigade ________ the flames.",
     "options": [
       "had extinguished",
-      "extinguished",
       "has extinguished",
-      "was extinguishing"
+      "was extinguishing",
+      "extinguished"
     ],
     "correctAnswer": "had extinguished",
     "explanation": "الحدث الذي تم واكتمل أولاً قبل وصول فريق الإنقاذ يوضع في زمن الماضي التام (had extinguished).",
@@ -1540,7 +1571,8 @@
       "Unit 1",
       "MCQ",
       "Grammar"
-    ]
+    ],
+    "optionsCount": 4
   },
   {
     "id": "qb_2027_sec3_gr_002",
@@ -1558,10 +1590,10 @@
     "topic": "Present Perfect Continuous with All day",
     "questionText": "She is exhausted because she ________ the house all day long.",
     "options": [
+      "had been cleaning",
       "has been cleaning",
       "has cleaned",
-      "cleaned",
-      "had been cleaning"
+      "cleaned"
     ],
     "correctAnswer": "has been cleaning",
     "explanation": "أثر حاضر (She is exhausted) ناتج عن استمرار حدث استغرق وقتاً طويلاً (all day long)، لذا نستخدم المضارع التام المستمر (has been cleaning).",
@@ -1572,7 +1604,8 @@
       "Unit 2",
       "MCQ",
       "Grammar"
-    ]
+    ],
+    "optionsCount": 4
   },
   {
     "id": "qb_2027_sec3_trans_001",
@@ -1590,10 +1623,10 @@
     "topic": "Youth Empowerment & Innovation",
     "questionText": "اختر الترجمة الإنجليزية الأدق لقواعد الجملة:\n\"يمثل الشباب العمود الفقري لأي أمة تسعى لتحقيق التنمية المستدامة ومواكبة الثورة الرقمية الحديثة.\"",
     "options": [
-      "Youth represent the backbone of any nation that seeks to achieve sustainable development and keep pace with the modern digital revolution.",
-      "Young people is the bone of nations looking for modern digital changes without development.",
       "Youth are backing the bone in nations achieving old industrial production and revolution.",
-      "Any nation seeking sustainable developments will forget youth and modern digital technology."
+      "Any nation seeking sustainable developments will forget youth and modern digital technology.",
+      "Young people is the bone of nations looking for modern digital changes without development.",
+      "Youth represent the backbone of any nation that seeks to achieve sustainable development and keep pace with the modern digital revolution."
     ],
     "correctAnswer": "Youth represent the backbone of any nation that seeks to achieve sustainable development and keep pace with the modern digital revolution.",
     "explanation": "'العمود الفقري' = the backbone، 'التنمية المستدامة' = sustainable development، 'مواكبة' = keep pace with.",
@@ -1603,7 +1636,8 @@
       "First Term",
       "Translation",
       "Arabic to English"
-    ]
+    ],
+    "optionsCount": 4
   },
   {
     "id": "qb_2027_sec3_rw_001",

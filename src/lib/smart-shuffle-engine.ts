@@ -100,16 +100,11 @@ export function validateAndStandardizeFourOptions(question: any): any | null {
     });
   }
 
-  if (cleaned.length !== 4) {
-    return null;
-  }
-
+  let matchedCorrectIndex = -1;
   const rawCorrect = String(question.correctAnswer || "").trim();
   if (!rawCorrect) {
     return null;
   }
-
-  let matchedCorrectIndex = -1;
   const rawCorrectUpper = rawCorrect.toUpperCase();
 
   if (LABELS.includes(rawCorrectUpper as any)) {
@@ -127,6 +122,23 @@ export function validateAndStandardizeFourOptions(question: any): any | null {
     return null;
   }
 
+  // If options exceed 4, strictly prune down to 4: keeping correct answer and 3 distinct distractors
+  if (cleaned.length > 4) {
+    const correctItem = cleaned[matchedCorrectIndex];
+    const distractorItems = cleaned.filter((_, idx) => idx !== matchedCorrectIndex).slice(0, 3);
+    const pruned = [correctItem, ...distractorItems];
+    return {
+      ...question,
+      options: pruned.map((opt, i) => ({ label: LABELS[i], text: opt.text })),
+      correctIndex: 0,
+      correctText: correctItem.text,
+    };
+  }
+
+  if (cleaned.length !== 4) {
+    return null;
+  }
+
   return {
     ...question,
     options: cleaned.map((opt, i) => ({ label: LABELS[i], text: opt.text })),
@@ -137,75 +149,92 @@ export function validateAndStandardizeFourOptions(question: any): any | null {
 
 /**
  * Generates a balanced sequence of target correct letters for N questions.
+ * Ensures maxStreak <= 2, ~25% distribution across A, B, C, D, and prevents cyclic patterns.
  */
 export function generateBalancedTargetLetters(count: number): OptionLabel[] {
   if (count <= 0) return [];
 
   const baseCount = Math.floor(count / 4);
-  let remainder = count % 4;
+  const remainder = count % 4;
 
-  const pool: OptionLabel[] = [];
-  for (const label of LABELS) {
-    const c = baseCount + (remainder > 0 ? 1 : 0);
-    if (remainder > 0) remainder--;
-    for (let i = 0; i < c; i++) {
-      pool.push(label);
-    }
-  }
+  const targetCounts: Record<OptionLabel, number> = {
+    A: baseCount + (remainder >= 1 ? 1 : 0),
+    B: baseCount + (remainder >= 2 ? 1 : 0),
+    C: baseCount + (remainder >= 3 ? 1 : 0),
+    D: baseCount,
+  };
 
-  let attempts = 0;
-  const maxAttempts = 500;
+  const maxStreak = 2;
 
-  while (attempts++ < maxAttempts) {
-    const shuffled = [...pool].sort(() => Math.random() - 0.5);
-    let valid = true;
+  for (let attempt = 0; attempt < 50; attempt++) {
+    const remaining: Record<OptionLabel, number> = { ...targetCounts };
+    const result: OptionLabel[] = [];
+    let stuck = false;
 
-    for (let i = 2; i < shuffled.length; i++) {
-      if (shuffled[i] === shuffled[i - 1] && shuffled[i] === shuffled[i - 2]) {
-        valid = false;
+    for (let i = 0; i < count; i++) {
+      const candidates = (LABELS as readonly OptionLabel[]).filter((l) => {
+        if (remaining[l] <= 0) return false;
+        // 1. Streak check
+        if (i >= maxStreak) {
+          let streak = true;
+          for (let k = 1; k <= maxStreak; k++) {
+            if (result[i - k] !== l) {
+              streak = false;
+              break;
+            }
+          }
+          if (streak) return false;
+        }
+        // 2. 2-cycle repeat check (ABABAB)
+        if (
+          i >= 5 &&
+          l === result[i - 2] &&
+          result[i - 2] === result[i - 4] &&
+          result[i - 1] === result[i - 3] &&
+          result[i - 3] === result[i - 5]
+        ) {
+          return false;
+        }
+        // 3. 4-cycle repeat check (ABCDABCD)
+        if (
+          i >= 7 &&
+          l === result[i - 4] &&
+          result[i - 1] === result[i - 5] &&
+          result[i - 2] === result[i - 6] &&
+          result[i - 3] === result[i - 7]
+        ) {
+          return false;
+        }
+        return true;
+      });
+
+      if (candidates.length === 0) {
+        stuck = true;
         break;
       }
+
+      const maxRem = Math.max(...candidates.map((c) => remaining[c]));
+      const topCandidates = candidates.filter((c) => remaining[c] >= maxRem - 1);
+      const choice = topCandidates[Math.floor(Math.random() * topCandidates.length)];
+
+      result.push(choice);
+      remaining[choice]--;
     }
 
-    if (valid && shuffled.length >= 8) {
-      for (let i = 4; i < shuffled.length; i++) {
-        if (
-          shuffled[i] === shuffled[i - 4] &&
-          shuffled[i - 1] === shuffled[i - 5] &&
-          shuffled[i - 2] === shuffled[i - 6] &&
-          shuffled[i - 3] === shuffled[i - 7]
-        ) {
-          valid = false;
-          break;
-        }
-      }
-    }
-
-    if (valid) {
-      return shuffled;
+    if (!stuck && result.length === count) {
+      return result;
     }
   }
 
-  const result: OptionLabel[] = [];
-  const remainingCounts: Record<OptionLabel, number> = { A: 0, B: 0, C: 0, D: 0 };
-  for (const p of pool) remainingCounts[p]++;
-
-  for (let i = 0; i < count; i++) {
-    const candidates = (LABELS as readonly OptionLabel[]).filter((l) => {
-      if (remainingCounts[l] <= 0) return false;
-      if (i >= 2 && result[i - 1] === l && result[i - 2] === l) return false;
-      return true;
-    });
-
-    const choice = candidates.length > 0
-      ? candidates[Math.floor(Math.random() * candidates.length)]
-      : (LABELS as readonly OptionLabel[]).find((l) => remainingCounts[l] > 0)!;
-
-    result.push(choice);
-    remainingCounts[choice]--;
+  // Fallback: block-level distribution
+  const fallback: OptionLabel[] = [];
+  while (fallback.length < count) {
+    const block: OptionLabel[] = [...LABELS].sort(() => Math.random() - 0.5);
+    for (const b of block) {
+      if (fallback.length < count) fallback.push(b);
+    }
   }
-
-  return result;
+  return fallback;
 }
 
 /**

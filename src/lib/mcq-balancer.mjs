@@ -58,102 +58,178 @@ export function generateControlledBalancedSequence(count, options = {}) {
   let attempts = 0;
   const maxAttempts = 1000;
 
-  while (attempts++ < maxAttempts) {
-    // Fisher-Yates shuffle
-    const candidate = [...pool];
-    for (let i = candidate.length - 1; i > 0; i--) {
-      const j = Math.floor(rng() * (i + 1));
-      [candidate[i], candidate[j]] = [candidate[j], candidate[i]];
-    }
+  for (let attempt = 0; attempt < 50; attempt++) {
+    const remaining = { ...targetCounts };
+    const result = [];
+    let stuck = false;
 
-    let valid = true;
-
-    // 1. Check streak limit (no run > maxStreak)
-    for (let i = maxStreak; i < candidate.length; i++) {
-      let allMatch = true;
-      for (let k = 1; k <= maxStreak; k++) {
-        if (candidate[i] !== candidate[i - k]) {
-          allMatch = false;
-          break;
+    for (let i = 0; i < count; i++) {
+      const candidates = LABELS.filter((l) => {
+        if (remaining[l] <= 0) return false;
+        // 1. Streak check (no runs > maxStreak)
+        if (i >= maxStreak) {
+          let streak = true;
+          for (let k = 1; k <= maxStreak; k++) {
+            if (result[i - k] !== l) {
+              streak = false;
+              break;
+            }
+          }
+          if (streak) return false;
         }
-      }
-      if (allMatch) {
-        valid = false;
+        // 2. 2-cycle repeat check (e.g. ABABAB)
+        if (
+          i >= 5 &&
+          l === result[i - 2] &&
+          result[i - 2] === result[i - 4] &&
+          result[i - 1] === result[i - 3] &&
+          result[i - 3] === result[i - 5]
+        ) {
+          return false;
+        }
+        // 3. 4-cycle repeat check (e.g. ABCDABCD)
+        if (
+          i >= 7 &&
+          l === result[i - 4] &&
+          result[i - 1] === result[i - 5] &&
+          result[i - 2] === result[i - 6] &&
+          result[i - 3] === result[i - 7]
+        ) {
+          return false;
+        }
+        return true;
+      });
+
+      if (candidates.length === 0) {
+        stuck = true;
         break;
       }
+
+      // Prioritize candidates with highest remaining count to prevent starvation
+      const maxRem = Math.max(...candidates.map((c) => remaining[c]));
+      const topCandidates = candidates.filter((c) => remaining[c] >= maxRem - 1);
+      const choice = topCandidates[Math.floor(rng() * topCandidates.length)];
+
+      result.push(choice);
+      remaining[choice]--;
     }
 
-    // 2. Check 2-cycle repeats (e.g. ABABAB)
-    if (valid && candidate.length >= 6) {
-      for (let i = 5; i < candidate.length; i++) {
-        if (
-          candidate[i] === candidate[i - 2] &&
-          candidate[i - 2] === candidate[i - 4] &&
-          candidate[i - 1] === candidate[i - 3] &&
-          candidate[i - 3] === candidate[i - 5]
-        ) {
-          valid = false;
-          break;
-        }
-      }
-    }
-
-    // 3. Check 4-cycle repeats (e.g. ABCDABCD)
-    if (valid && candidate.length >= 8) {
-      for (let i = 7; i < candidate.length; i++) {
-        if (
-          candidate[i] === candidate[i - 4] &&
-          candidate[i - 1] === candidate[i - 5] &&
-          candidate[i - 2] === candidate[i - 6] &&
-          candidate[i - 3] === candidate[i - 7]
-        ) {
-          valid = false;
-          break;
-        }
-      }
-    }
-
-    if (valid) {
-      return candidate;
+    if (!stuck && result.length === count) {
+      return result;
     }
   }
 
-  // Fallback: Greedy constructive builder with constraint checking
-  const result = [];
-  const remaining = { ...targetCounts };
+  // Fallback: block-level balanced distribution
+  const fallback = [];
+  while (fallback.length < count) {
+    const block = [...LABELS];
+    for (let i = block.length - 1; i > 0; i--) {
+      const j = Math.floor(rng() * (i + 1));
+      [block[i], block[j]] = [block[j], block[i]];
+    }
+    for (const b of block) {
+      if (fallback.length < count) fallback.push(b);
+    }
+  }
+  return fallback;
+}
 
-  for (let i = 0; i < count; i++) {
-    const candidates = LABELS.filter((l) => {
-      if (remaining[l] <= 0) return false;
-      if (i >= maxStreak) {
-        let isStreak = true;
-        for (let k = 1; k <= maxStreak; k++) {
-          if (result[i - k] !== l) {
-            isStreak = false;
-            break;
-          }
-        }
-        if (isStreak) return false;
-      }
-      return true;
-    });
+/**
+ * Ensures a question's options strictly do not exceed 4 options (standard A, B, C, D).
+ * If options.length > 4, preserves the correct answer and selects up to 3 distinct distractors.
+ * If options.length <= 4, ensures no extra/null slots exist.
+ */
+export function standardizeQuestionOptions(question) {
+  if (!question || typeof question !== "object") return question;
+  const opts = question.options;
+  if (!Array.isArray(opts)) return question;
 
-    const choice = candidates.length > 0
-      ? candidates[Math.floor(rng() * candidates.length)]
-      : LABELS.find((l) => remaining[l] > 0);
-
-    result.push(choice);
-    remaining[choice]--;
+  // If already at most 4 options, return as is
+  if (opts.length <= 4) {
+    return question;
   }
 
-  return result;
+  // Question has more than 4 options! Must prune to exactly 4 options.
+  const rawCorrect = question.correctAnswer ?? question.correct ?? question.modelAnswer;
+  let correctOptIndex = -1;
+
+  // Find correct option index
+  if (typeof rawCorrect === "number" && rawCorrect >= 0 && rawCorrect < opts.length) {
+    correctOptIndex = rawCorrect;
+  } else if (rawCorrect !== undefined && rawCorrect !== null) {
+    const cleanCorrect = String(rawCorrect).trim().toLowerCase();
+    const cleanUpper = String(rawCorrect).trim().toUpperCase();
+
+    // Check letter match if options have labels
+    if (opts[0] && typeof opts[0] === "object" && opts[0].label) {
+      correctOptIndex = opts.findIndex((o) => String(o.label || "").trim().toLowerCase() === cleanCorrect);
+    }
+
+    if (correctOptIndex === -1 && ["A", "B", "C", "D"].includes(cleanUpper)) {
+      const charCode = cleanUpper.charCodeAt(0) - 65;
+      if (charCode < opts.length) correctOptIndex = charCode;
+    }
+
+    if (correctOptIndex === -1) {
+      correctOptIndex = opts.findIndex((o) => {
+        const text = typeof o === "object" ? (o.text || o.label) : String(o);
+        return String(text || "").trim().toLowerCase() === cleanCorrect;
+      });
+    }
+  }
+
+  // If correct option found, keep it and pick 3 unique distractors
+  if (correctOptIndex >= 0 && correctOptIndex < opts.length) {
+    const correctOpt = opts[correctOptIndex];
+    const isObject = typeof correctOpt === "object" && correctOpt !== null;
+    const seenTexts = new Set();
+    const correctText = isObject ? String(correctOpt.text || "").trim().toLowerCase() : String(correctOpt).trim().toLowerCase();
+    seenTexts.add(correctText);
+
+    const distractors = [];
+    for (let i = 0; i < opts.length; i++) {
+      if (i === correctOptIndex) continue;
+      const opt = opts[i];
+      const optText = typeof opt === "object" && opt !== null ? String(opt.text || "").trim().toLowerCase() : String(opt).trim().toLowerCase();
+      if (!optText || seenTexts.has(optText)) continue;
+      seenTexts.add(optText);
+      distractors.push(opt);
+      if (distractors.length === 3) break;
+    }
+
+    const new4Options = [correctOpt, ...distractors];
+    // Re-label if object format
+    if (isObject) {
+      for (let i = 0; i < new4Options.length; i++) {
+        new4Options[i] = {
+          ...new4Options[i],
+          label: ["a", "b", "c", "d"][i],
+        };
+      }
+    }
+
+    const updated = { ...question, options: new4Options, optionsCount: new4Options.length };
+    if (typeof rawCorrect === "number") {
+      updated.correct = 0;
+    } else if (typeof rawCorrect === "string" && ["a", "b", "c", "d"].includes(rawCorrect.toLowerCase())) {
+      updated.correctAnswer = "a";
+    }
+    return updated;
+  }
+
+  // Fallback: simply slice to first 4 options
+  return { ...question, options: opts.slice(0, 4), optionsCount: Math.min(opts.length, 4) };
 }
 
 /**
  * Resolves the correct option text and current option index for a given question.
  */
 export function resolveQuestionCorrectOption(question) {
-  const options = question.options;
+  let q = question;
+  if (q && Array.isArray(q.options) && q.options.length > 4) {
+    q = standardizeQuestionOptions(q);
+  }
+  const options = q?.options;
   if (!options || !Array.isArray(options) || options.length !== 4) {
     return null;
   }
@@ -229,16 +305,20 @@ export function resolveQuestionCorrectOption(question) {
  * Preserves questionText, options content, explanation, and updates references safely.
  */
 export function rebalanceQuestion(question, targetLabel, options = {}) {
-  const resolved = resolveQuestionCorrectOption(question);
+  let q = question;
+  if (q && Array.isArray(q.options) && q.options.length > 4) {
+    q = standardizeQuestionOptions(q);
+  }
+  const resolved = resolveQuestionCorrectOption(q);
   if (!resolved) {
     // Cannot safely rebalance without verified correct answer
-    return question;
+    return q;
   }
 
   const targetIndex = LABELS.indexOf(targetLabel);
-  if (targetIndex === -1) return question;
+  if (targetIndex === -1) return q;
 
-  const currentOpts = question.options;
+  const currentOpts = q.options;
   const correctRawOpt = currentOpts[resolved.index];
 
   // Distractors
@@ -305,7 +385,7 @@ export function rebalanceQuestion(question, targetLabel, options = {}) {
   }
 
   // Clone question and update answer keys
-  const updated = { ...question, options: newOptions };
+  const updated = { ...q, options: newOptions, optionsCount: 4 };
 
   if (resolved.format === "numeric") {
     updated.correct = targetIndex;
@@ -314,10 +394,14 @@ export function rebalanceQuestion(question, targetLabel, options = {}) {
   } else {
     // Format is "text" - text remains the same!
     // But if question also had correctAnswer formatted with letter prefix e.g. "a) ...", update it
-    if (question.correctAnswer && /^[A-Da-d][\).\s]+/.test(String(question.correctAnswer))) {
-      const sep = String(question.correctAnswer).match(/^[A-Da-d]([\).\s]+)/)[1];
+    if (q.correctAnswer && /^[A-Da-d][\)\.\:\-]\s*/.test(String(q.correctAnswer))) {
+      const sep = String(q.correctAnswer).match(/^[A-Da-d]([\)\.\:\-]\s*)/)[1];
       updated.correctAnswer = `${targetLabel}${sep}${resolved.text}`;
     }
+  }
+
+  if (q.correctOptionIndex !== undefined) {
+    updated.correctOptionIndex = targetIndex;
   }
 
   return updated;
@@ -330,8 +414,10 @@ export function rebalanceQuestionSet(questions, options = {}) {
   const validIndices = [];
   const sequence = [];
 
-  for (let i = 0; i < questions.length; i++) {
-    const q = questions[i];
+  const standardizedQuestions = questions.map((q) => standardizeQuestionOptions(q));
+
+  for (let i = 0; i < standardizedQuestions.length; i++) {
+    const q = standardizedQuestions[i];
     const resolved = resolveQuestionCorrectOption(q);
     if (resolved) {
       validIndices.push(i);
@@ -341,14 +427,14 @@ export function rebalanceQuestionSet(questions, options = {}) {
 
   const targetSequence = generateControlledBalancedSequence(validIndices.length, options);
 
-  const rebalancedQuestions = [...questions];
+  const rebalancedQuestions = [...standardizedQuestions];
   const distributionBefore = { A: 0, B: 0, C: 0, D: 0 };
   const distributionAfter = { A: 0, B: 0, C: 0, D: 0 };
   const integrityErrors = [];
 
   for (let k = 0; k < validIndices.length; k++) {
     const qIndex = validIndices[k];
-    const originalQ = questions[qIndex];
+    const originalQ = standardizedQuestions[qIndex];
     const targetLabel = targetSequence[k];
 
     const prevResolved = resolveQuestionCorrectOption(originalQ);

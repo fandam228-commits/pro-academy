@@ -722,7 +722,7 @@ export const TrainingCenterWorkspace: React.FC<{ initialTopic?: string }> = ({ i
               {/* Options List */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 {currentQuestion.options && currentQuestion.options.length > 0 ? (
-                  currentQuestion.options.map((opt) => {
+                  currentQuestion.options.slice(0, 4).map((opt) => {
                     const isSelected = practiceAnswer === opt.label;
                     const isCorrect = practiceFeedback && practiceFeedback.correctAnswer?.toLowerCase() === opt.label.toLowerCase();
                     const isWrong = practiceFeedback && isSelected && !practiceFeedback.isCorrect;
@@ -1042,7 +1042,7 @@ export const TrainingCenterWorkspace: React.FC<{ initialTopic?: string }> = ({ i
                   </h3>
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    {currentExam.questions[currentExamQIndex].options.map((opt) => {
+                    {currentExam.questions[currentExamQIndex].options.slice(0, 4).map((opt) => {
                       const qId = currentExam.questions[currentExamQIndex].id;
                       const isSelected = examAnswers[qId] === opt.label;
 
@@ -1340,7 +1340,7 @@ export const TrainingCenterWorkspace: React.FC<{ initialTopic?: string }> = ({ i
                   </p>
 
                   <div className="grid grid-cols-2 gap-2 text-xs font-semibold text-left dir-ltr">
-                    {item.question?.options?.map((opt: any) => (
+                    {item.question?.options?.slice(0, 4).map((opt: any) => (
                       <div
                         key={opt.label}
                         className={`p-2.5 rounded-xl border ${

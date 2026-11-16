@@ -1292,3 +1292,10 @@ if __name__ == '__main__':
     with open(OUTPUT_FILE, 'w', encoding='utf-8') as f:
         json.dump(all_q, f, indent=2, ensure_ascii=False)
     print(f"Successfully saved to {OUTPUT_FILE}")
+
+    # Immediately rebalance and standardize options (A/B/C/D balanced, max 4 options, streak <= 2)
+    import subprocess
+    rebalance_script = os.path.join(os.path.dirname(__file__), 'rebalance_2027_master_question_bank.mjs')
+    print("Running psychometric rebalancer to ensure balanced A/B/C/D distribution...")
+    subprocess.run(["node", rebalance_script], check=True)
+

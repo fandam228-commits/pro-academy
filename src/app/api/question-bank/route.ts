@@ -5,7 +5,7 @@ import { NextResponse } from "next/server";
 import { ensureDbSetup } from "@/db/migrate-and-seed";
 import { requireRoles, getAuthContext } from "@/lib/security";
 import { answersMatch, normalizedAnswerSet } from "@/lib/question-grading.mjs";
-import { rebalanceQuestionSet } from "@/lib/mcq-balancer";
+import { rebalanceQuestionSet, standardizeQuestionOptions } from "@/lib/mcq-balancer";
 import QUESTION_BANK_2027_MASTER from "@/data/question-bank-2027-master.json";
 
 function filterFallbackMaster(params: {
@@ -59,7 +59,7 @@ function filterFallbackMaster(params: {
       String(q.explanation || "").toLowerCase().includes(s)
     );
   }
-  return list.slice(0, params.limit || 100);
+  return list.map(standardizeQuestionOptions).slice(0, params.limit || 100);
 }
 
 export async function GET(req: Request) {
@@ -150,7 +150,13 @@ export async function GET(req: Request) {
     const vocabCount = allQuestions.filter((q) => q.domainCategory === "Vocabulary").length;
     const grammarCount = allQuestions.filter((q) => q.domainCategory === "Grammar").length;
 
-    const safeQuestions = (ctx.user.role === "admin" || ctx.user.role === "teacher") ? allQuestions : allQuestions.map(({ correctAnswer, ...q }) => q);
+    // Standardize all questions to strictly <= 4 options
+    const standardizedQuestions = allQuestions.map(standardizeQuestionOptions);
+
+    const safeQuestions = (ctx.user.role === "admin" || ctx.user.role === "teacher")
+      ? standardizedQuestions
+      : standardizedQuestions.map(({ correctAnswer, ...q }: any) => q);
+
     return NextResponse.json({
       questions: safeQuestions,
       stats: {
@@ -178,13 +184,16 @@ export async function GET(req: Request) {
       search,
       limit,
     });
-    const safeQuestions = (ctx.user.role === "admin" || ctx.user.role === "teacher") ? fallbackQuestions : fallbackQuestions.map(({ correctAnswer, ...q }: any) => q);
+    const standardizedFallback = fallbackQuestions.map(standardizeQuestionOptions);
+    const safeQuestions = (ctx.user.role === "admin" || ctx.user.role === "teacher")
+      ? standardizedFallback
+      : standardizedFallback.map(({ correctAnswer, ...q }: any) => q);
     return NextResponse.json({
       questions: safeQuestions,
       stats: {
-        total: fallbackQuestions.length,
-        vocabularyCount: fallbackQuestions.filter((q: any) => q.domainCategory === "Vocabulary").length,
-        grammarCount: fallbackQuestions.filter((q: any) => q.domainCategory === "Grammar").length,
+        total: standardizedFallback.length,
+        vocabularyCount: standardizedFallback.filter((q: any) => q.domainCategory === "Vocabulary").length,
+        grammarCount: standardizedFallback.filter((q: any) => q.domainCategory === "Grammar").length,
       },
     });
   }
@@ -243,7 +252,7 @@ export async function POST(req: Request) {
       }
 
       const qId = `qb_${Date.now()}_${Math.random().toString(36).substring(2, 6)}`;
-      const newQ = {
+      const qVal = standardizeQuestionOptions({
         id: qId,
         domainCategory: qData.domainCategory || "Grammar",
         questionText: qData.questionText,
@@ -267,10 +276,10 @@ export async function POST(req: Request) {
         correctAnswer: qData.correctAnswer,
         explanation: qData.explanation || "",
         points: qData.points || 10,
-      };
+      });
 
-      await db.insert(questionBank).values(newQ);
-      return NextResponse.json({ success: true, question: newQ });
+      await db.insert(questionBank).values(qVal);
+      return NextResponse.json({ success: true, question: qVal });
     }
 
     // 2. UPDATE / DELETE QUESTIONS
@@ -327,7 +336,7 @@ export async function POST(req: Request) {
         }
 
         const qId = `imp_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`;
-        const qVal = {
+        const qVal = standardizeQuestionOptions({
           id: qId,
           domainCategory: item.domainCategory || (item.grammarTopic ? "Grammar" : "Vocabulary"),
           questionText: qText,
@@ -351,7 +360,7 @@ export async function POST(req: Request) {
           correctAnswer: corr,
           explanation: item.explanation || "Imported question",
           points: item.points || 10,
-        };
+        });
 
         await db.insert(questionBank).values(qVal);
         existing.push({ questionText: qText });
@@ -523,9 +532,7 @@ export async function POST(req: Request) {
 
       const pushQuestion = async (q: any) => {
         if (selected.length >= totalNum || usedIds.has(q.id)) return;
-        let randomizedOptions = q.options;
-        if (Array.isArray(q.options)) randomizedOptions = [...q.options].sort(() => Math.random() - 0.5);
-        selected.push({ ...q, options: randomizedOptions });
+        selected.push(standardizeQuestionOptions(q));
         usedIds.add(q.id);
         await db.update(questionBank).set({ timesUsed: (q.timesUsed || 0) + 1, lastUsedAt: new Date() }).where(eq(questionBank.id, q.id)).catch(() => {});
       };

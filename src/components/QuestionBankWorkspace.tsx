@@ -676,7 +676,7 @@ export const QuestionBankWorkspace: React.FC<{ onExamGenerated?: (exam: any) => 
                   {/* INTERACTIVE MCQ & MULTIPLE CHOICE TRANSLATION */}
                   {Array.isArray(q.options) && q.options.length > 0 && (
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-1">
-                      {q.options.map((opt: string, i: number) => {
+                      {q.options.slice(0, 4).map((opt: string, i: number) => {
                         const optText = String(opt || "").trim();
                         const isTeacher = user?.role === "admin" || user?.role === "teacher";
                         const studentSelected = interactiveAnswers[q.id] === optText;
