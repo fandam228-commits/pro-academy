@@ -28,12 +28,14 @@ import {
   dialogues,
   dialogueSubmissions,
   dialogueStudentProgress,
+  questionBank,
 } from "./schema";
 import { ALL_DIALOGUES } from "@/data/dialogue-center";
 import { ALL_CURRICULUM_STORIES } from "@/data/story-world";
 import { SMART_CURRICULUM_SEEDS } from "@/data/smart-curriculum-seed";
 import { TRANSLATION_MODULES_SEED, SAMPLE_TRANSLATION_EXAMS } from "@/data/translation-academy-seed";
 import EXTRACTED_TRAINING_QUESTIONS from "@/data/training-center-extracted-questions.json";
+import QUESTION_BANK_2027_MASTER from "@/data/question-bank-2027-master.json";
 import { hashPassword } from "@/lib/security";
 
 let setupPromise: Promise<void> | null = null;
@@ -1323,6 +1325,7 @@ async function initializeSchema(): Promise<void> {
   await seedLiveSessionsIfEmpty();
   await seedTrainingCenterQuestionsIfEmpty();
   await seedDialogueCenterIfEmpty();
+  await seedMasterQuestionBank2027IfEmpty();
 }
 
 export async function syncCurriculum2026(): Promise<{
@@ -2324,5 +2327,57 @@ export async function seedDialogueCenterIfEmpty(): Promise<void> {
     console.error("Seed Dialogue Center Error:", error);
   }
 }
+
+export async function seedMasterQuestionBank2027IfEmpty(): Promise<void> {
+  try {
+    const existing = await db
+      .select({ id: questionBank.id })
+      .from(questionBank)
+      .limit(10);
+
+    if (existing.length >= 10) {
+      return;
+    }
+
+    console.log(`Seeding ${QUESTION_BANK_2027_MASTER.length} Master 2027 Interactive Curriculum Questions...`);
+    const BATCH_SIZE = 25;
+    for (let i = 0; i < QUESTION_BANK_2027_MASTER.length; i += BATCH_SIZE) {
+      const chunk = QUESTION_BANK_2027_MASTER.slice(i, i + BATCH_SIZE).map((q: any) => ({
+        id: q.id,
+        domainCategory: q.domainCategory || "Grammar",
+        questionText: q.questionText,
+        questionType: q.questionType || "mcq",
+        stage: q.stage || "Secondary",
+        grade: q.grade || "Third Secondary (Baccalaureate)",
+        curriculum: q.curriculum || "Ministry",
+        term: q.term || "First",
+        source: q.source || null,
+        tags: q.tags || [],
+        unit: q.unit || "Unit 1",
+        lesson: q.lesson || "Lesson 1",
+        section: q.section || null,
+        difficulty: q.difficulty || "Medium",
+        skill: q.skill || "Grammar & Context",
+        wordType: q.wordType || null,
+        topic: q.topic || "General Topic",
+        bloomLevel: q.bloomLevel || "Understand",
+        grammarTopic: q.grammarTopic || null,
+        passageText: q.passageText || null,
+        audioUrl: q.audioUrl || null,
+        options: q.options || [],
+        correctAnswer: q.correctAnswer,
+        explanation: q.explanation || "",
+        points: q.points || 10,
+        timesUsed: 0,
+      }));
+
+      await db.insert(questionBank).values(chunk);
+    }
+    console.log("Master 2027 Interactive Question Bank seeded successfully!");
+  } catch (error) {
+    console.error("Seed Master Question Bank 2027 Error:", error);
+  }
+}
+
 
 
