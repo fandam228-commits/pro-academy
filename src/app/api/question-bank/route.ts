@@ -119,24 +119,30 @@ export async function GET(req: Request) {
       .where(conditions.length ? and(...conditions) : undefined)
       .limit(limit);
 
-    if (allQuestions.length === 0) {
-      allQuestions = filterFallbackMaster({
-        domainCategory,
-        stage,
-        grade,
-        curriculum,
-        term,
-        unit,
-        questionType,
-        difficulty,
-        source,
-        lesson,
-        section,
-        grammarTopic,
-        topic,
-        search,
-        limit,
-      });
+    // Merge fallback master questions so 2027 curriculum questions are always available
+    const existingIds = new Set(allQuestions.map((q) => q.id));
+    const fallbackMatches = filterFallbackMaster({
+      domainCategory,
+      stage,
+      grade,
+      curriculum,
+      term,
+      unit,
+      questionType,
+      difficulty,
+      source,
+      lesson,
+      section,
+      grammarTopic,
+      topic,
+      search,
+      limit,
+    });
+    for (const fb of fallbackMatches) {
+      if (!existingIds.has(fb.id) && allQuestions.length < limit) {
+        allQuestions.push(fb);
+        existingIds.add(fb.id);
+      }
     }
 
     // Analytics summary
@@ -480,6 +486,24 @@ export async function POST(req: Request) {
       if (grammarTopic) candidates = candidates.filter((q) => (q.grammarTopic || "") === grammarTopic);
       if (topic) candidates = candidates.filter((q) => (q.topic || "") === topic || (q.grammarTopic || "") === topic);
       if (candidates.length === 0) {
+        candidates = filterFallbackMaster({
+          stage,
+          grade,
+          curriculum,
+          term,
+          unit,
+          domainCategory,
+          questionType,
+          difficulty,
+          source,
+          lesson,
+          section,
+          grammarTopic,
+          topic,
+          limit: 100,
+        });
+      }
+      if (candidates.length === 0) {
         return NextResponse.json({ error: "No questions found for the exact selected curriculum scope. Nothing was mixed from another bank." }, { status: 404 });
       }
 
@@ -503,7 +527,7 @@ export async function POST(req: Request) {
         if (Array.isArray(q.options)) randomizedOptions = [...q.options].sort(() => Math.random() - 0.5);
         selected.push({ ...q, options: randomizedOptions });
         usedIds.add(q.id);
-        await db.update(questionBank).set({ timesUsed: (q.timesUsed || 0) + 1, lastUsedAt: new Date() }).where(eq(questionBank.id, q.id));
+        await db.update(questionBank).set({ timesUsed: (q.timesUsed || 0) + 1, lastUsedAt: new Date() }).where(eq(questionBank.id, q.id)).catch(() => {});
       };
 
       for (const difficultyName of ["Easy","Medium","Hard"]) {

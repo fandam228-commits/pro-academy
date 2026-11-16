@@ -2330,12 +2330,13 @@ export async function seedDialogueCenterIfEmpty(): Promise<void> {
 
 export async function seedMasterQuestionBank2027IfEmpty(): Promise<void> {
   try {
-    const existing = await db
+    const existing2027 = await db
       .select({ id: questionBank.id })
       .from(questionBank)
-      .limit(10);
+      .where(sql`${questionBank.id} LIKE 'qb_2027_%'`)
+      .limit(1);
 
-    if (existing.length >= 10) {
+    if (existing2027.length > 0) {
       return;
     }
 
@@ -2371,7 +2372,7 @@ export async function seedMasterQuestionBank2027IfEmpty(): Promise<void> {
         timesUsed: 0,
       }));
 
-      await db.insert(questionBank).values(chunk);
+      await db.insert(questionBank).values(chunk).onConflictDoNothing();
     }
     console.log("Master 2027 Interactive Question Bank seeded successfully!");
   } catch (error) {
