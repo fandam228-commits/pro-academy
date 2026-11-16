@@ -41,6 +41,11 @@ export const QuestionBankWorkspace: React.FC<{ onExamGenerated?: (exam: any) => 
   const [stats, setStats] = useState<any>({ total: 0, vocabularyCount: 0, grammarCount: 0 });
   const [loading, setLoading] = useState(true);
 
+  // Interactive Practice & Solution State
+  const [interactiveAnswers, setInteractiveAnswers] = useState<Record<string, string>>({});
+  const [showModelAnswer, setShowModelAnswer] = useState<Record<string, boolean>>({});
+  const [interactiveScores, setInteractiveScores] = useState<Record<string, boolean>>({});
+
   // Filter state
   const [stageFilter, setStageFilter] = useState<string>("All");
   const [gradeFilter, setGradeFilter] = useState<string>("All");
@@ -580,10 +585,24 @@ export const QuestionBankWorkspace: React.FC<{ onExamGenerated?: (exam: any) => 
               )}
             </select>
             <select value={typeFilter} onChange={(e) => setTypeFilter(e.target.value)} className="w-full p-2.5 rounded-2xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs text-slate-900 dark:text-white">
-              <option value="All">كل أنواع السؤال</option><option value="mcq">MCQ</option><option value="fill_blank">Complete</option><option value="correction">Correct</option><option value="rewrite">Rewrite</option><option value="comprehension">Reading</option><option value="writing">Writing</option>
+              <option value="All">كل أنواع الأسئلة</option>
+              <option value="mcq">MCQ (اختيار من متعدد)</option>
+              <option value="translation">Translation (الترجمة)</option>
+              <option value="comprehension">Reading Comprehension (قطع الفهم)</option>
+              <option value="rewrite">Rewrite (إعادة الصياغة)</option>
+              <option value="correction">Correct the Mistake (تصحيح الخطأ)</option>
+              <option value="fill_blank">Complete (إكمال الجمل)</option>
+              <option value="dialogue">Dialogue (المحادثات)</option>
+              <option value="writing">Writing (الكتابة والمقال)</option>
             </select>
             <select value={domainFilter} onChange={(e) => setDomainFilter(e.target.value)} className="w-full p-2.5 rounded-2xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs text-slate-900 dark:text-white">
-              <option value="All">كل الأقسام</option><option value="Grammar">Grammar</option><option value="Vocabulary">Vocabulary</option><option value="Reading">Reading</option><option value="Writing">Writing</option>
+              <option value="All">كل الأقسام والمجالات</option>
+              <option value="Grammar">Grammar (قواعد)</option>
+              <option value="Vocabulary">Vocabulary (مفردات)</option>
+              <option value="Reading">Reading (فهم وقراءة)</option>
+              <option value="Translation">Translation (ترجمة)</option>
+              <option value="Writing">Writing (كتابة)</option>
+              <option value="Speaking">Speaking (محادثة)</option>
             </select>
             <select value={difficultyFilter} onChange={(e) => setDifficultyFilter(e.target.value)} className="w-full p-2.5 rounded-2xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs text-slate-900 dark:text-white">
               <option value="All">كل الصعوبة</option><option value="Easy">Easy</option><option value="Medium">Medium</option><option value="Hard">Hard</option><option value="Tricky">Tricky</option>
@@ -639,36 +658,187 @@ export const QuestionBankWorkspace: React.FC<{ onExamGenerated?: (exam: any) => 
                     )}
                   </div>
 
+                  {/* READING COMPREHENSION PASSAGE CONTAINER */}
+                  {q.passageText && (
+                    <div className="p-4 rounded-2xl bg-amber-50/70 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-900/60 text-xs text-slate-800 dark:text-amber-100 leading-relaxed font-serif">
+                      <div className="flex items-center gap-2 font-bold text-amber-900 dark:text-amber-300 mb-2 text-xs">
+                        <BookOpen className="w-4 h-4 text-amber-600 dark:text-amber-400" />
+                        <span>📖 قطعة الفهم والقراءة (Reading Comprehension Passage)</span>
+                      </div>
+                      <p className="whitespace-pre-line leading-relaxed">{q.passageText}</p>
+                    </div>
+                  )}
+
                   <p className="font-bold text-sm text-slate-900 dark:text-slate-100 leading-relaxed">
                     {idx + 1}. {q.questionText}
                   </p>
 
-                  {/* OPTIONS LIST */}
+                  {/* INTERACTIVE MCQ & MULTIPLE CHOICE TRANSLATION */}
                   {Array.isArray(q.options) && q.options.length > 0 && (
-                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 pt-1">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-1">
                       {q.options.map((opt: string, i: number) => {
                         const optText = String(opt || "").trim();
-                        const isAuthorized = user?.role === "admin" || user?.role === "teacher";
-                        const isCorrect = isAuthorized && isOptionCorrect(optText, q.correctAnswer, q.questionType);
+                        const isTeacher = user?.role === "admin" || user?.role === "teacher";
+                        const studentSelected = interactiveAnswers[q.id] === optText;
+                        const isCorrect = isOptionCorrect(optText, q.correctAnswer, q.questionType);
+                        const hasAnswered = !!interactiveAnswers[q.id];
+
+                        let cardStyle = "bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 hover:border-purple-400 cursor-pointer";
+
+                        if (hasAnswered) {
+                          if (isCorrect) {
+                            cardStyle = "bg-emerald-50 dark:bg-emerald-950/70 border-emerald-500 text-emerald-800 dark:text-emerald-200 font-bold shadow-sm";
+                          } else if (studentSelected) {
+                            cardStyle = "bg-red-50 dark:bg-red-950/70 border-red-500 text-red-800 dark:text-red-200 font-bold";
+                          } else {
+                            cardStyle = "opacity-60 bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-500";
+                          }
+                        } else if (isTeacher && isCorrect) {
+                          cardStyle = "bg-emerald-50/60 dark:bg-emerald-950/40 border-emerald-400 text-emerald-700 dark:text-emerald-300 font-bold";
+                        }
+
                         return (
-                          <div
+                          <button
                             key={i}
-                            className={`p-2 rounded-xl text-xs font-medium border ${
-                              isCorrect
-                                ? "bg-emerald-50 dark:bg-emerald-950/60 border-emerald-500 text-emerald-700 dark:text-emerald-300 font-bold"
-                                : "bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300"
-                            }`}
+                            type="button"
+                            onClick={() => {
+                              setInteractiveAnswers((prev) => ({ ...prev, [q.id]: optText }));
+                              if (isCorrect) {
+                                setInteractiveScores((prev) => ({ ...prev, [q.id]: true }));
+                              }
+                            }}
+                            className={`p-3 rounded-2xl text-xs font-medium border text-left rtl:text-right transition-all flex items-center justify-between ${cardStyle}`}
                           >
-                            {optText} {isCorrect && "✓"}
-                          </div>
+                            <div className="flex items-center gap-2">
+                              <span className="w-5 h-5 rounded-full bg-slate-200 dark:bg-slate-700 text-[10px] flex items-center justify-center font-bold">
+                                {String.fromCharCode(65 + i)}
+                              </span>
+                              <span>{optText}</span>
+                            </div>
+                            {hasAnswered && isCorrect && <CheckCircle className="w-4 h-4 text-emerald-600 flex-shrink-0" />}
+                            {hasAnswered && studentSelected && !isCorrect && <span className="text-red-500 font-bold text-sm">✗</span>}
+                          </button>
                         );
                       })}
                     </div>
                   )}
 
+                  {/* INTERACTIVE REWRITE SOLVING BOX */}
+                  {q.questionType === "rewrite" && (
+                    <div className="space-y-2 pt-2 bg-purple-50/40 dark:bg-purple-950/20 p-3.5 rounded-2xl border border-purple-100 dark:border-purple-900/50">
+                      <label className="block text-[11px] font-bold text-purple-900 dark:text-purple-300">
+                        ✍️ الحل التفاعلي (اكتب الجملة المعاد صياغتها):
+                      </label>
+                      <div className="flex flex-col sm:flex-row gap-2">
+                        <input
+                          type="text"
+                          value={interactiveAnswers[q.id] || ""}
+                          onChange={(e) => setInteractiveAnswers((prev) => ({ ...prev, [q.id]: e.target.value }))}
+                          placeholder="Type rewritten sentence here..."
+                          className="flex-1 p-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-xs text-slate-900 dark:text-white"
+                        />
+                        <button
+                          type="button"
+                          onClick={() => {
+                            const userAns = (interactiveAnswers[q.id] || "").trim().toLowerCase().replace(/[.,!?'"]/g, "");
+                            const modelAns = String(q.correctAnswer || "").trim().toLowerCase().replace(/[.,!?'"]/g, "");
+                            const isMatch = userAns === modelAns;
+                            setInteractiveScores((prev) => ({ ...prev, [q.id]: isMatch }));
+                            setShowModelAnswer((prev) => ({ ...prev, [q.id]: true }));
+                          }}
+                          className="px-4 py-2.5 rounded-xl bg-purple-600 hover:bg-purple-700 text-white font-bold text-xs shadow-md transition-all whitespace-nowrap"
+                        >
+                          تحقق من الإجابة
+                        </button>
+                      </div>
+                      {showModelAnswer[q.id] && (
+                        <div className={`p-3 rounded-xl text-xs border ${interactiveScores[q.id] ? "bg-emerald-50 dark:bg-emerald-950/50 border-emerald-500 text-emerald-800 dark:text-emerald-200" : "bg-amber-50 dark:bg-amber-950/50 border-amber-500 text-amber-800 dark:text-amber-200"}`}>
+                          <p className="font-bold flex items-center gap-1.5">
+                            {interactiveScores[q.id] ? "✓ إجابة ممتازة وصحيحة تماماً!" : "الإجابة النموذجية المعتمدة:"}
+                          </p>
+                          <p className="font-mono mt-1 text-xs font-bold text-slate-900 dark:text-white bg-white dark:bg-slate-900 p-2 rounded-lg border border-slate-200 dark:border-slate-800">
+                            {q.correctAnswer}
+                          </p>
+                        </div>
+                      )}
+                    </div>
+                  )}
+
+                  {/* INTERACTIVE CORRECTION & FILL IN THE BLANKS */}
+                  {(q.questionType === "correction" || q.questionType === "fill_blank") && (
+                    <div className="space-y-2 pt-2 bg-sky-50/40 dark:bg-sky-950/20 p-3.5 rounded-2xl border border-sky-100 dark:border-sky-900/50">
+                      <label className="block text-[11px] font-bold text-sky-900 dark:text-sky-300">
+                        ✏️ اكتب التصحيح المناسب بين القوسين:
+                      </label>
+                      <div className="flex flex-col sm:flex-row gap-2">
+                        <input
+                          type="text"
+                          value={interactiveAnswers[q.id] || ""}
+                          onChange={(e) => setInteractiveAnswers((prev) => ({ ...prev, [q.id]: e.target.value }))}
+                          placeholder="Correct word here..."
+                          className="flex-1 p-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-xs text-slate-900 dark:text-white font-mono"
+                        />
+                        <button
+                          type="button"
+                          onClick={() => {
+                            const userAns = (interactiveAnswers[q.id] || "").trim().toLowerCase();
+                            const modelAns = String(q.correctAnswer || "").trim().toLowerCase();
+                            const isMatch = userAns === modelAns;
+                            setInteractiveScores((prev) => ({ ...prev, [q.id]: isMatch }));
+                            setShowModelAnswer((prev) => ({ ...prev, [q.id]: true }));
+                          }}
+                          className="px-4 py-2.5 rounded-xl bg-sky-600 hover:bg-sky-700 text-white font-bold text-xs shadow-md transition-all whitespace-nowrap"
+                        >
+                          تحقق
+                        </button>
+                      </div>
+                      {showModelAnswer[q.id] && (
+                        <div className={`p-3 rounded-xl text-xs border ${interactiveScores[q.id] ? "bg-emerald-50 dark:bg-emerald-950/50 border-emerald-500 text-emerald-800 dark:text-emerald-200" : "bg-amber-50 dark:bg-amber-950/50 border-amber-500 text-amber-800 dark:text-amber-200"}`}>
+                          <p className="font-bold">
+                            {interactiveScores[q.id] ? "✓ صحيح تماماً!" : `الإجابة النموذجية: ${q.correctAnswer}`}
+                          </p>
+                        </div>
+                      )}
+                    </div>
+                  )}
+
+                  {/* INTERACTIVE OPEN TRANSLATION (without choices) */}
+                  {q.questionType === "translation" && (!q.options || q.options.length === 0) && (
+                    <div className="space-y-2 pt-2 bg-indigo-50/40 dark:bg-indigo-950/20 p-3.5 rounded-2xl border border-indigo-100 dark:border-indigo-900/50">
+                      <label className="block text-[11px] font-bold text-indigo-900 dark:text-indigo-300">
+                        🌐 ترجمة تفاعلية (اكتب ترجمتك هنا):
+                      </label>
+                      <div className="flex flex-col gap-2">
+                        <textarea
+                          rows={2}
+                          value={interactiveAnswers[q.id] || ""}
+                          onChange={(e) => setInteractiveAnswers((prev) => ({ ...prev, [q.id]: e.target.value }))}
+                          placeholder="اكتب الترجمة هنا..."
+                          className="w-full p-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-xs text-slate-900 dark:text-white"
+                        />
+                        <div className="flex justify-end gap-2">
+                          <button
+                            type="button"
+                            onClick={() => setShowModelAnswer((prev) => ({ ...prev, [q.id]: !prev[q.id] }))}
+                            className="px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs shadow-md transition-all"
+                          >
+                            {showModelAnswer[q.id] ? "إخفاء النموذج" : "عرض الترجمة النموذجية والملاحظات"}
+                          </button>
+                        </div>
+                      </div>
+                      {showModelAnswer[q.id] && (
+                        <div className="p-3 rounded-xl text-xs bg-indigo-50 dark:bg-indigo-950/60 border border-indigo-200 dark:border-indigo-800 text-indigo-900 dark:text-indigo-200">
+                          <p className="font-bold">الترجمة النموذجية المعتمدة:</p>
+                          <p className="font-medium mt-1 text-xs">{q.correctAnswer}</p>
+                        </div>
+                      )}
+                    </div>
+                  )}
+
+                  {/* EXPLANATION BOX */}
                   {q.explanation && (
-                    <p className="text-[11px] text-slate-500 bg-slate-50 dark:bg-slate-800/50 p-2.5 rounded-xl border border-slate-100 dark:border-slate-800">
-                      💡 <strong>Explanation:</strong> {q.explanation}
+                    <p className="text-[11px] text-slate-600 dark:text-slate-300 bg-slate-50 dark:bg-slate-800/60 p-2.5 rounded-xl border border-slate-200 dark:border-slate-700 leading-relaxed">
+                      💡 <strong>Explanation / التفسير:</strong> {q.explanation}
                     </p>
                   )}
                 </div>
