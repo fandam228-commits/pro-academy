@@ -176,6 +176,11 @@ const MinistryAssessmentsHub = dynamic(
   { loading: () => <TabLoadingSkeleton label="جاري تحميل تقييمات الوزارة الرسمية 2026/2027..." />, ssr: false }
 );
 
+const MistakesBankWorkspace = dynamic(
+  () => import("@/components/mistakes/MistakesBankWorkspace").then((m) => m.MistakesBankWorkspace),
+  { loading: () => <TabLoadingSkeleton label="جاري تجهيز بنك أخطائي الذكي..." />, ssr: false }
+);
+
 const TranslationAcademyWorkspace = dynamic(
   () => import("@/components/translation/TranslationAcademyWorkspace").then((m) => m.TranslationAcademyWorkspace),
   { loading: () => <TabLoadingSkeleton label="جاري تحميل أكاديمية الترجمة الاحترافية..." />, ssr: false }
@@ -445,6 +450,10 @@ function MainAppContent() {
           
           /* VIEW: PROFESSIONAL TRAINING CENTER */
           <TrainingCenterWorkspace />
+        ) : activeTab === "mistakes_bank" ? (
+          
+          /* VIEW: SMART MISTAKES BANK WORKSPACE */
+          <MistakesBankWorkspace />
         ) : activeTab === "question_bank" ? (
           
           /* VIEW: QUESTION BANK WORKSPACE */
@@ -541,6 +550,7 @@ function MainAppContent() {
                   }}
                   onOpenMinistryAssessments={() => setActiveTab("ministry_assessments")}
                   onOpenTranslation={() => setActiveTab("translation")}
+                  onOpenMistakesBank={() => setActiveTab("mistakes_bank")}
                 />
               )}
               {user.role === "parent" && <ParentDashboard onOpenReport={() => setActiveTab("report")} />}

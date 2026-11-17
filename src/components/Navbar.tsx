@@ -35,6 +35,7 @@ import {
   Home,
   User,
   MessageSquare,
+  AlertTriangle,
 } from "lucide-react";
 
 export const Navbar: React.FC<{ activeTab?: string; setActiveTab?: (tab: string) => void }> = ({
@@ -64,6 +65,7 @@ export const Navbar: React.FC<{ activeTab?: string; setActiveTab?: (tab: string)
   };
 
   const moreItems = [
+    { id: "mistakes_bank", labelAr: "بنك أخطائي الذكي", labelEn: "Smart Mistakes Bank", icon: AlertTriangle, badge: "ذكي" },
     { id: "dialogues", labelAr: "مركز المحادثة الإنجليزية (94 محادثة)", labelEn: "Dialogue Center", icon: MessageSquare, badge: "جديد" },
     { id: "ministry_assessments", labelAr: "تقييمات الوزارة الرسمية", labelEn: "Ministry Assessments", icon: FileCheck, badge: "2027" },
     { id: "homework", labelAr: "الواجبات والتسليم", labelEn: "Homework & Tasks", icon: NotebookPen },

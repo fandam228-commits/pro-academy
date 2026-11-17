@@ -28,6 +28,7 @@ import {
   Compass,
   ArrowUpRight,
   MessageSquare,
+  RotateCcw,
 } from "lucide-react";
 import { LiveClassroomSection } from "@/components/LiveClassroomSection";
 
@@ -169,6 +170,16 @@ export function ModernHomePage({
               >
                 <span>{lang === "ar" ? "تسجيل الدخول / إنشاء حساب" : "Sign In / Register"}</span>
                 <ArrowRight className="w-4 h-4 rtl:rotate-180" />
+              </button>
+            )}
+
+            {user && (
+              <button
+                onClick={() => setActiveTab("mistakes_bank")}
+                className="w-full sm:w-auto px-5 py-3.5 rounded-2xl bg-amber-500/10 hover:bg-amber-500/20 text-amber-600 dark:text-amber-400 font-bold text-sm border border-amber-300 dark:border-amber-500/30 transition flex items-center justify-center gap-1.5 cursor-pointer"
+              >
+                <RotateCcw className="w-4 h-4 text-amber-500" />
+                <span>{lang === "ar" ? "بنك أخطائي الذكي" : "Mistakes Bank"}</span>
               </button>
             )}
 

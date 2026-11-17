@@ -1315,6 +1315,25 @@ async function initializeSchema(): Promise<void> {
       );
       CREATE INDEX IF NOT EXISTS idx_dsp_student ON dialogue_student_progress(student_id);
       CREATE INDEX IF NOT EXISTS idx_dsp_grade ON dialogue_student_progress(grade);
+
+      CREATE TABLE IF NOT EXISTS user_mistakes (
+        id TEXT PRIMARY KEY,
+        user_id TEXT NOT NULL,
+        question_id TEXT NOT NULL,
+        question_snapshot JSONB NOT NULL DEFAULT '{}'::jsonb,
+        wrong_answer TEXT,
+        mistake_count INTEGER NOT NULL DEFAULT 1,
+        status TEXT NOT NULL DEFAULT 'unresolved',
+        created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+        updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+        CONSTRAINT user_mistakes_user_question_unique UNIQUE (user_id, question_id)
+      );
+
+      CREATE INDEX IF NOT EXISTS idx_user_mistakes_user_id ON user_mistakes(user_id);
+      CREATE INDEX IF NOT EXISTS idx_user_mistakes_question_id ON user_mistakes(question_id);
+      CREATE INDEX IF NOT EXISTS idx_user_mistakes_status ON user_mistakes(status);
+      CREATE INDEX IF NOT EXISTS idx_user_mistakes_user_status ON user_mistakes(user_id, status);
+      CREATE INDEX IF NOT EXISTS idx_user_mistakes_updated_at ON user_mistakes(updated_at DESC);
     `);
 
   // Seed and sync curriculum grades and units to official 2026/2027 Egyptian syllabus

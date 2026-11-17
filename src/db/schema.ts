@@ -1,4 +1,4 @@
-import { pgTable, text, timestamp, integer, boolean, decimal, jsonb, index } from "drizzle-orm/pg-core";
+import { pgTable, text, timestamp, integer, boolean, decimal, jsonb, index, uniqueIndex } from "drizzle-orm/pg-core";
 
 // USERS TABLE
 export const users = pgTable("users", {
@@ -1493,6 +1493,30 @@ export const dialogueStudentProgress = pgTable(
     index("idx_dsp_grade").on(table.grade),
   ]
 );
+
+// 41. USER MISTAKES TABLE (Smart Mistakes Bank - بنك أخطائي الذكي)
+export const userMistakes = pgTable(
+  "user_mistakes",
+  {
+    id: text("id").primaryKey(),
+    userId: text("user_id").notNull(),
+    questionId: text("question_id").notNull(),
+    questionSnapshot: jsonb("question_snapshot").notNull(),
+    wrongAnswer: text("wrong_answer"),
+    mistakeCount: integer("mistake_count").notNull().default(1),
+    status: text("status").notNull().default("unresolved"), // 'unresolved' | 'mastered'
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+    updatedAt: timestamp("updated_at").defaultNow().notNull(),
+  },
+  (table) => [
+    uniqueIndex("idx_um_user_question").on(table.userId, table.questionId),
+    index("idx_um_user_id").on(table.userId),
+    index("idx_um_question_id").on(table.questionId),
+    index("idx_um_status").on(table.status),
+    index("idx_um_user_status").on(table.userId, table.status),
+  ]
+);
+
 
 
 

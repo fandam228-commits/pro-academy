@@ -24,6 +24,7 @@ import {
   FileCheck,
   FileText,
   Languages,
+  AlertTriangle,
 } from "lucide-react";
 import { getCurriculumUnits } from "@/config/curriculum-2026";
 
@@ -34,7 +35,8 @@ export const StudentDashboard: React.FC<{
   onOpenCurriculum?: (gradeCode?: string) => void;
   onOpenMinistryAssessments?: () => void;
   onOpenTranslation?: () => void;
-}> = ({ onSelectCourse, onOpenReport, onStartExam, onOpenCurriculum, onOpenMinistryAssessments, onOpenTranslation }) => {
+  onOpenMistakesBank?: () => void;
+}> = ({ onSelectCourse, onOpenReport, onStartExam, onOpenCurriculum, onOpenMinistryAssessments, onOpenTranslation, onOpenMistakesBank }) => {
   const { user, lang } = useApp();
   const [plannerTasks, setPlannerTasks] = useState<any[]>([]);
   const [newTask, setNewTask] = useState("");
@@ -331,6 +333,44 @@ export const StudentDashboard: React.FC<{
           <span>{lang === "ar" ? "دخول أكاديمية الترجمة ←" : "Enter Translation Academy →"}</span>
         </button>
       </div>
+
+      {/* SMART MISTAKES BANK DEDICATED CARD */}
+      {onOpenMistakesBank && (
+        <div className="bg-gradient-to-r from-amber-500/10 via-amber-500/5 to-transparent p-6 rounded-3xl border border-amber-300 dark:border-amber-500/30 shadow-md shadow-amber-900/5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+          <div className="flex items-center gap-4">
+            <div className="w-12 h-12 rounded-2xl bg-amber-500/20 text-amber-600 dark:text-amber-400 flex items-center justify-center shrink-0">
+              <AlertTriangle className="w-6 h-6" />
+            </div>
+            <div>
+              <div className="flex items-center gap-2">
+                <span className="text-[10px] font-black uppercase px-2.5 py-0.5 rounded-full bg-amber-400 text-slate-950 shadow-sm">
+                  {lang === "ar" ? "بنك أخطائي الذكي" : "Smart Mistakes Bank"}
+                </span>
+                <span className="text-xs text-[#718096] dark:text-slate-400 font-bold flex items-center gap-1">
+                  <Sparkles className="w-3.5 h-3.5 text-amber-500" />
+                  <span>{lang === "ar" ? "نظام التتبع التلقائي" : "Auto-Tracking"}</span>
+                </span>
+              </div>
+              <h3 className="text-base sm:text-lg font-black mt-1 text-[#243247] dark:text-white">
+                {lang === "ar" ? "بنك الأخطاء التلقائي والمراجعة الذكية" : "Personal Mistakes Bank & Smart Revision"}
+              </h3>
+              <p className="text-xs text-[#718096] dark:text-slate-400">
+                {lang === "ar"
+                  ? "كل سؤال تجيب عليه بشكل غير دقيق في أي كويز أو امتحان يتم تجميعه هنا فوراً. راجعه وتدرب عليه مرة أخرى حتى تتقنه ويتم حذفه تلقائياً!"
+                  : "Every question you answer incorrectly is automatically logged here. Practice and master them to remove them!"}
+              </p>
+            </div>
+          </div>
+
+          <button
+            onClick={() => onOpenMistakesBank()}
+            className="px-6 py-3 rounded-2xl bg-amber-400 hover:bg-amber-300 text-slate-950 font-black text-xs shadow-md transition-all cursor-pointer shrink-0 flex items-center gap-1.5"
+          >
+            <RotateCcw className="w-4 h-4 text-slate-950" />
+            <span>{lang === "ar" ? "فتح بنك أخطائي والمراجعة الآن ←" : "Open Mistakes Bank →"}</span>
+          </button>
+        </div>
+      )}
 
       {/* MAIN DASHBOARD CONTENT GRID */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
