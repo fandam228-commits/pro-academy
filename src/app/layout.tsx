@@ -3,8 +3,10 @@ import type { ReactNode } from "react";
 import "./globals.css";
 import { InstallAppPrompt } from "@/components/InstallAppPrompt";
 
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://pro-academy-sfl3.vercel.app";
+
 export const metadata: Metadata = {
-  metadataBase: new URL("https://proacademy.habibelrahman.com"),
+  metadataBase: new URL(SITE_URL),
   title: {
     default: "Professional Academy — منصة مستر حبيب الرحمن للإنجليزية | ثانوية عامة وإعدادي",
     template: "%s | Professional Academy",
@@ -12,11 +14,21 @@ export const metadata: Metadata = {
   description:
     "المنصة التعليمية الأولى لمستر حبيب الرحمن لتعلم اللغة الإنجليزية لطلاب الثانوية العامة (Thanawya Amma) والمرحلة الإعدادية. بنك أسئلة ذكي، مولد امتحانات، اختبار تحديد مستوى تكيفي، مساعد ذكاء اصطناعي، ومكتبة PDF محمية. Mr. Habib El Rahman English Learning Platform.",
   applicationName: "Professional Academy",
-  authors: [{ name: "Mr. Habib El Rahman", url: "https://proacademy.habibelrahman.com" }],
+  authors: [{ name: "Mr. Habib El Rahman", url: SITE_URL }],
   creator: "Mr. Habib El Rahman",
   publisher: "Professional Academy",
+  verification: {
+    google: process.env.GOOGLE_SITE_VERIFICATION || "googlee89f81ca9983447f",
+  },
   keywords: [
     "مستر حبيب الرحمن",
+    "منصة مستر حبيب الرحمن",
+    "حبيب الرحمن انجليزي",
+    "أكاديمية المحترف",
+    "أكاديمية مستر حبيب الرحمن",
+    "Professional Academy",
+    "Mr Habib El Rahman",
+    "Habib El Rahman English",
     "الشهادة الثانوية العامة",
     "ثانوية عامة لغة انجليزية",
     "Thanawya Amma English",
@@ -25,7 +37,9 @@ export const metadata: Metadata = {
     "بنك أسئلة انجليزية",
     "اختبار تحديد مستوى",
     "منصة تعليمية انجليزي",
+    "تحدي 1v1 مستر حبيب الرحمن",
     "كورسات انجليزي ثانوي",
+    "قاعة البث المباشر مستر حبيب الرحمن",
   ],
   robots: {
     index: true,
@@ -54,7 +68,7 @@ export const metadata: Metadata = {
     title: "Professional Academy — Mr. Habib El Rahman",
     description: "المنصة التعليمية الأولى للإنجليزية: ثانوية عامة وإعدادي — بنك أسئلة ذكي ومساعد AI.",
   },
-  alternates: { canonical: "https://proacademy.habibelrahman.com" },
+  alternates: { canonical: SITE_URL },
   category: "education",
   manifest: "/manifest.json",
   appleWebApp: {
@@ -98,12 +112,12 @@ const schemaOrgJsonLd = {
     {
       "@type": "EducationalOrganization",
       name: "Professional Academy — Mr. Habib El Rahman",
-      alternateName: "أكاديمية المستر أونلاين",
-      url: "https://proacademy.habibelrahman.com",
+      alternateName: ["منصة مستر حبيب الرحمن", "أكاديمية المحترف للغة الإنجليزية"],
+      url: SITE_URL,
       telephone: "+20-100-646-8384",
       email: "support@proacademy.com",
       address: { "@type": "PostalAddress", addressCountry: "EG", addressLocality: "Cairo" },
-      founder: { "@type": "Person", name: "Habib El Rahman", jobTitle: "English Instructor" },
+      founder: { "@type": "Person", name: "Habib El Rahman", jobTitle: "English Instructor & Educational Content Creator" },
     },
     {
       "@type": "Course",
@@ -112,19 +126,19 @@ const schemaOrgJsonLd = {
         "Comprehensive English Mastery for Egyptian Baccalaureate students: grammar, vocabulary, translation, novel analysis and exam techniques.",
       provider: {
         "@type": "EducationalOrganization",
-        name: "Professional Academy",
-        sameAs: "https://proacademy.habibelrahman.com",
+        name: "Professional Academy — Mr. Habib El Rahman",
+        sameAs: SITE_URL,
       },
       offers: { "@type": "Offer", price: "350.00", priceCurrency: "EGP", availability: "https://schema.org/InStock" },
       inLanguage: ["en", "ar"],
     },
     {
       "@type": "WebSite",
-      name: "Professional Academy",
-      url: "https://proacademy.habibelrahman.com",
+      name: "Professional Academy — منصة مستر حبيب الرحمن",
+      url: SITE_URL,
       potentialAction: {
         "@type": "SearchAction",
-        target: "https://proacademy.habibelrahman.com/?q={search_term_string}",
+        target: `${SITE_URL}/?q={search_term_string}`,
         "query-input": "required name=search_term_string",
       },
     },

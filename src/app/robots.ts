@@ -1,6 +1,8 @@
 import type { MetadataRoute } from "next";
 
 export default function robots(): MetadataRoute.Robots {
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://pro-academy-sfl3.vercel.app";
+
   return {
     rules: [
       {
@@ -9,6 +11,6 @@ export default function robots(): MetadataRoute.Robots {
         disallow: ["/api/", "/storage/"],
       },
     ],
-    sitemap: "https://proacademy.habibelrahman.com/sitemap.xml",
+    sitemap: `${siteUrl}/sitemap.xml`,
   };
 }

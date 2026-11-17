@@ -1,13 +1,16 @@
 import type { MetadataRoute } from "next";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const base = "https://proacademy.habibelrahman.com";
+  const base = process.env.NEXT_PUBLIC_SITE_URL || "https://pro-academy-sfl3.vercel.app";
   const now = new Date().toISOString();
 
   return [
     { url: base, lastModified: now, changeFrequency: "daily", priority: 1.0 },
+    { url: `${base}/dashboard/challenge`, lastModified: now, changeFrequency: "daily", priority: 0.95 },
     { url: `${base}/?tab=courses`, lastModified: now, changeFrequency: "weekly", priority: 0.9 },
     { url: `${base}/?tab=question_bank`, lastModified: now, changeFrequency: "daily", priority: 0.9 },
+    { url: `${base}/?tab=translation`, lastModified: now, changeFrequency: "daily", priority: 0.9 },
+    { url: `${base}/?tab=live_classroom`, lastModified: now, changeFrequency: "daily", priority: 0.85 },
     { url: `${base}/?tab=pdfs`, lastModified: now, changeFrequency: "weekly", priority: 0.8 },
     { url: `${base}/?tab=homework`, lastModified: now, changeFrequency: "daily", priority: 0.8 },
     { url: `${base}/?tab=placement`, lastModified: now, changeFrequency: "monthly", priority: 0.7 },
