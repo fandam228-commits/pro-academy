@@ -1599,6 +1599,51 @@ export const userTranslationAttempts = pgTable(
   ]
 );
 
+// 46. NOVEL CHAPTERS TABLE (Literature & Novel World)
+export const novelChapters = pgTable(
+  "novel_chapters",
+  {
+    id: text("id").primaryKey(),
+    gradeLevel: text("grade_level").notNull().default("3rd_sec"),
+    novelTitle: text("novel_title").notNull(),
+    chapterNumber: integer("chapter_number").notNull(),
+    chapterTitle: text("chapter_title").notNull(),
+    summaryEn: text("summary_en").notNull(),
+    summaryAr: text("summary_ar").notNull(),
+    audioUrl: text("audio_url"),
+    keyVocabulary: jsonb("key_vocabulary").default([]).notNull(),
+    characters: jsonb("characters").default([]).notNull(),
+    keyQuotations: jsonb("key_quotations").default([]).notNull(),
+    criticalThinkingQs: jsonb("critical_thinking_qs").default([]).notNull(),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+  },
+  (table) => [
+    index("idx_nc_grade_novel").on(table.gradeLevel, table.novelTitle, table.chapterNumber),
+  ]
+);
+
+// 47. STUDENT LITERATURE PROGRESS TABLE (Progress, Audio & Critical Thinking)
+export const studentLiteratureProgress = pgTable(
+  "student_literature_progress",
+  {
+    id: text("id").primaryKey(),
+    userId: text("user_id").notNull(),
+    chapterId: text("chapter_id").notNull(),
+    isRead: boolean("is_read").default(false).notNull(),
+    audioCompleted: boolean("audio_completed").default(false).notNull(),
+    criticalThinkingAnswers: jsonb("critical_thinking_answers").default({}).notNull(),
+    xpAwarded: integer("xp_awarded").default(0).notNull(),
+    updatedAt: timestamp("updated_at").defaultNow().notNull(),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+  },
+  (table) => [
+    index("idx_slp_user").on(table.userId),
+    index("idx_slp_chapter").on(table.chapterId),
+    uniqueIndex("idx_slp_user_chapter").on(table.userId, table.chapterId),
+  ]
+);
+
+
 
 
 

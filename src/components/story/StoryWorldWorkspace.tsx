@@ -45,6 +45,7 @@ import {
 } from "lucide-react";
 import { ALL_CURRICULUM_STORIES, GRADE_DEFINITIONS, StoryItem, ChapterItem } from "@/data/story-world";
 import { ComicReaderWorkspace } from "./ComicReaderWorkspace";
+import { InteractiveLiteratureWorkspace } from "@/components/literature/InteractiveLiteratureWorkspace";
 
 interface StoryWorldProps {
   user?: any;
@@ -60,7 +61,7 @@ export function StoryWorldWorkspace({ user, onNavigateHome }: StoryWorldProps) {
 
   // Active top-level mode
   const [activeTab, setActiveTab] = useState<
-    "book" | "comic" | "cinema" | "listen" | "chat" | "challenges" | "exam" | "badges" | "admin"
+    "book" | "comic" | "cinema" | "listen" | "chat" | "challenges" | "exam" | "badges" | "admin" | "literature"
   >("book");
 
   // Reading sub-section filter inside "book" tab
@@ -426,6 +427,21 @@ export function StoryWorldWorkspace({ user, onNavigateHome }: StoryWorldProps) {
           {/* Top Activity Tabs */}
           <div className="flex items-center gap-1 overflow-x-auto pb-1 md:pb-0 scrollbar-none">
             <button
+              onClick={() => setActiveTab("literature")}
+              className={`px-3 py-2 rounded-xl text-xs font-bold transition flex items-center gap-1.5 ${
+                activeTab === "literature"
+                  ? "bg-gradient-to-r from-amber-500 to-amber-600 text-slate-950 shadow-md shadow-amber-500/25 font-black"
+                  : "bg-amber-50 text-amber-900 hover:bg-amber-100 border border-amber-200"
+              }`}
+            >
+              <Sparkles className="w-4 h-4 text-amber-600" />
+              <span>عالم الروايات الذكي (2026/2027)</span>
+              <span className="px-1.5 py-0.5 rounded-full text-[9px] bg-amber-300 text-slate-900 font-black">
+                صوت وأسئلة نقدية
+              </span>
+            </button>
+
+            <button
               onClick={() => setActiveTab("book")}
               className={`px-3 py-2 rounded-xl text-xs font-bold transition flex items-center gap-1.5 ${
                 activeTab === "book"
@@ -658,6 +674,13 @@ export function StoryWorldWorkspace({ user, onNavigateHome }: StoryWorldProps) {
           </div>
         ) : (
           <>
+            {/* ========================================================================= */}
+            {/* TAB 0: LITERATURE & NOVEL WORLD (2026/2027) */}
+            {/* ========================================================================= */}
+            {activeTab === "literature" && (
+              <InteractiveLiteratureWorkspace onNavigateHome={onNavigateHome} />
+            )}
+
             {/* ========================================================================= */}
             {/* TAB 1: THE COMPLETE 11-SECTION INTERACTIVE STORY READER */}
             {/* ========================================================================= */}
