@@ -104,7 +104,7 @@ export const HabibAdminControlPanel: React.FC<HabibAdminControlPanelProps> = ({
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-100 flex flex-col font-sans" dir="rtl">
       {/* 1. TOP CONTROL BAR */}
-      <header className="sticky top-0 z-40 bg-white/90 dark:bg-slate-900/90 backdrop-blur-md border-b border-slate-200/80 dark:border-slate-800 px-4 sm:px-6 py-3.5 flex items-center justify-between">
+      <header className="sticky top-0 z-40 bg-white/90 dark:bg-slate-900/90 backdrop-blur-md border-b border-slate-200/80 dark:border-slate-800 px-4 sm:px-6 py-3.5 flex items-center justify-between print:hidden">
         <div className="flex items-center gap-3">
           <button
             onClick={() => setMobileSidebarOpen(!mobileSidebarOpen)}
@@ -159,9 +159,9 @@ export const HabibAdminControlPanel: React.FC<HabibAdminControlPanelProps> = ({
       </header>
 
       {/* 2. BODY LAYOUT: SIDEBAR + MAIN CONTENT */}
-      <div className="flex-1 flex max-w-7xl w-full mx-auto p-4 sm:p-6 lg:p-8 gap-6">
+      <div className="flex-1 flex max-w-7xl w-full mx-auto p-4 sm:p-6 lg:p-8 gap-6 print:p-0 print:max-w-none print:w-full">
         {/* DESKTOP SIDEBAR */}
-        <aside className="w-64 shrink-0 hidden lg:block space-y-4">
+        <aside className="w-64 shrink-0 hidden lg:block space-y-4 print:hidden">
           <div className="bg-white dark:bg-slate-900 rounded-3xl p-4 border border-slate-200/80 dark:border-slate-800 shadow-sm space-y-1.5">
             <span className="text-[10px] font-black text-slate-400 uppercase tracking-wider block px-3 py-1">
               أقسام لوحة التحكم:
@@ -216,7 +216,7 @@ export const HabibAdminControlPanel: React.FC<HabibAdminControlPanelProps> = ({
 
         {/* MOBILE DRAWER */}
         {mobileSidebarOpen && (
-          <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm lg:hidden flex">
+          <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm lg:hidden flex print:hidden">
             <div className="bg-white dark:bg-slate-900 w-72 h-full p-5 shadow-2xl space-y-4 animate-slideRight">
               <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-3">
                 <span className="font-black text-sm text-slate-900 dark:text-white">أقسام لوحة التحكم</span>

@@ -592,7 +592,7 @@ export const AdminQuestionBankModule: React.FC = () => {
 
             {/* PREVIEW TABLE */}
             {bulkParsed.length > 0 && (
-              <div className="border border-slate-200 dark:border-slate-800 rounded-2xl overflow-hidden max-h-56 overflow-y-auto">
+              <div className="border border-slate-200 dark:border-slate-800 rounded-2xl overflow-x-auto max-h-56 overflow-y-auto">
                 <table className="w-full text-xs text-right">
                   <thead className="bg-slate-100 dark:bg-slate-800 text-slate-500 font-bold">
                     <tr>

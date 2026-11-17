@@ -15,7 +15,7 @@ export const WhatsAppButton: React.FC = () => {
       : `Hello Mr. Habib El Rahman, I'm ${user?.name || "a new student"}. I have an inquiry about the courses on Professional Academy.`;
 
   return (
-    <div className="fixed bottom-5 left-5 rtl:left-auto rtl:right-5 z-40 flex flex-col items-start gap-2">
+    <div className="fixed bottom-20 sm:bottom-5 left-5 rtl:left-auto rtl:right-5 z-40 flex flex-col items-start gap-2">
       {/* POPUP CARD */}
       {open && (
         <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-3xl shadow-2xl p-4 w-72 animate-in fade-in slide-in-from-bottom-3">

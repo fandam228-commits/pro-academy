@@ -85,7 +85,12 @@ self.addEventListener("fetch", (event) => {
     return;
   }
 
-  // 2. Dynamic API endpoints: Network-First (never serve stale exams or progress)
+  // 2. Auth & OAuth endpoints must never be cached by Service Worker
+  if (url.pathname.startsWith("/api/auth") || url.pathname.startsWith("/api/google/oauth")) {
+    return;
+  }
+
+  // 3. Dynamic API endpoints: Network-First (never serve stale exams or progress)
   if (url.pathname.startsWith("/api/")) {
     event.respondWith(
       fetch(request)

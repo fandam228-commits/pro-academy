@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
 // Public routes that never require a login session
-const PUBLIC_PAGE_PATHS = ["/login"];
+const PUBLIC_PAGE_PATHS = ["/", "/login"];
 const PUBLIC_API_PREFIXES = ["/api/auth", "/api/health", "/api/google/oauth", "/api/webhooks"];
 
 // Assets and static files to ignore
@@ -19,6 +19,7 @@ export function middleware(request: NextRequest) {
     pathname === "/icon.svg" ||
     pathname === "/apple-icon" ||
     pathname === "/manifest.webmanifest" ||
+    pathname === "/manifest.json" ||
     pathname === "/robots.txt" ||
     pathname === "/sitemap.xml" ||
     STATIC_FILE_EXTENSIONS.test(pathname)
@@ -34,11 +35,11 @@ export function middleware(request: NextRequest) {
     (authHeader && authHeader.toLowerCase().startsWith("bearer ") && authHeader.slice(7).trim().length > 0)
   );
 
-  // 3. Handle public authentication pages (e.g. /login)
+  // 3. Handle public pages (e.g. / and /login)
   const isPublicPage = PUBLIC_PAGE_PATHS.includes(pathname);
   if (isPublicPage) {
     // If user is already authenticated and visits /login, redirect to returnUrl or home
-    if (hasToken) {
+    if (pathname === "/login" && hasToken) {
       const returnUrl = request.nextUrl.searchParams.get("returnUrl") || "/";
       const redirectUrl = new URL(returnUrl, request.url);
       return NextResponse.redirect(redirectUrl);

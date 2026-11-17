@@ -115,7 +115,7 @@ export const AdminVouchersModule: React.FC = () => {
   return (
     <div className="space-y-6 text-slate-800 dark:text-slate-100" dir="rtl">
       {/* 1. TOP HEADER & STATS */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-200 dark:border-slate-800 pb-4">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-200 dark:border-slate-800 pb-4 print:hidden">
         <div>
           <h2 className="text-xl font-black text-slate-900 dark:text-white flex items-center gap-2">
             <KeyRound className="w-5 h-5 text-amber-500" />
@@ -150,7 +150,7 @@ export const AdminVouchersModule: React.FC = () => {
       </div>
 
       {/* STATS OVERVIEW CARDS */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 print:hidden">
         <div className="p-4 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm flex items-center justify-between">
           <div>
             <p className="text-xs text-slate-500 font-bold">إجمالي الكروت المولدة</p>
@@ -186,7 +186,7 @@ export const AdminVouchersModule: React.FC = () => {
       {printMode ? (
         /* PRINTABLE 3-COLUMN CARD GRID */
         <div className="space-y-4">
-          <div className="bg-amber-50 dark:bg-amber-950/40 p-4 rounded-2xl border border-amber-300 dark:border-amber-800/60 text-xs flex items-center justify-between">
+          <div className="bg-amber-50 dark:bg-amber-950/40 p-4 rounded-2xl border border-amber-300 dark:border-amber-800/60 text-xs flex items-center justify-between print:hidden">
             <div className="flex items-center gap-2 text-amber-800 dark:text-amber-200 font-bold">
               <Scissors className="w-4 h-4" />
               <span>جاهز للطباعة: شبكة بطاقات مقسمة بخطوط قص أنيقة مع باركود المنصة الرسمي.</span>
@@ -200,13 +200,13 @@ export const AdminVouchersModule: React.FC = () => {
             </button>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 print:grid-cols-3 print:gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 print:grid-cols-3 print:gap-3 print:p-0">
             {filteredVouchers
               .filter((v) => !v.isUsed)
               .map((v) => (
                 <div
                   key={v.id}
-                  className="bg-white dark:bg-slate-950 rounded-2xl p-4 border-2 border-dashed border-slate-300 dark:border-slate-700 shadow-sm relative overflow-hidden flex flex-col justify-between h-56 print:h-52"
+                  className="bg-white dark:bg-slate-950 rounded-2xl p-4 border-2 border-dashed border-slate-300 dark:border-slate-700 shadow-sm relative overflow-hidden flex flex-col justify-between h-56 print:h-52 print:border-slate-400 print:shadow-none print:break-inside-avoid"
                 >
                   {/* CARD HEADER */}
                   <div className="flex items-start justify-between border-b border-slate-100 dark:border-slate-800 pb-2">
