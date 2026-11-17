@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { useMistakesBank } from "@/hooks/useMistakesBank";
 import { useApp } from "@/context/AppContext";
 import { awardXP } from "@/lib/gamification-service";
+import { AchievementShareModal } from "@/components/share/AchievementShareModal";
 import {
   Sparkles,
   CheckCircle2,
@@ -23,6 +24,7 @@ import {
   X,
   RefreshCw,
   Trophy,
+  Share2,
 } from "lucide-react";
 
 export const MistakesBankWorkspace: React.FC = () => {
@@ -56,6 +58,7 @@ export const MistakesBankWorkspace: React.FC = () => {
   // Expandable cards state in Browse mode
   const [expandedCardIds, setExpandedCardIds] = useState<Record<string, boolean>>({});
   const [activeTabFilter, setActiveTabFilter] = useState<"unresolved" | "mastered">("unresolved");
+  const [shareModalOpen, setShareModalOpen] = useState(false);
 
   const categories = ["الكل", "Grammar", "Vocabulary", "Translation", "Story"];
 
@@ -398,6 +401,13 @@ export const MistakesBankWorkspace: React.FC = () => {
                   <p className="text-xs md:text-sm text-slate-500 dark:text-slate-400 max-w-md mx-auto leading-relaxed">
                     بنك أخطائك نظيف تماماً. استمر في حل الكويزات وتدريبات بنك الأسئلة، وسيقوم النظام تلقائياً برصد أي سؤال يحتاج منك تركيزاً إضافياً.
                   </p>
+                  <button
+                    onClick={() => setShareModalOpen(true)}
+                    className="mt-6 inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white font-bold text-xs sm:text-sm shadow-lg shadow-emerald-500/20 transition-all active:scale-95 cursor-pointer"
+                  >
+                    <Share2 className="w-4 h-4 stroke-[2.5px]" />
+                    <span>مشاركة إنجاز تصفير بنك الأخطاء على واتساب 🛡️</span>
+                  </button>
                 </div>
               ) : (
                 <div className="space-y-4">
@@ -561,6 +571,20 @@ export const MistakesBankWorkspace: React.FC = () => {
           )}
         </div>
       )}
+      <AchievementShareModal
+        isOpen={shareModalOpen}
+        onClose={() => setShareModalOpen(false)}
+        data={{
+          title: "قاهر بنك الأخطاء (صفر أخطاء)",
+          badgeType: "mistakes_cleared",
+          studentName: "طالب الأكاديمية",
+          scoreText: "0 أخطاء قيد المراجعة",
+          speedText: `${stats.totalMastered} أسئلة متقنة`,
+          xpEarned: Math.max(stats.totalMastered * 15, 50),
+          streakDays: 7,
+          customQuote: "كل خطأ قمت بتصحيحه اليوم هو خطوة واثقة نحو الـ 50/50 في امتحان الثانوية العامة.",
+        }}
+      />
     </div>
   );
 };

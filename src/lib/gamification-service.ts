@@ -78,7 +78,9 @@ export async function awardXP(params: {
     | "story_lesson"
     | "essay_submitted"
     | "exam_completed"
-    | "flashcard_mastered";
+    | "flashcard_mastered"
+    | "challenge_won"
+    | "challenge_participated";
   referenceId?: string;
   customXp?: number;
   bonusXp?: number;
@@ -112,6 +114,12 @@ export async function awardXP(params: {
         case "flashcard_mastered":
           baseAmount = 5;
           break;
+        case "challenge_won":
+          baseAmount = 40;
+          break;
+        case "challenge_participated":
+          baseAmount = 15;
+          break;
         default:
           baseAmount = 10;
       }
@@ -141,6 +149,8 @@ export async function awardXP(params: {
       else if (params.actionType === "mistake_resolved") actionLabel = "إتقان سؤال من بنك الأخطاء!";
       else if (params.actionType === "translation_exercise") actionLabel = "إتمام تمرين ترجمة احترافي!";
       else if (params.actionType === "story_lesson") actionLabel = "إتمام فصل قصة أدبية!";
+      else if (params.actionType === "challenge_won") actionLabel = "الفوز في تحدي الأصدقاء 1v1 🏆!";
+      else if (params.actionType === "challenge_participated") actionLabel = "المشاركة في تحدي الأصدقاء ⚔️!";
 
       triggerGamificationToast({
         xp: earned,
