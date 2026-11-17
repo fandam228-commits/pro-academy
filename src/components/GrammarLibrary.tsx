@@ -1,15 +1,25 @@
 "use client";
 import React,{useEffect,useMemo,useRef,useState} from "react";
-import {BookOpen,CheckCircle2,ChevronRight,ExternalLink,Filter,GraduationCap,PlayCircle,Sparkles,Target} from "lucide-react";
+import {BookOpen,CheckCircle2,ChevronRight,ExternalLink,Filter,GraduationCap,PlayCircle,Sparkles,Target,Maximize,Minimize} from "lucide-react";
 import {GRAMMAR_PLAYLIST_ID,GRAMMAR_PLAYLIST_URL,grammarVideos,getMappedGrammarVideos,type GrammarVideo} from "@/data/grammar-videos";
 import {currentCurriculumTracks,getCurriculumTrack} from "@/data/current-curriculum";
 import {GrammarMiniExam} from "@/components/GrammarMiniExam";
 import {GrammarInteractiveSection} from "@/components/GrammarInteractiveSection";
+import {useSmartVideoAutoFullscreen} from "@/hooks/useSmartVideoAutoFullscreen";
 
 declare global { interface Window { YT?: any; onYouTubeIframeAPIReady?:()=>void; } }
 
 function YouTubeGrammarPlayer({video}:{video:GrammarVideo}){
-  const containerRef=useRef<HTMLDivElement|null>(null); const playerRef=useRef<any>(null); const [ready,setReady]=useState(false);
+  const wrapperRef=useRef<HTMLDivElement|null>(null);
+  const containerRef=useRef<HTMLDivElement|null>(null);
+  const playerRef=useRef<any>(null);
+  const [ready,setReady]=useState(false);
+
+  const { isFullscreen, isCssFullscreen, toggleFullscreen } = useSmartVideoAutoFullscreen({
+    containerRef: wrapperRef,
+    autoRotateEnabled: true,
+  });
+
   useEffect(()=>{let cancelled=false;
     const create=()=>{if(cancelled||!containerRef.current||!window.YT?.Player)return;
       if(playerRef.current){try{playerRef.current.destroy()}catch{}}
@@ -24,7 +34,42 @@ function YouTubeGrammarPlayer({video}:{video:GrammarVideo}){
     return()=>{cancelled=true;if(playerRef.current){try{playerRef.current.destroy()}catch{}playerRef.current=null}};
   },[]);
   useEffect(()=>{if(!ready||!playerRef.current?.loadPlaylist)return;try{playerRef.current.loadPlaylist({listType:"playlist",list:GRAMMAR_PLAYLIST_ID,index:video.playlistIndex,startSeconds:0})}catch{}},[ready,video.playlistIndex]);
-  return <div className="relative aspect-video w-full overflow-hidden rounded-2xl bg-slate-950"><div ref={containerRef} className="absolute inset-0 h-full w-full"/>{!ready&&<div className="absolute inset-0 flex items-center justify-center bg-slate-950 text-white"><div className="text-center"><PlayCircle className="mx-auto mb-3 h-10 w-10 text-red-500"/><p className="text-sm font-bold">جاري تحميل فيديو الشرح...</p></div></div>}</div>;
+  return (
+    <div
+      ref={wrapperRef}
+      className={`relative w-full overflow-hidden transition-all duration-300 ${
+        isCssFullscreen
+          ? "fixed inset-0 z-[9999] w-screen h-screen bg-black m-0 p-0 rounded-none flex items-center justify-center"
+          : isFullscreen
+          ? "bg-black w-full h-full rounded-none flex items-center justify-center"
+          : "aspect-video rounded-2xl bg-slate-950"
+      }`}
+    >
+      <div ref={containerRef} className="absolute inset-0 h-full w-full"/>
+      {!ready&&<div className="absolute inset-0 flex items-center justify-center bg-slate-950 text-white"><div className="text-center"><PlayCircle className="mx-auto mb-3 h-10 w-10 text-red-500"/><p className="text-sm font-bold">جاري تحميل فيديو الشرح...</p></div></div>}
+      
+      {/* Smart Manual Fullscreen Button */}
+      <div className="absolute bottom-3 right-3 z-30">
+        <button
+          onClick={toggleFullscreen}
+          className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-black/80 hover:bg-black text-white text-xs font-bold border border-white/20 shadow-lg backdrop-blur-md transition-all active:scale-95"
+          title={isFullscreen ? "خروج من ملء الشاشة" : "ملء الشاشة"}
+        >
+          {isFullscreen ? (
+            <>
+              <Minimize className="w-4 h-4 text-amber-300" />
+              <span>خروج</span>
+            </>
+          ) : (
+            <>
+              <Maximize className="w-4 h-4 text-white" />
+              <span>ملء الشاشة</span>
+            </>
+          )}
+        </button>
+      </div>
+    </div>
+  );
 }
 
 const filters=[["all","كل الفيديوهات"],["tenses","Tenses"],["structures","Structures"],["connectors","Linking & Connectors"]];
