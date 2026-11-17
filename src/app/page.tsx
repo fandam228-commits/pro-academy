@@ -96,6 +96,11 @@ const AuthScreen = dynamic(
   { loading: () => <TabLoadingSkeleton label="جاري تجهيز بوابة الدخول الآمن..." />, ssr: false }
 );
 
+const LandingPage = dynamic(
+  () => import("@/components/landing/LandingPage").then((m) => m.LandingPage),
+  { loading: () => <TabLoadingSkeleton label="جاري تجهيز بوابة الأكاديمية..." />, ssr: false }
+);
+
 const GamificationCenter = dynamic(
   () => import("@/components/GamificationCenter").then((m) => m.GamificationCenter),
   { loading: () => <TabLoadingSkeleton label="جاري تحميل مركز النقاط والشارات..." />, ssr: false }
@@ -378,14 +383,11 @@ function MainAppContent() {
 
   if (!user) {
     return (
-      <div className="min-h-screen bg-[#F7F9FC] dark:bg-[#0c071a]">
-        <AuthScreen
-          returnUrl={typeof window !== "undefined" ? window.location.pathname + window.location.search : "/"}
-          onLoginSuccess={() => {
-            setActiveTab("home");
-          }}
-        />
-      </div>
+      <LandingPage
+        onLoginSuccess={() => {
+          setActiveTab("home");
+        }}
+      />
     );
   }
 

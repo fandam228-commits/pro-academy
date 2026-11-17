@@ -21,19 +21,37 @@ import {
   KeyRound,
   CheckCircle2,
   ArrowRight,
+  X,
 } from "lucide-react";
 
 export interface AuthScreenProps {
   onBack?: () => void;
+  onClose?: () => void;
   returnUrl?: string;
   onLoginSuccess?: () => void;
+  initialMode?: "login" | "register";
+  isModal?: boolean;
 }
 
-export const AuthScreen: React.FC<AuthScreenProps> = ({ onBack, returnUrl, onLoginSuccess }) => {
+export const AuthScreen: React.FC<AuthScreenProps> = ({
+  onBack,
+  onClose,
+  returnUrl,
+  onLoginSuccess,
+  initialMode = "login",
+  isModal = false,
+}) => {
   const { lang, login, register, authLoading, authError, clearAuthError } = useApp();
-  const [mode, setMode] = useState<"login" | "register">("login");
+  const [mode, setMode] = useState<"login" | "register">(initialMode);
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(true);
+
+  React.useEffect(() => {
+    if (initialMode) {
+      setMode(initialMode);
+      clearAuthError();
+    }
+  }, [initialMode, clearAuthError]);
 
   // Login state
   const [email, setEmail] = useState("");
@@ -116,12 +134,25 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({ onBack, returnUrl, onLog
   const displayError = localError || authError;
 
   return (
-    <div className="min-h-screen bg-[#F7F9FC] flex items-center justify-center p-4 relative overflow-hidden">
+    <div className={isModal ? "relative w-full max-w-5xl" : "min-h-screen bg-[#F7F9FC] flex items-center justify-center p-4 relative overflow-hidden"}>
       {/* BACKGROUND ACCENTS */}
-      <div className="absolute top-0 right-0 w-96 h-96 bg-[#E8F3FF] rounded-full blur-3xl pointer-events-none opacity-60" />
-      <div className="absolute bottom-0 left-0 w-96 h-96 bg-blue-100 rounded-full blur-3xl pointer-events-none opacity-40" />
+      {!isModal && (
+        <>
+          <div className="absolute top-0 right-0 w-96 h-96 bg-[#E8F3FF] rounded-full blur-3xl pointer-events-none opacity-60" />
+          <div className="absolute bottom-0 left-0 w-96 h-96 bg-blue-100 rounded-full blur-3xl pointer-events-none opacity-40" />
+        </>
+      )}
 
-      <div className="relative z-10 w-full max-w-5xl grid grid-cols-1 lg:grid-cols-12 bg-white rounded-3xl overflow-hidden shadow-xl border border-blue-100">
+      <div className="relative z-10 w-full max-w-5xl grid grid-cols-1 lg:grid-cols-12 bg-white rounded-3xl overflow-hidden shadow-2xl border border-blue-100">
+        {onClose && (
+          <button
+            onClick={onClose}
+            className="absolute top-3 left-3 rtl:left-3 rtl:right-auto z-30 w-9 h-9 rounded-full bg-slate-100/90 hover:bg-slate-200 text-slate-600 hover:text-slate-900 flex items-center justify-center transition-colors cursor-pointer shadow-xs"
+            aria-label="Close"
+          >
+            <X className="w-5 h-5" />
+          </button>
+        )}
         
         {/* LEFT BRANDING PANEL */}
         <div className="lg:col-span-5 flex flex-col justify-between bg-gradient-to-br from-[#1E40AF] via-[#2563EB] to-[#1D4ED8] p-8 sm:p-10 text-white">
