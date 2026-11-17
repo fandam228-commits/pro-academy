@@ -9,6 +9,7 @@ import { AdminCurriculumModule } from "./AdminCurriculumModule";
 import { AdminStudentsModule } from "./AdminStudentsModule";
 import { AdminVouchersModule } from "./AdminVouchersModule";
 import { AdminCenterAttendanceModule } from "./AdminCenterAttendanceModule";
+import { LiveClassroomManager } from "@/components/LiveClassroomManager";
 import {
   BarChart3,
   BookOpen,
@@ -25,6 +26,7 @@ import {
   ChevronLeft,
   KeyRound,
   QrCode,
+  Video,
 } from "lucide-react";
 
 export type AdminTab =
@@ -34,7 +36,8 @@ export type AdminTab =
   | "curriculum"
   | "students"
   | "vouchers"
-  | "center_attendance";
+  | "center_attendance"
+  | "live_classes";
 
 interface HabibAdminControlPanelProps {
   initialTab?: AdminTab;
@@ -90,6 +93,12 @@ export const HabibAdminControlPanel: React.FC<HabibAdminControlPanelProps> = ({
       labelAr: "حضور السنتر والواجب",
       icon: QrCode,
       badge: "SCAN",
+    },
+    {
+      id: "live_classes" as AdminTab,
+      labelAr: "الحصص المباشرة و Meet",
+      icon: Video,
+      badge: "LIVE",
     },
   ];
 
@@ -269,6 +278,7 @@ export const HabibAdminControlPanel: React.FC<HabibAdminControlPanelProps> = ({
           {activeTab === "students" && <AdminStudentsModule />}
           {activeTab === "vouchers" && <AdminVouchersModule />}
           {activeTab === "center_attendance" && <AdminCenterAttendanceModule />}
+          {activeTab === "live_classes" && <LiveClassroomManager />}
         </main>
       </div>
     </div>
