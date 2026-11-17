@@ -51,6 +51,7 @@ export function FriendChallengeWorkspace() {
   const [timeLeft, setTimeLeft] = useState(90);
   const [timeElapsed, setTimeElapsed] = useState(0);
   const [score, setScore] = useState(0);
+  const [creatorName, setCreatorName] = useState("طالب متفوق");
   const [createdChallenge, setCreatedChallenge] = useState<any>(null);
   const [isCopied, setIsCopied] = useState(false);
   const [history, setHistory] = useState<ChallengeHistoryItem[]>([]);
@@ -83,6 +84,15 @@ export function FriendChallengeWorkspace() {
 
   useEffect(() => {
     fetchHistory();
+    try {
+      if (typeof window !== "undefined") {
+        const stored = localStorage.getItem("pa_user");
+        if (stored) {
+          const parsed = JSON.parse(stored);
+          if (parsed?.name) setCreatorName(parsed.name);
+        }
+      }
+    } catch (e) {}
   }, []);
 
   // Timer loop during playing stage
@@ -177,7 +187,7 @@ export function FriendChallengeWorkspace() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           gradeLevel: "3rd_sec",
-          creatorName: "طالب متفوق",
+          creatorName: creatorName.trim() || "طالب متفوق",
           creatorScore: totalScore,
           creatorTimeSeconds: timeElapsed,
           questions,
@@ -261,13 +271,25 @@ ${shareUrl}`;
 
           <div className="flex flex-col sm:flex-row gap-3">
             {stage === "idle" && (
-              <button
-                onClick={startChallenge}
-                className="inline-flex items-center justify-center gap-3 px-6 py-3.5 rounded-2xl bg-gradient-to-r from-amber-500 via-amber-600 to-amber-500 hover:from-amber-600 hover:to-amber-700 text-slate-950 font-black text-base shadow-[0_0_25px_rgba(234,191,88,0.35)] transition-all active:scale-95"
-              >
-                <Swords className="w-5 h-5 stroke-[2.5px]" />
-                <span>ابدأ التحدي وسجل رقمك (90 ثانية)</span>
-              </button>
+              <div className="flex flex-col gap-2">
+                <div className="flex items-center gap-2 bg-slate-900/80 border border-slate-700/80 rounded-xl px-3 py-1.5 text-xs text-slate-300">
+                  <span className="text-slate-400 shrink-0">اسمك في التحدي:</span>
+                  <input
+                    type="text"
+                    value={creatorName}
+                    onChange={(e) => setCreatorName(e.target.value)}
+                    placeholder="اسمك هنا"
+                    className="bg-transparent text-white font-bold outline-none text-xs w-28 sm:w-36"
+                  />
+                </div>
+                <button
+                  onClick={startChallenge}
+                  className="inline-flex items-center justify-center gap-3 px-6 py-3.5 rounded-2xl bg-gradient-to-r from-amber-500 via-amber-600 to-amber-500 hover:from-amber-600 hover:to-amber-700 text-slate-950 font-black text-base shadow-[0_0_25px_rgba(234,191,88,0.35)] transition-all active:scale-95"
+                >
+                  <Swords className="w-5 h-5 stroke-[2.5px]" />
+                  <span>ابدأ التحدي وسجل رقمك (90 ثانية)</span>
+                </button>
+              </div>
             )}
           </div>
         </div>
