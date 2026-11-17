@@ -2,33 +2,143 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
 <title>Professional Academy — وضع عدم الاتصال</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@600;700;800;900&display=swap" rel="stylesheet" />
 <style>
-*{margin:0;padding:0;box-sizing:border-box}
-body{font-family:system-ui,-apple-system,sans-serif;background:linear-gradient(135deg,#0f172a,#1e3a5f,#1e1b4b);color:#e2e8f0;min-height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:24px}
-.card{max-width:420px;background:rgba(255,255,255,0.08);backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,0.15);border-radius:32px;padding:48px 32px;box-shadow:0 25px 60px rgba(0,0,0,0.4)}
-.icon{width:80px;height:80px;margin:0 auto 24px;background:linear-gradient(135deg,#2563eb,#4f46e5);border-radius:24px;display:flex;align-items:center;justify-content:center;box-shadow:0 12px 40px rgba(37,99,235,0.35)}
-.icon svg{width:44px;height:44px}
-h1{font-size:22px;font-weight:900;margin-bottom:8px;color:#fff}
-p{font-size:13px;color:#94a3b8;line-height:1.7;margin-bottom:24px}
-.btn{display:inline-flex;align-items:center;gap:8px;padding:14px 32px;background:linear-gradient(135deg,#2563eb,#4f46e5);color:#fff;border:none;border-radius:16px;font-size:13px;font-weight:800;cursor:pointer;box-shadow:0 8px 30px rgba(37,99,235,0.4);transition:transform 0.2s}
-.btn:hover{transform:scale(1.05)}
-.sub{margin-top:20px;font-size:10px;color:#64748b;font-family:monospace}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: 'Cairo', system-ui, -apple-system, sans-serif;
+  background: linear-gradient(135deg, #070D18 0%, #0E1E38 50%, #1E3A8A 100%);
+  color: #F8FAFC;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 24px;
+}
+.card {
+  max-width: 460px;
+  width: 100%;
+  background: rgba(14, 30, 56, 0.75);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(234, 191, 88, 0.25);
+  border-radius: 32px;
+  padding: 48px 32px;
+  box-shadow: 0 30px 70px rgba(0, 0, 0, 0.6), 0 0 40px rgba(37, 99, 235, 0.15);
+}
+.icon-box {
+  width: 88px;
+  height: 88px;
+  margin: 0 auto 28px;
+  background: linear-gradient(135deg, #1E40AF, #2563EB);
+  border-radius: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 16px 40px rgba(37, 99, 235, 0.45);
+  border: 2px solid rgba(234, 191, 88, 0.4);
+}
+.icon-box svg {
+  width: 44px;
+  height: 44px;
+}
+h1 {
+  font-size: 22px;
+  font-weight: 900;
+  margin-bottom: 14px;
+  color: #FFFFFF;
+  line-height: 1.4;
+}
+p {
+  font-size: 14px;
+  color: #CBD5E1;
+  line-height: 1.8;
+  margin-bottom: 28px;
+  font-weight: 600;
+}
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 14px 36px;
+  background: linear-gradient(135deg, #1E40AF, #2563EB);
+  color: #FFFFFF;
+  border: none;
+  border-radius: 18px;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 800;
+  cursor: pointer;
+  box-shadow: 0 10px 30px rgba(37, 99, 235, 0.45);
+  transition: all 0.25s ease;
+}
+.btn:hover {
+  transform: translateY(-2px) scale(1.02);
+  background: linear-gradient(135deg, #1D4ED8, #1E40AF);
+}
+.btn:active {
+  transform: translateY(0) scale(0.98);
+}
+.badge {
+  display: inline-block;
+  padding: 6px 16px;
+  border-radius: 9999px;
+  background: rgba(234, 191, 88, 0.15);
+  border: 1px solid rgba(234, 191, 88, 0.35);
+  color: #EABF58;
+  font-size: 11px;
+  font-weight: 800;
+  margin-bottom: 16px;
+}
+.footer-note {
+  margin-top: 24px;
+  padding-top: 18px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  font-size: 11px;
+  color: #94A3B8;
+  font-weight: 700;
+}
 </style>
 </head>
 <body>
 <div class="card">
-  <div class="icon">
-    <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round"><line x1="1" y1="1" x2="23" y2="23"/><path d="M16.72 11.06A10.94 10.94 0 0 1 19 12.55"/><path d="M5 12.55a10.94 10.94 0 0 1 5.17-2.39"/><path d="M10.71 5.05A16 16 0 0 1 22.56 9"/><path d="M1.42 9a15.91 15.91 0 0 1 4.7-2.88"/><path d="M8.53 16.11a6 6 0 0 1 6.95 0"/><line x1="12" y1="20" x2="12.01" y2="20"/></svg>
+  <div class="icon-box">
+    <svg viewBox="0 0 24 24" fill="none" stroke="#EABF58" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+      <line x1="1" y1="1" x2="23" y2="23"/>
+      <path d="M16.72 11.06A10.94 10.94 0 0 1 19 12.55"/>
+      <path d="M5 12.55a10.94 10.94 0 0 1 5.17-2.39"/>
+      <path d="M10.71 5.05A16 16 0 0 1 22.56 9"/>
+      <path d="M1.42 9a15.91 15.91 0 0 1 4.7-2.88"/>
+      <path d="M8.53 16.11a6 6 0 0 1 6.95 0"/>
+      <line x1="12" y1="20" x2="12.01" y2="20"/>
+    </svg>
   </div>
-  <h1>أنت الآن بدون اتصال بالإنترنت</h1>
-  <p>لا تقلق! المحتوى المحفوظ مسبقاً من كورساتك لا يزال متاحاً للمراجعة.<br/>سيعود التطبيق للعمل الكامل فور عودة الاتصال.</p>
-  <button class="btn" onclick="location.reload()">
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
-    إعادة المحاولة
+  
+  <span class="badge">وضع عدم الاتصال بالإنترنت</span>
+  
+  <h1>أنت غير متصل بالإنترنت حالياً</h1>
+  <p>
+    يرجى التحقق من الاتصال لمتابعة دروسك في Professional Academy.<br/>
+    المحتوى المحفوظ في ذاكرة جهازك يظل متاحاً لك للمراجعة في أي وقت.
+  </p>
+  
+  <button class="btn" onclick="window.location.reload()">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="23 4 23 10 17 10"/>
+      <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/>
+    </svg>
+    <span>إعادة المحاولة الآن</span>
   </button>
-  <div class="sub">Professional Academy — Mr. Habib El Rahman Platform</div>
+  
+  <div class="footer-note">
+    Professional Academy — Mr. Habib El Rahman
+  </div>
 </div>
 </body>
 </html>

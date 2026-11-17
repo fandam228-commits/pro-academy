@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import type { ReactNode } from "react";
 import "./globals.css";
+import { InstallAppPrompt } from "@/components/InstallAppPrompt";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://proacademy.habibelrahman.com"),
@@ -55,7 +56,7 @@ export const metadata: Metadata = {
   },
   alternates: { canonical: "https://proacademy.habibelrahman.com" },
   category: "education",
-  manifest: "/manifest.webmanifest",
+  manifest: "/manifest.json",
   appleWebApp: {
     capable: true,
     title: "Pro Academy",
@@ -64,23 +65,30 @@ export const metadata: Metadata = {
   icons: {
     icon: [
       { url: "/icons/icon-192.png", sizes: "192x192", type: "image/png" },
+      { url: "/icons/icon-192x192.png", sizes: "192x192", type: "image/png" },
       { url: "/icons/icon-512.png", sizes: "512x512", type: "image/png" },
+      { url: "/icons/icon-512x512.png", sizes: "512x512", type: "image/png" },
     ],
-    apple: [{ url: "/icons/apple-touch-icon.png", sizes: "180x180", type: "image/png" }],
+    apple: [
+      { url: "/icons/icon-192x192.png", sizes: "192x192", type: "image/png" },
+      { url: "/icons/apple-touch-icon.png", sizes: "180x180", type: "image/png" },
+    ],
   },
   other: {
-    "theme-color": "#7c3aed",
+    "theme-color": "#0E1E38",
     "apple-mobile-web-app-capable": "yes",
     "apple-mobile-web-app-status-bar-style": "black-translucent",
+    "apple-mobile-web-app-title": "Pro Academy",
   },
 };
 
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
+  viewportFit: "cover",
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#7c3aed" },
-    { media: "(prefers-color-scheme: dark)", color: "#0c071a" },
+    { media: "(prefers-color-scheme: light)", color: "#2563EB" },
+    { media: "(prefers-color-scheme: dark)", color: "#0E1E38" },
   ],
 };
 
@@ -133,6 +141,12 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700;800;900&family=Tajawal:wght@400;500;700;800;900&display=swap"
           rel="stylesheet"
         />
+        <link rel="manifest" href="/manifest.json" />
+        <link rel="apple-touch-icon" href="/icons/icon-192x192.png" />
+        <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon.png" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+        <meta name="apple-mobile-web-app-title" content="Pro Academy" />
         <script
           dangerouslySetInnerHTML={{
             __html: `
@@ -147,6 +161,10 @@ export default function RootLayout({ children }: { children: ReactNode }) {
                         sessionStorage.setItem('sw_purged', 'true');
                         window.location.reload();
                       }
+                    });
+                  } else if (!isLocal && 'serviceWorker' in navigator) {
+                    window.addEventListener('load', function() {
+                      navigator.serviceWorker.register('/sw.js').catch(function(){});
                     });
                   }
                   if ('caches' in window) {
@@ -167,6 +185,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       <body className="bg-[#F7F9FC] text-[#243247] antialiased selection:bg-[#2563EB] selection:text-white">
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaOrgJsonLd) }} />
         {children}
+        <InstallAppPrompt />
       </body>
     </html>
   );
