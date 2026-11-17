@@ -1,0 +1,252 @@
+import json
+import os
+
+OUTPUT_DIR = r"C:\Users\fanda\Documents\pro-academy\src\data\secondary-2027"
+os.makedirs(OUTPUT_DIR, exist_ok=True)
+OUTPUT_FILE = os.path.join(OUTPUT_DIR, "sec2-bac-novel-the-lost-world.json")
+
+novel_data = {
+    "metadata": {
+        "titleEn": "The Lost World",
+        "titleAr": "العالم المفقود",
+        "author": "Sir Arthur Conan Doyle",
+        "authorAr": "السير آرثر كونان دويل (1859 - 1930)",
+        "gradeCode": "sec_2_bac",
+        "gradeAr": "الصف الثاني بكالوريا (الفصل الدراسي الأول)",
+        "syllabus": "Official 2026/2027 Egyptian Baccalaureate English Literature",
+        "setting": {
+            "place": "London, England (Daily Gazette, Zoological Institute) & The Amazon Basin, South America (Lost World Plateau)",
+            "time": "Early 20th century",
+            "atmosphere": "Adventurous, dangerous, mysterious, scientific inquiry"
+        },
+        "themes": [
+            {"theme": "Courage vs. Impulsiveness", "descriptionAr": "الشجاعة الحقيقية النابعة من الشخصية مقابل الاندفاع غير المحسوب"},
+            {"theme": "Scientific Inquiry & Evidence", "descriptionAr": "احترام الدليل العلمي والبحث عن الحقيقة وعدم رفض الأفكار لمجرد أنها تبدو مستحيلة"},
+            {"theme": "Teamwork & Loyalty", "descriptionAr": "العمل الجماعي والوفاء في مواجهة الأخطار المميتة"},
+            {"theme": "Ambition & Self-Discovery", "descriptionAr": "الطموح واكتشاف الذات وتحدي المجهول"}
+        ]
+    },
+    "characters": [
+        {
+            "name": "Professor George Edward Challenger",
+            "role": "Zoologist & Expedition Leader",
+            "roleAr": "عالم حيوان عبقري وقائد الرحلة الاستكشافية",
+            "traits": ["Brilliant", "Aggressive", "Passionate", "Courageous", "Confident"],
+            "descriptionEn": "An eccentric, imposing zoologist whose claims of surviving prehistoric creatures are initially ridiculed by London scientists.",
+            "descriptionAr": "عالم حيوان فذ وذو بنية مهيبة وطباع حادة، اكتشف مخلوقات ما قبل التاريخ في أمريكا الجنوبية ويقود البعثة لإثبات صحة نظريته."
+        },
+        {
+            "name": "Edward Malone",
+            "role": "Narrator & Daily Gazette Reporter",
+            "roleAr": "راوي القصة وصحفي في جريدة ديلي غازيت",
+            "traits": ["Ambitious", "Loyal", "Observant", "Determined"],
+            "descriptionEn": "A young, spirited London reporter who joins the perilous expedition to prove his bravery to Gladys and achieve journalistic renown.",
+            "descriptionAr": "صحفي شاب طموح يسعى لإثبات شجاعته للفوز بقلب جلاديس، ويصبح المؤرخ الميداني للرحلة."
+        },
+        {
+            "name": "Professor Summerlee",
+            "role": "Skeptical Comparative Anatomist",
+            "roleAr": "أستاذ التشريح المقارن الشكاك والمدقق",
+            "traits": ["Elderly", "Rigorous", "Skeptical", "Principled"],
+            "descriptionEn": "A cautious, senior academic appointed by the scientific council to verify Challenger's extraordinary claims.",
+            "descriptionAr": "أستاذ جامعي مسن ذو عقلية نقدية صارمة، يشارك لتدقيق ادعاءات تشالنجر علمياً ويتحول من مشكك إلى شاهد حاسم."
+        },
+        {
+            "name": "Lord John Roxton",
+            "role": "World Explorer & Hunter",
+            "roleAr": "لورد بريطاني ومستكشف ومغامر شجاع",
+            "traits": ["Fearless", "Resourceful", "Expert Marksman", "Honorable"],
+            "descriptionEn": "An experienced sportsman and traveler whose survival expertise and rifle protect the expedition from deadly perils.",
+            "descriptionAr": "مغامر وخبير بالبقاء في البراري، يمتلك مهارات صيد استثنائية وبندقية تنقذ الفريق من هجمات المخلوقات المفترسة."
+        },
+        {
+            "name": "Gladys Hungerton",
+            "role": "Malone's Love Interest",
+            "roleAr": "الفتاة التي يحبها مالون",
+            "traits": ["Demanding", "Idealistic"],
+            "descriptionEn": "Rejects Malone's proposal because she romanticizes heroes who brave extreme danger.",
+            "descriptionAr": "ترفض الزواج من مالون في البداية وتطلب منه أن يثبت شجاعته بمواجهة المخاطر الحقيقية."
+        },
+        {
+            "name": "Mr McArdle",
+            "role": "Daily Gazette News Editor",
+            "roleAr": "رئيس تحرير صحيفة ديلي غازيت",
+            "traits": ["Supportive", "Professional"],
+            "descriptionEn": "Gives Malone the dangerous opportunity to investigate Challenger.",
+            "descriptionAr": "رئيس تحرير الصحيفة الذي يمنح مالون المهمة الصحفية لتغطية مؤتمر تشالنجر ومغامرته."
+        },
+        {
+            "name": "Maple White",
+            "role": "Deceased American Explorer",
+            "roleAr": "المستكشف الأمريكي الراحل",
+            "traits": ["Pioneering", "Visionary"],
+            "descriptionEn": "Discovered the South American plateau and drew the map and sketches found in Challenger's hands.",
+            "descriptionAr": "المستكشف الذي اكتشف الهضبة المعزولة ورسم الخريطة وكراسة الرسومات قبل وفاته."
+        },
+        {
+            "name": "Gomez",
+            "role": "Treacherous Guide",
+            "roleAr": "الدليل الخائن الساعي للانتقام",
+            "traits": ["Vengeful", "Deceptive"],
+            "descriptionEn": "The brother of Pedro Lopez, seeking revenge on Lord John Roxton; he fells the tree bridge, stranding the explorers on the plateau.",
+            "descriptionAr": "الدليل الذي يدمر جسر الشجرة للانتقام لأخيه بيدرو لوبيز، محاصراً العلماء فوق الهضبة الخطيرة."
+        },
+        {
+            "name": "Zambo",
+            "role": "Loyal South American Camp Assistant",
+            "roleAr": "المساعد المخلص في المعسكر السفلي",
+            "traits": ["Loyal", "Strong", "Dependable"],
+            "descriptionEn": "Remains fiercely loyal at the base of the cliffs, sending supplies and maintaining a lifeline to the outside world.",
+            "descriptionAr": "المساعد الوفي ذو القوة البدنية الذي يحافظ على المؤن أسفل الجرف ويوفر حبلاً للتواصل مع الفريق المحاصر."
+        }
+    ],
+    "chapters": [
+        {
+            "chapterNumber": 1,
+            "titleEn": "There Are Heroisms All Round Us",
+            "titleAr": "البطولة من حولنا في كل مكان",
+            "summaryEn": "Edward Malone declares his romantic love to Gladys Hungerton in London. She declines marriage, insisting she could only love a distinguished man of action who has stared danger in the face. Desperate to prove himself worthy, Malone visits his editor Mr McArdle, asking for a perilous foreign mission. McArdle tasks him with testing the astonishing claims of the infamous Professor Challenger.",
+            "summaryAr": "يصارح إدوارد مالون جلاديس هنغرتون بمشاعره، لكنها ترفض الزواج منه مبينة أنها تتمنى رجلاً بطلاً واجه المخاطر العظيمة. بدافع إثبات شجاعته، يقصد مالون رئيس تحريره ماكاردل طالباً مهمة صحفية صعبة، فيكلفه بالتحقيق في ادعاءات البروفيسور غريب الأطوار تشالنجر.",
+            "keyVocabulary": [
+                {"word": "heroism", "meaningAr": "البطولة والجسارة"},
+                {"word": "proposal", "meaningAr": "طلب الزواج"},
+                {"word": "perilous", "meaningAr": "محفوف بالمخاطر الشديدة"},
+                {"word": "editor", "meaningAr": "رئيس التحرير"}
+            ]
+        },
+        {
+            "chapterNumber": 2,
+            "titleEn": "Meeting the Enigma: Professor Challenger",
+            "titleAr": "لقاء اللغز: البروفيسور تشالنجر",
+            "summaryEn": "Malone consults his scientific friend Tarp Henry and devises a plan to gain an interview with Challenger by pretending to be an earnest zoology student. Challenger quickly unmasks Malone's disguise, leading to a fiery confrontation. Impressed by Malone's physical tenacity and honesty, Challenger relents and displays Maple White's sketchbook, showing extinct pterodactyls preserved in an isolated South American plateau.",
+            "summaryAr": "يستشير مالون صديقه تارپ هنري ويتظاهر بأنه طالب علم أحياء لمقابلة تشالنجر. يكشف البروفيسور الحيلة وتندلع مشادة عنيفة، لكنه يعجب بشجاعة مالون وصدقه فيكشف له كراسة رسومات مابل وايت وصور الديناصورات المحفوظة فوق هضبة معزولة بأمريكا الجنوبية.",
+            "keyVocabulary": [
+                {"word": "enigma", "meaningAr": "لغز محير"},
+                {"word": "confrontation", "meaningAr": "مواجهة حادة"},
+                {"word": "sketchbook", "meaningAr": "كراسة رسومات حقلية"},
+                {"word": "extinct", "meaningAr": "منقرض من عصور قديمة"}
+            ]
+        },
+        {
+            "chapterNumber": 3,
+            "titleEn": "The Challenge at the Zoological Institute",
+            "titleAr": "التحدي في معهد علم الحيوان بلندن",
+            "summaryEn": "At a crowded scientific assembly in London, Professor Summerlee publicly accuses Challenger of fraud and sensationalism. Challenger challenges the scientific community to send an independent inspection committee to verify his discovery. Edward Malone, Professor Summerlee, and the legendary explorer Lord John Roxton step forward as volunteers.",
+            "summaryAr": "في مؤتمر حاشد بمعهد علم الحيوان، يتهم البروفيسور سمرلي تشالنجر بالاحتيال العلمي. يتحدى تشالنجر الحضور بإرسال لجنة تدقيق مستقلة للهضبة، فيتطوع مالون، والبروفيسور سمرلي، والمستكشف اللورد جون روكستون لتشكيل البعثة.",
+            "keyVocabulary": [
+                {"word": "assembly", "meaningAr": "مؤتمر / جمعية علمية"},
+                {"word": "fraud", "meaningAr": "احتيال وتضليل"},
+                {"word": "committee", "meaningAr": "لجنة فحص مستقلة"},
+                {"word": "volunteer", "meaningAr": "متطوع للمهمة"}
+            ]
+        },
+        {
+            "chapterNumber": 4,
+            "titleEn": "Journey to the Hidden Plateau",
+            "titleAr": "الرحلة إلى الهضبة المفقودة",
+            "summaryEn": "The four explorers travel to Brazil, navigating up the Amazon River aboard the steam launch Esmeralda, followed by canoes and an arduous trek through dense bamboo jungles. Challenger joins them and leads the way to towering red sandstone cliffs matching Maple White's drawings, surrounded by impenetrable vertical precipices.",
+            "summaryAr": "تبحر البعثة الاستكشافية عبر نهر الأمازون على متن السفينة إسميرالدا ثم الزوارق الخشبية، مخترقة أدغال الخيزران الكثيفة. يقودهم تشالنجر نحو جرف صخري أحمر شاهق يطابق رسومات مابل وايت، تحيط به هوة عميقة يستحيل تسلقها مباشرة.",
+            "keyVocabulary": [
+                {"word": "precipice", "meaningAr": "جرف صخري شاهق وشديد الانحدار"},
+                {"word": "treacherous", "meaningAr": "غادر ومحفوف بالمهالك"},
+                {"word": "sandstone", "meaningAr": "حجر رملي أحمر"},
+                {"word": "impenetrable", "meaningAr": "منيع لا يمكن اختراقه"}
+            ]
+        },
+        {
+            "chapterNumber": 5,
+            "titleEn": "Trapped in the Lost World",
+            "titleAr": "حصار في العالم المفقود",
+            "summaryEn": "The explorers fell a tall tree across a deep pinnacle to bridge the chasm and cross safely onto the plateau. Suddenly, the treacherous guide Gomez cuts down the tree bridge to avenge his brother Pedro Lopez, trapping the four men atop the prehistoric plateau. Constructing 'Fort Challenger', the men witness living iguanodons and survive a ferocious night ambush by winged pterodactyls in the swamp. Summerlee humbly acknowledges that Challenger was entirely right.",
+            "summaryAr": "يسقط المستكشفون شجرة ضخمة لتعبر الهوة كجسر ويصلون لسطح الهضبة. فجأة، يظهر جوميز الخائن ويدمر جسر الشجرة انتقاماً لأخيه لوبيز، محاصراً العلماء في عالم ما قبل التاريخ. يبنون 'حصن تشالنجر'، ويشاهدون ديناصورات إغوانودون حية، وينجون من هجوم مباغت لمستنقع التيروداكتيلات. هنا يعترف سمرلي بصدق تشالنجر التام.",
+            "keyVocabulary": [
+                {"word": "chasm", "meaningAr": "هوة سحيقة وشق صخري عميق"},
+                {"word": "treachery", "meaningAr": "خيانة وغدر"},
+                {"word": "iguanodon", "meaningAr": "ديناصور الإغوانودون العشبي الضخم"},
+                {"word": "pterodactyl", "meaningAr": "التيروداكتيل (الزاحف المجنح المفترس)"}
+            ]
+        }
+    ],
+    "interactiveQuestions": [
+        {
+            "id": "lw_q01",
+            "questionText": "Why did Edward Malone ask his editor, Mr McArdle, for a dangerous journalistic assignment?",
+            "options": [
+                "He wanted to prove his courage to Gladys Hungerton after she rejected him.",
+                "He was ordered by the government to leave London immediately.",
+                "He wanted to become a professional zoology professor.",
+                "He wished to purchase a newspaper company."
+            ],
+            "correctAnswer": "He wanted to prove his courage to Gladys Hungerton after she rejected him.",
+            "explanation": "Gladys told Malone she could only love an adventurous hero who has faced extreme danger."
+        },
+        {
+            "id": "lw_q02",
+            "questionText": "How did Professor Challenger initially react when he discovered that Malone was a journalist?",
+            "options": [
+                "He welcomed him warmly and gave him an immediate exclusive interview.",
+                "He became furious and physically threw him out of the room.",
+                "He called the police to arrest Malone for trespassing.",
+                "He immediately signed a contract with the Daily Gazette."
+            ],
+            "correctAnswer": "He became furious and physically threw him out of the room.",
+            "explanation": "Challenger hated journalists and erupted violently upon learning Malone's true profession."
+        },
+        {
+            "id": "lw_q03",
+            "questionText": "What piece of physical evidence convinced Malone that Challenger might be telling the truth?",
+            "options": [
+                "A collection of modern European hunting rifles.",
+                "Maple White's field sketchbook showing drawings of living pterodactyls and the plateau.",
+                "A signed contract with the Brazilian government.",
+                "A newspaper clipping from the London Times."
+            ],
+            "correctAnswer": "Maple White's field sketchbook showing drawings of living pterodactyls and the plateau.",
+            "explanation": "The authentic drawings and bone fragment in White's album substantiated Challenger's account."
+        },
+        {
+            "id": "lw_q04",
+            "questionText": "Who was appointed by the zoological gathering in London to verify Challenger's claims?",
+            "options": [
+                "Professor Summerlee, Edward Malone, and Lord John Roxton.",
+                "Tarp Henry, Gladys Hungerton, and Mr McArdle.",
+                "Maple White, Pedro Lopez, and Gomez.",
+                "Sir Arthur Conan Doyle and the London police."
+            ],
+            "correctAnswer": "Professor Summerlee, Edward Malone, and Lord John Roxton.",
+            "explanation": "The three men volunteered as an impartial inspection team."
+        },
+        {
+            "id": "lw_q05",
+            "questionText": "Why did Gomez destroy the tree bridge, trapping the expedition on the plateau?",
+            "options": [
+                "He wanted to avenge his brother, Pedro Lopez, whom Lord John Roxton had killed years before.",
+                "He was terrified of the dinosaurs and wanted to escape alone.",
+                "Challenger refused to pay him his agreed wages.",
+                "The tree caught fire by an accidental lightning strike."
+            ],
+            "correctAnswer": "He wanted to avenge his brother, Pedro Lopez, whom Lord John Roxton had killed years before.",
+            "explanation": "Gomez was motivated by deep personal vengeance against Lord John Roxton."
+        },
+        {
+            "id": "lw_q06",
+            "questionText": "What prehistoric creatures did the team encounter that finally convinced the skeptical Professor Summerlee?",
+            "options": [
+                "A family of giant iguanodons and a swamp teeming with ferocious pterodactyls.",
+                "A mechanical model of a dinosaur built in a workshop.",
+                "A rare species of giant African elephants.",
+                "A modern South American mountain eagle."
+            ],
+            "correctAnswer": "A family of giant iguanodons and a swamp teeming with ferocious pterodactyls.",
+            "explanation": "Direct observation of living iguanodons and surviving a pterodactyl attack dispelled all skepticism."
+        }
+    ]
+}
+
+with open(OUTPUT_FILE, "w", encoding="utf-8") as f:
+    json.dump(novel_data, f, ensure_ascii=False, indent=2)
+
+print(f"Successfully generated Novel dataset: {OUTPUT_FILE}")
+print(f"  - Characters: {len(novel_data['characters'])}")
+print(f"  - Chapters: {len(novel_data['chapters'])}")
+print(f"  - Interactive Questions: {len(novel_data['interactiveQuestions'])}")

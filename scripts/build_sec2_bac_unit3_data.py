@@ -1,0 +1,553 @@
+import json
+import os
+
+OUTPUT_DIR = r"C:\Users\fanda\Documents\pro-academy\src\data\secondary-2027"
+os.makedirs(OUTPUT_DIR, exist_ok=True)
+OUTPUT_FILE = os.path.join(OUTPUT_DIR, "sec2-bac-unit3-extracted.json")
+
+unit3_data = {
+    "curriculumMetadata": {
+        "stage": "Secondary",
+        "grade": "Second Year Egyptian Baccalaureate",
+        "gradeCode": "sec_2_bac",
+        "gradeAr": "الصف الثاني بكالوريا (البكالوريا المصرية)",
+        "term": "First",
+        "academicYear": "2026/2027",
+        "unitNumber": 3,
+        "unitTitleEn": "Echoes of the Past",
+        "unitTitleAr": "أصداء الماضي: الهوية والتراث الثقافي المصري",
+        "conceptEn": "Identity, Heritage & Cultural Memory",
+        "conceptAr": "الهوية القومية، حفظ التراث، والذاكرة التراكمية للحضارات",
+        "sourceFile": "العمالقة_انجليزي_2_بكالوريا_الترم_الاول_2027_الجزء_الثاني_المتميزون.pdf",
+        "publisher": "سلسلة العمالقة (Giants Books Series)",
+        "pageRange": "Pages 143 - 204"
+    },
+    "keyBaccalaureateTerms": [
+        {"term": "Sites of Memory", "meaningAr": "مواقع الذاكرة والتراث الحي"},
+        {"term": "Accumulated Memory", "meaningAr": "الذاكرة التراكمية عبر الأجيال"},
+        {"term": "Encoded Heritage", "meaningAr": "التراث المرمّز والمحفور في الحجر والمخطوطات"},
+        {"term": "Discursive Essay Structure", "meaningAr": "بنية المقال النقدي الجدلي متعدد الرؤى"},
+        {"term": "Clauses of Concession", "meaningAr": "عبارات التناقض والتنازل (Although, Despite, However)"},
+        {"term": "JRE (Justify - Reason - Evidence)", "meaningAr": "استراتيجية التبرير وذكر السبب والدليل"}
+    ],
+    "lessons": [
+        {
+            "lessonNumber": 1,
+            "section": "Section A: Historical Landscape",
+            "sectionAr": "القسم أ: المشهد التاريخي والتراثي",
+            "titleEn": "Sites of Memory: Karnak & The Grand Egyptian Museum",
+            "titleAr": "مواقع الذاكرة: معبد الكرنك والمتحف المصري الكبير",
+            "pages": "143 - 155",
+            "coreVocabulary": [
+                {
+                    "id": "u3_l1_core_01",
+                    "word": "massive",
+                    "pos": "adj",
+                    "meaningAr": "ضخم جداً / هائل الحجم",
+                    "definitionEn": "extremely large in size, scale, or extent",
+                    "exampleEn": "The Hypostyle Hall in Karnak contains 134 massive stone columns."
+                },
+                {
+                    "id": "u3_l1_core_02",
+                    "word": "accumulated",
+                    "pos": "adj",
+                    "meaningAr": "متراكم / مجمّع عبر القرون",
+                    "definitionEn": "built up or collected gradually over a long period of time",
+                    "exampleEn": "Historical sites represent the accumulated memory of ancient civilizations."
+                },
+                {
+                    "id": "u3_l1_core_03",
+                    "word": "representative",
+                    "pos": "n/adj",
+                    "meaningAr": "ممثل / نموذج دال / مندوب",
+                    "definitionEn": "a person or artifact that exemplifies or speaks on behalf of a group or civilization",
+                    "exampleEn": "The gold mask of Tutankhamun is a representative masterpiece of ancient Egyptian artistry."
+                },
+                {
+                    "id": "u3_l1_core_04",
+                    "word": "inscribed",
+                    "pos": "adj",
+                    "meaningAr": "منقوش / محفور في الحجر أو المعدن",
+                    "definitionEn": "written, carved, or engraved permanently into a hard surface",
+                    "exampleEn": "The temple walls were inscribed with sacred prayers and victorious royal decrees."
+                },
+                {
+                    "id": "u3_l1_core_05",
+                    "word": "encoded",
+                    "pos": "adj",
+                    "meaningAr": "مشفّر / يحمل دلالات ومعاني رمزية عميقة",
+                    "definitionEn": "converted into signs, hieroglyphs, or symbols to convey cultural meaning",
+                    "exampleEn": "Ancient pharaonic values are carefully encoded in temple architecture."
+                },
+                {
+                    "id": "u3_l1_core_06",
+                    "word": "devotion",
+                    "pos": "n",
+                    "meaningAr": "إخلاص وتفانٍ وتقديس",
+                    "definitionEn": "profound loyalty, religious dedication, and intense commitment",
+                    "exampleEn": "The builders worked with unwavering devotion to honor their sacred deities."
+                },
+                {
+                    "id": "u3_l1_core_07",
+                    "word": "ram-headed sphinx",
+                    "pos": "n",
+                    "meaningAr": "تمثال أبو الهول برأس كبش (طريق الكباش)",
+                    "definitionEn": "an iconic ancient Egyptian statue featuring a lion's powerful body and a ram's head",
+                    "exampleEn": "The grand avenue lined with ram-headed sphinxes connected Luxor and Karnak temples."
+                },
+                {
+                    "id": "u3_l1_core_08",
+                    "word": "echoes of the past",
+                    "pos": "n",
+                    "meaningAr": "أصداء الماضي وأثره في الحاضر",
+                    "definitionEn": "memories, enduring ideas, or architectural remnants that resonate in contemporary life",
+                    "exampleEn": "Modern Egyptian architecture still carries distinct echoes of the past."
+                },
+                {
+                    "id": "u3_l1_core_09",
+                    "word": "site of memory",
+                    "pos": "n",
+                    "meaningAr": "موقع للذكرى والتراث الإنساني",
+                    "definitionEn": "a historic physical location where cultural identity is preserved and commemorated",
+                    "exampleEn": "The Grand Egyptian Museum serves as a global site of memory celebrating antiquity."
+                }
+            ],
+            "buildYourLanguage": [
+                {"term": "landmarks", "pos": "n", "meaningAr": "معالم جغرافية وتاريخية بارزة"},
+                {"term": "landscape", "pos": "n", "meaningAr": "مشهد طبيعي أو أثري متكامل"},
+                {"term": "milestone", "pos": "n", "meaningAr": "نقطة تحول ومحطة تاريخية فارقة"},
+                {"term": "avenue", "pos": "n", "meaningAr": "ممر واسع تصطف على جانبيه المعالم"},
+                {"term": "heritage", "pos": "n", "meaningAr": "تراث وإرث حضاري عريق"},
+                {"term": "continuity", "pos": "n", "meaningAr": "استمرارية وتواصل تاريخي"},
+                {"term": "sandstone", "pos": "n", "meaningAr": "حجر رملي أثري متين"},
+                {"term": "column", "pos": "n", "meaningAr": "عمود صخري شاهق يدعم البناء"},
+                {"term": "abstract", "pos": "adj", "meaningAr": "فلسفي مجرد وغير مادي"},
+                {"term": "complex", "pos": "n/adj", "meaningAr": "مجمع معماري / معقد ومتشابك"},
+                {"term": "entrance", "pos": "n", "meaningAr": "بوابة ومدخل صرحي"},
+                {"term": "civilization", "pos": "n", "meaningAr": "حضارة إنسانية متقدمة"},
+                {"term": "monuments", "pos": "n", "meaningAr": "آثار وصروح خالدة"},
+                {"term": "observe", "pos": "v", "meaningAr": "يرصد ويلاحظ بدقة علمية"},
+                {"term": "era", "pos": "n", "meaningAr": "عصر أو حقبة زمنية طويلة"},
+                {"term": "reign", "pos": "n", "meaningAr": "عهد أو فترة حكم ملكي"},
+                {"term": "angle", "pos": "n", "meaningAr": "زاوية رؤية أو إضاءة"},
+                {"term": "preserve", "pos": "v", "meaningAr": "يصون ويحفظ من التلف والاندثار"},
+                {"term": "vast", "pos": "adj", "meaningAr": "شاسع وفسيح ومترامي الأطراف"},
+                {"term": "silence", "pos": "n", "meaningAr": "صمت وسكون مهيب"},
+                {"term": "echo", "pos": "n/v", "meaningAr": "صدى / يردد ويعكس الأثر"},
+                {"term": "generation", "pos": "n", "meaningAr": "جيل متعاقب"},
+                {"term": "layers", "pos": "n", "meaningAr": "طبقات تاريخية وجيولوجية"},
+                {"term": "encouraged", "pos": "adj", "meaningAr": "محفز ومشجع على البحث"},
+                {"term": "stillness", "pos": "n", "meaningAr": "سكينة وسكون تام"},
+                {"term": "interpret", "pos": "v", "meaningAr": "يفسر ويستخلص الدلالات"},
+                {"term": "appreciate", "pos": "v", "meaningAr": "يقدر ويثمن القيمة الحضارية"},
+                {"term": "ambition", "pos": "n", "meaningAr": "طموح وعزيمة البناء"},
+                {"term": "hieroglyphics", "pos": "n", "meaningAr": "الكتابة الهيروغليفية المصرية القديمة"},
+                {"term": "pharaoh", "pos": "n", "meaningAr": "الفرعون الحاكم"},
+                {"term": "values", "pos": "n", "meaningAr": "القيم والأعراف المجتمعية"},
+                {"term": "historical", "pos": "adj", "meaningAr": "تاريخي / مرتبط بدراسة التاريخ"},
+                {"term": "Ptolemaic", "pos": "adj", "meaningAr": "بطلمي / من العصر البطلمي"},
+                {"term": "carved", "pos": "adj", "meaningAr": "منحوت بمهارة في الصخر"},
+                {"term": "significant", "pos": "adj", "meaningAr": "ذو دلالة وأهمية استثنائية"},
+                {"term": "identity", "pos": "n", "meaningAr": "الهوية والشخصية الوطنية"},
+                {"term": "impress", "pos": "v", "meaningAr": "يبهر الزائرين ويثير إعجابهم"},
+                {"term": "survive", "pos": "v", "meaningAr": "يبقى حياً ويصمد عبر العصور"},
+                {"term": "achievements", "pos": "n", "meaningAr": "إنجازات ومفاخر حضارية"}
+            ],
+            "synonymsAntonyms": [
+                {
+                    "word": "accumulated",
+                    "meaningAr": "متراكم / مجمّع",
+                    "synonyms": ["amassed", "gathered", "collected"],
+                    "antonyms": ["dispersed", "depleted", "scattered"]
+                },
+                {
+                    "word": "devotion",
+                    "meaningAr": "تفانٍ وإخلاص",
+                    "synonyms": ["dedication", "commitment", "loyalty"],
+                    "antonyms": ["indifference", "neglect", "disloyalty"]
+                },
+                {
+                    "word": "encoded",
+                    "meaningAr": "مشفّر / مرمّز",
+                    "synonyms": ["symbolized", "coded", "ciphered"],
+                    "antonyms": ["decoded", "deciphered", "revealed"]
+                },
+                {
+                    "word": "inscribed",
+                    "meaningAr": "منقوش / محفور",
+                    "synonyms": ["engraved", "etched", "carved", "marked"],
+                    "antonyms": ["erased", "removed", "deleted"]
+                },
+                {
+                    "word": "significant",
+                    "meaningAr": "مهم وذو دلالة",
+                    "synonyms": ["important", "meaningful", "notable"],
+                    "antonyms": ["insignificant", "trivial", "minor"]
+                },
+                {
+                    "word": "interpret",
+                    "meaningAr": "يفسر ويوضح",
+                    "synonyms": ["explain", "clarify", "translate"],
+                    "antonyms": ["misinterpret", "confuse", "misunderstand"]
+                },
+                {
+                    "word": "stillness",
+                    "meaningAr": "سكينة وسكون",
+                    "synonyms": ["calm", "quiet", "silence"],
+                    "antonyms": ["movement", "activity", "motion"]
+                },
+                {
+                    "word": "abstract",
+                    "meaningAr": "مجرد وغير مادي",
+                    "synonyms": ["theoretical", "intangible"],
+                    "antonyms": ["practical", "tangible", "specific"]
+                }
+            ],
+            "wordFamily": [
+                {"verb": "preserve", "noun": "preservation", "adjective": "preservative", "meaningAr": "يحفظ / صون / حافظ وواقٍ"},
+                {"verb": "inherit", "noun": "heritage", "adjective": "hereditary", "meaningAr": "يرث / تراث / وراثي"},
+                {"verb": "continue", "noun": "continuity", "adjective": "continuous", "meaningAr": "يستمر / استمرارية / متواصل"},
+                {"verb": "appreciate", "noun": "appreciation", "adjective": "appreciative", "meaningAr": "يقدر / تقدير / ممتن ومقدّر"},
+                {"verb": "encode", "noun": "encoding", "adjective": "encoded", "meaningAr": "يشفر / ترميز / مشفر"},
+                {"verb": "accumulate", "noun": "accumulation", "adjective": "accumulated", "meaningAr": "يتراكم / تراكم / متراكم"},
+                {"verb": "represent", "noun": "representation", "adjective": "representative", "meaningAr": "يمثل / تمثيل / ممثل ونموذجي"},
+                {"verb": "inscribe", "noun": "inscription", "adjective": "inscribed", "meaningAr": "ينقش / نقش / منقوش"},
+                {"verb": "observe", "noun": "observation", "adjective": "observant", "meaningAr": "يلاحظ / ملاحظة / يقظ ودقيق الملاحظة"},
+                {"verb": "interpret", "noun": "interpretation", "adjective": "interpretive", "meaningAr": "يفسر / تفسير / تفسيري وتأويلي"}
+            ],
+            "collocations": [
+                {"collocation": "play an important role", "meaningAr": "يلعب دوراً جوهرياً ومحورياً"},
+                {"collocation": "preserve the identity", "meaningAr": "يحافظ على الهوية الوطنية والتاريخية"},
+                {"collocation": "reflect the achievements", "meaningAr": "يعكس الإنجازات والانتصارات العظيمة"},
+                {"collocation": "explore landmarks", "meaningAr": "يستكشف المعالم والآثار الخالدة"},
+                {"collocation": "connect with the past", "meaningAr": "يرتبط بجذوره التاريخية العريقة"},
+                {"collocation": "appreciate cultural values", "meaningAr": "يستشعر ويقدر القيم الثقافية الراقية"},
+                {"collocation": "stand at the entrance", "meaningAr": "يقف عند بوابة الصرح أو المدخل"},
+                {"collocation": "be struck by", "meaningAr": "تأخذه الدهشة وينبهر بـ"},
+                {"collocation": "near-perfect stillness", "meaningAr": "سكون وهدوء يقارب الكمال"},
+                {"collocation": "be carved from sandstone", "meaningAr": "منحوت ببراعة من الحجر الرملي"},
+                {"collocation": "at a low angle", "meaningAr": "بزاوية ضوئية منخفضة تبرز التفاصيل"},
+                {"collocation": "accumulated memory", "meaningAr": "ذاكرة تراكمية تختزل مسيرة القرون"},
+                {"collocation": "encoded in stone", "meaningAr": "مرمّز ومنقوش في صلب الحجر"},
+                {"collocation": "communicate ideas", "meaningAr": "ينقل المفاهيم والرؤى للأجيال"},
+                {"collocation": "carry forward history", "meaningAr": "ينقل التاريخ بأمانة للأجيال القادمة"},
+                {"collocation": "abstract questions", "meaningAr": "تساؤلات فلسفية مجردة"},
+                {"collocation": "not simply to impress but to communicate", "meaningAr": "ليس لمجرد الإبهار الصوري بل لنقل رسالة حضارية"}
+            ],
+            "languageNotes": [
+                {
+                    "item1": "historic (adj)",
+                    "meaning1Ar": "ذو أهمية تاريخية كبرى ومحطة فارقة (a historic achievement)",
+                    "item2": "historical (adj)",
+                    "meaning2Ar": "متعلق بالتاريخ أو دراسته أو واقع في الماضي (historical novels, research)",
+                    "example": "Opening the Grand Egyptian Museum was a historic event supported by thorough historical research."
+                },
+                {
+                    "item1": "inscribe (v)",
+                    "meaning1Ar": "ينقش أو يحفر كلمات في حجر أو معدن",
+                    "item2": "prescribe (v)",
+                    "meaning2Ar": "يصف علاجاً أو دواءً طبياً للمريض",
+                    "example": "Ancient scribes inscribed hymns on temples, while doctors prescribe medication."
+                },
+                {
+                    "item1": "landmark (n)",
+                    "meaning1Ar": "معلم جغرافي أو أثري بارز يسهل التعرف عليه",
+                    "item2": "milestone (n)",
+                    "meaning2Ar": "نقطة تحول أو حدث تاريخي بالغ الأثر في مسار أمة",
+                    "example": "The Pyramids are an iconic landmark, and their building was an engineering milestone."
+                },
+                {
+                    "item1": "column (n)",
+                    "meaning1Ar": "عمود أسطواني يدعم سقفاً / عمود في جريدة أو جدول",
+                    "item2": "pillar (n)",
+                    "meaning2Ar": "دعامة قوية لمبنى / ركيزة مجازية أساسية (pillar of society)",
+                    "example": "Karnak is supported by stone columns, and education is a pillar of societal progress."
+                },
+                {
+                    "item1": "era (n)",
+                    "meaning1Ar": "عصر أو حقبة زمنية تمتاز بخصائص معينة (the Islamic era)",
+                    "item2": "reign (n)",
+                    "meaning2Ar": "فترة حكم ملك أو إمبراطور محدد (the reign of Ramses II)",
+                    "example": "During the reign of Thutmose III, the kingdom entered an era of great prosperity."
+                }
+            ]
+        }
+    ],
+    "grammarStructures": [
+        {
+            "id": "u3_gram_01",
+            "titleEn": "Clauses of Concession and Contrast",
+            "titleAr": "جمل التناقض والتنازل (Concession Clauses)",
+            "explanation": "Concession clauses connect two contrasting ideas. Conjunctions followed by a full clause (subject + verb) must be distinguished from prepositions followed by nouns or gerunds (-ing).",
+            "categories": [
+                {
+                    "type": "Followed by Clause (Subject + Verb)",
+                    "conjunctions": ["although", "even though", "though"],
+                    "rule": "Although / Even though / Though + Subject + Verb, Main Clause",
+                    "examples": [
+                        "Although the temple is located far away, it attracts thousands of tourists every week.",
+                        "Even though the runners were badly tired, they refused to quit the race.",
+                        "The bridge is old; it can still bear heavy traffic, though."
+                    ]
+                },
+                {
+                    "type": "Followed by Noun Phrase or Gerund (V-ing)",
+                    "conjunctions": ["despite", "in spite of", "regardless of"],
+                    "rule": "Despite / In spite of / Regardless of + Noun / V-ing, Main Clause",
+                    "examples": [
+                        "Despite the heavy rain, the marathon runners continued their race without stopping.",
+                        "In spite of having little formal acting experience, she won the lead role.",
+                        "Regardless of being warned repeatedly, the driver ignored the speed limit."
+                    ]
+                },
+                {
+                    "type": "Conjunctive Adverbs (Linking Sentences)",
+                    "conjunctions": ["however", "nevertheless", "on the other hand"],
+                    "rule": "Sentence 1; however, Sentence 2. (or: Sentence 1. However, Sentence 2.)",
+                    "examples": [
+                        "The company suffered huge losses; however, it refused to lay off any employees."
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "u3_gram_02",
+            "titleEn": "Narrative Tenses in Historical and Retrospective Discourse",
+            "titleAr": "الأزمنة السردية في السياقات التاريخية والرواية",
+            "explanation": "Narrating past events requires coordinated use of Past Simple (completed actions), Past Continuous (background setting), Past Perfect Simple (earlier action), and Past Perfect Continuous (ongoing past cause).",
+            "examples": [
+                "Senusret had begun building the temple centuries before the New Kingdom pharaohs expanded it.",
+                "While archaeologists were excavating the tomb, they uncovered exquisite gold artifacts.",
+                "By the time the museum opened to the public in 2025, conservators had been restoring the collection for over a decade."
+            ]
+        }
+    ],
+    "exercises": [
+        {
+            "id": "u3_ex_mcq_01",
+            "type": "mcq",
+            "level": "Level 1 (Foundation)",
+            "questionText": "Ancient monuments often ________ the achievements of the civilizations that created them.",
+            "options": ["hide the mistakes", "reflect the achievements", "reduce the influence", "question the traditions"],
+            "correctAnswer": "reflect the achievements",
+            "explanation": "Historical monuments mirror and celebrate civilizational achievements."
+        },
+        {
+            "id": "u3_ex_mcq_02",
+            "type": "mcq",
+            "level": "Level 1 (Foundation)",
+            "questionText": "Visiting an ancestral family home helps younger generations ________.",
+            "options": ["connect with the past", "forget their traditions", "avoid old memories", "reject their heritage"],
+            "correctAnswer": "connect with the past",
+            "explanation": "Visiting ancestral sites strengthens cultural roots and ties to history."
+        },
+        {
+            "id": "u3_ex_mcq_03",
+            "type": "mcq",
+            "level": "Level 1 (Foundation)",
+            "questionText": "Historic places often hold a/an ________ created by events that happened there over centuries.",
+            "options": ["immediate reaction", "temporary feeling", "accumulated memory", "personal opinion"],
+            "correctAnswer": "accumulated memory",
+            "explanation": "Centuries of cultural history form an accumulated memory."
+        },
+        {
+            "id": "u3_ex_mcq_04",
+            "type": "mcq",
+            "level": "Level 2 (Intermediate)",
+            "questionText": "Which sentence correctly expresses concession with 'despite'?",
+            "options": [
+                "Despite the heavy rain fell, the marathon runners continued their race.",
+                "Despite of the heavy rain, the marathon runners continued their race.",
+                "Although the heavy rain, the marathon runners continued their race.",
+                "Despite the heavy rain, the marathon runners continued their race without stopping."
+            ],
+            "correctAnswer": "Despite the heavy rain, the marathon runners continued their race without stopping.",
+            "explanation": "'Despite' takes a noun phrase ('the heavy rain') without 'of'."
+        },
+        {
+            "id": "u3_ex_mcq_05",
+            "type": "mcq",
+            "level": "Level 2 (Intermediate)",
+            "questionText": "Which sentence correctly uses 'regardless of'?",
+            "options": [
+                "Regardless of he was warned repeatedly, the driver ignored the speed limit.",
+                "Regardless of being warned repeatedly, the driver ignored the speed limit.",
+                "Regardless being warned repeatedly, the driver ignored the speed limit.",
+                "Regardless of warned repeatedly, the driver ignored the speed limit."
+            ],
+            "correctAnswer": "Regardless of being warned repeatedly, the driver ignored the speed limit.",
+            "explanation": "'Regardless of' must be followed by a noun or gerund / passive gerund ('being warned')."
+        },
+        {
+            "id": "u3_ex_mcq_06",
+            "type": "mcq",
+            "level": "Level 2 (Intermediate)",
+            "questionText": "Which sentence correctly uses 'even though' with an adjective?",
+            "options": [
+                "Even though tired badly, the nurse stayed until the last patient was treated.",
+                "Even though being badly tired, the nurse stayed until the last patient was treated.",
+                "Even though badly tired, the nurse stayed until the last patient was treated.",
+                "Even though bad tired, the nurse stayed until the last patient was treated."
+            ],
+            "correctAnswer": "Even though badly tired, the nurse stayed until the last patient was treated.",
+            "explanation": "Reduced concession clause: 'Even though [she was] badly tired'."
+        },
+        {
+            "id": "u3_ex_mcq_07",
+            "type": "mcq",
+            "level": "Level 2 (Intermediate)",
+            "questionText": "Which sentence correctly punctuates 'however' between two main clauses?",
+            "options": [
+                "The company suffered huge losses, however it refused to lay off any employees.",
+                "The company suffered huge losses. However, it refused to lay off any employees.",
+                "The company suffered huge losses however, it refused to lay off any employees.",
+                "The company suffered huge losses however it refused to lay off any employees."
+            ],
+            "correctAnswer": "The company suffered huge losses. However, it refused to lay off any employees.",
+            "explanation": "'However' connecting two full independent clauses starts with a capital letter preceded by a full stop (or semicolon) and followed by a comma."
+        },
+        {
+            "id": "u3_ex_mcq_08",
+            "type": "mcq",
+            "level": "Level 2 (Intermediate)",
+            "questionText": "'The temple is located very far away. It attracts many tourists.' Choose the correct concession sentence:",
+            "options": [
+                "Because of its remote location, the temple attracts many tourists.",
+                "Although its remote location, the temple attracts many tourists.",
+                "Despite its remote location, the temple attracts many tourists.",
+                "Because the temple is located very far away, it attracts many tourists."
+            ],
+            "correctAnswer": "Despite its remote location, the temple attracts many tourists.",
+            "explanation": "'Despite + noun phrase' correctly indicates the contrast between remoteness and tourist popularity."
+        },
+        {
+            "id": "u3_ex_mcq_09",
+            "type": "mcq",
+            "level": "Level 2 (Intermediate)",
+            "questionText": "'The bridge is old. It can still bear heavy traffic.' Choose the correct sentence using 'in spite of':",
+            "options": [
+                "Because of its age, the bridge cannot bear heavy traffic.",
+                "In spite of the bridge is old, it can still bear heavy traffic.",
+                "In spite of its old age, the bridge can still bear heavy traffic.",
+                "In spite its old age, the bridge can still bear heavy traffic."
+            ],
+            "correctAnswer": "In spite of its old age, the bridge can still bear heavy traffic.",
+            "explanation": "'In spite of' followed by the noun phrase 'its old age'."
+        },
+        {
+            "id": "u3_ex_mcq_10",
+            "type": "mcq",
+            "level": "Level 3 (Advanced Baccalaureate)",
+            "questionText": "'The trip was expensive. They decided to go anyway.' Choose the correct concession clause:",
+            "options": [
+                "Because the trip was expensive, they decided to go.",
+                "Although the trip was expensive, they decided to go anyway.",
+                "Despite the trip was expensive, they decided to go anyway.",
+                "Because of the expensive trip, they decided not to go."
+            ],
+            "correctAnswer": "Although the trip was expensive, they decided to go anyway.",
+            "explanation": "'Although' is followed by a full clause (subject + verb: 'the trip was expensive')."
+        }
+    ],
+    "correctTheFormExercises": [
+        {
+            "id": "u3_ctf_01",
+            "sentence": "Karnak Temple continues to ________ (preservation) Egypt's ancient identity.",
+            "targetWord": "preservation",
+            "correctAnswer": "preserve",
+            "explanation": "Verb infinitive required after 'to'."
+        },
+        {
+            "id": "u3_ctf_02",
+            "sentence": "The ________ (preserve) of ancient monuments requires great effort and funding.",
+            "targetWord": "preserve",
+            "correctAnswer": "preservation",
+            "explanation": "Noun required after definite article 'The'."
+        },
+        {
+            "id": "u3_ctf_03",
+            "sentence": "Egyptians ________ (inheritance) a vast cultural heritage from their ancestors.",
+            "targetWord": "inheritance",
+            "correctAnswer": "inherited",
+            "explanation": "Past simple verb form."
+        },
+        {
+            "id": "u3_ctf_04",
+            "sentence": "The ________ (encode) message on the wall was difficult for historians to decipher.",
+            "targetWord": "encode",
+            "correctAnswer": "encoded",
+            "explanation": "Past participle used as an adjective modifying 'message'."
+        },
+        {
+            "id": "u3_ctf_05",
+            "sentence": "Standing at Karnak invites a moment of quiet ________ (reflect) on the past.",
+            "targetWord": "reflect",
+            "correctAnswer": "reflection",
+            "explanation": "Noun required after adjective 'quiet'."
+        },
+        {
+            "id": "u3_ctf_06",
+            "sentence": "The ________ (continue) of cultural traditions helps preserve national identity.",
+            "targetWord": "continue",
+            "correctAnswer": "continuity",
+            "explanation": "Abstract noun form."
+        },
+        {
+            "id": "u3_ctf_07",
+            "sentence": "The use of symbols allowed ancient Egyptians to create a system of ________ (encode).",
+            "targetWord": "encode",
+            "correctAnswer": "encoding",
+            "explanation": "Gerund/noun after preposition 'of'."
+        },
+        {
+            "id": "u3_ctf_08",
+            "sentence": "Karnak is often described as a landscape of ________ (accumulate) memory.",
+            "targetWord": "accumulate",
+            "correctAnswer": "accumulated",
+            "explanation": "Adjective modifying 'memory'."
+        },
+        {
+            "id": "u3_ctf_09",
+            "sentence": "The pharaoh was believed to ________ (representation) the gods on earth.",
+            "targetWord": "representation",
+            "correctAnswer": "represent",
+            "explanation": "Base verb after 'to'."
+        },
+        {
+            "id": "u3_ctf_10",
+            "sentence": "Historians must carefully ________ (interpretation) the hieroglyphics found on ancient walls.",
+            "targetWord": "interpretation",
+            "correctAnswer": "interpret",
+            "explanation": "Verb after modal auxiliary 'must'."
+        }
+    ],
+    "jreTrueFalseExercises": [
+        {
+            "id": "u3_jre_01",
+            "passage": "Karnak Temple was built over more than 2,000 years, from the reign of Senusret in the Middle Kingdom to the Ptolemaic era. Each pharaoh added new columns and inscriptions, leaving layers of ambition encoded in stone. The Hypostyle Hall alone contains 134 massive columns decorated from floor to ceiling.",
+            "statement": "Karnak Temple was built by a single pharaoh during one short reign.",
+            "isTrue": False,
+            "justification": "False. Karnak was constructed across more than two millennia by numerous successive pharaohs from the Middle Kingdom through the Ptolemaic era."
+        },
+        {
+            "id": "u3_jre_02",
+            "passage": "The Grand Egyptian Museum was built to preserve Egypt's heritage and communicate its cultural values to future generations. It houses layers of history, from the earliest hieroglyphics to objects that reflect the achievements of ancient civilizations. The museum officially opened to the public on 4 November 2025.",
+            "statement": "The Grand Egyptian Museum opened to the public before the year 2025.",
+            "isTrue": False,
+            "justification": "False. The text explicitly records that the Grand Egyptian Museum officially opened to the public on 4 November 2025."
+        }
+    ]
+}
+
+with open(OUTPUT_FILE, "w", encoding="utf-8") as f:
+    json.dump(unit3_data, f, ensure_ascii=False, indent=2)
+
+print(f"Successfully generated Unit 3 dataset: {OUTPUT_FILE}")
+print(f"  - Core vocabulary: {sum(len(l['coreVocabulary']) for l in unit3_data['lessons'])}")
+print(f"  - Build vocabulary: {sum(len(l['buildYourLanguage']) for l in unit3_data['lessons'])}")
+print(f"  - Synonyms/Antonyms: {sum(len(l['synonymsAntonyms']) for l in unit3_data['lessons'])}")
+print(f"  - Collocations: {sum(len(l['collocations']) for l in unit3_data['lessons'])}")
+print(f"  - Grammar structures: {len(unit3_data['grammarStructures'])}")
+print(f"  - MCQs: {len(unit3_data['exercises'])}")
+print(f"  - Correct the form: {len(unit3_data['correctTheFormExercises'])}")
+print(f"  - JRE True/False: {len(unit3_data['jreTrueFalseExercises'])}")

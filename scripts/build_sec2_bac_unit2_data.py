@@ -1,0 +1,1167 @@
+import json
+import os
+
+OUTPUT_DIR = r"C:\Users\fanda\Documents\pro-academy\src\data\secondary-2027"
+os.makedirs(OUTPUT_DIR, exist_ok=True)
+OUTPUT_FILE = os.path.join(OUTPUT_DIR, "sec2-bac-unit2-extracted.json")
+
+unit2_data = {
+    "curriculumMetadata": {
+        "stage": "Secondary",
+        "grade": "Second Year Egyptian Baccalaureate",
+        "gradeCode": "sec_2_bac",
+        "gradeAr": "الصف الثاني بكالوريا (البكالوريا المصرية)",
+        "term": "First",
+        "termAr": "الفصل الدراسي الأول",
+        "academicYear": "2026/2027",
+        "unitNumber": 2,
+        "unitTitleEn": "Leisure Time",
+        "unitTitleAr": "وقت الفراغ والأنشطة الترفيهية والتوازن الرقمي",
+        "conceptEn": "Lifelong Balance & Meaningful Leisure",
+        "conceptAr": "الأنشطة الحياتية المستمرة والتوازن بين العالم الرقمي والحقيقي",
+        "sourceFile": "العمالقة_انجليزي_2_بكالوريا_الترم_الاول_2027_الجزء_الاول_المتميزون.pdf",
+        "publisher": "سلسلة العمالقة (Giants Books Series)",
+        "pageRange": "Pages 77 - 136"
+    },
+    "keyBaccalaureateTerms": [
+        {"term": "Digital Well-being", "meaningAr": "العافية والتوازن الرقمي"},
+        {"term": "Lifelong Activity", "meaningAr": "النشاط الحركي والبدني مدى الحياة"},
+        {"term": "Social Competence", "meaningAr": "الكفاءة والمهارات الاجتماعية التفاعلية"},
+        {"term": "Opinion Paragraph Structure", "meaningAr": "بنية فقرة إبداء الرأي (ادعاء، سبب، دليل، خاتمة)"},
+        {"term": "Diary Entry Reflection", "meaningAr": "كتابة اليوميات الشخصية والتأمل الذاتي"},
+        {"term": "JRE (Justify - Reason - Evidence)", "meaningAr": "استراتيجية التبرير وتقديم الدليل المنطقي"}
+    ],
+    "lessons": [
+        {
+            "lessonNumber": 1,
+            "section": "Section A: Leisure in a Digital World",
+            "sectionAr": "القسم أ: وقت الفراغ في عالم رقمي",
+            "titleEn": "Screen Time and Young People",
+            "titleAr": "وقت الشاشات وتأثيره على الشباب والمراهقين",
+            "pages": "77 - 85",
+            "coreVocabulary": [
+                {
+                    "id": "u2_l1_core_01",
+                    "word": "replicate",
+                    "pos": "v",
+                    "meaningAr": "يحاكي / يكرر نفس الشيء بدقة",
+                    "definitionEn": "to copy something exactly or produce something similar",
+                    "exampleEn": "Online interactions cannot fully replicate the benefits of face-to-face friendships."
+                },
+                {
+                    "id": "u2_l1_core_02",
+                    "word": "interfere",
+                    "pos": "v",
+                    "meaningAr": "يتدخل / يعيق / يشوش على",
+                    "definitionEn": "to affect a situation in a negative way or stop something from working properly",
+                    "exampleEn": "Excessive phone notifications constantly interfere with students' concentration."
+                },
+                {
+                    "id": "u2_l1_core_03",
+                    "word": "fulfilling",
+                    "pos": "adj",
+                    "meaningAr": "مرضٍ / مشبع / ذو جدوى وإشباع نفسي",
+                    "definitionEn": "making you feel happy, satisfied, and complete",
+                    "exampleEn": "Volunteering in the local community can be a deeply fulfilling leisure pursuit."
+                },
+                {
+                    "id": "u2_l1_core_04",
+                    "word": "mindful",
+                    "pos": "adj",
+                    "meaningAr": "واعٍ / منتبه / حذر في التعامل",
+                    "definitionEn": "paying conscious attention to the present moment and daily choices",
+                    "exampleEn": "Teenagers should be mindful of the daily hours they dedicate to social apps."
+                },
+                {
+                    "id": "u2_l1_core_05",
+                    "word": "boundaries",
+                    "pos": "n",
+                    "meaningAr": "حدود / ضوابط واضحة",
+                    "definitionEn": "limits or rules that show what is acceptable, safe, or allowed",
+                    "exampleEn": "Parents and teens must set clear digital boundaries around bedtime screen use."
+                },
+                {
+                    "id": "u2_l1_core_06",
+                    "word": "withdraw",
+                    "pos": "v",
+                    "meaningAr": "ينسحب / يتراجع / ينعزل",
+                    "definitionEn": "to take or move out or back, or to pull away from social interaction",
+                    "exampleEn": "Heavy gamers may withdraw from family gatherings and direct peer conversations."
+                },
+                {
+                    "id": "u2_l1_core_07",
+                    "word": "addictive",
+                    "pos": "adj",
+                    "meaningAr": "مسبب للإدمان والتعلق القهري",
+                    "definitionEn": "causing a very strong need or desire to keep doing or using something repeatedly",
+                    "exampleEn": "Endless algorithm feeds are deliberately engineered to be addictive."
+                },
+                {
+                    "id": "u2_l1_core_08",
+                    "word": "anxiety",
+                    "pos": "n",
+                    "meaningAr": "قلق وتوتر نفسي",
+                    "definitionEn": "an uncomfortable feeling of nervousness or worry about something that is happening",
+                    "exampleEn": "Fear of missing out on social media often fuels acute teenage anxiety."
+                },
+                {
+                    "id": "u2_l1_core_09",
+                    "word": "leisure time",
+                    "pos": "n",
+                    "meaningAr": "وقت الفراغ والاستجمام",
+                    "definitionEn": "time when you are free from work, school, or obligations and can relax or enjoy hobbies",
+                    "exampleEn": "Constructive leisure time recharges mental energy and sparks genuine creativity."
+                },
+                {
+                    "id": "u2_l1_core_10",
+                    "word": "screen time",
+                    "pos": "n",
+                    "meaningAr": "وقت استخدام الشاشات والأجهزة الذكية",
+                    "definitionEn": "the amount of time a person spends using devices with screens like phones and laptops",
+                    "exampleEn": "Limiting daily screen time helps protect sleep hygiene and eye health."
+                },
+                {
+                    "id": "u2_l1_core_11",
+                    "word": "self-esteem",
+                    "pos": "n",
+                    "meaningAr": "تقدير الذات والثقة بالقدرات الشخصية",
+                    "definitionEn": "the way you feel about your own value, abilities, and importance",
+                    "exampleEn": "Unfavorable online comparisons can severely undermine an adolescent's self-esteem."
+                },
+                {
+                    "id": "u2_l1_core_12",
+                    "word": "gaming disorder",
+                    "pos": "n",
+                    "meaningAr": "اضطراب الألعاب الإلكترونية الإدماني",
+                    "definitionEn": "a recognized clinical pattern where digital gaming displaces essential life routines",
+                    "exampleEn": "The WHO officially classified gaming disorder as a health condition needing attention."
+                },
+                {
+                    "id": "u2_l1_core_13",
+                    "word": "mental health",
+                    "pos": "n",
+                    "meaningAr": "الصحة النفسية والعاطفية",
+                    "definitionEn": "the state of a person's emotional, psychological, and social well-being",
+                    "exampleEn": "Physical exercise and creative hobbies are vital pillars of sound mental health."
+                }
+            ],
+            "buildYourLanguage": [
+                {"term": "entertainment", "pos": "n", "meaningAr": "ترفيه / تسلية"},
+                {"term": "development", "pos": "n", "meaningAr": "تطور / تنمية بشرية"},
+                {"term": "addiction", "pos": "n", "meaningAr": "إدمان وتعلق قهري"},
+                {"term": "pressure", "pos": "n", "meaningAr": "ضغط وتوتر عصبي"},
+                {"term": "coordination", "pos": "n", "meaningAr": "تناسق حركي وبصري"},
+                {"term": "concentration", "pos": "n", "meaningAr": "تركيز ذهني"},
+                {"term": "passion", "pos": "n", "meaningAr": "شغف وعاطفة متقدة"},
+                {"term": "depression", "pos": "n", "meaningAr": "اكتئاب وانحباس نفسي"},
+                {"term": "loneliness", "pos": "n", "meaningAr": "شعور بالوحدة والعزلة"},
+                {"term": "appearance", "pos": "n", "meaningAr": "المظهر الخارجي"},
+                {"term": "relationship", "pos": "n", "meaningAr": "علاقة وصلة إنسانية"},
+                {"term": "spectrum", "pos": "n", "meaningAr": "نطاق / طيف واسع"},
+                {"term": "benefit", "pos": "n/v", "meaningAr": "فائدة / يستفيد من"},
+                {"term": "risk", "pos": "n/v", "meaningAr": "مخاطرة / يخاطر بـ"},
+                {"term": "problem-solving", "pos": "n", "meaningAr": "حل المشكلات المعقدة"},
+                {"term": "influence", "pos": "n/v", "meaningAr": "تأثير / يؤثر في"},
+                {"term": "debate", "pos": "n/v", "meaningAr": "جدال ومناظرة / يناقش"},
+                {"term": "streaming", "pos": "n", "meaningAr": "البث المباشر عبر الإنترنت"},
+                {"term": "experience", "pos": "n/v", "meaningAr": "خبرة / تجربة / يختبر"},
+                {"term": "platform", "pos": "n", "meaningAr": "منصة رقمية / رصيف قطار"},
+                {"term": "essential", "pos": "adj", "meaningAr": "جوهري وأساسي"},
+                {"term": "regular", "pos": "adj", "meaningAr": "منتظم ومستمر"},
+                {"term": "combine", "pos": "v", "meaningAr": "يجمع / يدمج بين"},
+                {"term": "regulation", "pos": "n", "meaningAr": "تنظيم ولائحة وضوابط"},
+                {"term": "spark", "pos": "n/v", "meaningAr": "يشعل / يثير / شرارة"},
+                {"term": "creative hobby", "pos": "n", "meaningAr": "هواية إبداعية وابتكارية"},
+                {"term": "crucial", "pos": "adj", "meaningAr": "حاسم وبالغ الأهمية"},
+                {"term": "harmful", "pos": "adj", "meaningAr": "ضار ومؤذٍ"},
+                {"term": "mood", "pos": "n", "meaningAr": "حالة مزاجية ونفسية"},
+                {"term": "period", "pos": "n", "meaningAr": "فترة ومدة زمنية"},
+                {"term": "acknowledge", "pos": "v", "meaningAr": "يقر ويعترف بحقيقة"},
+                {"term": "worth", "pos": "v/adj", "meaningAr": "يستحق / جدير بالقيمة"},
+                {"term": "researcher", "pos": "n", "meaningAr": "باحث ومتقصٍ علمي"},
+                {"term": "overestimate", "pos": "v", "meaningAr": "يبالغ في تقدير الشيء"},
+                {"term": "concern", "pos": "n/v", "meaningAr": "قلق / اهتمام / يهم ويثير القلق"},
+                {"term": "average", "pos": "n/adj", "meaningAr": "معدل متوسط / متوسط"}
+            ],
+            "synonymsAntonyms": [
+                {
+                    "word": "replicate",
+                    "meaningAr": "يحاكي / يكرر",
+                    "synonyms": ["copy", "reproduce", "imitate"],
+                    "antonyms": ["create", "alter", "innovate"]
+                },
+                {
+                    "word": "interfere",
+                    "meaningAr": "يعيق / يشوش",
+                    "synonyms": ["hinder", "obstruct", "disrupt", "interrupt"],
+                    "antonyms": ["help", "assist", "facilitate", "cooperate"]
+                },
+                {
+                    "word": "fulfilling",
+                    "meaningAr": "مرضٍ / مشبع",
+                    "synonyms": ["satisfying", "rewarding", "worthwhile"],
+                    "antonyms": ["disappointing", "unsatisfying"]
+                },
+                {
+                    "word": "mindful",
+                    "meaningAr": "واعٍ / منتبه",
+                    "synonyms": ["aware", "attentive", "thoughtful"],
+                    "antonyms": ["unaware", "careless", "inattentive"]
+                },
+                {
+                    "word": "withdraw",
+                    "meaningAr": "ينسحب / يتراجع",
+                    "synonyms": ["retreat", "leave", "pull back", "remove"],
+                    "antonyms": ["advance", "approach", "attack"]
+                },
+                {
+                    "word": "addictive",
+                    "meaningAr": "مسبب للإدمان",
+                    "synonyms": ["habit-forming", "irresistible"],
+                    "antonyms": ["non-addictive", "unappealing"]
+                },
+                {
+                    "word": "anxiety",
+                    "meaningAr": "قلق وتوتر",
+                    "synonyms": ["worry", "nervousness", "concern"],
+                    "antonyms": ["calmness", "relaxation", "peace"]
+                },
+                {
+                    "word": "benefit",
+                    "meaningAr": "فائدة / ربح",
+                    "synonyms": ["advantage", "gain", "profit"],
+                    "antonyms": ["disadvantage", "harm", "loss"]
+                },
+                {
+                    "word": "risk",
+                    "meaningAr": "خطر / تهديد",
+                    "synonyms": ["danger", "hazard", "threat"],
+                    "antonyms": ["safety", "security", "certainty"]
+                },
+                {
+                    "word": "harmful",
+                    "meaningAr": "ضار / مؤذٍ",
+                    "synonyms": ["damaging", "destructive", "dangerous"],
+                    "antonyms": ["beneficial", "harmless", "helpful"]
+                },
+                {
+                    "word": "creative",
+                    "meaningAr": "إبداعي ومبتكر",
+                    "synonyms": ["imaginative", "inventive", "innovative"],
+                    "antonyms": ["ordinary", "conventional"]
+                }
+            ],
+            "wordFamily": [
+                {"verb": "benefit", "noun": "benefit", "adjective": "beneficial", "meaningAr": "فائدة / مفيد"},
+                {"verb": "addict", "noun": "addiction", "adjective": "addictive", "meaningAr": "إدمان / مسبب للإدمان"},
+                {"verb": "fulfill", "noun": "fulfillment", "adjective": "fulfilling", "meaningAr": "تحقيق / مرضٍ ومُشبع"},
+                {"verb": "balance", "noun": "balance", "adjective": "balanced", "meaningAr": "توازن / متوازن"},
+                {"verb": "debate", "noun": "debate", "adjective": "debatable", "meaningAr": "مناظرة / قابل للنقاش"},
+                {"verb": "regulate", "noun": "regulation", "adjective": "regulatory", "meaningAr": "تنظيم ولائحة / تنظيمي"},
+                {"verb": "entertain", "noun": "entertainment", "adjective": "entertaining", "meaningAr": "تسلية / مسلٍ وممتع"},
+                {"verb": "coordinate", "noun": "coordination", "adjective": "coordinated", "meaningAr": "تنسيق / متناسق"},
+                {"verb": "risk", "noun": "risk", "adjective": "risky", "meaningAr": "مخاطرة / خطير"},
+                {"verb": "create", "noun": "creativity", "adjective": "creative", "meaningAr": "إبداع / مبتكر وإبداعي"}
+            ],
+            "collocations": [
+                {"collocation": "WHO (The World Health Organization)", "meaningAr": "منظمة الصحة العالمية"},
+                {"collocation": "face-to-face socializing", "meaningAr": "التواصل الاجتماعي وجهاً لوجه"},
+                {"collocation": "hand-eye coordination", "meaningAr": "التنسيق الدقيق بين العين واليد"},
+                {"collocation": "improve sleep quality", "meaningAr": "تحسين جودة النوم وعمقه"},
+                {"collocation": "develop a wrong sense of", "meaningAr": "يكوّن تصوراً خاطئاً أو مشوهاً عن"},
+                {"collocation": "compare themselves negatively to others", "meaningAr": "يقارنون أنفسهم بطريقة سلبية بالآخرين"},
+                {"collocation": "restore mental focus", "meaningAr": "يستعيد التركيز والانتباه الذهني"},
+                {"collocation": "take breaks", "meaningAr": "يأخذ فترات استراحة منتظمة"},
+                {"collocation": "find a healthy balance", "meaningAr": "يصل إلى توازن صحي وسليم"},
+                {"collocation": "affect mental health", "meaningAr": "يؤثر في الصحة النفسية سلباً أو إيجاباً"},
+                {"collocation": "replicate real benefits", "meaningAr": "يحقق نفس الفوائد الواقعية بدقة"},
+                {"collocation": "set clear boundaries", "meaningAr": "يضع حدوداً وضوابط واضحة وثابتة"},
+                {"collocation": "gain likes and followers", "meaningAr": "يحصد الإعجابات والمتابعين"},
+                {"collocation": "offer advantages", "meaningAr": "يقدم مزايا ومنافع عملية"}
+            ],
+            "languageNotes": [
+                {
+                    "item1": "affect (v)",
+                    "meaning1Ar": "يؤثر على / في (فعل متعدٍ بدون حرف جر)",
+                    "item2": "effect (n)",
+                    "meaning2Ar": "أثر أو نتيجة (اسم: have an effect on)",
+                    "example": "Late screen use affects sleep; its negative effect lasts all morning."
+                },
+                {
+                    "item1": "outdoor (adj)",
+                    "meaning1Ar": "خارجي / في الهواء الطلق (صفة تأتي قبل الاسم: outdoor sports)",
+                    "item2": "outdoors (adv)",
+                    "meaning2Ar": "في الخارج / في الهواء الطلق (ظرف يأتي بعد الفعل: play outdoors)",
+                    "example": "We enjoy outdoor recreation because we love being outdoors."
+                },
+                {
+                    "item1": "indoor (adj)",
+                    "meaning1Ar": "داخلي / داخل المبنى (صفة: indoor games)",
+                    "item2": "indoors (adv)",
+                    "meaning2Ar": "في الداخل (ظرف: stay indoors during the storm)",
+                    "example": "Table tennis is an indoor game that you play indoors."
+                },
+                {
+                    "item1": "stressed (adj)",
+                    "meaning1Ar": "يشعر بالضغط العصبي والتوتر (للعاقل)",
+                    "item2": "stressful (adj)",
+                    "meaning2Ar": "مسبب للضغط والتوتر والإرهاق (للأشياء والمواقف)",
+                    "example": "Preparing for final exams can be a stressful experience, making students stressed."
+                },
+                {
+                    "item1": "research (n/v)",
+                    "meaning1Ar": "بحث علمي أو أكاديمي لا يُجمع (uncountable) / يجري بحثاً",
+                    "item2": "search (n/v)",
+                    "meaning2Ar": "تفتيش أو بحث ميداني عن شيء مفقود (search for)",
+                    "example": "Medical research requires rigorous experiments, not a quick web search."
+                },
+                {
+                    "item1": "anxiety (n)",
+                    "meaning1Ar": "القلق والتوتر كاسم مجرد",
+                    "item2": "anxious (adj)",
+                    "meaning2Ar": "قلق ومتوتر كصفة للشخص (anxious about / to)",
+                    "example": "High levels of social anxiety make young people feel anxious before speeches."
+                }
+            ]
+        },
+        {
+            "lessonNumber": 2,
+            "section": "Section B: Lifelong Activity",
+            "sectionAr": "القسم ب: النشاط الحركي مدى الحياة",
+            "titleEn": "Sport, Physical Activity & Lifelong Recreation",
+            "titleAr": "الرياضة والنشاط البدني كنشاط ترفيهي مستدام",
+            "pages": "96 - 120",
+            "coreVocabulary": [
+                {
+                    "id": "u2_l2_core_01",
+                    "word": "a movement crisis",
+                    "pos": "n",
+                    "meaningAr": "أزمة نقص الحركة والنشاط البدني",
+                    "definitionEn": "a widespread situation in which people do not get enough physical exercise",
+                    "exampleEn": "Sedentary screen habits have created an alarming movement crisis among teenagers."
+                },
+                {
+                    "id": "u2_l2_core_02",
+                    "word": "competitive",
+                    "pos": "adj",
+                    "meaningAr": "تنافسي / محب للتنافس والتفوق",
+                    "definitionEn": "involving people or teams striving to outdo others and win",
+                    "exampleEn": "Playing in competitive sports leagues instills resilience and tactical discipline."
+                },
+                {
+                    "id": "u2_l2_core_03",
+                    "word": "enjoyment",
+                    "pos": "n",
+                    "meaningAr": "استمتاع وبهجة الإنجاز",
+                    "definitionEn": "the genuine feeling of pleasure and satisfaction derived from an activity",
+                    "exampleEn": "Physical leisure must prioritize personal enjoyment over sheer winning."
+                },
+                {
+                    "id": "u2_l2_core_04",
+                    "word": "persevere",
+                    "pos": "v",
+                    "meaningAr": "يثابر ويواصل رغم المشقة والعقبات",
+                    "definitionEn": "to continue striving determinedly despite hardships, setbacks, or fatigue",
+                    "exampleEn": "Athletes who persevere through difficult training routines reach their ultimate goals."
+                },
+                {
+                    "id": "u2_l2_core_05",
+                    "word": "social competence",
+                    "pos": "n",
+                    "meaningAr": "الكفاءة الاجتماعية وحسن التعامل الجماعي",
+                    "definitionEn": "the ability to communicate, cooperate, and resolve differences constructively with peers",
+                    "exampleEn": "Team sports significantly boost an adolescent's interpersonal social competence."
+                },
+                {
+                    "id": "u2_l2_core_06",
+                    "word": "endurance",
+                    "pos": "n",
+                    "meaningAr": "قوة التحمل ومواصلة الجهد الطويل",
+                    "definitionEn": "the physical and mental stamina to sustain prolonged exertion under pressure",
+                    "exampleEn": "Marathon runners build supreme endurance through gradual, disciplined conditioning."
+                },
+                {
+                    "id": "u2_l2_core_07",
+                    "word": "life skills",
+                    "pos": "n",
+                    "meaningAr": "المهارات الحياتية العملية",
+                    "definitionEn": "practical abilities enabling individuals to cope effectively with daily life demands",
+                    "exampleEn": "Time management, teamwork, and coping with defeat are essential life skills."
+                },
+                {
+                    "id": "u2_l2_core_08",
+                    "word": "psychological",
+                    "pos": "adj",
+                    "meaningAr": "نفسي وسلوكي",
+                    "definitionEn": "relating to mental states, emotional processes, and behavioral patterns",
+                    "exampleEn": "Regular exercise yields powerful psychological benefits, combating stress and fatigue."
+                },
+                {
+                    "id": "u2_l2_core_09",
+                    "word": "access",
+                    "pos": "n",
+                    "meaningAr": "إمكانية الوصول والانتفاع بالمرافق",
+                    "definitionEn": "the legitimate right, means, or opportunity to enter, use, or participate in something",
+                    "exampleEn": "Every neighbourhood should guarantee open access to safe public sports facilities."
+                }
+            ],
+            "buildYourLanguage": [
+                {"term": "leadership", "pos": "n", "meaningAr": "القيادة والتوجيه"},
+                {"term": "cardiovascular fitness", "pos": "n", "meaningAr": "لياقة القلب والأوعية الدموية"},
+                {"term": "emotional regulation", "pos": "n", "meaningAr": "تنظيم المشاعر والتحكم بالانفعال"},
+                {"term": "life-long", "pos": "adj", "meaningAr": "مستمر مدى الحياة"},
+                {"term": "strength", "pos": "n", "meaningAr": "قوة ومتانة بدنية"},
+                {"term": "participation", "pos": "n", "meaningAr": "مشاركة وانخراط فعلي"},
+                {"term": "motivation", "pos": "n", "meaningAr": "دافع وحافز داخلي"},
+                {"term": "significant", "pos": "adj", "meaningAr": "ذو شأن وبالغ الأثر"},
+                {"term": "inactive", "pos": "adj", "meaningAr": "خامل وغير نشط حركياً"},
+                {"term": "facilities", "pos": "n", "meaningAr": "مرافق وتجهيزات وملاعب"},
+                {"term": "survey", "pos": "n/v", "meaningAr": "استطلاع ومسح ميداني / يستطلع"},
+                {"term": "peak", "pos": "n", "meaningAr": "ذروة وأعلى مستوى أداء"},
+                {"term": "foundation", "pos": "n", "meaningAr": "أساس وركيزة متينة"},
+                {"term": "intense", "pos": "adj", "meaningAr": "شديد ومكثف"},
+                {"term": "immeasurable", "pos": "adj", "meaningAr": "عظيم لا يقدر بثمن أو قياس"},
+                {"term": "gracefully", "pos": "adv", "meaningAr": "برشاقة وأناقة وروح رياضية"},
+                {"term": "disengage", "pos": "v", "meaningAr": "ينسحب أو ينفصل عن المشاركة"},
+                {"term": "adulthood", "pos": "n", "meaningAr": "مرحلة سن الرشد والنضوج"},
+                {"term": "consistent", "pos": "adj", "meaningAr": "ثابت ومنتظم في الوتيرة"},
+                {"term": "transfer", "pos": "v", "meaningAr": "ينقل مهارة من مجال لآخر"},
+                {"term": "opportunity", "pos": "n", "meaningAr": "فرصة مواتية سانحة"},
+                {"term": "belonging", "pos": "n", "meaningAr": "انتماء وشعور بالاندماج الجماعي"},
+                {"term": "long-term", "pos": "adj", "meaningAr": "طويل المدى والأثر"},
+                {"term": "predictor", "pos": "n", "meaningAr": "مؤشر تنبؤي دال"},
+                {"term": "educator", "pos": "n", "meaningAr": "مربٍ وموجه تربوي"},
+                {"term": "capacity", "pos": "n", "meaningAr": "طاقة وسعة استيعابية"},
+                {"term": "compulsory", "pos": "adj", "meaningAr": "إلزامي وإجباري"},
+                {"term": "teamwork", "pos": "n", "meaningAr": "عمل جماعي وتضافر الجهود"}
+            ],
+            "synonymsAntonyms": [
+                {
+                    "word": "competitive",
+                    "meaningAr": "تنافسي",
+                    "synonyms": ["ambitious", "challenging", "rivalrous"],
+                    "antonyms": ["uncompetitive", "cooperative"]
+                },
+                {
+                    "word": "inactive",
+                    "meaningAr": "خامل وغير نشط",
+                    "synonyms": ["idle", "passive", "sedentary"],
+                    "antonyms": ["active", "energetic", "lively"]
+                },
+                {
+                    "word": "persevere",
+                    "meaningAr": "يثابر ويواصل",
+                    "synonyms": ["persist", "continue", "endure"],
+                    "antonyms": ["quit", "surrender", "give up"]
+                },
+                {
+                    "word": "gracefully",
+                    "meaningAr": "برشاقة وأناقة",
+                    "synonyms": ["elegantly", "smoothly", "skillfully"],
+                    "antonyms": ["awkwardly", "clumsily", "inelegantly"]
+                },
+                {
+                    "word": "significant",
+                    "meaningAr": "مهم وملحوظ",
+                    "synonyms": ["important", "considerable", "notable"],
+                    "antonyms": ["insignificant", "minor", "trivial"]
+                },
+                {
+                    "word": "access",
+                    "meaningAr": "إمكانية الوصول والانتفاع",
+                    "synonyms": ["entry", "admission", "approach"],
+                    "antonyms": ["denial", "restriction", "exclusion"]
+                },
+                {
+                    "word": "disengage",
+                    "meaningAr": "ينفصل وينسحب",
+                    "synonyms": ["withdraw", "detach", "disconnect"],
+                    "antonyms": ["engage", "participate", "involve"]
+                },
+                {
+                    "word": "motivation",
+                    "meaningAr": "دافع وحافز",
+                    "synonyms": ["incentive", "encouragement", "drive"],
+                    "antonyms": ["discouragement", "apathy"]
+                },
+                {
+                    "word": "long-term",
+                    "meaningAr": "طويل المدى",
+                    "synonyms": ["lasting", "enduring", "prolonged"],
+                    "antonyms": ["short-term", "temporary", "brief"]
+                },
+                {
+                    "word": "intense",
+                    "meaningAr": "شديد ومكثف",
+                    "synonyms": ["strong", "extreme", "powerful"],
+                    "antonyms": ["mild", "moderate", "gentle"]
+                }
+            ],
+            "collocations": [
+                {"collocation": "lose gracefully", "meaningAr": "يتقبل الهزيمة بروح رياضية وأناقة خلقية"},
+                {"collocation": "fall far short", "meaningAr": "لا يرقى إطلاقاً إلى المستوى المطلوب"},
+                {"collocation": "have easy access to", "meaningAr": "تتوفر له إمكانية وصول ميسرة إلى"},
+                {"collocation": "take part in", "meaningAr": "يشارك بفاعلية في حدث أو مسابقة"},
+                {"collocation": "academic and professional contexts", "meaningAr": "السياقات الأكاديمية والمهنية المختلفة"},
+                {"collocation": "matter for", "meaningAr": "يكتسب أهمية جوهرية بالنسبة لـ"},
+                {"collocation": "conflicting personal commitments", "meaningAr": "التزامات شخصية متعارضة تضيق الوقت"},
+                {"collocation": "handle loss", "meaningAr": "يتعامل مع الخسارة بحكمة واتزان"},
+                {"collocation": "healthy weight management", "meaningAr": "الحفاظ المستدام على الوزن الصحي"},
+                {"collocation": "conduct a survey", "meaningAr": "يجري استطلاعاً أو دراسة استقصائية"},
+                {"collocation": "non-sporting peers", "meaningAr": "الأقران والزملاء غير الممارسين للرياضة"},
+                {"collocation": "enhanced long-term memory capacity", "meaningAr": "تعزيز السعة التخزينية للذاكرة طويلة المدى"},
+                {"collocation": "meet the recommended levels", "meaningAr": "يحقق المعدلات الموصى بها طبياً وتربوياً"},
+                {"collocation": "driven by", "meaningAr": "مدفوع ومحفز بنية صادقة أو شغف"}
+            ],
+            "languageNotes": [
+                {
+                    "item1": "transfer (v)",
+                    "meaning1Ar": "يحول مهارة أو ينتقل من مؤسسة لأخرى",
+                    "item2": "transport (v)",
+                    "meaning2Ar": "ينقل ركاباً أو بضائع عبر وسيلة نقل مادية",
+                    "example": "Sports teach discipline that students transfer to academic studies, while buses transport athletes to the stadium."
+                },
+                {
+                    "item1": "take part (in)",
+                    "meaning1Ar": "يشارك في نشاط (synonym: participate)",
+                    "item2": "take place",
+                    "meaning2Ar": "يحدث أو يقام بتخطيط مسبق (synonym: happen / occur)",
+                    "example": "The regional championship will take place in Cairo, and hundreds of runners will take part in it."
+                },
+                {
+                    "item1": "rise (rose - risen) (v)",
+                    "meaning1Ar": "يرتفع / ينهض (فعل لازم لا يأخذ مفعولاً به)",
+                    "item2": "raise (raised - raised) (v)",
+                    "meaning2Ar": "يرفع / يجمع تبرعات / يربي أبناء (فعل متعدٍ يأخذ مفعولاً به)",
+                    "example": "Temperatures rise during midday, while the school aims to raise awareness of hydration."
+                },
+                {
+                    "item1": "constant (adj)",
+                    "meaning1Ar": "مستمر ودائم بدون انقطاع",
+                    "item2": "consistent (adj)",
+                    "meaning2Ar": "منتظم ومتسق في الأداء والمستوى",
+                    "example": "Consistent training yields gradual progress despite the constant noise of daily life."
+                },
+                {
+                    "item1": "capacity (n)",
+                    "meaning1Ar": "سعة أو قدرة استيعابية مكانية أو ذهنية",
+                    "item2": "ability (n)",
+                    "meaning2Ar": "مهارة واستطاعة فطرية أو مكتسبة لإنجاز عمل",
+                    "example": "The sports hall has a capacity of 5,000 spectators, all admiring the runner's ability."
+                }
+            ]
+        }
+    ],
+    "skills": {
+        "titleEn": "Advanced Baccalaureate Writing Skills: Opinion Paragraph & Diary Entry",
+        "titleAr": "مهارات الكتابة المتقدمة: فقرة إبداء الرأي واليوميات الشخصية",
+        "opinionParagraph": {
+            "definition": "An opinion paragraph is a short piece of writing where you give your opinion about a topic and support it with reasons and concrete examples.",
+            "steps": [
+                {
+                    "step": 1,
+                    "nameEn": "Opinion (Claim)",
+                    "nameAr": "الرأي / الادعاء",
+                    "purpose": "State your opinion clearly at the outset.",
+                    "expressions": ["I think that...", "I believe that...", "In my opinion,..."]
+                },
+                {
+                    "step": 2,
+                    "nameEn": "Reason",
+                    "nameAr": "السبب والتعليل",
+                    "purpose": "Explain logically why you hold this particular opinion.",
+                    "expressions": ["This is because...", "One important reason is that..."]
+                },
+                {
+                    "step": 3,
+                    "nameEn": "Example / Evidence",
+                    "nameAr": "المثال أو الدليل التوضيحي",
+                    "purpose": "Support your reason with a verifiable example or evidence.",
+                    "expressions": ["For example,...", "For instance,...", "Research shows that..."]
+                },
+                {
+                    "step": 4,
+                    "nameEn": "Conclusion",
+                    "nameAr": "الخاتمة والتأكيد",
+                    "purpose": "Restate your opinion using refreshed phrasing.",
+                    "expressions": ["In conclusion,...", "To sum up,...", "Overall,..."]
+                }
+            ]
+        },
+        "diaryEntry": {
+            "definition": "A diary entry is a personal piece of writing in which you record what happened to you, how you felt, and what you learned from the experience.",
+            "components": [
+                {
+                    "part": "Opening (المقدمة)",
+                    "rule": "Write the date and a warm greeting, stating where you were and what you were doing.",
+                    "model": "Friday, 21st August - Dear Diary, Today was one of the most challenging days of my life..."
+                },
+                {
+                    "part": "The Story (سرد الأحداث)",
+                    "rule": "Describe key events in chronological order using past tenses and time linkers (At first, Then, After that, A few minutes later).",
+                    "model": "At first, I was enjoying the scenic trail, but after two hours, fatigue set in."
+                },
+                {
+                    "part": "Turning Point (نقطة التحول والصعوبة)",
+                    "rule": "Highlight the moment when conditions became challenging or unexpected problems arose.",
+                    "model": "While navigating the steep rocky hill, sudden torrential rain began, challenging our stamina."
+                },
+                {
+                    "part": "The Ending (نهاية المغامرة والوصف الحسي)",
+                    "rule": "Detail how the experience concluded, incorporating vivid similes or sensory adjectives.",
+                    "model": "When we finally reached safety, my legs felt as heavy as stone, but our hearts were soaring."
+                },
+                {
+                    "part": "Reflection (التأمل والدرس المستفاد)",
+                    "rule": "Reflect on what the ordeal taught you about resilience, friendship, and character.",
+                    "model": "This arduous experience taught me that determination can conquer any steep obstacle."
+                },
+                {
+                    "part": "Final Sentence (الجملة الختامية البليغة)",
+                    "rule": "Conclude with a succinct, memorable line capturing the enduring essence of the day.",
+                    "model": "It was an exhausting expedition, but one unforgettable memory etched in my mind."
+                }
+            ]
+        }
+    },
+    "grammarStructures": [
+        {
+            "id": "u2_gram_01",
+            "titleEn": "Verbs followed by the to-infinitive (to + base form)",
+            "titleAr": "الأفعال المتبوعة بالمصدر الكامل (to + inf)",
+            "explanation": "Certain verbs require an infinitive complement with 'to'. In passive constructions, they take 'to be + past participle'.",
+            "verbList": [
+                "agree", "arrange", "decide", "expect", "hope", "learn", "offer", "plan",
+                "promise", "want", "can't afford", "appear", "refuse", "seem", "prepare",
+                "choose", "pretend", "request", "deserve", "threaten", "wish", "neglect",
+                "tend", "prove", "dare", "determine", "hesitate", "manage", "fail", "warn"
+            ],
+            "examples": [
+                "Nour decided to join the school orchestra to develop her musical skills.",
+                "The workers refused to accept the dangerous safety shortcuts.",
+                "She expects to be promoted to team captain next month."
+            ]
+        },
+        {
+            "id": "u2_gram_02",
+            "titleEn": "Verbs followed by the gerund (V-ing)",
+            "titleAr": "الأفعال المتبوعة بصيغة الـ Gerund (اسم الفاعل V-ing)",
+            "explanation": "These verbs are followed directly by a verb ending in -ing. The negative form is formed by placing 'not' directly before the gerund ('not + V-ing').",
+            "verbList": [
+                "enjoy", "finish", "admit", "avoid", "deny", "practise", "suggest", "spend",
+                "consider", "mind", "imagine", "dislike", "risk", "fancy", "understand",
+                "complete", "involve", "include", "postpone", "appreciate", "resist", "resume",
+                "put off", "delay", "endure", "report", "can't help", "miss", "quit"
+            ],
+            "examples": [
+                "Many students enjoy creating music or painting in their free time.",
+                "She avoids eating processed snacks before intensive athletic training.",
+                "He admitted taking the document by mistake and apologized sincerely.",
+                "I regret not traveling abroad when the scholarship was accessible."
+            ]
+        },
+        {
+            "id": "u2_gram_03",
+            "titleEn": "Verbs with Dual Patterns and Major Meaning Changes",
+            "titleAr": "الأفعال التي يتغير معناها تغيراً جوهرياً حسب المصدر أو الـ Gerund",
+            "explanation": "Six critical verbs change meaning drastically depending on whether they take 'to + inf' (prospective action / obligation) or 'V-ing' (retrospective memory / past experience).",
+            "pairs": [
+                {
+                    "verb": "remember",
+                    "toInf": "remember to + inf: يتذكر القيام بواجب أو عمل لم يفعله بعد (Remember to lock the front door).",
+                    "gerund": "remember + V-ing: يتذكر حدثاً أو تجربة وقعت في الماضي (I remember locking the door before leaving)."
+                },
+                {
+                    "verb": "forget",
+                    "toInf": "forget to + inf: ينسى أن يؤدي واجباً مطلوباً (She forgot to bring her identification card).",
+                    "gerund": "forget + V-ing: ينسى أنه فعل شيئاً في الماضي (I'll never forget visiting the Pyramids at sunrise)."
+                },
+                {
+                    "verb": "stop",
+                    "toInf": "stop to + inf: يتوقف عن مساره لكي يفعل شيئاً آخر (After walking for hours, they stopped to drink water).",
+                    "gerund": "stop + V-ing: يمتنع تماماً عن ممارسة عادة أو فعل (He stopped smoking completely last year)."
+                },
+                {
+                    "verb": "regret",
+                    "toInf": "regret to + inf: يشعر بالأسف المسبق لإبلاغ خبر مؤسف رسمي (We regret to inform you that your application was rejected).",
+                    "gerund": "regret + V-ing: يشعر بالندم الشديد على فعل ارتكبه في الماضي (I regret eating so much junk food; now my stomach aches)."
+                },
+                {
+                    "verb": "try",
+                    "toInf": "try to + inf: يبذل جهداً شاقاً للتغلب على صعوبة (She tried to open the rusted jar with all her strength).",
+                    "gerund": "try + V-ing: يجرب وسيلة أو فكرة ليرى تأثيرها ونتيجتها (If your computer screen freezes, try restarting it)."
+                },
+                {
+                    "verb": "go on",
+                    "toInf": "go on to + inf: ينتقل بعد الانتهاء من عمل إلى عمل وموضوع جديد (After discussing screen time, the doctor went on to talk about diet).",
+                    "gerund": "go on + V-ing: يواصل الاستمرار في نفس العمل دون توقف (The athletes went on running despite heavy rainfall)."
+                }
+            ]
+        },
+        {
+            "id": "u2_gram_04",
+            "titleEn": "Expressions with preposition 'to' followed by V-ing & Bare Infinitive Rules",
+            "titleAr": "تراكيب تنتهي بحرف الجر to ويليها V-ing، وقواعد المصدر المجرد بدون to",
+            "explanation": "In standard English, the preposition 'to' is followed by a noun or gerund in fixed idioms. Conversely, verbs of perception and modal-like causatives take the bare infinitive.",
+            "toPrepositionList": [
+                "look forward to + V-ing (يتطلع بشوق إلى)",
+                "be/get used to + V-ing (معتاد على في الحاضر)",
+                "be accustomed to + V-ing (معتاد على)",
+                "object to + V-ing (يعترض على)",
+                "contribute to + V-ing (يساهم في)",
+                "lead to + V-ing (يؤدي إلى)",
+                "in addition to + V-ing (بالإضافة إلى)",
+                "owing to / due to + V-ing (بسبب / ناتج عن)",
+                "be opposed to + V-ing (يعارض / مناهض لـ)",
+                "devote ... to + V-ing (يكرس لـ)"
+            ],
+            "bareInfinitiveRules": [
+                "had better + bare inf ('You had better rest now')",
+                "would rather + bare inf ('I would rather stay indoors')",
+                "let + object + bare inf ('She let him borrow the camera')",
+                "make + object + bare inf in active ('The teacher made Ali repeat the task')",
+                "be made + to-inf in passive ('Ali was made to repeat the task')"
+            ]
+        }
+    ],
+    "exercises": [
+        {
+            "id": "u2_ex_mcq_01",
+            "type": "mcq",
+            "level": "Level 1 (Foundation)",
+            "questionText": "Nour decided ________ the school orchestra to develop her musical skills.",
+            "options": ["joining", "joined", "to join", "join"],
+            "correctAnswer": "to join",
+            "explanation": "The verb 'decide' is followed by the to-infinitive ('decide to do something')."
+        },
+        {
+            "id": "u2_ex_mcq_02",
+            "type": "mcq",
+            "level": "Level 1 (Foundation)",
+            "questionText": "Many students enjoy ________ music or painting in their free time.",
+            "options": ["create", "creating", "to creating", "created"],
+            "correctAnswer": "creating",
+            "explanation": "'Enjoy' is always followed by a gerund ('enjoy doing something')."
+        },
+        {
+            "id": "u2_ex_mcq_03",
+            "type": "mcq",
+            "level": "Level 1 (Foundation)",
+            "questionText": "I promised ________ my homework carefully before dinner.",
+            "options": ["do", "doing", "to do", "to doing"],
+            "correctAnswer": "to do",
+            "explanation": "'Promise' is followed by 'to + inf'."
+        },
+        {
+            "id": "u2_ex_mcq_04",
+            "type": "mcq",
+            "level": "Level 1 (Foundation)",
+            "questionText": "She avoids ________ processed food before intensive athletic training.",
+            "options": ["eat", "eating", "to eat", "ate"],
+            "correctAnswer": "eating",
+            "explanation": "'Avoid' is followed by a gerund ('avoid doing something')."
+        },
+        {
+            "id": "u2_ex_mcq_05",
+            "type": "mcq",
+            "level": "Level 1 (Foundation)",
+            "questionText": "The students agreed ________ part in the local environmental campaign.",
+            "options": ["to take", "take", "taking", "to taking"],
+            "correctAnswer": "to take",
+            "explanation": "'Agree' takes 'to + base verb'."
+        },
+        {
+            "id": "u2_ex_mcq_06",
+            "type": "mcq",
+            "level": "Level 1 (Foundation)",
+            "questionText": "The teacher encouraged students ________ creative solutions to community problems.",
+            "options": ["developing", "develop", "to develop", "developed"],
+            "correctAnswer": "to develop",
+            "explanation": "'Encourage + object + to-infinitive' is the correct verb pattern."
+        },
+        {
+            "id": "u2_ex_mcq_07",
+            "type": "mcq",
+            "level": "Level 1 (Foundation)",
+            "questionText": "They finished ________ the theatrical play an hour ago.",
+            "options": ["to rehearse", "rehearse", "rehearsed", "rehearsing"],
+            "correctAnswer": "rehearsing",
+            "explanation": "'Finish' is followed by a gerund (-ing form)."
+        },
+        {
+            "id": "u2_ex_mcq_08",
+            "type": "mcq",
+            "level": "Level 1 (Foundation)",
+            "questionText": "The factory workers refused ________ the hazardous new safety shortcuts.",
+            "options": ["accepting", "to accept", "accept", "accepted"],
+            "correctAnswer": "to accept",
+            "explanation": "'Refuse' is followed by 'to + infinitive'."
+        },
+        {
+            "id": "u2_ex_mcq_09",
+            "type": "mcq",
+            "level": "Level 1 (Foundation)",
+            "questionText": "Astronomers hope ________ new habitable exoplanets soon.",
+            "options": ["to reveal", "revealing", "reveal", "to revealing"],
+            "correctAnswer": "to reveal",
+            "explanation": "'Hope' takes 'to + infinitive'."
+        },
+        {
+            "id": "u2_ex_mcq_10",
+            "type": "mcq",
+            "level": "Level 1 (Foundation)",
+            "questionText": "Do you mind ________ this difficult philosophical concept once again?",
+            "options": ["to explain", "explained", "explaining", "explain"],
+            "correctAnswer": "explaining",
+            "explanation": "'Mind' or 'Would you mind' is followed by V-ing."
+        },
+        {
+            "id": "u2_ex_mcq_11",
+            "type": "mcq",
+            "level": "Level 1 (Foundation)",
+            "questionText": "She is busy ________ her research project, so please do not interrupt her.",
+            "options": ["do", "doing", "to do", "in doing"],
+            "correctAnswer": "doing",
+            "explanation": "'Be busy' is an idiomatic phrase followed directly by V-ing."
+        },
+        {
+            "id": "u2_ex_mcq_12",
+            "type": "mcq",
+            "level": "Level 1 (Foundation)",
+            "questionText": "My father allowed me ________ his laptop twice a week for online research.",
+            "options": ["borrow", "to borrowing", "borrowing", "to borrow"],
+            "correctAnswer": "to borrow",
+            "explanation": "'Allow + object + to + inf'."
+        },
+        {
+            "id": "u2_ex_mcq_13",
+            "type": "mcq",
+            "level": "Level 1 (Foundation)",
+            "questionText": "The suspect denied ________ the window of the antique store.",
+            "options": ["breaking", "to break", "break", "broken"],
+            "correctAnswer": "breaking",
+            "explanation": "'Deny' is followed by a gerund ('deny doing something')."
+        },
+        {
+            "id": "u2_ex_mcq_14",
+            "type": "mcq",
+            "level": "Level 1 (Foundation)",
+            "questionText": "The student admitted ________ his homework notebook at home by mistake.",
+            "options": ["leaves", "to leave", "left", "leaving"],
+            "correctAnswer": "leaving",
+            "explanation": "'Admit' is followed by V-ing."
+        },
+        {
+            "id": "u2_ex_mcq_15",
+            "type": "mcq",
+            "level": "Level 1 (Foundation)",
+            "questionText": "The researcher tends ________ late hours when analyzing atomic structures.",
+            "options": ["to work", "to working", "to be worked", "working"],
+            "correctAnswer": "to work",
+            "explanation": "'Tend' is followed by 'to + inf'."
+        },
+        {
+            "id": "u2_ex_mcq_16",
+            "type": "mcq",
+            "level": "Level 1 (Foundation)",
+            "questionText": "Her scientific team plans ________ a new Earth-monitoring satellite next year.",
+            "options": ["launch", "launched", "to launch", "launching"],
+            "correctAnswer": "to launch",
+            "explanation": "'Plan' takes 'to + base verb'."
+        },
+        {
+            "id": "u2_ex_mcq_17",
+            "type": "mcq",
+            "level": "Level 2 (Intermediate)",
+            "questionText": "Which sentence correctly shows the meaning: 'he stopped a habit completely'?",
+            "options": [
+                "He stopped smoked completely.",
+                "He stopped smoke completely.",
+                "He stopped smoking completely.",
+                "He stopped to smoke completely."
+            ],
+            "correctAnswer": "He stopped smoking completely.",
+            "explanation": "'Stop + V-ing' means giving up a habit or activity permanently, whereas 'stop to + inf' means pausing an activity in order to do another."
+        },
+        {
+            "id": "u2_ex_mcq_18",
+            "type": "mcq",
+            "level": "Level 2 (Intermediate)",
+            "questionText": "Which sentence means: 'he paused his journey in order to have a coffee'?",
+            "options": [
+                "After working for three hours, he stopped having coffee.",
+                "After working for three hours, he stopped to have a cup of coffee.",
+                "After working for three hours, he stopped have a cup of coffee.",
+                "After working for three hours, he stopped had a cup of coffee."
+            ],
+            "correctAnswer": "After working for three hours, he stopped to have a cup of coffee.",
+            "explanation": "'Stop to have' indicates the purpose of pausing."
+        },
+        {
+            "id": "u2_ex_mcq_19",
+            "type": "mcq",
+            "level": "Level 2 (Intermediate)",
+            "questionText": "Which sentence correctly uses 'remember' for a past action already done?",
+            "options": [
+                "I remember lock the door.",
+                "I remember to lock the door.",
+                "I remember locked the door.",
+                "I remember locking the door."
+            ],
+            "correctAnswer": "I remember locking the door.",
+            "explanation": "'Remember + V-ing' refers to looking back at a memory of an action completed in the past."
+        },
+        {
+            "id": "u2_ex_mcq_20",
+            "type": "mcq",
+            "level": "Level 2 (Intermediate)",
+            "questionText": "Which sentence correctly uses 'remember' for a future obligation?",
+            "options": [
+                "Remember to call your mother.",
+                "Remember called your mother.",
+                "Remember call your mother.",
+                "Remember calling your mother."
+            ],
+            "correctAnswer": "Remember to call your mother.",
+            "explanation": "'Remember to + inf' is used for reminders and prospective duties."
+        },
+        {
+            "id": "u2_ex_mcq_21",
+            "type": "mcq",
+            "level": "Level 2 (Intermediate)",
+            "questionText": "Which sentence correctly uses 'try' to mean 'make an experiment to see what happens'?",
+            "options": [
+                "If the software freezes, try to restart your PC.",
+                "If the software freezes, try restarting your PC.",
+                "If the software freezes, try restart your PC.",
+                "If the software freezes, try restarted your PC."
+            ],
+            "correctAnswer": "If the software freezes, try restarting your PC.",
+            "explanation": "'Try + V-ing' means trying a method or experiment to see if it solves a problem."
+        },
+        {
+            "id": "u2_ex_mcq_22",
+            "type": "mcq",
+            "level": "Level 3 (Advanced Baccalaureate)",
+            "questionText": "'He stopped smoking last year after his illness.' This means that:",
+            "options": [
+                "he paused what he was doing in order to smoke.",
+                "he no longer smokes at all now.",
+                "he still smokes occasionally.",
+                "he forgot that he used to smoke."
+            ],
+            "correctAnswer": "he no longer smokes at all now.",
+            "explanation": "'Stop + gerund' expresses total cessation of a habitual behavior."
+        },
+        {
+            "id": "u2_ex_mcq_23",
+            "type": "mcq",
+            "level": "Level 3 (Advanced Baccalaureate)",
+            "questionText": "'I remember locking the door before we left the house.' This means that:",
+            "options": [
+                "I have a clear memory of the action of locking the door in the past.",
+                "I am reminding myself to lock the door in the future.",
+                "I forgot whether I locked the door or not.",
+                "someone else reminded me to lock the door."
+            ],
+            "correctAnswer": "I have a clear memory of the action of locking the door in the past.",
+            "explanation": "'Remember + V-ing' is retrospective recall."
+        },
+        {
+            "id": "u2_ex_mcq_24",
+            "type": "mcq",
+            "level": "Level 3 (Advanced Baccalaureate)",
+            "questionText": "Which sentence correctly rewrites: 'It was a mistake to eat so much cake, and now I feel sick'?",
+            "options": [
+                "I regret to eat so much cake.",
+                "I regret eating so much cake.",
+                "I regret to have eaten so much cake.",
+                "I regret ate so much cake."
+            ],
+            "correctAnswer": "I regret eating so much cake.",
+            "explanation": "'Regret + V-ing' expresses penitence and sorrow over a past action."
+        },
+        {
+            "id": "u2_ex_mcq_25",
+            "type": "mcq",
+            "level": "Level 3 (Advanced Baccalaureate)",
+            "questionText": "The athlete was accustomed to ________ for six hours every day.",
+            "options": ["train", "to train", "training", "trained"],
+            "correctAnswer": "training",
+            "explanation": "'Be accustomed to' contains the preposition 'to', which must be followed by a gerund ('training')."
+        },
+        {
+            "id": "u2_ex_mcq_26",
+            "type": "mcq",
+            "level": "Level 3 (Advanced Baccalaureate)",
+            "questionText": "Positive feedback from teachers can improve students' self-esteem. What does self-esteem mean?",
+            "options": [
+                "The ability to control other people.",
+                "The way people feel about their own value and abilities.",
+                "The desire to become more popular online.",
+                "The tendency to compare different cultures."
+            ],
+            "correctAnswer": "The way people feel about their own value and abilities.",
+            "explanation": "Self-esteem refers to self-worth and confidence in one's personal identity and capabilities."
+        },
+        {
+            "id": "u2_ex_mcq_27",
+            "type": "mcq",
+            "level": "Level 3 (Advanced Baccalaureate)",
+            "questionText": "After suffering a muscle tear, the athlete decided to withdraw from the competition. What is the clearest example of 'withdraw'?",
+            "options": [
+                "A student leaves a debate team before the final round.",
+                "A player trains harder before an important match.",
+                "A runner joins an additional race at the weekend.",
+                "A musician continues performing despite feeling nervous."
+            ],
+            "correctAnswer": "A student leaves a debate team before the final round.",
+            "explanation": "'Withdraw' means to pull out, remove oneself, or disengage from participation."
+        },
+        {
+            "id": "u2_ex_mcq_28",
+            "type": "mcq",
+            "level": "Level 3 (Advanced Baccalaureate)",
+            "questionText": "The actors attended a final rehearsal before performing for a large audience. What does rehearsal mean?",
+            "options": [
+                "The official performance before an audience.",
+                "A celebration held after a successful performance.",
+                "A practice session held before the real performance.",
+                "A written review of an artistic event."
+            ],
+            "correctAnswer": "A practice session held before the real performance.",
+            "explanation": "'Rehearsal' is a trial performance or practice session before a public staging."
+        },
+        {
+            "id": "u2_ex_mcq_29",
+            "type": "mcq",
+            "level": "Level 3 (Advanced Baccalaureate)",
+            "questionText": "Mountain climbers need great endurance in extreme weather. Which situation is the clearest example of 'endurance'?",
+            "options": [
+                "A swimmer continues a long-distance race despite becoming tired.",
+                "A runner stops after a few minutes because the race feels difficult.",
+                "A cyclist chooses only very short and easy routes.",
+                "An athlete avoids training whenever the weather is unpleasant."
+            ],
+            "correctAnswer": "A swimmer continues a long-distance race despite becoming tired.",
+            "explanation": "'Endurance' is the ability to persist through prolonged physical hardship and fatigue."
+        },
+        {
+            "id": "u2_ex_mcq_30",
+            "type": "mcq",
+            "level": "Level 3 (Advanced Baccalaureate)",
+            "questionText": "Strong motivation helps students persevere toward difficult goals. The underlined noun has an antonymous meaning to:",
+            "options": ["incentive", "drive", "discouragement", "encouragement"],
+            "correctAnswer": "discouragement",
+            "explanation": "'Motivation' means drive/incentive; its exact antonym is 'discouragement'."
+        }
+    ],
+    "correctTheFormExercises": [
+        {
+            "id": "u2_ctf_01",
+            "sentence": "Many parents worry that their children have become ________ (addict) to video games.",
+            "targetWord": "addict",
+            "correctAnswer": "addicted",
+            "explanation": "Adjective describing people's dependent state."
+        },
+        {
+            "id": "u2_ctf_02",
+            "sentence": "Spending time outdoors instead of on screens can bring real ________ (fulfilling) to a teenager's life.",
+            "targetWord": "fulfilling",
+            "correctAnswer": "fulfillment",
+            "explanation": "Noun required after adjective 'real'."
+        },
+        {
+            "id": "u2_ctf_03",
+            "sentence": "Experts recommend finding a ________ (balance) routine between online and offline activities.",
+            "targetWord": "balance",
+            "correctAnswer": "balanced",
+            "explanation": "Adjective modifying the noun 'routine'."
+        },
+        {
+            "id": "u2_ctf_04",
+            "sentence": "The effect of gaming on mental health remains a highly ________ (debate) topic among researchers.",
+            "targetWord": "debate",
+            "correctAnswer": "debatable",
+            "explanation": "Adjective meaning open to discussion."
+        },
+        {
+            "id": "u2_ctf_05",
+            "sentence": "Some countries are considering stricter ________ (regulate) of screen time for young users.",
+            "targetWord": "regulate",
+            "correctAnswer": "regulation",
+            "explanation": "Noun required after adjective 'stricter'."
+        },
+        {
+            "id": "u2_ctf_06",
+            "sentence": "Streaming apps are designed to be extremely ________ (entertain), making them difficult to stop using.",
+            "targetWord": "entertain",
+            "correctAnswer": "entertaining",
+            "explanation": "Adjective meaning providing amusement."
+        },
+        {
+            "id": "u2_ctf_07",
+            "sentence": "Team-based video games can improve a player's hand-eye ________ (coordinate).",
+            "targetWord": "coordinate",
+            "correctAnswer": "coordination",
+            "explanation": "Noun form required."
+        },
+        {
+            "id": "u2_ctf_08",
+            "sentence": "Ignoring screen-time limits can be quite ________ (risk) for a teenager's sleep and concentration.",
+            "targetWord": "risk",
+            "correctAnswer": "risky",
+            "explanation": "Adjective meaning dangerous."
+        },
+        {
+            "id": "u2_ctf_09",
+            "sentence": "Digital tools can also boost ________ (create) thinking when used in moderation.",
+            "targetWord": "create",
+            "correctAnswer": "creative",
+            "explanation": "Adjective modifying 'thinking'."
+        }
+    ],
+    "jreTrueFalseExercises": [
+        {
+            "id": "u2_jre_01",
+            "passage": "Platforms like Instagram and TikTok present carefully chosen images of people's lives, making it easy for young users to compare themselves negatively to others. Studies suggest that heavy social media use is linked to increased feelings of anxiety, loneliness, and depression, particularly among teenagers.",
+            "statement": "Social media use has no effect on teenagers' mood.",
+            "isTrue": False,
+            "justification": "False. The text explicitly states that heavy social media use is directly linked to increased feelings of anxiety, loneliness, and depression."
+        },
+        {
+            "id": "u2_jre_02",
+            "passage": "Access to sports facilities and resources varies greatly by cost and location, which creates structural barriers preventing many students from regular athletic participation.",
+            "statement": "According to the text, all young people have equal access to sports facilities and resources.",
+            "isTrue": False,
+            "justification": "False. Access is unequal and depends on cost and geographic location, leaving many youth with structural barriers."
+        },
+        {
+            "id": "u2_jre_03",
+            "passage": "Research consistently shows that taking regular breaks from screens can improve mood, concentration, and sleep quality. Outdoor activities, face-to-face socializing, and creative hobbies all provide benefits that screens simply cannot replicate.",
+            "statement": "Taking regular breaks from screens has a beneficial effect on concentration.",
+            "isTrue": True,
+            "justification": "True. The study proves that regular screen breaks improve mood, concentration, and sleep quality."
+        },
+        {
+            "id": "u2_jre_04",
+            "passage": "The World Health Organization officially recognized gaming disorder as an addictive mental health condition in 2019, highlighting the risks of uncontrolled gaming.",
+            "statement": "Gaming disorder has never been officially recognized as a mental health condition.",
+            "isTrue": False,
+            "justification": "False. The WHO officially classified it as a clinical mental health condition in 2019."
+        }
+    ]
+}
+
+with open(OUTPUT_FILE, "w", encoding="utf-8") as f:
+    json.dump(unit2_data, f, ensure_ascii=False, indent=2)
+
+print(f"Successfully generated Unit 2 dataset: {OUTPUT_FILE}")
+print(f"  - Core vocabulary: {sum(len(l['coreVocabulary']) for l in unit2_data['lessons'])}")
+print(f"  - Build vocabulary: {sum(len(l['buildYourLanguage']) for l in unit2_data['lessons'])}")
+print(f"  - Synonyms/Antonyms: {sum(len(l['synonymsAntonyms']) for l in unit2_data['lessons'])}")
+print(f"  - Collocations: {sum(len(l['collocations']) for l in unit2_data['lessons'])}")
+print(f"  - Grammar structures: {len(unit2_data['grammarStructures'])}")
+print(f"  - MCQs: {len(unit2_data['exercises'])}")
+print(f"  - Correct the form: {len(unit2_data['correctTheFormExercises'])}")
+print(f"  - JRE True/False: {len(unit2_data['jreTrueFalseExercises'])}")

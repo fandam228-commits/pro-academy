@@ -1613,6 +1613,7 @@ async function initializeSchema(): Promise<void> {
   await seedTrainingCenterQuestionsIfEmpty();
   await seedDialogueCenterIfEmpty();
   await seedMasterQuestionBank2027IfEmpty();
+  await seedSec2BacCompleteIfEmpty();
 }
 
 export async function syncCurriculum2026(): Promise<{
@@ -2886,6 +2887,24 @@ export async function seedProSuiteIfEmpty(): Promise<void> {
     }
   } catch (error) {
     console.error("Seed Pro Suite Error:", error);
+  }
+}
+
+export async function seedSec2BacCompleteIfEmpty(): Promise<void> {
+  try {
+    const existingSec2Unit = await db
+      .select({ id: curriculumUnits.id })
+      .from(curriculumUnits)
+      .where(eq(curriculumUnits.id, "cu_sec_2_bac_u5"))
+      .limit(1);
+
+    if (existingSec2Unit.length === 0) {
+      console.log("Seeding Second Year Baccalaureate Complete Curriculum (Giants 2027)...");
+      const { seedSec2BacComplete } = await import("./seed-sec2-bac-complete");
+      await seedSec2BacComplete();
+    }
+  } catch (error) {
+    console.error("Seed Sec2 Bac Complete Error:", error);
   }
 }
 

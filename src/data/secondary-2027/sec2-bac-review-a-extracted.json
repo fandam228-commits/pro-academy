@@ -1,0 +1,253 @@
+{
+  "curriculumMetadata": {
+    "stage": "Secondary",
+    "grade": "Second Year Egyptian Baccalaureate",
+    "gradeCode": "sec_2_bac",
+    "gradeAr": "الصف الثاني بكالوريا (البكالوريا المصرية)",
+    "term": "First",
+    "academicYear": "2026/2027",
+    "type": "consolidation_review",
+    "reviewCode": "review_a",
+    "reviewTitleEn": "Consolidation Review A (Units 1 & 2)",
+    "reviewTitleAr": "المراجعة التوطيدية الشاملة (أ) - الوحدتان الأولى والثانية",
+    "coveredUnits": [
+      "Unit 1: Living Well in a Complex World (Well-being)",
+      "Unit 2: Leisure Time (Recreation & Digital Balance)"
+    ],
+    "pageRange": "Pages 137 - 142",
+    "sourceFile": "العمالقة_انجليزي_2_بكالوريا_الترم_الاول_2027_الجزء_الثاني_المتميزون.pdf"
+  },
+  "exercises": [
+    {
+      "id": "reva_mcq_01",
+      "type": "mcq",
+      "questionText": "After improving her sleep, diet, and relationships, Hind noticed a clear improvement in her well-being. What does well-being mean in this context?",
+      "options": [
+        "The state of being healthy, comfortable and happy.",
+        "The ability to become famous online.",
+        "The habit of avoiding all responsibilities.",
+        "The process of comparing yourself with others."
+      ],
+      "correctAnswer": "The state of being healthy, comfortable and happy.",
+      "explanation": "Well-being denotes comprehensive physical, emotional, and social wellness."
+    },
+    {
+      "id": "reva_mcq_02",
+      "type": "mcq",
+      "questionText": "A podcast host invited only guests who agreed with his views and dismissed opposing opinions without discussing them fairly. Listeners described the program as biased. Which situation is the clearest example of being 'biased'?",
+      "options": [
+        "A judge scores every performance according to the same published rules.",
+        "A judge gives a friend a higher score even though another performer clearly did better.",
+        "A judge asks another official to review a result that is extremely close.",
+        "A judge changes a score after noticing a genuine mistake in the first calculation."
+      ],
+      "correctAnswer": "A judge gives a friend a higher score even though another performer clearly did better.",
+      "explanation": "Bias involves unfair favoritism or lack of objective neutrality."
+    },
+    {
+      "id": "reva_mcq_03",
+      "type": "mcq",
+      "questionText": "Constant social comparison made Ahmed feel that his life was less successful than the lives he saw online. What does social comparison mean in this context?",
+      "options": [
+        "Judging yourself by comparing your life with other people's lives.",
+        "Discussing social problems with friends.",
+        "Studying the traditions of different societies.",
+        "Sharing personal information online."
+      ],
+      "correctAnswer": "Judging yourself by comparing your life with other people's lives.",
+      "explanation": "Social comparison is evaluating one's personal achievements against external peer displays."
+    },
+    {
+      "id": "reva_mcq_04",
+      "type": "mcq",
+      "questionText": "'A mindful student thinks before sharing photos online.' The underlined adjective mindful has an antonymous meaning to:",
+      "options": [
+        "attentive",
+        "aware",
+        "thoughtful",
+        "careless"
+      ],
+      "correctAnswer": "careless",
+      "explanation": "Mindful means attentive/cautious; its direct antonym is careless."
+    },
+    {
+      "id": "reva_mcq_05",
+      "type": "mcq",
+      "questionText": "The musicians attended several rehearsals before performing in front of the audience. What does rehearsal mean in this context?",
+      "options": [
+        "A practice session held before a performance.",
+        "A competition between different musicians.",
+        "A public performance for a large audience.",
+        "A written review of a musical event."
+      ],
+      "correctAnswer": "A practice session held before a performance.",
+      "explanation": "A rehearsal is a preparatory practice session."
+    },
+    {
+      "id": "reva_mcq_06",
+      "type": "mcq",
+      "questionText": "When someone becomes completely absorbed in a creative activity and loses track of time, they experience a state of ________.",
+      "options": [
+        "flow",
+        "anxiety",
+        "withdrawal",
+        "competition"
+      ],
+      "correctAnswer": "flow",
+      "explanation": "In positive psychology, 'flow' is complete immersive involvement in a task."
+    },
+    {
+      "id": "reva_mcq_07",
+      "type": "mcq",
+      "questionText": "After completing the difficult cycling trip, the narrator felt proud and experienced a strong ________.",
+      "options": [
+        "structural barrier",
+        "screen boundary",
+        "sense of achievement",
+        "social comparison"
+      ],
+      "correctAnswer": "sense of achievement",
+      "explanation": "Accomplishing an arduous goal produces a profound sense of achievement."
+    },
+    {
+      "id": "reva_mcq_08",
+      "type": "mcq",
+      "questionText": "Setting clear screen-time ________ can help young people balance online and offline activities.",
+      "options": [
+        "boundaries",
+        "rehearsals",
+        "achievements",
+        "comparisons"
+      ],
+      "correctAnswer": "boundaries",
+      "explanation": "Establishing healthy behavioral boundaries protects daily balance."
+    },
+    {
+      "id": "reva_mcq_09",
+      "type": "mcq",
+      "questionText": "Which persuasive technique is used in the sentence, 'Do we really want to live in a world full of pollution?'",
+      "options": [
+        "Hedging words",
+        "Intensifiers",
+        "Rhetorical questions",
+        "Absolute words"
+      ],
+      "correctAnswer": "Rhetorical questions",
+      "explanation": "The speaker poses a query designed to prompt reflection rather than expect an answer."
+    },
+    {
+      "id": "reva_mcq_10",
+      "type": "mcq",
+      "questionText": "What is the main effect of a rhetorical question in persuasive writing?",
+      "options": [
+        "To make the reader think and reflect deeply.",
+        "To show uncertainty or hesitation.",
+        "To weaken the credibility of the argument.",
+        "To present detailed statistical evidence."
+      ],
+      "correctAnswer": "To make the reader think and reflect deeply.",
+      "explanation": "Rhetorical questions engage the audience by appealing to obvious shared truths."
+    },
+    {
+      "id": "reva_mcq_11",
+      "type": "mcq",
+      "questionText": "Which of the following words functions as an intensifier?",
+      "options": [
+        "might",
+        "never",
+        "extremely",
+        "could"
+      ],
+      "correctAnswer": "extremely",
+      "explanation": "'Extremely' amplifies the intensity of an adjective or adverb."
+    },
+    {
+      "id": "reva_mcq_12",
+      "type": "mcq",
+      "questionText": "What is usually included in the closing section of an authentic diary entry?",
+      "options": [
+        "A final thought, feeling, or reflective hope.",
+        "A formal business signature.",
+        "An academic bibliography.",
+        "A list of technical instructions."
+      ],
+      "correctAnswer": "A final thought, feeling, or reflective hope.",
+      "explanation": "Diary conclusions reflect on feelings and life lessons learned from events."
+    },
+    {
+      "id": "reva_mcq_13",
+      "type": "mcq",
+      "questionText": "Which sentence is grammatically correct?",
+      "options": [
+        "Teenagers who practice mindfulness often manage stress more effectively.",
+        "Teenagers which practice mindfulness often manage stress more effectively.",
+        "Teenagers practicing mindfulness, they often manage stress more effectively.",
+        "Practicing mindfulness, stress manages teenagers more effectively."
+      ],
+      "correctAnswer": "Teenagers who practice mindfulness often manage stress more effectively.",
+      "explanation": "'Who' is the correct relative pronoun for human subjects ('teenagers')."
+    },
+    {
+      "id": "reva_mcq_14",
+      "type": "mcq",
+      "questionText": "Which conditional sentence is grammatically correct?",
+      "options": [
+        "If schools offer counseling, students may feel better supported.",
+        "If schools offered counseling, students may felt better supported.",
+        "If schools had offer counseling, students would have felt better supported.",
+        "If schools offer counseling, students would have felt better supported yesterday."
+      ],
+      "correctAnswer": "If schools offer counseling, students may feel better supported.",
+      "explanation": "First conditional structure: If + present simple, subject + may/can/will + base verb."
+    },
+    {
+      "id": "reva_mcq_15",
+      "type": "mcq",
+      "questionText": "Which sentence correctly uses the verb 'suggest'?",
+      "options": [
+        "She suggested to take a short break from the screen.",
+        "She suggested taking a short break from the screen.",
+        "She suggested take a short break from the screen.",
+        "She suggested took a short break from the screen."
+      ],
+      "correctAnswer": "She suggested taking a short break from the screen.",
+      "explanation": "'Suggest' is followed by a gerund ('suggest taking')."
+    },
+    {
+      "id": "reva_mcq_16",
+      "type": "mcq",
+      "questionText": "Which sentence correctly coordinates past narrative tenses?",
+      "options": [
+        "By the time we reached the river, the sun had already risen.",
+        "By the time we reached the river, the sun has already risen.",
+        "By the time we reached the river, the sun was already rise.",
+        "By the time we reached the river, the sun had already rose."
+      ],
+      "correctAnswer": "By the time we reached the river, the sun had already risen.",
+      "explanation": "By the time + past simple clause requires the past perfect ('had + past participle: risen') for the earlier event."
+    }
+  ],
+  "jreTrueFalseExercises": [
+    {
+      "id": "reva_jre_01",
+      "passage": "Nadia used to enjoy taking photos, but recently posting them on social media had become stressful. Every morning, she checked the accounts of several popular teenagers before getting ready for school. Their clothes always looked fashionable and their rooms seemed perfect. Nadia began to feel that her own life was ordinary and uninteresting. One Friday, Nadia and her best friend Jana went to a small café. Nadia took several photos, but spent nearly twenty minutes editing them before posting with the caption 'Perfect afternoon!'. Jana smiled and said, 'It was a lovely afternoon, but it wasn't perfect. We were fifteen minutes late and spilled our hot chocolate!' Jana helped Nadia realize that social media shows only the highlight-reel of life.",
+      "statement": "The highlight-reel effect happens when people share every detail of their lives honestly, including all flaws.",
+      "isTrue": false,
+      "justification": "False. The text demonstrates that the highlight-reel effect occurs when people curate and edit only their best, most glamorous moments, concealing ordinary flaws and mishaps."
+    },
+    {
+      "id": "reva_jre_02",
+      "passage": "Omar wants to improve his speaking skills. He believes that regular practice will help him become a confident speaker. He continues working even when activities are challenging. In psychology, a person with strong self-efficacy believes they can achieve goals and effect positive changes through effort.",
+      "statement": "A person with strong self-efficacy believes that they can achieve goals and make positive changes.",
+      "isTrue": true,
+      "justification": "True. The definition and example confirm that self-efficacy is the conviction that one's disciplined actions can produce targeted results."
+    },
+    {
+      "id": "reva_jre_03",
+      "passage": "Some teenagers want to exercise, but there are no safe parks near their homes. Others cannot join sports clubs because membership fees are too expensive. These conditions limit their opportunities to be physically active. Structural barriers in society are caused by systemic inequality, infrastructure deficits, or financial hurdles rather than mere personal laziness.",
+      "statement": "Structural barriers are always caused by people's personal choices.",
+      "isTrue": false,
+      "justification": "False. Structural barriers stem from external socioeconomic conditions, lack of nearby facilities, or high fees, not personal choice alone."
+    }
+  ]
+}
