@@ -252,13 +252,13 @@ export const MistakesBankWorkspace: React.FC = () => {
             <div className="text-xs font-bold text-amber-500 dark:text-amber-400 mb-2">
               السؤال المطلوب إعادة حله:
             </div>
-            <h2 className="text-base md:text-lg font-bold text-slate-900 dark:text-white leading-relaxed">
+            <h2 className="text-base md:text-lg font-bold text-slate-900 dark:text-white leading-relaxed text-left" dir="ltr">
               {currentPracticeItem.questionSnapshot.questionText}
             </h2>
           </div>
 
           {/* Options Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-6" dir="ltr">
             {(currentPracticeItem.questionSnapshot.options || []).map((opt: string, idx: number) => {
               const isSelected = selectedAnswer === opt;
               const isAnswered = answeredState?.answered;
@@ -282,7 +282,8 @@ export const MistakesBankWorkspace: React.FC = () => {
                   key={idx}
                   onClick={() => handleSelectOptionInPractice(opt)}
                   disabled={isAnswered}
-                  className={`p-4 rounded-2xl border text-right font-medium text-sm transition-all flex items-center justify-between gap-3 ${btnStyle}`}
+                  className={`p-4 rounded-2xl border text-left font-medium text-sm transition-all flex items-center justify-between gap-3 ${btnStyle}`}
+                  dir="ltr"
                 >
                   <span className="leading-relaxed">{opt}</span>
                   {isAnswered && isRealCorrect && (
@@ -427,7 +428,7 @@ export const MistakesBankWorkspace: React.FC = () => {
                               )}
                             </div>
 
-                            <h4 className="text-sm md:text-base font-bold text-slate-900 dark:text-white leading-relaxed">
+                            <h4 className="text-sm md:text-base font-bold text-slate-900 dark:text-white leading-relaxed text-left" dir="ltr">
                               {snapshot.questionText}
                             </h4>
                           </div>
@@ -447,7 +448,7 @@ export const MistakesBankWorkspace: React.FC = () => {
                         {isExpanded && (
                           <div className="mt-5 pt-4 border-t border-slate-100 dark:border-slate-800/80 animate-fadeIn space-y-4">
                             {/* Options review */}
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-2" dir="ltr">
                               {(snapshot.options || []).map((opt: string, optIdx: number) => {
                                 const isCorrect = opt.trim().toLowerCase() === String(snapshot.correctAnswer || "").trim().toLowerCase();
                                 const isUserWrong = opt.trim().toLowerCase() === String(item.wrongAnswer || "").trim().toLowerCase();
@@ -462,7 +463,8 @@ export const MistakesBankWorkspace: React.FC = () => {
                                 return (
                                   <div
                                     key={optIdx}
-                                    className={`p-3 rounded-xl border text-xs flex items-center justify-between ${optBg}`}
+                                    className={`p-3 rounded-xl border text-xs flex items-center justify-between text-left ${optBg}`}
+                                    dir="ltr"
                                   >
                                     <span>{opt}</span>
                                     {isCorrect && (

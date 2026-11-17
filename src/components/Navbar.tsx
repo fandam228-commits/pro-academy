@@ -67,6 +67,13 @@ export const Navbar: React.FC<{ activeTab?: string; setActiveTab?: (tab: string)
 
   const moreItems = [
     { id: "mistakes_bank", labelAr: "بنك أخطائي الذكي", labelEn: "Smart Mistakes Bank", icon: AlertTriangle, badge: "ذكي" },
+    { id: "leaderboard", labelAr: "لوحة الشرف والأوائل (XP)", labelEn: "Weekly Leaderboard & XP", icon: Trophy, badge: "جديد" },
+    { id: "essay_lab", labelAr: "مختبر المقال والفقرة", labelEn: "Essay & Paragraph Lab", icon: FileText, badge: "+30 XP" },
+    { id: "exam_simulator", labelAr: "محاكي الامتحانات الشامل (3 ساعات)", labelEn: "Exam Simulator", icon: Trophy, badge: "3h" },
+    { id: "flashcards", labelAr: "فلاش كاردز المفردات (SRS)", labelEn: "Vocab Flashcards", icon: BookOpen, badge: "SRS" },
+    { id: "literature", labelAr: "عالم القصص والروايات الأدبية", labelEn: "Literature & Novels", icon: Film, badge: "2027" },
+    { id: "my_qr", labelAr: "بطاقة الطالب الذكية (QR)", labelEn: "Student Digital QR", icon: ClipboardCheck, badge: "ID" },
+    { id: "activate", labelAr: "شحن كروت المنصة", labelEn: "Activate Voucher", icon: ShieldCheck, badge: "كارت" },
     { id: "dialogues", labelAr: "مركز المحادثة الإنجليزية (94 محادثة)", labelEn: "Dialogue Center", icon: MessageSquare, badge: "جديد" },
     { id: "ministry_assessments", labelAr: "تقييمات الوزارة الرسمية", labelEn: "Ministry Assessments", icon: FileCheck, badge: "2027" },
     { id: "homework", labelAr: "الواجبات والتسليم", labelEn: "Homework & Tasks", icon: NotebookPen },
@@ -76,7 +83,6 @@ export const Navbar: React.FC<{ activeTab?: string; setActiveTab?: (tab: string)
     { id: "grammar", labelAr: "شرح القواعد التفاعلي", labelEn: "Grammar Master", icon: BookOpen },
     { id: "placement", labelAr: "اختبار تحديد المستوى", labelEn: "Placement Test", icon: Sparkles },
     { id: "ai_assistant", labelAr: "المساعد الذكي (AI Tutor)", labelEn: "AI Tutor", icon: BrainCircuit },
-    { id: "leaderboard", labelAr: "لوحة الشرف والأوائل (XP)", labelEn: "Weekly Leaderboard & XP", icon: Trophy, badge: "جديد" },
     { id: "calendar", labelAr: "جدول الحصص والبث", labelEn: "Calendar & Live", icon: CalendarDays },
     { id: "analytics", labelAr: "التقارير والتحليلات", labelEn: "Analytics & Reports", icon: BarChart3 },
     { id: "blog", labelAr: "المدونة والنصائح", labelEn: "Blog & Tips", icon: FileText },
@@ -458,7 +464,7 @@ export const Navbar: React.FC<{ activeTab?: string; setActiveTab?: (tab: string)
 
             {/* Extra items in drawer */}
             <div className="space-y-1 pt-1">
-              {moreItems.slice(1).map((item) => {
+              {moreItems.map((item) => {
                 const Icon = item.icon;
                 return (
                   <button

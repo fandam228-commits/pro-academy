@@ -132,7 +132,7 @@ export function InstallAppPrompt() {
       <aside
         role="region"
         aria-label="تثبيت تطبيق المنصة"
-        className="fixed bottom-4 sm:bottom-6 inset-x-3 sm:inset-x-auto sm:right-6 z-50 max-w-lg bg-[#0E1E38]/95 backdrop-blur-xl border border-blue-500/30 text-white rounded-3xl p-4 sm:p-5 shadow-2xl shadow-black/60 animate-in slide-in-from-bottom-5 duration-300"
+        className="fixed bottom-20 sm:bottom-6 inset-x-3 sm:inset-x-auto sm:right-6 z-50 max-w-lg bg-[#0E1E38]/95 backdrop-blur-xl border border-blue-500/30 text-white rounded-3xl p-4 sm:p-5 shadow-2xl shadow-black/60 animate-in slide-in-from-bottom-5 duration-300"
         dir="rtl"
       >
         <div className="flex items-center gap-3 sm:gap-4">

@@ -290,8 +290,12 @@ function MainAppContent() {
   useEffect(() => {
     try {
       const params = new URLSearchParams(window.location.search);
-      const tab = params.get("tab");
-      if (tab) setActiveTab(tab);
+      const rawTab = params.get("tab");
+      if (rawTab) {
+        if (rawTab === "translation_academy") setActiveTab("translation");
+        else if (rawTab === "mistakes") setActiveTab("mistakes_bank");
+        else setActiveTab(rawTab);
+      }
 
       const activateParam = params.get("activate");
       if (activateParam) {

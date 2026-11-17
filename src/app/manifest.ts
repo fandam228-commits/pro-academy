@@ -74,7 +74,7 @@ export default function manifest(): MetadataRoute.Manifest {
       {
         name: "أكاديمية الترجمة",
         short_name: "الترجمة",
-        url: "/?tab=translation_academy",
+        url: "/?tab=translation",
         description: "تدريبات الترجمة المتقدمة",
       },
       {
