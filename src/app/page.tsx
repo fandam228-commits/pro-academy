@@ -41,6 +41,11 @@ const SuperAdminDashboard = dynamic(
   { loading: () => <TabLoadingSkeleton label="جاري تجهيز لوحة الإدارة العامة..." />, ssr: false }
 );
 
+const HabibAdminControlPanel = dynamic(
+  () => import("@/components/admin/HabibAdminControlPanel").then((m) => m.HabibAdminControlPanel),
+  { loading: () => <TabLoadingSkeleton label="جاري تحميل لوحة تحكم مستر حبيب الرحمن..." />, ssr: false }
+);
+
 const TeacherDashboard = dynamic(
   () => import("@/components/TeacherDashboard").then((m) => m.TeacherDashboard),
   { loading: () => <TabLoadingSkeleton label="جاري تجهيز لوحة المعلم..." />, ssr: false }
@@ -537,7 +542,9 @@ function MainAppContent() {
             <AuthScreen onBack={() => setActiveTab("home")} />
           ) : (
             <div>
-              {user.role === "admin" && <SuperAdminDashboard />}
+              {user.role === "admin" && (
+                <HabibAdminControlPanel onExitAdmin={() => setActiveTab("home")} />
+              )}
               {user.role === "teacher" && (
                 <TeacherDashboard
                   onOpenLibrary={() => setActiveTab("pdfs")}

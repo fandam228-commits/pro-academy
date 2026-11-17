@@ -319,6 +319,17 @@ export const Navbar: React.FC<{ activeTab?: string; setActiveTab?: (tab: string)
                   {/* GAMIFICATION PILL (STREAK, XP, RANK) */}
                   <HeaderGamificationPill onOpenLeaderboard={() => navigateTo("leaderboard")} />
 
+                  {(user.role === "admin" || user.role === "teacher") && (
+                    <a
+                      href="/admin"
+                      className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-amber-400 hover:bg-amber-300 text-slate-950 font-black text-xs shadow-sm transition"
+                      title="لوحة تحكم مستر حبيب الرحمن"
+                    >
+                      <ShieldCheck className="w-3.5 h-3.5" />
+                      <span className="hidden sm:inline">لوحة التحكم</span>
+                    </a>
+                  )}
+
                   <button
                     onClick={() => navigateTo("dashboard")}
                     className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-[#E8F3FF] hover:bg-blue-100/80 text-[#2563EB] border border-blue-200 transition text-xs font-extrabold"
