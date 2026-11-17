@@ -7,6 +7,8 @@ import { AdminQuestionBankModule } from "./AdminQuestionBankModule";
 import { AdminTranslationModule } from "./AdminTranslationModule";
 import { AdminCurriculumModule } from "./AdminCurriculumModule";
 import { AdminStudentsModule } from "./AdminStudentsModule";
+import { AdminVouchersModule } from "./AdminVouchersModule";
+import { AdminCenterAttendanceModule } from "./AdminCenterAttendanceModule";
 import {
   BarChart3,
   BookOpen,
@@ -21,9 +23,18 @@ import {
   X,
   GraduationCap,
   ChevronLeft,
+  KeyRound,
+  QrCode,
 } from "lucide-react";
 
-export type AdminTab = "overview" | "question_bank" | "translation" | "curriculum" | "students";
+export type AdminTab =
+  | "overview"
+  | "question_bank"
+  | "translation"
+  | "curriculum"
+  | "students"
+  | "vouchers"
+  | "center_attendance";
 
 interface HabibAdminControlPanelProps {
   initialTab?: AdminTab;
@@ -67,6 +78,18 @@ export const HabibAdminControlPanel: React.FC<HabibAdminControlPanelProps> = ({
       id: "students" as AdminTab,
       labelAr: "متابعة الطلاب والاشتراكات",
       icon: Users,
+    },
+    {
+      id: "vouchers" as AdminTab,
+      labelAr: "إدارة الكروت والأكواد",
+      icon: KeyRound,
+      badge: "CARDS",
+    },
+    {
+      id: "center_attendance" as AdminTab,
+      labelAr: "حضور السنتر والواجب",
+      icon: QrCode,
+      badge: "SCAN",
     },
   ];
 
@@ -244,6 +267,8 @@ export const HabibAdminControlPanel: React.FC<HabibAdminControlPanelProps> = ({
           {activeTab === "translation" && <AdminTranslationModule />}
           {activeTab === "curriculum" && <AdminCurriculumModule />}
           {activeTab === "students" && <AdminStudentsModule />}
+          {activeTab === "vouchers" && <AdminVouchersModule />}
+          {activeTab === "center_attendance" && <AdminCenterAttendanceModule />}
         </main>
       </div>
     </div>
