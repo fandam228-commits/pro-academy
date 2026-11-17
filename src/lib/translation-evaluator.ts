@@ -525,3 +525,267 @@ export function evaluateQuestion(
     errorsDetected,
   };
 }
+
+// -------------------------------------------------------------
+// DEDICATED SMART KEYWORD & STRUCTURE TRANSLATION EVALUATOR
+// -------------------------------------------------------------
+
+export interface KeyVocabItem {
+  term: string;
+  synonyms: string[];
+  meaning_ar: string;
+  weight: number;
+}
+
+export interface SmartTranslationEvaluation {
+  accuracyScore: number; // 0 - 100
+  tier: "excellent" | "acceptable" | "needs_work";
+  tierTitleAr: string;
+  keywordScore: number;
+  structureScore: number;
+  matchedKeywords: {
+    term: string;
+    synonyms: string[];
+    meaning_ar: string;
+    matchedWith: string;
+    weight: number;
+  }[];
+  missedKeywords: {
+    term: string;
+    synonyms: string[];
+    meaning_ar: string;
+    weight: number;
+  }[];
+  feedback: string;
+  grammarTip?: string;
+  suggestedCorrection: string;
+  modelAnswer: string;
+  alternativeAnswers: string[];
+  isEligibleForXP: boolean; // accuracyScore >= 60
+}
+
+/**
+ * Evaluates student translation input against model answers and weighted key vocabulary.
+ * Follows the 70% keyword coverage + 30% structural/syntactic similarity rule.
+ */
+export function evaluateSmartTranslation(params: {
+  studentInput: string;
+  modelAnswer: string;
+  alternativeAnswers?: string[];
+  keyVocabulary?: KeyVocabItem[];
+  direction: "en_to_ar" | "ar_to_en";
+  grammarTip?: string;
+}): SmartTranslationEvaluation {
+  const {
+    studentInput,
+    modelAnswer,
+    alternativeAnswers = [],
+    keyVocabulary = [],
+    direction,
+    grammarTip,
+  } = params;
+
+  const rawInput = (studentInput || "").trim();
+
+  if (!rawInput) {
+    return {
+      accuracyScore: 0,
+      tier: "needs_work",
+      tierTitleAr: "لم يتم تقديم إجابة ⚠️",
+      keywordScore: 0,
+      structureScore: 0,
+      matchedKeywords: [],
+      missedKeywords: keyVocabulary.map((kv) => ({
+        term: kv.term,
+        synonyms: kv.synonyms || [],
+        meaning_ar: kv.meaning_ar,
+        weight: kv.weight || 1,
+      })),
+      feedback: "يرجى كتابة ترجمتك في الحقل المخصص قبل الضغط على زر التقييم.",
+      grammarTip,
+      suggestedCorrection: modelAnswer,
+      modelAnswer,
+      alternativeAnswers,
+      isEligibleForXP: false,
+    };
+  }
+
+  const isArabicTarget = direction === "en_to_ar";
+  const normalize = isArabicTarget ? normalizeArabic : normalizeEnglish;
+  const cleanStudent = normalize(rawInput);
+  const studentTokens = tokenizeWords(cleanStudent);
+  const studentTokenSet = new Set(studentTokens);
+
+  // 1. Evaluate Key Vocabulary Coverage (70%)
+  const matchedKeywords: {
+    term: string;
+    synonyms: string[];
+    meaning_ar: string;
+    matchedWith: string;
+    weight: number;
+  }[] = [];
+
+  const missedKeywords: {
+    term: string;
+    synonyms: string[];
+    meaning_ar: string;
+    weight: number;
+  }[] = [];
+
+  let totalWeight = 0;
+  let matchedWeight = 0;
+
+  for (const item of keyVocabulary) {
+    const weight = item.weight || 1;
+    totalWeight += weight;
+
+    // Collect candidate terms that satisfy this vocabulary item
+    let candidatePhrases: string[] = [];
+
+    if (isArabicTarget) {
+      // In En -> Ar, student writes Arabic. Match meaning_ar and any arabic synonyms
+      const subParts = (item.meaning_ar || "")
+        .split(/[/،,]/)
+        .map((p) => normalizeArabic(p))
+        .filter((p) => p.length > 0);
+      candidatePhrases.push(...subParts);
+
+      if (Array.isArray(item.synonyms)) {
+        for (const s of item.synonyms) {
+          if (/[\u0600-\u06FF]/.test(s)) {
+            candidatePhrases.push(normalizeArabic(s));
+          }
+        }
+      }
+    } else {
+      // In Ar -> En, student writes English. Match term and english synonyms
+      candidatePhrases.push(normalizeEnglish(item.term));
+      if (Array.isArray(item.synonyms)) {
+        for (const s of item.synonyms) {
+          candidatePhrases.push(normalizeEnglish(s));
+        }
+      }
+    }
+
+    candidatePhrases = Array.from(new Set(candidatePhrases.filter((p) => p.length > 1)));
+
+    let matchedWith = "";
+    for (const phrase of candidatePhrases) {
+      // Check substring or token containment
+      if (cleanStudent.includes(phrase)) {
+        matchedWith = phrase;
+        break;
+      }
+      // Check multi-word tokens in order
+      const phraseTokens = tokenizeWords(phrase);
+      if (phraseTokens.length > 1) {
+        const allPresent = phraseTokens.every((pt) => studentTokenSet.has(pt));
+        if (allPresent) {
+          matchedWith = phrase;
+          break;
+        }
+      } else if (phraseTokens.length === 1 && studentTokenSet.has(phraseTokens[0])) {
+        matchedWith = phrase;
+        break;
+      }
+    }
+
+    if (matchedWith) {
+      matchedWeight += weight;
+      matchedKeywords.push({
+        term: item.term,
+        synonyms: item.synonyms || [],
+        meaning_ar: item.meaning_ar,
+        matchedWith,
+        weight,
+      });
+    } else {
+      missedKeywords.push({
+        term: item.term,
+        synonyms: item.synonyms || [],
+        meaning_ar: item.meaning_ar,
+        weight,
+      });
+    }
+  }
+
+  // 2. Evaluate Structural & Semantic Similarity (30%)
+  const allReferenceAnswers = [modelAnswer, ...(alternativeAnswers || [])].filter(Boolean);
+  let bestSim = 0;
+  let bestReference = modelAnswer;
+
+  for (const ref of allReferenceAnswers) {
+    const cleanRef = normalize(ref);
+    if (cleanStudent === cleanRef) {
+      bestSim = 1.0;
+      bestReference = ref;
+      break;
+    }
+    const refTokens = tokenizeWords(cleanRef);
+    const refTokenSet = new Set(refTokens);
+    const jaccard = jaccardSimilarity(studentTokenSet, refTokenSet);
+    const charSim = stringSimilarity(cleanStudent, cleanRef);
+    const sim = 0.65 * jaccard + 0.35 * charSim;
+
+    if (sim > bestSim) {
+      bestSim = sim;
+      bestReference = ref;
+    }
+  }
+
+  // 3. Compute Weighted Score
+  let keywordScore = 0;
+  if (totalWeight > 0) {
+    keywordScore = Math.round((matchedWeight / totalWeight) * 70);
+  } else {
+    // If no keyVocabulary specified, base fully on structural similarity
+    keywordScore = Math.round(bestSim * 70);
+  }
+
+  const structureScore = Math.round(bestSim * 30);
+  let accuracyScore = Math.min(100, Math.max(0, keywordScore + structureScore));
+
+  // If exact or practically identical
+  if (bestSim >= 0.95 && missedKeywords.length === 0) {
+    accuracyScore = 100;
+  }
+
+  // 4. Determine Tier & Arabic Pedagogical Feedback
+  let tier: "excellent" | "acceptable" | "needs_work";
+  let tierTitleAr: string;
+  let feedback: string;
+
+  if (accuracyScore >= 85) {
+    tier = "excellent";
+    tierTitleAr = "ممتازة ومطابقة للمواصفات 🌟";
+    feedback =
+      "صياغة رفيعة وترجمة متقنة ومطابقة لمعايير وتصحيح الثانوية العامة! حافظت على البناء السليم واستخدمت مفردات احترافية.";
+  } else if (accuracyScore >= 60) {
+    tier = "acceptable";
+    tierTitleAr = "مقبولة مع ملاحظات إرشادية 🎯";
+    feedback =
+      "ترجمة جيدة نجحت في نقل المعنى المحوري، وتوجد بعض الكلمات أو التراكيب التي يفضل تحسينها للوصول للدرجة النهائية الكاملة.";
+  } else {
+    tier = "needs_work";
+    tierTitleAr = "تحتاج إلى مراجعة وتدقيق ⚠️";
+    feedback =
+      "الترجمة بحاجة لمزيد من التدقيق في المفردات المحورية وتراكيب الجملة. تفحص الكلمات الناقصة وقارن صياغتك بالنموذج المعتمد أدناه.";
+  }
+
+  return {
+    accuracyScore,
+    tier,
+    tierTitleAr,
+    keywordScore,
+    structureScore,
+    matchedKeywords,
+    missedKeywords,
+    feedback,
+    grammarTip,
+    suggestedCorrection: bestReference,
+    modelAnswer,
+    alternativeAnswers,
+    isEligibleForXP: accuracyScore >= 60,
+  };
+}
+

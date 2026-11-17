@@ -1557,6 +1557,49 @@ export const xpTransactions = pgTable(
   ]
 );
 
+// 44. TRANSLATION EXERCISES TABLE (Interactive Translation Academy)
+export const translationExercises = pgTable(
+  "translation_exercises",
+  {
+    id: text("id").primaryKey(),
+    gradeLevel: text("grade_level").notNull().default("3rd_sec"),
+    direction: text("direction").notNull().default("en_to_ar"), // 'en_to_ar' | 'ar_to_en'
+    exerciseType: text("exercise_type").notNull().default("written"), // 'written' | 'mcq'
+    difficulty: text("difficulty").notNull().default("standard"), // 'standard' | 'advanced' | 'exam_past'
+    sourceText: text("source_text").notNull(),
+    modelAnswer: text("model_answer").notNull(),
+    alternativeAnswers: jsonb("alternative_answers").default([]).notNull(),
+    keyVocabulary: jsonb("key_vocabulary").default([]).notNull(),
+    mcqOptions: jsonb("mcq_options"),
+    grammarTip: text("grammar_tip"),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+  },
+  (table) => [
+    index("idx_tex_lookup").on(table.gradeLevel, table.direction, table.exerciseType),
+    index("idx_tex_diff").on(table.difficulty),
+  ]
+);
+
+// 45. USER TRANSLATION ATTEMPTS TABLE (History & Keyword Tracking)
+export const userTranslationAttempts = pgTable(
+  "user_translation_attempts",
+  {
+    id: text("id").primaryKey(),
+    userId: text("user_id").notNull(),
+    exerciseId: text("exercise_id").notNull(),
+    userInput: text("user_input").notNull(),
+    accuracyScore: integer("accuracy_score").notNull().default(0),
+    matchedKeywords: jsonb("matched_keywords").default([]).notNull(),
+    missedKeywords: jsonb("missed_keywords").default([]).notNull(),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+  },
+  (table) => [
+    index("idx_uta_user").on(table.userId),
+    index("idx_uta_exercise").on(table.exerciseId),
+  ]
+);
+
+
 
 
 

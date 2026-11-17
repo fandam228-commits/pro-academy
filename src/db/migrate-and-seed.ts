@@ -29,11 +29,14 @@ import {
   dialogueSubmissions,
   dialogueStudentProgress,
   questionBank,
+  translationExercises,
+  userTranslationAttempts,
 } from "./schema";
 import { ALL_DIALOGUES } from "@/data/dialogue-center";
 import { ALL_CURRICULUM_STORIES } from "@/data/story-world";
 import { SMART_CURRICULUM_SEEDS } from "@/data/smart-curriculum-seed";
 import { TRANSLATION_MODULES_SEED, SAMPLE_TRANSLATION_EXAMS } from "@/data/translation-academy-seed";
+import { INTERACTIVE_TRANSLATION_SEEDS } from "@/data/interactive-translation-seed";
 import EXTRACTED_TRAINING_QUESTIONS from "@/data/training-center-extracted-questions.json";
 import QUESTION_BANK_2027_MASTER from "@/data/question-bank-2027-master.json";
 import { hashPassword } from "@/lib/security";
@@ -1363,6 +1366,38 @@ async function initializeSchema(): Promise<void> {
 
       CREATE INDEX IF NOT EXISTS idx_xpt_user_id ON xp_transactions(user_id);
       CREATE INDEX IF NOT EXISTS idx_xpt_action_ref ON xp_transactions(user_id, action_type, reference_id);
+
+      CREATE TABLE IF NOT EXISTS translation_exercises (
+        id TEXT PRIMARY KEY,
+        grade_level TEXT NOT NULL DEFAULT '3rd_sec',
+        direction TEXT NOT NULL DEFAULT 'en_to_ar',
+        exercise_type TEXT NOT NULL DEFAULT 'written',
+        difficulty TEXT NOT NULL DEFAULT 'standard',
+        source_text TEXT NOT NULL,
+        model_answer TEXT NOT NULL,
+        alternative_answers JSONB NOT NULL DEFAULT '[]'::jsonb,
+        key_vocabulary JSONB NOT NULL DEFAULT '[]'::jsonb,
+        mcq_options JSONB,
+        grammar_tip TEXT,
+        created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+      );
+
+      CREATE INDEX IF NOT EXISTS idx_trans_ex_lookup ON translation_exercises(grade_level, direction, exercise_type);
+      CREATE INDEX IF NOT EXISTS idx_trans_ex_diff ON translation_exercises(difficulty);
+
+      CREATE TABLE IF NOT EXISTS user_translation_attempts (
+        id TEXT PRIMARY KEY,
+        user_id TEXT NOT NULL,
+        exercise_id TEXT NOT NULL,
+        user_input TEXT NOT NULL,
+        accuracy_score INTEGER NOT NULL DEFAULT 0,
+        matched_keywords JSONB NOT NULL DEFAULT '[]'::jsonb,
+        missed_keywords JSONB NOT NULL DEFAULT '[]'::jsonb,
+        created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+      );
+
+      CREATE INDEX IF NOT EXISTS idx_trans_att_user ON user_translation_attempts(user_id);
+      CREATE INDEX IF NOT EXISTS idx_trans_att_exercise ON user_translation_attempts(exercise_id);
     `);
 
   // Seed and sync curriculum grades and units to official 2026/2027 Egyptian syllabus
@@ -1370,6 +1405,7 @@ async function initializeSchema(): Promise<void> {
   await seedMinistryAssessmentsIfEmpty();
   await seedCoreUsersIfEmpty();
   await seedTranslationAcademyIfEmpty();
+  await seedInteractiveTranslationExercisesIfEmpty();
   await seedLiveSessionsIfEmpty();
   await seedTrainingCenterQuestionsIfEmpty();
   await seedDialogueCenterIfEmpty();
@@ -2470,6 +2506,45 @@ export async function seedMasterQuestionBank2027IfEmpty(): Promise<void> {
     console.error("Seed Master Question Bank 2027 Error:", error);
   }
 }
+
+export async function seedInteractiveTranslationExercisesIfEmpty(): Promise<void> {
+  try {
+    const existing = await db
+      .select({ id: translationExercises.id })
+      .from(translationExercises)
+      .limit(1);
+
+    if (existing.length > 0) {
+      return;
+    }
+
+    console.log("Seeding Interactive Translation Academy Thanaweya Amma exercises...");
+
+    for (const ex of INTERACTIVE_TRANSLATION_SEEDS) {
+      await db
+        .insert(translationExercises)
+        .values({
+          id: ex.id,
+          gradeLevel: ex.gradeLevel,
+          direction: ex.direction,
+          exerciseType: ex.exerciseType,
+          difficulty: ex.difficulty,
+          sourceText: ex.sourceText,
+          modelAnswer: ex.modelAnswer,
+          alternativeAnswers: ex.alternativeAnswers as any,
+          keyVocabulary: ex.keyVocabulary as any,
+          mcqOptions: ex.mcqOptions ? (ex.mcqOptions as any) : null,
+          grammarTip: ex.grammarTip || null,
+        })
+        .onConflictDoNothing();
+    }
+
+    console.log("Interactive Translation Academy exercises seeded successfully.");
+  } catch (error) {
+    console.error("Seed Interactive Translation Exercises Error:", error);
+  }
+}
+
 
 
 
