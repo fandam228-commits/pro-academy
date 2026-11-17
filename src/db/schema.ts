@@ -17,6 +17,7 @@ export const users = pgTable("users", {
   points: integer("points").default(150),
   level: text("level").default("Intermediate"), // Placement test outcome
   preferredLang: text("preferred_lang").default("ar"), // 'ar' or 'en'
+  studentCode: text("student_code").unique(), // e.g. 'STD-1042'
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at").defaultNow().notNull(),
 });
@@ -1640,6 +1641,196 @@ export const studentLiteratureProgress = pgTable(
     index("idx_slp_user").on(table.userId),
     index("idx_slp_chapter").on(table.chapterId),
     uniqueIndex("idx_slp_user_chapter").on(table.userId, table.chapterId),
+  ]
+);
+
+// ==============================================================================
+// PRO SUITE EXPANSION PACK TABLES (48 - 57)
+// ==============================================================================
+
+// 48. PREPAID ACCESS VOUCHERS
+export const accessVouchers = pgTable(
+  "access_vouchers",
+  {
+    id: text("id").primaryKey(),
+    code: text("code").notNull().unique(),
+    gradeLevel: text("grade_level").notNull().default("3rd_sec"),
+    accessScope: text("access_scope").notNull().default("full_month"), // 'full_month' | 'single_unit' | 'exam_pack'
+    targetUnitId: text("target_unit_id"),
+    durationDays: integer("duration_days").notNull().default(30),
+    isUsed: boolean("is_used").notNull().default(false),
+    usedBy: text("used_by"),
+    usedAt: timestamp("used_at"),
+    batchLabel: text("batch_label"),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+  },
+  (table) => [
+    index("idx_vouchers_code").on(table.code),
+    index("idx_vouchers_grade").on(table.gradeLevel),
+  ]
+);
+
+// 49. USER SUBSCRIPTIONS
+export const userSubscriptions = pgTable(
+  "user_subscriptions",
+  {
+    id: text("id").primaryKey(),
+    userId: text("user_id").notNull(),
+    voucherId: text("voucher_id"),
+    gradeLevel: text("grade_level").notNull(),
+    accessScope: text("access_scope").notNull(),
+    expiresAt: timestamp("expires_at").notNull(),
+    isActive: boolean("is_active").notNull().default(true),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+  },
+  (table) => [
+    index("idx_user_subs_user").on(table.userId),
+    index("idx_user_subs_active").on(table.isActive),
+  ]
+);
+
+// 50. ESSAY TOPICS (Interactive Essay & Paragraph Lab)
+export const essayTopics = pgTable(
+  "essay_topics",
+  {
+    id: text("id").primaryKey(),
+    gradeLevel: text("grade_level").notNull().default("3rd_sec"),
+    titleEn: text("title_en").notNull(),
+    titleAr: text("title_ar").notNull(),
+    minWords: integer("min_words").notNull().default(180),
+    ideaBankAr: jsonb("idea_bank_ar").notNull().default([]),
+    helperVocab: jsonb("helper_vocab").notNull().default([]),
+    modelEssay: text("model_essay").notNull(),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+  },
+  (table) => [
+    index("idx_essay_topics_grade").on(table.gradeLevel),
+  ]
+);
+
+// 51. USER ESSAYS
+export const userEssays = pgTable(
+  "user_essays",
+  {
+    id: text("id").primaryKey(),
+    userId: text("user_id").notNull(),
+    topicId: text("topic_id").notNull(),
+    content: text("content").notNull(),
+    wordCount: integer("word_count").notNull(),
+    qualityScore: integer("quality_score").notNull().default(0),
+    feedbackJson: jsonb("feedback_json").notNull().default({}),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+  },
+  (table) => [
+    index("idx_user_essays_user").on(table.userId),
+    index("idx_user_essays_topic").on(table.topicId),
+  ]
+);
+
+// 52. MOCK EXAMS (Full Real-Time Exam Simulator)
+export const mockExams = pgTable(
+  "mock_exams",
+  {
+    id: text("id").primaryKey(),
+    title: text("title").notNull(),
+    gradeLevel: text("grade_level").notNull().default("3rd_sec"),
+    durationMinutes: integer("duration_minutes").notNull().default(180),
+    sectionsJson: jsonb("sections_json").notNull().default({}),
+    isPublished: boolean("is_published").notNull().default(true),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+  },
+  (table) => [
+    index("idx_mock_exams_grade").on(table.gradeLevel),
+  ]
+);
+
+// 53. MOCK EXAM ATTEMPTS (Simulator)
+export const mockExamAttempts = pgTable(
+  "mock_exam_attempts",
+  {
+    id: text("id").primaryKey(),
+    userId: text("user_id").notNull(),
+    examId: text("exam_id").notNull(),
+    totalScore: integer("total_score").notNull(),
+    maxScore: integer("max_score").notNull(),
+    timeSpentSeconds: integer("time_spent_seconds").notNull(),
+    sectionBreakdown: jsonb("section_breakdown").notNull().default({}),
+    completedAt: timestamp("completed_at").defaultNow().notNull(),
+  },
+  (table) => [
+    index("idx_mock_exam_att_user").on(table.userId),
+    index("idx_mock_exam_att_exam").on(table.examId),
+  ]
+);
+
+// 54. VOCAB CARDS (Spaced Repetition)
+export const vocabCards = pgTable(
+  "vocab_cards",
+  {
+    id: text("id").primaryKey(),
+    gradeLevel: text("grade_level").notNull().default("3rd_sec"),
+    unitName: text("unit_name").notNull(),
+    word: text("word").notNull(),
+    partOfSpeech: text("part_of_speech").notNull(),
+    meaningAr: text("meaning_ar").notNull(),
+    exampleEn: text("example_en").notNull(),
+    synonyms: jsonb("synonyms").notNull().default([]),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+  },
+  (table) => [
+    index("idx_vocab_cards_grade_unit").on(table.gradeLevel, table.unitName),
+    index("idx_vocab_cards_word").on(table.word),
+  ]
+);
+
+// 55. USER VOCAB PROGRESS
+export const userVocabProgress = pgTable(
+  "user_vocab_progress",
+  {
+    id: text("id").primaryKey(),
+    userId: text("user_id").notNull(),
+    cardId: text("card_id").notNull(),
+    masteryLevel: integer("mastery_level").notNull().default(0), // 0=new, 1=learning, 2=familiar, 3=mastered
+    nextReviewAt: timestamp("next_review_at").defaultNow().notNull(),
+    updatedAt: timestamp("updated_at").defaultNow().notNull(),
+  },
+  (table) => [
+    index("idx_uvp_user_review").on(table.userId, table.nextReviewAt),
+    uniqueIndex("idx_uvp_user_card").on(table.userId, table.cardId),
+  ]
+);
+
+// 56. CENTER ATTENDANCE & HOMEWORK SYNC
+export const centerAttendance = pgTable(
+  "center_attendance",
+  {
+    id: text("id").primaryKey(),
+    userId: text("user_id").notNull(),
+    studentCode: text("student_code"),
+    sessionTitle: text("session_title").notNull(),
+    attendedAt: timestamp("attended_at").defaultNow().notNull(),
+    homeworkCompleted: boolean("homework_completed").notNull().default(false),
+    parentNotified: boolean("parent_notified").notNull().default(false),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+  },
+  (table) => [
+    index("idx_center_att_user").on(table.userId),
+    index("idx_center_att_code").on(table.studentCode),
+  ]
+);
+
+// 57. LESSON PREREQUISITES (Homework Gate)
+export const lessonPrerequisites = pgTable(
+  "lesson_prerequisites",
+  {
+    id: text("id").primaryKey(),
+    lessonId: text("lesson_id").notNull(),
+    requirePrevHomework: boolean("require_prev_homework").notNull().default(true),
+    prevHomeworkId: text("prev_homework_id"),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+  },
+  (table) => [
+    index("idx_lesson_prereq_lesson").on(table.lessonId),
   ]
 );
 

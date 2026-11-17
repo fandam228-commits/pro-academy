@@ -206,6 +206,31 @@ const InteractiveLiteratureWorkspace = dynamic(
   { loading: () => <TabLoadingSkeleton label="جاري تحميل عالم القصص والروايات الأدبية..." />, ssr: false }
 );
 
+const VoucherActivationWorkspace = dynamic(
+  () => import("@/components/pro-suite/VoucherActivationWorkspace").then((m) => m.VoucherActivationWorkspace),
+  { loading: () => <TabLoadingSkeleton label="جاري تحميل نافذة تفعيل الكروت..." />, ssr: false }
+);
+
+const EssayLabWorkspace = dynamic(
+  () => import("@/components/pro-suite/EssayLabWorkspace").then((m) => m.EssayLabWorkspace),
+  { loading: () => <TabLoadingSkeleton label="جاري تحميل مختبر المقال والفقرة..." />, ssr: false }
+);
+
+const ExamSimulatorWorkspace = dynamic(
+  () => import("@/components/pro-suite/ExamSimulatorWorkspace").then((m) => m.ExamSimulatorWorkspace),
+  { loading: () => <TabLoadingSkeleton label="جاري تحميل محاكي الامتحانات الشامل..." />, ssr: false }
+);
+
+const FlashcardsWorkspace = dynamic(
+  () => import("@/components/pro-suite/FlashcardsWorkspace").then((m) => m.FlashcardsWorkspace),
+  { loading: () => <TabLoadingSkeleton label="جاري تحميل فلاش كاردز المفردات..." />, ssr: false }
+);
+
+const StudentQrCardWorkspace = dynamic(
+  () => import("@/components/pro-suite/StudentQrCardWorkspace").then((m) => m.StudentQrCardWorkspace),
+  { loading: () => <TabLoadingSkeleton label="جاري تحميل بطاقة الطالب الذكية..." />, ssr: false }
+);
+
 const VocabularyMasterBankWorkspace = dynamic(
   () => import("@/components/vocabulary/VocabularyMasterBankWorkspace").then((m) => m.VocabularyMasterBankWorkspace),
   { loading: () => <TabLoadingSkeleton label="جاري تحميل بنك المفردات والتعبيرات الأكاديمي..." />, ssr: false }
@@ -669,6 +694,36 @@ function MainAppContent() {
 
           /* VIEW: INTERACTIVE LITERATURE & NOVEL WORLD — Mr. Habib El Rahman */
           <InteractiveLiteratureWorkspace
+            onNavigateHome={() => setActiveTab(user ? "dashboard" : "home")}
+          />
+        ) : activeTab === "activate" ? (
+
+          /* VIEW: VOUCHER ACTIVATION — Mr. Habib El Rahman */
+          <VoucherActivationWorkspace
+            onNavigateHome={() => setActiveTab(user ? "dashboard" : "home")}
+          />
+        ) : activeTab === "essay_lab" ? (
+
+          /* VIEW: ESSAY & PARAGRAPH LAB — Mr. Habib El Rahman */
+          <EssayLabWorkspace
+            onNavigateHome={() => setActiveTab(user ? "dashboard" : "home")}
+          />
+        ) : activeTab === "exam_simulator" ? (
+
+          /* VIEW: FULL EXAM SIMULATOR — Mr. Habib El Rahman */
+          <ExamSimulatorWorkspace
+            onNavigateHome={() => setActiveTab(user ? "dashboard" : "home")}
+          />
+        ) : activeTab === "flashcards" ? (
+
+          /* VIEW: VOCABULARY FLASHCARDS — Mr. Habib El Rahman */
+          <FlashcardsWorkspace
+            onNavigateHome={() => setActiveTab(user ? "dashboard" : "home")}
+          />
+        ) : activeTab === "my_qr" ? (
+
+          /* VIEW: STUDENT DIGITAL QR ID — Mr. Habib El Rahman */
+          <StudentQrCardWorkspace
             onNavigateHome={() => setActiveTab(user ? "dashboard" : "home")}
           />
         ) : activeTab === "vocabulary_bank" ? (

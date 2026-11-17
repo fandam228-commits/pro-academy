@@ -33,7 +33,23 @@ import {
   userTranslationAttempts,
   novelChapters,
   studentLiteratureProgress,
+  accessVouchers,
+  userSubscriptions,
+  essayTopics,
+  userEssays,
+  mockExams,
+  mockExamAttempts,
+  vocabCards,
+  userVocabProgress,
+  centerAttendance,
+  lessonPrerequisites,
 } from "./schema";
+import {
+  SEED_ACCESS_VOUCHERS,
+  SEED_ESSAY_TOPICS,
+  SEED_VOCAB_CARDS,
+  SEED_MOCK_EXAM,
+} from "@/data/pro-suite-seeds";
 import { ALL_DIALOGUES } from "@/data/dialogue-center";
 import { ALL_CURRICULUM_STORIES } from "@/data/story-world";
 import { SMART_CURRICULUM_SEEDS } from "@/data/smart-curriculum-seed";
@@ -1435,6 +1451,134 @@ async function initializeSchema(): Promise<void> {
 
       CREATE INDEX IF NOT EXISTS idx_slp_user ON student_literature_progress(user_id);
       CREATE INDEX IF NOT EXISTS idx_slp_chapter ON student_literature_progress(chapter_id);
+
+      DO $$
+      BEGIN
+        IF NOT EXISTS (
+          SELECT 1 FROM information_schema.columns 
+          WHERE table_name = 'users' AND column_name = 'student_code'
+        ) THEN
+          ALTER TABLE users ADD COLUMN student_code TEXT UNIQUE;
+        END IF;
+      END $$;
+
+      CREATE TABLE IF NOT EXISTS access_vouchers (
+        id TEXT PRIMARY KEY,
+        code TEXT NOT NULL UNIQUE,
+        grade_level TEXT NOT NULL DEFAULT '3rd_sec',
+        access_scope TEXT NOT NULL DEFAULT 'full_month',
+        target_unit_id TEXT,
+        duration_days INTEGER NOT NULL DEFAULT 30,
+        is_used BOOLEAN NOT NULL DEFAULT false,
+        used_by TEXT,
+        used_at TIMESTAMPTZ,
+        batch_label TEXT,
+        created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+      );
+      CREATE INDEX IF NOT EXISTS idx_vouchers_code ON access_vouchers(code);
+
+      CREATE TABLE IF NOT EXISTS user_subscriptions (
+        id TEXT PRIMARY KEY,
+        user_id TEXT NOT NULL,
+        voucher_id TEXT,
+        grade_level TEXT NOT NULL,
+        access_scope TEXT NOT NULL,
+        expires_at TIMESTAMPTZ NOT NULL,
+        is_active BOOLEAN NOT NULL DEFAULT true,
+        created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+      );
+      CREATE INDEX IF NOT EXISTS idx_user_subs_user ON user_subscriptions(user_id);
+
+      CREATE TABLE IF NOT EXISTS essay_topics (
+        id TEXT PRIMARY KEY,
+        grade_level TEXT NOT NULL DEFAULT '3rd_sec',
+        title_en TEXT NOT NULL,
+        title_ar TEXT NOT NULL,
+        min_words INTEGER NOT NULL DEFAULT 180,
+        idea_bank_ar JSONB NOT NULL DEFAULT '[]'::jsonb,
+        helper_vocab JSONB NOT NULL DEFAULT '[]'::jsonb,
+        model_essay TEXT NOT NULL,
+        created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+      );
+
+      CREATE TABLE IF NOT EXISTS user_essays (
+        id TEXT PRIMARY KEY,
+        user_id TEXT NOT NULL,
+        topic_id TEXT NOT NULL,
+        content TEXT NOT NULL,
+        word_count INTEGER NOT NULL,
+        quality_score INTEGER NOT NULL DEFAULT 0,
+        feedback_json JSONB NOT NULL DEFAULT '{}'::jsonb,
+        created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+      );
+      CREATE INDEX IF NOT EXISTS idx_user_essays_user ON user_essays(user_id);
+
+      CREATE TABLE IF NOT EXISTS mock_exams (
+        id TEXT PRIMARY KEY,
+        title TEXT NOT NULL,
+        grade_level TEXT NOT NULL DEFAULT '3rd_sec',
+        duration_minutes INTEGER NOT NULL DEFAULT 180,
+        sections_json JSONB NOT NULL DEFAULT '{}'::jsonb,
+        is_published BOOLEAN NOT NULL DEFAULT true,
+        created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+      );
+
+      CREATE TABLE IF NOT EXISTS mock_exam_attempts (
+        id TEXT PRIMARY KEY,
+        user_id TEXT NOT NULL,
+        exam_id TEXT NOT NULL,
+        total_score INTEGER NOT NULL,
+        max_score INTEGER NOT NULL,
+        time_spent_seconds INTEGER NOT NULL,
+        section_breakdown JSONB NOT NULL DEFAULT '{}'::jsonb,
+        completed_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+      );
+      CREATE INDEX IF NOT EXISTS idx_mock_exam_att_user ON mock_exam_attempts(user_id);
+
+      CREATE TABLE IF NOT EXISTS vocab_cards (
+        id TEXT PRIMARY KEY,
+        grade_level TEXT NOT NULL DEFAULT '3rd_sec',
+        unit_name TEXT NOT NULL,
+        word TEXT NOT NULL,
+        part_of_speech TEXT NOT NULL,
+        meaning_ar TEXT NOT NULL,
+        example_en TEXT NOT NULL,
+        synonyms JSONB NOT NULL DEFAULT '[]'::jsonb,
+        created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+      );
+      CREATE INDEX IF NOT EXISTS idx_vocab_cards_grade ON vocab_cards(grade_level, unit_name);
+
+      CREATE TABLE IF NOT EXISTS user_vocab_progress (
+        id TEXT PRIMARY KEY,
+        user_id TEXT NOT NULL,
+        card_id TEXT NOT NULL,
+        mastery_level INTEGER NOT NULL DEFAULT 0,
+        next_review_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+        updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+        CONSTRAINT uvp_user_card_unique UNIQUE (user_id, card_id)
+      );
+      CREATE INDEX IF NOT EXISTS idx_uvp_user_review ON user_vocab_progress(user_id, next_review_at);
+
+      CREATE TABLE IF NOT EXISTS center_attendance (
+        id TEXT PRIMARY KEY,
+        user_id TEXT NOT NULL,
+        student_code TEXT,
+        session_title TEXT NOT NULL,
+        attended_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+        homework_completed BOOLEAN NOT NULL DEFAULT false,
+        parent_notified BOOLEAN NOT NULL DEFAULT false,
+        created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+      );
+      CREATE INDEX IF NOT EXISTS idx_center_att_user ON center_attendance(user_id);
+      CREATE INDEX IF NOT EXISTS idx_center_att_code ON center_attendance(student_code);
+
+      CREATE TABLE IF NOT EXISTS lesson_prerequisites (
+        id TEXT PRIMARY KEY,
+        lesson_id TEXT NOT NULL,
+        require_prev_homework BOOLEAN NOT NULL DEFAULT true,
+        prev_homework_id TEXT,
+        created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+      );
     `);
 
   // Seed and sync curriculum grades and units to official 2026/2027 Egyptian syllabus
@@ -1444,6 +1588,7 @@ async function initializeSchema(): Promise<void> {
   await seedTranslationAcademyIfEmpty();
   await seedInteractiveTranslationExercisesIfEmpty();
   await seedNovelChaptersIfEmpty();
+  await seedProSuiteIfEmpty();
   await seedLiveSessionsIfEmpty();
   await seedTrainingCenterQuestionsIfEmpty();
   await seedDialogueCenterIfEmpty();
@@ -2619,6 +2764,108 @@ export async function seedNovelChaptersIfEmpty(): Promise<void> {
     console.log("Literature & Novel World chapters seeded successfully.");
   } catch (error) {
     console.error("Seed Novel Chapters Error:", error);
+  }
+}
+
+export async function seedProSuiteIfEmpty(): Promise<void> {
+  try {
+    // 1. Seed Access Vouchers
+    const existingVouchers = await db
+      .select({ id: accessVouchers.id })
+      .from(accessVouchers)
+      .limit(1);
+
+    if (existingVouchers.length === 0) {
+      console.log("Seeding Pro Suite access vouchers...");
+      for (const v of SEED_ACCESS_VOUCHERS) {
+        await db
+          .insert(accessVouchers)
+          .values({
+            id: v.id,
+            code: v.code,
+            gradeLevel: v.gradeLevel,
+            accessScope: v.accessScope,
+            targetUnitId: v.targetUnitId || null,
+            durationDays: v.durationDays,
+            isUsed: v.isUsed,
+            batchLabel: v.batchLabel,
+          })
+          .onConflictDoNothing();
+      }
+    }
+
+    // 2. Seed Essay Topics
+    const existingEssays = await db
+      .select({ id: essayTopics.id })
+      .from(essayTopics)
+      .limit(1);
+
+    if (existingEssays.length === 0) {
+      console.log("Seeding Pro Suite essay topics...");
+      for (const e of SEED_ESSAY_TOPICS) {
+        await db
+          .insert(essayTopics)
+          .values({
+            id: e.id,
+            gradeLevel: e.gradeLevel,
+            titleEn: e.titleEn,
+            titleAr: e.titleAr,
+            minWords: e.minWords,
+            ideaBankAr: e.ideaBankAr as any,
+            helperVocab: e.helperVocab as any,
+            modelEssay: e.modelEssay,
+          })
+          .onConflictDoNothing();
+      }
+    }
+
+    // 3. Seed Vocab Cards
+    const existingVocab = await db
+      .select({ id: vocabCards.id })
+      .from(vocabCards)
+      .limit(1);
+
+    if (existingVocab.length === 0) {
+      console.log("Seeding Pro Suite vocab flashcards...");
+      for (const card of SEED_VOCAB_CARDS) {
+        await db
+          .insert(vocabCards)
+          .values({
+            id: card.id,
+            gradeLevel: card.gradeLevel,
+            unitName: card.unitName,
+            word: card.word,
+            partOfSpeech: card.partOfSpeech,
+            meaningAr: card.meaningAr,
+            exampleEn: card.exampleEn,
+            synonyms: card.synonyms as any,
+          })
+          .onConflictDoNothing();
+      }
+    }
+
+    // 4. Seed Full Mock Exam
+    const existingExams = await db
+      .select({ id: mockExams.id })
+      .from(mockExams)
+      .limit(1);
+
+    if (existingExams.length === 0) {
+      console.log("Seeding Pro Suite full mock exam...");
+      await db
+        .insert(mockExams)
+        .values({
+          id: SEED_MOCK_EXAM.id,
+          title: SEED_MOCK_EXAM.title,
+          gradeLevel: SEED_MOCK_EXAM.gradeLevel,
+          durationMinutes: SEED_MOCK_EXAM.durationMinutes,
+          sectionsJson: SEED_MOCK_EXAM.sections as any,
+          isPublished: SEED_MOCK_EXAM.isPublished,
+        })
+        .onConflictDoNothing();
+    }
+  } catch (error) {
+    console.error("Seed Pro Suite Error:", error);
   }
 }
 

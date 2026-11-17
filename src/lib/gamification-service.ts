@@ -70,7 +70,15 @@ export function triggerGamificationToast(event: GamificationToastEvent) {
  * Award XP to student based on standardized academic rules.
  */
 export async function awardXP(params: {
-  actionType: "quiz_correct" | "quiz_bonus_90" | "mistake_resolved" | "translation_exercise" | "story_lesson";
+  actionType:
+    | "quiz_correct"
+    | "quiz_bonus_90"
+    | "mistake_resolved"
+    | "translation_exercise"
+    | "story_lesson"
+    | "essay_submitted"
+    | "exam_completed"
+    | "flashcard_mastered";
   referenceId?: string;
   customXp?: number;
   bonusXp?: number;
@@ -94,6 +102,15 @@ export async function awardXP(params: {
           break;
         case "story_lesson":
           baseAmount = 20;
+          break;
+        case "essay_submitted":
+          baseAmount = 30;
+          break;
+        case "exam_completed":
+          baseAmount = 60;
+          break;
+        case "flashcard_mastered":
+          baseAmount = 5;
           break;
         default:
           baseAmount = 10;
