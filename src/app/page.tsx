@@ -41,6 +41,11 @@ const SuperAdminDashboard = dynamic(
   { loading: () => <TabLoadingSkeleton label="جاري تجهيز لوحة الإدارة العامة..." />, ssr: false }
 );
 
+const HabibAdminControlPanel = dynamic(
+  () => import("@/components/admin/HabibAdminControlPanel").then((m) => m.HabibAdminControlPanel),
+  { loading: () => <TabLoadingSkeleton label="جاري تحميل لوحة تحكم مستر حبيب الرحمن..." />, ssr: false }
+);
+
 const TeacherDashboard = dynamic(
   () => import("@/components/TeacherDashboard").then((m) => m.TeacherDashboard),
   { loading: () => <TabLoadingSkeleton label="جاري تجهيز لوحة المعلم..." />, ssr: false }
@@ -94,6 +99,11 @@ const PdfLibraryWorkspace = dynamic(
 const AuthScreen = dynamic(
   () => import("@/components/AuthScreen").then((m) => m.AuthScreen),
   { loading: () => <TabLoadingSkeleton label="جاري تجهيز بوابة الدخول الآمن..." />, ssr: false }
+);
+
+const LandingPage = dynamic(
+  () => import("@/components/landing/LandingPage").then((m) => m.LandingPage),
+  { loading: () => <TabLoadingSkeleton label="جاري تجهيز بوابة الأكاديمية..." />, ssr: false }
 );
 
 const GamificationCenter = dynamic(
@@ -171,6 +181,16 @@ const MinistryAssessmentsHub = dynamic(
   { loading: () => <TabLoadingSkeleton label="جاري تحميل تقييمات الوزارة الرسمية 2026/2027..." />, ssr: false }
 );
 
+const MistakesBankWorkspace = dynamic(
+  () => import("@/components/mistakes/MistakesBankWorkspace").then((m) => m.MistakesBankWorkspace),
+  { loading: () => <TabLoadingSkeleton label="جاري تجهيز بنك أخطائي الذكي..." />, ssr: false }
+);
+
+const WeeklyLeaderboardView = dynamic(
+  () => import("@/components/gamification/WeeklyLeaderboardView").then((m) => m.WeeklyLeaderboardView),
+  { loading: () => <TabLoadingSkeleton label="جاري تجهيز لوحة شرف أوائل الأسبوع..." />, ssr: false }
+);
+
 const TranslationAcademyWorkspace = dynamic(
   () => import("@/components/translation/TranslationAcademyWorkspace").then((m) => m.TranslationAcademyWorkspace),
   { loading: () => <TabLoadingSkeleton label="جاري تحميل أكاديمية الترجمة الاحترافية..." />, ssr: false }
@@ -179,6 +199,11 @@ const TranslationAcademyWorkspace = dynamic(
 const StoryWorldWorkspace = dynamic(
   () => import("@/components/story/StoryWorldWorkspace").then((m) => m.StoryWorldWorkspace),
   { loading: () => <TabLoadingSkeleton label="جاري تحميل عالم القصص الاحترافي..." />, ssr: false }
+);
+
+const InteractiveLiteratureWorkspace = dynamic(
+  () => import("@/components/literature/InteractiveLiteratureWorkspace").then((m) => m.InteractiveLiteratureWorkspace),
+  { loading: () => <TabLoadingSkeleton label="جاري تحميل عالم القصص والروايات الأدبية..." />, ssr: false }
 );
 
 const VocabularyMasterBankWorkspace = dynamic(
@@ -378,14 +403,11 @@ function MainAppContent() {
 
   if (!user) {
     return (
-      <div className="min-h-screen bg-[#F7F9FC] dark:bg-[#0c071a]">
-        <AuthScreen
-          returnUrl={typeof window !== "undefined" ? window.location.pathname + window.location.search : "/"}
-          onLoginSuccess={() => {
-            setActiveTab("home");
-          }}
-        />
-      </div>
+      <LandingPage
+        onLoginSuccess={() => {
+          setActiveTab("home");
+        }}
+      />
     );
   }
 
@@ -443,6 +465,10 @@ function MainAppContent() {
           
           /* VIEW: PROFESSIONAL TRAINING CENTER */
           <TrainingCenterWorkspace />
+        ) : activeTab === "mistakes_bank" ? (
+          
+          /* VIEW: SMART MISTAKES BANK WORKSPACE */
+          <MistakesBankWorkspace />
         ) : activeTab === "question_bank" ? (
           
           /* VIEW: QUESTION BANK WORKSPACE */
@@ -521,7 +547,9 @@ function MainAppContent() {
             <AuthScreen onBack={() => setActiveTab("home")} />
           ) : (
             <div>
-              {user.role === "admin" && <SuperAdminDashboard />}
+              {user.role === "admin" && (
+                <HabibAdminControlPanel onExitAdmin={() => setActiveTab("home")} />
+              )}
               {user.role === "teacher" && (
                 <TeacherDashboard
                   onOpenLibrary={() => setActiveTab("pdfs")}
@@ -539,6 +567,8 @@ function MainAppContent() {
                   }}
                   onOpenMinistryAssessments={() => setActiveTab("ministry_assessments")}
                   onOpenTranslation={() => setActiveTab("translation")}
+                  onOpenMistakesBank={() => setActiveTab("mistakes_bank")}
+                  onOpenLeaderboard={() => setActiveTab("leaderboard")}
                 />
               )}
               {user.role === "parent" && <ParentDashboard onOpenReport={() => setActiveTab("report")} />}
@@ -556,6 +586,13 @@ function MainAppContent() {
 
           /* VIEW: NOTIFICATION CENTER (real + push) */
           <NotificationCenter />
+        ) : activeTab === "leaderboard" ? (
+
+          /* VIEW: WEEKLY LEADERBOARD & XP */
+          <WeeklyLeaderboardView
+            onStartQuiz={() => setActiveTab("question_bank")}
+            onOpenMistakesBank={() => setActiveTab("mistakes_bank")}
+          />
         ) : activeTab === "gamification" ? (
 
           /* VIEW: GAMIFICATION CENTER */
@@ -626,6 +663,12 @@ function MainAppContent() {
           /* VIEW: PROFESSIONAL STORY WORLD — Mr. Habib El Rahman */
           <StoryWorldWorkspace
             user={user}
+            onNavigateHome={() => setActiveTab(user ? "dashboard" : "home")}
+          />
+        ) : activeTab === "literature" ? (
+
+          /* VIEW: INTERACTIVE LITERATURE & NOVEL WORLD — Mr. Habib El Rahman */
+          <InteractiveLiteratureWorkspace
             onNavigateHome={() => setActiveTab(user ? "dashboard" : "home")}
           />
         ) : activeTab === "vocabulary_bank" ? (

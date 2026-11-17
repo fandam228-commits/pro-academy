@@ -1,4 +1,4 @@
-import { pgTable, text, timestamp, integer, boolean, decimal, jsonb, index } from "drizzle-orm/pg-core";
+import { pgTable, text, timestamp, integer, boolean, decimal, jsonb, index, uniqueIndex } from "drizzle-orm/pg-core";
 
 // USERS TABLE
 export const users = pgTable("users", {
@@ -1493,6 +1493,159 @@ export const dialogueStudentProgress = pgTable(
     index("idx_dsp_grade").on(table.grade),
   ]
 );
+
+// 41. USER MISTAKES TABLE (Smart Mistakes Bank - بنك أخطائي الذكي)
+export const userMistakes = pgTable(
+  "user_mistakes",
+  {
+    id: text("id").primaryKey(),
+    userId: text("user_id").notNull(),
+    questionId: text("question_id").notNull(),
+    questionSnapshot: jsonb("question_snapshot").notNull(),
+    wrongAnswer: text("wrong_answer"),
+    mistakeCount: integer("mistake_count").notNull().default(1),
+    status: text("status").notNull().default("unresolved"), // 'unresolved' | 'mastered'
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+    updatedAt: timestamp("updated_at").defaultNow().notNull(),
+  },
+  (table) => [
+    uniqueIndex("idx_um_user_question").on(table.userId, table.questionId),
+    index("idx_um_user_id").on(table.userId),
+    index("idx_um_question_id").on(table.questionId),
+    index("idx_um_status").on(table.status),
+    index("idx_um_user_status").on(table.userId, table.status),
+  ]
+);
+
+// 42. STUDENT GAMIFICATION TABLE (XP, Streaks & Weekly Ranks)
+export const studentGamification = pgTable(
+  "student_gamification",
+  {
+    id: text("id").primaryKey(),
+    userId: text("user_id").notNull().unique(),
+    totalXp: integer("total_xp").notNull().default(0),
+    weeklyXp: integer("weekly_xp").notNull().default(0),
+    currentStreak: integer("current_streak").notNull().default(0),
+    longestStreak: integer("longest_streak").notNull().default(0),
+    lastActivityDate: text("last_activity_date"), // YYYY-MM-DD
+    gradeLevel: text("grade_level").notNull().default("Third Secondary (Baccalaureate)"),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+    updatedAt: timestamp("updated_at").defaultNow().notNull(),
+  },
+  (table) => [
+    index("idx_sg_user_id").on(table.userId),
+    index("idx_sg_grade_weekly").on(table.gradeLevel, table.weeklyXp),
+    index("idx_sg_weekly_xp").on(table.weeklyXp),
+    index("idx_sg_total_xp").on(table.totalXp),
+  ]
+);
+
+// 43. XP TRANSACTIONS TABLE (Audit Log & Anti-Farming)
+export const xpTransactions = pgTable(
+  "xp_transactions",
+  {
+    id: text("id").primaryKey(),
+    userId: text("user_id").notNull(),
+    actionType: text("action_type").notNull(),
+    xpEarned: integer("xp_earned").notNull().default(0),
+    referenceId: text("reference_id"),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+  },
+  (table) => [
+    index("idx_xpt_user_id").on(table.userId),
+    index("idx_xpt_action_ref").on(table.userId, table.actionType, table.referenceId),
+  ]
+);
+
+// 44. TRANSLATION EXERCISES TABLE (Interactive Translation Academy)
+export const translationExercises = pgTable(
+  "translation_exercises",
+  {
+    id: text("id").primaryKey(),
+    gradeLevel: text("grade_level").notNull().default("3rd_sec"),
+    direction: text("direction").notNull().default("en_to_ar"), // 'en_to_ar' | 'ar_to_en'
+    exerciseType: text("exercise_type").notNull().default("written"), // 'written' | 'mcq'
+    difficulty: text("difficulty").notNull().default("standard"), // 'standard' | 'advanced' | 'exam_past'
+    sourceText: text("source_text").notNull(),
+    modelAnswer: text("model_answer").notNull(),
+    alternativeAnswers: jsonb("alternative_answers").default([]).notNull(),
+    keyVocabulary: jsonb("key_vocabulary").default([]).notNull(),
+    mcqOptions: jsonb("mcq_options"),
+    grammarTip: text("grammar_tip"),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+  },
+  (table) => [
+    index("idx_tex_lookup").on(table.gradeLevel, table.direction, table.exerciseType),
+    index("idx_tex_diff").on(table.difficulty),
+  ]
+);
+
+// 45. USER TRANSLATION ATTEMPTS TABLE (History & Keyword Tracking)
+export const userTranslationAttempts = pgTable(
+  "user_translation_attempts",
+  {
+    id: text("id").primaryKey(),
+    userId: text("user_id").notNull(),
+    exerciseId: text("exercise_id").notNull(),
+    userInput: text("user_input").notNull(),
+    accuracyScore: integer("accuracy_score").notNull().default(0),
+    matchedKeywords: jsonb("matched_keywords").default([]).notNull(),
+    missedKeywords: jsonb("missed_keywords").default([]).notNull(),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+  },
+  (table) => [
+    index("idx_uta_user").on(table.userId),
+    index("idx_uta_exercise").on(table.exerciseId),
+  ]
+);
+
+// 46. NOVEL CHAPTERS TABLE (Literature & Novel World)
+export const novelChapters = pgTable(
+  "novel_chapters",
+  {
+    id: text("id").primaryKey(),
+    gradeLevel: text("grade_level").notNull().default("3rd_sec"),
+    novelTitle: text("novel_title").notNull(),
+    chapterNumber: integer("chapter_number").notNull(),
+    chapterTitle: text("chapter_title").notNull(),
+    summaryEn: text("summary_en").notNull(),
+    summaryAr: text("summary_ar").notNull(),
+    audioUrl: text("audio_url"),
+    keyVocabulary: jsonb("key_vocabulary").default([]).notNull(),
+    characters: jsonb("characters").default([]).notNull(),
+    keyQuotations: jsonb("key_quotations").default([]).notNull(),
+    criticalThinkingQs: jsonb("critical_thinking_qs").default([]).notNull(),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+  },
+  (table) => [
+    index("idx_nc_grade_novel").on(table.gradeLevel, table.novelTitle, table.chapterNumber),
+  ]
+);
+
+// 47. STUDENT LITERATURE PROGRESS TABLE (Progress, Audio & Critical Thinking)
+export const studentLiteratureProgress = pgTable(
+  "student_literature_progress",
+  {
+    id: text("id").primaryKey(),
+    userId: text("user_id").notNull(),
+    chapterId: text("chapter_id").notNull(),
+    isRead: boolean("is_read").default(false).notNull(),
+    audioCompleted: boolean("audio_completed").default(false).notNull(),
+    criticalThinkingAnswers: jsonb("critical_thinking_answers").default({}).notNull(),
+    xpAwarded: integer("xp_awarded").default(0).notNull(),
+    updatedAt: timestamp("updated_at").defaultNow().notNull(),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+  },
+  (table) => [
+    index("idx_slp_user").on(table.userId),
+    index("idx_slp_chapter").on(table.chapterId),
+    uniqueIndex("idx_slp_user_chapter").on(table.userId, table.chapterId),
+  ]
+);
+
+
+
+
 
 
 

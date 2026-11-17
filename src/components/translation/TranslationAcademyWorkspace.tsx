@@ -5,6 +5,7 @@ import { useApp } from "@/context/AppContext";
 import { TranslationLessonView } from "./TranslationLessonView";
 import { TranslationQuestionPlayer } from "./TranslationQuestionPlayer";
 import { SpeakingDictionaryView } from "./SpeakingDictionaryView";
+import { InteractiveTranslationWorkspace } from "./InteractiveTranslationWorkspace";
 import {
   Languages,
   BookOpen,
@@ -38,7 +39,7 @@ export const TranslationAcademyWorkspace: React.FC = () => {
   const { lang, user } = useApp();
 
   // Navigation states
-  const [activeMainTab, setActiveMainTab] = useState<"modules" | "dictionary" | "practice" | "exam" | "analytics" | "admin">("modules");
+  const [activeMainTab, setActiveMainTab] = useState<"interactive" | "modules" | "dictionary" | "practice" | "exam" | "analytics" | "admin">("interactive");
   const [selectedModule, setSelectedModule] = useState<any | null>(null);
   const [selectedLesson, setSelectedLesson] = useState<any | null>(null);
 
@@ -311,6 +312,24 @@ export const TranslationAcademyWorkspace: React.FC = () => {
       <div className="flex flex-wrap items-center gap-2 p-1.5 bg-slate-100 dark:bg-slate-800/60 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm">
         <button
           onClick={() => {
+            setActiveMainTab("interactive");
+            setSelectedLesson(null);
+          }}
+          className={`px-4 py-2.5 rounded-xl text-xs font-black transition-all flex items-center gap-2 cursor-pointer ${
+            activeMainTab === "interactive"
+              ? "bg-gradient-to-r from-amber-500 to-amber-600 text-slate-950 shadow-md shadow-amber-500/30 font-black"
+              : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+          }`}
+        >
+          <Sparkles className="w-4 h-4 text-amber-950 dark:text-amber-300" />
+          <span>المختبر التفاعلي الذكي (تحريري + MCQ)</span>
+          <span className="px-1.5 py-0.5 rounded text-[10px] font-black bg-amber-400 text-slate-950 border border-amber-300">
+            PRO
+          </span>
+        </button>
+
+        <button
+          onClick={() => {
             setActiveMainTab("modules");
             setSelectedLesson(null);
           }}
@@ -410,6 +429,11 @@ export const TranslationAcademyWorkspace: React.FC = () => {
           </button>
         )}
       </div>
+
+      {/* ============================================================== */}
+      {/* VIEW 0: INTERACTIVE DUAL-MODE TRANSLATION ACADEMY WORKSPACE */}
+      {/* ============================================================== */}
+      {activeMainTab === "interactive" && <InteractiveTranslationWorkspace />}
 
       {/* ============================================================== */}
       {/* VIEW 1: MODULES & LESSONS BROWSER */}

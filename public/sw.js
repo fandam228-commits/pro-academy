@@ -1,109 +1,169 @@
-/* Professional Academy PWA Service Worker */
+/* Professional Academy PWA Service Worker (2026/2027) */
+const CACHE_VERSION = "pro-academy-pwa-v3";
+const STATIC_CACHE = `${CACHE_VERSION}-static`;
+const RUNTIME_CACHE = `${CACHE_VERSION}-runtime`;
+
+// Pre-cache critical offline and branding assets
+const PRECACHE_URLS = [
+  "/offline.html",
+  "/manifest.webmanifest",
+  "/manifest.json",
+  "/icons/icon-192.png",
+  "/icons/icon-192x192.png",
+  "/icons/icon-512.png",
+  "/icons/icon-512x512.png",
+  "/icons/maskable-512.png",
+  "/icons/apple-touch-icon.png",
+  "/icon.svg",
+];
+
+// Self-destruct in local development if needed, otherwise run full PWA
 const isLocalEnv =
   typeof self !== "undefined" &&
   (self.location.hostname === "localhost" || self.location.hostname === "127.0.0.1");
 
-if (isLocalEnv) {
-  // In development / localhost, self-destruct and purge caches to avoid any stale bundle freezes
-  self.addEventListener("install", () => {
-    self.skipWaiting();
-  });
-  self.addEventListener("activate", (event) => {
-    event.waitUntil(
-      caches
-        .keys()
-        .then((keys) => Promise.all(keys.map((k) => caches.delete(k))))
-        .then(() => self.registration.unregister())
-        .then(() => self.clients.claim())
-        .then(() => self.clients.matchAll({ type: "window" }))
-        .then((clients) => {
-          clients.forEach((c) => c.navigate(c.url));
+self.addEventListener("install", (event) => {
+  event.waitUntil(
+    caches
+      .open(STATIC_CACHE)
+      .then((cache) => cache.addAll(PRECACHE_URLS))
+      .catch((err) => console.warn("[SW] Pre-caching partial error:", err))
+  );
+  self.skipWaiting();
+});
+
+self.addEventListener("activate", (event) => {
+  event.waitUntil(
+    caches
+      .keys()
+      .then((keys) =>
+        Promise.all(
+          keys
+            .filter((key) => !key.startsWith(CACHE_VERSION))
+            .map((key) => caches.delete(key))
+        )
+      )
+      .then(() => self.clients.claim())
+  );
+});
+
+self.addEventListener("fetch", (event) => {
+  const { request } = event;
+  
+  // Non-GET requests (mutations, authentication, POSTs) must bypass Service Worker caching completely
+  if (request.method !== "GET") return;
+
+  const url = new URL(request.url);
+
+  // 1. Navigation requests (HTML Pages): Network-First with Offline Fallback
+  if (request.mode === "navigate") {
+    event.respondWith(
+      fetch(request)
+        .then((response) => {
+          if (response.ok) {
+            const clone = response.clone();
+            caches.open(STATIC_CACHE).then((cache) => cache.put(request, clone));
+          }
+          return response;
+        })
+        .catch(async () => {
+          const cachedPage = await caches.match(request);
+          if (cachedPage) return cachedPage;
+          
+          const offlineFallback = await caches.match("/offline.html");
+          if (offlineFallback) return offlineFallback;
+
+          const rootFallback = await caches.match("/");
+          if (rootFallback) return rootFallback;
+
+          return new Response("You are offline", {
+            status: 503,
+            headers: { "Content-Type": "text/plain; charset=utf-8" },
+          });
         })
     );
-  });
-} else {
-  // Production PWA Service Worker
-  const CACHE_VERSION = "pro-academy-v2";
-  const STATIC_CACHE = `${CACHE_VERSION}-static`;
-  const RUNTIME_CACHE = `${CACHE_VERSION}-runtime`;
+    return;
+  }
 
-  const PRECACHE_URLS = ["/manifest.webmanifest"];
-
-  self.addEventListener("install", (event) => {
-    event.waitUntil(
-      caches.open(STATIC_CACHE).then((cache) => cache.addAll(PRECACHE_URLS)).catch(() => null)
+  // 2. Dynamic API endpoints: Network-First (never serve stale exams or progress)
+  if (url.pathname.startsWith("/api/")) {
+    event.respondWith(
+      fetch(request)
+        .then((response) => {
+          if (response.ok) {
+            const clone = response.clone();
+            caches.open(RUNTIME_CACHE).then((cache) => cache.put(request, clone));
+          }
+          return response;
+        })
+        .catch(async () => {
+          const cached = await caches.match(request);
+          if (cached) return cached;
+          return new Response(JSON.stringify({ error: "Offline — No cached data available", offline: true }), {
+            status: 503,
+            headers: { "Content-Type": "application/json" },
+          });
+        })
     );
-    self.skipWaiting();
-  });
+    return;
+  }
 
-  self.addEventListener("activate", (event) => {
-    event.waitUntil(
-      caches.keys().then((keys) =>
-        Promise.all(keys.filter((k) => !k.startsWith(CACHE_VERSION)).map((k) => caches.delete(k)))
-      ).then(() => self.clients.claim())
-    );
-  });
+  // 3. Static Assets (_next/static, fonts, icons, images, styles): Stale-While-Revalidate
+  const isStaticAsset =
+    url.pathname.startsWith("/_next/static/") ||
+    url.pathname.startsWith("/icons/") ||
+    url.pathname.startsWith("/images/") ||
+    url.hostname.includes("fonts.googleapis.com") ||
+    url.hostname.includes("fonts.gstatic.com") ||
+    url.pathname.endsWith(".png") ||
+    url.pathname.endsWith(".jpg") ||
+    url.pathname.endsWith(".svg") ||
+    url.pathname.endsWith(".css") ||
+    url.pathname.endsWith(".js") ||
+    url.pathname.endsWith(".woff2");
 
-  self.addEventListener("fetch", (event) => {
-    const { request } = event;
-    if (request.method !== "GET") return;
-
-    const url = new URL(request.url);
-
-    // HTML page navigations: Network-first with cache fallback (never serve stale shell on nav)
-    if (request.mode === "navigate") {
-      event.respondWith(
-        fetch(request)
-          .then((response) => {
-            if (response.ok) {
-              const clone = response.clone();
+  if (isStaticAsset) {
+    event.respondWith(
+      caches.match(request).then((cachedResponse) => {
+        const fetchPromise = fetch(request)
+          .then((networkResponse) => {
+            if (networkResponse.ok && (url.origin === self.location.origin || url.hostname.includes("fonts."))) {
+              const clone = networkResponse.clone();
               caches.open(STATIC_CACHE).then((cache) => cache.put(request, clone));
             }
-            return response;
+            return networkResponse;
           })
-          .catch(() => caches.match(request).then((cached) => cached || caches.match("/")))
-      );
-      return;
-    }
+          .catch(() => cachedResponse);
 
-    if (url.pathname.startsWith("/api/")) {
-      event.respondWith(
-        fetch(request)
-          .then((response) => {
-            if (response.ok) {
-              const clone = response.clone();
-              caches.open(RUNTIME_CACHE).then((cache) => cache.put(request, clone));
-            }
-            return response;
-          })
-          .catch(() => caches.match(request).then((cached) => cached || Response.error()))
-      );
-      return;
-    }
-
-    // Static assets (images, fonts, CSS, chunks): cache with network revalidate
-    event.respondWith(
-      caches.match(request).then((cached) => {
-        const networkFetch = fetch(request)
-          .then((response) => {
-            if (response.ok && url.origin === self.location.origin) {
-              const clone = response.clone();
-              caches.open(RUNTIME_CACHE).then((cache) => cache.put(request, clone));
-            }
-            return response;
-          })
-          .catch(() => cached);
-        return cached || networkFetch;
+        return cachedResponse || fetchPromise;
       })
     );
-  });
-}
+    return;
+  }
 
-// Push notifications always active
+  // Default fallback for any other GET requests: Stale-While-Revalidate
+  event.respondWith(
+    caches.match(request).then((cached) => {
+      const networkFetch = fetch(request)
+        .then((response) => {
+          if (response.ok && url.origin === self.location.origin) {
+            const clone = response.clone();
+            caches.open(RUNTIME_CACHE).then((cache) => cache.put(request, clone));
+          }
+          return response;
+        })
+        .catch(() => cached);
+
+      return cached || networkFetch;
+    })
+  );
+});
+
+// Push notifications support
 self.addEventListener("push", (event) => {
   let data = {
-    title: "Professional Academy",
-    body: "لديك إشعار جديد من منصة مستر حبيب الرحمن!",
+    title: "Professional Academy — مستر حبيب الرحمن",
+    body: "لديك إشعار جديد من المنصة!",
     url: "/",
   };
   try {
@@ -113,8 +173,8 @@ self.addEventListener("push", (event) => {
   event.waitUntil(
     self.registration.showNotification(data.title, {
       body: data.body,
-      icon: "/icon.svg",
-      badge: "/icon.svg",
+      icon: "/icons/icon-192.png",
+      badge: "/icons/icon-192.png",
       dir: "rtl",
       lang: "ar",
       vibrate: [120, 60, 120],

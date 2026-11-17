@@ -2,6 +2,7 @@
 
 import React, { useState, useRef, useEffect } from "react";
 import { useApp } from "@/context/AppContext";
+import { HeaderGamificationPill } from "@/components/gamification/HeaderGamificationPill";
 import {
   GraduationCap,
   Sparkles,
@@ -35,6 +36,7 @@ import {
   Home,
   User,
   MessageSquare,
+  AlertTriangle,
 } from "lucide-react";
 
 export const Navbar: React.FC<{ activeTab?: string; setActiveTab?: (tab: string) => void }> = ({
@@ -64,6 +66,7 @@ export const Navbar: React.FC<{ activeTab?: string; setActiveTab?: (tab: string)
   };
 
   const moreItems = [
+    { id: "mistakes_bank", labelAr: "بنك أخطائي الذكي", labelEn: "Smart Mistakes Bank", icon: AlertTriangle, badge: "ذكي" },
     { id: "dialogues", labelAr: "مركز المحادثة الإنجليزية (94 محادثة)", labelEn: "Dialogue Center", icon: MessageSquare, badge: "جديد" },
     { id: "ministry_assessments", labelAr: "تقييمات الوزارة الرسمية", labelEn: "Ministry Assessments", icon: FileCheck, badge: "2027" },
     { id: "homework", labelAr: "الواجبات والتسليم", labelEn: "Homework & Tasks", icon: NotebookPen },
@@ -73,7 +76,7 @@ export const Navbar: React.FC<{ activeTab?: string; setActiveTab?: (tab: string)
     { id: "grammar", labelAr: "شرح القواعد التفاعلي", labelEn: "Grammar Master", icon: BookOpen },
     { id: "placement", labelAr: "اختبار تحديد المستوى", labelEn: "Placement Test", icon: Sparkles },
     { id: "ai_assistant", labelAr: "المساعد الذكي (AI Tutor)", labelEn: "AI Tutor", icon: BrainCircuit },
-    { id: "gamification", labelAr: "المتصدرون والأوسمة", labelEn: "Leaderboard & Badges", icon: Trophy },
+    { id: "leaderboard", labelAr: "لوحة الشرف والأوائل (XP)", labelEn: "Weekly Leaderboard & XP", icon: Trophy, badge: "جديد" },
     { id: "calendar", labelAr: "جدول الحصص والبث", labelEn: "Calendar & Live", icon: CalendarDays },
     { id: "analytics", labelAr: "التقارير والتحليلات", labelEn: "Analytics & Reports", icon: BarChart3 },
     { id: "blog", labelAr: "المدونة والنصائح", labelEn: "Blog & Tips", icon: FileText },
@@ -313,6 +316,20 @@ export const Navbar: React.FC<{ activeTab?: string; setActiveTab?: (tab: string)
               {/* USER ACCOUNT BADGE / AUTH CTA */}
               {user ? (
                 <div className="flex items-center gap-2">
+                  {/* GAMIFICATION PILL (STREAK, XP, RANK) */}
+                  <HeaderGamificationPill onOpenLeaderboard={() => navigateTo("leaderboard")} />
+
+                  {(user.role === "admin" || user.role === "teacher") && (
+                    <a
+                      href="/admin"
+                      className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-amber-400 hover:bg-amber-300 text-slate-950 font-black text-xs shadow-sm transition"
+                      title="لوحة تحكم مستر حبيب الرحمن"
+                    >
+                      <ShieldCheck className="w-3.5 h-3.5" />
+                      <span className="hidden sm:inline">لوحة التحكم</span>
+                    </a>
+                  )}
+
                   <button
                     onClick={() => navigateTo("dashboard")}
                     className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-[#E8F3FF] hover:bg-blue-100/80 text-[#2563EB] border border-blue-200 transition text-xs font-extrabold"

@@ -3,6 +3,8 @@
 import React, { useState, useEffect } from "react";
 import { useApp } from "@/context/AppContext";
 import { authHeaders } from "@/lib/client-auth";
+import { recordBulkMistakes } from "@/lib/mistakes-service";
+import { awardXP } from "@/lib/gamification-service";
 import { Clock, CheckCircle2, XCircle, Volume2, HelpCircle, ArrowRight, ArrowLeft, Send, Sparkles, Award, Printer } from "lucide-react";
 
 interface Question {
@@ -135,6 +137,59 @@ export const QuizPlayer: React.FC<QuizPlayerProps> = ({
         setResult(data);
         setIsSubmitted(true);
         if (onComplete) onComplete(data);
+
+        // Automatically record wrong answers to the Smart Mistakes Bank
+        try {
+          const mistakesToSave: Array<{ question: any; wrongAnswer: string }> = [];
+          questions.forEach((q) => {
+            const studentAns = String(userAnswers[q.id] || "").trim();
+            const correctAns = String(q.correctAnswer || "").trim();
+            
+            const isCorrect = data.details && data.details[q.id] !== undefined
+              ? Boolean(data.details[q.id]?.isCorrect)
+              : Boolean(studentAns && correctAns && studentAns.toLowerCase() === correctAns.toLowerCase());
+
+            if (!isCorrect) {
+              mistakesToSave.push({
+                question: q,
+                wrongAnswer: studentAns || (lang === "ar" ? "لم يُجب عليه" : "Unanswered"),
+              });
+            }
+          });
+
+          if (mistakesToSave.length > 0) {
+            recordBulkMistakes(mistakesToSave, user?.id || "usr_student_1").catch(() => {});
+          }
+        } catch (err) {
+          console.warn("Failed to auto-save to mistakes bank:", err);
+        }
+
+        // Automatically award XP for quiz completion
+        try {
+          const correctCount = questions.filter((q) => {
+            const studentAns = String(userAnswers[q.id] || "").trim();
+            const correctAns = String(q.correctAnswer || "").trim();
+            return data.details && data.details[q.id] !== undefined
+              ? Boolean(data.details[q.id]?.isCorrect)
+              : Boolean(studentAns && correctAns && studentAns.toLowerCase() === correctAns.toLowerCase());
+          }).length;
+
+          const totalXpEarned = correctCount * 10;
+          const percentage = data.percentage || 0;
+          const isBonus = percentage >= 90;
+
+          if (totalXpEarned > 0) {
+            awardXP({
+              actionType: isBonus ? "quiz_bonus_90" : "quiz_correct",
+              referenceId: `quiz_${quizId}`,
+              customXp: totalXpEarned,
+              bonusXp: isBonus ? 50 : 0,
+              userId: user?.id,
+            }).catch(() => {});
+          }
+        } catch (err) {
+          console.warn("Failed to award quiz XP:", err);
+        }
       }
     } catch (e) {
       console.error("Quiz submission error:", e);
