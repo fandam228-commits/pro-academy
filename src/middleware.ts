@@ -13,7 +13,7 @@ const PUBLIC_API_PREFIXES = [
 ];
 
 // Assets and static files to ignore
-const STATIC_FILE_EXTENSIONS = /\.(png|jpg|jpeg|gif|webp|svg|ico|css|js|map|txt|xml|woff|woff2|ttf)$/i;
+const STATIC_FILE_EXTENSIONS = /\.(png|jpg|jpeg|gif|webp|svg|ico|css|js|map|txt|xml|woff|woff2|ttf|html)$/i;
 
 export function middleware(request: NextRequest) {
   const { pathname, search } = request.nextUrl;
@@ -22,6 +22,7 @@ export function middleware(request: NextRequest) {
   if (
     pathname.startsWith("/_next") ||
     pathname.startsWith("/api/pdfs/file/") || // handled with inline download security
+    pathname.startsWith("/google") || // Google Search Console verification files
     pathname === "/favicon.ico" ||
     pathname === "/icon.svg" ||
     pathname === "/apple-icon" ||

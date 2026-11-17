@@ -18,7 +18,7 @@ export const metadata: Metadata = {
   creator: "Mr. Habib El Rahman",
   publisher: "Professional Academy",
   verification: {
-    google: process.env.GOOGLE_SITE_VERIFICATION || "googlee89f81ca9983447f",
+    google: process.env.GOOGLE_SITE_VERIFICATION || "googleaad18ef01c7e620d",
   },
   keywords: [
     "مستر حبيب الرحمن",
