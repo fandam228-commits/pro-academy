@@ -43,6 +43,7 @@ import {
   userVocabProgress,
   centerAttendance,
   lessonPrerequisites,
+  notifications,
 } from "./schema";
 import {
   SEED_ACCESS_VOUCHERS,
@@ -2898,7 +2899,13 @@ export async function seedSec2BacCompleteIfEmpty(): Promise<void> {
       .where(eq(curriculumUnits.id, "cu_sec_2_bac_u5"))
       .limit(1);
 
-    if (existingSec2Unit.length === 0) {
+    const existingNotif = await db
+      .select({ id: notifications.id })
+      .from(notifications)
+      .where(eq(notifications.id, "notif_sec2_bac_giants_2027"))
+      .limit(1);
+
+    if (existingSec2Unit.length === 0 || existingNotif.length === 0) {
       console.log("Seeding Second Year Baccalaureate Complete Curriculum (Giants 2027)...");
       const { seedSec2BacComplete } = await import("./seed-sec2-bac-complete");
       await seedSec2BacComplete();

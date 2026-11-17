@@ -7,6 +7,7 @@ import {
   questions,
   questionBank,
   storyChapters,
+  notifications,
 } from "./schema";
 import { eq } from "drizzle-orm";
 
@@ -658,6 +659,25 @@ export async function seedSec2BacComplete() {
         qOrder++;
       }
       console.log(`✓ Seeded ${qOrder - 1} questions for The Lost World.`);
+    }
+
+    // 13. Broadcast System Announcement
+    const notifId = "notif_sec2_bac_giants_2027";
+    const existingNotif = await db
+      .select({ id: notifications.id })
+      .from(notifications)
+      .where(eq(notifications.id, notifId));
+
+    if (!existingNotif.length) {
+      await db.insert(notifications).values({
+        id: notifId,
+        userId: null,
+        title: "🎉 تم نشر وتحديث منهج تانية بكالوريا 2026/2027 كاملاً (كتاب العمالقة)",
+        message: "تمت إضافة الوحدات من 1 إلى 5 والمراجعات التوطيدية الشاملة A و B ورواية العالم المفقود (The Lost World) بجميع تدريباتها التفاعلية وقواميسها اللغوية.",
+        type: "announcement",
+        isRead: false,
+      });
+      console.log("✓ Broadcast update notification created.");
     }
 
     console.log("==================================================================");
