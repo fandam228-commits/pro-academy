@@ -341,8 +341,28 @@ CREATE TABLE IF NOT EXISTS lesson_prerequisites (
   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
 
+CREATE TABLE IF NOT EXISTS peer_challenges (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  invite_code TEXT NOT NULL UNIQUE,
+  grade_level TEXT NOT NULL DEFAULT '3rd_sec',
+  creator_id TEXT NOT NULL,
+  creator_name TEXT NOT NULL,
+  creator_score INTEGER NOT NULL DEFAULT 0,
+  creator_time_seconds INTEGER NOT NULL DEFAULT 0,
+  question_ids JSONB NOT NULL DEFAULT '[]'::jsonb,
+  challenger_id TEXT,
+  challenger_name TEXT,
+  challenger_score INTEGER,
+  challenger_time_seconds INTEGER,
+  status TEXT NOT NULL DEFAULT 'open',
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
 CREATE INDEX IF NOT EXISTS idx_center_att_user ON center_attendance(user_id);
 CREATE INDEX IF NOT EXISTS idx_center_att_code ON center_attendance(student_code);
+CREATE INDEX IF NOT EXISTS idx_peer_ch_code ON peer_challenges(invite_code);
+CREATE INDEX IF NOT EXISTS idx_peer_ch_creator ON peer_challenges(creator_id);
+CREATE INDEX IF NOT EXISTS idx_peer_ch_status ON peer_challenges(status);
 
 -- ------------------------------------------------------------------------------
 -- 11. Enable Row Level Security (RLS) on All Tables
@@ -365,10 +385,21 @@ ALTER TABLE vocab_cards ENABLE ROW LEVEL SECURITY;
 ALTER TABLE user_vocab_progress ENABLE ROW LEVEL SECURITY;
 ALTER TABLE center_attendance ENABLE ROW LEVEL SECURITY;
 ALTER TABLE lesson_prerequisites ENABLE ROW LEVEL SECURITY;
+ALTER TABLE peer_challenges ENABLE ROW LEVEL SECURITY;
 
 -- ------------------------------------------------------------------------------
 -- 12. Idempotent RLS Security Policies
 -- ------------------------------------------------------------------------------
+DROP POLICY IF EXISTS "Public can view challenges by invite code" ON peer_challenges;
+CREATE POLICY "Public can view challenges by invite code" ON peer_challenges FOR SELECT USING (true);
+
+DROP POLICY IF EXISTS "Authenticated users can create challenges" ON peer_challenges;
+CREATE POLICY "Authenticated users can create challenges" ON peer_challenges FOR INSERT
+  WITH CHECK (auth.uid()::text = creator_id OR current_setting('request.jwt.claim.sub', true) = creator_id OR creator_id = current_user);
+
+DROP POLICY IF EXISTS "Participants can update challenge results" ON peer_challenges;
+CREATE POLICY "Participants can update challenge results" ON peer_challenges FOR UPDATE
+  USING (auth.uid()::text = creator_id OR auth.uid()::text = challenger_id OR current_setting('request.jwt.claim.sub', true) = creator_id OR current_setting('request.jwt.claim.sub', true) = challenger_id OR creator_id = current_user OR challenger_id = current_user);
 -- user_mistakes
 DROP POLICY IF EXISTS "Students can view their own mistakes" ON user_mistakes;
 CREATE POLICY "Students can view their own mistakes" ON user_mistakes FOR SELECT

@@ -1834,6 +1834,34 @@ export const lessonPrerequisites = pgTable(
   ]
 );
 
+// 58. PEER 1v1 CHALLENGES (تحدي الأصدقاء 1v1)
+export const peerChallenges = pgTable(
+  "peer_challenges",
+  {
+    id: text("id").primaryKey(),
+    inviteCode: text("invite_code").notNull().unique(),
+    gradeLevel: text("grade_level").notNull().default("3rd_sec"),
+    creatorId: text("creator_id").notNull(),
+    creatorName: text("creator_name").notNull(),
+    creatorScore: integer("creator_score").notNull().default(0),
+    creatorTimeSeconds: integer("creator_time_seconds").notNull().default(0),
+    questionIds: jsonb("question_ids").notNull().default([]),
+    challengerId: text("challenger_id"),
+    challengerName: text("challenger_name"),
+    challengerScore: integer("challenger_score"),
+    challengerTimeSeconds: integer("challenger_time_seconds"),
+    status: text("status").notNull().default("open"), // 'open' | 'completed'
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+  },
+  (table) => [
+    index("idx_peer_ch_code").on(table.inviteCode),
+    index("idx_peer_ch_creator").on(table.creatorId),
+    index("idx_peer_ch_challenger").on(table.challengerId),
+    index("idx_peer_ch_status").on(table.status),
+  ]
+);
+
+
 
 
 

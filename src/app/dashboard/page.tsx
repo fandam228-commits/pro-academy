@@ -22,6 +22,7 @@ import {
   QrCode,
   CreditCard,
   ArrowRight,
+  Swords,
 } from "lucide-react";
 
 function DashboardContent() {
@@ -161,6 +162,14 @@ function DashboardContent() {
       color: "from-slate-700 to-slate-900",
       badge: "شحن",
     },
+    {
+      title: "تحدي الأصدقاء 1v1",
+      desc: "معركة 5 أسئلة بـ 90 ثانية وشارك الرابط عبر واتساب",
+      href: "/dashboard/challenge",
+      icon: Swords,
+      color: "from-amber-500 to-yellow-500",
+      badge: "1v1 جديد",
+    },
   ];
 
   return (
@@ -173,7 +182,7 @@ function DashboardContent() {
         }}
       />
 
-      <main className="flex-1 py-8 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full space-y-8">
+      <main className="flex-1 py-8 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full space-y-8 pb-24 md:pb-8">
         {/* PRO SUITE EXPANSION QUICK-ACCESS GRID */}
         <section aria-label="أدوات حزمة التميز Pro Suite">
           <div className="flex items-center justify-between mb-4">
