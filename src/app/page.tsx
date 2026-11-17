@@ -181,6 +181,11 @@ const MistakesBankWorkspace = dynamic(
   { loading: () => <TabLoadingSkeleton label="جاري تجهيز بنك أخطائي الذكي..." />, ssr: false }
 );
 
+const WeeklyLeaderboardView = dynamic(
+  () => import("@/components/gamification/WeeklyLeaderboardView").then((m) => m.WeeklyLeaderboardView),
+  { loading: () => <TabLoadingSkeleton label="جاري تجهيز لوحة شرف أوائل الأسبوع..." />, ssr: false }
+);
+
 const TranslationAcademyWorkspace = dynamic(
   () => import("@/components/translation/TranslationAcademyWorkspace").then((m) => m.TranslationAcademyWorkspace),
   { loading: () => <TabLoadingSkeleton label="جاري تحميل أكاديمية الترجمة الاحترافية..." />, ssr: false }
@@ -551,6 +556,7 @@ function MainAppContent() {
                   onOpenMinistryAssessments={() => setActiveTab("ministry_assessments")}
                   onOpenTranslation={() => setActiveTab("translation")}
                   onOpenMistakesBank={() => setActiveTab("mistakes_bank")}
+                  onOpenLeaderboard={() => setActiveTab("leaderboard")}
                 />
               )}
               {user.role === "parent" && <ParentDashboard onOpenReport={() => setActiveTab("report")} />}
@@ -568,6 +574,13 @@ function MainAppContent() {
 
           /* VIEW: NOTIFICATION CENTER (real + push) */
           <NotificationCenter />
+        ) : activeTab === "leaderboard" ? (
+
+          /* VIEW: WEEKLY LEADERBOARD & XP */
+          <WeeklyLeaderboardView
+            onStartQuiz={() => setActiveTab("question_bank")}
+            onOpenMistakesBank={() => setActiveTab("mistakes_bank")}
+          />
         ) : activeTab === "gamification" ? (
 
           /* VIEW: GAMIFICATION CENTER */

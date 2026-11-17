@@ -27,6 +27,7 @@ import {
   AlertTriangle,
 } from "lucide-react";
 import { getCurriculumUnits } from "@/config/curriculum-2026";
+import { CompactLeaderboardWidget } from "@/components/gamification/CompactLeaderboardWidget";
 
 export const StudentDashboard: React.FC<{
   onSelectCourse?: (courseId: string) => void;
@@ -36,7 +37,17 @@ export const StudentDashboard: React.FC<{
   onOpenMinistryAssessments?: () => void;
   onOpenTranslation?: () => void;
   onOpenMistakesBank?: () => void;
-}> = ({ onSelectCourse, onOpenReport, onStartExam, onOpenCurriculum, onOpenMinistryAssessments, onOpenTranslation, onOpenMistakesBank }) => {
+  onOpenLeaderboard?: () => void;
+}> = ({
+  onSelectCourse,
+  onOpenReport,
+  onStartExam,
+  onOpenCurriculum,
+  onOpenMinistryAssessments,
+  onOpenTranslation,
+  onOpenMistakesBank,
+  onOpenLeaderboard,
+}) => {
   const { user, lang } = useApp();
   const [plannerTasks, setPlannerTasks] = useState<any[]>([]);
   const [newTask, setNewTask] = useState("");
@@ -603,6 +614,9 @@ export const StudentDashboard: React.FC<{
         {/* RIGHT COLUMN: POMODORO TIMER & LEADERBOARD BADGES */}
         <div className="space-y-6">
           
+          {/* WEEKLY LEADERBOARD COMPACT WIDGET */}
+          <CompactLeaderboardWidget onOpenLeaderboard={onOpenLeaderboard} />
+
           {/* WEEKLY REPORT BUTTON */}
           {onOpenReport && (
             <div className="bg-gradient-to-br from-indigo-600 to-blue-700 rounded-3xl p-5 text-white shadow-xl">

@@ -2,6 +2,7 @@
 
 import React, { useState, useRef, useEffect } from "react";
 import { useApp } from "@/context/AppContext";
+import { HeaderGamificationPill } from "@/components/gamification/HeaderGamificationPill";
 import {
   GraduationCap,
   Sparkles,
@@ -75,7 +76,7 @@ export const Navbar: React.FC<{ activeTab?: string; setActiveTab?: (tab: string)
     { id: "grammar", labelAr: "شرح القواعد التفاعلي", labelEn: "Grammar Master", icon: BookOpen },
     { id: "placement", labelAr: "اختبار تحديد المستوى", labelEn: "Placement Test", icon: Sparkles },
     { id: "ai_assistant", labelAr: "المساعد الذكي (AI Tutor)", labelEn: "AI Tutor", icon: BrainCircuit },
-    { id: "gamification", labelAr: "المتصدرون والأوسمة", labelEn: "Leaderboard & Badges", icon: Trophy },
+    { id: "leaderboard", labelAr: "لوحة الشرف والأوائل (XP)", labelEn: "Weekly Leaderboard & XP", icon: Trophy, badge: "جديد" },
     { id: "calendar", labelAr: "جدول الحصص والبث", labelEn: "Calendar & Live", icon: CalendarDays },
     { id: "analytics", labelAr: "التقارير والتحليلات", labelEn: "Analytics & Reports", icon: BarChart3 },
     { id: "blog", labelAr: "المدونة والنصائح", labelEn: "Blog & Tips", icon: FileText },
@@ -315,6 +316,9 @@ export const Navbar: React.FC<{ activeTab?: string; setActiveTab?: (tab: string)
               {/* USER ACCOUNT BADGE / AUTH CTA */}
               {user ? (
                 <div className="flex items-center gap-2">
+                  {/* GAMIFICATION PILL (STREAK, XP, RANK) */}
+                  <HeaderGamificationPill onOpenLeaderboard={() => navigateTo("leaderboard")} />
+
                   <button
                     onClick={() => navigateTo("dashboard")}
                     className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-[#E8F3FF] hover:bg-blue-100/80 text-[#2563EB] border border-blue-200 transition text-xs font-extrabold"

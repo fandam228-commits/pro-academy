@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import { useApp } from "@/context/AppContext";
 import { authHeaders } from "@/lib/client-auth";
 import { recordBulkMistakes } from "@/lib/mistakes-service";
+import { awardXP } from "@/lib/gamification-service";
 import { Clock, CheckCircle2, XCircle, Volume2, HelpCircle, ArrowRight, ArrowLeft, Send, Sparkles, Award, Printer } from "lucide-react";
 
 interface Question {
@@ -161,6 +162,33 @@ export const QuizPlayer: React.FC<QuizPlayerProps> = ({
           }
         } catch (err) {
           console.warn("Failed to auto-save to mistakes bank:", err);
+        }
+
+        // Automatically award XP for quiz completion
+        try {
+          const correctCount = questions.filter((q) => {
+            const studentAns = String(userAnswers[q.id] || "").trim();
+            const correctAns = String(q.correctAnswer || "").trim();
+            return data.details && data.details[q.id] !== undefined
+              ? Boolean(data.details[q.id]?.isCorrect)
+              : Boolean(studentAns && correctAns && studentAns.toLowerCase() === correctAns.toLowerCase());
+          }).length;
+
+          const totalXpEarned = correctCount * 10;
+          const percentage = data.percentage || 0;
+          const isBonus = percentage >= 90;
+
+          if (totalXpEarned > 0) {
+            awardXP({
+              actionType: isBonus ? "quiz_bonus_90" : "quiz_correct",
+              referenceId: `quiz_${quizId}`,
+              customXp: totalXpEarned,
+              bonusXp: isBonus ? 50 : 0,
+              userId: user?.id,
+            }).catch(() => {});
+          }
+        } catch (err) {
+          console.warn("Failed to award quiz XP:", err);
         }
       }
     } catch (e) {

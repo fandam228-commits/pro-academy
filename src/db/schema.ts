@@ -1517,6 +1517,47 @@ export const userMistakes = pgTable(
   ]
 );
 
+// 42. STUDENT GAMIFICATION TABLE (XP, Streaks & Weekly Ranks)
+export const studentGamification = pgTable(
+  "student_gamification",
+  {
+    id: text("id").primaryKey(),
+    userId: text("user_id").notNull().unique(),
+    totalXp: integer("total_xp").notNull().default(0),
+    weeklyXp: integer("weekly_xp").notNull().default(0),
+    currentStreak: integer("current_streak").notNull().default(0),
+    longestStreak: integer("longest_streak").notNull().default(0),
+    lastActivityDate: text("last_activity_date"), // YYYY-MM-DD
+    gradeLevel: text("grade_level").notNull().default("Third Secondary (Baccalaureate)"),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+    updatedAt: timestamp("updated_at").defaultNow().notNull(),
+  },
+  (table) => [
+    index("idx_sg_user_id").on(table.userId),
+    index("idx_sg_grade_weekly").on(table.gradeLevel, table.weeklyXp),
+    index("idx_sg_weekly_xp").on(table.weeklyXp),
+    index("idx_sg_total_xp").on(table.totalXp),
+  ]
+);
+
+// 43. XP TRANSACTIONS TABLE (Audit Log & Anti-Farming)
+export const xpTransactions = pgTable(
+  "xp_transactions",
+  {
+    id: text("id").primaryKey(),
+    userId: text("user_id").notNull(),
+    actionType: text("action_type").notNull(),
+    xpEarned: integer("xp_earned").notNull().default(0),
+    referenceId: text("reference_id"),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+  },
+  (table) => [
+    index("idx_xpt_user_id").on(table.userId),
+    index("idx_xpt_action_ref").on(table.userId, table.actionType, table.referenceId),
+  ]
+);
+
+
 
 
 

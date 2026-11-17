@@ -1334,6 +1334,35 @@ async function initializeSchema(): Promise<void> {
       CREATE INDEX IF NOT EXISTS idx_user_mistakes_status ON user_mistakes(status);
       CREATE INDEX IF NOT EXISTS idx_user_mistakes_user_status ON user_mistakes(user_id, status);
       CREATE INDEX IF NOT EXISTS idx_user_mistakes_updated_at ON user_mistakes(updated_at DESC);
+
+      CREATE TABLE IF NOT EXISTS student_gamification (
+        id TEXT PRIMARY KEY,
+        user_id TEXT NOT NULL UNIQUE,
+        total_xp INTEGER NOT NULL DEFAULT 0,
+        weekly_xp INTEGER NOT NULL DEFAULT 0,
+        current_streak INTEGER NOT NULL DEFAULT 0,
+        longest_streak INTEGER NOT NULL DEFAULT 0,
+        last_activity_date TEXT,
+        grade_level TEXT NOT NULL DEFAULT 'Third Secondary (Baccalaureate)',
+        created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+        updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+      );
+
+      CREATE INDEX IF NOT EXISTS idx_sg_user_id ON student_gamification(user_id);
+      CREATE INDEX IF NOT EXISTS idx_sg_grade_weekly ON student_gamification(grade_level, weekly_xp DESC);
+      CREATE INDEX IF NOT EXISTS idx_sg_weekly_xp ON student_gamification(weekly_xp DESC);
+
+      CREATE TABLE IF NOT EXISTS xp_transactions (
+        id TEXT PRIMARY KEY,
+        user_id TEXT NOT NULL,
+        action_type TEXT NOT NULL,
+        xp_earned INTEGER NOT NULL DEFAULT 0,
+        reference_id TEXT,
+        created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+      );
+
+      CREATE INDEX IF NOT EXISTS idx_xpt_user_id ON xp_transactions(user_id);
+      CREATE INDEX IF NOT EXISTS idx_xpt_action_ref ON xp_transactions(user_id, action_type, reference_id);
     `);
 
   // Seed and sync curriculum grades and units to official 2026/2027 Egyptian syllabus

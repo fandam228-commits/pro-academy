@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import { useMistakesBank } from "@/hooks/useMistakesBank";
 import { useApp } from "@/context/AppContext";
+import { awardXP } from "@/lib/gamification-service";
 import {
   Sparkles,
   CheckCircle2,
@@ -107,6 +108,11 @@ export const MistakesBankWorkspace: React.FC = () => {
       setPracticeScore((prev) => ({ correct: prev.correct + 1, total: prev.total + 1 }));
       showCelebrationToast("🎉 أحسنت! تم إتقان هذا السؤال وحذفه من بنك أخطائك ✓");
       await resolveQuestion(currentMistake.questionId);
+      awardXP({
+        actionType: "mistake_resolved",
+        referenceId: `mistake_${currentMistake.questionId}`,
+        customXp: 15,
+      }).catch(() => {});
     } else {
       setPracticeScore((prev) => ({ ...prev, total: prev.total + 1 }));
       await recordWrong(snapshot, option);
