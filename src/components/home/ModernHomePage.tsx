@@ -29,6 +29,7 @@ import {
   ArrowUpRight,
   MessageSquare,
   RotateCcw,
+  Swords,
 } from "lucide-react";
 import { LiveClassroomSection } from "@/components/LiveClassroomSection";
 
@@ -182,6 +183,14 @@ export function ModernHomePage({
                 <span>{lang === "ar" ? "بنك أخطائي الذكي" : "Mistakes Bank"}</span>
               </button>
             )}
+
+            <button
+              onClick={() => setActiveTab("arena")}
+              className="w-full sm:w-auto px-5 py-3.5 rounded-2xl bg-purple-500/10 hover:bg-purple-500/20 text-purple-600 dark:text-purple-300 font-bold text-sm border border-purple-300 dark:border-purple-500/30 transition flex items-center justify-center gap-1.5 cursor-pointer"
+            >
+              <Swords className="w-4 h-4 text-purple-500" />
+              <span>{lang === "ar" ? "حلبة التحدي 1v1" : "1v1 Quiz Arena"}</span>
+            </button>
 
             <button
               onClick={() => setActiveTab("placement")}
@@ -456,6 +465,83 @@ export function ModernHomePage({
               <div className="text-base font-black text-[#243247]">مواصفات 2025 الرسمية</div>
               <div className="text-xs text-[#718096] leading-relaxed">
                 5 درجات كاملة على سؤال المحادثة، مع شرح طريقة المقص ومعادلة Wh-Questions وقائمة الأفعال المساعدة.
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* =========================================================================
+          5.2 1v1 LIVE QUIZ ARENA BANNER (حلبة التحدي والمبارزة الحية 1 ضد 1)
+      ========================================================================= */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="bg-gradient-to-r from-purple-950 via-slate-900 to-indigo-950 text-white rounded-3xl p-8 sm:p-10 shadow-2xl shadow-purple-950/30 border border-purple-500/30 relative overflow-hidden">
+          {/* Background ambient glow */}
+          <div className="absolute top-0 right-0 -mr-16 -mt-16 w-64 h-64 bg-purple-500/20 rounded-full blur-3xl pointer-events-none" />
+          <div className="absolute bottom-0 left-0 -ml-16 -mb-16 w-64 h-64 bg-amber-500/15 rounded-full blur-3xl pointer-events-none" />
+
+          <div className="relative z-10 flex flex-col lg:flex-row items-center justify-between gap-8">
+            <div className="space-y-4 text-center lg:text-start max-w-2xl">
+              <div className="flex flex-wrap items-center justify-center lg:justify-start gap-2">
+                <span className="px-3.5 py-1 rounded-full bg-amber-400 text-slate-950 text-xs font-black flex items-center gap-1.5 shadow-sm">
+                  <span>⚔️</span>
+                  <span>{lang === "ar" ? "جديد وحصري" : "New & Live"}</span>
+                </span>
+                <span className="px-3 py-1 rounded-full bg-purple-500/20 text-purple-200 border border-purple-400/30 text-xs font-bold">
+                  {lang === "ar" ? "1 ضد 1 متزامن لحظياً" : "1v1 Real-Time Battle"}
+                </span>
+                <span className="px-3 py-1 rounded-full bg-white/10 text-slate-200 text-xs font-bold">
+                  {lang === "ar" ? "عداد 12 ثانية وشريط حياة" : "12s Blitz & HP Bars"}
+                </span>
+              </div>
+
+              <h3 className="text-2xl sm:text-3xl md:text-4xl font-black text-white leading-tight">
+                {lang === "ar" ? "حلبة التحدي والمبارزة الحية 1 ضد 1" : "1v1 Live Quiz Arena"}
+                <span className="text-amber-400 block text-lg sm:text-xl font-bold mt-1">
+                  {lang === "ar" ? "تحدَّ زملاءك أو واجه المنافس الذكي واعتلِ عرش قائمة الأساطير!" : "Challenge peers or AI rivals & climb the Hall of Legends!"}
+                </span>
+              </h3>
+
+              <p className="text-xs sm:text-sm text-purple-100/90 leading-relaxed">
+                {lang === "ar"
+                  ? "10 أسئلة متزامنة في نفس اللحظة من بنك أسئلة 2027، عداد 12 ثانية لكل جولة، ونقاط حياة (HP) تنقص مع الإجابات الخاطئة والبطيئة. أنشئ غرفتك وشارك الرابط عبر واتساب فوراً!"
+                  : "Compete synchronously on identical curriculum questions with 12s round timers, damage calculation, knockout finishes, and WhatsApp challenge invites."}
+              </p>
+
+              <div className="pt-2 flex flex-wrap items-center justify-center lg:justify-start gap-3">
+                <button
+                  onClick={() => setActiveTab("arena")}
+                  className="px-7 py-3.5 rounded-2xl bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-300 hover:to-amber-400 text-slate-950 font-black text-sm shadow-lg shadow-amber-500/25 transition-transform hover:scale-105 flex items-center gap-2 cursor-pointer"
+                >
+                  <Swords className="w-5 h-5 text-slate-950" />
+                  <span>{lang === "ar" ? "دخول حلبة التحدي الآن" : "Enter Arena Now"}</span>
+                  <ChevronRight className="w-4 h-4 rtl:rotate-180" />
+                </button>
+                <button
+                  onClick={() => setActiveTab("arena")}
+                  className="px-5 py-3.5 rounded-2xl bg-white/10 hover:bg-white/20 text-white border border-white/20 font-bold text-sm transition cursor-pointer"
+                >
+                  {lang === "ar" ? "🏆 قائمة أساطير الأكاديمية" : "Hall of Legends"}
+                </button>
+              </div>
+            </div>
+
+            <div className="flex-shrink-0 grid grid-cols-2 gap-3 w-full sm:w-auto">
+              <div className="bg-purple-950/60 border border-purple-500/30 rounded-2xl p-4 text-center">
+                <div className="text-2xl font-black text-amber-400">100 HP</div>
+                <div className="text-xs text-purple-200 mt-1 font-semibold">{lang === "ar" ? "شريط الحياة" : "Health Bar"}</div>
+              </div>
+              <div className="bg-purple-950/60 border border-purple-500/30 rounded-2xl p-4 text-center">
+                <div className="text-2xl font-black text-amber-400">12s</div>
+                <div className="text-xs text-purple-200 mt-1 font-semibold">{lang === "ar" ? "عداد السرعة" : "Blitz Timer"}</div>
+              </div>
+              <div className="bg-purple-950/60 border border-purple-500/30 rounded-2xl p-4 text-center">
+                <div className="text-2xl font-black text-amber-400">10</div>
+                <div className="text-xs text-purple-200 mt-1 font-semibold">{lang === "ar" ? "جولات قتالية" : "Combat Rounds"}</div>
+              </div>
+              <div className="bg-purple-950/60 border border-purple-500/30 rounded-2xl p-4 text-center">
+                <div className="text-2xl font-black text-amber-400">WhatsApp</div>
+                <div className="text-xs text-purple-200 mt-1 font-semibold">{lang === "ar" ? "مشاركة الرابط" : "Instant Invite"}</div>
               </div>
             </div>
           </div>
