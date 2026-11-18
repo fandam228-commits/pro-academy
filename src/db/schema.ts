@@ -1861,10 +1861,69 @@ export const peerChallenges = pgTable(
   ]
 );
 
+// 49. 1v1 LIVE QUIZ ARENA MATCHES
+export const arenaMatches = pgTable(
+  "arena_matches",
+  {
+    id: text("id").primaryKey(),
+    roomCode: text("room_code").notNull().unique(),
+    stage: text("stage").notNull().default("Secondary"),
+    grade: text("grade").notNull().default("Third Secondary (Baccalaureate)"),
+    status: text("status").notNull().default("waiting"), // 'waiting' | 'active' | 'finished'
+    player1Id: text("player1_id").notNull(),
+    player1Name: text("player1_name").notNull(),
+    player1Avatar: text("player1_avatar").default("⚔️"),
+    player1Hp: integer("player1_hp").notNull().default(100),
+    player1Score: integer("player1_score").notNull().default(0),
+    player1Streak: integer("player1_streak").notNull().default(0),
+    player2Id: text("player2_id"),
+    player2Name: text("player2_name"),
+    player2Avatar: text("player2_avatar").default("🛡️"),
+    player2Hp: integer("player2_hp").notNull().default(100),
+    player2Score: integer("player2_score").notNull().default(0),
+    player2Streak: integer("player2_streak").notNull().default(0),
+    isVsBot: boolean("is_vs_bot").notNull().default(false),
+    botPersonality: text("bot_personality").default("smart"), // 'casual' | 'smart' | 'expert'
+    currentQuestionIndex: integer("current_question_index").notNull().default(0),
+    totalQuestions: integer("total_questions").notNull().default(10),
+    questions: jsonb("questions").notNull().default([]), // Array of 10 balanced questions
+    roundEvents: jsonb("round_events").default([]),
+    winnerId: text("winner_id"),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+    updatedAt: timestamp("updated_at").defaultNow().notNull(),
+  },
+  (table) => [
+    index("idx_arena_room").on(table.roomCode),
+    index("idx_arena_status").on(table.status),
+    index("idx_arena_p1").on(table.player1Id),
+    index("idx_arena_p2").on(table.player2Id),
+  ]
+);
 
-
-
-
-
+// 50. ARENA LEADERBOARD & TROPHIES (Hall of Legends)
+export const arenaLeaderboard = pgTable(
+  "arena_leaderboard",
+  {
+    id: text("id").primaryKey(),
+    studentId: text("student_id").notNull().unique(),
+    studentName: text("student_name").notNull(),
+    avatar: text("avatar").default("👑"),
+    grade: text("grade").notNull(),
+    trophies: integer("trophies").notNull().default(100),
+    wins: integer("wins").notNull().default(0),
+    losses: integer("losses").notNull().default(0),
+    draws: integer("draws").notNull().default(0),
+    currentStreak: integer("current_streak").notNull().default(0),
+    bestStreak: integer("best_streak").notNull().default(0),
+    totalMatches: integer("total_matches").notNull().default(0),
+    titleRank: text("title_rank").notNull().default("صاعد واعد"),
+    lastMatchAt: timestamp("last_match_at").defaultNow().notNull(),
+  },
+  (table) => [
+    index("idx_arena_trophies").on(table.trophies),
+    index("idx_arena_student").on(table.studentId),
+    index("idx_arena_grade").on(table.grade),
+  ]
+);
 
 

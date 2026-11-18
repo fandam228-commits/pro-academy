@@ -37,6 +37,7 @@ import {
   User,
   MessageSquare,
   AlertTriangle,
+  Swords,
 } from "lucide-react";
 
 export const Navbar: React.FC<{ activeTab?: string; setActiveTab?: (tab: string) => void }> = ({
@@ -66,6 +67,7 @@ export const Navbar: React.FC<{ activeTab?: string; setActiveTab?: (tab: string)
   };
 
   const moreItems = [
+    { id: "arena", labelAr: "حلبة التحدي 1v1 (مبارزة حية)", labelEn: "1v1 Quiz Arena", icon: Swords, badge: "جديد ⚔️" },
     { id: "mistakes_bank", labelAr: "بنك أخطائي الذكي", labelEn: "Smart Mistakes Bank", icon: AlertTriangle, badge: "ذكي" },
     { id: "leaderboard", labelAr: "لوحة الشرف والأوائل (XP)", labelEn: "Weekly Leaderboard & XP", icon: Trophy, badge: "جديد" },
     { id: "essay_lab", labelAr: "مختبر المقال والفقرة", labelEn: "Essay & Paragraph Lab", icon: FileText, badge: "+30 XP" },
