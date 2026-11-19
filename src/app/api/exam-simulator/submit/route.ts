@@ -6,6 +6,7 @@ import { getAuthContext } from "@/lib/security";
 import { awardXP } from "@/lib/gamification-service";
 import { recordMistake } from "@/lib/mistakes-service";
 import { SEED_MOCK_EXAM } from "@/data/pro-suite-seeds";
+import { MASTER_MOCK_EXAMS_REGISTRY } from "@/data/exam-simulator-catalog.ts";
 import { eq } from "drizzle-orm";
 
 export async function POST(req: Request) {
@@ -39,7 +40,7 @@ export async function POST(req: Request) {
     }
 
     if (!exam) {
-      exam = SEED_MOCK_EXAM;
+      exam = MASTER_MOCK_EXAMS_REGISTRY.find((e) => e.id === examId) || MASTER_MOCK_EXAMS_REGISTRY[0];
     }
 
     const studentAnswers: Record<string, string> = answers || {};

@@ -2,14 +2,17 @@ import { NextResponse } from "next/server";
 import { db } from "@/db";
 import { mockExams } from "@/db/schema";
 import { ensureDbSetup } from "@/db/migrate-and-seed";
-import { SEED_MOCK_EXAM } from "@/data/pro-suite-seeds";
+import { MASTER_MOCK_EXAMS_REGISTRY, MockExamDefinition } from "@/data/exam-simulator-catalog.ts";
 import { eq } from "drizzle-orm";
 
 export async function GET(req: Request) {
   try {
     await ensureDbSetup();
     const { searchParams } = new URL(req.url);
-    const gradeLevel = searchParams.get("grade_level") || "3rd_sec";
+    let gradeLevel = searchParams.get("grade_level") || "all";
+    if (gradeLevel === "3rd_sec") gradeLevel = "3rd_sec";
+    if (gradeLevel === "1st_sec") gradeLevel = "1st_sec";
+    if (gradeLevel === "3rd_prep") gradeLevel = "3rd_prep";
 
     let exams: any[] = [];
 
@@ -36,11 +39,17 @@ export async function GET(req: Request) {
     }
 
     if (exams.length === 0) {
-      exams = [SEED_MOCK_EXAM];
+      if (gradeLevel === "all") {
+        exams = MASTER_MOCK_EXAMS_REGISTRY;
+      } else {
+        const filtered = MASTER_MOCK_EXAMS_REGISTRY.filter((e) => e.gradeLevel === gradeLevel);
+        exams = filtered.length > 0 ? filtered : MASTER_MOCK_EXAMS_REGISTRY;
+      }
     }
 
     return NextResponse.json({
       success: true,
+      gradeLevel,
       exams,
     });
   } catch (err: any) {
