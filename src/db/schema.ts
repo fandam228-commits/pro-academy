@@ -18,6 +18,8 @@ export const users = pgTable("users", {
   level: text("level").default("Intermediate"), // Placement test outcome
   preferredLang: text("preferred_lang").default("ar"), // 'ar' or 'en'
   studentCode: text("student_code").unique(), // e.g. 'STD-1042'
+  governorate: text("governorate"), // Egyptian Governorate (e.g., 'الدقهلية' or 'القاهرة')
+  schoolName: text("school_name"), // Student's school name (e.g., 'مدرسة المنصورة الثانوية بنين')
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at").defaultNow().notNull(),
 });

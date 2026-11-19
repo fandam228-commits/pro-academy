@@ -17,6 +17,8 @@ export interface User {
   streak?: number;
   points?: number;
   level?: string;
+  governorate?: string;
+  schoolName?: string;
 }
 
 interface RegisterPayload {

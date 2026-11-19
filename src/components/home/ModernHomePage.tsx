@@ -477,12 +477,12 @@ export function ModernHomePage({
             </div>
             <div>
               <h3 className="font-extrabold text-xs sm:text-sm text-[#0E1E38] dark:text-white">
-                {lang === "ar" ? "نقاط التميز والتتابع اليومي (Gamification)" : "Excellence Points & Daily Streak"}
+                {lang === "ar" ? "دوري المحافظات والمدارس ولوحة الأوائل 🏆" : "Governorates & Schools League"}
               </h3>
               <p className="text-[11px] text-slate-500 dark:text-slate-400">
                 {lang === "ar"
-                  ? "حل التدريبات اليومية وشارك في تحديات 1v1 لزيادة نقاطك والتصدر في لوحة الشرف الأسبوعية."
-                  : "Practice daily and compete in 1v1 challenges to climb the weekly leaderboard."}
+                  ? "حل التدريبات ونماذج المعاصر وجيم لرفع رصيدك الشخصي ورصيد محافظتك ومدرستك نحو درع التفوق الجمهوري."
+                  : "Practice daily and solve revision exams to lift your school & governorate to the National Shield."}
               </p>
             </div>
           </div>
@@ -500,9 +500,9 @@ export function ModernHomePage({
 
             <button
               onClick={() => setActiveTab("leaderboard")}
-              className="px-4 py-1.5 rounded-xl bg-[#0E1E38] dark:bg-[#2563EB] text-white font-bold text-xs hover:bg-[#162744] transition cursor-pointer"
+              className="px-4 py-1.5 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 text-slate-950 font-black text-xs hover:from-amber-400 hover:to-amber-500 transition cursor-pointer shadow-sm"
             >
-              {lang === "ar" ? "لوحة الأوائل ←" : "Leaderboard →"}
+              {lang === "ar" ? "دوري المحافظات والأوائل ←" : "League & Leaderboard →"}
             </button>
           </div>
         </div>

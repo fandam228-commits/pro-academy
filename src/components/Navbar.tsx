@@ -325,12 +325,12 @@ export const Navbar: React.FC<NavbarProps> = ({ activeTab = "home", setActiveTab
     },
     {
       id: "leaderboard",
-      labelAr: "لوحة الشرف والأوائل (XP)",
-      labelEn: "Weekly Leaderboard & XP",
-      descAr: "ترتيبك بين زملائك على مستوى الجمهورية ونقاط التميز",
-      descEn: "Weekly top students, XP points and regional ranking",
+      labelAr: "دوري المحافظات ولوحة الشرف (XP)",
+      labelEn: "Governorates League & Leaderboard",
+      descAr: "دوري الـ 27 محافظة والمدارس وترتيب الأوائل على مستوى الجمهورية",
+      descEn: "27 Governorates & schools league, weekly top learners and XP ranking",
       icon: Trophy,
-      badge: "أوائل",
+      badge: "دوري 🇪🇬",
     },
     {
       id: "challenge",

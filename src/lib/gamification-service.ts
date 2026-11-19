@@ -237,3 +237,124 @@ export async function fetchWeeklyLeaderboard(
     };
   }
 }
+
+export interface GovernorateLeagueItem {
+  id: string;
+  nameAr: string;
+  nameEn: string;
+  region: string;
+  regionAr: string;
+  capitalAr: string;
+  emblemEmoji: string;
+  shieldTier: string;
+  shieldNameAr: string;
+  shieldIcon: string;
+  badgeColor: string;
+  weeklyXp: number;
+  totalXp: number;
+  activeStudents: number;
+  topSchool: string;
+  rank: number;
+  isUserGovernorate: boolean;
+  topStudentAmbassador: {
+    name: string;
+    school: string;
+    grade: string;
+    weeklyXp: number;
+  };
+}
+
+export interface SchoolLeagueItem {
+  id: string;
+  name: string;
+  governorateId: string;
+  governorateNameAr: string;
+  type: string;
+  typeLabelAr: string;
+  badge: string;
+  badgeLabelAr: string;
+  activeStudents: number;
+  weeklyXp: number;
+  totalXp: number;
+  rank: number;
+  isUserSchool: boolean;
+}
+
+export interface LeagueResponse {
+  success: boolean;
+  cupSeason: string;
+  governorates: GovernorateLeagueItem[];
+  schools: SchoolLeagueItem[];
+  currentUserLeague: {
+    userId: string;
+    studentName: string;
+    governorateId: string;
+    governorateNameAr: string;
+    governorateRank: number;
+    shieldNameAr: string;
+    schoolName: string;
+    schoolRank?: number;
+    pointsToSurpassNextGov: number;
+    weeklyXpContribution: number;
+  };
+  sharePayload: {
+    headlineAr: string;
+    fullMessageAr: string;
+    whatsappUrl: string;
+  };
+}
+
+/**
+ * Fetch Inter-Governorate & School League standings.
+ */
+export async function fetchLeagueData(userId?: string): Promise<LeagueResponse | null> {
+  try {
+    const params = new URLSearchParams();
+    if (userId) params.set("userId", userId);
+
+    const res = await fetch(`/api/gamification/league?${params.toString()}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        ...authHeaders(),
+      },
+    });
+
+    if (!res.ok) return null;
+    return await res.json();
+  } catch (err) {
+    console.error("fetchLeagueData error:", err);
+    return null;
+  }
+}
+
+/**
+ * Update student's governorate and school affiliation.
+ */
+export async function updateStudentLeagueProfile(payload: {
+  governorate: string;
+  schoolName?: string;
+  userId?: string;
+}): Promise<{
+  success: boolean;
+  message?: string;
+  bonusAwarded?: boolean;
+  bonusXp?: number;
+  sharePayload?: any;
+}> {
+  try {
+    const res = await fetch("/api/gamification/league", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        ...authHeaders(),
+      },
+      body: JSON.stringify(payload),
+    });
+
+    return await res.json();
+  } catch (err) {
+    console.error("updateStudentLeagueProfile error:", err);
+    return { success: false, message: "فشل تحديث ملف دوري المحافظات" };
+  }
+}

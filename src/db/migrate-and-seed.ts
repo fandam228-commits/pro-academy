@@ -196,6 +196,8 @@ async function initializeSchema(): Promise<void> {
       );
 
       ALTER TABLE users ADD COLUMN IF NOT EXISTS username TEXT;
+      ALTER TABLE users ADD COLUMN IF NOT EXISTS governorate TEXT;
+      ALTER TABLE users ADD COLUMN IF NOT EXISTS school_name TEXT;
       CREATE UNIQUE INDEX IF NOT EXISTS idx_users_username ON users(username) WHERE username IS NOT NULL;
 
       CREATE INDEX IF NOT EXISTS idx_qb_domain ON question_bank(domain_category);
