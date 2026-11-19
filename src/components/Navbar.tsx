@@ -177,11 +177,6 @@ export const Navbar: React.FC<NavbarProps> = ({ activeTab = "home", setActiveTab
       icon: Swords,
       badge: "⚔️ جديد",
     },
-      descAr: "أكثر من 894 سؤال مصنف بنظام التبديل الذكي ضد التسريب",
-      descEn: "Standardized MCQ training powered by anti-leak shuffle engine",
-      icon: Trophy,
-      badge: "894+ سؤال",
-    },
     {
       id: "question_bank",
       labelAr: "بنك الأسئلة ومولد الامتحانات",

@@ -208,7 +208,6 @@ export function ModernHomePage({
                 <RotateCcw className="w-4 h-4 text-amber-500" />
                 <span>{lang === "ar" ? "بنك أخطائي الذكي" : "Mistakes Bank"}</span>
               </button>
-            </div>
 
               <button
                 onClick={() => setActiveTab("arena")}
