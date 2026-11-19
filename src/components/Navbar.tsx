@@ -791,6 +791,20 @@ export const Navbar: React.FC<NavbarProps> = ({ activeTab = "home", setActiveTab
             ===================================================================== */}
             <div className="flex items-center gap-2 sm:gap-2.5">
 
+              {/* EL-MOASSER REVISION DIRECT BUTTON */}
+              <button
+                onClick={() => navigateTo("moasser_revision")}
+                className={`hidden md:flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-black transition-all cursor-pointer border ${
+                  activeTab === "moasser_revision"
+                    ? "bg-emerald-600 text-white border-emerald-500 shadow-md shadow-emerald-600/30"
+                    : "bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-700 dark:text-emerald-300 border-emerald-300 dark:border-emerald-600/40"
+                }`}
+                title="مراجعات ونماذج المعاصر 2026"
+              >
+                <BookOpen className="w-3.5 h-3.5 text-emerald-500" />
+                <span>مراجعات المعاصر 2026 📚</span>
+              </button>
+
               {/* SEARCH BUTTON */}
               <button
                 onClick={() => navigateTo("search")}
@@ -926,6 +940,20 @@ export const Navbar: React.FC<NavbarProps> = ({ activeTab = "home", setActiveTab
                 <span>{lang === "ar" ? "الرئيسية" : "Home"}</span>
               </span>
               <ChevronRight className="w-4 h-4 text-slate-400 rtl:rotate-180" />
+            </button>
+
+            {/* Quick 1-Click El-Moasser Revision */}
+            <button
+              onClick={() => navigateTo("moasser_revision")}
+              className="w-full flex items-center justify-between p-3.5 rounded-2xl bg-gradient-to-r from-emerald-500/20 to-teal-500/20 border-2 border-emerald-500/40 font-black text-xs text-emerald-800 dark:text-emerald-200"
+            >
+              <span className="flex items-center gap-2">
+                <BookOpen className="w-4 h-4 text-emerald-600" />
+                <span>مراجعات ونماذج المعاصر 2026 📚</span>
+              </span>
+              <span className="px-2 py-0.5 rounded-full bg-emerald-600 text-white text-[10px] font-bold">
+                حصري
+              </span>
             </button>
 
             {/* 1. التعلم (Learning Category) */}

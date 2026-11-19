@@ -111,6 +111,38 @@ export function ModernHomePage({
           </div>
 
           {/* =====================================================================
+              PROMINENT ANNOUNCEMENT: EL-MOASSER 2026/2027 REVISION & EXAM HUB
+          ===================================================================== */}
+          <div className="max-w-3xl mx-auto px-4 pt-2">
+            <button
+              onClick={() => setActiveTab("moasser_revision")}
+              className="w-full bg-gradient-to-r from-emerald-600 via-teal-600 to-[#1E3A8A] hover:from-emerald-500 hover:to-blue-700 text-white rounded-3xl p-4 sm:p-5 shadow-xl shadow-emerald-700/20 border-2 border-amber-300/50 flex items-center justify-between gap-4 transition-all hover:scale-[1.01] cursor-pointer group text-right rtl:text-right"
+            >
+              <div className="flex items-center gap-3.5">
+                <div className="w-12 h-12 rounded-2xl bg-white/20 backdrop-blur-md flex items-center justify-center shrink-0 border border-white/30 text-white shadow-md">
+                  <BookOpen className="w-6 h-6 text-amber-300" />
+                </div>
+                <div>
+                  <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-amber-400 text-slate-950 text-[10px] font-black uppercase tracking-wider mb-1">
+                    <Sparkles className="w-3 h-3 text-slate-950" />
+                    <span>متاح الآن لجميع الصفوف • مراجعات المعاصر 2026</span>
+                  </div>
+                  <h3 className="text-sm sm:text-base font-black text-white group-hover:text-amber-200 transition-colors">
+                    محطة مراجعات ونماذج المعاصر الرسمية التفاعلية (Term 1)
+                  </h3>
+                  <p className="text-xs text-white/90">
+                    حل نماذج الامتحانات إلكترونياً مع التصحيح الفوري + تحميل مذكرات الـ PDF الأصلية لكتاب المعاصر.
+                  </p>
+                </div>
+              </div>
+              <div className="hidden sm:flex items-center gap-2 px-4 py-2.5 rounded-xl bg-white text-slate-950 text-xs font-black shrink-0 shadow-md group-hover:bg-amber-300 transition-colors">
+                <span>دخول المحطة ⚡</span>
+                <ArrowUpRight className="w-4 h-4 rtl:rotate-[-90deg]" />
+              </div>
+            </button>
+          </div>
+
+          {/* =====================================================================
               SECTION B: QUICK START (EXACTLY 3 PRIMARY ACTIONS)
               1. ابدأ التعلم • 2. ابدأ التدريب • 3. تابع من حيث توقفت
           ===================================================================== */}
