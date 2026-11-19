@@ -397,18 +397,18 @@ export const Navbar: React.FC<NavbarProps> = ({ activeTab = "home", setActiveTab
               className="flex items-center gap-3 group cursor-pointer select-none shrink-0"
               aria-label="الرئيسية - Professional Academy"
             >
-              <div className="w-11 h-11 sm:w-12 sm:h-12 rounded-2xl bg-[#0E1E38] dark:bg-[#2563EB] flex items-center justify-center text-white shadow-md shadow-blue-900/20 group-hover:scale-105 transition-transform border border-amber-400/40">
-                <GraduationCap className="w-6 h-6 sm:w-7 sm:h-7 text-[#EABF58]" />
+              <div className="w-11 h-11 sm:w-12 sm:h-12 rounded-2xl bg-gradient-to-br from-[#08101E] via-[#0E1E38] to-[#1E3A8A] flex items-center justify-center text-white shadow-md shadow-blue-900/30 group-hover:scale-105 transition-transform border border-amber-400/40 overflow-hidden relative p-1 shrink-0">
+                <img src="/icons/icon-192.png" alt="Pro Academy" className="w-full h-full object-contain" />
               </div>
               <div>
-                <div className="font-black text-lg sm:text-xl tracking-tight text-[#0E1E38] dark:text-white flex items-center gap-1.5 font-sans">
-                  <span>{lang === "ar" ? "أكاديمية المستر" : "Professional Academy"}</span>
+                <div className="font-black text-base sm:text-lg lg:text-xl tracking-tight text-[#0E1E38] dark:text-white flex items-center gap-1.5 font-sans">
+                  <span>{lang === "ar" ? "أكاديمية مستر حبيب الرحمن" : "Professional Academy"}</span>
                   <span className="text-[10px] sm:text-[11px] font-black px-2 py-0.5 rounded-full bg-[#EABF58] text-[#0E1E38] shadow-xs">
                     PRO
                   </span>
                 </div>
                 <p className="text-[11px] sm:text-xs font-semibold text-[#718096] dark:text-slate-400">
-                  {lang === "ar" ? "مستر حبيب الرحمن" : "Mr. Habib El Rahman"}
+                  {lang === "ar" ? "منصة اللغة الإنجليزية للشهادة الثانوية والإعدادية" : "Mr. Habib El Rahman"}
                 </p>
               </div>
             </div>

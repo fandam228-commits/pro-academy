@@ -16,11 +16,11 @@ export const Footer: React.FC<{ setActiveTab?: (tab: string) => void }> = ({ set
           {/* BRAND COLUMN */}
           <div className="space-y-4">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-2xl bg-gradient-to-tr from-purple-600 via-indigo-600 to-sky-400 flex items-center justify-center text-white shadow-lg shadow-purple-500/25">
-                <GraduationCap className="w-6 h-6" />
+              <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-[#08101E] via-[#0E1E38] to-[#1E3A8A] flex items-center justify-center text-white shadow-lg shadow-blue-900/30 border border-amber-400/40 overflow-hidden p-0.5">
+                <img src="/icons/icon-192.png" alt="Pro Academy" className="w-full h-full object-contain" />
               </div>
               <span className="font-extrabold text-lg text-white">
-                {lang === "ar" ? "أكاديمية المستر أونلاين" : "Professional Academy"}
+                {lang === "ar" ? "أكاديمية مستر حبيب الرحمن" : "Professional Academy"}
               </span>
             </div>
 

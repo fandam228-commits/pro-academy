@@ -50,7 +50,7 @@ interface AppContextType {
 }
 
 const translations: Record<string, Record<Language, string>> = {
-  appName: { en: "Professional Academy", ar: "أكاديمية المستر أونلاين" },
+  appName: { en: "Professional Academy", ar: "أكاديمية مستر حبيب الرحمن" },
 };
 
 const AppContext = createContext<AppContextType | undefined>(undefined);

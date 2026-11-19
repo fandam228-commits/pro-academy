@@ -48,7 +48,7 @@ export const CommunityChat: React.FC = () => {
         <div className="flex items-center gap-2">
           <MessageSquare className="w-5 h-5 text-purple-600 dark:text-purple-400" />
           <h3 className="font-extrabold text-sm text-slate-900 dark:text-white">
-            {lang === "ar" ? "شات ومجتمع أكاديمية المستر" : "Community Live Q&A"}
+            {lang === "ar" ? "شات ومجتمع أكاديمية مستر حبيب الرحمن" : "Community Live Q&A"}
           </h3>
         </div>
         <span className="text-[10px] font-bold text-emerald-600 bg-emerald-100 dark:bg-emerald-950 px-2.5 py-0.5 rounded-full">

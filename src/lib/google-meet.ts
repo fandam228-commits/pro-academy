@@ -172,7 +172,7 @@ export async function createGoogleCalendarEvent(options: {
 
   const eventPayload = {
     summary: options.title,
-    description: options.description || "حصة لغة إنجليزية مباشرة — أكاديمية المستر (Mr. Habib El Rahman)",
+    description: options.description || "حصة لغة إنجليزية مباشرة — أكاديمية مستر حبيب الرحمن",
     start: {
       dateTime: options.startTime.toISOString(),
       timeZone: "Africa/Cairo",
