@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Home, BookOpen, AlertCircle, Swords } from "lucide-react";
+import { Home, BookOpen, Trophy, AlertCircle, Swords } from "lucide-react";
 
 interface NavItem {
   name: string;
@@ -34,7 +34,6 @@ export function MobileBottomNav() {
     }
 
     fetchMistakesCount();
-    // Poll gently every 30 seconds
     const interval = setInterval(fetchMistakesCount, 30000);
     return () => {
       isMounted = false;
@@ -49,9 +48,14 @@ export function MobileBottomNav() {
       icon: Home,
     },
     {
+      name: "التعلم",
+      href: "/?tab=curriculum",
+      icon: BookOpen,
+    },
+    {
       name: "بنك الأسئلة",
       href: "/dashboard/exam-simulator",
-      icon: BookOpen,
+      icon: Trophy,
     },
     {
       name: "أخطائي",
@@ -79,7 +83,7 @@ export function MobileBottomNav() {
       style={{ paddingBottom: "max(0.5rem, env(safe-area-inset-bottom, 0.5rem))" }}
       aria-label="التنقل السفلي للموبايل"
     >
-      <div className="max-w-md mx-auto grid grid-cols-4 px-2 pt-2">
+      <div className="max-w-md mx-auto grid grid-cols-5 px-1 pt-2">
         {navItems.map((item) => {
           const Icon = item.icon;
           const isActive =
@@ -91,7 +95,7 @@ export function MobileBottomNav() {
             <Link
               key={item.href}
               href={item.href}
-              className={`relative flex flex-col items-center justify-center py-1 px-1 rounded-xl transition-all duration-200 ${
+              className={`relative flex flex-col items-center justify-center py-1 px-0.5 rounded-xl transition-all duration-200 ${
                 isActive
                   ? "text-amber-400 font-bold scale-105"
                   : "text-slate-400 hover:text-slate-200 active:scale-95"
@@ -99,7 +103,7 @@ export function MobileBottomNav() {
             >
               {/* Active ambient glow pill */}
               {isActive && (
-                <span className="absolute -top-1 w-8 h-1 bg-amber-400 rounded-full shadow-[0_0_10px_#EABF58]" />
+                <span className="absolute -top-1 w-7 h-1 bg-amber-400 rounded-full shadow-[0_0_10px_#EABF58]" />
               )}
 
               <div className="relative">
@@ -118,14 +122,14 @@ export function MobileBottomNav() {
 
                 {/* 1v1 Pulse Dot */}
                 {item.hasPulse && !item.badge && (
-                  <span className="absolute -top-1 -right-1 flex h-2.5 w-2.5">
+                  <span className="absolute -top-1 -right-1 flex h-2 w-2">
                     <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75" />
-                    <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-amber-500" />
+                    <span className="relative inline-flex rounded-full h-2 w-2 bg-amber-500" />
                   </span>
                 )}
               </div>
 
-              <span className={`text-[11px] mt-1 tracking-tight ${isActive ? "text-amber-400 font-bold" : "text-slate-300 font-medium"}`}>
+              <span className={`text-[10px] mt-1 tracking-tight truncate max-w-[62px] ${isActive ? "text-amber-400 font-black" : "text-slate-300 font-medium"}`}>
                 {item.name}
               </span>
             </Link>

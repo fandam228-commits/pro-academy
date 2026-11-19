@@ -1,7 +1,7 @@
 // Central Platform Contact & Payment Configuration
 export const PLATFORM_CONFIG = {
   appName: "Professional Academy",
-  appNameAr: "أكاديمية المستر أونلاين",
+  appNameAr: "أكاديمية مستر حبيب الرحمن",
   instructorName: "Mr. Habib El Rahman",
 
   // Vodafone Cash Payment Number

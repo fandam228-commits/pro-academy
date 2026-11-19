@@ -25,11 +25,14 @@ import {
   FileText,
   Languages,
   AlertTriangle,
+  GraduationCap,
+  ArrowRight,
+  ChevronRight,
+  Compass,
 } from "lucide-react";
-import { getCurriculumUnits } from "@/config/curriculum-2026";
 import { CompactLeaderboardWidget } from "@/components/gamification/CompactLeaderboardWidget";
 
-export const StudentDashboard: React.FC<{
+export interface StudentDashboardProps {
   onSelectCourse?: (courseId: string) => void;
   onOpenReport?: () => void;
   onStartExam?: (exam: any) => void;
@@ -38,7 +41,9 @@ export const StudentDashboard: React.FC<{
   onOpenTranslation?: () => void;
   onOpenMistakesBank?: () => void;
   onOpenLeaderboard?: () => void;
-}> = ({
+}
+
+export const StudentDashboard: React.FC<StudentDashboardProps> = ({
   onSelectCourse,
   onOpenReport,
   onStartExam,
@@ -62,7 +67,29 @@ export const StudentDashboard: React.FC<{
   const [quickReviewError, setQuickReviewError] = useState("");
   const [performance, setPerformance] = useState<any>(null);
   const [performanceLoading, setPerformanceLoading] = useState(true);
+  const [unresolvedMistakes, setUnresolvedMistakes] = useState<number>(0);
 
+  // Fetch mistakes count
+  useEffect(() => {
+    let isMounted = true;
+    async function fetchMistakes() {
+      try {
+        const res = await fetch("/api/mistakes?limit=1");
+        if (res.ok) {
+          const data = await res.json();
+          if (isMounted && data?.stats?.totalUnresolved !== undefined) {
+            setUnresolvedMistakes(data.stats.totalUnresolved);
+          }
+        }
+      } catch {}
+    }
+    fetchMistakes();
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
+  // Fetch performance
   useEffect(() => {
     const loadPerformance = async () => {
       try {
@@ -78,6 +105,7 @@ export const StudentDashboard: React.FC<{
     if (user?.role === "student") loadPerformance();
   }, [user?.id, user?.role]);
 
+  // Fetch grammar mastery
   useEffect(() => {
     const loadMastery = async () => {
       try {
@@ -164,7 +192,7 @@ export const StudentDashboard: React.FC<{
       }
     }, 1000);
     return () => clearInterval(interval);
-  }, [isPomoRunning, pomoMinutes, pomoSeconds]);
+  }, [isPomoRunning, pomoMinutes, pomoSeconds, lang]);
 
   const handleAddTask = async () => {
     if (!newTask.trim()) return;
@@ -199,531 +227,387 @@ export const StudentDashboard: React.FC<{
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-8 space-y-8">
-      {/* WELCOME BANNER */}
-      <div className="bg-gradient-to-r from-[#2563EB] to-[#1D4ED8] rounded-3xl p-6 sm:p-8 text-white shadow-xl shadow-blue-600/15 relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-6">
-        <div className="relative z-10 max-w-xl">
-          <span className="text-xs font-bold uppercase tracking-wider bg-white/20 border border-white/30 px-3 py-1 rounded-full text-white">
-            {user?.grade || "Third Secondary (Baccalaureate)"}
-          </span>
-          <h1 className="text-2xl sm:text-3xl font-black mt-3">
-            {lang === "ar" ? `أهلاً بك يا ${user?.name || "عمر"}!` : `Welcome back, ${user?.name || "Omar"}!`}
+    <div className="space-y-6 sm:space-y-8">
+      
+      {/* =========================================================================
+          1. HEADER & WELCOME STRIP (CLEAN & RESTFUL)
+          Greeting • Grade Pill • Daily Streak • Points • Level
+      ========================================================================= */}
+      <div className="bg-gradient-to-r from-[#0E1E38] via-[#162744] to-[#1E3A8A] rounded-3xl p-6 sm:p-7 text-white shadow-xl shadow-blue-950/20 border border-blue-900/40 flex flex-col md:flex-row items-start md:items-center justify-between gap-5">
+        <div className="space-y-2 max-w-xl">
+          <div className="flex items-center gap-2">
+            <span className="text-[10px] font-black uppercase tracking-wider bg-[#EABF58] text-[#0E1E38] px-2.5 py-0.5 rounded-full shadow-xs">
+              {user?.grade || "Third Secondary (Baccalaureate)"}
+            </span>
+            <span className="text-xs text-blue-200 font-semibold">
+              {lang === "ar" ? "منصة مستر حبيب الرحمن" : "Professional Academy"}
+            </span>
+          </div>
+
+          <h1 className="text-2xl sm:text-3xl font-black tracking-tight">
+            {lang === "ar" ? `مرحباً بك يا ${user?.name || "عمر"}!` : `Welcome back, ${user?.name || "Omar"}!`}
           </h1>
-          <p className="text-xs sm:text-sm text-blue-100 mt-2 leading-relaxed">
+          <p className="text-xs sm:text-sm text-blue-100/90 leading-relaxed">
             {lang === "ar"
-              ? "استمر في مشاهدة محاضرات مستر حبيب الرحمن وحل التدريبات اليومية للحفاظ على التتابع والمكافآت."
-              : "Keep up your study streak by completing your curriculum lectures and practicing with Habib AI Tutor."}
+              ? "تابع دروسك اليومية، وحافظ على تتابع المذاكرة واكسب نقاط التميز في امتحانات البنك الذكي."
+              : "Continue your daily lectures, maintain your study streak, and climb the weekly leaderboard."}
           </p>
         </div>
 
-        {/* STATS BADGES */}
-        <div className="relative z-10 flex items-center gap-3 bg-white/15 backdrop-blur-md p-4 rounded-2xl border border-white/20">
-          <div className="text-center px-3">
-            <Flame className="w-6 h-6 text-[#EABF58] mx-auto mb-1 fill-[#EABF58]" />
-            <span className="text-lg font-black text-white">{user?.streak || 12}d</span>
-            <span className="text-[10px] block text-blue-100">{lang === "ar" ? "تتابع يومي" : "Streak"}</span>
+        {/* STATS CHIPS */}
+        <div className="flex items-center gap-2 sm:gap-3 bg-white/10 backdrop-blur-md p-3 sm:p-3.5 rounded-2xl border border-white/15 shrink-0">
+          <div className="text-center px-2.5">
+            <Flame className="w-5 h-5 text-[#EABF58] mx-auto mb-0.5 fill-[#EABF58]" />
+            <span className="text-base font-black text-white">{user?.streak || 12}d</span>
+            <span className="text-[10px] block text-blue-200">{lang === "ar" ? "تتابع" : "Streak"}</span>
           </div>
-          <div className="w-px h-10 bg-white/20" />
-          <div className="text-center px-3">
-            <Award className="w-6 h-6 text-white mx-auto mb-1" />
-            <span className="text-lg font-black text-white">{user?.points || 680}</span>
-            <span className="text-[10px] block text-blue-100">{lang === "ar" ? "نقاط تفوق" : "Points"}</span>
+          <div className="w-px h-8 bg-white/20" />
+          <div className="text-center px-2.5">
+            <Award className="w-5 h-5 text-amber-300 mx-auto mb-0.5" />
+            <span className="text-base font-black text-white">{user?.points || 680}</span>
+            <span className="text-[10px] block text-blue-200">{lang === "ar" ? "نقاط" : "Points"}</span>
           </div>
-          <div className="w-px h-10 bg-white/20" />
-          <div className="text-center px-3">
-            <Trophy className="w-6 h-6 text-[#EABF58] mx-auto mb-1" />
-            <span className="text-lg font-black text-white">{user?.level || "Upper Int."}</span>
-            <span className="text-[10px] block text-blue-100">{lang === "ar" ? "المستوى" : "Level"}</span>
+          <div className="w-px h-8 bg-white/20" />
+          <div className="text-center px-2.5">
+            <Trophy className="w-5 h-5 text-[#EABF58] mx-auto mb-0.5" />
+            <span className="text-base font-black text-white">{user?.level || "Upper Int."}</span>
+            <span className="text-[10px] block text-blue-200">{lang === "ar" ? "المستوى" : "Level"}</span>
           </div>
         </div>
       </div>
 
-      {/* QUICK SMART CURRICULUM ACCESS BANNER */}
-      {onOpenCurriculum && (
-        <div className="bg-white p-6 rounded-3xl border border-blue-100 shadow-md shadow-blue-900/5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-          <div className="flex items-center gap-4">
-            <div className="w-12 h-12 rounded-2xl bg-[#E8F3FF] text-[#2563EB] flex items-center justify-center shrink-0">
-              <BookOpen className="w-6 h-6" />
-            </div>
-            <div>
-              <div className="flex items-center gap-2">
-                <span className="text-[10px] font-black uppercase px-2 py-0.5 rounded-full bg-[#EABF58] text-slate-950">
-                  {lang === "ar" ? "الهيكل الذكي الجديد" : "Smart Curriculum"}
-                </span>
-                <span className="text-xs text-[#718096] font-bold">{lang === "ar" ? "جميع الصفوف + تانية بكالوريا المستقلة" : "All Stages + Egyptian Baccalaureate"}</span>
-              </div>
-              <h3 className="text-base sm:text-lg font-black mt-1 text-[#243247]">
-                {lang === "ar" ? "متابعة المنهج الدراسي وركن القصة المقررة" : "Resume Curriculum Units & Story Corner"}
-              </h3>
-              <p className="text-xs text-[#718096]">
-                {lang === "ar"
-                  ? "كلمات، قواعد، مهارات كتابة، وفصول الرواية المقررة مع حساب نسبة إنجازك تلقائياً."
-                  : "Vocabulary, grammar rules, writing templates, and story chapters with progress tracking."}
-              </p>
-            </div>
+      {/* =========================================================================
+          2. PRIORITY 1: CONTINUE LEARNING (متابعة التعلم)
+          Direct access to current enrolled course, unit, and resume button
+      ========================================================================= */}
+      <section aria-label="متابعة التعلم">
+        <div className="bg-white dark:bg-[#0D1829] rounded-3xl p-6 border border-blue-100 dark:border-slate-800 shadow-md shadow-blue-900/5 space-y-4">
+          <div className="flex items-center justify-between">
+            <h2 className="text-base font-black text-[#0E1E38] dark:text-white flex items-center gap-2">
+              <BookOpen className="w-5 h-5 text-[#2563EB]" />
+              <span>{lang === "ar" ? "1. متابعة التعلم — المحاضرة الحالية" : "1. Continue Learning"}</span>
+            </h2>
+            {onOpenCurriculum && (
+              <button
+                onClick={() => onOpenCurriculum()}
+                className="text-xs font-bold text-[#2563EB] hover:underline flex items-center gap-1 cursor-pointer"
+              >
+                <span>{lang === "ar" ? "وحدات المنهج وركن القصة" : "Curriculum & Novel"}</span>
+                <ChevronRight className="w-4 h-4 rtl:rotate-180" />
+              </button>
+            )}
           </div>
 
-          <button
-            onClick={() => onOpenCurriculum()}
-            className="px-6 py-3 rounded-2xl bg-[#2563EB] hover:bg-[#1D4ED8] text-white font-bold text-xs shadow-md shadow-blue-600/20 transition-all cursor-pointer shrink-0"
-          >
-            {lang === "ar" ? "فتح وحدات المنهج الآن ←" : "Open Curriculum Now →"}
-          </button>
-        </div>
-      )}
-
-      {/* OFFICIAL MINISTRY ASSESSMENTS DEDICATED CARD */}
-      {onOpenMinistryAssessments && (
-        <div className="bg-white p-6 rounded-3xl border border-amber-200/80 shadow-md shadow-amber-900/5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-          <div className="flex items-center gap-4">
-            <div className="w-12 h-12 rounded-2xl bg-amber-50 text-[#EABF58] flex items-center justify-center shrink-0">
-              <FileCheck className="w-6 h-6" />
-            </div>
-            <div>
-              <div className="flex items-center gap-2">
-                <span className="text-[10px] font-black uppercase px-2.5 py-0.5 rounded-full bg-[#EABF58] text-slate-950 shadow-sm">
-                  {lang === "ar" ? "بوابة التقييمات الرسمية 2026/2027" : "Official MOE Assessments 2026/2027"}
-                </span>
-                <span className="text-xs text-[#718096] font-bold flex items-center gap-1">
-                  <ShieldCheck className="w-3.5 h-3.5 text-amber-500" />
-                  <span>{lang === "ar" ? "وزارة التربية والتعليم" : "Ministry of Education"}</span>
-                </span>
-              </div>
-              <h3 className="text-base sm:text-lg font-black mt-1 text-[#243247]">
-                {lang === "ar" ? "تقييمات الوزارة الرسمية (PDF والأداءات الصفية والمنزلية)" : "Official Ministry Performance & Weekly Assessments"}
-              </h3>
-              <p className="text-xs text-[#718096]">
-                {lang === "ar"
-                  ? "تحميل مباشر لتقييمات الأسابيع، الأداءات الصفية والمنزلية، والتقييمات الشهرية المعتمدة لجميع المراحل الإعدادية والثانوية."
-                  : "Direct access to official weekly assessments, classroom & homework sheets, and monthly exams."}
-              </p>
-            </div>
-          </div>
-
-          <button
-            onClick={() => onOpenMinistryAssessments()}
-            className="px-6 py-3 rounded-2xl bg-[#EABF58] hover:bg-amber-400 text-slate-950 font-black text-xs shadow-md transition-all cursor-pointer shrink-0 flex items-center gap-1.5"
-          >
-            <FileText className="w-4 h-4 text-slate-950" />
-            <span>{lang === "ar" ? "تصفح وتحميل التقييمات ←" : "Browse Assessments →"}</span>
-          </button>
-        </div>
-      )}
-
-      {/* TRANSLATION ACADEMY DEDICATED CARD */}
-      <div className="bg-white p-6 rounded-3xl border border-blue-100 shadow-md shadow-blue-900/5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-        <div className="flex items-center gap-4">
-          <div className="w-12 h-12 rounded-2xl bg-[#E8F3FF] text-[#2563EB] flex items-center justify-center shrink-0">
-            <Languages className="w-6 h-6 text-[#2563EB]" />
-          </div>
-          <div>
-            <div className="flex items-center gap-2">
-              <span className="text-[10px] font-black uppercase px-2.5 py-0.5 rounded-full bg-[#EABF58] text-slate-950 shadow-sm">
-                TRANSLATION ACADEMY
+          <div className="bg-slate-50 dark:bg-slate-800/60 p-5 rounded-2xl border border-slate-200/80 dark:border-slate-700 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+            <div className="space-y-1.5 flex-1 min-w-0">
+              <span className="text-[10px] font-black uppercase text-[#2563EB] bg-[#E8F3FF] dark:bg-blue-950/80 px-2.5 py-0.5 rounded-full inline-block">
+                Active Enrolled Course
               </span>
-              <span className="text-xs text-[#718096] font-bold">
-                Think in English. Translate with Confidence.
-              </span>
-            </div>
-            <h3 className="text-base sm:text-lg font-black mt-1 text-[#243247]">
-              {lang === "ar" ? "أكاديمية الترجمة الاحترافية — مستر حبيب الرحمن" : "Professional Translation Academy — Mr. Habib El Rahman"}
-            </h3>
-            <p className="text-xs text-[#718096]">
-              {lang === "ar"
-                ? "تدريب تفاعلي على 8 مسارات و14 نمط أسئلة مع تقييم ذكي فوري وفق معايير الترجمة الخمسة."
-                : "Interactive training across 8 modules and 14 question types with instant rubric-based evaluation."}
-            </p>
-          </div>
-        </div>
-
-        <button
-          onClick={() => onOpenTranslation ? onOpenTranslation() : undefined}
-          className="px-6 py-3 rounded-2xl bg-[#2563EB] hover:bg-[#1D4ED8] text-white font-bold text-xs shadow-md shadow-blue-600/20 transition-all cursor-pointer shrink-0 flex items-center gap-1.5"
-        >
-          <Languages className="w-4 h-4 text-[#EABF58]" />
-          <span>{lang === "ar" ? "دخول أكاديمية الترجمة ←" : "Enter Translation Academy →"}</span>
-        </button>
-      </div>
-
-      {/* SMART MISTAKES BANK DEDICATED CARD */}
-      {onOpenMistakesBank && (
-        <div className="bg-gradient-to-r from-amber-500/10 via-amber-500/5 to-transparent p-6 rounded-3xl border border-amber-300 dark:border-amber-500/30 shadow-md shadow-amber-900/5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-          <div className="flex items-center gap-4">
-            <div className="w-12 h-12 rounded-2xl bg-amber-500/20 text-amber-600 dark:text-amber-400 flex items-center justify-center shrink-0">
-              <AlertTriangle className="w-6 h-6" />
-            </div>
-            <div>
-              <div className="flex items-center gap-2">
-                <span className="text-[10px] font-black uppercase px-2.5 py-0.5 rounded-full bg-amber-400 text-slate-950 shadow-sm">
-                  {lang === "ar" ? "بنك أخطائي الذكي" : "Smart Mistakes Bank"}
-                </span>
-                <span className="text-xs text-[#718096] dark:text-slate-400 font-bold flex items-center gap-1">
-                  <Sparkles className="w-3.5 h-3.5 text-amber-500" />
-                  <span>{lang === "ar" ? "نظام التتبع التلقائي" : "Auto-Tracking"}</span>
-                </span>
-              </div>
-              <h3 className="text-base sm:text-lg font-black mt-1 text-[#243247] dark:text-white">
-                {lang === "ar" ? "بنك الأخطاء التلقائي والمراجعة الذكية" : "Personal Mistakes Bank & Smart Revision"}
+              <h3 className="font-extrabold text-sm sm:text-base text-[#0E1E38] dark:text-white truncate">
+                {user?.grade ? `كورس ${user.grade} 2026/2027` : "Third Secondary Master Class 2026/2027 (Thanawya Amma)"}
               </h3>
-              <p className="text-xs text-[#718096] dark:text-slate-400">
-                {lang === "ar"
-                  ? "كل سؤال تجيب عليه بشكل غير دقيق في أي كويز أو امتحان يتم تجميعه هنا فوراً. راجعه وتدرب عليه مرة أخرى حتى تتقنه ويتم حذفه تلقائياً!"
-                  : "Every question you answer incorrectly is automatically logged here. Practice and master them to remove them!"}
+              <p className="text-xs text-slate-500 dark:text-slate-400 truncate">
+                Unit 1: Inside the World of Care • Present Perfect & Past Simple Mastery
               </p>
-            </div>
-          </div>
 
-          <button
-            onClick={() => onOpenMistakesBank()}
-            className="px-6 py-3 rounded-2xl bg-amber-400 hover:bg-amber-300 text-slate-950 font-black text-xs shadow-md transition-all cursor-pointer shrink-0 flex items-center gap-1.5"
-          >
-            <RotateCcw className="w-4 h-4 text-slate-950" />
-            <span>{lang === "ar" ? "فتح بنك أخطائي والمراجعة الآن ←" : "Open Mistakes Bank →"}</span>
-          </button>
-        </div>
-      )}
-
-      {/* MAIN DASHBOARD CONTENT GRID */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        
-        {/* LEFT COLUMN: ENROLLED COURSES & CONTINUE LEARNING */}
-        <div className="lg:col-span-2 space-y-6">
-          
-          <div className="bg-white dark:bg-slate-900 p-6 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-xl">
-            <div className="flex items-center justify-between mb-4">
-              <h2 className="text-base font-extrabold text-slate-900 dark:text-white flex items-center gap-2">
-                <BookOpen className="w-5 h-5 text-purple-600" />
-                <span>{lang === "ar" ? "متابعة التعلم - كورساتي" : "Continue Learning"}</span>
-              </h2>
-            </div>
-
-            {/* ACTIVE ENROLLED COURSE CARD */}
-            <div className="bg-slate-50 dark:bg-slate-800/80 p-5 rounded-2xl border border-slate-200 dark:border-slate-700 flex flex-col sm:flex-row items-center justify-between gap-4">
-              <div>
-                <span className="text-[10px] font-bold uppercase text-purple-600 dark:text-purple-400 bg-purple-100 dark:bg-purple-950/70 px-2.5 py-0.5 rounded-full">
-                  Active Enrolled Course
-                </span>
-                <h3 className="font-extrabold text-sm text-slate-900 dark:text-white mt-2">
-                  Third Secondary Master Class 2026/2027 (Thanawya Amma)
-                </h3>
-                <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
-                  Unit 1: Inside the World of Care • Present Perfect Mastery
-                </p>
-
-                {/* PROGRESS BAR */}
-                <div className="mt-3 flex items-center gap-3">
-                  <div className="flex-1 bg-slate-200 dark:bg-slate-700 h-2 rounded-full overflow-hidden w-48">
-                    <div className="bg-gradient-to-r from-purple-600 to-sky-400 h-full rounded-full w-1/2" />
-                  </div>
-                  <span className="text-xs font-mono font-black text-amber-600 dark:text-amber-400">50%</span>
+              {/* Progress Bar */}
+              <div className="pt-1 flex items-center gap-3">
+                <div className="flex-1 max-w-xs bg-slate-200 dark:bg-slate-700 h-2 rounded-full overflow-hidden">
+                  <div className="bg-gradient-to-r from-[#2563EB] to-sky-400 h-full rounded-full w-1/2" />
                 </div>
+                <span className="text-xs font-mono font-black text-[#2563EB] dark:text-sky-400">50% مكتمل</span>
               </div>
+            </div>
 
+            <div className="flex items-center gap-2 w-full sm:w-auto shrink-0">
               <button
                 onClick={() => onSelectCourse && onSelectCourse("crs_sec_3")}
-                className="w-full sm:w-auto px-6 py-3 bg-gradient-to-r from-purple-600 to-sky-600 hover:from-purple-500 hover:to-sky-500 text-white rounded-2xl font-bold text-xs shadow-lg shadow-purple-500/25 flex items-center justify-center gap-2 shrink-0 transition-all"
+                className="w-full sm:w-auto px-6 py-3 bg-[#2563EB] hover:bg-[#1D4ED8] text-white rounded-2xl font-bold text-xs shadow-md shadow-blue-600/20 flex items-center justify-center gap-2 cursor-pointer transition-all"
               >
                 <Play className="w-4 h-4 fill-current" />
-                <span>{lang === "ar" ? "متابعة المحاضرة" : "Resume Lecture"}</span>
+                <span>{lang === "ar" ? "متابعة المحاضرة الآن" : "Resume Lecture"}</span>
               </button>
             </div>
           </div>
+        </div>
+      </section>
 
-          {/* SMART QUICK REVIEW */}
-          <div className="relative overflow-hidden bg-gradient-to-br from-purple-900 via-indigo-900 to-sky-900 rounded-3xl p-6 text-white shadow-2xl border border-purple-500/20">
-            <div className="absolute -top-10 -left-10 w-32 h-32 rounded-full bg-white/10 blur-2xl" />
-            <div className="relative z-10">
-              <div className="flex items-center justify-between gap-3">
-                <div>
-                  <span className="inline-flex items-center gap-1.5 text-[10px] font-black uppercase tracking-wider bg-white/15 border border-white/15 px-2.5 py-1 rounded-full">
-                    <Sparkles className="w-3 h-3 text-amber-300" />
-                    {lang === "ar" ? "مراجعة ذكية" : "Smart Review"}
-                  </span>
-                  <h2 className="text-xl font-black mt-3">{lang === "ar" ? "اختبر نفسك الآن 🎯" : "Test Yourself Now 🎯"}</h2>
-                  <p className="text-[11px] text-sky-200 mt-1 leading-5">
-                    {lang === "ar" ? "امتحان تفاعلي من بنك الأسئلة، والنتيجة والتحليل يظهروا فورًا بعد التسليم." : "An interactive bank exam with instant scoring and feedback."}
-                  </p>
-                </div>
-                <div className="hidden sm:flex w-12 h-12 rounded-2xl bg-white/15 items-center justify-center border border-white/15">
-                  <BrainCircuit className="w-6 h-6 text-amber-300" />
-                </div>
-              </div>
+      {/* =========================================================================
+          3. PRIORITY 3 & 4: EXAMS & MISTAKES BANK (التدريب وبنك الأخطاء)
+          Grid layout with 2 focused columns
+      ========================================================================= */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        
+        {/* COLUMN 1: SMART EXAM GENERATOR (اختبر نفسك الآن) */}
+        <section className="bg-white dark:bg-[#0D1829] rounded-3xl p-6 border border-blue-100 dark:border-slate-800 shadow-md shadow-blue-900/5 space-y-4 flex flex-col justify-between">
+          <div className="space-y-3">
+            <div className="flex items-center justify-between">
+              <h2 className="text-base font-black text-[#0E1E38] dark:text-white flex items-center gap-2">
+                <Trophy className="w-5 h-5 text-[#EABF58]" />
+                <span>{lang === "ar" ? "2. التدريب والامتحانات السريعة" : "2. Practice & Quick Exams"}</span>
+              </h2>
+              <span className="text-[10px] font-black uppercase px-2 py-0.5 rounded-full bg-[#E8F3FF] text-[#2563EB]">
+                Smart Shuffle
+              </span>
+            </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-[1fr_auto_auto] gap-2 mt-5">
+            <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
+              {lang === "ar"
+                ? "اختر الوحدة وعدد الأسئلة لتوليد امتحان فوري مخصص من بنك الأسئلة مع تصحيح ذكي وشرح فوري."
+                : "Select unit and question count for instant customized practice with explanations."}
+            </p>
+
+            {/* Quick exam selectors */}
+            <div className="grid grid-cols-2 gap-3 pt-1">
+              <div>
+                <label className="text-[11px] font-bold text-slate-600 dark:text-slate-300 block mb-1">
+                  {lang === "ar" ? "الوحدة المستهدفة:" : "Target Unit:"}
+                </label>
                 <select
                   value={quickReviewUnit}
                   onChange={(e) => setQuickReviewUnit(e.target.value)}
-                  className="p-3 rounded-xl bg-white/10 border border-white/20 text-xs font-bold text-white outline-none"
+                  className="w-full text-xs font-bold p-2.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-[#0E1E38] dark:text-white"
                 >
-                  <option value="Units 1 + 2" className="text-slate-900">{lang === "ar" ? "الوحدتان 1 + 2" : "Units 1 + 2"}</option>
-                  {getCurriculumUnits(user?.grade || "Third Secondary").map((u, i) => (
-                    <option key={i} value={u.type === "review" ? `Review ${u.orderIndex === 4 ? 1 : 2}` : `Unit ${u.unitNumber}`} className="text-slate-900">
-                      {u.type === "review" ? (lang === "ar" ? u.titleAr : u.titleEn) : `Unit ${u.unitNumber}: ${u.titleEn.replace(/^Unit \d+:\s*/, "")}`}
-                    </option>
-                  ))}
-                  <option value="Review 1" className="text-slate-900">{lang === "ar" ? "المراجعة الشاملة الأولى (Units 1–3)" : "Review 1 (Units 1–3)"}</option>
-                  <option value="Review 2" className="text-slate-900">{lang === "ar" ? "المراجعة الشاملة الثانية (Units 4–6)" : "Review 2 (Units 4–6)"}</option>
+                  <option value="Units 1 + 2">Units 1 + 2 (شامل)</option>
+                  <option value="Unit 1">Unit 1: Inside the World of Care</option>
+                  <option value="Unit 2">Unit 2: Past Events & Narratives</option>
+                  <option value="Unit 3">Unit 3: Science & Innovation</option>
                 </select>
-                <select
-                  value={quickReviewCount}
-                  onChange={(e) => setQuickReviewCount(Number(e.target.value))}
-                  className="p-3 rounded-xl bg-white/10 border border-white/20 text-xs font-bold text-white outline-none"
-                >
-                  <option value={10} className="text-slate-900">10 {lang === "ar" ? "سؤال" : "questions"}</option>
-                  <option value={20} className="text-slate-900">20 {lang === "ar" ? "سؤال" : "questions"}</option>
-                  <option value={30} className="text-slate-900">30 {lang === "ar" ? "سؤال" : "questions"}</option>
-                </select>
-                <button
-                  onClick={() => startQuickReview()}
-                  disabled={quickReviewLoading}
-                  className="px-5 py-3 rounded-xl bg-gradient-to-r from-amber-400 to-yellow-400 text-slate-950 hover:bg-amber-300 font-black text-xs shadow-lg disabled:opacity-60 transition-all"
-                >
-                  {quickReviewLoading ? (lang === "ar" ? "جاري التجهيز..." : "Preparing...") : (lang === "ar" ? "ابدأ الآن ▶" : "Start Now ▶")}
-                </button>
               </div>
 
-              {quickReviewError && (
-                <div className="mt-3 rounded-xl bg-red-500/20 border border-red-200/20 px-3 py-2 text-[10px] font-bold text-red-100">
-                  {quickReviewError}
-                </div>
-              )}
-
-              <div className="mt-3 flex flex-wrap gap-3 text-[9px] font-bold text-sky-200/80">
-                <span>✓ {lang === "ar" ? "تصحيح تلقائي" : "Auto grading"}</span>
-                <span>✓ {lang === "ar" ? "تحليل الأخطاء" : "Error analysis"}</span>
-                <span>✓ {lang === "ar" ? "حفظ النتيجة" : "Result saved"}</span>
-              </div>
-            </div>
-          </div>
-
-          {/* PERFORMANCE HISTORY */}
-          <div className="bg-white dark:bg-slate-900 p-6 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-xl">
-            <div className="flex items-center justify-between gap-3 mb-4">
               <div>
-                <h2 className="text-base font-extrabold text-slate-900 dark:text-white flex items-center gap-2">
-                  <History className="w-5 h-5 text-blue-600" />
-                  {lang === "ar" ? "سجل الاختبارات والنتائج" : "Test History & Results"}
-                </h2>
-                <p className="text-[10px] text-slate-500 mt-1">{lang === "ar" ? "المنصة بتحلل نتائجك وتحدد لك إيه اللي محتاج مراجعة." : "Your results are analyzed to recommend what to review next."}</p>
-              </div>
-              {performance?.totalExams > 0 && (
-                <div className="text-center rounded-xl bg-blue-50 dark:bg-blue-950/30 px-3 py-2">
-                  <div className="text-lg font-black text-blue-600">{performance.average}%</div>
-                  <div className="text-[9px] font-bold text-slate-500">{lang === "ar" ? "متوسطك" : "Average"}</div>
-                </div>
-              )}
-            </div>
-
-            {performanceLoading ? (
-              <div className="py-6 text-center text-xs text-slate-500">جاري تحميل نتائجك...</div>
-            ) : !performance?.history?.length ? (
-              <div className="rounded-2xl bg-slate-50 dark:bg-slate-800 p-5 text-center text-xs font-bold text-slate-500">
-                لسه مفيش اختبارات مسجلة. ابدأ المراجعة الذكية فوق 🎯
-              </div>
-            ) : (
-              <div className="space-y-2">
-                {performance.history.slice(0, 5).map((item: any) => (
-                  <div key={item.id} className="p-3 rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50/70 dark:bg-slate-800/60 flex items-center justify-between gap-3">
-                    <div className="min-w-0">
-                      <div className="text-xs font-black text-slate-900 dark:text-white truncate">{item.title}</div>
-                      <div className="text-[9px] text-slate-400 mt-1">{item.grade} • {new Date(item.submittedAt).toLocaleDateString("ar-EG")}</div>
-                    </div>
-                    <div className="text-end shrink-0">
-                      <div className={`text-base font-black ${item.percentage >= 90 ? "text-emerald-600" : item.percentage >= 60 ? "text-blue-600" : "text-red-600"}`}>{item.percentage}%</div>
-                      <div className="text-[9px] font-bold text-slate-400">{item.score} pts • {item.passed ? "ناجح" : "يحتاج مراجعة"}</div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            )}
-
-            {performance?.weakPoints?.length > 0 && (
-              <div className="mt-5 rounded-2xl border border-amber-200 dark:border-amber-900/50 bg-amber-50/70 dark:bg-amber-950/20 p-4">
-                <div className="flex items-center gap-2 text-sm font-black text-amber-800 dark:text-amber-200">
-                  <TrendingDown className="w-4 h-4" />
-                  {lang === "ar" ? "نقاط محتاجة مراجعة" : "Weak Points"}
-                </div>
-                <div className="mt-3 space-y-2">
-                  {performance.weakPoints.slice(0, 4).map((item: any) => (
-                    <div key={item.topic} className="flex items-center justify-between gap-3 text-[10px] font-bold">
-                      <span className="text-slate-700 dark:text-slate-300 truncate">{item.topic}</span>
-                      <span className={`shrink-0 ${item.percentage < 60 ? "text-red-600" : "text-amber-700"}`}>{item.percentage}%</span>
-                    </div>
+                <label className="text-[11px] font-bold text-slate-600 dark:text-slate-300 block mb-1">
+                  {lang === "ar" ? "عدد الأسئلة:" : "Question Count:"}
+                </label>
+                <div className="flex items-center gap-1.5">
+                  {[10, 20, 30].map((cnt) => (
+                    <button
+                      key={cnt}
+                      type="button"
+                      onClick={() => setQuickReviewCount(cnt)}
+                      className={`flex-1 py-2 rounded-xl text-xs font-bold transition cursor-pointer ${
+                        quickReviewCount === cnt
+                          ? "bg-[#2563EB] text-white"
+                          : "bg-slate-100 dark:bg-slate-800 text-slate-600 hover:bg-slate-200"
+                      }`}
+                    >
+                      {cnt}
+                    </button>
                   ))}
                 </div>
-                <button
-                  onClick={() => startQuickReview(performance.weakPoints[0]?.topic)}
-                  className="mt-4 w-full py-2.5 rounded-xl bg-amber-500 hover:bg-amber-600 text-white text-[10px] font-black flex items-center justify-center gap-2"
-                >
-                  <RotateCcw className="w-3.5 h-3.5" />
-                  ابدأ مراجعة جديدة
-                </button>
               </div>
+            </div>
+
+            {quickReviewError && (
+              <p className="text-xs text-red-500 font-bold">{quickReviewError}</p>
             )}
           </div>
 
-          {/* STUDY PLANNER TODO LIST */}
-          <div className="bg-white dark:bg-slate-900 p-6 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-xl">
-            <h2 className="text-base font-extrabold text-slate-900 dark:text-white mb-4 flex items-center gap-2">
-              <Calendar className="w-5 h-5 text-indigo-600" />
-              <span>{lang === "ar" ? "مخطط المذاكرة والمهام اليومية" : "Study Planner & Tasks"}</span>
-            </h2>
+          <div className="pt-2 flex flex-col sm:flex-row items-center gap-2">
+            <button
+              onClick={() => startQuickReview()}
+              disabled={quickReviewLoading}
+              className="w-full sm:flex-1 py-3 rounded-2xl bg-[#0E1E38] hover:bg-[#162744] text-white font-extrabold text-xs shadow-md transition flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50 border border-[#EABF58]/40"
+            >
+              <Target className="w-4 h-4 text-[#EABF58]" />
+              <span>{quickReviewLoading ? "جاري تجهيز الامتحان..." : (lang === "ar" ? "توليد وبدء الامتحان الآن ←" : "Start Exam Now →")}</span>
+            </button>
 
-            <div className="flex gap-2 mb-4">
-              <input
-                type="text"
-                placeholder={lang === "ar" ? "إضافة مهمة مذاكرة جديدة..." : "Add new study task..."}
-                value={newTask}
-                onChange={(e) => setNewTask(e.target.value)}
-                onKeyDown={(e) => e.key === "Enter" && handleAddTask()}
-                className="flex-1 p-3 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs font-medium text-slate-900 dark:text-white"
-              />
+            {onOpenMinistryAssessments && (
               <button
-                onClick={handleAddTask}
-                className="px-4 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl text-xs font-bold transition-all"
+                onClick={() => onOpenMinistryAssessments()}
+                className="w-full sm:w-auto px-4 py-3 rounded-2xl bg-amber-50 hover:bg-amber-100 text-[#0E1E38] border border-amber-300 font-bold text-xs transition cursor-pointer"
+                title="تقييمات الوزارة"
               >
-                <Plus className="w-4 h-4" />
+                {lang === "ar" ? "تقييمات الوزارة" : "Ministry Sheets"}
               </button>
+            )}
+          </div>
+        </section>
+
+        {/* COLUMN 2: SMART MISTAKES BANK (بنك أخطائي الذكي) */}
+        <section className="bg-white dark:bg-[#0D1829] rounded-3xl p-6 border border-amber-200/80 dark:border-amber-500/30 shadow-md shadow-amber-900/5 space-y-4 flex flex-col justify-between">
+          <div className="space-y-3">
+            <div className="flex items-center justify-between">
+              <h2 className="text-base font-black text-[#0E1E38] dark:text-white flex items-center gap-2">
+                <AlertTriangle className="w-5 h-5 text-amber-500" />
+                <span>{lang === "ar" ? "3. بنك أخطائي الذكي والمراجعة" : "3. Mistakes Bank & Revision"}</span>
+              </h2>
+              {unresolvedMistakes > 0 ? (
+                <span className="px-2.5 py-0.5 rounded-full bg-red-100 dark:bg-red-950/80 text-red-600 dark:text-red-300 text-[10px] font-black animate-pulse">
+                  {unresolvedMistakes} أخطاء غير معالجة
+                </span>
+              ) : (
+                <span className="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-700 text-[10px] font-black">
+                  مكتمل 100%
+                </span>
+              )}
             </div>
 
-            <div className="space-y-2">
-              {plannerTasks.map((t) => (
+            <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
+              {lang === "ar"
+                ? "يتم تجميع كل سؤال تجيب عليه بشكل غير دقيق في الكويزات هنا فوراً. تدرب عليه مجدداً حتى تتقنه ويتم حذفه تلقائياً."
+                : "Every wrong answer from quizzes is logged here. Review and master them to clear your bank!"}
+            </p>
+
+            {/* Quick summary box */}
+            <div className="p-3.5 rounded-2xl bg-amber-50/70 dark:bg-amber-950/30 border border-amber-200/70 flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-xl bg-amber-500/20 text-amber-600 flex items-center justify-center font-black text-lg">
+                  {unresolvedMistakes}
+                </div>
+                <div>
+                  <span className="text-xs font-bold text-[#0E1E38] dark:text-white block">
+                    {lang === "ar" ? "الأسئلة بانتظار الإتقان" : "Questions to Master"}
+                  </span>
+                  <span className="text-[11px] text-slate-500 dark:text-slate-400">
+                    {unresolvedMistakes > 0
+                      ? (lang === "ar" ? "نقاط XP إضافية عند تصفير البنك" : "Bonus XP on bank clearance")
+                      : (lang === "ar" ? "رائع! بنك أخطائك نظيف تماماً 🎉" : "Great job! Zero mistakes pending")}
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="pt-2">
+            <button
+              onClick={() => onOpenMistakesBank ? onOpenMistakesBank() : undefined}
+              className="w-full py-3 rounded-2xl bg-[#EABF58] hover:bg-amber-400 text-slate-950 font-black text-xs shadow-md transition flex items-center justify-center gap-2 cursor-pointer"
+            >
+              <RotateCcw className="w-4 h-4 text-slate-950" />
+              <span>{lang === "ar" ? "فتح بنك أخطائي ومراجعة الأسئلة الآن ←" : "Open Mistakes Bank & Review Now →"}</span>
+            </button>
+          </div>
+        </section>
+
+      </div>
+
+      {/* =========================================================================
+          4. PRIORITY 5: LEARNING PROGRESS, FOCUS & LEADERBOARD
+          Tasks Planner • Pomodoro Focus • Top-5 Leaderboard
+      ========================================================================= */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        
+        {/* TASKS PLANNER (خطة المذاكرة) */}
+        <div className="bg-white dark:bg-[#0D1829] rounded-3xl p-5 border border-slate-200/80 dark:border-slate-800 shadow-sm space-y-3">
+          <div className="flex items-center justify-between">
+            <h3 className="font-extrabold text-sm text-[#0E1E38] dark:text-white flex items-center gap-2">
+              <Calendar className="w-4 h-4 text-[#2563EB]" />
+              <span>{lang === "ar" ? "خطة المذاكرة اليومية" : "Study Planner"}</span>
+            </h3>
+            <span className="text-[10px] text-slate-400 font-bold">{plannerTasks.length} مهام</span>
+          </div>
+
+          <div className="flex items-center gap-2">
+            <input
+              type="text"
+              value={newTask}
+              onChange={(e) => setNewTask(e.target.value)}
+              onKeyDown={(e) => e.key === "Enter" && handleAddTask()}
+              placeholder={lang === "ar" ? "أضف مهمة... (مثال: مراجعة كلمات Unit 2)" : "Add task..."}
+              className="flex-1 text-xs p-2.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-[#0E1E38] dark:text-white"
+            />
+            <button
+              onClick={handleAddTask}
+              className="p-2.5 bg-[#2563EB] text-white rounded-xl hover:bg-[#1D4ED8] transition cursor-pointer"
+              title="Add task"
+            >
+              <Plus className="w-4 h-4" />
+            </button>
+          </div>
+
+          <div className="space-y-1.5 max-h-48 overflow-y-auto pt-1">
+            {plannerTasks.length === 0 ? (
+              <p className="text-xs text-slate-400 text-center py-4">
+                {lang === "ar" ? "لا توجد مهام اليوم. خطط ليومك الآن!" : "No tasks scheduled for today."}
+              </p>
+            ) : (
+              plannerTasks.map((t) => (
                 <div
                   key={t.id}
                   onClick={() => handleToggleTask(t.id, t.isCompleted)}
-                  className={`p-3 rounded-2xl border text-xs font-medium cursor-pointer transition-all flex items-center justify-between ${
+                  className={`p-2.5 rounded-xl border text-xs font-bold transition flex items-center justify-between cursor-pointer ${
                     t.isCompleted
-                      ? "bg-slate-100 dark:bg-slate-800/40 border-slate-200 dark:border-slate-800 text-slate-400 line-through"
-                      : "bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-800 dark:text-slate-200"
+                      ? "bg-slate-50 dark:bg-slate-800/40 text-slate-400 line-through border-slate-100 dark:border-slate-800"
+                      : "bg-white dark:bg-slate-800 text-[#0E1E38] dark:text-white border-slate-200 dark:border-slate-700"
                   }`}
                 >
-                  <span>{t.task}</span>
-                  <div
-                    className={`w-4 h-4 rounded-full border flex items-center justify-center ${
-                      t.isCompleted ? "bg-emerald-500 border-emerald-500 text-white" : "border-slate-400"
-                    }`}
-                  >
-                    {t.isCompleted && <CheckCircle className="w-3.5 h-3.5" />}
-                  </div>
+                  <span className="truncate">{t.task}</span>
+                  <CheckCircle className={`w-4 h-4 shrink-0 ${t.isCompleted ? "text-emerald-500" : "text-slate-300"}`} />
                 </div>
-              ))}
-            </div>
+              ))
+            )}
           </div>
         </div>
 
-        {/* RIGHT COLUMN: POMODORO TIMER & LEADERBOARD BADGES */}
-        <div className="space-y-6">
-          
-          {/* WEEKLY LEADERBOARD COMPACT WIDGET */}
-          <CompactLeaderboardWidget onOpenLeaderboard={onOpenLeaderboard} />
-
-          {/* WEEKLY REPORT BUTTON */}
-          {onOpenReport && (
-            <div className="bg-gradient-to-br from-indigo-600 to-blue-700 rounded-3xl p-5 text-white shadow-xl">
-              <h2 className="text-sm font-extrabold mb-2 flex items-center gap-2">
-                <BarChart2 className="w-4 h-4 text-amber-300" />
-                {lang === "ar" ? "تقريرك الأسبوعي" : "Your Weekly Report"}
-              </h2>
-              <p className="text-[11px] text-blue-100 mb-3">
-                {lang === "ar" ? "ملخص أدائك: حضور، واجبات، درجات، ونصائح المستر." : "Performance summary: attendance, homework, grades & tips."}
-              </p>
-              <button
-                onClick={onOpenReport}
-                className="w-full py-2.5 rounded-xl bg-white/20 hover:bg-white/30 font-extrabold text-xs border border-white/30 transition-all"
-              >
-                {lang === "ar" ? "عرض التقرير" : "View Report"}
-              </button>
-            </div>
-          )}
-
-
-          {/* GRAMMAR MASTERY */}
-          <div className="bg-white dark:bg-slate-900 p-6 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-xl">
-            <h2 className="text-sm font-extrabold text-slate-900 dark:text-white mb-1 flex items-center gap-2">
-              <Target className="w-4 h-4 text-blue-600" />
-              {lang === "ar" ? "إتقان القواعد" : "Grammar Mastery"}
-            </h2>
-            <p className="text-[10px] text-slate-500 mb-4">{lang === "ar" ? "أضعف القواعد تظهر أولًا عشان تعرف تراجع إيه." : "Your weakest rules appear first."}</p>
-            {masteryLoading ? <div className="text-xs text-slate-500 py-4">جاري تحميل مستوى الإتقان...</div> : weakestRules.length === 0 ? (
-              <div className="rounded-2xl bg-blue-50 dark:bg-blue-950/30 p-4 text-xs font-bold text-blue-800 dark:text-blue-200">ابدأ تدريب القواعد، وهنا هنظهر مستوى إتقانك تلقائيًا.</div>
-            ) : <div className="space-y-3">{weakestRules.map((r) => <div key={r.id} className="rounded-2xl border border-slate-200 dark:border-slate-800 p-3">
-              <div className="flex items-center justify-between gap-3"><div className="min-w-0"><div className="text-xs font-black text-slate-900 dark:text-white truncate">{r.grammarTopic}</div><div className="text-[9px] text-slate-400">{r.grade} • {r.unit}</div></div><div className="text-xs font-black text-blue-600">{r.masteryPercent}%</div></div>
-              <div className="mt-2 h-2 rounded-full bg-slate-100 dark:bg-slate-800 overflow-hidden"><div className="h-full rounded-full bg-blue-600" style={{width: `${Math.min(100, Math.max(0, Number(r.masteryPercent)))}%`}} /></div>
-              <div className="mt-2 flex items-center justify-between gap-2"><div className="flex items-center gap-1 text-[9px] font-bold text-slate-500"><AlertCircle className="w-3 h-3" />{r.status}</div><a href={`/?tab=grammar&grade=${encodeURIComponent(r.grade)}&curriculum=${encodeURIComponent(r.curriculum)}&term=${encodeURIComponent(r.term)}&unit=${encodeURIComponent(r.unit)}&grammarTopic=${encodeURIComponent(r.grammarTopic)}`} className="rounded-lg bg-blue-600 px-2.5 py-1.5 text-[9px] font-black text-white">راجع القاعدة</a></div>
-            </div>)}</div>}
-          </div>
-          {recommendedRule && Number(recommendedRule.masteryPercent) < 90 && (
-            <div className="bg-gradient-to-br from-amber-500 to-orange-600 rounded-3xl p-5 text-white shadow-xl">
-              <div className="flex items-center gap-2 text-sm font-black"><BrainCircuit className="w-4 h-4" />مراجعة مقترحة الآن</div>
-              <div className="mt-3 text-base font-black">{recommendedRule.grammarTopic}</div>
-              <div className="mt-1 text-[10px] text-amber-50">{recommendedRule.grade} • {recommendedRule.unit} • إتقان {recommendedRule.masteryPercent}%</div>
-              <p className="mt-3 text-[10px] leading-5 text-amber-50">ابدأ بفيديو الشرح، وبعده حل 5 أسئلة من نفس القاعدة. المنصة هتسجل النتيجة تلقائيًا.</p>
-              <a href={`/?tab=grammar&grade=${encodeURIComponent(recommendedRule.grade)}&curriculum=${encodeURIComponent(recommendedRule.curriculum)}&term=${encodeURIComponent(recommendedRule.term)}&unit=${encodeURIComponent(recommendedRule.unit)}&grammarTopic=${encodeURIComponent(recommendedRule.grammarTopic)}`} className="mt-3 inline-flex w-full items-center justify-center rounded-xl bg-white px-4 py-2.5 text-xs font-black text-orange-700">ابدأ المراجعة →</a>
-            </div>
-          )}
-
-          {/* POMODORO FOCUS TIMER */}
-          <div className="bg-white dark:bg-slate-900 p-6 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-xl text-center">
-            <h2 className="text-sm font-extrabold text-slate-900 dark:text-white mb-2 flex items-center justify-center gap-1.5">
-              <Clock className="w-4 h-4 text-amber-500" />
-              <span>{lang === "ar" ? "مؤقت التركيز (Pomodoro Timer)" : "Pomodoro Focus Timer"}</span>
-            </h2>
-
-            <div className="text-4xl font-mono font-black text-slate-900 dark:text-white my-4 bg-slate-50 dark:bg-slate-800 p-4 rounded-2xl border border-slate-200 dark:border-slate-700">
-              {pomoMinutes < 10 ? `0${pomoMinutes}` : pomoMinutes}:{pomoSeconds < 10 ? `0${pomoSeconds}` : pomoSeconds}
-            </div>
-
-            <div className="flex justify-center gap-2">
-              <button
-                onClick={() => setIsPomoRunning(!isPomoRunning)}
-                className={`px-6 py-2.5 rounded-xl font-bold text-xs text-white shadow-md transition-all ${
-                  isPomoRunning ? "bg-amber-600 hover:bg-amber-500" : "bg-emerald-600 hover:bg-emerald-500"
-                }`}
-              >
-                {isPomoRunning ? (lang === "ar" ? "إيقاف مؤقت" : "Pause") : (lang === "ar" ? "ابدأ المذاكرة" : "Start Focus")}
-              </button>
-
-              <button
-                onClick={() => {
-                  setIsPomoRunning(false);
-                  setPomoMinutes(25);
-                  setPomoSeconds(0);
-                }}
-                className="px-4 py-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 font-bold text-xs"
-              >
-                {lang === "ar" ? "إعادة ضبط" : "Reset"}
-              </button>
-            </div>
+        {/* POMODORO FOCUS TIMER (مؤقت التركيز 25 دقيقة) */}
+        <div className="bg-white dark:bg-[#0D1829] rounded-3xl p-5 border border-slate-200/80 dark:border-slate-800 shadow-sm space-y-3 flex flex-col justify-between">
+          <div className="flex items-center justify-between">
+            <h3 className="font-extrabold text-sm text-[#0E1E38] dark:text-white flex items-center gap-2">
+              <Clock className="w-4 h-4 text-rose-500" />
+              <span>{lang === "ar" ? "مؤقت التركيز (Pomodoro)" : "Focus Timer"}</span>
+            </h3>
+            <span className="text-[10px] font-bold text-slate-400">25 دقيقة مذاكرة</span>
           </div>
 
-          {/* GAMIFICATION BADGES */}
-          <div className="bg-white dark:bg-slate-900 p-6 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-xl">
-            <h2 className="text-sm font-extrabold text-slate-900 dark:text-white mb-4 flex items-center gap-2">
-              <Sparkles className="w-4 h-4 text-amber-500" />
-              <span>{lang === "ar" ? "شارات وإنجازات التفوق" : "My Badges & Achievements"}</span>
-            </h2>
-
-            <div className="grid grid-cols-2 gap-3">
-              <div className="p-3 bg-amber-50 dark:bg-amber-950/40 rounded-2xl border border-amber-200 dark:border-amber-900/40 text-center">
-                <div className="w-8 h-8 rounded-full bg-amber-500 text-white flex items-center justify-center mx-auto mb-1 font-bold text-xs">
-                  🔥
-                </div>
-                <span className="text-[11px] font-bold text-amber-900 dark:text-amber-200 block">10-Day Streak</span>
-                <span className="text-[9px] text-amber-600 block">Unlocked!</span>
-              </div>
-
-              <div className="p-3 bg-emerald-50 dark:bg-emerald-950/40 rounded-2xl border border-emerald-200 dark:border-emerald-900/40 text-center">
-                <div className="w-8 h-8 rounded-full bg-emerald-500 text-white flex items-center justify-center mx-auto mb-1 font-bold text-xs">
-                  🎯
-                </div>
-                <span className="text-[11px] font-bold text-emerald-900 dark:text-emerald-200 block">Quiz Master</span>
-                <span className="text-[9px] text-emerald-600 block">90%+ Score</span>
-              </div>
+          <div className="text-center py-2">
+            <div className="font-mono font-black text-3xl sm:text-4xl text-[#0E1E38] dark:text-white tracking-widest">
+              {String(pomoMinutes).padStart(2, "0")}:{String(pomoSeconds).padStart(2, "0")}
             </div>
+            <p className="text-[11px] text-slate-500 mt-1">
+              {isPomoRunning
+                ? (lang === "ar" ? "جلسة التركيز جارية... ركز في المذاكرة" : "Focus session running...")
+                : (lang === "ar" ? "جاهز للبدء؟ خذ جلسة تركيز خالية من التشتيت" : "Ready to focus?")}
+            </p>
           </div>
 
+          <div className="flex items-center gap-2">
+            <button
+              onClick={() => setIsPomoRunning(!isPomoRunning)}
+              className={`flex-1 py-2.5 rounded-xl font-bold text-xs transition cursor-pointer ${
+                isPomoRunning
+                  ? "bg-rose-500 hover:bg-rose-600 text-white"
+                  : "bg-[#2563EB] hover:bg-[#1D4ED8] text-white shadow-xs"
+              }`}
+            >
+              {isPomoRunning ? (lang === "ar" ? "إيقاف مؤقت" : "Pause") : (lang === "ar" ? "ابدأ التركيز (25د)" : "Start")}
+            </button>
+            <button
+              onClick={() => {
+                setIsPomoRunning(false);
+                setPomoMinutes(25);
+                setPomoSeconds(0);
+              }}
+              className="px-3 py-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-bold text-xs hover:bg-slate-200 transition cursor-pointer"
+            >
+              {lang === "ar" ? "إعادة ضبط" : "Reset"}
+            </button>
+          </div>
         </div>
+
+        {/* TOP-5 WEEKLY LEADERBOARD WIDGET */}
+        <div className="bg-white dark:bg-[#0D1829] rounded-3xl p-5 border border-slate-200/80 dark:border-slate-800 shadow-sm space-y-3">
+          <div className="flex items-center justify-between">
+            <h3 className="font-extrabold text-sm text-[#0E1E38] dark:text-white flex items-center gap-2">
+              <Trophy className="w-4 h-4 text-[#EABF58]" />
+              <span>{lang === "ar" ? "أوائل الأسبوع (XP)" : "Weekly Top 5"}</span>
+            </h3>
+            {onOpenLeaderboard && (
+              <button
+                onClick={() => onOpenLeaderboard()}
+                className="text-[11px] font-bold text-[#2563EB] hover:underline cursor-pointer"
+              >
+                {lang === "ar" ? "الكل ←" : "All →"}
+              </button>
+            )}
+          </div>
+
+          <CompactLeaderboardWidget onOpenLeaderboard={() => onOpenLeaderboard?.()} />
+        </div>
+
       </div>
+
     </div>
   );
 };

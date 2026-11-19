@@ -649,7 +649,10 @@ function MainAppContent() {
         ) : activeTab === "search" ? (
 
           /* VIEW: GLOBAL SEARCH */
-          <GlobalSearch onSelectCourse={(id) => setSelectedCourseId(id)} />
+          <GlobalSearch
+            onSelectCourse={(id) => setSelectedCourseId(id)}
+            onNavigateTab={(tab) => handleTabChange(tab)}
+          />
         ) : activeTab === "homework" ? (
 
           /* VIEW: HOMEWORK SYSTEM */
