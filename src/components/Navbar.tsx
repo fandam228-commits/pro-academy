@@ -296,12 +296,12 @@ export const Navbar: React.FC<NavbarProps> = ({ activeTab = "home", setActiveTab
     },
     {
       id: "flashcards",
-      labelAr: "فلاش كاردز التكرار المتباعد (SRS)",
+      labelAr: "كروت الاستذكار والتكرار المتباعد (SM-2)",
       labelEn: "Spaced Repetition Flashcards",
-      descAr: "تثبيت الكلمات الصعبة بالصوت والنطق البريطاني السليم",
-      descEn: "SRS flashcard deck with native British pronunciation audio",
+      descAr: "تثبيت الكلمات والمشتقات والمصطلحات الوزارية بالصوت وخوارزمية SM-2",
+      descEn: "SM-2 spaced repetition deck with native pronunciation audio and ministerial examples",
       icon: Layers,
-      badge: "SRS",
+      badge: "SM-2 ذكي",
     },
     {
       id: "ai_assistant",
