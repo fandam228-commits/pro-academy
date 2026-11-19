@@ -29,6 +29,8 @@ import {
   ArrowRight,
   ChevronRight,
   Compass,
+  MessageCircle,
+  Share2,
 } from "lucide-react";
 import { CompactLeaderboardWidget } from "@/components/gamification/CompactLeaderboardWidget";
 
@@ -273,6 +275,51 @@ export const StudentDashboard: React.FC<StudentDashboardProps> = ({
             <span className="text-base font-black text-white">{user?.level || "Upper Int."}</span>
             <span className="text-[10px] block text-blue-200">{lang === "ar" ? "المستوى" : "Level"}</span>
           </div>
+        </div>
+      </div>
+
+      {/* =========================================================================
+          SMART WHATSAPP PARENT REPORT BANNER
+          1-Click certified weekly parent report dispatch
+      ========================================================================= */}
+      <div className="bg-gradient-to-r from-emerald-950/70 via-slate-900 to-indigo-950/80 rounded-3xl p-5 sm:p-6 text-white shadow-xl border border-emerald-500/30 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+        <div className="flex items-center gap-3.5 max-w-xl">
+          <div className="w-12 h-12 rounded-2xl bg-emerald-500/20 border border-emerald-500/40 text-emerald-400 flex items-center justify-center shrink-0 shadow-lg">
+            <MessageCircle className="w-6 h-6 fill-current" />
+          </div>
+          <div className="space-y-1">
+            <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 text-[10px] font-black uppercase tracking-wider">
+              <span>{lang === "ar" ? "تقرير المتابعة الأسبوعي المعتمد" : "Certified Parent Progress Report"}</span>
+            </div>
+            <h3 className="text-sm sm:text-base font-black text-white">
+              {lang === "ar"
+                ? "شارك تفوقك والتزامك الدراسي مع ولي أمرك على واتساب"
+                : "Share your study progress & quiz mastery with your parents"}
+            </h3>
+            <p className="text-xs text-slate-300 leading-relaxed">
+              {lang === "ar"
+                ? "تقرير رقمي معتمد يتضمن درجاتك، نسبة حضورك، الأسئلة المعالجة ببنك الأخطاء، مع توجيهات مستر حبيب التربوية."
+                : "A certified summary with attendance, quiz averages, mistakes bank stats, and teacher feedback."}
+            </p>
+          </div>
+        </div>
+
+        <div className="flex items-center gap-2.5 w-full md:w-auto shrink-0">
+          {onOpenReport && (
+            <button
+              onClick={onOpenReport}
+              className="flex-1 md:flex-initial px-4 py-2.5 rounded-xl bg-slate-800/90 hover:bg-slate-700 text-white text-xs font-bold transition-all border border-slate-700 cursor-pointer"
+            >
+              {lang === "ar" ? "معاينة التقرير الكامل" : "View Full Report"}
+            </button>
+          )}
+          <button
+            onClick={() => onOpenReport?.()}
+            className="flex-1 md:flex-initial px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-black shadow-lg shadow-emerald-600/30 flex items-center justify-center gap-2 transition-all cursor-pointer"
+          >
+            <MessageCircle className="w-4 h-4 fill-current" />
+            <span>{lang === "ar" ? "إرسال لواتساب 📲" : "Send WhatsApp 📲"}</span>
+          </button>
         </div>
       </div>
 

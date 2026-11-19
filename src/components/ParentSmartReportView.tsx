@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { useApp } from "@/context/AppContext";
 import { authHeaders } from "@/lib/client-auth";
+import { formatWhatsAppParentReport, buildParentWhatsAppShareUrl } from "@/lib/whatsapp-report-formatter";
 import {
   GraduationCap,
   Sparkles,
@@ -22,6 +23,10 @@ import {
   ShieldCheck,
   ChevronRight,
   FileText,
+  Copy,
+  Check,
+  X,
+  ExternalLink,
 } from "lucide-react";
 
 interface ParentSmartReportViewProps {
@@ -44,6 +49,12 @@ export const ParentSmartReportView: React.FC<ParentSmartReportViewProps> = ({
   const [error, setError] = useState<string | null>(null);
   const [shareableUrl, setShareableUrl] = useState<string | null>(null);
   const [copied, setCopied] = useState(false);
+  const [copiedMsg, setCopiedMsg] = useState(false);
+
+  // WhatsApp Dispatch Modal State
+  const [showWhatsAppModal, setShowWhatsAppModal] = useState(false);
+  const [parentPhoneInput, setParentPhoneInput] = useState("");
+  const [whatsappData, setWhatsappData] = useState<any>(null);
 
   useEffect(() => {
     fetchReport();
@@ -69,7 +80,24 @@ export const ParentSmartReportView: React.FC<ParentSmartReportViewProps> = ({
       const data = await res.json();
       if (res.ok && data.report) {
         setReport(data.report);
+        const resolvedUrl = data.shareableUrl || (typeof window !== "undefined" ? window.location.href : "");
         if (data.shareableUrl) setShareableUrl(data.shareableUrl);
+
+        // Precompute or store whatsapp formatted text
+        if (data.whatsappSummary) {
+          setWhatsappData(data.whatsappSummary);
+        } else {
+          const generated = formatWhatsAppParentReport({
+            report: data.report,
+            reportUrl: resolvedUrl,
+            parentPhone: data.report.parent?.phone,
+          });
+          setWhatsappData(generated);
+        }
+
+        if (data.report.parent?.phone) {
+          setParentPhoneInput(data.report.parent.phone);
+        }
       } else {
         setError(data.error || (lang === "ar" ? "فشل في تحميل التقرير" : "Failed to load report"));
       }
@@ -91,6 +119,22 @@ export const ParentSmartReportView: React.FC<ParentSmartReportViewProps> = ({
     setTimeout(() => setCopied(false), 2500);
   };
 
+  const handleCopyWhatsAppText = () => {
+    if (!whatsappData?.whatsappMessage) return;
+    navigator.clipboard.writeText(whatsappData.whatsappMessage);
+    setCopiedMsg(true);
+    setTimeout(() => setCopiedMsg(false), 2500);
+  };
+
+  const handleOpenWhatsApp = () => {
+    if (!whatsappData?.whatsappMessage) return;
+    const finalUrl = buildParentWhatsAppShareUrl({
+      phone: parentPhoneInput.trim(),
+      text: whatsappData.whatsappMessage,
+    });
+    window.open(finalUrl, "_blank");
+  };
+
   if (loading) {
     return (
       <div className="min-h-[500px] flex flex-col items-center justify-center p-8 space-y-4 text-center">
@@ -98,7 +142,9 @@ export const ParentSmartReportView: React.FC<ParentSmartReportViewProps> = ({
           <Sparkles className="w-6 h-6 animate-pulse" />
         </div>
         <p className="font-extrabold text-sm text-slate-700 dark:text-purple-200">
-          {lang === "ar" ? "جارِ تحليل درجات وسجل حضور الطالب وتجهيز التقرير الذكي..." : "Compiling intelligent student performance report..."}
+          {lang === "ar"
+            ? "جارِ تحليل درجات وسجل حضور الطالب وتجهيز التقرير الذكي..."
+            : "Compiling intelligent student performance report..."}
         </p>
       </div>
     );
@@ -126,7 +172,7 @@ export const ParentSmartReportView: React.FC<ParentSmartReportViewProps> = ({
     );
   }
 
-  const { student, parent, attendance, academic, homework, pedagogicalInsights } = report;
+  const { student, parent, attendance, academic, homework, pedagogicalInsights, mistakesBank } = report;
 
   return (
     <div className="max-w-4xl mx-auto space-y-6 px-4 py-6">
@@ -172,6 +218,15 @@ export const ParentSmartReportView: React.FC<ParentSmartReportViewProps> = ({
               </button>
             </div>
           )}
+
+          {/* WHATSAPP ACTION BUTTON */}
+          <button
+            onClick={() => setShowWhatsAppModal(true)}
+            className="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-black text-xs shadow-md shadow-emerald-600/25 transition-all cursor-pointer"
+          >
+            <MessageCircle className="w-4 h-4 fill-current" />
+            <span>{lang === "ar" ? "إرسال لواتساب 📲" : "Send WhatsApp 📲"}</span>
+          </button>
 
           {/* Copy Link button */}
           {shareableUrl && (
@@ -321,6 +376,32 @@ export const ParentSmartReportView: React.FC<ParentSmartReportViewProps> = ({
           </div>
         </div>
 
+        {/* 3B. SMART MISTAKES BANK RECOVERY CARD */}
+        {mistakesBank && mistakesBank.total > 0 && (
+          <div className="p-4 rounded-2xl bg-gradient-to-r from-teal-500/10 via-emerald-500/5 to-cyan-500/10 border border-teal-500/30 flex flex-col sm:flex-row items-center justify-between gap-3">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-xl bg-teal-500/20 text-teal-400 flex items-center justify-center shrink-0">
+                <ShieldCheck className="w-6 h-6" />
+              </div>
+              <div>
+                <h4 className="text-xs sm:text-sm font-extrabold text-slate-900 dark:text-white">
+                  {lang === "ar" ? "إنجاز بنك الأخطاء الذكي (Smart Mistakes Recovery)" : "Smart Mistakes Bank Progress"}
+                </h4>
+                <p className="text-[11px] text-slate-500 dark:text-teal-200 mt-0.5">
+                  {lang === "ar"
+                    ? `تم معالجة وتثبيت ${mistakesBank.mastered} خطأ سابق بنجاح، ومتبقي ${mistakesBank.unresolved} سؤال قيد المراجعة الدورية.`
+                    : `${mistakesBank.mastered} past mistakes successfully mastered and fixed.`}
+                </p>
+              </div>
+            </div>
+            <div className="flex items-center gap-2 shrink-0">
+              <span className="px-3 py-1 rounded-full bg-emerald-500/20 border border-emerald-500/40 text-emerald-400 font-extrabold text-xs">
+                {mistakesBank.mastered} خطأ تم إتقانه ✓
+              </span>
+            </div>
+          </div>
+        )}
+
         {/* 4. ATTENDANCE & QUIZZES DETAILED TABLES */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {/* Attendance Breakdown */}
@@ -436,7 +517,33 @@ export const ParentSmartReportView: React.FC<ParentSmartReportViewProps> = ({
           </div>
         </div>
 
-        {/* 6. OFFICIAL FOOTER SEAL */}
+        {/* 6. WHATSAPP BOTTOM CALLOUT BANNER (Print Hidden) */}
+        <div className="bg-gradient-to-r from-emerald-950/60 via-slate-900 to-indigo-950/70 border border-emerald-500/40 rounded-2xl p-5 flex flex-col sm:flex-row items-center justify-between gap-4 print:hidden">
+          <div className="flex items-center gap-3">
+            <div className="w-12 h-12 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center shrink-0">
+              <MessageCircle className="w-6 h-6 fill-current" />
+            </div>
+            <div>
+              <h4 className="font-extrabold text-sm text-white">
+                {lang === "ar" ? "إرسال هذا التقرير مباشرة إلى واتساب ولي الأمر" : "Dispatch report to parent's WhatsApp"}
+              </h4>
+              <p className="text-xs text-slate-300 mt-0.5">
+                {lang === "ar"
+                  ? "ملخص منسق بالرموز التعبيرية وروابط التحقق المباشرة لفتح التقرير بنقرة واحدة."
+                  : "Certified summary with emojis, scores, and one-click interactive web link."}
+              </p>
+            </div>
+          </div>
+          <button
+            onClick={() => setShowWhatsAppModal(true)}
+            className="w-full sm:w-auto px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-black text-xs shadow-lg shadow-emerald-600/30 flex items-center justify-center gap-2 transition-all cursor-pointer shrink-0"
+          >
+            <MessageCircle className="w-4 h-4 fill-current" />
+            <span>{lang === "ar" ? "إرسال ملخص واتساب 📲" : "Send WhatsApp 📲"}</span>
+          </button>
+        </div>
+
+        {/* 7. OFFICIAL FOOTER SEAL */}
         <div className="pt-4 border-t border-slate-200 dark:border-purple-900/40 flex flex-col sm:flex-row items-center justify-between gap-3 text-center sm:text-left rtl:sm:text-right text-[11px] text-slate-500 dark:text-purple-300">
           <div className="flex items-center gap-2">
             <ShieldCheck className="w-4 h-4 text-emerald-500 shrink-0" />
@@ -452,6 +559,92 @@ export const ParentSmartReportView: React.FC<ParentSmartReportViewProps> = ({
           </div>
         </div>
       </div>
+
+      {/* 8. INTERACTIVE WHATSAPP DISPATCH MODAL */}
+      {showWhatsAppModal && (
+        <div className="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4">
+          <div className="bg-slate-900 border border-emerald-500/40 rounded-3xl max-w-lg w-full p-6 space-y-5 text-white shadow-2xl animate-in fade-in zoom-in-95 duration-200">
+            <div className="flex items-center justify-between pb-3 border-b border-slate-800">
+              <div className="flex items-center gap-2.5">
+                <div className="w-10 h-10 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center">
+                  <MessageCircle className="w-5 h-5 fill-current" />
+                </div>
+                <div>
+                  <h3 className="font-black text-sm text-white">
+                    {lang === "ar" ? "إرسال التقرير لولي الأمر عبر واتساب" : "Send Report via WhatsApp"}
+                  </h3>
+                  <p className="text-[11px] text-emerald-400">
+                    {lang === "ar" ? "رسالة رسمية منسقة وجاهزة للإرسال فوراً" : "Ready-to-dispatch certified summary"}
+                  </p>
+                </div>
+              </div>
+              <button
+                onClick={() => setShowWhatsAppModal(false)}
+                className="p-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white transition-colors"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            </div>
+
+            {/* Recipient Phone Input */}
+            <div className="space-y-1.5">
+              <label className="text-xs font-bold text-slate-300 block">
+                {lang === "ar" ? "رقم هاتف ولي الأمر (واتساب):" : "Parent WhatsApp Number:"}
+              </label>
+              <div className="relative">
+                <Phone className="w-4 h-4 text-emerald-500 absolute left-3 top-3 rtl:left-auto rtl:right-3 pointer-events-none" />
+                <input
+                  type="tel"
+                  dir="ltr"
+                  value={parentPhoneInput}
+                  onChange={(e) => setParentPhoneInput(e.target.value)}
+                  placeholder="01012345678 أو +201012345678"
+                  className="w-full px-4 py-2.5 pl-10 rtl:pl-4 rtl:pr-10 rounded-xl bg-slate-950 border border-slate-700 text-white text-xs font-mono focus:border-emerald-500 focus:outline-none transition-colors"
+                />
+              </div>
+              <p className="text-[10px] text-slate-400">
+                {lang === "ar"
+                  ? "يمكن ترك الحقل فارغاً لاختيار أي محادثة أو جهة اتصال مباشرة من تطبيق واتساب."
+                  : "Leave blank to pick any contact directly inside WhatsApp."}
+              </p>
+            </div>
+
+            {/* WhatsApp Message Preview Bubble */}
+            <div className="space-y-1.5">
+              <div className="flex items-center justify-between text-xs font-bold text-slate-300">
+                <span>{lang === "ar" ? "معاينة نص الرسالة:" : "Message Preview:"}</span>
+                <button
+                  onClick={handleCopyWhatsAppText}
+                  className="inline-flex items-center gap-1 text-[11px] text-emerald-400 hover:text-emerald-300 transition-colors cursor-pointer"
+                >
+                  {copiedMsg ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
+                  <span>{copiedMsg ? (lang === "ar" ? "تم النسخ!" : "Copied!") : (lang === "ar" ? "نسخ النص" : "Copy text")}</span>
+                </button>
+              </div>
+              <div className="max-h-48 overflow-y-auto p-3.5 rounded-2xl bg-[#0b141a] border border-[#202c33] text-[11px] leading-relaxed text-slate-200 font-sans whitespace-pre-wrap select-all">
+                {whatsappData?.whatsappMessage || "جاري تجهيز النص..."}
+              </div>
+            </div>
+
+            {/* Action Buttons */}
+            <div className="flex items-center gap-3 pt-2">
+              <button
+                onClick={handleOpenWhatsApp}
+                className="flex-1 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-black text-xs shadow-lg shadow-emerald-600/30 flex items-center justify-center gap-2 transition-all cursor-pointer"
+              >
+                <MessageCircle className="w-4 h-4 fill-current" />
+                <span>{lang === "ar" ? "فتح واتساب والإرسال فوراً 🚀" : "Open WhatsApp & Send 🚀"}</span>
+              </button>
+              <button
+                onClick={() => setShowWhatsAppModal(false)}
+                className="px-4 py-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-bold transition-all"
+              >
+                {lang === "ar" ? "إلغاء" : "Cancel"}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
