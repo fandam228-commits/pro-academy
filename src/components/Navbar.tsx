@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useRef, useEffect } from "react";
+import { createPortal } from "react-dom";
 import { useRouter, usePathname } from "next/navigation";
 import { useApp } from "@/context/AppContext";
 import { HeaderGamificationPill } from "@/components/gamification/HeaderGamificationPill";
@@ -54,10 +55,15 @@ export const Navbar: React.FC<NavbarProps> = ({ activeTab = "home", setActiveTab
   const router = useRouter();
   const pathname = usePathname();
 
+  const [mounted, setMounted] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
   const [unresolvedMistakes, setUnresolvedMistakes] = useState<number>(0);
   const dropdownRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   // Fetch mistakes count quietly for badge
   useEffect(() => {
@@ -88,6 +94,76 @@ export const Navbar: React.FC<NavbarProps> = ({ activeTab = "home", setActiveTab
     }
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  // Mobile Side Drawer Touch Swipe & Drag Gestures (السحب والإفلات بالأصابع)
+  const [drawerDragOffset, setDrawerDragOffset] = useState<number>(0);
+  const touchStartX = useRef<number | null>(null);
+  const touchStartY = useRef<number | null>(null);
+
+  const handleDrawerTouchStart = (e: React.TouchEvent) => {
+    touchStartX.current = e.touches[0].clientX;
+    touchStartY.current = e.touches[0].clientY;
+  };
+
+  const handleDrawerTouchMove = (e: React.TouchEvent) => {
+    if (touchStartX.current === null) return;
+    const currentX = e.touches[0].clientX;
+    const diff = currentX - touchStartX.current;
+    // In RTL, swiping right (diff > 0) pulls the drawer off-screen
+    if (diff > 0) {
+      setDrawerDragOffset(diff);
+    } else {
+      setDrawerDragOffset(0);
+    }
+  };
+
+  const handleDrawerTouchEnd = () => {
+    if (drawerDragOffset > 70) {
+      setMobileMenuOpen(false);
+    }
+    setDrawerDragOffset(0);
+    touchStartX.current = null;
+    touchStartY.current = null;
+  };
+
+  // Lock body scroll when mobile drawer is open
+  useEffect(() => {
+    if (mobileMenuOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [mobileMenuOpen]);
+
+  // Edge-swipe from right screen edge to pull open the sidebar
+  useEffect(() => {
+    let edgeStartX = 0;
+    let edgeStartY = 0;
+    const handleWindowTouchStart = (e: TouchEvent) => {
+      edgeStartX = e.touches[0]?.clientX || 0;
+      edgeStartY = e.touches[0]?.clientY || 0;
+    };
+    const handleWindowTouchEnd = (e: TouchEvent) => {
+      const endX = e.changedTouches[0]?.clientX || 0;
+      const endY = e.changedTouches[0]?.clientY || 0;
+      const deltaX = endX - edgeStartX;
+      const deltaY = Math.abs(endY - edgeStartY);
+      // If user starts within 35px of right edge and swipes left by > 45px with minimal vertical drift
+      if (typeof window !== "undefined" && edgeStartX > window.innerWidth - 35 && deltaX < -45 && deltaY < 60) {
+        setMobileMenuOpen(true);
+      }
+    };
+
+    window.addEventListener("touchstart", handleWindowTouchStart, { passive: true });
+    window.addEventListener("touchend", handleWindowTouchEnd, { passive: true });
+    return () => {
+      window.removeEventListener("touchstart", handleWindowTouchStart);
+      window.removeEventListener("touchend", handleWindowTouchEnd);
+    };
   }, []);
 
   const navigateTo = (tab: string, path?: string) => {
@@ -897,171 +973,239 @@ export const Navbar: React.FC<NavbarProps> = ({ activeTab = "home", setActiveTab
         </div>
 
         {/* =====================================================================
-            MOBILE / TABLET EXPANDABLE NAVIGATION DRAWER (ACCORDION STYLE)
+            MOBILE / TABLET TOUCH-SWIPEABLE SIDE DRAWER (شريط جانبي قابل للسحب)
         ===================================================================== */}
-        {mobileMenuOpen && (
-          <div className="xl:hidden border-t border-slate-200 dark:border-slate-800 bg-white/98 dark:bg-[#0D1829]/98 backdrop-blur-xl px-4 pt-4 pb-10 space-y-3 max-h-[82vh] overflow-y-auto animate-in fade-in slide-in-from-top-3">
-            
-            {/* User Profile Banner in Mobile Menu */}
-            {user ? (
-              <div className="flex items-center justify-between gap-3 p-3.5 rounded-2xl bg-[#E8F3FF] dark:bg-blue-950/60 border border-blue-200/80 dark:border-slate-700">
-                <div className="min-w-0">
-                  <p className="font-black text-sm text-[#0E1E38] dark:text-white truncate">{user.name}</p>
-                  <p className="text-xs text-[#2563EB] font-bold">{user.grade || user.role}</p>
-                </div>
+        {mounted && mobileMenuOpen && typeof document !== "undefined" && createPortal(
+          <div
+            className="fixed inset-0 z-[99999] flex justify-end xl:hidden"
+            dir={lang === "ar" ? "rtl" : "ltr"}
+          >
+            {/* Backdrop with tap-to-close */}
+            <div
+              onClick={() => setMobileMenuOpen(false)}
+              className="fixed inset-0 bg-black/60 backdrop-blur-xs transition-opacity duration-300 animate-in fade-in"
+              aria-hidden="true"
+            />
+
+            {/* Sliding Side Drawer */}
+            <div
+              onTouchStart={handleDrawerTouchStart}
+              onTouchMove={handleDrawerTouchMove}
+              onTouchEnd={handleDrawerTouchEnd}
+              style={{
+                transform: drawerDragOffset > 0 ? `translateX(${drawerDragOffset}px)` : undefined,
+                transition: drawerDragOffset > 0 ? "none" : "transform 0.25s cubic-bezier(0.16, 1, 0.3, 1)",
+              }}
+              className="relative z-10 w-[86vw] max-w-sm h-[100dvh] bg-white dark:bg-[#0D1829] shadow-2xl flex flex-col overflow-hidden animate-in slide-in-from-right duration-300 border-l border-slate-200 dark:border-slate-800"
+            >
+              {/* Visual Pull / Drag Handle Indicator */}
+              <div className="pt-2.5 pb-1.5 px-4 flex items-center justify-between shrink-0 border-b border-slate-100 dark:border-slate-800/80 bg-slate-50/90 dark:bg-slate-900/80 select-none">
+                <span className="text-[10px] text-slate-500 font-bold flex items-center gap-1">
+                  <span>اسحب لليمين للإغلاق</span>
+                  <ChevronRight className="w-3.5 h-3.5 text-slate-400 rtl:rotate-0 ltr:rotate-180" />
+                </span>
+                <div className="w-10 h-1.5 bg-slate-300 dark:bg-slate-700 rounded-full" />
                 <button
-                  onClick={async () => {
-                    setMobileMenuOpen(false);
-                    await logout();
-                  }}
-                  className="px-3 py-1.5 rounded-xl bg-red-600 text-white font-bold text-xs flex items-center gap-1 shadow-xs cursor-pointer"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="p-1 rounded-lg hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-500 transition cursor-pointer"
+                  aria-label="Close"
                 >
-                  <LogOut className="w-3.5 h-3.5" />
-                  <span>{lang === "ar" ? "خروج" : "Logout"}</span>
+                  <X className="w-4 h-4" />
                 </button>
               </div>
-            ) : (
-              <button
-                onClick={() => navigateTo("auth")}
-                className="w-full py-3 rounded-2xl bg-[#0E1E38] dark:bg-[#2563EB] text-white font-black text-sm flex items-center justify-center gap-2 shadow-md cursor-pointer"
-              >
-                <LogIn className="w-4 h-4 text-[#EABF58]" />
-                <span>{lang === "ar" ? "تسجيل الدخول / إنشاء حساب جديد" : "Sign In / Register"}</span>
-              </button>
-            )}
 
-            {/* Quick 1-Click Home */}
-            <button
-              onClick={() => navigateTo("home")}
-              className="w-full flex items-center justify-between p-3 rounded-2xl bg-slate-50 dark:bg-slate-800/60 font-bold text-xs text-[#0E1E38] dark:text-white"
-            >
-              <span className="flex items-center gap-2">
-                <Home className="w-4 h-4 text-[#2563EB]" />
-                <span>{lang === "ar" ? "الرئيسية" : "Home"}</span>
-              </span>
-              <ChevronRight className="w-4 h-4 text-slate-400 rtl:rotate-180" />
-            </button>
-
-            {/* Quick 1-Click El-Moasser & GEM Revision */}
-            <button
-              onClick={() => navigateTo("moasser_revision")}
-              className="w-full flex items-center justify-between p-3.5 rounded-2xl bg-gradient-to-r from-emerald-500/20 via-teal-500/20 to-rose-500/10 border-2 border-emerald-500/40 font-black text-xs text-emerald-800 dark:text-emerald-200"
-            >
-              <span className="flex items-center gap-2">
-                <BookOpen className="w-4 h-4 text-emerald-600" />
-                <span>مراجعات المعاصر وجيم GEM 2026 📚</span>
-              </span>
-              <span className="px-2 py-0.5 rounded-full bg-emerald-600 text-white text-[10px] font-bold">
-                المعاصر + جيم
-              </span>
-            </button>
-
-            {/* 1. التعلم (Learning Category) */}
-            <div className="space-y-1 pt-1">
-              <div className="px-2 text-[11px] font-black text-[#2563EB] dark:text-blue-400 uppercase tracking-wider flex items-center gap-1.5 mb-1.5">
-                <BookOpen className="w-3.5 h-3.5" />
-                <span>{lang === "ar" ? "1. التعلم والمناهج" : "1. Learning"}</span>
+              {/* Drawer Header Brand */}
+              <div className="p-3.5 flex items-center justify-between border-b border-slate-100 dark:border-slate-800/80 shrink-0 bg-white dark:bg-[#0D1829]">
+                <div className="flex items-center gap-2.5">
+                  <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-[#2563EB] to-indigo-600 flex items-center justify-center text-white font-black shadow-md shadow-blue-500/20">
+                    <GraduationCap className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <h3 className="font-black text-sm text-[#0E1E38] dark:text-white leading-none">مستر حبيب الرحمن</h3>
+                    <p className="text-[10px] text-[#2563EB] font-bold mt-0.5">القائمة الرئيسية للأكاديمية</p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-1.5">
+                  <button
+                    onClick={toggleTheme}
+                    className="p-2 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 transition cursor-pointer"
+                    title="Toggle Theme"
+                  >
+                    {theme === "light" ? <Moon className="w-4 h-4" /> : <Sun className="w-4 h-4 text-amber-400" />}
+                  </button>
+                  <button
+                    onClick={toggleLang}
+                    className="px-2 py-1.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 text-xs font-bold transition cursor-pointer"
+                  >
+                    {lang === "ar" ? "EN" : "عربي"}
+                  </button>
+                </div>
               </div>
-              <div className="grid grid-cols-2 gap-2">
-                {learningItems.map((item) => {
-                  const Icon = item.icon;
-                  return (
+
+              {/* Scrollable Content inside Drawer */}
+              <div className="flex-1 overflow-y-auto px-4 py-3 space-y-3 pb-16 touch-pan-y overscroll-contain">
+                {/* User Profile Banner in Mobile Menu */}
+                {user ? (
+                  <div className="flex items-center justify-between gap-3 p-3.5 rounded-2xl bg-[#E8F3FF] dark:bg-blue-950/60 border border-blue-200/80 dark:border-slate-700">
+                    <div className="min-w-0">
+                      <p className="font-black text-sm text-[#0E1E38] dark:text-white truncate">{user.name}</p>
+                      <p className="text-xs text-[#2563EB] font-bold">{user.grade || user.role}</p>
+                    </div>
                     <button
-                      key={item.id}
-                      onClick={() => navigateTo(item.id)}
-                      className="flex items-center gap-2 p-2.5 rounded-xl bg-slate-50 dark:bg-slate-800/50 font-bold text-xs text-[#243247] dark:text-slate-200 border border-slate-100 dark:border-slate-700/60 text-right"
+                      onClick={async () => {
+                        setMobileMenuOpen(false);
+                        await logout();
+                      }}
+                      className="px-3 py-1.5 rounded-xl bg-red-600 text-white font-bold text-xs flex items-center gap-1 shadow-xs cursor-pointer"
                     >
-                      <Icon className="w-4 h-4 text-[#2563EB] shrink-0" />
-                      <span className="truncate">{lang === "ar" ? item.labelAr : item.labelEn}</span>
+                      <LogOut className="w-3.5 h-3.5" />
+                      <span>{lang === "ar" ? "خروج" : "Logout"}</span>
                     </button>
-                  );
-                })}
-              </div>
-            </div>
+                  </div>
+                ) : (
+                  <button
+                    onClick={() => navigateTo("auth")}
+                    className="w-full py-3 rounded-2xl bg-[#0E1E38] dark:bg-[#2563EB] text-white font-black text-sm flex items-center justify-center gap-2 shadow-md cursor-pointer"
+                  >
+                    <LogIn className="w-4 h-4 text-[#EABF58]" />
+                    <span>{lang === "ar" ? "تسجيل الدخول / إنشاء حساب جديد" : "Sign In / Register"}</span>
+                  </button>
+                )}
 
-            {/* 2. الاختبارات والتدريب (Exams Category) */}
-            <div className="space-y-1 pt-2">
-              <div className="px-2 text-[11px] font-black text-[#EABF58] uppercase tracking-wider flex items-center gap-1.5 mb-1.5">
-                <Trophy className="w-3.5 h-3.5" />
-                <span>{lang === "ar" ? "2. الاختبارات والتدريب" : "2. Exams & Practice"}</span>
-              </div>
-              <div className="grid grid-cols-2 gap-2">
-                {examsItems.map((item) => {
-                  const Icon = item.icon;
-                  return (
-                    <button
-                      key={item.id}
-                      onClick={() => navigateTo(item.id)}
-                      className="flex items-center gap-2 p-2.5 rounded-xl bg-slate-50 dark:bg-slate-800/50 font-bold text-xs text-[#243247] dark:text-slate-200 border border-slate-100 dark:border-slate-700/60 text-right"
-                    >
-                      <Icon className="w-4 h-4 text-[#EABF58] shrink-0" />
-                      <span className="truncate">{lang === "ar" ? item.labelAr : item.labelEn}</span>
-                    </button>
-                  );
-                })}
-              </div>
-            </div>
-
-            {/* 3. عالم اللغة (Language Category) */}
-            <div className="space-y-1 pt-2">
-              <div className="px-2 text-[11px] font-black text-indigo-500 uppercase tracking-wider flex items-center gap-1.5 mb-1.5">
-                <Languages className="w-3.5 h-3.5" />
-                <span>{lang === "ar" ? "3. عالم اللغة والمهارات" : "3. Language World"}</span>
-              </div>
-              <div className="grid grid-cols-2 gap-2">
-                {languageItems.map((item) => {
-                  const Icon = item.icon;
-                  return (
-                    <button
-                      key={item.id}
-                      onClick={() => navigateTo(item.id)}
-                      className="flex items-center gap-2 p-2.5 rounded-xl bg-slate-50 dark:bg-slate-800/50 font-bold text-xs text-[#243247] dark:text-slate-200 border border-slate-100 dark:border-slate-700/60 text-right"
-                    >
-                      <Icon className="w-4 h-4 text-indigo-500 shrink-0" />
-                      <span className="truncate">{lang === "ar" ? item.labelAr : item.labelEn}</span>
-                    </button>
-                  );
-                })}
-              </div>
-            </div>
-
-            {/* 4. حسابي وخدمات الطالب (Account Category) */}
-            <div className="space-y-1 pt-2">
-              <div className="px-2 text-[11px] font-black text-emerald-600 dark:text-emerald-400 uppercase tracking-wider flex items-center gap-1.5 mb-1.5">
-                <User className="w-3.5 h-3.5" />
-                <span>{lang === "ar" ? "4. حسابي والخدمات" : "4. My Account"}</span>
-              </div>
-              <div className="grid grid-cols-2 gap-2">
-                {accountItems.map((item) => {
-                  const Icon = item.icon;
-                  return (
-                    <button
-                      key={item.id}
-                      onClick={() => navigateTo(item.id, item.path)}
-                      className="flex items-center gap-2 p-2.5 rounded-xl bg-slate-50 dark:bg-slate-800/50 font-bold text-xs text-[#243247] dark:text-slate-200 border border-slate-100 dark:border-slate-700/60 text-right"
-                    >
-                      <Icon className="w-4 h-4 text-emerald-600 shrink-0" />
-                      <span className="truncate">{lang === "ar" ? item.labelAr : item.labelEn}</span>
-                    </button>
-                  );
-                })}
-              </div>
-            </div>
-
-            {/* Admin Quick Button in mobile menu */}
-            {user && (user.role === "admin" || user.role === "teacher") && (
-              <div className="pt-2">
-                <a
-                  href="/admin"
-                  className="w-full flex items-center justify-center gap-2 p-3 rounded-2xl bg-amber-400 text-slate-950 font-black text-xs shadow-md"
+                {/* Quick 1-Click Home */}
+                <button
+                  onClick={() => navigateTo("home")}
+                  className="w-full flex items-center justify-between p-3 rounded-2xl bg-slate-50 dark:bg-slate-800/60 font-bold text-xs text-[#0E1E38] dark:text-white hover:bg-slate-100 dark:hover:bg-slate-800 transition cursor-pointer"
                 >
-                  <ShieldCheck className="w-4 h-4" />
-                  <span>دخول لوحة تحكم مستر حبيب الرحمن الإدارية</span>
-                </a>
-              </div>
-            )}
+                  <span className="flex items-center gap-2">
+                    <Home className="w-4 h-4 text-[#2563EB]" />
+                    <span>{lang === "ar" ? "الرئيسية" : "Home"}</span>
+                  </span>
+                  <ChevronRight className="w-4 h-4 text-slate-400 rtl:rotate-180" />
+                </button>
 
-          </div>
+                {/* Quick 1-Click El-Moasser & GEM Revision */}
+                <button
+                  onClick={() => navigateTo("moasser_revision")}
+                  className="w-full flex items-center justify-between p-3.5 rounded-2xl bg-gradient-to-r from-emerald-500/20 via-teal-500/20 to-rose-500/10 border-2 border-emerald-500/40 font-black text-xs text-emerald-800 dark:text-emerald-200 cursor-pointer"
+                >
+                  <span className="flex items-center gap-2">
+                    <BookOpen className="w-4 h-4 text-emerald-600" />
+                    <span>مراجعات المعاصر وجيم GEM 2026 📚</span>
+                  </span>
+                  <span className="px-2 py-0.5 rounded-full bg-emerald-600 text-white text-[10px] font-bold">
+                    المعاصر + جيم
+                  </span>
+                </button>
+
+                {/* 1. التعلم (Learning Category) */}
+                <div className="space-y-1 pt-1">
+                  <div className="px-2 text-[11px] font-black text-[#2563EB] dark:text-blue-400 uppercase tracking-wider flex items-center gap-1.5 mb-1.5">
+                    <BookOpen className="w-3.5 h-3.5" />
+                    <span>{lang === "ar" ? "1. التعلم والمناهج" : "1. Learning"}</span>
+                  </div>
+                  <div className="grid grid-cols-2 gap-2">
+                    {learningItems.map((item) => {
+                      const Icon = item.icon;
+                      return (
+                        <button
+                          key={item.id}
+                          onClick={() => navigateTo(item.id)}
+                          className="flex items-center gap-2 p-2.5 rounded-xl bg-slate-50 dark:bg-slate-800/50 font-bold text-xs text-[#243247] dark:text-slate-200 border border-slate-100 dark:border-slate-700/60 text-right hover:bg-slate-100 dark:hover:bg-slate-800 transition cursor-pointer"
+                        >
+                          <Icon className="w-4 h-4 text-[#2563EB] shrink-0" />
+                          <span className="truncate">{lang === "ar" ? item.labelAr : item.labelEn}</span>
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+
+                {/* 2. الاختبارات والتدريب (Exams Category) */}
+                <div className="space-y-1 pt-2">
+                  <div className="px-2 text-[11px] font-black text-[#EABF58] uppercase tracking-wider flex items-center gap-1.5 mb-1.5">
+                    <Trophy className="w-3.5 h-3.5" />
+                    <span>{lang === "ar" ? "2. الاختبارات والتدريب" : "2. Exams & Practice"}</span>
+                  </div>
+                  <div className="grid grid-cols-2 gap-2">
+                    {examsItems.map((item) => {
+                      const Icon = item.icon;
+                      return (
+                        <button
+                          key={item.id}
+                          onClick={() => navigateTo(item.id)}
+                          className="flex items-center gap-2 p-2.5 rounded-xl bg-slate-50 dark:bg-slate-800/50 font-bold text-xs text-[#243247] dark:text-slate-200 border border-slate-100 dark:border-slate-700/60 text-right hover:bg-slate-100 dark:hover:bg-slate-800 transition cursor-pointer"
+                        >
+                          <Icon className="w-4 h-4 text-[#EABF58] shrink-0" />
+                          <span className="truncate">{lang === "ar" ? item.labelAr : item.labelEn}</span>
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+
+                {/* 3. عالم اللغة (Language Category) */}
+                <div className="space-y-1 pt-2">
+                  <div className="px-2 text-[11px] font-black text-indigo-500 uppercase tracking-wider flex items-center gap-1.5 mb-1.5">
+                    <Languages className="w-3.5 h-3.5" />
+                    <span>{lang === "ar" ? "3. عالم اللغة والمهارات" : "3. Language World"}</span>
+                  </div>
+                  <div className="grid grid-cols-2 gap-2">
+                    {languageItems.map((item) => {
+                      const Icon = item.icon;
+                      return (
+                        <button
+                          key={item.id}
+                          onClick={() => navigateTo(item.id)}
+                          className="flex items-center gap-2 p-2.5 rounded-xl bg-slate-50 dark:bg-slate-800/50 font-bold text-xs text-[#243247] dark:text-slate-200 border border-slate-100 dark:border-slate-700/60 text-right hover:bg-slate-100 dark:hover:bg-slate-800 transition cursor-pointer"
+                        >
+                          <Icon className="w-4 h-4 text-indigo-500 shrink-0" />
+                          <span className="truncate">{lang === "ar" ? item.labelAr : item.labelEn}</span>
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+
+                {/* 4. حسابي وخدمات الطالب (Account Category) */}
+                <div className="space-y-1 pt-2">
+                  <div className="px-2 text-[11px] font-black text-emerald-600 dark:text-emerald-400 uppercase tracking-wider flex items-center gap-1.5 mb-1.5">
+                    <User className="w-3.5 h-3.5" />
+                    <span>{lang === "ar" ? "4. حسابي والخدمات" : "4. My Account"}</span>
+                  </div>
+                  <div className="grid grid-cols-2 gap-2">
+                    {accountItems.map((item) => {
+                      const Icon = item.icon;
+                      return (
+                        <button
+                          key={item.id}
+                          onClick={() => navigateTo(item.id, item.path)}
+                          className="flex items-center gap-2 p-2.5 rounded-xl bg-slate-50 dark:bg-slate-800/50 font-bold text-xs text-[#243247] dark:text-slate-200 border border-slate-100 dark:border-slate-700/60 text-right hover:bg-slate-100 dark:hover:bg-slate-800 transition cursor-pointer"
+                        >
+                          <Icon className="w-4 h-4 text-emerald-600 shrink-0" />
+                          <span className="truncate">{lang === "ar" ? item.labelAr : item.labelEn}</span>
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+
+                {/* Admin Quick Button in mobile menu */}
+                {user && (user.role === "admin" || user.role === "teacher") && (
+                  <div className="pt-2">
+                    <a
+                      href="/admin"
+                      className="w-full flex items-center justify-center gap-2 p-3 rounded-2xl bg-amber-400 text-slate-950 font-black text-xs shadow-md"
+                    >
+                      <ShieldCheck className="w-4 h-4" />
+                      <span>دخول لوحة تحكم مستر حبيب الرحمن الإدارية</span>
+                    </a>
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>,
+          document.body
         )}
 
       </header>
