@@ -12,6 +12,10 @@ import {
   MoasserExamQuestion,
 } from "@/data/moasser-revision-index";
 import {
+  GEM_SECTIONS,
+  GEM_INTERACTIVE_EXAMS,
+} from "@/data/gem-revision-index";
+import {
   BookOpen,
   Sparkles,
   Download,
@@ -34,6 +38,7 @@ import {
 
 export const MoasserRevisionHub: React.FC<{ onBack?: () => void }> = ({ onBack }) => {
   const { lang, user } = useApp();
+  const [selectedPublisher, setSelectedPublisher] = useState<"moasser" | "gem">("moasser");
   const [selectedSectionId, setSelectedSectionId] = useState<"general" | "languages" | "azhar">("general");
   const [selectedStageId, setSelectedStageId] = useState<"all" | "secondary" | "prep" | "primary">("all");
   const [searchQuery, setSearchQuery] = useState("");
@@ -47,8 +52,10 @@ export const MoasserRevisionHub: React.FC<{ onBack?: () => void }> = ({ onBack }
   const [timeLeft, setTimeLeft] = useState<number>(0);
   const [savingMistakes, setSavingMistakes] = useState(false);
 
-  // Active section data
-  const currentSection = MOASSER_SECTIONS.find((s) => s.id === selectedSectionId) || MOASSER_SECTIONS[0];
+  // Active publisher data & exams registry
+  const activeSections = selectedPublisher === "moasser" ? MOASSER_SECTIONS : GEM_SECTIONS;
+  const activeExamsRegistry = selectedPublisher === "moasser" ? MOASSER_INTERACTIVE_EXAMS : GEM_INTERACTIVE_EXAMS;
+  const currentSection = activeSections.find((s) => s.id === selectedSectionId) || activeSections[0];
 
   // Filtered grades list
   const filteredGrades = currentSection.stages
@@ -78,7 +85,7 @@ export const MoasserRevisionHub: React.FC<{ onBack?: () => void }> = ({ onBack }
   }, [activeExam, examSubmitted, timeLeft]);
 
   const handleStartExam = (examId: string) => {
-    const exam = MOASSER_INTERACTIVE_EXAMS[examId];
+    const exam = activeExamsRegistry[examId];
     if (!exam) return;
     setActiveExam(exam);
     setUserAnswers({});
@@ -158,17 +165,17 @@ export const MoasserRevisionHub: React.FC<{ onBack?: () => void }> = ({ onBack }
         <div className="relative z-10 space-y-3 max-w-2xl">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-400/20 border border-amber-400/30 text-amber-300 text-xs font-black uppercase">
             <Sparkles className="w-3.5 h-3.5 text-amber-300" />
-            <span>المراجعات النهائية الرسمية 2026/2027 • El Moasser & GPS</span>
+            <span>المراجعات النهائية الرسمية 2026/2027 • المعاصر & جيم GEM</span>
           </div>
           <h1 className="text-2xl sm:text-3xl font-black tracking-tight">
             {lang === "ar"
-              ? "مراجعات ونماذج المعاصر التفاعلية للغة الإنجليزية"
-              : "El-Moasser Official Revision & Interactive Exams"}
+              ? "محطة مراجعات ونماذج المعاصر وجيم GEM التفاعلية"
+              : "El-Moasser & GEM Official Revision Hub"}
           </h1>
           <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
             {lang === "ar"
-              ? "حصر كامل لجميع مذكرات المراجعة النهائية ونماذج الامتحانات المعدلة لكتاب المعاصر، مع إمكانية الحل التفاعلي والتصحيح الفوري وتنزيل ملفات الـ PDF الأصلية."
-              : "Complete access to official El-Moasser revision booklets, interactive model exams with instant grading, and direct PDF downloads."}
+              ? "المرجع الشامل الأول لطلاب مستر حبيب الرحمن الذي يجمع بين أشهر الكتب الخارجية (المعاصر + جيم GEM)، مع إمكانية الحل الإلكتروني الفوري وتنزيل مذكرات الـ PDF."
+              : "Complete access to official El-Moasser and GEM revision booklets, interactive model exams with instant grading, and direct PDF downloads."}
           </p>
         </div>
 
@@ -182,9 +189,44 @@ export const MoasserRevisionHub: React.FC<{ onBack?: () => void }> = ({ onBack }
         )}
       </div>
 
+      {/* 1B. PUBLISHER SELECTOR: EL-MOASSER vs GEM */}
+      <div className="flex items-center gap-2 p-1.5 rounded-2xl bg-white dark:bg-[#0c1529] border border-slate-200 dark:border-slate-800 shadow-md">
+        <button
+          onClick={() => {
+            setSelectedPublisher("moasser");
+            setSelectedStageId("all");
+          }}
+          className={`flex-1 py-3 rounded-xl font-black text-xs sm:text-sm flex items-center justify-center gap-2 transition-all cursor-pointer ${
+            selectedPublisher === "moasser"
+              ? "bg-[#2563EB] text-white shadow-lg shadow-blue-600/30"
+              : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+          }`}
+        >
+          <BookOpen className="w-4 h-4 text-amber-300" />
+          <span>سلسلة المعاصر (El-Moasser)</span>
+          <span className="px-2 py-0.5 rounded-full bg-white/20 text-[10px]">GPS</span>
+        </button>
+
+        <button
+          onClick={() => {
+            setSelectedPublisher("gem");
+            setSelectedStageId("all");
+          }}
+          className={`flex-1 py-3 rounded-xl font-black text-xs sm:text-sm flex items-center justify-center gap-2 transition-all cursor-pointer ${
+            selectedPublisher === "gem"
+              ? "bg-gradient-to-r from-rose-600 to-amber-600 text-white shadow-lg shadow-rose-600/30"
+              : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+          }`}
+        >
+          <Sparkles className="w-4 h-4 text-amber-300" />
+          <span>سلسلة جيم (GEM)</span>
+          <span className="px-2 py-0.5 rounded-full bg-white/20 text-[10px]">الأضواء</span>
+        </button>
+      </div>
+
       {/* 2. TRACK SELECTOR TABS */}
       <div className="flex flex-wrap items-center gap-2 p-1.5 rounded-2xl bg-white dark:bg-[#101b33] border border-slate-200 dark:border-slate-800 shadow-sm">
-        {MOASSER_SECTIONS.map((sec) => (
+        {activeSections.map((sec) => (
           <button
             key={sec.id}
             onClick={() => {
@@ -193,7 +235,9 @@ export const MoasserRevisionHub: React.FC<{ onBack?: () => void }> = ({ onBack }
             }}
             className={`flex-1 sm:flex-initial px-4 py-2.5 rounded-xl font-bold text-xs transition-all cursor-pointer ${
               selectedSectionId === sec.id
-                ? "bg-[#2563EB] text-white shadow-md shadow-blue-600/30 font-black"
+                ? selectedPublisher === "gem"
+                  ? "bg-gradient-to-r from-rose-600 to-amber-600 text-white shadow-md font-black"
+                  : "bg-[#2563EB] text-white shadow-md shadow-blue-600/30 font-black"
                 : "text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800"
             }`}
           >
@@ -262,7 +306,13 @@ export const MoasserRevisionHub: React.FC<{ onBack?: () => void }> = ({ onBack }
           >
             <div className="space-y-2">
               <div className="flex items-center justify-between gap-2">
-                <span className="text-[10px] font-black uppercase px-2.5 py-0.5 rounded-full bg-blue-100 dark:bg-blue-950/80 text-blue-700 dark:text-blue-300">
+                <span
+                  className={`text-[10px] font-black uppercase px-2.5 py-0.5 rounded-full ${
+                    selectedPublisher === "gem"
+                      ? "bg-rose-100 text-rose-700 dark:bg-rose-950/80 dark:text-rose-300"
+                      : "bg-blue-100 text-blue-700 dark:bg-blue-950/80 dark:text-blue-300"
+                  }`}
+                >
                   {grade.curriculum}
                 </span>
                 <span className="text-[11px] font-mono text-slate-400 font-bold">{grade.term}</span>
@@ -277,10 +327,14 @@ export const MoasserRevisionHub: React.FC<{ onBack?: () => void }> = ({ onBack }
               {grade.hasInteractiveExam && grade.examId && (
                 <button
                   onClick={() => handleStartExam(grade.examId!)}
-                  className="w-full py-2.5 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 font-black text-xs shadow-md shadow-amber-500/20 flex items-center justify-center gap-2 transition-all cursor-pointer"
+                  className={`w-full py-2.5 rounded-xl font-black text-xs shadow-md flex items-center justify-center gap-2 transition-all cursor-pointer ${
+                    selectedPublisher === "gem"
+                      ? "bg-gradient-to-r from-rose-500 to-amber-500 hover:from-rose-400 hover:to-amber-400 text-white shadow-rose-500/20"
+                      : "bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 shadow-amber-500/20"
+                  }`}
                 >
                   <Play className="w-3.5 h-3.5 fill-current" />
-                  <span>حل النموذج التفاعلي إلكترونياً ({grade.totalQuestions} سؤال) ⚡</span>
+                  <span>حل نموذج {selectedPublisher === "gem" ? "GEM" : "المعاصر"} التفاعلي ({grade.totalQuestions} سؤال) ⚡</span>
                 </button>
               )}
 

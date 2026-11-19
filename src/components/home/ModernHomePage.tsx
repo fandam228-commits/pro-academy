@@ -125,13 +125,13 @@ export function ModernHomePage({
                 <div>
                   <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-amber-400 text-slate-950 text-[10px] font-black uppercase tracking-wider mb-1">
                     <Sparkles className="w-3 h-3 text-slate-950" />
-                    <span>متاح الآن لجميع الصفوف • مراجعات المعاصر 2026</span>
+                    <span>متاح الآن لجميع الصفوف • مراجعات المعاصر وجيم GEM 2026</span>
                   </div>
                   <h3 className="text-sm sm:text-base font-black text-white group-hover:text-amber-200 transition-colors">
-                    محطة مراجعات ونماذج المعاصر الرسمية التفاعلية (Term 1)
+                    محطة مراجعات ونماذج المعاصر وجيم GEM الرسمية التفاعلية (Term 1)
                   </h3>
                   <p className="text-xs text-white/90">
-                    حل نماذج الامتحانات إلكترونياً مع التصحيح الفوري + تحميل مذكرات الـ PDF الأصلية لكتاب المعاصر.
+                    حل نماذج الامتحانات إلكترونياً مع التصحيح الفوري + تحميل مذكرات الـ PDF الأصلية لكتابي المعاصر وجيم GEM.
                   </p>
                 </div>
               </div>
@@ -254,7 +254,7 @@ export function ModernHomePage({
                 className="flex-1 sm:flex-none px-5 py-3 rounded-2xl bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-600 dark:text-emerald-300 font-bold text-xs border border-emerald-300 dark:border-emerald-500/30 transition flex items-center justify-center gap-1.5 cursor-pointer"
               >
                 <BookOpen className="w-4 h-4 text-emerald-500" />
-                <span>{lang === "ar" ? "مراجعات المعاصر 2026 📚" : "Moasser 2026 📚"}</span>
+                <span>{lang === "ar" ? "المعاصر وجيم GEM 2026 📚" : "Moasser & GEM 2026 📚"}</span>
               </button>
             </div>
           </div>
