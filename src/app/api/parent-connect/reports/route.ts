@@ -6,6 +6,7 @@ import {
   verifySignedReportToken,
   createSignedReportToken,
 } from "@/lib/smart-reports";
+import { formatWhatsAppParentReport } from "@/lib/whatsapp-report-formatter";
 
 export async function GET(req: Request) {
   await ensureDbSetup();
@@ -17,7 +18,7 @@ export async function GET(req: Request) {
     const period = (searchParams.get("period") || "weekly") as "weekly" | "monthly";
     const wantToken = searchParams.get("generate_token") === "true";
 
-    // 1. Token-based access (from WhatsApp / Telegram link)
+    // 1. Token-based access (from WhatsApp / Telegram / direct link)
     if (token) {
       const verified = verifySignedReportToken(token);
       if (!verified) {
@@ -29,10 +30,24 @@ export async function GET(req: Request) {
         return NextResponse.json({ error: "لم يتم العثور على بيانات الطالب" }, { status: 404 });
       }
 
-      return NextResponse.json({ report, mode: "token_verified" });
+      const origin = process.env.NEXT_PUBLIC_APP_URL || "https://pro-academy-sfl3.vercel.app";
+      const shareableUrl = `${origin}/parent/report?token=${token}`;
+      const whatsappSummary = formatWhatsAppParentReport({
+        report,
+        reportUrl: shareableUrl,
+        parentPhone: report.parent?.phone,
+      });
+
+      return NextResponse.json({
+        report,
+        shareableToken: token,
+        shareableUrl,
+        whatsappSummary,
+        mode: "token_verified",
+      });
     }
 
-    // 2. Authenticated user access (Admin, Teacher, or Parent)
+    // 2. Authenticated user access (Admin, Teacher, Student, or Parent)
     const ctx = await getAuthContext(req);
     if (!ctx) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
@@ -48,18 +63,20 @@ export async function GET(req: Request) {
       return NextResponse.json({ error: "Student not found" }, { status: 404 });
     }
 
-    let shareableToken = null;
-    let shareableUrl = null;
-    if (wantToken) {
-      shareableToken = createSignedReportToken({ studentId, period });
-      const origin = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
-      shareableUrl = `${origin}/parent/report?token=${shareableToken}`;
-    }
+    const shareableToken = createSignedReportToken({ studentId, period });
+    const origin = process.env.NEXT_PUBLIC_APP_URL || "https://pro-academy-sfl3.vercel.app";
+    const shareableUrl = `${origin}/parent/report?token=${shareableToken}`;
+    const whatsappSummary = formatWhatsAppParentReport({
+      report,
+      reportUrl: shareableUrl,
+      parentPhone: report.parent?.phone,
+    });
 
     return NextResponse.json({
       report,
       shareableToken,
       shareableUrl,
+      whatsappSummary,
       mode: "authenticated",
     });
   } catch (error) {

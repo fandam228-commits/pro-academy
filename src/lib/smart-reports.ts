@@ -7,6 +7,8 @@ import {
   homeworkSubmissions,
   parentProfiles,
   parentStudentLinks,
+  userMistakes,
+  studentGamification,
 } from "@/db/schema";
 import { eq, desc } from "drizzle-orm";
 
@@ -64,6 +66,11 @@ export interface StudentReportData {
     onTime: number;
     late: number;
     completionRate: number;
+  };
+  mistakesBank?: {
+    total: number;
+    unresolved: number;
+    mastered: number;
   };
   pedagogicalInsights: {
     strengths: string[];
@@ -215,7 +222,28 @@ export async function generateStudentReport(
   const hwAssigned = Math.max(hwSubmitted, 4);
   const hwCompletionRate = Math.round((hwSubmitted / hwAssigned) * 100);
 
-  // 5. Pedagogical Insights
+  // 5. Smart Mistakes Bank & Gamification
+  let mistakesStats = { total: 0, unresolved: 0, mastered: 0 };
+  try {
+    const mRows = await db.select().from(userMistakes).where(eq(userMistakes.userId, studentId));
+    mistakesStats = {
+      total: mRows.length,
+      unresolved: mRows.filter((m) => m.status === "unresolved").length,
+      mastered: mRows.filter((m) => m.status === "mastered").length,
+    };
+  } catch {}
+
+  let livePoints = student.points || 150;
+  let liveStreak = student.streak || 1;
+  try {
+    const gamRows = await db.select().from(studentGamification).where(eq(studentGamification.userId, studentId)).limit(1);
+    if (gamRows.length > 0 && gamRows[0]) {
+      if (gamRows[0].totalXp !== undefined) livePoints = gamRows[0].totalXp;
+      if (gamRows[0].currentStreak !== undefined) liveStreak = gamRows[0].currentStreak;
+    }
+  } catch {}
+
+  // 6. Pedagogical Insights
   const strengths: string[] = [];
   const focusAreas: string[] = [];
   const habibRecommendations: string[] = [];
@@ -247,8 +275,8 @@ export async function generateStudentReport(
       name: student.name,
       grade: student.grade || "الثانوية العامة",
       stage: student.stage || "المرحلة الثانوية",
-      streak: student.streak || 1,
-      points: student.points || 150,
+      streak: liveStreak,
+      points: livePoints,
       level: student.level || "Intermediate",
     },
     parent: parentInfo,
@@ -293,6 +321,7 @@ export async function generateStudentReport(
       late: hwLate,
       completionRate: hwCompletionRate,
     },
+    mistakesBank: mistakesStats,
     pedagogicalInsights: {
       strengths,
       focusAreas,
