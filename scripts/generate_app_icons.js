@@ -7,7 +7,7 @@ const rootDir = path.resolve(__dirname, '..');
 const publicIconsDir = path.join(rootDir, 'public', 'icons');
 const srcAppDir = path.join(rootDir, 'src', 'app');
 
-// 1. STANDARD ICON SVG (Rounded squircle with gold luxury border for favicon, desktop, PWA standard)
+// 1. STANDARD ICON SVG (With 'حبيب' in the luxury golden badge)
 const standardSvg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
   <defs>
     <!-- Background Gradient: Deep Royal Midnight to Vibrant Sapphire -->
@@ -147,18 +147,18 @@ const standardSvg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 51
     <path d="M 401 253 L 407 253 L 412 298 C 412 301, 396 301, 396 298 Z" fill="url(#goldSheen)" filter="url(#shadowGold)"/>
   </g>
 
-  <!-- 7. Bottom Luxury "PRO" Emblem Badge -->
-  <g id="proBadge" filter="url(#shadowGold)">
+  <!-- 7. Bottom Luxury Badge with 'حبيب' Typography -->
+  <g id="habibBadge" filter="url(#shadowGold)">
     <!-- Badge Background Pill -->
-    <rect x="194" y="416" width="124" height="42" rx="21" fill="url(#goldSheen)"/>
-    <!-- Inner Dark Stroke -->
-    <rect x="197" y="419" width="118" height="36" rx="18" fill="none" stroke="#FFFFFF" stroke-width="1.5" opacity="0.7"/>
-    <!-- "PRO" Typography -->
-    <text x="256" y="444" font-family="system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="22" font-weight="900" fill="#0A1628" text-anchor="middle" letter-spacing="4">PRO</text>
+    <rect x="180" y="412" width="152" height="46" rx="23" fill="url(#goldSheen)"/>
+    <!-- Inner White Highlight Ring -->
+    <rect x="183" y="415" width="146" height="40" rx="20" fill="none" stroke="#FFFFFF" stroke-width="1.5" opacity="0.7"/>
+    <!-- 'حبيب' Typography in Bold Premium Arabic -->
+    <text x="256" y="445" font-family="'Segoe UI', Tahoma, Cairo, Arial, sans-serif" font-size="28" font-weight="900" fill="#0A1628" text-anchor="middle">حبيب</text>
   </g>
 </svg>`;
 
-// 2. MASKABLE ICON SVG (Full bleed square background, scaled content to 80% to fit within Android 409px safe circle)
+// 2. MASKABLE ICON SVG (Full bleed square background, scaled content to 80% to fit within Android safe circle)
 const maskableSvg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
   <defs>
     <!-- Background Gradient: Full bleed square for Android Adaptive Icons -->
@@ -255,17 +255,17 @@ const maskableSvg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 51
       <path d="M 401 253 L 407 253 L 412 298 C 412 301, 396 301, 396 298 Z" fill="url(#goldSheenMask)" filter="url(#shadowGoldMask)"/>
     </g>
 
-    <!-- PRO Badge -->
+    <!-- 'حبيب' Badge -->
     <g filter="url(#shadowGoldMask)">
-      <rect x="194" y="416" width="124" height="42" rx="21" fill="url(#goldSheenMask)"/>
-      <rect x="197" y="419" width="118" height="36" rx="18" fill="none" stroke="#FFFFFF" stroke-width="1.5" opacity="0.7"/>
-      <text x="256" y="444" font-family="system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="22" font-weight="900" fill="#0A1628" text-anchor="middle" letter-spacing="4">PRO</text>
+      <rect x="180" y="412" width="152" height="46" rx="23" fill="url(#goldSheenMask)"/>
+      <rect x="183" y="415" width="146" height="40" rx="20" fill="none" stroke="#FFFFFF" stroke-width="1.5" opacity="0.7"/>
+      <text x="256" y="445" font-family="'Segoe UI', Tahoma, Cairo, Arial, sans-serif" font-size="28" font-weight="900" fill="#0A1628" text-anchor="middle">حبيب</text>
     </g>
   </g>
 </svg>`;
 
 async function main() {
-  console.log('Generating updated application icons...');
+  console.log('Generating updated application icons with "حبيب"...');
 
   // 1. Write src/app/icon.svg
   const iconSvgPath = path.join(srcAppDir, 'icon.svg');
@@ -296,7 +296,7 @@ async function main() {
     console.log(`Generated: ${target.name} (${target.size}x${target.size})`);
   }
 
-  console.log('All icons generated successfully!');
+  console.log('All icons generated successfully with "حبيب" typography!');
 }
 
 main().catch((err) => {

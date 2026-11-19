@@ -57,23 +57,23 @@ export default function AppleIcon() {
           <rect x="76" y="41" width="2.5" height="10" rx="1.2" fill="#F59E0B" />
         </svg>
 
-        {/* Golden PRO Pill (HTML element, fully supported by next/og ImageResponse) */}
+        {/* Golden Habib Pill (HTML element, fully supported by next/og ImageResponse) */}
         <div
           style={{
             marginTop: 4,
-            padding: "2px 14px",
+            padding: "2px 16px",
             borderRadius: 12,
             background: "linear-gradient(135deg, #FDE68A 0%, #F59E0B 100%)",
             color: "#0A1628",
             fontWeight: 900,
-            fontSize: 12,
-            letterSpacing: 2,
+            fontSize: 13,
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
+            fontFamily: "system-ui, -apple-system, sans-serif",
           }}
         >
-          PRO
+          حبيب
         </div>
       </div>
     ),
