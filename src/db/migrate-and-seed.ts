@@ -1600,6 +1600,57 @@ async function initializeSchema(): Promise<void> {
       CREATE INDEX IF NOT EXISTS idx_peer_ch_code ON peer_challenges(invite_code);
       CREATE INDEX IF NOT EXISTS idx_peer_ch_creator ON peer_challenges(creator_id);
       CREATE INDEX IF NOT EXISTS idx_peer_ch_status ON peer_challenges(status);
+
+      CREATE TABLE IF NOT EXISTS arena_matches (
+        id TEXT PRIMARY KEY,
+        room_code TEXT NOT NULL UNIQUE,
+        stage TEXT NOT NULL DEFAULT 'Secondary',
+        grade TEXT NOT NULL DEFAULT 'Third Secondary (Baccalaureate)',
+        status TEXT NOT NULL DEFAULT 'waiting',
+        player1_id TEXT NOT NULL,
+        player1_name TEXT NOT NULL,
+        player1_avatar TEXT DEFAULT '⚔️',
+        player1_hp INTEGER NOT NULL DEFAULT 100,
+        player1_score INTEGER NOT NULL DEFAULT 0,
+        player1_streak INTEGER NOT NULL DEFAULT 0,
+        player2_id TEXT,
+        player2_name TEXT,
+        player2_avatar TEXT DEFAULT '🛡️',
+        player2_hp INTEGER NOT NULL DEFAULT 100,
+        player2_score INTEGER NOT NULL DEFAULT 0,
+        player2_streak INTEGER NOT NULL DEFAULT 0,
+        is_vs_bot BOOLEAN NOT NULL DEFAULT FALSE,
+        bot_personality TEXT DEFAULT 'smart',
+        current_question_index INTEGER NOT NULL DEFAULT 0,
+        total_questions INTEGER NOT NULL DEFAULT 10,
+        questions JSONB NOT NULL DEFAULT '[]'::jsonb,
+        round_events JSONB DEFAULT '[]'::jsonb,
+        winner_id TEXT,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
+      );
+      CREATE INDEX IF NOT EXISTS idx_arena_room ON arena_matches(room_code);
+      CREATE INDEX IF NOT EXISTS idx_arena_status ON arena_matches(status);
+
+      CREATE TABLE IF NOT EXISTS arena_leaderboard (
+        id TEXT PRIMARY KEY,
+        student_id TEXT NOT NULL UNIQUE,
+        student_name TEXT NOT NULL,
+        avatar TEXT DEFAULT '👑',
+        grade TEXT NOT NULL,
+        trophies INTEGER NOT NULL DEFAULT 100,
+        wins INTEGER NOT NULL DEFAULT 0,
+        losses INTEGER NOT NULL DEFAULT 0,
+        draws INTEGER NOT NULL DEFAULT 0,
+        current_streak INTEGER NOT NULL DEFAULT 0,
+        best_streak INTEGER NOT NULL DEFAULT 0,
+        total_matches INTEGER NOT NULL DEFAULT 0,
+        title_rank TEXT NOT NULL DEFAULT 'صاعد واعد',
+        last_match_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
+      );
+      CREATE INDEX IF NOT EXISTS idx_arena_trophies ON arena_leaderboard(trophies);
+      CREATE INDEX IF NOT EXISTS idx_arena_student ON arena_leaderboard(student_id);
+      CREATE INDEX IF NOT EXISTS idx_arena_grade ON arena_leaderboard(grade);
     `);
 
   // Seed and sync curriculum grades and units to official 2026/2027 Egyptian syllabus

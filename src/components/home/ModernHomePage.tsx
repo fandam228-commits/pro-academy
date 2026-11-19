@@ -24,6 +24,7 @@ import {
   Target,
   FileCheck,
   Video,
+  Swords,
 } from "lucide-react";
 import { LiveClassroomSection } from "@/components/LiveClassroomSection";
 
@@ -209,6 +210,14 @@ export function ModernHomePage({
               </button>
             </div>
 
+              <button
+                onClick={() => setActiveTab("arena")}
+                className="flex-1 sm:flex-none px-5 py-3 rounded-2xl bg-purple-500/10 hover:bg-purple-500/20 text-purple-600 dark:text-purple-300 font-bold text-xs border border-purple-300 dark:border-purple-500/30 transition flex items-center justify-center gap-1.5 cursor-pointer"
+              >
+                <Swords className="w-4 h-4 text-purple-500" />
+                <span>{lang === "ar" ? "حلبة التحدي 1v1" : "1v1 Quiz Arena"}</span>
+              </button>
+            </div>
           </div>
         </div>
       </section>

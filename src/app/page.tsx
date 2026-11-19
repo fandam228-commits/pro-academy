@@ -240,6 +240,11 @@ const ModernHomePage = dynamic(
   () => import("@/components/home/ModernHomePage").then((m) => m.ModernHomePage),
   { loading: () => <TabLoadingSkeleton label="جاري تحميل الصفحة الرئيسية الحديثة..." />, ssr: false }
 );
+
+const LiveQuizArenaWorkspace = dynamic(
+  () => import("@/components/arena/LiveQuizArenaWorkspace").then((m) => m.LiveQuizArenaWorkspace),
+  { loading: () => <TabLoadingSkeleton label="جاري تجهيز حلبة المبارزة والتحدي 1v1..." />, ssr: false }
+);
 import {
   GraduationCap,
   Sparkles,
@@ -296,6 +301,9 @@ function MainAppContent() {
         else if (rawTab === "mistakes") setActiveTab("mistakes_bank");
         else setActiveTab(rawTab);
       }
+
+      const arenaParam = params.get("arena") || params.get("room");
+      if (arenaParam) setActiveTab("arena");
 
       const activateParam = params.get("activate");
       if (activateParam) {
@@ -490,6 +498,10 @@ function MainAppContent() {
             favorites={favorites}
             toggleFavorite={toggleFavorite}
           />
+        ) : activeTab === "arena" ? (
+
+          /* VIEW: 1v1 LIVE QUIZ ARENA */
+          <LiveQuizArenaWorkspace onBackToHome={() => setActiveTab("home")} />
         ) : activeTab === "training_center" ? (
           
           /* VIEW: PROFESSIONAL TRAINING CENTER */
