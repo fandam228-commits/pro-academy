@@ -1,5 +1,5 @@
 /* Professional Academy PWA Service Worker (2026/2027) */
-const CACHE_VERSION = "pro-academy-pwa-v3";
+const CACHE_VERSION = "pro-academy-pwa-v5";
 const STATIC_CACHE = `${CACHE_VERSION}-static`;
 const RUNTIME_CACHE = `${CACHE_VERSION}-runtime`;
 

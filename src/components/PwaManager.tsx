@@ -19,7 +19,7 @@ export const PwaManager: React.FC = () => {
     // Purge caches on localhost and old versions
     if (typeof window !== "undefined" && "caches" in window) {
       caches.keys().then((keys) => {
-        keys.filter((k) => isLocal || k.includes("pro-academy-v1")).forEach((k) => caches.delete(k));
+        keys.filter((k) => isLocal || !k.startsWith("pro-academy-pwa-v5")).forEach((k) => caches.delete(k));
       });
     }
 

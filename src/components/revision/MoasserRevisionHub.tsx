@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import { createPortal } from "react-dom";
 import { useApp } from "@/context/AppContext";
 import { authHeaders } from "@/lib/client-auth";
 import {
@@ -44,6 +45,7 @@ export const MoasserRevisionHub: React.FC<{ onBack?: () => void }> = ({ onBack }
   const [searchQuery, setSearchQuery] = useState("");
 
   // Interactive Exam Modal State
+  const [mounted, setMounted] = useState(false);
   const [activeExam, setActiveExam] = useState<MoasserExam | null>(null);
   const [userAnswers, setUserAnswers] = useState<Record<string, string>>({});
   const [examSubmitted, setExamSubmitted] = useState(false);
@@ -51,6 +53,22 @@ export const MoasserRevisionHub: React.FC<{ onBack?: () => void }> = ({ onBack }
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [timeLeft, setTimeLeft] = useState<number>(0);
   const [savingMistakes, setSavingMistakes] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  // Lock body scroll when modal is active
+  useEffect(() => {
+    if (activeExam) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [activeExam]);
 
   // Active publisher data & exams registry
   const activeSections = selectedPublisher === "moasser" ? MOASSER_SECTIONS : GEM_SECTIONS;
@@ -359,9 +377,9 @@ export const MoasserRevisionHub: React.FC<{ onBack?: () => void }> = ({ onBack }
       </div>
 
       {/* 5. INTERACTIVE EXAM MODAL PLAYER */}
-      {activeExam && (
-        <div className="fixed inset-0 z-[100] bg-black/85 backdrop-blur-md flex items-center justify-center p-0 sm:p-4 overflow-hidden w-screen h-screen max-w-full">
-          <div className="bg-white dark:bg-[#0c1529] border-0 sm:border sm:border-blue-500/40 rounded-none sm:rounded-3xl w-full sm:max-w-3xl h-full sm:h-auto sm:max-h-[92vh] flex flex-col shadow-2xl animate-in fade-in zoom-in-95 duration-200 overflow-hidden">
+      {activeExam && mounted && createPortal(
+        <div className="fixed inset-0 z-[99999] bg-black/85 backdrop-blur-md flex items-center justify-center p-0 sm:p-4 overflow-hidden w-full h-full" dir="rtl">
+          <div className="bg-white dark:bg-[#0c1529] border-0 sm:border sm:border-blue-500/40 rounded-none sm:rounded-3xl w-full sm:max-w-3xl h-full sm:h-auto sm:max-h-[92vh] flex flex-col shadow-2xl overflow-hidden">
             {/* Modal Header */}
             <div className="p-3.5 sm:p-5 bg-slate-50 dark:bg-[#121f3d] border-b border-slate-200 dark:border-slate-800 flex items-center justify-between gap-2 sm:gap-3">
               <div className="min-w-0 flex-1">
@@ -521,7 +539,8 @@ export const MoasserRevisionHub: React.FC<{ onBack?: () => void }> = ({ onBack }
               )}
             </div>
           </div>
-        </div>
+        </div>,
+        document.body
       )}
     </div>
   );
