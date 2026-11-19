@@ -706,7 +706,7 @@ export const MOASSER_INTERACTIVE_EXAMS: Record<string, MoasserExam> = {
         id: "p3_q1",
         type: "dialogue",
         category: "Language Functions",
-        question: "Omar meets a tourist in Luxor.\nOmar: Welcome to Egypt! Where are you from?\nTourist: ..............................................................",
+        question: "Omar meets a tourist in Luxor.\nOmar: Welcome to Egypt! Where are you from?\nTourist: ............",
         options: [
           "I am from London, England.",
           "I like eating Egyptian Koshary.",
@@ -721,7 +721,7 @@ export const MOASSER_INTERACTIVE_EXAMS: Record<string, MoasserExam> = {
         id: "p3_q2",
         type: "dialogue",
         category: "Language Functions",
-        question: "Tourist: What places do you recommend I visit first?\nOmar: ..............................................................",
+        question: "Tourist: What places do you recommend I visit first?\nOmar: ............",
         options: [
           "I recommend visiting Karnak Temple and the Valley of the Kings.",
           "No, I don't like Luxor at all.",

@@ -360,13 +360,13 @@ export const MoasserRevisionHub: React.FC<{ onBack?: () => void }> = ({ onBack }
 
       {/* 5. INTERACTIVE EXAM MODAL PLAYER */}
       {activeExam && (
-        <div className="fixed inset-0 z-50 bg-black/75 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="bg-white dark:bg-[#0c1529] border border-blue-500/40 rounded-3xl max-w-3xl w-full max-h-[92vh] flex flex-col shadow-2xl animate-in fade-in zoom-in-95 duration-200 overflow-hidden">
+        <div className="fixed inset-0 z-50 bg-black/75 backdrop-blur-sm flex items-center justify-center p-2 sm:p-4 overflow-y-auto">
+          <div className="bg-white dark:bg-[#0c1529] border border-blue-500/40 rounded-2xl sm:rounded-3xl max-w-3xl w-full max-h-[92vh] flex flex-col shadow-2xl animate-in fade-in zoom-in-95 duration-200 overflow-hidden mx-auto my-auto">
             {/* Modal Header */}
-            <div className="p-4 sm:p-5 bg-slate-50 dark:bg-[#121f3d] border-b border-slate-200 dark:border-slate-800 flex items-center justify-between gap-3">
-              <div>
+            <div className="p-3.5 sm:p-5 bg-slate-50 dark:bg-[#121f3d] border-b border-slate-200 dark:border-slate-800 flex items-center justify-between gap-2 sm:gap-3">
+              <div className="min-w-0 flex-1">
                 <span className="text-[10px] font-bold text-amber-500 uppercase block">{activeExam.grade}</span>
-                <h3 className="font-black text-sm sm:text-base text-slate-900 dark:text-white">{activeExam.title}</h3>
+                <h3 className="font-black text-xs sm:text-base text-slate-900 dark:text-white truncate">{activeExam.title}</h3>
               </div>
 
               {/* Countdown Timer */}
@@ -380,14 +380,14 @@ export const MoasserRevisionHub: React.FC<{ onBack?: () => void }> = ({ onBack }
               {/* Close Button */}
               <button
                 onClick={() => setActiveExam(null)}
-                className="p-1.5 rounded-lg bg-slate-200 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:text-red-500 transition-colors"
+                className="p-1.5 rounded-lg bg-slate-200 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:text-red-500 transition-colors shrink-0"
               >
                 ✕
               </button>
             </div>
 
             {/* Modal Body */}
-            <div className="p-5 sm:p-6 overflow-y-auto space-y-6 flex-1 text-slate-800 dark:text-slate-200">
+            <div className="p-4 sm:p-6 overflow-y-auto space-y-5 sm:space-y-6 flex-1 text-slate-800 dark:text-slate-200">
               {/* RESULT SUMMARY BANNER (Shown upon submission) */}
               {examSubmitted && examScore && (
                 <div className="p-5 rounded-2xl bg-gradient-to-r from-purple-950/40 via-blue-950/40 to-slate-900 border border-blue-500/40 text-center space-y-2">
@@ -422,26 +422,33 @@ export const MoasserRevisionHub: React.FC<{ onBack?: () => void }> = ({ onBack }
                       : "bg-slate-50 dark:bg-slate-900/60 border-slate-200 dark:border-slate-800"
                   }`}
                 >
-                  <div className="flex items-center justify-between text-xs font-bold text-slate-400">
+                  <div className="flex flex-wrap items-center justify-between text-xs font-bold text-slate-400 gap-1">
                     <span>
                       السؤال {idx + 1} من {activeExam.questions.length} • {q.category}
                     </span>
-                    {q.ruleReference && <span className="text-[10px] text-blue-500">{q.ruleReference}</span>}
+                    {q.ruleReference && <span className="text-[10px] text-blue-500 font-mono">{q.ruleReference}</span>}
                   </div>
 
                   {/* Passage if reading question */}
                   {q.passage && (
-                    <div className="p-3.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-xs leading-relaxed text-slate-700 dark:text-slate-300 italic border-l-4 border-blue-500">
+                    <div
+                      className="p-3.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-xs leading-relaxed text-slate-700 dark:text-slate-300 italic border-l-4 border-blue-500 text-left break-words"
+                      dir="ltr"
+                    >
                       {q.passage}
                     </div>
                   )}
 
-                  <p className="font-extrabold text-sm sm:text-base text-slate-900 dark:text-white whitespace-pre-line">
+                  {/* Question Text in Pure English LTR with break-words */}
+                  <p
+                    className="font-extrabold text-sm sm:text-base text-slate-900 dark:text-white whitespace-pre-line leading-relaxed text-left break-words"
+                    dir="ltr"
+                  >
                     {q.question}
                   </p>
 
-                  {/* Options */}
-                  <div className="space-y-2">
+                  {/* Options in Pure English LTR */}
+                  <div className="space-y-2" dir="ltr">
                     {q.options.map((opt, optIdx) => {
                       const isSelected = userAnswers[q.id] === opt;
                       const isCorrect = opt === q.correctAnswer;
@@ -460,11 +467,12 @@ export const MoasserRevisionHub: React.FC<{ onBack?: () => void }> = ({ onBack }
                           key={optIdx}
                           disabled={examSubmitted}
                           onClick={() => handleSelectAnswer(q.id, opt)}
-                          className={`w-full p-3 rounded-xl border text-xs sm:text-sm text-right rtl:text-right flex items-center justify-between transition-all cursor-pointer ${optionStyle}`}
+                          className={`w-full p-3 rounded-xl border text-xs sm:text-sm text-left flex items-center justify-between transition-all cursor-pointer ${optionStyle}`}
+                          dir="ltr"
                         >
-                          <span>{opt}</span>
-                          {examSubmitted && isCorrect && <CheckCircle2 className="w-4 h-4 text-emerald-500" />}
-                          {examSubmitted && isSelected && !isCorrect && <XCircle className="w-4 h-4 text-red-500" />}
+                          <span className="text-left font-medium flex-1 break-words pr-2">{opt}</span>
+                          {examSubmitted && isCorrect && <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0 ml-2" />}
+                          {examSubmitted && isSelected && !isCorrect && <XCircle className="w-4 h-4 text-red-500 shrink-0 ml-2" />}
                         </button>
                       );
                     })}
@@ -485,15 +493,15 @@ export const MoasserRevisionHub: React.FC<{ onBack?: () => void }> = ({ onBack }
             </div>
 
             {/* Modal Footer Actions */}
-            <div className="p-4 bg-slate-50 dark:bg-[#121f3d] border-t border-slate-200 dark:border-slate-800 flex items-center justify-between gap-3">
-              <span className="text-xs text-slate-500 dark:text-slate-400">
+            <div className="p-3.5 sm:p-4 bg-slate-50 dark:bg-[#121f3d] border-t border-slate-200 dark:border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-3">
+              <span className="text-xs text-slate-500 dark:text-slate-400 order-2 sm:order-1 text-center sm:text-right">
                 تمت الإجابة عن {Object.keys(userAnswers).length} من {activeExam.questions.length} سؤال
               </span>
 
               {!examSubmitted ? (
                 <button
                   onClick={handleSubmitExam}
-                  className="px-6 py-2.5 rounded-xl bg-[#2563EB] hover:bg-blue-600 text-white font-black text-xs shadow-lg shadow-blue-600/30 transition-all cursor-pointer"
+                  className="w-full sm:w-auto px-6 py-2.5 rounded-xl bg-[#2563EB] hover:bg-blue-600 text-white font-black text-xs shadow-lg shadow-blue-600/30 transition-all cursor-pointer order-1 sm:order-2"
                 >
                   تسليم الامتحان وإظهار النتيجة 🚀
                 </button>
@@ -505,7 +513,7 @@ export const MoasserRevisionHub: React.FC<{ onBack?: () => void }> = ({ onBack }
                     setExamScore(null);
                     setTimeLeft(activeExam.durationMinutes * 60);
                   }}
-                  className="px-5 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-bold text-xs flex items-center gap-1.5 transition-all cursor-pointer"
+                  className="w-full sm:w-auto px-5 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-bold text-xs flex items-center justify-center gap-1.5 transition-all cursor-pointer order-1 sm:order-2"
                 >
                   <RotateCcw className="w-4 h-4" />
                   <span>إعادة حل النموذج</span>

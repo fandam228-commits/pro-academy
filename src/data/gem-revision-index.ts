@@ -539,7 +539,7 @@ export const GEM_INTERACTIVE_EXAMS: Record<string, MoasserExam> = {
         id: "gp3_q1",
         type: "dialogue",
         category: "Language Functions",
-        question: "Salma is at the railway station booking a ticket.\nSalma: Good morning. I'd like to book a ticket to Alexandria, please.\nClerk: ..............................................................",
+        question: "Salma is at the railway station booking a ticket.\nSalma: Good morning. I'd like to book a ticket to Alexandria, please.\nClerk: ............",
         options: [
           "Single or return?",
           "No, trains are prohibited.",
@@ -554,7 +554,7 @@ export const GEM_INTERACTIVE_EXAMS: Record<string, MoasserExam> = {
         id: "gp3_q2",
         type: "dialogue",
         category: "Language Functions",
-        question: "Salma: Single, please. How much is the ticket?\nClerk: ..............................................................",
+        question: "Salma: Single, please. How much is the ticket?\nClerk: ............",
         options: [
           "It's 70 Egyptian pounds.",
           "It leaves at platform two.",
