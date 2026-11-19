@@ -178,6 +178,15 @@ export const Navbar: React.FC<NavbarProps> = ({ activeTab = "home", setActiveTab
       badge: "⚔️ جديد",
     },
     {
+      id: "moasser_revision",
+      labelAr: "مراجعات ونماذج المعاصر الرسمية 2026",
+      labelEn: "El-Moasser Official Revision & Exams",
+      descAr: "نماذج امتحانات تفاعلية مع التصحيح الفوري وتنزيل مذكرات الـ PDF",
+      descEn: "Official Moasser booklets, interactive tests & direct PDF downloads",
+      icon: BookOpen,
+      badge: "2026 حصري",
+    },
+    {
       id: "question_bank",
       labelAr: "بنك الأسئلة ومولد الامتحانات",
       labelEn: "Smart Exam Generator",

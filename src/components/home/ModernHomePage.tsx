@@ -216,6 +216,14 @@ export function ModernHomePage({
                 <Swords className="w-4 h-4 text-purple-500" />
                 <span>{lang === "ar" ? "حلبة التحدي 1v1" : "1v1 Quiz Arena"}</span>
               </button>
+
+              <button
+                onClick={() => setActiveTab("moasser_revision")}
+                className="flex-1 sm:flex-none px-5 py-3 rounded-2xl bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-600 dark:text-emerald-300 font-bold text-xs border border-emerald-300 dark:border-emerald-500/30 transition flex items-center justify-center gap-1.5 cursor-pointer"
+              >
+                <BookOpen className="w-4 h-4 text-emerald-500" />
+                <span>{lang === "ar" ? "مراجعات المعاصر 2026 📚" : "Moasser 2026 📚"}</span>
+              </button>
             </div>
           </div>
         </div>

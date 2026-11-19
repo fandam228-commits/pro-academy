@@ -236,6 +236,11 @@ const VocabularyMasterBankWorkspace = dynamic(
   { loading: () => <TabLoadingSkeleton label="جاري تحميل بنك المفردات والتعبيرات الأكاديمي..." />, ssr: false }
 );
 
+const MoasserRevisionHub = dynamic(
+  () => import("@/components/revision/MoasserRevisionHub").then((m) => m.MoasserRevisionHub),
+  { loading: () => <TabLoadingSkeleton label="جاري تحميل مراجعات ونماذج المعاصر التفاعلية..." />, ssr: false }
+);
+
 const ModernHomePage = dynamic(
   () => import("@/components/home/ModernHomePage").then((m) => m.ModernHomePage),
   { loading: () => <TabLoadingSkeleton label="جاري تحميل الصفحة الرئيسية الحديثة..." />, ssr: false }
@@ -758,6 +763,12 @@ function MainAppContent() {
           <DialogueCenterWorkspace
             user={user}
             onBack={() => setActiveTab("home")}
+          />
+        ) : activeTab === "moasser_revision" || activeTab === "revision" ? (
+
+          /* VIEW: EL-MOASSER OFFICIAL REVISION & EXAM HUB */
+          <MoasserRevisionHub
+            onBack={() => setActiveTab(user ? "dashboard" : "home")}
           />
         ) : activeTab === "download" ? (
 
