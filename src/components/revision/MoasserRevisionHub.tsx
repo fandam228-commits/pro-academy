@@ -249,7 +249,7 @@ export const MoasserRevisionHub: React.FC<{ onBack?: () => void }> = ({ onBack }
       {/* 3. STAGE FILTERS & SEARCH BAR */}
       <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
         {/* Stage Filter Buttons */}
-        <div className="flex items-center gap-1.5 bg-slate-100 dark:bg-slate-900 p-1 rounded-xl w-full sm:w-auto border border-slate-200 dark:border-slate-800 text-xs font-bold">
+        <div className="flex items-center gap-1.5 bg-slate-100 dark:bg-slate-900 p-1 rounded-xl w-full sm:w-auto border border-slate-200 dark:border-slate-800 text-xs font-bold overflow-x-auto scrollbar-none max-w-full">
           <button
             onClick={() => setSelectedStageId("all")}
             className={`px-3 py-1.5 rounded-lg transition-all ${
@@ -360,8 +360,8 @@ export const MoasserRevisionHub: React.FC<{ onBack?: () => void }> = ({ onBack }
 
       {/* 5. INTERACTIVE EXAM MODAL PLAYER */}
       {activeExam && (
-        <div className="fixed inset-0 z-50 bg-black/75 backdrop-blur-sm flex items-center justify-center p-2 sm:p-4 overflow-y-auto">
-          <div className="bg-white dark:bg-[#0c1529] border border-blue-500/40 rounded-2xl sm:rounded-3xl max-w-3xl w-full max-h-[92vh] flex flex-col shadow-2xl animate-in fade-in zoom-in-95 duration-200 overflow-hidden mx-auto my-auto">
+        <div className="fixed inset-0 z-[100] bg-black/85 backdrop-blur-md flex items-center justify-center p-0 sm:p-4 overflow-hidden w-screen h-screen max-w-full">
+          <div className="bg-white dark:bg-[#0c1529] border-0 sm:border sm:border-blue-500/40 rounded-none sm:rounded-3xl w-full sm:max-w-3xl h-full sm:h-auto sm:max-h-[92vh] flex flex-col shadow-2xl animate-in fade-in zoom-in-95 duration-200 overflow-hidden">
             {/* Modal Header */}
             <div className="p-3.5 sm:p-5 bg-slate-50 dark:bg-[#121f3d] border-b border-slate-200 dark:border-slate-800 flex items-center justify-between gap-2 sm:gap-3">
               <div className="min-w-0 flex-1">

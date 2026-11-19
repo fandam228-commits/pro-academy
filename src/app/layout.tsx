@@ -147,7 +147,7 @@ const schemaOrgJsonLd = {
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html lang="ar" dir="rtl">
+    <html lang="ar" dir="rtl" className="overflow-x-hidden max-w-full">
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
@@ -196,7 +196,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           }}
         />
       </head>
-      <body className="bg-[#F7F9FC] text-[#243247] antialiased selection:bg-[#2563EB] selection:text-white">
+      <body className="bg-[#F7F9FC] text-[#243247] antialiased selection:bg-[#2563EB] selection:text-white overflow-x-hidden max-w-full w-full">
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaOrgJsonLd) }} />
         {children}
         <InstallAppPrompt />
