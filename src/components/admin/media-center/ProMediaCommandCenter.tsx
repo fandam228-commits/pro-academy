@@ -13,6 +13,7 @@ import {
   MessageSquare,
   Megaphone,
   ShieldAlert,
+  FolderOpen,
   ChevronLeft,
   ChevronRight,
   Menu,
@@ -25,12 +26,16 @@ import {
 import { PmcOverviewDashboard } from "./PmcOverviewDashboard";
 import { PmcSocialAccountsView } from "./PmcSocialAccountsView";
 import { PmcApprovalCenterView } from "./PmcApprovalCenterView";
+import { PmcContentStudioView } from "./PmcContentStudioView";
+import { PmcVideoStudioView } from "./PmcVideoStudioView";
+import { PmcMediaLibraryView } from "./PmcMediaLibraryView";
 
 export type PmcTab =
   | "overview"
   | "social_accounts"
   | "content_studio"
   | "video_studio"
+  | "media_library"
   | "calendar"
   | "approval_center"
   | "publishing_queue"
@@ -61,6 +66,7 @@ export const ProMediaCommandCenter: React.FC<ProMediaCommandCenterProps> = ({
     { id: "approval_center", labelAr: "مركز الاعتماد البشري", labelEn: "Approval Center", icon: FileCheck, badge: "GATE" },
     { id: "content_studio", labelAr: "استوديو المحتوى الذكي", labelEn: "AI Content Studio", icon: Sparkles, badge: "AI" },
     { id: "video_studio", labelAr: "استوديو الفيديوهات 9:16", labelEn: "AI Video Studio", icon: Video },
+    { id: "media_library", labelAr: "مكتبة الوسائط والتصميمات", labelEn: "Media Library", icon: FolderOpen },
     { id: "calendar", labelAr: "تقويم النشر الأسبوعي", labelEn: "Content Calendar", icon: Calendar },
     { id: "publishing_queue", labelAr: "محرك وطابور النشر", labelEn: "Publishing Queue", icon: Send },
     { id: "analytics", labelAr: "مركز الإحصائيات والأداء", labelEn: "Analytics Hub", icon: BarChart3 },
@@ -261,11 +267,22 @@ export const ProMediaCommandCenter: React.FC<ProMediaCommandCenterProps> = ({
             )}
             {activeTab === "social_accounts" && <PmcSocialAccountsView lang={lang} />}
             {activeTab === "approval_center" && <PmcApprovalCenterView lang={lang} />}
+            {activeTab === "content_studio" && (
+              <PmcContentStudioView
+                onNavigateToApproval={() => setActiveTab("approval_center")}
+                lang={lang}
+              />
+            )}
+            {activeTab === "video_studio" && <PmcVideoStudioView lang={lang} />}
+            {activeTab === "media_library" && <PmcMediaLibraryView lang={lang} />}
 
-            {/* Placeholder screens for Phases 3-6 */}
+            {/* Placeholder screens for Phases 5-6 */}
             {activeTab !== "overview" &&
               activeTab !== "social_accounts" &&
-              activeTab !== "approval_center" && (
+              activeTab !== "approval_center" &&
+              activeTab !== "content_studio" &&
+              activeTab !== "video_studio" &&
+              activeTab !== "media_library" && (
                 <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-12 text-center max-w-xl mx-auto shadow-sm space-y-4">
                   <div className="w-16 h-16 rounded-3xl bg-blue-50 dark:bg-blue-950 text-blue-600 dark:text-blue-400 flex items-center justify-center mx-auto shadow-inner">
                     <Sparkles className="w-8 h-8" />
