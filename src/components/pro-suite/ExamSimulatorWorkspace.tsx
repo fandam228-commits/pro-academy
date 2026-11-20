@@ -298,13 +298,16 @@ export const ExamSimulatorWorkspace: React.FC<ExamSimulatorProps> = ({
 
       {/* 1B. EXAM SELECTION PILLS (When not submitted) */}
       {!diagnosticReport && (
-        <div className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none">
+        <div
+          className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none touch-pan-x whitespace-nowrap max-w-full select-none"
+          style={{ WebkitOverflowScrolling: "touch", overscrollBehaviorX: "contain" }}
+        >
           <span className="text-xs font-bold text-slate-400 shrink-0 ml-1">اختر الامتحان:</span>
           {examsList.map((ex) => (
             <button
               key={ex.id}
               onClick={() => handleSelectExam(ex.id)}
-              className={`px-3.5 py-2 rounded-xl text-xs font-bold transition-all whitespace-nowrap cursor-pointer border ${
+              className={`shrink-0 px-3.5 py-2 rounded-xl text-xs font-bold transition-all whitespace-nowrap cursor-pointer border ${
                 exam?.id === ex.id
                   ? "bg-blue-600 text-white border-blue-500 shadow-md font-black"
                   : "bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-300 border-slate-200 dark:border-slate-800 hover:bg-slate-50"
@@ -520,12 +523,15 @@ export const ExamSimulatorWorkspace: React.FC<ExamSimulatorProps> = ({
           {/* LEFT 9 COLS: SECTION TABS & QUESTIONS */}
           <div className="lg:col-span-9 space-y-4">
             {/* SECTION SWITCHER TABS */}
-            <div className="flex items-center gap-1.5 overflow-x-auto pb-1 text-xs font-bold scrollbar-none">
+            <div
+              className="flex items-center gap-1.5 overflow-x-auto pb-1 text-xs font-bold scrollbar-none touch-pan-x whitespace-nowrap max-w-full select-none"
+              style={{ WebkitOverflowScrolling: "touch", overscrollBehaviorX: "contain" }}
+            >
               <button
                 onClick={() => setActiveSection("mcq")}
-                className={`px-4 py-2.5 rounded-2xl transition-all whitespace-nowrap cursor-pointer flex items-center gap-1.5 ${
+                className={`shrink-0 px-4 py-2.5 rounded-2xl transition-all whitespace-nowrap cursor-pointer flex items-center gap-1.5 ${
                   activeSection === "mcq"
-                    ? "bg-blue-600 text-white shadow-md shadow-blue-500/25"
+                    ? "bg-blue-600 text-white shadow-md shadow-blue-500/25 font-black"
                     : "bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-800"
                 }`}
               >
@@ -534,9 +540,9 @@ export const ExamSimulatorWorkspace: React.FC<ExamSimulatorProps> = ({
 
               <button
                 onClick={() => setActiveSection("passage")}
-                className={`px-4 py-2.5 rounded-2xl transition-all whitespace-nowrap cursor-pointer flex items-center gap-1.5 ${
+                className={`shrink-0 px-4 py-2.5 rounded-2xl transition-all whitespace-nowrap cursor-pointer flex items-center gap-1.5 ${
                   activeSection === "passage"
-                    ? "bg-blue-600 text-white shadow-md shadow-blue-500/25"
+                    ? "bg-blue-600 text-white shadow-md shadow-blue-500/25 font-black"
                     : "bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-800"
                 }`}
               >
@@ -545,9 +551,9 @@ export const ExamSimulatorWorkspace: React.FC<ExamSimulatorProps> = ({
 
               <button
                 onClick={() => setActiveSection("translation")}
-                className={`px-4 py-2.5 rounded-2xl transition-all whitespace-nowrap cursor-pointer flex items-center gap-1.5 ${
+                className={`shrink-0 px-4 py-2.5 rounded-2xl transition-all whitespace-nowrap cursor-pointer flex items-center gap-1.5 ${
                   activeSection === "translation"
-                    ? "bg-blue-600 text-white shadow-md shadow-blue-500/25"
+                    ? "bg-blue-600 text-white shadow-md shadow-blue-500/25 font-black"
                     : "bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-800"
                 }`}
               >
@@ -557,9 +563,9 @@ export const ExamSimulatorWorkspace: React.FC<ExamSimulatorProps> = ({
               {exam?.sections?.novel && exam.sections.novel.length > 0 && (
                 <button
                   onClick={() => setActiveSection("novel")}
-                  className={`px-4 py-2.5 rounded-2xl transition-all whitespace-nowrap cursor-pointer flex items-center gap-1.5 ${
+                  className={`shrink-0 px-4 py-2.5 rounded-2xl transition-all whitespace-nowrap cursor-pointer flex items-center gap-1.5 ${
                     activeSection === "novel"
-                      ? "bg-blue-600 text-white shadow-md shadow-blue-500/25"
+                      ? "bg-blue-600 text-white shadow-md shadow-blue-500/25 font-black"
                       : "bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-800"
                   }`}
                 >

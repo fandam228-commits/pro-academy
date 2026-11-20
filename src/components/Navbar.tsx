@@ -43,6 +43,7 @@ import {
   Compass,
   ArrowRight,
   ChevronRight,
+  Target,
 } from "lucide-react";
 
 export interface NavbarProps {
@@ -165,6 +166,17 @@ export const Navbar: React.FC<NavbarProps> = ({ activeTab = "home", setActiveTab
       window.removeEventListener("touchend", handleWindowTouchEnd);
     };
   }, []);
+
+  // Top swipeable tab bar container ref & active item auto-scroll
+  const topTabsContainerRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    if (topTabsContainerRef.current) {
+      const activeEl = topTabsContainerRef.current.querySelector<HTMLElement>('[data-active="true"]');
+      if (activeEl) {
+        activeEl.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "center" });
+      }
+    }
+  }, [activeTab]);
 
   const navigateTo = (tab: string, path?: string) => {
     setActiveDropdown(null);
@@ -468,6 +480,21 @@ export const Navbar: React.FC<NavbarProps> = ({ activeTab = "home", setActiveTab
     activeTab === "parent_report" ||
     pathname?.startsWith("/dashboard");
 
+  // Mobile & tablet horizontal swipeable quick tabs
+  const topQuickTabs = [
+    { id: "home", labelAr: "الرئيسية", labelEn: "Home", icon: Home },
+    { id: "moasser_revision", labelAr: "المعاصر وجيم GEM 📚", labelEn: "Moasser & GEM", icon: BookOpen, isSpecial: true },
+    { id: "curriculum", labelAr: "المناهج والصفوف 📖", labelEn: "Curriculum", icon: BookOpen },
+    { id: "exam_simulator", labelAr: "الامتحانات 🏆", labelEn: "Exams", icon: Trophy },
+    { id: "question_bank", labelAr: "بنك الأسئلة 🎯", labelEn: "Questions", icon: Target },
+    { id: "arena", labelAr: "حلبة التحدي 1v1 ⚔️", labelEn: "Arena", icon: Swords },
+    { id: "story_world", labelAr: "ركن القصة 🎭", labelEn: "Stories", icon: Film },
+    { id: "essay_lab", labelAr: "مختبر التعبير 🎙️", labelEn: "Essay Lab", icon: Sparkles },
+    { id: "mistakes_bank", labelAr: "بنك أخطائي 🔄", labelEn: "Mistakes", icon: AlertTriangle },
+    { id: "translation", labelAr: "الترجمة 🌐", labelEn: "Translation", icon: Languages },
+    { id: "leaderboard", labelAr: "المتصدرين 🥇", labelEn: "Leaderboard", icon: Award },
+  ];
+
   return (
     <>
       {/* =========================================================================
@@ -495,13 +522,13 @@ export const Navbar: React.FC<NavbarProps> = ({ activeTab = "home", setActiveTab
                 <img src="/icons/icon-192.png" alt="Pro Academy" className="w-full h-full object-contain" />
               </div>
               <div>
-                <div className="font-black text-base sm:text-lg lg:text-xl tracking-tight text-[#0E1E38] dark:text-white flex items-center gap-1.5 font-sans">
-                  <span>{lang === "ar" ? "أكاديمية مستر حبيب الرحمن" : "Professional Academy"}</span>
-                  <span className="text-[10px] sm:text-[11px] font-black px-2 py-0.5 rounded-full bg-[#EABF58] text-[#0E1E38] shadow-xs">
+                <div className="font-black text-sm sm:text-lg lg:text-xl tracking-tight text-[#0E1E38] dark:text-white flex items-center gap-1.5 font-sans">
+                  <span className="truncate max-w-[150px] sm:max-w-none">{lang === "ar" ? "أكاديمية مستر حبيب الرحمن" : "Professional Academy"}</span>
+                  <span className="text-[10px] sm:text-[11px] font-black px-2 py-0.5 rounded-full bg-[#EABF58] text-[#0E1E38] shadow-xs shrink-0">
                     PRO
                   </span>
                 </div>
-                <p className="text-[11px] sm:text-xs font-semibold text-[#718096] dark:text-slate-400">
+                <p className="text-[10px] sm:text-xs font-semibold text-[#718096] dark:text-slate-400 hidden sm:block">
                   {lang === "ar" ? "منصة اللغة الإنجليزية للشهادة الثانوية والإعدادية" : "Mr. Habib El Rahman"}
                 </p>
               </div>
@@ -969,6 +996,44 @@ export const Navbar: React.FC<NavbarProps> = ({ activeTab = "home", setActiveTab
 
             </div>
 
+          </div>
+        </div>
+
+        {/* =====================================================================
+            MOBILE / TABLET HORIZONTAL SWIPEABLE TOP BAR (شريط التنقل العلوي السريع القابل للسحب لليمين واليسار)
+        ===================================================================== */}
+        <div className="xl:hidden border-t border-slate-200/80 dark:border-slate-800/80 bg-white/95 dark:bg-[#0B1528]/95 backdrop-blur-md px-2.5 py-2 shadow-xs">
+          <div
+            ref={topTabsContainerRef}
+            className="flex items-center gap-1.5 overflow-x-auto scrollbar-none touch-pan-x whitespace-nowrap px-1 py-0.5 select-none"
+            style={{
+              WebkitOverflowScrolling: "touch",
+              overscrollBehaviorX: "contain",
+            }}
+          >
+            {topQuickTabs.map((tab) => {
+              const Icon = tab.icon;
+              const isActive = activeTab === tab.id;
+              return (
+                <button
+                  key={tab.id}
+                  data-active={isActive}
+                  onClick={() => navigateTo(tab.id)}
+                  className={`shrink-0 flex items-center gap-1.5 px-3 py-1.5 rounded-xl font-bold text-xs transition-all whitespace-nowrap cursor-pointer ${
+                    isActive
+                      ? tab.isSpecial
+                        ? "bg-gradient-to-r from-emerald-600 to-teal-600 text-white shadow-md shadow-emerald-600/25 font-black scale-[1.02]"
+                        : "bg-[#2563EB] text-white shadow-md shadow-blue-600/25 font-black scale-[1.02]"
+                      : tab.isSpecial
+                      ? "bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-300 border border-emerald-300/80 dark:border-emerald-600/40 hover:bg-emerald-100"
+                      : "bg-slate-100 dark:bg-slate-800/80 text-slate-700 dark:text-slate-300 border border-slate-200/60 dark:border-slate-700/60 hover:bg-slate-200 dark:hover:bg-slate-700"
+                  }`}
+                >
+                  <Icon className="w-3.5 h-3.5 shrink-0" />
+                  <span>{lang === "ar" ? tab.labelAr : tab.labelEn}</span>
+                </button>
+              );
+            })}
           </div>
         </div>
 

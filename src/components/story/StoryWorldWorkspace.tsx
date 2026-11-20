@@ -425,10 +425,13 @@ export function StoryWorldWorkspace({ user, onNavigateHome }: StoryWorldProps) {
           </div>
 
           {/* Top Activity Tabs */}
-          <div className="flex items-center gap-1 overflow-x-auto pb-1 md:pb-0 scrollbar-none">
+          <div
+            className="flex items-center gap-1.5 overflow-x-auto pb-1 md:pb-0 scrollbar-none touch-pan-x whitespace-nowrap max-w-full select-none"
+            style={{ WebkitOverflowScrolling: "touch", overscrollBehaviorX: "contain" }}
+          >
             <button
               onClick={() => setActiveTab("literature")}
-              className={`px-3 py-2 rounded-xl text-xs font-bold transition flex items-center gap-1.5 ${
+              className={`shrink-0 whitespace-nowrap px-3 py-2 rounded-xl text-xs font-bold transition flex items-center gap-1.5 cursor-pointer ${
                 activeTab === "literature"
                   ? "bg-gradient-to-r from-amber-500 to-amber-600 text-slate-950 shadow-md shadow-amber-500/25 font-black"
                   : "bg-amber-50 text-amber-900 hover:bg-amber-100 border border-amber-200"
@@ -443,9 +446,9 @@ export function StoryWorldWorkspace({ user, onNavigateHome }: StoryWorldProps) {
 
             <button
               onClick={() => setActiveTab("book")}
-              className={`px-3 py-2 rounded-xl text-xs font-bold transition flex items-center gap-1.5 ${
+              className={`shrink-0 whitespace-nowrap px-3 py-2 rounded-xl text-xs font-bold transition flex items-center gap-1.5 cursor-pointer ${
                 activeTab === "book"
-                  ? "bg-[#2563EB] text-white shadow-md shadow-blue-500/20"
+                  ? "bg-[#2563EB] text-white shadow-md shadow-blue-500/20 font-black"
                   : "bg-white text-[#475569] hover:bg-[#F8FAFC] border border-[#E2E8F0]"
               }`}
             >
@@ -455,9 +458,9 @@ export function StoryWorldWorkspace({ user, onNavigateHome }: StoryWorldProps) {
 
             <button
               onClick={() => setActiveTab("comic")}
-              className={`px-3 py-2 rounded-xl text-xs font-bold transition flex items-center gap-1.5 ${
+              className={`shrink-0 whitespace-nowrap px-3 py-2 rounded-xl text-xs font-bold transition flex items-center gap-1.5 cursor-pointer ${
                 activeTab === "comic"
-                  ? "bg-gradient-to-r from-[#2563EB] to-[#4F46E5] text-white shadow-md shadow-blue-500/20"
+                  ? "bg-gradient-to-r from-[#2563EB] to-[#4F46E5] text-white shadow-md shadow-blue-500/20 font-black"
                   : "bg-white text-[#475569] hover:bg-[#F8FAFC] border border-[#E2E8F0]"
               }`}
             >
@@ -470,9 +473,9 @@ export function StoryWorldWorkspace({ user, onNavigateHome }: StoryWorldProps) {
 
             <button
               onClick={() => setActiveTab("cinema")}
-              className={`px-3 py-2 rounded-xl text-xs font-bold transition flex items-center gap-1.5 ${
+              className={`shrink-0 whitespace-nowrap px-3 py-2 rounded-xl text-xs font-bold transition flex items-center gap-1.5 cursor-pointer ${
                 activeTab === "cinema"
-                  ? "bg-[#2563EB] text-white shadow-md shadow-blue-500/20"
+                  ? "bg-[#2563EB] text-white shadow-md shadow-blue-500/20 font-black"
                   : "bg-white text-[#475569] hover:bg-[#F8FAFC] border border-[#E2E8F0]"
               }`}
             >
@@ -482,9 +485,9 @@ export function StoryWorldWorkspace({ user, onNavigateHome }: StoryWorldProps) {
 
             <button
               onClick={() => setActiveTab("listen")}
-              className={`px-3 py-2 rounded-xl text-xs font-bold transition flex items-center gap-1.5 ${
+              className={`shrink-0 whitespace-nowrap px-3 py-2 rounded-xl text-xs font-bold transition flex items-center gap-1.5 cursor-pointer ${
                 activeTab === "listen"
-                  ? "bg-[#2563EB] text-white shadow-md shadow-blue-500/20"
+                  ? "bg-[#2563EB] text-white shadow-md shadow-blue-500/20 font-black"
                   : "bg-white text-[#475569] hover:bg-[#F8FAFC] border border-[#E2E8F0]"
               }`}
             >
@@ -494,9 +497,9 @@ export function StoryWorldWorkspace({ user, onNavigateHome }: StoryWorldProps) {
 
             <button
               onClick={() => setActiveTab("chat")}
-              className={`px-3 py-2 rounded-xl text-xs font-bold transition flex items-center gap-1.5 ${
+              className={`shrink-0 whitespace-nowrap px-3 py-2 rounded-xl text-xs font-bold transition flex items-center gap-1.5 cursor-pointer ${
                 activeTab === "chat"
-                  ? "bg-[#2563EB] text-white shadow-md shadow-blue-500/20"
+                  ? "bg-[#2563EB] text-white shadow-md shadow-blue-500/20 font-black"
                   : "bg-white text-[#475569] hover:bg-[#F8FAFC] border border-[#E2E8F0]"
               }`}
             >
@@ -506,9 +509,9 @@ export function StoryWorldWorkspace({ user, onNavigateHome }: StoryWorldProps) {
 
             <button
               onClick={() => setActiveTab("challenges")}
-              className={`px-3 py-2 rounded-xl text-xs font-bold transition flex items-center gap-1.5 ${
+              className={`shrink-0 whitespace-nowrap px-3 py-2 rounded-xl text-xs font-bold transition flex items-center gap-1.5 cursor-pointer ${
                 activeTab === "challenges"
-                  ? "bg-[#2563EB] text-white shadow-md shadow-blue-500/20"
+                  ? "bg-[#2563EB] text-white shadow-md shadow-blue-500/20 font-black"
                   : "bg-white text-[#475569] hover:bg-[#F8FAFC] border border-[#E2E8F0]"
               }`}
             >
@@ -518,9 +521,9 @@ export function StoryWorldWorkspace({ user, onNavigateHome }: StoryWorldProps) {
 
             <button
               onClick={() => setActiveTab("exam")}
-              className={`px-3 py-2 rounded-xl text-xs font-bold transition flex items-center gap-1.5 ${
+              className={`shrink-0 whitespace-nowrap px-3 py-2 rounded-xl text-xs font-bold transition flex items-center gap-1.5 cursor-pointer ${
                 activeTab === "exam"
-                  ? "bg-[#2563EB] text-white shadow-md shadow-blue-500/20"
+                  ? "bg-[#2563EB] text-white shadow-md shadow-blue-500/20 font-black"
                   : "bg-white text-[#475569] hover:bg-[#F8FAFC] border border-[#E2E8F0]"
               }`}
             >
@@ -531,9 +534,9 @@ export function StoryWorldWorkspace({ user, onNavigateHome }: StoryWorldProps) {
             {(user?.role === "admin" || user?.role === "teacher") && (
               <button
                 onClick={() => setActiveTab("admin")}
-                className={`px-3 py-2 rounded-xl text-xs font-bold transition flex items-center gap-1.5 ${
+                className={`shrink-0 whitespace-nowrap px-3 py-2 rounded-xl text-xs font-bold transition flex items-center gap-1.5 cursor-pointer ${
                   activeTab === "admin"
-                    ? "bg-[#EABF58] text-[#243247] shadow-md shadow-amber-500/20"
+                    ? "bg-[#EABF58] text-[#243247] shadow-md shadow-amber-500/20 font-black"
                     : "bg-amber-50 text-amber-800 hover:bg-amber-100 border border-amber-200"
                 }`}
               >
@@ -549,8 +552,11 @@ export function StoryWorldWorkspace({ user, onNavigateHome }: StoryWorldProps) {
       <div className="bg-white border-b border-[#E2E8F0] px-4 py-3 shadow-sm">
         <div className="max-w-7xl mx-auto space-y-3">
           {/* A. GRADE SELECTION PILLS */}
-          <div className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none">
-            <span className="text-xs font-bold text-[#718096] whitespace-nowrap flex items-center gap-1">
+          <div
+            className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none touch-pan-x whitespace-nowrap max-w-full select-none"
+            style={{ WebkitOverflowScrolling: "touch", overscrollBehaviorX: "contain" }}
+          >
+            <span className="text-xs font-bold text-[#718096] whitespace-nowrap flex items-center gap-1 shrink-0">
               <GraduationCap className="w-4 h-4 text-[#2563EB]" />
               <span>الصف:</span>
             </span>
@@ -558,9 +564,9 @@ export function StoryWorldWorkspace({ user, onNavigateHome }: StoryWorldProps) {
               <button
                 key={gDef.code}
                 onClick={() => setSelectedGradeCode(gDef.code)}
-                className={`px-3.5 py-1.5 rounded-full text-xs font-bold transition whitespace-nowrap ${
+                className={`shrink-0 px-3.5 py-1.5 rounded-full text-xs font-bold transition whitespace-nowrap cursor-pointer ${
                   selectedGradeCode === gDef.code
-                    ? "bg-[#2563EB] text-white shadow-sm"
+                    ? "bg-[#2563EB] text-white shadow-sm font-black"
                     : "bg-[#F1F5F9] text-[#475569] hover:bg-[#E2E8F0]"
                 }`}
               >
@@ -571,14 +577,17 @@ export function StoryWorldWorkspace({ user, onNavigateHome }: StoryWorldProps) {
 
           {/* B. TERM SELECTION PILLS & STORY CAROUSEL */}
           <div className="flex flex-wrap items-center justify-between gap-3 pt-1 border-t border-[#F1F5F9]">
-            <div className="flex items-center gap-2 overflow-x-auto pb-1">
-              <span className="text-xs font-bold text-[#718096] whitespace-nowrap flex items-center gap-1">
+            <div
+              className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none touch-pan-x whitespace-nowrap max-w-full select-none"
+              style={{ WebkitOverflowScrolling: "touch", overscrollBehaviorX: "contain" }}
+            >
+              <span className="text-xs font-bold text-[#718096] whitespace-nowrap flex items-center gap-1 shrink-0">
                 <Calendar className="w-3.5 h-3.5 text-[#2563EB]" />
                 <span>الترم:</span>
               </span>
               <button
                 onClick={() => setSelectedTerm("all")}
-                className={`px-3 py-1 rounded-lg text-xs font-semibold transition ${
+                className={`shrink-0 px-3 py-1 rounded-lg text-xs font-semibold transition whitespace-nowrap cursor-pointer ${
                   selectedTerm === "all"
                     ? "bg-[#E8F3FF] text-[#2563EB] border border-[#BFDBFE] font-bold"
                     : "text-[#718096] hover:bg-[#F1F5F9]"
@@ -588,7 +597,7 @@ export function StoryWorldWorkspace({ user, onNavigateHome }: StoryWorldProps) {
               </button>
               <button
                 onClick={() => setSelectedTerm("first")}
-                className={`px-3 py-1 rounded-lg text-xs font-semibold transition ${
+                className={`shrink-0 px-3 py-1 rounded-lg text-xs font-semibold transition whitespace-nowrap cursor-pointer ${
                   selectedTerm === "first"
                     ? "bg-[#E8F3FF] text-[#2563EB] border border-[#BFDBFE] font-bold"
                     : "text-[#718096] hover:bg-[#F1F5F9]"
@@ -598,7 +607,7 @@ export function StoryWorldWorkspace({ user, onNavigateHome }: StoryWorldProps) {
               </button>
               <button
                 onClick={() => setSelectedTerm("second")}
-                className={`px-3 py-1 rounded-lg text-xs font-semibold transition ${
+                className={`shrink-0 px-3 py-1 rounded-lg text-xs font-semibold transition whitespace-nowrap cursor-pointer ${
                   selectedTerm === "second"
                     ? "bg-[#E8F3FF] text-[#2563EB] border border-[#BFDBFE] font-bold"
                     : "text-[#718096] hover:bg-[#F1F5F9]"

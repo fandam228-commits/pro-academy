@@ -437,27 +437,30 @@ export function ModernHomePage({
             </h2>
           </div>
 
-          <div className="flex items-center gap-1.5 p-1 bg-white dark:bg-slate-800/80 rounded-xl border border-slate-200 dark:border-slate-700">
+          <div
+            className="flex items-center gap-1.5 p-1 bg-white dark:bg-slate-800/80 rounded-xl border border-slate-200 dark:border-slate-700 overflow-x-auto scrollbar-none touch-pan-x whitespace-nowrap max-w-full select-none"
+            style={{ WebkitOverflowScrolling: "touch", overscrollBehaviorX: "contain" }}
+          >
             <button
               onClick={() => setSelectedStageTab("all")}
-              className={`px-3 py-1.5 rounded-lg text-xs font-bold transition cursor-pointer ${
-                selectedStageTab === "all" ? "bg-[#2563EB] text-white shadow-xs" : "text-slate-500 hover:text-slate-900 dark:hover:text-white"
+              className={`shrink-0 px-3 py-1.5 rounded-lg text-xs font-bold transition whitespace-nowrap cursor-pointer ${
+                selectedStageTab === "all" ? "bg-[#2563EB] text-white shadow-xs font-black" : "text-slate-500 hover:text-slate-900 dark:hover:text-white"
               }`}
             >
               {lang === "ar" ? "الكل" : "All"}
             </button>
             <button
               onClick={() => setSelectedStageTab("secondary")}
-              className={`px-3 py-1.5 rounded-lg text-xs font-bold transition cursor-pointer ${
-                selectedStageTab === "secondary" ? "bg-[#2563EB] text-white shadow-xs" : "text-slate-500 hover:text-slate-900 dark:hover:text-white"
+              className={`shrink-0 px-3 py-1.5 rounded-lg text-xs font-bold transition whitespace-nowrap cursor-pointer ${
+                selectedStageTab === "secondary" ? "bg-[#2563EB] text-white shadow-xs font-black" : "text-slate-500 hover:text-slate-900 dark:hover:text-white"
               }`}
             >
               {lang === "ar" ? "المرحلة الثانوية" : "Secondary"}
             </button>
             <button
               onClick={() => setSelectedStageTab("preparatory")}
-              className={`px-3 py-1.5 rounded-lg text-xs font-bold transition cursor-pointer ${
-                selectedStageTab === "preparatory" ? "bg-[#2563EB] text-white shadow-xs" : "text-slate-500 hover:text-slate-900 dark:hover:text-white"
+              className={`shrink-0 px-3 py-1.5 rounded-lg text-xs font-bold transition whitespace-nowrap cursor-pointer ${
+                selectedStageTab === "preparatory" ? "bg-[#2563EB] text-white shadow-xs font-black" : "text-slate-500 hover:text-slate-900 dark:hover:text-white"
               }`}
             >
               {lang === "ar" ? "المرحلة الإعدادية" : "Preparatory"}

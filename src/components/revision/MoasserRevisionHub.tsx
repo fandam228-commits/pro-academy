@@ -242,8 +242,11 @@ export const MoasserRevisionHub: React.FC<{ onBack?: () => void }> = ({ onBack }
         </button>
       </div>
 
-      {/* 2. TRACK SELECTOR TABS */}
-      <div className="flex flex-wrap items-center gap-2 p-1.5 rounded-2xl bg-white dark:bg-[#101b33] border border-slate-200 dark:border-slate-800 shadow-sm">
+      {/* 2. TRACK SELECTOR TABS (SWIPEABLE HORIZONTALLY ON MOBILE) */}
+      <div
+        className="flex items-center gap-2 p-1.5 rounded-2xl bg-white dark:bg-[#101b33] border border-slate-200 dark:border-slate-800 shadow-sm overflow-x-auto scrollbar-none touch-pan-x whitespace-nowrap max-w-full select-none"
+        style={{ WebkitOverflowScrolling: "touch", overscrollBehaviorX: "contain" }}
+      >
         {activeSections.map((sec) => (
           <button
             key={sec.id}
@@ -251,7 +254,7 @@ export const MoasserRevisionHub: React.FC<{ onBack?: () => void }> = ({ onBack }
               setSelectedSectionId(sec.id);
               setSelectedStageId("all");
             }}
-            className={`flex-1 sm:flex-initial px-4 py-2.5 rounded-xl font-bold text-xs transition-all cursor-pointer ${
+            className={`shrink-0 px-4 py-2.5 rounded-xl font-bold text-xs transition-all whitespace-nowrap cursor-pointer ${
               selectedSectionId === sec.id
                 ? selectedPublisher === "gem"
                   ? "bg-gradient-to-r from-rose-600 to-amber-600 text-white shadow-md font-black"
@@ -264,38 +267,41 @@ export const MoasserRevisionHub: React.FC<{ onBack?: () => void }> = ({ onBack }
         ))}
       </div>
 
-      {/* 3. STAGE FILTERS & SEARCH BAR */}
+      {/* 3. STAGE FILTERS & SEARCH BAR (SWIPEABLE HORIZONTALLY ON MOBILE) */}
       <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
         {/* Stage Filter Buttons */}
-        <div className="flex items-center gap-1.5 bg-slate-100 dark:bg-slate-900 p-1 rounded-xl w-full sm:w-auto border border-slate-200 dark:border-slate-800 text-xs font-bold overflow-x-auto scrollbar-none max-w-full">
+        <div
+          className="flex items-center gap-1.5 bg-slate-100 dark:bg-slate-900 p-1.5 rounded-2xl w-full sm:w-auto border border-slate-200 dark:border-slate-800 text-xs font-bold overflow-x-auto scrollbar-none max-w-full touch-pan-x whitespace-nowrap select-none"
+          style={{ WebkitOverflowScrolling: "touch", overscrollBehaviorX: "contain" }}
+        >
           <button
             onClick={() => setSelectedStageId("all")}
-            className={`px-3 py-1.5 rounded-lg transition-all ${
-              selectedStageId === "all" ? "bg-white dark:bg-slate-800 text-blue-600 dark:text-sky-400 shadow-xs" : "text-slate-500"
+            className={`shrink-0 px-3.5 py-2 rounded-xl transition-all whitespace-nowrap cursor-pointer ${
+              selectedStageId === "all" ? "bg-white dark:bg-slate-800 text-blue-600 dark:text-sky-400 font-black shadow-xs" : "text-slate-500 hover:text-slate-900 dark:hover:text-white"
             }`}
           >
             الكل
           </button>
           <button
             onClick={() => setSelectedStageId("secondary")}
-            className={`px-3 py-1.5 rounded-lg transition-all ${
-              selectedStageId === "secondary" ? "bg-white dark:bg-slate-800 text-blue-600 dark:text-sky-400 shadow-xs" : "text-slate-500"
+            className={`shrink-0 px-3.5 py-2 rounded-xl transition-all whitespace-nowrap cursor-pointer ${
+              selectedStageId === "secondary" ? "bg-white dark:bg-slate-800 text-blue-600 dark:text-sky-400 font-black shadow-xs" : "text-slate-500 hover:text-slate-900 dark:hover:text-white"
             }`}
           >
             المرحلة الثانوية
           </button>
           <button
             onClick={() => setSelectedStageId("prep")}
-            className={`px-3 py-1.5 rounded-lg transition-all ${
-              selectedStageId === "prep" ? "bg-white dark:bg-slate-800 text-blue-600 dark:text-sky-400 shadow-xs" : "text-slate-500"
+            className={`shrink-0 px-3.5 py-2 rounded-xl transition-all whitespace-nowrap cursor-pointer ${
+              selectedStageId === "prep" ? "bg-white dark:bg-slate-800 text-blue-600 dark:text-sky-400 font-black shadow-xs" : "text-slate-500 hover:text-slate-900 dark:hover:text-white"
             }`}
           >
             المرحلة الإعدادية
           </button>
           <button
             onClick={() => setSelectedStageId("primary")}
-            className={`px-3 py-1.5 rounded-lg transition-all ${
-              selectedStageId === "primary" ? "bg-white dark:bg-slate-800 text-blue-600 dark:text-sky-400 shadow-xs" : "text-slate-500"
+            className={`shrink-0 px-3.5 py-2 rounded-xl transition-all whitespace-nowrap cursor-pointer ${
+              selectedStageId === "primary" ? "bg-white dark:bg-slate-800 text-blue-600 dark:text-sky-400 font-black shadow-xs" : "text-slate-500 hover:text-slate-900 dark:hover:text-white"
             }`}
           >
             المرحلة الابتدائية
