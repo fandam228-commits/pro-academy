@@ -29,6 +29,8 @@ import { PmcApprovalCenterView } from "./PmcApprovalCenterView";
 import { PmcContentStudioView } from "./PmcContentStudioView";
 import { PmcVideoStudioView } from "./PmcVideoStudioView";
 import { PmcMediaLibraryView } from "./PmcMediaLibraryView";
+import { PmcCalendarView } from "./PmcCalendarView";
+import { PmcPublishQueueView } from "./PmcPublishQueueView";
 
 export type PmcTab =
   | "overview"
@@ -275,14 +277,28 @@ export const ProMediaCommandCenter: React.FC<ProMediaCommandCenterProps> = ({
             )}
             {activeTab === "video_studio" && <PmcVideoStudioView lang={lang} />}
             {activeTab === "media_library" && <PmcMediaLibraryView lang={lang} />}
+            {activeTab === "calendar" && (
+              <PmcCalendarView
+                lang={lang}
+                onNavigateToQueue={() => setActiveTab("publishing_queue")}
+              />
+            )}
+            {activeTab === "publishing_queue" && (
+              <PmcPublishQueueView
+                lang={lang}
+                onNavigateToCalendar={() => setActiveTab("calendar")}
+              />
+            )}
 
-            {/* Placeholder screens for Phases 5-6 */}
+            {/* Placeholder screens for Phases 6 */}
             {activeTab !== "overview" &&
               activeTab !== "social_accounts" &&
               activeTab !== "approval_center" &&
               activeTab !== "content_studio" &&
               activeTab !== "video_studio" &&
-              activeTab !== "media_library" && (
+              activeTab !== "media_library" &&
+              activeTab !== "calendar" &&
+              activeTab !== "publishing_queue" && (
                 <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-12 text-center max-w-xl mx-auto shadow-sm space-y-4">
                   <div className="w-16 h-16 rounded-3xl bg-blue-50 dark:bg-blue-950 text-blue-600 dark:text-blue-400 flex items-center justify-center mx-auto shadow-inner">
                     <Sparkles className="w-8 h-8" />

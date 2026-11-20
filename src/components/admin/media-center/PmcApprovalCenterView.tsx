@@ -165,6 +165,43 @@ export const PmcApprovalCenterView: React.FC<PmcApprovalCenterViewProps> = ({
     }
   };
 
+  const handlePublishNow = async (item: VariantItem) => {
+    setActionLoading(item.id);
+    setBannerNotice(null);
+    try {
+      const res = await fetch("/api/admin/media-center/queue", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          variantId: item.id,
+          approvalStatus: "APPROVED",
+          approvedBy: "Mr. Habib El Rahman",
+          contentSnapshotHash: "approved_hash_snapshot",
+          currentContentHash: "approved_hash_snapshot",
+          title: item.hook || "منشور معتمد للأكاديمية",
+          bodyText: item.caption || item.description || item.script || "",
+          platform: item.platform,
+          forceImmediate: true,
+        }),
+      });
+      const data = await res.json();
+      if (res.ok) {
+        setBannerNotice({
+          type: "success",
+          text: isAr
+            ? `تم إرسال ونشر المحتوى بنجاح إلى منصة ${item.platform} عبر محرك النشر الآمن!`
+            : `Content published successfully to ${item.platform}!`,
+        });
+      } else {
+        setBannerNotice({ type: "error", text: data.error || "فشل النشر الفوري." });
+      }
+    } catch (e: any) {
+      setBannerNotice({ type: "error", text: e.message || "خطأ أثناء الإرسال." });
+    } finally {
+      setActionLoading(null);
+    }
+  };
+
   const submitRejection = async () => {
     if (!feedbackModal.variantId) return;
     setActionLoading(feedbackModal.variantId);
@@ -423,6 +460,21 @@ export const PmcApprovalCenterView: React.FC<PmcApprovalCenterViewProps> = ({
                         : isAr ? "اعتماد المحتوى الآن" : "Approve Content"}
                     </span>
                   </button>
+
+                  {isApproved && (
+                    <button
+                      onClick={() => handlePublishNow(item)}
+                      disabled={actionLoading === item.id}
+                      className="px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-black shadow-md shadow-indigo-600/20 transition flex items-center gap-1.5 cursor-pointer"
+                    >
+                      {actionLoading === item.id ? (
+                        <RefreshCw className="w-3.5 h-3.5 animate-spin" />
+                      ) : (
+                        <Send className="w-3.5 h-3.5" />
+                      )}
+                      <span>{isAr ? "نشر فوري الآن 🚀" : "Publish Now 🚀"}</span>
+                    </button>
+                  )}
                 </div>
               </div>
             </div>

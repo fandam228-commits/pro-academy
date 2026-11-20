@@ -255,7 +255,10 @@ export const PmcOverviewDashboard: React.FC<PmcOverviewDashboardProps> = ({
       {/* Row 2: Publication Status Funnel */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         {/* Published */}
-        <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-4 shadow-sm flex items-center gap-3.5">
+        <div
+          onClick={() => onNavigateTab("publishing_queue")}
+          className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-4 shadow-sm hover:shadow-md transition cursor-pointer flex items-center gap-3.5"
+        >
           <div className="w-12 h-12 rounded-2xl bg-emerald-50 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400 flex items-center justify-center font-bold">
             <CheckCircle2 className="w-6 h-6" />
           </div>
@@ -291,7 +294,10 @@ export const PmcOverviewDashboard: React.FC<PmcOverviewDashboardProps> = ({
         </div>
 
         {/* Scheduled */}
-        <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-4 shadow-sm flex items-center gap-3.5">
+        <div
+          onClick={() => onNavigateTab("calendar")}
+          className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-4 shadow-sm hover:shadow-md transition cursor-pointer flex items-center gap-3.5"
+        >
           <div className="w-12 h-12 rounded-2xl bg-blue-50 dark:bg-blue-950/60 text-blue-600 dark:text-blue-400 flex items-center justify-center font-bold">
             <Calendar className="w-6 h-6" />
           </div>
@@ -306,7 +312,10 @@ export const PmcOverviewDashboard: React.FC<PmcOverviewDashboardProps> = ({
         </div>
 
         {/* Failed */}
-        <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-4 shadow-sm flex items-center gap-3.5">
+        <div
+          onClick={() => onNavigateTab("publishing_queue")}
+          className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-4 shadow-sm hover:shadow-md transition cursor-pointer flex items-center gap-3.5"
+        >
           <div className="w-12 h-12 rounded-2xl bg-rose-50 dark:bg-rose-950/60 text-rose-600 dark:text-rose-400 flex items-center justify-center font-bold">
             <AlertTriangle className="w-6 h-6" />
           </div>
