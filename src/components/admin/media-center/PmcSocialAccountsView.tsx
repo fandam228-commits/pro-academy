@@ -13,6 +13,10 @@ import {
   Lock,
   Zap,
   Info,
+  LogOut,
+  Download,
+  Copy,
+  Check,
 } from "lucide-react";
 import { YoutubeIcon } from "./icons";
 
@@ -42,6 +46,8 @@ export const PmcSocialAccountsView: React.FC<PmcSocialAccountsViewProps> = ({
   const [loading, setLoading] = useState(true);
   const [testingPlatform, setTestingPlatform] = useState<string | null>(null);
   const [actionMessage, setActionMessage] = useState<{ type: "success" | "error" | "info"; text: string } | null>(null);
+  const [manualPackModalOpen, setManualPackModalOpen] = useState(false);
+  const [copiedCaption, setCopiedCaption] = useState(false);
 
   const fetchAccounts = async () => {
     try {
@@ -59,6 +65,25 @@ export const PmcSocialAccountsView: React.FC<PmcSocialAccountsViewProps> = ({
 
   useEffect(() => {
     fetchAccounts();
+
+    // Check for query parameters from OAuth callback
+    if (typeof window !== "undefined") {
+      const url = new URL(window.location.href);
+      const success = url.searchParams.get("oauth_success");
+      const error = url.searchParams.get("oauth_error");
+
+      if (success) {
+        setActionMessage({
+          type: "success",
+          text: `تم ربط وتفويض حساب ${success} وحفظ التوكنز في Vault مشفر بنجاح!`,
+        });
+      } else if (error) {
+        setActionMessage({
+          type: "error",
+          text: `فشل تفويض الـ OAuth: ${decodeURIComponent(error)}`,
+        });
+      }
+    }
   }, []);
 
   const handleTestConnection = async (platform: string) => {
@@ -90,11 +115,33 @@ export const PmcSocialAccountsView: React.FC<PmcSocialAccountsViewProps> = ({
     }
   };
 
+  const handleDisconnect = async (platform: string) => {
+    if (!confirm(isAr ? `هل أنت متأكد من رغبتك في إلغاء ربط ${platform}؟` : `Disconnect ${platform}?`)) {
+      return;
+    }
+    try {
+      const res = await fetch(`/api/admin/media-center/oauth/${platform}`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ action: "disconnect" }),
+      });
+      if (res.ok) {
+        setActionMessage({
+          type: "info",
+          text: `تم إلغاء ربط ${platform} وحذف التوكنز بأمان.`,
+        });
+        fetchAccounts();
+      }
+    } catch {}
+  };
+
   const getAccount = (platform: string) => accounts.find((a) => a.platform === platform);
 
   const fb = getAccount("facebook");
   const yt = getAccount("youtube");
   const tt = getAccount("tiktok");
+
+  const sampleTikTokCaption = `💡 الفرق بين Used to و Would مع مستر حبيب الرحمن!\n\n👇 حل امتحان الحصة التفاعلي مجاناً من الرابط في البايو!\n\n#ثانوية_عامة #انجليزي_ثانوية_عامة #مستر_حبيب_الرحمن #Professional_Academy`;
 
   return (
     <div className="space-y-6" dir={isAr ? "rtl" : "ltr"}>
@@ -192,14 +239,34 @@ export const PmcSocialAccountsView: React.FC<PmcSocialAccountsViewProps> = ({
           </div>
 
           <div className="pt-4 border-t border-slate-100 dark:border-slate-800 space-y-2">
-            <button
-              onClick={() => handleTestConnection("facebook")}
-              disabled={testingPlatform === "facebook"}
-              className="w-full py-2.5 rounded-xl bg-blue-50 dark:bg-blue-950/60 hover:bg-blue-100 dark:hover:bg-blue-900 text-blue-700 dark:text-blue-300 text-xs font-black transition flex items-center justify-center gap-1.5 cursor-pointer"
+            <a
+              href="/api/admin/media-center/oauth/facebook?init=true"
+              className="w-full py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-xs font-black transition flex items-center justify-center gap-1.5 cursor-pointer shadow-md shadow-blue-600/20"
             >
-              <RefreshCw className={`w-3.5 h-3.5 ${testingPlatform === "facebook" ? "animate-spin" : ""}`} />
-              <span>{isAr ? "اختبار الاتصال الفعلي" : "Test Live Connection"}</span>
-            </button>
+              <KeyRound className="w-3.5 h-3.5" />
+              <span>{fb?.isConnected ? (isAr ? "إعادة تفويض OAuth" : "Re-authorize") : (isAr ? "تفويض الحساب عبر Meta" : "Connect via Meta OAuth")}</span>
+            </a>
+
+            <div className="flex items-center gap-2">
+              <button
+                onClick={() => handleTestConnection("facebook")}
+                disabled={testingPlatform === "facebook"}
+                className="flex-1 py-2 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 text-xs font-bold transition flex items-center justify-center gap-1.5 cursor-pointer"
+              >
+                <RefreshCw className={`w-3.5 h-3.5 ${testingPlatform === "facebook" ? "animate-spin" : ""}`} />
+                <span>{isAr ? "اختبار الاتصال" : "Test"}</span>
+              </button>
+
+              {fb?.isConnected && (
+                <button
+                  onClick={() => handleDisconnect("facebook")}
+                  className="px-3 py-2 rounded-xl border border-rose-200 dark:border-rose-900 text-rose-600 hover:bg-rose-50 dark:hover:bg-rose-950/60 text-xs font-bold transition"
+                  title={isAr ? "إلغاء الربط" : "Disconnect"}
+                >
+                  <LogOut className="w-3.5 h-3.5" />
+                </button>
+              )}
+            </div>
           </div>
         </div>
 
@@ -248,14 +315,34 @@ export const PmcSocialAccountsView: React.FC<PmcSocialAccountsViewProps> = ({
           </div>
 
           <div className="pt-4 border-t border-slate-100 dark:border-slate-800 space-y-2">
-            <button
-              onClick={() => handleTestConnection("youtube")}
-              disabled={testingPlatform === "youtube"}
-              className="w-full py-2.5 rounded-xl bg-red-50 dark:bg-red-950/60 hover:bg-red-100 dark:hover:bg-red-900 text-red-700 dark:text-red-300 text-xs font-black transition flex items-center justify-center gap-1.5 cursor-pointer"
+            <a
+              href="/api/admin/media-center/oauth/youtube?init=true"
+              className="w-full py-2.5 rounded-xl bg-red-600 hover:bg-red-500 text-white text-xs font-black transition flex items-center justify-center gap-1.5 cursor-pointer shadow-md shadow-red-600/20"
             >
-              <RefreshCw className={`w-3.5 h-3.5 ${testingPlatform === "youtube" ? "animate-spin" : ""}`} />
-              <span>{isAr ? "اختبار الاتصال الفعلي" : "Test Live Connection"}</span>
-            </button>
+              <KeyRound className="w-3.5 h-3.5" />
+              <span>{yt?.isConnected ? (isAr ? "إعادة تفويض Google" : "Re-authorize") : (isAr ? "تفويض القناة عبر Google" : "Connect via Google OAuth")}</span>
+            </a>
+
+            <div className="flex items-center gap-2">
+              <button
+                onClick={() => handleTestConnection("youtube")}
+                disabled={testingPlatform === "youtube"}
+                className="flex-1 py-2 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 text-xs font-bold transition flex items-center justify-center gap-1.5 cursor-pointer"
+              >
+                <RefreshCw className={`w-3.5 h-3.5 ${testingPlatform === "youtube" ? "animate-spin" : ""}`} />
+                <span>{isAr ? "اختبار الاتصال" : "Test"}</span>
+              </button>
+
+              {yt?.isConnected && (
+                <button
+                  onClick={() => handleDisconnect("youtube")}
+                  className="px-3 py-2 rounded-xl border border-rose-200 dark:border-rose-900 text-rose-600 hover:bg-rose-50 dark:hover:bg-rose-950/60 text-xs font-bold transition"
+                  title={isAr ? "إلغاء الربط" : "Disconnect"}
+                >
+                  <LogOut className="w-3.5 h-3.5" />
+                </button>
+              )}
+            </div>
           </div>
         </div>
 
@@ -302,17 +389,107 @@ export const PmcSocialAccountsView: React.FC<PmcSocialAccountsViewProps> = ({
           </div>
 
           <div className="pt-4 border-t border-slate-100 dark:border-slate-800 space-y-2">
-            <button
-              onClick={() => handleTestConnection("tiktok")}
-              disabled={testingPlatform === "tiktok"}
-              className="w-full py-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 text-xs font-black transition flex items-center justify-center gap-1.5 cursor-pointer"
+            <a
+              href="/api/admin/media-center/oauth/tiktok?init=true"
+              className="w-full py-2.5 rounded-xl bg-slate-950 hover:bg-slate-900 text-white text-xs font-black transition flex items-center justify-center gap-1.5 cursor-pointer shadow-md"
             >
-              <RefreshCw className={`w-3.5 h-3.5 ${testingPlatform === "tiktok" ? "animate-spin" : ""}`} />
-              <span>{isAr ? "اختبار الاتصال الفعلي" : "Test Live Connection"}</span>
-            </button>
+              <KeyRound className="w-3.5 h-3.5 text-pink-400" />
+              <span>{tt?.isConnected ? (isAr ? "إعادة تفويض TikTok" : "Re-authorize") : (isAr ? "تفويض الحساب عبر TikTok" : "Connect via TikTok OAuth")}</span>
+            </a>
+
+            <div className="flex items-center gap-2">
+              <button
+                onClick={() => setManualPackModalOpen(true)}
+                className="flex-1 py-2 rounded-xl bg-amber-50 dark:bg-amber-950/60 hover:bg-amber-100 text-amber-800 dark:text-amber-300 text-xs font-bold transition flex items-center justify-center gap-1 cursor-pointer"
+              >
+                <Download className="w-3.5 h-3.5" />
+                <span>{isAr ? "باقة النشر اليدوي" : "Manual Pack"}</span>
+              </button>
+
+              <button
+                onClick={() => handleTestConnection("tiktok")}
+                disabled={testingPlatform === "tiktok"}
+                className="px-3 py-2 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 text-xs font-bold transition"
+                title={isAr ? "اختبار الاتصال" : "Test"}
+              >
+                <RefreshCw className={`w-3.5 h-3.5 ${testingPlatform === "tiktok" ? "animate-spin" : ""}`} />
+              </button>
+
+              {tt?.isConnected && (
+                <button
+                  onClick={() => handleDisconnect("tiktok")}
+                  className="px-3 py-2 rounded-xl border border-rose-200 dark:border-rose-900 text-rose-600 hover:bg-rose-50 text-xs font-bold transition"
+                  title={isAr ? "إلغاء الربط" : "Disconnect"}
+                >
+                  <LogOut className="w-3.5 h-3.5" />
+                </button>
+              )}
+            </div>
           </div>
         </div>
       </div>
+
+      {/* Manual Publish Pack Modal */}
+      {manualPackModalOpen && (
+        <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
+          <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-6 max-w-lg w-full shadow-2xl space-y-4">
+            <div className="flex items-center justify-between pb-3 border-b border-slate-100 dark:border-slate-800">
+              <h3 className="font-black text-base text-slate-900 dark:text-white flex items-center gap-2">
+                <Download className="w-4 h-4 text-amber-500" />
+                <span>{isAr ? "باقة النشر اليدوي الآمنة — TikTok" : "Manual Publish Pack — TikTok"}</span>
+              </h3>
+              <button
+                onClick={() => setManualPackModalOpen(false)}
+                className="text-slate-400 hover:text-slate-600 text-sm font-bold"
+              >
+                ✕
+              </button>
+            </div>
+
+            <p className="text-xs text-slate-500 leading-relaxed">
+              {isAr
+                ? "في حال كان حساب المطور في مرحلة المراجعة (Sandbox)، تمنحك هذه الباقة الكابشن المنسق وروابط الفيديو الجاهزة لنشرها يدوياً في 10 ثوانٍ دون مخالفة سياسات المنصة:"
+                : "Safe fallback for unverified TikTok Sandbox apps. Download video and copy formatted captions with 1-click."}
+            </p>
+
+            <div className="p-3.5 bg-slate-50 dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 space-y-2">
+              <div className="flex items-center justify-between">
+                <span className="text-[11px] font-bold text-slate-400">{isAr ? "النص والهاشتاجات الجاهزة:" : "Ready Caption:"}</span>
+                <button
+                  onClick={() => {
+                    navigator.clipboard.writeText(sampleTikTokCaption);
+                    setCopiedCaption(true);
+                    setTimeout(() => setCopiedCaption(false), 2000);
+                  }}
+                  className="px-2.5 py-1 rounded-lg bg-blue-600 text-white text-[11px] font-bold flex items-center gap-1 cursor-pointer"
+                >
+                  {copiedCaption ? <Check className="w-3 h-3" /> : <Copy className="w-3 h-3" />}
+                  <span>{copiedCaption ? (isAr ? "تم النسخ!" : "Copied!") : (isAr ? "نسخ الكابشن" : "Copy")}</span>
+                </button>
+              </div>
+              <p className="text-xs text-slate-800 dark:text-slate-200 whitespace-pre-wrap font-sans leading-relaxed">
+                {sampleTikTokCaption}
+              </p>
+            </div>
+
+            <div className="space-y-1.5 text-xs text-slate-600 dark:text-slate-300">
+              <p className="font-bold text-slate-900 dark:text-white">{isAr ? "خطوات النشر على الموبايل:" : "Mobile Steps:"}</p>
+              <p>1. افتح تطبيق TikTok واضغط على زر (+) لرفع الفيديو.</p>
+              <p>2. الصق الكابشن المنسوخ أعلاه في خانة الوصف.</p>
+              <p>3. اضغط 'نشر' (Post).</p>
+            </div>
+
+            <div className="pt-2 flex justify-end">
+              <button
+                onClick={() => setManualPackModalOpen(false)}
+                className="px-4 py-2 rounded-xl bg-slate-100 dark:bg-slate-800 text-xs font-bold text-slate-700 dark:text-slate-300 hover:bg-slate-200"
+              >
+                {isAr ? "إغلاق" : "Close"}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
