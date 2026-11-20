@@ -27,7 +27,9 @@ import {
   KeyRound,
   QrCode,
   Video,
+  Share2,
 } from "lucide-react";
+import { ProMediaCommandCenter } from "./media-center/ProMediaCommandCenter";
 
 export type AdminTab =
   | "overview"
@@ -37,7 +39,8 @@ export type AdminTab =
   | "students"
   | "vouchers"
   | "center_attendance"
-  | "live_classes";
+  | "live_classes"
+  | "media_center";
 
 interface HabibAdminControlPanelProps {
   initialTab?: AdminTab;
@@ -99,6 +102,12 @@ export const HabibAdminControlPanel: React.FC<HabibAdminControlPanelProps> = ({
       labelAr: "الحصص المباشرة و Meet",
       icon: Video,
       badge: "LIVE",
+    },
+    {
+      id: "media_center" as AdminTab,
+      labelAr: "PRO Media Command Center",
+      icon: Share2,
+      badge: "COMMAND",
     },
   ];
 
@@ -279,6 +288,9 @@ export const HabibAdminControlPanel: React.FC<HabibAdminControlPanelProps> = ({
           {activeTab === "vouchers" && <AdminVouchersModule />}
           {activeTab === "center_attendance" && <AdminCenterAttendanceModule />}
           {activeTab === "live_classes" && <LiveClassroomManager />}
+          {activeTab === "media_center" && (
+            <ProMediaCommandCenter onExitCommandCenter={() => setActiveTab("overview")} />
+          )}
         </main>
       </div>
     </div>

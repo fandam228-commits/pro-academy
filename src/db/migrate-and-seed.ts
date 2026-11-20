@@ -1653,6 +1653,191 @@ async function initializeSchema(): Promise<void> {
       CREATE INDEX IF NOT EXISTS idx_arena_trophies ON arena_leaderboard(trophies);
       CREATE INDEX IF NOT EXISTS idx_arena_student ON arena_leaderboard(student_id);
       CREATE INDEX IF NOT EXISTS idx_arena_grade ON arena_leaderboard(grade);
+
+      -- ==============================================================
+      -- PRO MEDIA COMMAND CENTER (PMC) TABLES
+      -- ==============================================================
+      CREATE TABLE IF NOT EXISTS pmc_social_accounts (
+        id TEXT PRIMARY KEY,
+        platform TEXT NOT NULL,
+        account_id TEXT NOT NULL,
+        account_name TEXT NOT NULL,
+        avatar_url TEXT,
+        page_id TEXT,
+        channel_id TEXT,
+        encrypted_access_token TEXT,
+        encrypted_refresh_token TEXT,
+        token_expires_at TIMESTAMP,
+        scopes JSONB DEFAULT '[]'::jsonb,
+        is_connected BOOLEAN DEFAULT false NOT NULL,
+        last_tested_at TIMESTAMP,
+        metadata JSONB DEFAULT '{}'::jsonb,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
+      );
+      CREATE INDEX IF NOT EXISTS idx_pmc_social_platform ON pmc_social_accounts(platform);
+
+      CREATE TABLE IF NOT EXISTS pmc_content_projects (
+        id TEXT PRIMARY KEY,
+        title TEXT NOT NULL,
+        stage TEXT DEFAULT 'Secondary' NOT NULL,
+        grade TEXT DEFAULT 'Third Secondary (Baccalaureate)' NOT NULL,
+        curriculum_unit_id TEXT,
+        source_type TEXT DEFAULT 'manual_prompt' NOT NULL,
+        source_reference TEXT,
+        source_text TEXT,
+        created_by TEXT DEFAULT 'usr_admin_habib' NOT NULL,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
+      );
+      CREATE INDEX IF NOT EXISTS idx_pmc_projects_stage ON pmc_content_projects(stage, grade);
+
+      CREATE TABLE IF NOT EXISTS pmc_content_variants (
+        id TEXT PRIMARY KEY,
+        project_id TEXT NOT NULL,
+        platform TEXT NOT NULL,
+        post_type TEXT DEFAULT 'post' NOT NULL,
+        hook TEXT,
+        script TEXT,
+        caption TEXT,
+        description TEXT,
+        tags JSONB DEFAULT '[]'::jsonb,
+        hashtags JSONB DEFAULT '[]'::jsonb,
+        cta TEXT,
+        thumbnail_text TEXT,
+        media_asset_id TEXT,
+        status TEXT DEFAULT 'DRAFT' NOT NULL,
+        version INTEGER DEFAULT 1 NOT NULL,
+        content_hash TEXT,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
+      );
+      CREATE INDEX IF NOT EXISTS idx_pmc_variants_proj ON pmc_content_variants(project_id);
+      CREATE INDEX IF NOT EXISTS idx_pmc_variants_status ON pmc_content_variants(platform, status);
+
+      CREATE TABLE IF NOT EXISTS pmc_media_assets (
+        id TEXT PRIMARY KEY,
+        project_id TEXT,
+        variant_id TEXT,
+        file_name TEXT NOT NULL,
+        file_url TEXT NOT NULL,
+        file_type TEXT DEFAULT 'image' NOT NULL,
+        dimensions TEXT DEFAULT '9:16',
+        duration_seconds INTEGER,
+        size_bytes INTEGER,
+        metadata JSONB DEFAULT '{}'::jsonb,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
+      );
+
+      CREATE TABLE IF NOT EXISTS pmc_approval_requests (
+        id TEXT PRIMARY KEY,
+        variant_id TEXT NOT NULL,
+        platform TEXT NOT NULL,
+        requested_by TEXT NOT NULL,
+        approved_by TEXT,
+        status TEXT DEFAULT 'PENDING' NOT NULL,
+        rejection_reason TEXT,
+        revision_notes TEXT,
+        content_snapshot_hash TEXT NOT NULL,
+        approved_at TIMESTAMP,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
+      );
+      CREATE INDEX IF NOT EXISTS idx_pmc_approval_variant ON pmc_approval_requests(variant_id);
+      CREATE INDEX IF NOT EXISTS idx_pmc_approval_status ON pmc_approval_requests(status);
+
+      CREATE TABLE IF NOT EXISTS pmc_publishing_jobs (
+        id TEXT PRIMARY KEY,
+        variant_id TEXT NOT NULL,
+        platform TEXT NOT NULL,
+        status TEXT DEFAULT 'QUEUED' NOT NULL,
+        scheduled_at TIMESTAMP,
+        published_at TIMESTAMP,
+        attempts_count INTEGER DEFAULT 0 NOT NULL,
+        max_attempts INTEGER DEFAULT 3 NOT NULL,
+        idempotency_key TEXT NOT NULL UNIQUE,
+        external_post_id TEXT,
+        external_post_url TEXT,
+        error_log TEXT,
+        publishing_mode TEXT DEFAULT 'auto',
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
+      );
+      CREATE INDEX IF NOT EXISTS idx_pmc_publishing_status ON pmc_publishing_jobs(status, scheduled_at);
+
+      CREATE TABLE IF NOT EXISTS pmc_analytics_snapshots (
+        id TEXT PRIMARY KEY,
+        platform TEXT NOT NULL,
+        external_post_id TEXT NOT NULL,
+        variant_id TEXT,
+        views INTEGER DEFAULT 0 NOT NULL,
+        impressions INTEGER DEFAULT 0 NOT NULL,
+        reach INTEGER DEFAULT 0 NOT NULL,
+        reactions INTEGER DEFAULT 0 NOT NULL,
+        comments_count INTEGER DEFAULT 0 NOT NULL,
+        shares_count INTEGER DEFAULT 0 NOT NULL,
+        watch_time_minutes NUMERIC(10, 2) DEFAULT 0.00,
+        recorded_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
+      );
+      CREATE INDEX IF NOT EXISTS idx_pmc_analytics_post ON pmc_analytics_snapshots(platform, external_post_id);
+
+      CREATE TABLE IF NOT EXISTS pmc_community_interactions (
+        id TEXT PRIMARY KEY,
+        platform TEXT NOT NULL,
+        external_post_id TEXT,
+        comment_id TEXT NOT NULL,
+        author_name TEXT,
+        author_avatar TEXT,
+        comment_body TEXT NOT NULL,
+        classification TEXT DEFAULT 'general',
+        ai_suggested_reply TEXT,
+        approved_reply TEXT,
+        status TEXT DEFAULT 'pending_review' NOT NULL,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+        replied_at TIMESTAMP
+      );
+      CREATE INDEX IF NOT EXISTS idx_pmc_community_status ON pmc_community_interactions(status);
+
+      CREATE TABLE IF NOT EXISTS pmc_marketing_campaigns (
+        id TEXT PRIMARY KEY,
+        name TEXT NOT NULL,
+        goal TEXT NOT NULL,
+        target_stage TEXT DEFAULT 'Secondary',
+        target_grade TEXT DEFAULT 'Third Secondary (Baccalaureate)',
+        budget_egp NUMERIC(10, 2) DEFAULT 0.00,
+        start_date TIMESTAMP,
+        end_date TIMESTAMP,
+        status TEXT DEFAULT 'active' NOT NULL,
+        cta TEXT,
+        results_summary JSONB DEFAULT '{}'::jsonb,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
+      );
+
+      CREATE TABLE IF NOT EXISTS pmc_audit_logs (
+        id TEXT PRIMARY KEY,
+        actor_id TEXT NOT NULL,
+        actor_name TEXT NOT NULL,
+        action TEXT NOT NULL,
+        entity_type TEXT NOT NULL,
+        entity_id TEXT,
+        ip_address TEXT,
+        details JSONB DEFAULT '{}'::jsonb,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
+      );
+      CREATE INDEX IF NOT EXISTS idx_pmc_audit_action ON pmc_audit_logs(action);
+      CREATE INDEX IF NOT EXISTS idx_pmc_audit_created ON pmc_audit_logs(created_at);
+
+      CREATE TABLE IF NOT EXISTS pmc_notifications (
+        id TEXT PRIMARY KEY,
+        user_id TEXT NOT NULL,
+        title TEXT NOT NULL,
+        message TEXT NOT NULL,
+        type TEXT NOT NULL,
+        action_url TEXT,
+        is_read BOOLEAN DEFAULT false NOT NULL,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
+      );
+      CREATE INDEX IF NOT EXISTS idx_pmc_notif_user ON pmc_notifications(user_id, is_read);
     `);
 
   // Seed and sync curriculum grades and units to official 2026/2027 Egyptian syllabus

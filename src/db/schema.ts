@@ -1928,4 +1928,9 @@ export const arenaLeaderboard = pgTable(
   ]
 );
 
+// ==========================================
+// PRO MEDIA COMMAND CENTER (PMC) TABLES
+// ==========================================
+export * from "./pmc-schema";
+
 
