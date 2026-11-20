@@ -19,8 +19,20 @@ export const PwaManager: React.FC = () => {
     // Purge caches on localhost and old versions
     if (typeof window !== "undefined" && "caches" in window) {
       caches.keys().then((keys) => {
-        keys.filter((k) => isLocal || !k.startsWith("pro-academy-pwa-v7")).forEach((k) => caches.delete(k));
+        keys.filter((k) => isLocal || !k.startsWith("pro-academy-pwa-v8")).forEach((k) => caches.delete(k));
       });
+    }
+
+    // Auto-reload active tabs when a new service worker version activates
+    let refreshing = false;
+    const onControllerChange = () => {
+      if (!refreshing && !isLocal) {
+        refreshing = true;
+        window.location.reload();
+      }
+    };
+    if (typeof navigator !== "undefined" && "serviceWorker" in navigator) {
+      navigator.serviceWorker.addEventListener("controllerchange", onControllerChange);
     }
 
     // Register service worker only in production / staging
@@ -60,6 +72,9 @@ export const PwaManager: React.FC = () => {
 
     return () => {
       unsub();
+      if (typeof navigator !== "undefined" && "serviceWorker" in navigator) {
+        navigator.serviceWorker.removeEventListener("controllerchange", onControllerChange);
+      }
       window.removeEventListener("appinstalled", onInstalled);
       window.removeEventListener("offline", onOffline);
       window.removeEventListener("online", onOnline);
