@@ -34,6 +34,7 @@ import { PmcPublishQueueView } from "./PmcPublishQueueView";
 import { PmcAnalyticsView } from "./PmcAnalyticsView";
 import { PmcCommunityView } from "./PmcCommunityView";
 import { PmcCampaignsView } from "./PmcCampaignsView";
+import { PmcAuditLogsView } from "./PmcAuditLogsView";
 
 export type PmcTab =
   | "overview"
@@ -296,28 +297,7 @@ export const ProMediaCommandCenter: React.FC<ProMediaCommandCenterProps> = ({
             {activeTab === "community" && <PmcCommunityView lang={lang} />}
             {activeTab === "campaigns" && <PmcCampaignsView lang={lang} />}
 
-            {/* Placeholder screens for Phase 7 (Audit Logs) */}
-            {activeTab === "audit_logs" && (
-                <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-12 text-center max-w-xl mx-auto shadow-sm space-y-4">
-                  <div className="w-16 h-16 rounded-3xl bg-blue-50 dark:bg-blue-950 text-blue-600 dark:text-blue-400 flex items-center justify-center mx-auto shadow-inner">
-                    <Sparkles className="w-8 h-8" />
-                  </div>
-                  <h3 className="text-xl font-black text-slate-900 dark:text-white capitalize">
-                    {navItems.find((i) => i.id === activeTab)?.labelAr}
-                  </h3>
-                  <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
-                    {isAr
-                      ? "هذه الوحدة مبرمجة في خطة التنفيذ المعتمدة (المراحل القادمة). تم تأسيس قاعدة البيانات ونظام الأمان الخاص بها بالكامل وجاهز للربط الفوري."
-                      : "This module is slated for subsequent phases according to the master plan. The database schema, security layer, and RBAC guards are already primed."}
-                  </p>
-                  <button
-                    onClick={() => setActiveTab("overview")}
-                    className="px-5 py-2.5 rounded-xl bg-blue-600 text-white text-xs font-bold hover:bg-blue-500 transition"
-                  >
-                    {isAr ? "العودة للوحة المتابعة" : "Back to Overview"}
-                  </button>
-                </div>
-              )}
+            {activeTab === "audit_logs" && <PmcAuditLogsView lang={lang} />}
           </div>
         </main>
       </div>
