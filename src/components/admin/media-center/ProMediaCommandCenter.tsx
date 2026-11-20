@@ -31,6 +31,9 @@ import { PmcVideoStudioView } from "./PmcVideoStudioView";
 import { PmcMediaLibraryView } from "./PmcMediaLibraryView";
 import { PmcCalendarView } from "./PmcCalendarView";
 import { PmcPublishQueueView } from "./PmcPublishQueueView";
+import { PmcAnalyticsView } from "./PmcAnalyticsView";
+import { PmcCommunityView } from "./PmcCommunityView";
+import { PmcCampaignsView } from "./PmcCampaignsView";
 
 export type PmcTab =
   | "overview"
@@ -289,16 +292,12 @@ export const ProMediaCommandCenter: React.FC<ProMediaCommandCenterProps> = ({
                 onNavigateToCalendar={() => setActiveTab("calendar")}
               />
             )}
+            {activeTab === "analytics" && <PmcAnalyticsView lang={lang} />}
+            {activeTab === "community" && <PmcCommunityView lang={lang} />}
+            {activeTab === "campaigns" && <PmcCampaignsView lang={lang} />}
 
-            {/* Placeholder screens for Phases 6 */}
-            {activeTab !== "overview" &&
-              activeTab !== "social_accounts" &&
-              activeTab !== "approval_center" &&
-              activeTab !== "content_studio" &&
-              activeTab !== "video_studio" &&
-              activeTab !== "media_library" &&
-              activeTab !== "calendar" &&
-              activeTab !== "publishing_queue" && (
+            {/* Placeholder screens for Phase 7 (Audit Logs) */}
+            {activeTab === "audit_logs" && (
                 <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-12 text-center max-w-xl mx-auto shadow-sm space-y-4">
                   <div className="w-16 h-16 rounded-3xl bg-blue-50 dark:bg-blue-950 text-blue-600 dark:text-blue-400 flex items-center justify-center mx-auto shadow-inner">
                     <Sparkles className="w-8 h-8" />
