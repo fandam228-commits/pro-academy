@@ -103,12 +103,16 @@ export const HabibAdminControlPanel: React.FC<HabibAdminControlPanelProps> = ({
       icon: Video,
       badge: "LIVE",
     },
-    {
-      id: "media_center" as AdminTab,
-      labelAr: "PRO Media Command Center",
-      icon: Share2,
-      badge: "COMMAND",
-    },
+    ...(user?.role === "admin"
+      ? [
+          {
+            id: "media_center" as AdminTab,
+            labelAr: "PRO Media Command Center",
+            icon: Share2,
+            badge: "COMMAND",
+          },
+        ]
+      : []),
   ];
 
   const handlePreviewAsStudent = () => {

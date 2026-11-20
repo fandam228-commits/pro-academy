@@ -10,8 +10,8 @@ function MediaCenterContent() {
   const { user, authLoading, login } = useApp();
   const router = useRouter();
 
-  // Mr. Habib El Rahman or authorized teacher/admin
-  const isAuthorized = user && (user.role === "admin" || user.role === "teacher");
+  // Strict admin-only access: Mr. Habib El Rahman / Super Admin
+  const isAuthorized = user && user.role === "admin";
 
   if (authLoading) {
     return (
@@ -44,25 +44,16 @@ function MediaCenterContent() {
 
           <div className="space-y-2.5 pt-2">
             <button
-              onClick={async () => {
-                await login("habibadmin", "admin123password");
-              }}
+              onClick={() => router.push("/login")}
               className="w-full py-3 rounded-2xl text-xs font-black bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 transition flex items-center justify-center gap-2 cursor-pointer shadow-lg shadow-amber-500/20"
             >
               <Key className="w-4 h-4" />
-              <span>تسجيل الدخول المباشر كـ مستر حبيب الرحمن (Super Admin)</span>
-            </button>
-
-            <button
-              onClick={() => router.push("/login")}
-              className="w-full py-2.5 rounded-xl text-xs font-bold bg-slate-800 hover:bg-slate-700 text-slate-300 transition flex items-center justify-center gap-1.5 cursor-pointer"
-            >
-              <span>تسجيل الدخول بحساب آخر</span>
+              <span>تسجيل الدخول بحساب الإدارة (Admin Login)</span>
             </button>
 
             <button
               onClick={() => router.push("/")}
-              className="w-full py-2 rounded-xl text-xs font-bold text-slate-500 hover:text-slate-400 transition flex items-center justify-center gap-1"
+              className="w-full py-2.5 rounded-xl text-xs font-bold text-slate-400 hover:text-white transition flex items-center justify-center gap-1.5"
             >
               <span>العودة للمنصة الرئيسية</span>
               <ArrowRight className="w-3.5 h-3.5" />
