@@ -62,6 +62,21 @@ function filterFallbackMaster(params: {
   if (params.difficulty && params.difficulty !== "All") {
     list = list.filter((q) => String(q.difficulty || "").toLowerCase() === params.difficulty!.toLowerCase());
   }
+  if (params.source && params.source !== "All") {
+    const srcLower = params.source.toLowerCase();
+    list = list.filter((q) => {
+      const qs = String(q.source || "").toLowerCase();
+      const qp = String(q.publisher || "").toLowerCase();
+      const tags = Array.isArray(q.tags) ? q.tags.join(" ").toLowerCase() : "";
+      if (srcLower.includes("amaliqa") || srcLower.includes("عمالقة")) {
+        return qs.includes("العمالقة") || qs.includes("amaliqa") || qp.includes("العمالقة") || qp.includes("giants") || tags.includes("amaliqa") || tags.includes("el-amaliqa");
+      }
+      if (srcLower.includes("moasser") || srcLower.includes("معاصر")) {
+        return qs.includes("المعاصر") || qs.includes("moasser") || qp.includes("المعاصر") || tags.includes("el-moasser");
+      }
+      return qs.includes(srcLower) || qp.includes(srcLower) || tags.includes(srcLower);
+    });
+  }
   if (params.search) {
     const s = params.search.toLowerCase();
     list = list.filter((q) =>
@@ -123,7 +138,10 @@ export async function GET(req: Request) {
     if (unit) conditions.push(eq(questionBank.unit, unit));
     if (questionType) conditions.push(eq(questionBank.questionType, questionType));
     if (difficulty) conditions.push(eq(questionBank.difficulty, difficulty));
-    if (source) conditions.push(eq(questionBank.source, source));
+    if (source && source !== "All") {
+      const srcPattern = `%${source}%`;
+      conditions.push(sql`(${questionBank.source} ILIKE ${srcPattern} OR ${questionBank.tags}::text ILIKE ${srcPattern})`);
+    }
     if (lesson) conditions.push(eq(questionBank.lesson, lesson));
     if (section) conditions.push(eq(questionBank.section, section));
     if (grammarTopic) conditions.push(eq(questionBank.grammarTopic, grammarTopic));

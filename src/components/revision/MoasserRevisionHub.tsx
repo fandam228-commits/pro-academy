@@ -17,6 +17,10 @@ import {
   GEM_INTERACTIVE_EXAMS,
 } from "@/data/gem-revision-index";
 import {
+  AMALIQA_SECTIONS,
+  AMALIQA_INTERACTIVE_EXAMS,
+} from "@/data/amaliqa-revision-index";
+import {
   BookOpen,
   Sparkles,
   Download,
@@ -39,7 +43,7 @@ import {
 
 export const MoasserRevisionHub: React.FC<{ onBack?: () => void }> = ({ onBack }) => {
   const { lang, user } = useApp();
-  const [selectedPublisher, setSelectedPublisher] = useState<"moasser" | "gem">("moasser");
+  const [selectedPublisher, setSelectedPublisher] = useState<"moasser" | "gem" | "amaliqa">("moasser");
   const [selectedSectionId, setSelectedSectionId] = useState<"general" | "languages" | "azhar">("general");
   const [selectedStageId, setSelectedStageId] = useState<"all" | "secondary" | "prep" | "primary">("all");
   const [searchQuery, setSearchQuery] = useState("");
@@ -71,8 +75,18 @@ export const MoasserRevisionHub: React.FC<{ onBack?: () => void }> = ({ onBack }
   }, [activeExam]);
 
   // Active publisher data & exams registry
-  const activeSections = selectedPublisher === "moasser" ? MOASSER_SECTIONS : GEM_SECTIONS;
-  const activeExamsRegistry = selectedPublisher === "moasser" ? MOASSER_INTERACTIVE_EXAMS : GEM_INTERACTIVE_EXAMS;
+  const activeSections =
+    selectedPublisher === "moasser"
+      ? MOASSER_SECTIONS
+      : selectedPublisher === "amaliqa"
+      ? AMALIQA_SECTIONS
+      : GEM_SECTIONS;
+  const activeExamsRegistry =
+    selectedPublisher === "moasser"
+      ? MOASSER_INTERACTIVE_EXAMS
+      : selectedPublisher === "amaliqa"
+      ? AMALIQA_INTERACTIVE_EXAMS
+      : GEM_INTERACTIVE_EXAMS;
   const currentSection = activeSections.find((s) => s.id === selectedSectionId) || activeSections[0];
 
   // Filtered grades list
@@ -239,6 +253,22 @@ export const MoasserRevisionHub: React.FC<{ onBack?: () => void }> = ({ onBack }
           <Sparkles className="w-4 h-4 text-amber-300" />
           <span>سلسلة جيم (GEM)</span>
           <span className="px-2 py-0.5 rounded-full bg-white/20 text-[10px]">الأضواء</span>
+        </button>
+
+        <button
+          onClick={() => {
+            setSelectedPublisher("amaliqa");
+            setSelectedStageId("all");
+          }}
+          className={`flex-1 py-3 rounded-xl font-black text-xs sm:text-sm flex items-center justify-center gap-2 transition-all cursor-pointer ${
+            selectedPublisher === "amaliqa"
+              ? "bg-gradient-to-r from-emerald-600 to-teal-600 text-white shadow-lg shadow-emerald-600/30"
+              : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+          }`}
+        >
+          <GraduationCap className="w-4 h-4 text-emerald-300" />
+          <span>سلسلة العمالقة (Giants)</span>
+          <span className="px-2 py-0.5 rounded-full bg-white/20 text-[10px]">2027</span>
         </button>
       </div>
 

@@ -608,7 +608,14 @@ export const QuestionBankWorkspace: React.FC<{ onExamGenerated?: (exam: any) => 
               <option value="All">كل الصعوبة</option><option value="Easy">Easy</option><option value="Medium">Medium</option><option value="Hard">Hard</option><option value="Tricky">Tricky</option>
             </select>
             <select value={sourceFilter} onChange={(e) => setSourceFilter(e.target.value)} className="w-full p-2.5 rounded-2xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs text-slate-900 dark:text-white">
-              <option value="All">كل المصادر</option><option>Ministry Book</option><option>External Source</option><option>Teacher Created</option><option>Revision</option><option>AI Generated</option>
+              <option value="All">كل المصادر</option>
+              <option value="العمالقة">كتاب العمالقة (El-Amaliqa 2027)</option>
+              <option value="المعاصر">كتاب المعاصر (El-Moasser 2027)</option>
+              <option>Ministry Book</option>
+              <option>External Source</option>
+              <option>Teacher Created</option>
+              <option>Revision</option>
+              <option>AI Generated</option>
             </select>
             <select value={lessonFilter} onChange={(e) => setLessonFilter(e.target.value)} className="w-full p-2.5 rounded-2xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs text-slate-900 dark:text-white">
               <option value="All">كل الدروس</option>{Array.from({length:8},(_,i)=><option key={i}>Lesson {i+1}</option>)}<option>All My Sons</option>

@@ -2776,40 +2776,14 @@ export async function seedTrainingCenterQuestionsIfEmpty(): Promise<void> {
     const existing = await db
       .select({ id: trainingQuestions.id })
       .from(trainingQuestions)
+      .where(eq(trainingQuestions.id, "TRQ-SEC2-AML-0001"))
       .limit(1);
 
     if (existing.length > 0) {
-      // Check if legacy unpruned rows with >4 options exist in the database
-      try {
-        const sampleOver4 = await db
-          .select({ id: trainingQuestions.id })
-          .from(trainingQuestions)
-          .where(sql`jsonb_array_length(options) > 4`)
-          .limit(1);
-
-        if (sampleOver4.length > 0) {
-          console.log("Pruning training questions with > 4 options in database...");
-          for (const q of (EXTRACTED_TRAINING_QUESTIONS as any[])) {
-            if (Array.isArray(q.options) && q.options.length <= 4) {
-              await db
-                .update(trainingQuestions)
-                .set({
-                  options: q.options,
-                  optionsCount: q.options.length,
-                  correctAnswer: q.correctAnswer,
-                })
-                .where(eq(trainingQuestions.id, q.id));
-            }
-          }
-          console.log("Training questions pruned and rebalanced in database!");
-        }
-      } catch (checkErr) {
-        // Non-blocking fallback
-      }
       return;
     }
 
-    console.log(`Seeding ${EXTRACTED_TRAINING_QUESTIONS.length} extracted training questions...`);
+    console.log(`Seeding & Syncing ${EXTRACTED_TRAINING_QUESTIONS.length} extracted training questions...`);
     const BATCH_SIZE = 50;
     for (let i = 0; i < EXTRACTED_TRAINING_QUESTIONS.length; i += BATCH_SIZE) {
       const chunk = EXTRACTED_TRAINING_QUESTIONS.slice(i, i + BATCH_SIZE).map((q: any) => ({
@@ -2836,9 +2810,23 @@ export async function seedTrainingCenterQuestionsIfEmpty(): Promise<void> {
         timesCorrect: 0,
       }));
 
-      await db.insert(trainingQuestions).values(chunk);
+      await db
+        .insert(trainingQuestions)
+        .values(chunk)
+        .onConflictDoUpdate({
+          target: trainingQuestions.id,
+          set: {
+            options: sql`EXCLUDED.options`,
+            optionsCount: sql`EXCLUDED.options_count`,
+            correctAnswer: sql`EXCLUDED.correct_answer`,
+            explanation: sql`EXCLUDED.explanation`,
+            questionText: sql`EXCLUDED.question_text`,
+            validationStatus: sql`EXCLUDED.validation_status`,
+            isPublished: sql`EXCLUDED.is_published`,
+          },
+        });
     }
-    console.log("Training center questions seeded successfully!");
+    console.log("Training center questions seeded & synced successfully!");
   } catch (error) {
     console.error("Seed Training Questions Error:", error);
   }
@@ -2887,11 +2875,11 @@ export async function seedMasterQuestionBank2027IfEmpty(): Promise<void> {
     const sample = await db
       .select({ id: questionBank.id })
       .from(questionBank)
-      .where(eq(questionBank.id, "qb_2027_sec2_elmoasser_mcq_001"))
+      .where(eq(questionBank.id, "qb_2027_sec2_amaliqa_mcq_001"))
       .limit(1);
 
     if (sample.length > 0) {
-      return; // Already synced with 2027 El-Moasser Baccalaureate questions
+      return; // Already synced with 2027 El-Amaliqa Baccalaureate questions
     }
 
     console.log(`Seeding & Rebalancing ${QUESTION_BANK_2027_MASTER.length} Master 2027 Questions...`);

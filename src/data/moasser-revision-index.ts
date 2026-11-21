@@ -45,6 +45,7 @@ export interface MoasserExamQuestion {
   question: string;
   passage?: string;
   options: string[];
+  optionsCount?: number;
   correctAnswer: string;
   explanationAr: string;
   ruleReference?: string;
@@ -888,4 +889,416 @@ export const MOASSER_INTERACTIVE_EXAMS: Record<string, MoasserExam> = {
       },
     ],
   },
+  moasser_sec2_bac_exam1: {
+  "id": "moasser_sec2_bac_exam1",
+  "title": "النموذج الاسترشادي التفاعلي — الصف الثاني الثانوي (البكالوريا المصرية 2027)",
+  "grade": "الصف الثاني الثانوي (البكالوريا 2027)",
+  "stage": "المرحلة الثانوية",
+  "term": "الفصل الدراسي الأول",
+  "durationMinutes": 45,
+  "totalMarks": 25,
+  "passingMarks": 15,
+  "questions": [
+    {
+      "id": "qb_2027_sec2_elmoasser_mcq_001",
+      "type": "mcq",
+      "category": "Vocabulary",
+      "question": "The lecturer said \"Who wants to live under pressure?\" He asked alan question to make the students think; not to receive an answer.",
+      "options": [
+        "selective",
+        "unrealistic",
+        "filtered",
+        "rhetorical"
+      ],
+      "correctAnswer": "rhetorical",
+      "explanationAr": "السؤال البلاغي (rhetorical question) هو سؤال يُطرح لإثارة التفكير والتأمل ولإحداث أثر بلاغي دون انتظار إجابة مباشرة.",
+      "ruleReference": "Unit 1: Living Well in a Complex World - Contextual Vocabulary",
+      "optionsCount": 4
+    },
+    {
+      "id": "qb_2027_sec2_elmoasser_mcq_002",
+      "type": "mcq",
+      "category": "Vocabulary",
+      "question": "The article explains the behind online comparison, showing how perfect posts lead students to misjudge themselves.",
+      "options": [
+        "decade",
+        "mechanism",
+        "version",
+        "symptom"
+      ],
+      "correctAnswer": "mechanism",
+      "explanationAr": "الإجابة الصحيحة وفقاً لنصوص وتمارين الوحدة (Living Well in a Complex World).",
+      "ruleReference": "Unit 1: Living Well in a Complex World - Contextual Vocabulary",
+      "optionsCount": 4
+    },
+    {
+      "id": "qb_2027_sec2_elmoasser_mcq_003",
+      "type": "mcq",
+      "category": "Grammar",
+      "question": "The lesson shows the wide between perfect online images and normal daily life.",
+      "options": [
+        "gap",
+        "decade",
+        "influencer",
+        "viewer"
+      ],
+      "correctAnswer": "gap",
+      "explanationAr": "الإجابة الصحيحة وفقاً لنصوص وتمارين الوحدة (Living Well in a Complex World).",
+      "ruleReference": "Unit 1: Living Well in a Complex World - Grammar Application",
+      "optionsCount": 4
+    },
+    {
+      "id": "qb_2027_sec2_elmoasser_mcq_004",
+      "type": "mcq",
+      "category": "Vocabulary",
+      "question": "\"The article avoided direct judgment by using hedging.\" The underlined word is closest in meaning to",
+      "options": [
+        "absolute",
+        "cautious language",
+        "confident",
+        "definite"
+      ],
+      "correctAnswer": "cautious language",
+      "explanationAr": "أسلوب التحوط (hedging) يعني استخدام لغة حذرة (cautious language) لتجنب الجزم والتعميم المطلق.",
+      "ruleReference": "Unit 1: Living Well in a Complex World - Synonyms & Meaning in Context",
+      "optionsCount": 4
+    },
+    {
+      "id": "qb_2027_sec2_elmoasser_mcq_005",
+      "type": "mcq",
+      "category": "Vocabulary",
+      "question": "\"The report showed clear bias against one side.\" The underlined word is closest in meaning to",
+      "options": [
+        "fairness",
+        "balance",
+        "prejudice",
+        "neutrality"
+      ],
+      "correctAnswer": "prejudice",
+      "explanationAr": "كلمة bias تعني التحيز أو الانحياز، ومرادفها prejudice، بينما مضادها هو الحياد والإنصاف neutrality / fairness.",
+      "ruleReference": "Unit 1: Living Well in a Complex World - Synonyms & Meaning in Context",
+      "optionsCount": 4
+    },
+    {
+      "id": "qb_2027_sec2_elmoasser_mcq_006",
+      "type": "mcq",
+      "category": "Vocabulary",
+      "question": "\"The phrase \"completely wrong\" contains an intensifier.\" The underlined word is closest in meaning to",
+      "options": [
+        "weakener",
+        "downtoner",
+        "emphasis word",
+        "softener"
+      ],
+      "correctAnswer": "emphasis word",
+      "explanationAr": "كلمة التوكيد والتقوية (intensifier) مثل extremely أو incredibly تُستخدم لزيادة قوة وتأكيد معنى الصفة أو التعبير.",
+      "ruleReference": "Unit 1: Living Well in a Complex World - Synonyms & Meaning in Context",
+      "optionsCount": 4
+    },
+    {
+      "id": "qb_2027_sec2_elmoasser_mcq_007",
+      "type": "mcq",
+      "category": "Vocabulary",
+      "question": "\"The writer used a neutral tone throughout the paragraph.\" The underlined word is closest in meaning to",
+      "options": [
+        "emotional",
+        "biased",
+        "subjective",
+        "objective"
+      ],
+      "correctAnswer": "objective",
+      "explanationAr": "اللغة المحايدة (neutral language) هي لغة موضوعية متوازنة (objective language).",
+      "ruleReference": "Unit 1: Living Well in a Complex World - Synonyms & Meaning in Context",
+      "optionsCount": 4
+    },
+    {
+      "id": "qb_2027_sec2_elmoasser_mcq_008",
+      "type": "mcq",
+      "category": "Vocabulary",
+      "question": "\"Social media often creates a highlight-reel effect.\" The underlined phrase is closest in meaning to",
+      "options": [
+        "curated reality",
+        "honest presentation",
+        "real image",
+        "complete picture"
+      ],
+      "correctAnswer": "curated reality",
+      "explanationAr": "تأثير شريط اللقطات المميزة (highlight-reel effect) يشير إلى ميل المستخدمين لعرض أفضل اللحظات فقط على وسائل التواصل الاجتماعي مما يعطي انطباعاً غير واقعي عن كمال حياتهم.",
+      "ruleReference": "Unit 1: Living Well in a Complex World - Synonyms & Meaning in Context",
+      "optionsCount": 4
+    },
+    {
+      "id": "qb_2027_sec2_elmoasser_mcq_009",
+      "type": "mcq",
+      "category": "Vocabulary",
+      "question": "\"The speaker used an intensifier before the adjective.\" The antonym of the underlined word is",
+      "options": [
+        "amplifier",
+        "strengthening word",
+        "emphasis word",
+        "softener"
+      ],
+      "correctAnswer": "softener",
+      "explanationAr": "كلمة التوكيد والتقوية (intensifier) مثل extremely أو incredibly تُستخدم لزيادة قوة وتأكيد معنى الصفة أو التعبير.",
+      "ruleReference": "Unit 1: Living Well in a Complex World - Antonyms & Opposites",
+      "optionsCount": 4
+    },
+    {
+      "id": "qb_2027_sec2_elmoasser_mcq_010",
+      "type": "mcq",
+      "category": "Vocabulary",
+      "question": "\"The post created a highlight-reel effect.\" The antonym of the underlined phrase is",
+      "options": [
+        "curated reality",
+        "complete picture",
+        "selective presentation",
+        "idealized snapshot effect"
+      ],
+      "correctAnswer": "complete picture",
+      "explanationAr": "تأثير شريط اللقطات المميزة (highlight-reel effect) يشير إلى ميل المستخدمين لعرض أفضل اللحظات فقط على وسائل التواصل الاجتماعي مما يعطي انطباعاً غير واقعي عن كمال حياتهم.",
+      "ruleReference": "Unit 1: Living Well in a Complex World - Antonyms & Opposites",
+      "optionsCount": 4
+    },
+    {
+      "id": "qb_2027_sec2_elmoasser_mcq_011",
+      "type": "mcq",
+      "category": "Vocabulary",
+      "question": "\"The writer asked a rhetorical question.\" The antonym of the underlined phrase is",
+      "options": [
+        "question for effect",
+        "emphatic question",
+        "direct question",
+        "persuasive question"
+      ],
+      "correctAnswer": "direct question",
+      "explanationAr": "السؤال البلاغي (rhetorical question) هو سؤال يُطرح لإثارة التفكير والتأمل ولإحداث أثر بلاغي دون انتظار إجابة مباشرة.",
+      "ruleReference": "Unit 1: Living Well in a Complex World - Antonyms & Opposites",
+      "optionsCount": 4
+    },
+    {
+      "id": "qb_2027_sec2_elmoasser_mcq_012",
+      "type": "mcq",
+      "category": "Vocabulary",
+      "question": "Over time, the area transformed a quiet village into a busy town.",
+      "options": [
+        "from",
+        "at",
+        "into",
+        "with"
+      ],
+      "correctAnswer": "from",
+      "explanationAr": "الإجابة الصحيحة وفقاً لنصوص وتمارين الوحدة (Living Well in a Complex World).",
+      "ruleReference": "Unit 1: Living Well in a Complex World - Contextual Vocabulary",
+      "optionsCount": 4
+    },
+    {
+      "id": "qb_2027_sec2_elmoasser_mcq_013",
+      "type": "mcq",
+      "category": "Grammar",
+      "question": "People tend check their phones when they hear a notification.",
+      "options": [
+        "at",
+        "with",
+        "into",
+        "to"
+      ],
+      "correctAnswer": "at",
+      "explanationAr": "الإجابة الصحيحة وفقاً لنصوص وتمارين الوحدة (Living Well in a Complex World).",
+      "ruleReference": "Unit 1: Living Well in a Complex World - Grammar Application",
+      "optionsCount": 4
+    },
+    {
+      "id": "qb_2027_sec2_elmoasser_mcq_014",
+      "type": "mcq",
+      "category": "Vocabulary",
+      "question": "Poor sleep can be linked heavy phone use at night.",
+      "options": [
+        "at",
+        "to",
+        "as",
+        "into"
+      ],
+      "correctAnswer": "as",
+      "explanationAr": "الإجابة الصحيحة وفقاً لنصوص وتمارين الوحدة (Living Well in a Complex World).",
+      "ruleReference": "Unit 1: Living Well in a Complex World - Contextual Vocabulary",
+      "optionsCount": 4
+    },
+    {
+      "id": "qb_2027_sec2_elmoasser_mcq_015",
+      "type": "mcq",
+      "category": "Vocabulary",
+      "question": "The advertisement presents the phone the perfect choice for teenagers.",
+      "options": [
+        "with",
+        "into",
+        "at",
+        "as"
+      ],
+      "correctAnswer": "as",
+      "explanationAr": "الإجابة الصحيحة وفقاً لنصوص وتمارين الوحدة (Living Well in a Complex World).",
+      "ruleReference": "Unit 1: Living Well in a Complex World - Contextual Vocabulary",
+      "optionsCount": 4
+    },
+    {
+      "id": "qb_2027_sec2_elmoasser_mcq_016",
+      "type": "mcq",
+      "category": "Grammar",
+      "question": "My article compares city life village life in several ways.",
+      "options": [
+        "into",
+        "as",
+        "from",
+        "with"
+      ],
+      "correctAnswer": "from",
+      "explanationAr": "الإجابة الصحيحة وفقاً لنصوص وتمارين الوحدة (Living Well in a Complex World).",
+      "ruleReference": "Unit 1: Living Well in a Complex World - Grammar Application",
+      "optionsCount": 4
+    },
+    {
+      "id": "qb_2027_sec2_elmoasser_mcq_017",
+      "type": "mcq",
+      "category": "Grammar",
+      "question": "An artist reshaped the old piece of wood a beautiful decoration.",
+      "options": [
+        "into",
+        "from",
+        "as",
+        "at"
+      ],
+      "correctAnswer": "at",
+      "explanationAr": "الإجابة الصحيحة وفقاً لنصوص وتمارين الوحدة (Living Well in a Complex World).",
+      "ruleReference": "Unit 1: Living Well in a Complex World - Grammar Application",
+      "optionsCount": 4
+    },
+    {
+      "id": "qb_2027_sec2_elmoasser_mcq_018",
+      "type": "mcq",
+      "category": "Vocabulary",
+      "question": "That empty building was transformed a modern community center.",
+      "options": [
+        "from",
+        "into",
+        "with",
+        "as"
+      ],
+      "correctAnswer": "from",
+      "explanationAr": "الإجابة الصحيحة وفقاً لنصوص وتمارين الوحدة (Living Well in a Complex World).",
+      "ruleReference": "Unit 1: Living Well in a Complex World - Contextual Vocabulary",
+      "optionsCount": 4
+    },
+    {
+      "id": "qb_2027_sec2_elmoasser_mcq_019",
+      "type": "mcq",
+      "category": "Vocabulary",
+      "question": "Teachers often a major role in shaping their students' characters.",
+      "options": [
+        "find",
+        "treat",
+        "play",
+        "avoid"
+      ],
+      "correctAnswer": "treat",
+      "explanationAr": "الإجابة الصحيحة وفقاً لنصوص وتمارين الوحدة (Living Well in a Complex World).",
+      "ruleReference": "Unit 1: Living Well in a Complex World - Contextual Vocabulary",
+      "optionsCount": 4
+    },
+    {
+      "id": "qb_2027_sec2_elmoasser_mcq_020",
+      "type": "mcq",
+      "category": "Vocabulary",
+      "question": "Doing sports regularly healthy habits.",
+      "options": [
+        "neglects",
+        "discourages",
+        "destroys",
+        "inspires"
+      ],
+      "correctAnswer": "neglects",
+      "explanationAr": "الإجابة الصحيحة وفقاً لنصوص وتمارين الوحدة (Living Well in a Complex World).",
+      "ruleReference": "Unit 1: Living Well in a Complex World - Contextual Vocabulary",
+      "optionsCount": 4
+    },
+    {
+      "id": "qb_2027_sec2_elmoasser_mcq_021",
+      "type": "mcq",
+      "category": "Vocabulary",
+      "question": "The doctor helped her follow a/an balanced diet.",
+      "options": [
+        "identity",
+        "silly",
+        "ability",
+        "perfectly"
+      ],
+      "correctAnswer": "identity",
+      "explanationAr": "المفردة النموذجية المتوافقة مع سياق منهج البكالوريا المصرية (Unit 1).",
+      "ruleReference": "Unit 1: Living Well in a Complex World - Contextual Vocabulary",
+      "optionsCount": 4
+    },
+    {
+      "id": "qb_2027_sec2_elmoasser_mcq_022",
+      "type": "mcq",
+      "category": "Grammar",
+      "question": "Ahmed asked me a difficult question, I replied, \"I don't know\". .",
+      "options": [
+        "to which",
+        "at which",
+        "which",
+        "for which"
+      ],
+      "correctAnswer": "which",
+      "explanationAr": "الإجابة الصحيحة وفقاً لنصوص وتمارين الوحدة (Living Well in a Complex World).",
+      "ruleReference": "Unit 1: Living Well in a Complex World - Grammar Application",
+      "optionsCount": 4
+    },
+    {
+      "id": "qb_2027_sec2_elmoasser_mcq_023",
+      "type": "mcq",
+      "category": "Grammar",
+      "question": "I made a big mistake, I apologized. .",
+      "options": [
+        "to which",
+        "at which",
+        "for which",
+        "which"
+      ],
+      "correctAnswer": "which",
+      "explanationAr": "الإجابة الصحيحة وفقاً لنصوص وتمارين الوحدة (Living Well in a Complex World).",
+      "ruleReference": "Unit 1: Living Well in a Complex World - Contextual Vocabulary",
+      "optionsCount": 4
+    },
+    {
+      "id": "qb_2027_sec2_elmoasser_mcq_024",
+      "type": "mcq",
+      "category": "Grammar",
+      "question": "I made a big mistake, I apologized for. .",
+      "options": [
+        "at which",
+        "which",
+        "to which",
+        "for which"
+      ],
+      "correctAnswer": "which",
+      "explanationAr": "الإجابة الصحيحة وفقاً لنصوص وتمارين الوحدة (Living Well in a Complex World).",
+      "ruleReference": "Unit 1: Living Well in a Complex World - Contextual Vocabulary",
+      "optionsCount": 4
+    },
+    {
+      "id": "qb_2027_sec2_elmoasser_mcq_025",
+      "type": "mcq",
+      "category": "Grammar",
+      "question": "Sama visits her grandmother regularly is a nice girl. .",
+      "options": [
+        "whom",
+        "who",
+        "why",
+        "whose"
+      ],
+      "correctAnswer": "who",
+      "explanationAr": "الإجابة الصحيحة وفقاً لنصوص وتمارين الوحدة (Living Well in a Complex World).",
+      "ruleReference": "Unit 1: Living Well in a Complex World - Contextual Vocabulary",
+      "optionsCount": 4
+    }
+  ]
+},
 };

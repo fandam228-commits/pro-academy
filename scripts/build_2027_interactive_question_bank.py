@@ -1136,6 +1136,14 @@ def build_questions():
             sec2.extend(elmoasser_qs)
             print(f"Added {len(elmoasser_qs)} authentic El-Moasser MCQs to Second Secondary Baccalaureate.")
 
+    # Load authentic El-Amaliqa 2nd Secondary Baccalaureate 2027 MCQs
+    amaliqa_file = os.path.join(os.path.dirname(__file__), '..', 'src', 'data', 'secondary-2027', 'sec2-bac-amaliqa-mcq-extracted.json')
+    if os.path.exists(amaliqa_file):
+        with open(amaliqa_file, 'r', encoding='utf-8') as f:
+            amaliqa_qs = json.load(f)
+            sec2.extend(amaliqa_qs)
+            print(f"Added {len(amaliqa_qs)} authentic El-Amaliqa MCQs to Second Secondary Baccalaureate.")
+
     questions.extend(sec2)
 
     # =========================================================================
