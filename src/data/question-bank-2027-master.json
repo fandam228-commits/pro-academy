@@ -1574,7 +1574,7 @@
       "gap",
       "viewer"
     ],
-    "correctAnswer": "decade",
+    "correctAnswer": "gap",
     "explanation": "الإجابة الصحيحة وفقاً لنصوص وتمارين الوحدة (Living Well in a Complex World).",
     "points": 10,
     "tags": [
@@ -1650,7 +1650,7 @@
       "fairness",
       "neutrality"
     ],
-    "correctAnswer": "fairness",
+    "correctAnswer": "prejudice",
     "explanation": "كلمة bias تعني التحيز أو الانحياز، ومرادفها prejudice، بينما مضادها هو الحياد والإنصاف neutrality / fairness.",
     "points": 10,
     "tags": [
@@ -1688,7 +1688,7 @@
       "softener",
       "weakener"
     ],
-    "correctAnswer": "softener",
+    "correctAnswer": "emphasis word",
     "explanation": "كلمة التوكيد والتقوية (intensifier) مثل extremely أو incredibly تُستخدم لزيادة قوة وتأكيد معنى الصفة أو التعبير.",
     "points": 10,
     "tags": [
@@ -1726,7 +1726,7 @@
       "emotional",
       "biased"
     ],
-    "correctAnswer": "biased",
+    "correctAnswer": "objective",
     "explanation": "اللغة المحايدة (neutral language) هي لغة موضوعية متوازنة (objective language).",
     "points": 10,
     "tags": [
@@ -1764,7 +1764,7 @@
       "complete picture",
       "honest presentation"
     ],
-    "correctAnswer": "complete picture",
+    "correctAnswer": "curated reality",
     "explanation": "تأثير شريط اللقطات المميزة (highlight-reel effect) يشير إلى ميل المستخدمين لعرض أفضل اللحظات فقط على وسائل التواصل الاجتماعي مما يعطي انطباعاً غير واقعي عن كمال حياتهم.",
     "points": 10,
     "tags": [
@@ -1802,7 +1802,7 @@
       "amplifier",
       "emphasis word"
     ],
-    "correctAnswer": "emphasis word",
+    "correctAnswer": "softener",
     "explanation": "كلمة التوكيد والتقوية (intensifier) مثل extremely أو incredibly تُستخدم لزيادة قوة وتأكيد معنى الصفة أو التعبير.",
     "points": 10,
     "tags": [
