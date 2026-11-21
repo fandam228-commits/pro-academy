@@ -67,7 +67,10 @@ function filterFallbackMaster(params: {
     list = list.filter((q) =>
       String(q.questionText || "").toLowerCase().includes(s) ||
       String(q.topic || "").toLowerCase().includes(s) ||
-      String(q.explanation || "").toLowerCase().includes(s)
+      String(q.explanation || "").toLowerCase().includes(s) ||
+      String(q.source || "").toLowerCase().includes(s) ||
+      String(q.publisher || "").toLowerCase().includes(s) ||
+      (Array.isArray(q.tags) && q.tags.some((t: string) => String(t).toLowerCase().includes(s)))
     );
   }
   return list.map(standardizeQuestionOptions).slice(0, params.limit || 100);
@@ -127,7 +130,7 @@ export async function GET(req: Request) {
     if (topic) conditions.push(eq(questionBank.topic, topic));
     if (search) {
       const pattern = `%${search}%`;
-      conditions.push(sql`(${questionBank.questionText} ILIKE ${pattern} OR ${questionBank.topic} ILIKE ${pattern})`);
+      conditions.push(sql`(${questionBank.questionText} ILIKE ${pattern} OR ${questionBank.topic} ILIKE ${pattern} OR ${questionBank.source} ILIKE ${pattern})`);
     }
 
     let allQuestions = await db

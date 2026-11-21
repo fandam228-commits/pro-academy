@@ -92,6 +92,25 @@ export const MOASSER_SECTIONS: MoasserSection[] = [
               },
             ],
           },
+          {
+            id: "sec2_bac_general",
+            name: "الصف الثاني الثانوي (البكالوريا المصرية)",
+            en: "Second Year Baccalaureate (Sec 2)",
+            stage: "secondary",
+            curriculum: "Egyptian Baccalaureate 2027",
+            term: "First Term 2026/2027",
+            hasInteractiveExam: true,
+            examId: "moasser_sec2_bac_exam1",
+            totalQuestions: 25,
+            durationMinutes: 45,
+            links: [
+              {
+                label: "كتاب المعاصر - بنك الأسئلة والتدريبات التفاعلية",
+                url: "/?tab=question_bank&grade=Second+Secondary",
+                type: "model_exams",
+              },
+            ],
+          },
         ],
       },
       {
