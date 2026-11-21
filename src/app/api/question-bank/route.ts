@@ -34,7 +34,18 @@ function filterFallbackMaster(params: {
     list = list.filter((q) => String(q.stage || "").toLowerCase() === params.stage!.toLowerCase());
   }
   if (params.grade && params.grade !== "All") {
-    list = list.filter((q) => String(q.grade || "").toLowerCase() === params.grade!.toLowerCase());
+    const target = params.grade.toLowerCase();
+    list = list.filter((q) => {
+      const qg = String(q.grade || "").toLowerCase();
+      if (qg === target) return true;
+      if (
+        (target.includes("second") || target.includes("sec 2") || target.includes("ثانية") || target.includes("baccalaureate")) &&
+        (qg.includes("second") || qg.includes("sec 2") || qg.includes("baccalaureate"))
+      ) {
+        return true;
+      }
+      return false;
+    });
   }
   if (params.curriculum && params.curriculum !== "All") {
     list = list.filter((q) => String(q.curriculum || "").toLowerCase() === params.curriculum!.toLowerCase());
@@ -97,7 +108,13 @@ export async function GET(req: Request) {
       );
     }
     if (stage) conditions.push(eq(questionBank.stage, stage));
-    if (grade) conditions.push(eq(questionBank.grade, grade));
+    if (grade) {
+      if (grade.toLowerCase().includes("second") || grade.toLowerCase().includes("sec 2") || grade.toLowerCase().includes("ثانية")) {
+        conditions.push(inArray(questionBank.grade, ["Second Secondary", "Second Secondary (Baccalaureate)"]));
+      } else {
+        conditions.push(eq(questionBank.grade, grade));
+      }
+    }
     if (curriculum) conditions.push(eq(questionBank.curriculum, curriculum));
     if (term) conditions.push(eq(questionBank.term, term));
     if (unit) conditions.push(eq(questionBank.unit, unit));

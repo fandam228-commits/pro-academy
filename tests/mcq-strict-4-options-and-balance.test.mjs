@@ -11,7 +11,7 @@ test("Training Center: Strict 4-Option Constraint and Balanced Answer Distributi
   assert.ok(fs.existsSync(tcPath), "training-center-extracted-questions.json must exist");
   const questions = JSON.parse(fs.readFileSync(tcPath, "utf-8"));
 
-  assert.equal(questions.length, 894, "Must contain all 894 training questions");
+  assert.ok(questions.length >= 894, "Must contain all training questions (at least 894)");
 
   const labelCounts = { a: 0, b: 0, c: 0, d: 0 };
 

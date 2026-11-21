@@ -2885,17 +2885,13 @@ export async function seedDialogueCenterIfEmpty(): Promise<void> {
 export async function seedMasterQuestionBank2027IfEmpty(): Promise<void> {
   try {
     const sample = await db
-      .select({ id: questionBank.id, options: questionBank.options })
+      .select({ id: questionBank.id })
       .from(questionBank)
-      .where(eq(questionBank.id, "qb_2027_prep1_mcq_001"))
+      .where(eq(questionBank.id, "qb_2027_sec2_elmoasser_mcq_001"))
       .limit(1);
 
-    if (
-      sample.length > 0 &&
-      Array.isArray(sample[0].options) &&
-      sample[0].options[3] === "always enjoys"
-    ) {
-      return; // Already synced with balanced 2027 standard
+    if (sample.length > 0) {
+      return; // Already synced with 2027 El-Moasser Baccalaureate questions
     }
 
     console.log(`Seeding & Rebalancing ${QUESTION_BANK_2027_MASTER.length} Master 2027 Questions...`);

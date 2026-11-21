@@ -1128,6 +1128,14 @@ def build_questions():
             "tags": ["Sec 2", "Baccalaureate", "First Term", "Unit 2", "Rewrite", "Grammar"]
         }
     ]
+    # Load authentic El-Moasser 2nd Secondary Baccalaureate 2027 MCQs
+    elmoasser_file = os.path.join(os.path.dirname(__file__), '..', 'src', 'data', 'secondary-2027', 'sec2-bac-elmoasser-mcq-extracted.json')
+    if os.path.exists(elmoasser_file):
+        with open(elmoasser_file, 'r', encoding='utf-8') as f:
+            elmoasser_qs = json.load(f)
+            sec2.extend(elmoasser_qs)
+            print(f"Added {len(elmoasser_qs)} authentic El-Moasser MCQs to Second Secondary Baccalaureate.")
+
     questions.extend(sec2)
 
     # =========================================================================
